@@ -411,9 +411,24 @@
           {{ product.type }}
         </p>
       {%- endif -%}
-      <h3 class="product-card__title text-pcard-title">
+      {%- if settings.public_key_stamped != blank and settings.stamped_store_hash != blank -%}
+        {%- comment -%}
+          Collection / grid badge (Stamped docs): class stamped-product-reviews-badge only — not stamped-main-badge (product page) or stamped-toggle.
+        {%- endcomment -%}
+        <div class="product-card__stamped we-product-card__stamped text-{{ settings.pcard_content_alignment }}">
+          <span
+            class="stamped-product-reviews-badge"
+            data-id="{{ product.id }}"
+            data-product-sku="{{ product.handle }}"
+            data-product-type="{{ product.type | escape }}"
+            data-product-title="{{ product.title | escape }}"
+            style="display: block;"
+          ></span>
+        </div>
+      {%- endif -%}
+      <span class="product-card__title text-pcard-title">
         <a class="reversed-link" href="{{ product.url }}">{{- product.title -}}</a>
-      </h3>
+      </span>
       {% render 'price', product: product, alignment: settings.pcard_content_alignment %}
       {%- if show_color_swatches -%}
         {%- render 'pcard-color-swatch',

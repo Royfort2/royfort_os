@@ -1567,5 +1567,26 @@
         "default": true
       }
     ]
+  },
+  {
+    "name": "Stamped",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Stamped widget needs your Public API key and Store hash (sId) from go.stamped.io → Settings → API Keys. See Stamped help: Shopify Installing the app, main widget and script."
+      },
+      {
+        "type": "text",
+        "id": "public_key_stamped",
+        "label": "Public API key",
+        "info": "Used by StampedFn.init (apiKey)."
+      },
+      {
+        "type": "text",
+        "id": "stamped_store_hash",
+        "label": "Store hash (sId)",
+        "info": "Required for widget.min.js — not the same as the private key. Copy from Stamped API settings."
+      }
+    ]
   }
 ]

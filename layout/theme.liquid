@@ -206,5 +206,30 @@
     {% if settings.pcard_show_quickview_button or settings.pcard_choose_options_actions == 'open_popup' %}
       <script src="{{ 'quick-view.js' | asset_url }}" defer="defer"></script>
     {% endif %}
+
+    {%- comment -%}
+      Stamped: widget requires StampedFn.init({ apiKey, sId }) after widget.min.js loads.
+      data-api-key on the script tag alone does not initialize the widget.
+    {%- endcomment -%}
+    {%- if settings.public_key_stamped != blank and settings.stamped_store_hash != blank -%}
+      <script>
+        function stampedThemeWidgetOnLoad() {
+          if (typeof StampedFn === 'undefined') return;
+          if (window.__stampedThemeInitDone) return;
+          window.__stampedThemeInitDone = true;
+          StampedFn.init({
+            apiKey: {{ settings.public_key_stamped | json }},
+            sId: {{ settings.stamped_store_hash | json }}
+          });
+        }
+      </script>
+      <script
+        async
+        id="stamped-script-widget"
+        src="https://cdn1.stamped.io/files/widget.min.js"
+        onload="stampedThemeWidgetOnLoad()"
+      ></script>
+    {%- endif -%}
+
   </body>
 </html>
