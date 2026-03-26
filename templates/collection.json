@@ -328,9 +328,9 @@
       "settings": {
         "color_scheme": "scheme-9",
         "products_per_page": 15,
-        "columns_desktop": 3,
+        "columns_desktop": 4,
         "grid_layout": "standard",
-        "pagination": "number",
+        "pagination": "load_more",
         "enable_color_swatch": true,
         "enable_filtering": true,
         "filter_type": "drawer",
