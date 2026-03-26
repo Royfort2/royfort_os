@@ -179,7 +179,8 @@
                       section_id: section.id,
                       section_index: 2,
                       index: forloop.index,
-                      use_swiper: section.settings.pcard_use_swiper
+                      use_swiper: section.settings.pcard_use_swiper,
+                      show_reviews: section.settings.show_reviews
                     -%}
                   {%- endif -%}
                 </div>
@@ -283,6 +284,12 @@
       "label": "[we] Product card image swiper",
       "default": true,
       "info": "Swipe images with a progress bar at the bottom; color swatches preview that variant’s images without linking away."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_reviews",
+      "label": "[we] Show Reviews",
+      "default": true
     },
     {
       "type": "checkbox",

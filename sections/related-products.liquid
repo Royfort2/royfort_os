@@ -70,7 +70,8 @@
                   image_sizes: image_sizes,
                   image_ratio: section.settings.pcard_image_ratio,
                   section_index: section.index,
-                  index: forloop.index
+                  index: forloop.index,
+                  show_reviews: section.settings.show_reviews
                 %}
               </div>
             {%- endfor -%}
@@ -358,6 +359,12 @@
           "label": "t:settings_schema.global.settings.image_ratio.options__4.label"
         }
       ]
+    },
+    {
+      "type": "checkbox",
+      "id": "show_reviews",
+      "label": "[we] Show Reviews",
+      "default": true
     },
     {
       "type": "header",

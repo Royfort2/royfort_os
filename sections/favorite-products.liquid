@@ -176,7 +176,8 @@
                           image_sizes: product_image_sizes,
                           quick_view_suffix: block.id,
                           section_index: section.index,
-                          index: forloop.index
+                          index: forloop.index,
+                          show_reviews: section.settings.show_reviews
                         %}
                       {%- else -%}
                         {% render 'card-product-placeholder',
@@ -324,6 +325,12 @@
           "label": "t:settings_schema.global.settings.image_ratio.options__4.label"
         }
       ]
+    },
+    {
+      "type": "checkbox",
+      "id": "show_reviews",
+      "label": "[we] Show Reviews",
+      "default": true
     },
     {
       "type": "header",

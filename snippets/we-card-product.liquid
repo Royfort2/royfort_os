@@ -105,6 +105,8 @@
   assign image_sizes = image_sizes | default: '450px'
   assign image_widths = '70, 140, 165, 355, 450, 535, 710, 900, 1070, 1420'
 
+  assign show_reviews = show_reviews | default: false
+
   assign we_pcard_append_second = false
   if use_swiper_effective and product.images.size > 1
     assign we_pcard_append_second = true
@@ -411,7 +413,7 @@
           {{ product.type }}
         </p>
       {%- endif -%}
-      {%- if settings.public_key_stamped != blank and settings.stamped_store_hash != blank -%}
+      {%- if settings.public_key_stamped != blank and settings.stamped_store_hash != blank and show_reviews -%}
         {%- comment -%}
           Collection / grid badge (Stamped docs): class stamped-product-reviews-badge only — not stamped-main-badge (product page) or stamped-toggle.
         {%- endcomment -%}

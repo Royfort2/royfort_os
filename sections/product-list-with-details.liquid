@@ -176,7 +176,8 @@ calc({{ settings.page_width }} * {{ col_products_width }} / 100 / {{ columns_des
                   image_sizes: pcard_image_sizes,
                   image_ratio: section.settings.pcard_image_ratio,
                   section_index: section.index,
-                  index: forloop.index
+                  index: forloop.index,
+                  show_reviews: section.settings.show_reviews
                 -%}
               </div>
             {%- else -%}
@@ -472,6 +473,12 @@ calc({{ settings.page_width }} * {{ col_products_width }} / 100 / {{ columns_des
           "label": "t:settings_schema.global.settings.image_ratio.options__4.label"
         }
       ]
+    },
+    {
+      "type": "checkbox",
+      "id": "show_reviews",
+      "label": "[we] Show Reviews",
+      "default": true
     },
     {
       "type": "header",

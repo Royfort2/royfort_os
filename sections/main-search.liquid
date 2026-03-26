@@ -156,7 +156,8 @@
                           image_sizes: image_sizes,
                           section_id: section.id,
                           section_index: section.index,
-                          index: forloop.index
+                          index: forloop.index,
+                          show_reviews: section.settings.show_reviews
                         -%}
                       </div>
                     {%- when 'article' -%}
@@ -256,6 +257,12 @@
       "type": "checkbox",
       "id": "enable_color_swatch",
       "label": "t:settings_schema.color_swatches.settings.enable_color_swatch.label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_reviews",
+      "label": "[we] Show Reviews",
       "default": true
     },
     {
