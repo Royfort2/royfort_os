@@ -138,11 +138,11 @@
           "button_label": "#ffffff",
           "secondary_button": "#ffffff",
           "secondary_button_border": "#c5c2be",
-          "secondary_button_label": "#000000",
-          "button_hover": "#000000",
+          "secondary_button_label": "#171717",
+          "button_hover": "#171717",
           "button_label_hover": "#ffffff",
           "form_field": "#f5f5f5",
-          "form_field_label": "#000000",
+          "form_field_label": "#171717",
           "product_price_sale": "#2e3192"
         }
       },
