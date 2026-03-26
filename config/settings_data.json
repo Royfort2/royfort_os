@@ -60,6 +60,7 @@
     "pcard_show_cart_button": true,
     "pcard_show_quickview_button": false,
     "pcard_enable_color_swatches": true,
+    "pcard_maximum_swatches_to_show": 3,
     "pcard_show_sale_badge": false,
     "pcard_sale_badge_type": "show_percentage",
     "collection_card_color_scheme": "scheme-1",
@@ -111,6 +112,16 @@
         "type": "main-password-footer",
         "settings": {
           "color_scheme": "scheme-1"
+        }
+      },
+      "sticky-atc-bar": {
+        "type": "sticky-atc-bar",
+        "settings": {
+          "container": "full",
+          "visibility": "all",
+          "show_atc_button": true,
+          "show_dynamic_checkout_buttons": false,
+          "show_quantity": true
         }
       }
     },
