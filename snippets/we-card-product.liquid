@@ -330,7 +330,7 @@
           endif
         -%}
         {%- if product.variants.size > 1 or qty_rules -%}
-          <div class="product-card__actions product-card__main-actions">
+          <div class="product-card__actions product-card__main-actions we-product-card__main-actions">
             <{{ atc_button_tag }}
               {% if settings.pcard_choose_options_actions == 'product_page' %}
                 href="{{- product_url -}}"
@@ -340,8 +340,11 @@
               {% endif %}
               class="product-card__atc product-card__action-button btn {{ settings.pcard_button_style }}"
             >
-              <span class="product-card__atc-icon product-card__action-icon inline-flex md:hidden">
-                {%- render 'icon-cart', name: settings.cart_icon -%}
+              <span class="product-card__atc-icon product-card__action-icon inline-flex">
+                {% comment %} {%- render 'icon-cart', name: settings.cart_icon -%} {% endcomment %}
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path d="M4.16669 10H15.8334M10 4.16669V15.8334" stroke="currentColor" stroke-linecap="square" stroke-linejoin="round"/>
+                </svg>
               </span>
               <span class="product-card__atc-text product-card__action-text">
                 {{- 'products.product.choose_options' | t -}}
@@ -352,7 +355,7 @@
           {%- form 'product',
             product,
             id: product_form_id,
-            class: 'product-card__actions product-card__main-actions',
+            class: 'product-card__actions product-card__main-actions we-product-card__main-actions',
             novalidate: 'novalidate',
             data-type: 'add-to-cart-form',
             is: 'product-form'
@@ -376,8 +379,11 @@
               aria-label="{{ 'products.product.add_to_cart' | t }}"
               class="product-card__atc product-card__action-button btn {{ settings.pcard_button_style }}"
             >
-              <span class="product-card__atc-icon product-card__action-icon inline-flex md:hidden">
-                {%- render 'icon-cart', name: settings.cart_icon -%}
+              <span class="product-card__atc-icon product-card__action-icon inline-flex">
+                {% comment %} {%- render 'icon-cart', name: settings.cart_icon -%} {% endcomment %}
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path d="M4.16669 10H15.8334M10 4.16669V15.8334" stroke="currentColor" stroke-linecap="square" stroke-linejoin="round"/>
+                </svg>
               </span>
               <span class="product-card__atc-text product-card__action-text">
                 {%- if variant.available -%}
