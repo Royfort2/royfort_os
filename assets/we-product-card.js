@@ -4,24 +4,43 @@ if (!customElements.get('we-product-card')) {
     class WeProductCard extends HTMLElement {
       constructor() {
         super();
+        /** Matches Swiper `speed` — smooth slide change on hover and touch */
+        this.slideTransitionMs = 450;
         this.carouselInstance = null;
+        this.mediaLink = null;
+        this.card = null;
+        this.swatchList = null;
+        this.hoverBound = false;
+        this.swatchPreviewBound = false;
+        this.lastPreviewVariantId = null;
+        this.handleMediaEnter = this.handleMediaEnter.bind(this);
+        this.handleMediaLeave = this.handleMediaLeave.bind(this);
+        this.handleSwatchMouseOver = this.handleSwatchMouseOver.bind(this);
+        this.handleSwatchListLeave = this.handleSwatchListLeave.bind(this);
       }
 
       connectedCallback() {
         this.swiperEl = this.querySelector('.we-product-card__swiper');
         this.paginationEl = this.querySelector('.we-product-card__pagination');
         this.wrapperEl = this.querySelector('.swiper-wrapper');
+        this.mediaLink = this.querySelector('.we-product-card__media-link');
         this.initialVariantId = this.dataset.initialVariantId;
         if (!this.swiperEl || !this.wrapperEl) return;
+
+        this.card = this.closest('.product-card');
 
         requestAnimationFrame(() => {
           if (!this.carouselInstance) {
             this.initCarousel();
           }
+          this.bindHoverNavigation();
+          this.bindSwatchPreview();
         });
       }
 
       disconnectedCallback() {
+        this.unbindHoverNavigation();
+        this.unbindSwatchPreview();
         this.destroyCarousel();
       }
 
@@ -32,15 +51,152 @@ if (!customElements.get('we-product-card')) {
         }
       }
 
+      bindHoverNavigation() {
+        if (!this.mediaLink || this.hoverBound) return;
+        this.hoverBound = true;
+        this.mediaLink.addEventListener('mouseenter', this.handleMediaEnter);
+        this.mediaLink.addEventListener('mouseleave', this.handleMediaLeave);
+      }
+
+      unbindHoverNavigation() {
+        if (!this.mediaLink || !this.hoverBound) return;
+        this.mediaLink.removeEventListener('mouseenter', this.handleMediaEnter);
+        this.mediaLink.removeEventListener('mouseleave', this.handleMediaLeave);
+        this.hoverBound = false;
+      }
+
+      handleMediaEnter() {
+        const s = this.carouselInstance?.slider;
+        if (!s || s.slides.length < 2) return;
+        s.slideTo(1, this.slideTransitionMs);
+      }
+
+      handleMediaLeave() {
+        const s = this.carouselInstance?.slider;
+        if (!s) return;
+        s.slideTo(0, this.slideTransitionMs);
+      }
+
+      bindSwatchPreview() {
+        if (!this.card || this.swatchPreviewBound) return;
+        if (!this.querySelector('template[data-variant-id]')) return;
+        this.swatchList = this.card.querySelector('.swatches--product-card');
+        if (!this.swatchList) return;
+        this.swatchPreviewBound = true;
+        this.swatchList.addEventListener('mouseover', this.handleSwatchMouseOver);
+        this.swatchList.addEventListener('mouseleave', this.handleSwatchListLeave);
+      }
+
+      unbindSwatchPreview() {
+        if (!this.swatchList || !this.swatchPreviewBound) return;
+        this.swatchList.removeEventListener('mouseover', this.handleSwatchMouseOver);
+        this.swatchList.removeEventListener('mouseleave', this.handleSwatchListLeave);
+        this.swatchPreviewBound = false;
+        this.swatchList = null;
+      }
+
+      handleSwatchMouseOver(event) {
+        const link = event.target.closest('a[data-variant-id]');
+        if (!link || !this.swatchList?.contains(link)) return;
+        const id = link.dataset.variantId;
+        if (!id || id === this.lastPreviewVariantId) return;
+        this.lastPreviewVariantId = id;
+        this.previewVariant(id);
+      }
+
+      handleSwatchListLeave() {
+        this.lastPreviewVariantId = null;
+        this.resetToInitialVariant();
+      }
+
+      /**
+       * Fade out slides only (not pagination), swap markup + reinit Swiper, then fade back in.
+       */
+      fadeOutSwapIn(swapFn) {
+        const el = this.wrapperEl;
+        if (!el) {
+          swapFn();
+          return Promise.resolve();
+        }
+
+        return new Promise((resolve) => {
+          let finished = false;
+          const done = () => {
+            if (finished) return;
+            finished = true;
+            swapFn();
+            requestAnimationFrame(() => {
+              el.classList.remove('we-product-card__slides-fade-out');
+              resolve();
+            });
+          };
+
+          const onEnd = (e) => {
+            if (e.target !== el || e.propertyName !== 'opacity') return;
+            el.removeEventListener('transitionend', onEnd);
+            clearTimeout(fallback);
+            done();
+          };
+
+          el.addEventListener('transitionend', onEnd);
+          const fallback = setTimeout(() => {
+            el.removeEventListener('transitionend', onEnd);
+            done();
+          }, 280);
+
+          el.classList.add('we-product-card__slides-fade-out');
+        });
+      }
+
+      previewVariant(variantId) {
+        const template = this.querySelector(`template[data-variant-id="${variantId}"]`);
+        if (!template) return;
+
+        this.fadeOutSwapIn(() => {
+          this.wrapperEl.innerHTML = '';
+          this.wrapperEl.appendChild(template.content.cloneNode(true));
+
+          this.destroyCarousel();
+          this.initCarousel();
+
+          const s = this.carouselInstance?.slider;
+          if (s && this.mediaLink?.matches(':hover') && s.slides.length >= 2) {
+            s.slideTo(1, this.slideTransitionMs);
+          }
+        });
+      }
+
+      resetToInitialVariant() {
+        const template = this.querySelector(`template[data-variant-id="${this.initialVariantId}"]`);
+        if (!template) return;
+
+        this.fadeOutSwapIn(() => {
+          this.wrapperEl.innerHTML = '';
+          this.wrapperEl.appendChild(template.content.cloneNode(true));
+
+          this.destroyCarousel();
+          this.initCarousel();
+
+          const s = this.carouselInstance?.slider;
+          if (s && this.mediaLink?.matches(':hover') && s.slides.length >= 2) {
+            s.slideTo(1, this.slideTransitionMs);
+          }
+        });
+      }
+
       initCarousel() {
         this.destroyCarousel();
+        const ms = this.slideTransitionMs;
         this.carouselInstance = new FoxTheme.Carousel(
           this.swiperEl,
           {
             slidesPerView: 1,
+            speed: ms,
+            effect: 'slide',
             grabCursor: true,
             allowTouchMove: true,
-            threshold: 5,
+            threshold: 8,
+            cssMode: false,
             pagination: {
               el: this.paginationEl,
               type: 'progressbar',
@@ -50,56 +206,6 @@ if (!customElements.get('we-product-card')) {
         );
         this.carouselInstance.init();
       }
-
-      switchVariant(variantId) {
-        const id = String(variantId);
-        const current = this.dataset.activeVariantId || this.initialVariantId;
-        if (String(current) === id) return;
-
-        const template = this.querySelector(`template[data-variant-id="${id}"]`);
-        if (!template) return;
-
-        this.dataset.activeVariantId = id;
-        this.wrapperEl.innerHTML = '';
-        this.wrapperEl.appendChild(template.content.cloneNode(true));
-
-        this.destroyCarousel();
-        this.initCarousel();
-        this.updateSwatchButtons();
-        this.updateTitleLink();
-      }
-
-      updateTitleLink() {
-        const card = this.closest('.product-card');
-        if (!card) return;
-        const activeId = this.dataset.activeVariantId || this.initialVariantId;
-        const btn = card.querySelector(
-          `.swatches--product-card button[data-variant-id="${String(activeId)}"]`
-        );
-        const titleLink = card.querySelector('.product-card__title a');
-        if (!titleLink || !btn?.dataset?.variantUrl) return;
-        titleLink.setAttribute('href', btn.dataset.variantUrl);
-      }
-
-      updateSwatchButtons() {
-        const card = this.closest('.product-card');
-        if (!card) return;
-        const activeId = this.dataset.activeVariantId || this.initialVariantId;
-        card.querySelectorAll('.swatches--product-card button[data-variant-id]').forEach((btn) => {
-          const on = String(btn.dataset.variantId) === String(activeId);
-          btn.classList.toggle('is-active', on);
-          btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-        });
-      }
     }
   );
 }
-
-document.addEventListener('click', (e) => {
-  const btn = e.target.closest('.swatches--product-card button[data-variant-id]');
-  if (!btn) return;
-  const card = btn.closest('.product-card');
-  const host = card?.querySelector('we-product-card');
-  if (!host) return;
-  host.switchVariant(btn.dataset.variantId);
-});

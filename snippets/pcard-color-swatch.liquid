@@ -60,28 +60,17 @@
           -%}
           {%- if swatch_count <= max_swatch_count -%}
             <li data-tooltip>
-              {%- if swatch_interactive -%}
-                {%- render 'swatch',
-                  button_mode: true,
-                  variant_id: variant.id,
-                  variant_url: swatch_url,
-                  swatch_selected: swatch_selected,
-                  title: swatch_title,
-                  value: value,
-                  file_extension: swatch_file_extension,
-                  swatch: swatches,
-                  tooltip: value
-                -%}
-              {%- else -%}
-                {%- render 'swatch',
-                  href: swatch_url,
-                  title: swatch_title,
-                  value: value,
-                  file_extension: swatch_file_extension,
-                  swatch: swatches,
-                  tooltip: value
-                -%}
-              {%- endif -%}
+              {%- render 'swatch',
+                href: swatch_url,
+                variant_id: variant.id,
+                swatch_selected: swatch_selected,
+                swatch_interactive: swatch_interactive,
+                title: swatch_title,
+                value: value,
+                file_extension: swatch_file_extension,
+                swatch: swatches,
+                tooltip: value
+              -%}
             </li>
           {%- endif -%}
         {%- endunless -%}

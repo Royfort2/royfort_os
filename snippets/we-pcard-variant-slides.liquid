@@ -1,33 +1,27 @@
 {% comment %}
-  Renders up to max_slides swiper slides from product media whose alt matches the color swatch name.
+  Renders swiper-slide elements for a product card variant (images from variant-associated media).
   @param product {Product}
-  @param color_value {String} Option label for the selected color (matches media.alt, case-insensitive).
-  @param max_slides {Number} Default 2.
-  @param image_ratio, image_widths, image_sizes, loading, fetchpriority
+  @param variant {Variant}
+  @param we_pcard_append_second {Boolean} Appends product.images[1] when not already included (2-slide UX).
 {% endcomment %}
 {%- liquid
-  assign max_slides = max_slides | default: 2
-  assign needle = color_value | downcase | strip
   assign slide_count = 0
+  assign included_ids = ''
+  assign we_pcard_append_second = we_pcard_append_second | default: false
 -%}
 {%- for media in product.media -%}
-  {%- if slide_count >= max_slides -%}
-    {%- break -%}
-  {%- endif -%}
   {%- if media.media_type == 'image' -%}
     {%- liquid
-      assign alt_down = media.alt | default: '' | downcase | strip
-      assign match = false
-      if needle != blank and alt_down != blank
-        if alt_down == needle
-          assign match = true
-        elsif alt_down contains needle
-          assign match = true
-        endif
+      assign show_media = false
+      if media.variant_ids.size == 0
+        assign show_media = true
+      elsif media.variant_ids contains variant.id
+        assign show_media = true
       endif
     -%}
-    {%- if match -%}
+    {%- if show_media -%}
       {%- assign slide_count = slide_count | plus: 1 -%}
+      {%- assign included_ids = included_ids | append: ',' | append: media.id | append: ',' -%}
       {%- assign slide_widths = image_widths | append: ', ' | append: media.width -%}
       <div class="swiper-slide" data-media-id="{{ media.id }}">
         <div
@@ -51,17 +45,17 @@
   {%- endif -%}
 {%- endfor -%}
 {%- if slide_count == 0 -%}
-  {%- if product.images.size > 0 -%}
-    {%- assign img0 = product.images[0] -%}
-    {%- assign slide_widths = image_widths | append: ', ' | append: img0.width -%}
-    <div class="swiper-slide" data-media-id="{{ img0.id }}">
+  {%- if variant.featured_media != blank and variant.featured_media.media_type == 'image' -%}
+    {%- assign included_ids = included_ids | append: ',' | append: variant.featured_media.id | append: ',' -%}
+    {%- assign slide_widths = image_widths | append: ', ' | append: variant.featured_media.width -%}
+    <div class="swiper-slide" data-media-id="{{ variant.featured_media.id }}">
       <div
         class="media-wrapper product-card__image"
         style="--aspect-ratio: {{ image_ratio }}"
       >
         {{
-          img0
-          | image_url: width: img0.width
+          variant.featured_media
+          | image_url: width: variant.featured_media.width
           | image_tag:
             loading: loading,
             fetchpriority: fetchpriority,
@@ -72,21 +66,40 @@
         }}
       </div>
     </div>
-    {%- assign slide_count = 1 -%}
-  {%- endif -%}
-  {%- if slide_count < max_slides and product.images.size > 1 -%}
-    {%- assign img1 = product.images[1] -%}
-    {%- assign img0 = product.images[0] -%}
-    {%- if img1.id != img0.id -%}
-      {%- assign slide_widths = image_widths | append: ', ' | append: img1.width -%}
-      <div class="swiper-slide" data-media-id="{{ img1.id }}">
+  {%- elsif variant.image != blank -%}
+    {%- assign included_ids = included_ids | append: ',' | append: variant.image.id | append: ',' -%}
+    {%- assign slide_widths = image_widths | append: ', ' | append: variant.image.width -%}
+    <div class="swiper-slide" data-media-id="fallback-{{ variant.id }}">
+      <div
+        class="media-wrapper product-card__image"
+        style="--aspect-ratio: {{ image_ratio }}"
+      >
+        {{
+          variant.image
+          | image_url: width: variant.image.width
+          | image_tag:
+            loading: loading,
+            fetchpriority: fetchpriority,
+            class: 'motion-reduce',
+            widths: slide_widths,
+            sizes: image_sizes,
+            is: 'image-lazy'
+        }}
+      </div>
+    </div>
+  {%- elsif product.featured_media != blank -%}
+    {%- assign fm = product.featured_media -%}
+    {%- if fm.media_type == 'image' -%}
+      {%- assign included_ids = included_ids | append: ',' | append: fm.id | append: ',' -%}
+      {%- assign slide_widths = image_widths | append: ', ' | append: fm.width -%}
+      <div class="swiper-slide" data-media-id="{{ fm.id }}">
         <div
           class="media-wrapper product-card__image"
           style="--aspect-ratio: {{ image_ratio }}"
         >
           {{
-            img1
-            | image_url: width: img1.width
+            fm
+            | image_url: width: fm.width
             | image_tag:
               loading: loading,
               fetchpriority: fetchpriority,
@@ -99,4 +112,36 @@
       </div>
     {%- endif -%}
   {%- endif -%}
+{%- endif -%}
+{%- liquid
+  assign append_second = false
+  if we_pcard_append_second and product.images.size > 1 and product.images[1] != blank
+    assign second_pid = product.images[1].id
+    assign second_token = ',' | append: second_pid | append: ','
+    unless included_ids contains second_token
+      assign append_second = true
+    endunless
+  endif
+-%}
+{%- if append_second -%}
+  {%- assign second_img = product.images[1] -%}
+  {%- assign slide_widths = image_widths | append: ', ' | append: second_img.width -%}
+  <div class="swiper-slide" data-media-id="{{ second_img.id }}">
+    <div
+      class="media-wrapper product-card__image"
+      style="--aspect-ratio: {{ image_ratio }}"
+    >
+      {{
+        second_img
+        | image_url: width: second_img.width
+        | image_tag:
+          loading: loading,
+          fetchpriority: fetchpriority,
+          class: 'motion-reduce',
+          widths: slide_widths,
+          sizes: image_sizes,
+          is: 'image-lazy'
+      }}
+    </div>
+  </div>
 {%- endif -%}

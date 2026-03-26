@@ -105,28 +105,11 @@
   assign image_sizes = image_sizes | default: '450px'
   assign image_widths = '70, 140, 165, 355, 450, 535, 710, 900, 1070, 1420'
 
-  assign we_pcard_color_value = ''
+  assign we_pcard_append_second = false
+  if use_swiper_effective and product.images.size > 1
+    assign we_pcard_append_second = true
+  endif
 -%}
-{%- if use_swiper_effective -%}
-  {%- liquid
-    assign swatch_trigger = settings.color_swatch_trigger | downcase
-  -%}
-  {%- for option in product.options_with_values -%}
-    {%- liquid
-      assign option_name = option.name | downcase
-      assign is_color = false
-      if swatch_trigger contains option_name
-        assign is_color = true
-      elsif swatch_trigger contains 'color' and option_name contains 'colour'
-        assign is_color = true
-      endif
-    -%}
-    {%- if is_color -%}
-      {%- assign we_pcard_color_value = product.selected_or_first_available_variant.options[forloop.index0] -%}
-      {%- break -%}
-    {%- endif -%}
-  {%- endfor -%}
-{%- endif -%}
 <div
   class="product-card we-product-card product-card-style-{{ settings.pcard_style }}{% if settings.pcard_style == 'card' %} color-{{ settings.pcard_color_scheme }}{% endif %}{{ card_wrapper_class }}{% if list_on_mobile %} product-card-list-on-mobile{% endif %}{% if use_swiper_effective %} we-product-card--swiper{% endif %}"
 >
@@ -137,25 +120,30 @@
           class="block w-full we-product-card__host"
           data-initial-variant-id="{{ product.selected_or_first_available_variant.id }}"
         >
-          <div class="we-product-card__media block">
+          <a
+            class="we-product-card__media-link block"
+            href="{{ product.url }}"
+            aria-label="{{ product.title | escape }}"
+            tabindex="-1"
+          >
             <motion-element data-motion="zoom-out-sm" class="block">
               <div class="swiper we-product-card__swiper">
                 <div class="swiper-wrapper">
                   {%- render 'we-pcard-variant-slides',
                     product: product,
-                    color_value: we_pcard_color_value,
-                    max_slides: 2,
+                    variant: product.selected_or_first_available_variant,
                     image_ratio: image_ratio,
                     image_widths: image_widths,
                     image_sizes: image_sizes,
                     loading: loading,
-                    fetchpriority: fetchpriority
+                    fetchpriority: fetchpriority,
+                    we_pcard_append_second: we_pcard_append_second
                   -%}
                 </div>
                 <div class="swiper-pagination we-product-card__pagination"></div>
               </div>
             </motion-element>
-          </div>
+          </a>
           {%- if swiper_interactive_swatches -%}
             {%- liquid
               assign swatch_trigger = settings.color_swatch_trigger | downcase
@@ -195,13 +183,13 @@
                     <template data-variant-id="{{ variant.id }}">
                       {%- render 'we-pcard-variant-slides',
                         product: product,
-                        color_value: value,
-                        max_slides: 2,
+                        variant: variant,
                         image_ratio: image_ratio,
                         image_widths: image_widths,
                         image_sizes: image_sizes,
                         loading: 'lazy',
-                        fetchpriority: 'low'
+                        fetchpriority: 'low',
+                        we_pcard_append_second: we_pcard_append_second
                       -%}
                     </template>
                   {%- endif -%}
@@ -418,12 +406,7 @@
         </p>
       {%- endif -%}
       <h3 class="product-card__title text-pcard-title">
-        <a
-          class="reversed-link"
-          href="{% if swiper_interactive_swatches %}{{ product.selected_or_first_available_variant.url }}{% else %}{{ product.url }}{% endif %}"
-        >
-          {{- product.title -}}
-        </a>
+        <a class="reversed-link" href="{{ product.url }}">{{- product.title -}}</a>
       </h3>
       {% render 'price', product: product, alignment: settings.pcard_content_alignment %}
       {%- if show_color_swatches -%}

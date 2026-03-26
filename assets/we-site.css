@@ -1,6 +1,27 @@
+.we-product-card__media-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.we-product-card__media-link:hover {
+    color: inherit;
+}
+
 .we-product-card__swiper {
     position: relative;
-    touch-action: pan-x pinch-zoom;
+}
+
+/* Opacity fade only while swapping variant slides — do NOT set transition on
+   .swiper-wrapper by default or Swiper’s transform-based slide motion is lost. */
+.we-product-card__swiper .swiper-wrapper.we-product-card__slides-fade-out {
+    opacity: 0;
+    transition: opacity 0.22s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .we-product-card__swiper .swiper-wrapper.we-product-card__slides-fade-out {
+        transition-duration: 0.01ms;
+    }
 }
 
 .we-product-card__pagination.swiper-pagination-progressbar {
@@ -19,14 +40,6 @@
     transform: none;
 }
 
-.swatches--product-card button.swatch-color {
-    cursor: pointer;
-    font: inherit;
-    appearance: none;
-    -webkit-appearance: none;
-    background-color: var(--swatch-background);
-}
-
-.swatches--product-card button.swatch-color.is-active {
+.swatches--product-card a.swatch-color.is-active {
     border-color: rgb(var(--color-foreground));
 }

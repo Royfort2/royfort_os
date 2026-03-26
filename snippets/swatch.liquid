@@ -68,9 +68,12 @@
 {%- elsif href -%}
   <a
     href="{{ href }}"
-    class="swatch-color block relative"
+    class="swatch-color block relative{% if swatch_selected %} is-active{% endif %}"
     title="{{ title | escape }}"
     aria-label="{{ title | escape }}"
+    {% if variant_id != blank and swatch_interactive %}
+      data-variant-id="{{ variant_id }}"
+    {% endif %}
     {% if class != blank %}
       {{ class -}}
     {% endif %}
