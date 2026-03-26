@@ -418,7 +418,12 @@
         </p>
       {%- endif -%}
       <h3 class="product-card__title text-pcard-title">
-        <a class="reversed-link" href="{{ product.url }}">{{- product.title -}}</a>
+        <a
+          class="reversed-link"
+          href="{% if swiper_interactive_swatches %}{{ product.selected_or_first_available_variant.url }}{% else %}{{ product.url }}{% endif %}"
+        >
+          {{- product.title -}}
+        </a>
       </h3>
       {% render 'price', product: product, alignment: settings.pcard_content_alignment %}
       {%- if show_color_swatches -%}

@@ -66,6 +66,19 @@ if (!customElements.get('we-product-card')) {
         this.destroyCarousel();
         this.initCarousel();
         this.updateSwatchButtons();
+        this.updateTitleLink();
+      }
+
+      updateTitleLink() {
+        const card = this.closest('.product-card');
+        if (!card) return;
+        const activeId = this.dataset.activeVariantId || this.initialVariantId;
+        const btn = card.querySelector(
+          `.swatches--product-card button[data-variant-id="${String(activeId)}"]`
+        );
+        const titleLink = card.querySelector('.product-card__title a');
+        if (!titleLink || !btn?.dataset?.variantUrl) return;
+        titleLink.setAttribute('href', btn.dataset.variantUrl);
       }
 
       updateSwatchButtons() {

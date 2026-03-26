@@ -51,6 +51,9 @@
     aria-label="{{ title | escape }}"
     aria-pressed="{% if swatch_selected %}true{% else %}false{% endif %}"
     data-variant-id="{{ variant_id }}"
+    {% if variant_url != blank %}
+      data-variant-url="{{ variant_url }}"
+    {% endif %}
     {% if class != blank %}
       {{ class -}}
     {% endif %}
