@@ -1990,6 +1990,8 @@ summary::-webkit-details-marker {
   border-radius: var(--swatch-radius); */
   width: 2rem;
   height: 1.2rem;
+  border-radius: 0;
+  padding: 0;
   position: relative;
   border: 0.1rem solid rgb(var(--color-border));
   transition: border-color var(--animation-default);

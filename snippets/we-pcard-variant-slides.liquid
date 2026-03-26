@@ -1,0 +1,102 @@
+{% comment %}
+  Renders up to max_slides swiper slides from product media whose alt matches the color swatch name.
+  @param product {Product}
+  @param color_value {String} Option label for the selected color (matches media.alt, case-insensitive).
+  @param max_slides {Number} Default 2.
+  @param image_ratio, image_widths, image_sizes, loading, fetchpriority
+{% endcomment %}
+{%- liquid
+  assign max_slides = max_slides | default: 2
+  assign needle = color_value | downcase | strip
+  assign slide_count = 0
+-%}
+{%- for media in product.media -%}
+  {%- if slide_count >= max_slides -%}
+    {%- break -%}
+  {%- endif -%}
+  {%- if media.media_type == 'image' -%}
+    {%- liquid
+      assign alt_down = media.alt | default: '' | downcase | strip
+      assign match = false
+      if needle != blank and alt_down != blank
+        if alt_down == needle
+          assign match = true
+        elsif alt_down contains needle
+          assign match = true
+        endif
+      endif
+    -%}
+    {%- if match -%}
+      {%- assign slide_count = slide_count | plus: 1 -%}
+      {%- assign slide_widths = image_widths | append: ', ' | append: media.width -%}
+      <div class="swiper-slide" data-media-id="{{ media.id }}">
+        <div
+          class="media-wrapper product-card__image"
+          style="--aspect-ratio: {{ image_ratio }}"
+        >
+          {{
+            media
+            | image_url: width: media.width
+            | image_tag:
+              loading: loading,
+              fetchpriority: fetchpriority,
+              class: 'motion-reduce',
+              widths: slide_widths,
+              sizes: image_sizes,
+              is: 'image-lazy'
+          }}
+        </div>
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- if slide_count == 0 -%}
+  {%- if product.images.size > 0 -%}
+    {%- assign img0 = product.images[0] -%}
+    {%- assign slide_widths = image_widths | append: ', ' | append: img0.width -%}
+    <div class="swiper-slide" data-media-id="{{ img0.id }}">
+      <div
+        class="media-wrapper product-card__image"
+        style="--aspect-ratio: {{ image_ratio }}"
+      >
+        {{
+          img0
+          | image_url: width: img0.width
+          | image_tag:
+            loading: loading,
+            fetchpriority: fetchpriority,
+            class: 'motion-reduce',
+            widths: slide_widths,
+            sizes: image_sizes,
+            is: 'image-lazy'
+        }}
+      </div>
+    </div>
+    {%- assign slide_count = 1 -%}
+  {%- endif -%}
+  {%- if slide_count < max_slides and product.images.size > 1 -%}
+    {%- assign img1 = product.images[1] -%}
+    {%- assign img0 = product.images[0] -%}
+    {%- if img1.id != img0.id -%}
+      {%- assign slide_widths = image_widths | append: ', ' | append: img1.width -%}
+      <div class="swiper-slide" data-media-id="{{ img1.id }}">
+        <div
+          class="media-wrapper product-card__image"
+          style="--aspect-ratio: {{ image_ratio }}"
+        >
+          {{
+            img1
+            | image_url: width: img1.width
+            | image_tag:
+              loading: loading,
+              fetchpriority: fetchpriority,
+              class: 'motion-reduce',
+              widths: slide_widths,
+              sizes: image_sizes,
+              is: 'image-lazy'
+          }}
+        </div>
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+{%- endif -%}

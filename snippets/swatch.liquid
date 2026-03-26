@@ -43,7 +43,26 @@
   endif
 -%}
 
-{%- if href -%}
+{%- if button_mode -%}
+  <button
+    type="button"
+    class="swatch-color block relative{% if swatch_selected %} is-active{% endif %}"
+    title="{{ title | escape }}"
+    aria-label="{{ title | escape }}"
+    aria-pressed="{% if swatch_selected %}true{% else %}false{% endif %}"
+    data-variant-id="{{ variant_id }}"
+    {% if class != blank %}
+      {{ class -}}
+    {% endif %}
+    style="--swatch-background: {{ swatch_fallback }};{% if swatch_fallback_override == false and swatch_image != blank %} background-image: url({{ swatch_image }});{% endif %}{% if swatch_focal_point %} --swatch-focal-point: {{ swatch_focal_point }}{% endif %}"
+  >
+    {%- if tooltip != blank -%}
+      <span class="tooltip pointer-events-none">{{ tooltip | escape }}</span>
+    {%- else -%}
+      <span class="visually-hidden">{{ value | escape }}</span>
+    {%- endif -%}
+  </button>
+{%- elsif href -%}
   <a
     href="{{ href }}"
     class="swatch-color block relative"

@@ -171,7 +171,7 @@ calc({{ settings.page_width }} * {{ col_products_width }} / 100 / {{ columns_des
           <div class="f-grid f-grid-{{ columns_mobile }}-cols md:f-grid-{{ columns_tablet }}-cols lg:f-grid-{{ columns_desktop }}-cols f-grid--gap-{{ section.settings.column_gap }} f-grid--row-gap-{{ section.settings.row_gap }}{% if enable_swipe_mobile %} swipe-mobile__inner{% endif %}">
             {%- for product in products -%}
               <div class="f-column col-product-card" data-index="{{ forloop.index0 }}">
-                {%- render 'card-product',
+                {%- render 'we-card-product',
                   product: product,
                   image_sizes: pcard_image_sizes,
                   image_ratio: section.settings.pcard_image_ratio,

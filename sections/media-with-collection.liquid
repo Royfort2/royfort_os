@@ -175,7 +175,7 @@
                   {%- if collection != blank -%}
                     {%- for product in collection.products limit: products_to_display -%}
                       <div class="f-column swiper-slide">
-                        {% render 'card-product',
+                        {% render 'we-card-product',
                           product: product,
                           image_sizes: image_sizes,
                           image_ratio: section.settings.product_image_ratio,

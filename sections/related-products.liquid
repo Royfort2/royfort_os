@@ -65,7 +65,7 @@
           <div class="products-grid f-grid f-grid-{{ columns_mobile }}-cols md:f-grid-{{ columns_tablet }}-cols lg:f-grid-{{ columns }}-cols f-grid--gap-{{ section.settings.column_gap }} f-grid--row-gap-{{ section.settings.row_gap }}{% if enable_slider %} swiper-wrapper{% endif %}{% if enable_swipe_mobile %} swipe-mobile__inner{% endif %}">
             {%- for recommendation in recommendations.products -%}
               <div class="{{ item_css_class }}">
-                {% render 'card-product',
+                {% render 'we-card-product',
                   product: recommendation,
                   image_sizes: image_sizes,
                   image_ratio: section.settings.pcard_image_ratio,

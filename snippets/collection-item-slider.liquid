@@ -86,7 +86,7 @@
       <div class="collection-item-slider__products swiper-wrapper f-grid f-grid-{{ columns_mobile }}-cols md:f-grid-{{ columns_tablet }}-cols lg:f-grid-{{ columns }}-cols f-grid--gap-{{ block.settings.column_gap }} f-grid--row-gap-{{ block.settings.row_gap }}{% if enable_swipe_mobile %} swipe-mobile__inner{% endif %}">
         {%- for product in collection.products limit: products_to_display -%}
           <div class="f-column swiper-slide">
-            {% render 'card-product',
+            {% render 'we-card-product',
               product: product,
               image_sizes: image_sizes,
               image_ratio: block.settings.pcard_image_ratio,

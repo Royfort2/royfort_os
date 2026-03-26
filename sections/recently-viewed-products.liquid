@@ -60,7 +60,7 @@
             {%- for product in search.results -%}
               {%- if product.id == id -%}
                 <div class="{{ item_css_class }}">
-                  {% render 'card-product',
+                  {% render 'we-card-product',
                     product: product,
                     image_sizes: image_sizes,
                     image_ratio: section.settings.pcard_image_ratio,

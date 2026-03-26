@@ -126,6 +126,7 @@
 
       echo 'vendor.css' | asset_url | stylesheet_tag: preload: true
       echo 'theme.css' | asset_url | stylesheet_tag: preload: true
+      echo 'we-site.css' | asset_url | stylesheet_tag: preload: true
 
       if enable_rtl
         echo 'rtl.css' | asset_url | stylesheet_tag: preload: true
@@ -136,6 +137,7 @@
 
     <script src="{{ 'vendor.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'we-product-card.js' | asset_url }}" defer="defer"></script>
 
     {%- if request.page_type contains 'customers/' -%}
       <script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer="defer"></script>
