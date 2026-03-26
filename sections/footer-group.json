@@ -1,0 +1,230 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "177375403878897b07": {
+      "type": "apps",
+      "blocks": {
+        "gsc_instagram_feed_instafeed_fmJBXn": {
+          "type": "shopify://apps/gsc-instagram-feed/blocks/instafeed/96970b1b-b770-454f-b16b-51f47e1aa4ed",
+          "settings": {
+            "widget_id": "GSC-oNuncEGpZFKvKBt"
+          }
+        }
+      },
+      "block_order": [
+        "gsc_instagram_feed_instafeed_fmJBXn"
+      ],
+      "settings": {
+        "include_margins": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "custom_class": ""
+      }
+    },
+    "newsletter_d8KF4g": {
+      "type": "newsletter",
+      "name": "t:sections.newsletter.presets.name",
+      "settings": {
+        "color_scheme": "scheme-6",
+        "layout": "vertical",
+        "heading": "Jetzt exklusive Vorteile sichern",
+        "heading_size": "h2",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "<p>Melden Sie sich zu unserem Newsletter an und erhalten Sie Inspiration für Ihr Schlafzimmer.</p>",
+        "text_size": "text-sm",
+        "alignment": "center",
+        "design": "design-2",
+        "form_width": 500,
+        "newsletter_term": "<p>Mit Ihrer Anmeldung akzeptieren Sie unsere <a href=\"#\" title=\"#\">AGB</a> und der <a href=\"#\" title=\"#\">Datenschutzrichtlinie</a> zu.<br/><br/></p>",
+        "newsletter_term_size": "text-sm",
+        "button_style": "btn--primary",
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "multicolumn_XGJqAN": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_NQea6b": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image_width": "medium",
+            "title": "Kostenloser Versand",
+            "heading_size": "h5",
+            "text": "",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_kQxDEn": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image_width": "medium",
+            "title": "Kostenloser Versand",
+            "heading_size": "h5",
+            "text": "",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_3F7Cr3": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image_width": "medium",
+            "title": "Kostenloser Versand",
+            "heading_size": "h5",
+            "text": "",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_aheFGK": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image_width": "medium",
+            "title": "Kostenloser Versand",
+            "heading_size": "h5",
+            "text": "",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        }
+      },
+      "block_order": [
+        "column_NQea6b",
+        "column_kQxDEn",
+        "column_3F7Cr3",
+        "column_aheFGK"
+      ],
+      "name": "t:sections.multicolumn.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "column_alignment": "left",
+        "columns_desktop": 4,
+        "column_gap": "large",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "menu_DEKGYP": {
+          "type": "menu",
+          "settings": {
+            "block_width": 33,
+            "heading": "Shop",
+            "heading_size": "h4",
+            "menu": "footer",
+            "open_default": false,
+            "show_divider": true
+          }
+        },
+        "menu_zmGFag": {
+          "type": "menu",
+          "settings": {
+            "block_width": 33,
+            "heading": "Shop",
+            "heading_size": "h4",
+            "menu": "footer",
+            "open_default": false,
+            "show_divider": true
+          }
+        },
+        "menu_4eCrBB": {
+          "type": "menu",
+          "settings": {
+            "block_width": 33,
+            "heading": "Customer care",
+            "heading_size": "h4",
+            "menu": "footer",
+            "open_default": false,
+            "show_divider": true
+          }
+        },
+        "image_text_F3FNhx": {
+          "type": "image_text",
+          "settings": {
+            "block_width": 100,
+            "heading": "",
+            "heading_size": "h4",
+            "image": "shopify://shop_images/royfort_logo_white_01.svg",
+            "image_width": 250,
+            "text": "",
+            "button_label": "",
+            "button_link": "",
+            "open_default": true,
+            "show_divider": false
+          }
+        }
+      },
+      "block_order": [
+        "menu_DEKGYP",
+        "menu_zmGFag",
+        "menu_4eCrBB",
+        "image_text_F3FNhx"
+      ],
+      "custom_css": [
+        ".media-wrapper {width: 100% !important;}"
+      ],
+      "settings": {
+        "color_scheme": "scheme-3",
+        "enable_follow_on_shop": false,
+        "show_social": true,
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "payment_enable": true,
+        "footer_bottom_menu": "",
+        "show_section_divider": false,
+        "divider_width": "full"
+      }
+    }
+  },
+  "order": [
+    "177375403878897b07",
+    "newsletter_d8KF4g",
+    "multicolumn_XGJqAN",
+    "footer"
+  ]
+}

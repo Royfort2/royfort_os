@@ -1,0 +1,20 @@
+{% style %}
+  .template-404 p {
+    margin: 1.2rem 0 0;
+  }
+  .template-404 .btn {
+    margin-top: 2.4rem;
+  }
+{% endstyle %}
+<div
+  class="template-404 section section--padding"
+  style="--section-padding-top: 100px;--section-padding-bottom: 100px;"
+>
+  <div class="page-width text-center">
+    <h1 class="title h2">{{ 'templates.404.title' | t }}</h1>
+    <p class="text-lg">{{ 'templates.404.subtext' | t }}</p>
+    <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary">
+      {{ 'general.continue_shopping' | t }}
+    </a>
+  </div>
+</div>

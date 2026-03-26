@@ -1,0 +1,859 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "custom_content_kJfyKb": {
+      "type": "custom-content",
+      "blocks": {
+        "image_card_mQPzQP": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/Website_Images_Template_5.png",
+            "image_ratio": "4/3",
+            "image_overlay_opacity": 10,
+            "heading": "Hier steht ein Heading",
+            "heading_size": "h3",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "<p>afssdfsd</p>",
+            "button_label": "CTA",
+            "button_style": "btn--underline",
+            "content_position": "bottom-left",
+            "content_alignment": "left",
+            "content_spacing": "small",
+            "card_link": "",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "50%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_card_CkWQ4E": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/blog_image3.jpg",
+            "image_ratio": "4/3",
+            "image_overlay_opacity": 10,
+            "heading": "Decken & Kissen",
+            "heading_size": "h5",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "",
+            "button_style": "btn--primary",
+            "content_position": "bottom-left",
+            "content_alignment": "center",
+            "content_spacing": "small",
+            "card_link": "",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "50%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_card_mQPzQP",
+        "image_card_CkWQ4E"
+      ],
+      "custom_css": [
+        ".f-grid--row-gap-extra-small {--row-gap: 1rem; --row-gap-mobile: 0rem;}",
+        "@media (max-width: 767px) {.card-media--small .content-overlay {--padding-y: 1.5rem; --padding-x: 1.5rem; } .section--padding {padding-block-end: 0rem; }}"
+      ],
+      "name": "t:sections.custom-content.name",
+      "settings": {
+        "container": "full",
+        "color_scheme": "",
+        "enable_sticky_column": false,
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "column_gap": "none",
+        "row_gap": "extra-small",
+        "swipe_on_mobile": false,
+        "columns_mobile": "1",
+        "padding_top": 0,
+        "padding_bottom": 16,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "video_hero_qjxhUU": {
+      "type": "video-hero",
+      "blocks": {
+        "heading_wPJq4T": {
+          "type": "heading",
+          "settings": {
+            "heading": "Video hero",
+            "heading_size": "h1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_dKXQer": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Use this text to share information about your brand with your customers. <br/>Describe a product, share announcements, or welcome customers to your store.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "button_6hDMWg": {
+          "type": "button",
+          "settings": {
+            "button_label": "Jetzt entdecken",
+            "button_link": "",
+            "button_style": "btn--underline"
+          }
+        }
+      },
+      "block_order": [
+        "heading_wPJq4T",
+        "text_dKXQer",
+        "button_6hDMWg"
+      ],
+      "disabled": true,
+      "name": "t:sections.video-hero.name",
+      "settings": {
+        "container": "full",
+        "video": "shopify://files/videos/NewHomepageVideo2 (1).mp4",
+        "video_url": "",
+        "description": "",
+        "video_height": "adapt",
+        "overlay_opacity": 0,
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "color_scheme": "scheme-inverse",
+        "content_position": "bottom-left",
+        "content_alignment": "left",
+        "video_mobile_height": "extra-large",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "custom_content_4GEama": {
+      "type": "custom-content",
+      "blocks": {
+        "image_EiCraM": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/brigitte-de-logo-vector_66e1e9a6-0c78-4162-8614-a0941751d95c.svg",
+            "width": "16%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_AewnVC": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Cosmopolitan_logo_black.png",
+            "width": "16%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_L9pbLm": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/brigitte-de-logo-vector_66e1e9a6-0c78-4162-8614-a0941751d95c.svg",
+            "width": "16%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_9NAXCQ": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/brigitte-de-logo-vector_66e1e9a6-0c78-4162-8614-a0941751d95c.svg",
+            "width": "16%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_pmH7VN": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/brigitte-de-logo-vector_66e1e9a6-0c78-4162-8614-a0941751d95c.svg",
+            "width": "16%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_tbYwBE": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/brigitte-de-logo-vector_66e1e9a6-0c78-4162-8614-a0941751d95c.svg",
+            "width": "16%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_EiCraM",
+        "image_AewnVC",
+        "image_L9pbLm",
+        "image_9NAXCQ",
+        "image_pmH7VN",
+        "image_tbYwBE"
+      ],
+      "disabled": true,
+      "name": "t:sections.custom-content.name",
+      "settings": {
+        "container": "fixed",
+        "color_scheme": "",
+        "enable_sticky_column": false,
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "column_gap": "small",
+        "row_gap": "inherit",
+        "swipe_on_mobile": true,
+        "columns_mobile": "2",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "custom_content_ArQKiM": {
+      "type": "custom-content",
+      "blocks": {
+        "collections_XkxbRW": {
+          "type": "collections",
+          "settings": {
+            "collection_list": [
+              "all"
+            ],
+            "hide_collection_name": true,
+            "button_label": "",
+            "button_style": "btn--underline",
+            "limit": 4,
+            "columns": 4,
+            "column_gap": "extra-small",
+            "row_gap": "inherit",
+            "enable_slider": false,
+            "pcard_image_ratio": "",
+            "columns_mobile": "2",
+            "swipe_on_mobile": true,
+            "width": "100%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        }
+      },
+      "block_order": [
+        "collections_XkxbRW"
+      ],
+      "custom_css": [
+        ".product-card__title {white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}",
+        ".section__content {padding-left: 1.5rem; padding-right: 1.5rem;}"
+      ],
+      "name": "t:sections.custom-content.name",
+      "settings": {
+        "container": "full",
+        "color_scheme": "",
+        "enable_sticky_column": false,
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "column_gap": "medium",
+        "row_gap": "large",
+        "swipe_on_mobile": false,
+        "columns_mobile": "1",
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "custom_content_EK4bVJ": {
+      "type": "custom-content",
+      "blocks": {
+        "image_card_kdVfjb": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/Website_Images_Template_5.png",
+            "image_ratio": "1/1",
+            "image_overlay_opacity": 10,
+            "heading": "Bettwäsche",
+            "heading_size": "h5",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "",
+            "button_style": "btn--primary",
+            "content_position": "bottom-left",
+            "content_alignment": "center",
+            "content_spacing": "small",
+            "card_link": "",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "50%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_card_8468g8": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/blog_image3.jpg",
+            "image_ratio": "1/1",
+            "image_overlay_opacity": 10,
+            "heading": "Decken & Kissen",
+            "heading_size": "h5",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "",
+            "button_style": "btn--primary",
+            "content_position": "bottom-left",
+            "content_alignment": "center",
+            "content_spacing": "small",
+            "card_link": "",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "50%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_card_kdVfjb",
+        "image_card_8468g8"
+      ],
+      "custom_css": [
+        ".f-grid--row-gap-extra-small {--row-gap: 1rem; --row-gap-mobile: 0rem;}",
+        "@media (max-width: 767px) {.card-media--small .content-overlay {--padding-y: 1.5rem; --padding-x: 1.5rem; } .h5 {font-size: 1.5rem; text-transform: uppercase; } .section--padding {padding-block-end: 0rem; }}"
+      ],
+      "name": "t:sections.custom-content.name",
+      "settings": {
+        "container": "full",
+        "color_scheme": "",
+        "enable_sticky_column": false,
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "column_gap": "extra-small",
+        "row_gap": "extra-small",
+        "swipe_on_mobile": false,
+        "columns_mobile": "1",
+        "padding_top": 0,
+        "padding_bottom": 16,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "video_hero_np4cbQ": {
+      "type": "video-hero",
+      "blocks": {
+        "heading_J8LeX3": {
+          "type": "heading",
+          "settings": {
+            "heading": "Video hero",
+            "heading_size": "h1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_n7jNze": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Use this text to share information about your brand with your customers. <br/>Describe a product, share announcements, or welcome customers to your store.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "button_GeAQbk": {
+          "type": "button",
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style": "btn--underline"
+          }
+        }
+      },
+      "block_order": [
+        "heading_J8LeX3",
+        "text_n7jNze",
+        "button_GeAQbk"
+      ],
+      "name": "t:sections.video-hero.name",
+      "settings": {
+        "container": "full",
+        "video": "shopify://files/videos/NewHomepageVideo3_a1b10b31-7110-4239-a9e8-e6a038ed73da.mp4",
+        "video_url": "",
+        "description": "",
+        "video_height": "adapt",
+        "overlay_opacity": 0,
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "color_scheme": "scheme-inverse",
+        "content_position": "bottom-left",
+        "content_alignment": "left",
+        "video_mobile_height": "large",
+        "padding_top": 0,
+        "padding_bottom": 16,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "custom_content_XCnW8a": {
+      "type": "custom-content",
+      "blocks": {
+        "collections_nVPXrL": {
+          "type": "collections",
+          "settings": {
+            "collection_list": [
+              "all"
+            ],
+            "hide_collection_name": true,
+            "button_label": "",
+            "button_style": "btn--underline",
+            "limit": 4,
+            "columns": 4,
+            "column_gap": "extra-small",
+            "row_gap": "inherit",
+            "enable_slider": false,
+            "pcard_image_ratio": "",
+            "columns_mobile": "2",
+            "swipe_on_mobile": true,
+            "width": "100%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        }
+      },
+      "block_order": [
+        "collections_nVPXrL"
+      ],
+      "custom_css": [
+        ".product-card__title {white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}",
+        ".section__content {padding-left: 1.5rem; padding-right: 1.5rem;}"
+      ],
+      "name": "t:sections.custom-content.name",
+      "settings": {
+        "container": "full",
+        "color_scheme": "",
+        "enable_sticky_column": false,
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "column_gap": "medium",
+        "row_gap": "large",
+        "swipe_on_mobile": false,
+        "columns_mobile": "1",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "testimonials_AdTjq8": {
+      "type": "testimonials",
+      "blocks": {
+        "testimonial_W3qqEN": {
+          "type": "testimonial",
+          "settings": {
+            "show_image": true,
+            "image": "shopify://shop_images/Website_Images_Template_5.png",
+            "text": "<p>Die Qualität der Bettwäsche ist außergewöhnlich – ich schlafe wie auf Wolken.</p>",
+            "author": "Maria S.",
+            "bio": "",
+            "product": "baumwolle-satin-deckenbezug",
+            "icon": "5-stars"
+          }
+        },
+        "testimonial_mKfeHw": {
+          "type": "testimonial",
+          "settings": {
+            "show_image": true,
+            "image": "shopify://shop_images/Website_Images_Template_5.png",
+            "text": "<p>Die Qualität der Bettwäsche ist außergewöhnlich – ich schlafe wie auf Wolken.</p>",
+            "author": "Maria S.",
+            "bio": "",
+            "product": "baumwolle-satin-deckenbezug",
+            "icon": "4-stars"
+          }
+        },
+        "testimonial_YxcdhN": {
+          "type": "testimonial",
+          "settings": {
+            "show_image": true,
+            "image": "shopify://shop_images/Website_Images_Template_5.png",
+            "text": "<p>Die Qualität der Bettwäsche ist außergewöhnlich – ich schlafe wie auf Wolken.</p>",
+            "author": "Maria S.",
+            "bio": "",
+            "product": "baumwolle-satin-deckenbezug",
+            "icon": "5-stars"
+          }
+        },
+        "testimonial_aQhdN7": {
+          "type": "testimonial",
+          "settings": {
+            "show_image": true,
+            "image": "shopify://shop_images/Website_Images_Template_5.png",
+            "text": "<p>Die Qualität der Bettwäsche ist außergewöhnlich – ich schlafe wie auf Wolken.</p>",
+            "author": "Maria S.",
+            "bio": "",
+            "product": "baumwolle-satin-deckenbezug",
+            "icon": "4-stars"
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_W3qqEN",
+        "testimonial_mKfeHw",
+        "testimonial_YxcdhN",
+        "testimonial_aQhdN7"
+      ],
+      "custom_css": [
+        ".page-width {padding-inline: 1.5rem;}",
+        ".testimonials-wrapper .f-column.swiper-slide {height: inherit;}",
+        ".testimonial--layout-2 {border: solid; border-width: 1px; border-color: #d4d4d4;}"
+      ],
+      "name": "Testimonials",
+      "settings": {
+        "color_scheme": "",
+        "heading": "Das sagen unsere Kund:innen",
+        "heading_size": "h2",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "card_color_scheme": "scheme-8",
+        "card_layout": "2",
+        "card_text_size": "text-base",
+        "columns_desktop": 3,
+        "column_gap": "medium",
+        "enable_slider": true,
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 40,
+        "padding_bottom": 64,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "custom_content_Bx7iBY": {
+      "type": "custom-content",
+      "blocks": {
+        "image_card_YeqpA7": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/blog_image3.jpg",
+            "image_ratio": "1/1",
+            "image_overlay_opacity": 10,
+            "heading": "Decken & Kissen",
+            "heading_size": "h5",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "",
+            "button_style": "btn--primary",
+            "content_position": "bottom-left",
+            "content_alignment": "center",
+            "content_spacing": "small",
+            "card_link": "",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "33%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_card_r4bbmh": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/Website_Images_Template_5.png",
+            "image_ratio": "1/1",
+            "image_overlay_opacity": 10,
+            "heading": "Bettwäsche",
+            "heading_size": "h5",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "",
+            "button_style": "btn--primary",
+            "content_position": "bottom-left",
+            "content_alignment": "center",
+            "content_spacing": "small",
+            "card_link": "",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "33%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_card_Ew9UTi": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/blog_image3.jpg",
+            "image_ratio": "1/1",
+            "image_overlay_opacity": 10,
+            "heading": "Decken & Kissen",
+            "heading_size": "h5",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "",
+            "button_style": "btn--primary",
+            "content_position": "bottom-left",
+            "content_alignment": "center",
+            "content_spacing": "small",
+            "card_link": "",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "33%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_card_YeqpA7",
+        "image_card_r4bbmh",
+        "image_card_Ew9UTi"
+      ],
+      "custom_css": [
+        ".f-grid--row-gap-extra-small {--row-gap: 1rem; --row-gap-mobile: 0rem;}",
+        "@media (max-width: 767px) {.card-media--small .content-overlay {--padding-y: 1.5rem; --padding-x: 1.5rem; } .h5 {font-size: 1.5rem; text-transform: uppercase; } .section--padding {padding-block-end: 0rem; }}"
+      ],
+      "name": "t:sections.custom-content.name",
+      "settings": {
+        "container": "full",
+        "color_scheme": "",
+        "enable_sticky_column": false,
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "column_gap": "extra-small",
+        "row_gap": "extra-small",
+        "swipe_on_mobile": false,
+        "columns_mobile": "1",
+        "padding_top": 0,
+        "padding_bottom": 16,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "image_with_text_overlay_HEUATk": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading_bWYBiw": {
+          "type": "heading",
+          "settings": {
+            "heading": "Image with text overlay",
+            "heading_size": "h1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_xEdiD6": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Use this text to share information about your brand with your customers. <br>Describe a product, share announcements, or welcome customers to your store.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "button_GigK6L": {
+          "type": "button",
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style": "btn--underline"
+          }
+        }
+      },
+      "block_order": [
+        "heading_bWYBiw",
+        "text_xEdiD6",
+        "button_GigK6L"
+      ],
+      "name": "t:sections.image-with-text-overlay.name",
+      "settings": {
+        "container": "full",
+        "image": "shopify://shop_images/shipping-email-image.jpg",
+        "desktop_height": "extra-large",
+        "overlay_opacity": 10,
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "color_scheme": "",
+        "content_position": "bottom-left",
+        "content_alignment": "left",
+        "mobile_height": "extra-large",
+        "padding_top": 0,
+        "padding_bottom": 16,
+        "custom_class": ""
+      }
+    },
+    "custom_content_XLeH4V": {
+      "type": "custom-content",
+      "blocks": {
+        "image_card_ywBncE": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/royfort-kadewe-10_11b15f9c-04b9-4e25-8d5a-d687e8709f3a.jpg",
+            "image_ratio": "3/4",
+            "image_overlay_opacity": 26,
+            "heading": "KaDeWe Berlin",
+            "heading_size": "h4",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "Mehr erfahren",
+            "button_style": "btn--underline",
+            "content_position": "bottom-left",
+            "content_alignment": "left",
+            "content_spacing": "small",
+            "card_link": "#",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "33%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_card_aq8LeV": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/royfort_standorte_hamburg_01.webp",
+            "image_ratio": "3/4",
+            "image_overlay_opacity": 26,
+            "heading": "Alsterhaus Hamburg",
+            "heading_size": "h4",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "Mehr erfahren",
+            "button_style": "btn--underline",
+            "content_position": "bottom-left",
+            "content_alignment": "left",
+            "content_spacing": "small",
+            "card_link": "#",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "33%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_card_ACHazG": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/royfort_standorte_muenchen_01.webp",
+            "image_ratio": "3/4",
+            "image_overlay_opacity": 26,
+            "heading": "Michel Bäder München",
+            "heading_size": "h4",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "Mehr erfahren",
+            "button_style": "btn--underline",
+            "content_position": "bottom-left",
+            "content_alignment": "left",
+            "content_spacing": "small",
+            "card_link": "#",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "33%",
+            "alignment": "end",
+            "block_custom_class": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_card_ywBncE",
+        "image_card_aq8LeV",
+        "image_card_ACHazG"
+      ],
+      "custom_css": [
+        ".f-grid--row-gap-extra-small {--row-gap: 1rem; --row-gap-mobile: 0rem;}",
+        "@media (max-width: 767px) {.card-media--small .content-overlay {--padding-y: 1.5rem; --padding-x: 1.5rem; } .h5 {font-size: 1.5rem; text-transform: uppercase; } .section--padding {padding-block-end: 0rem; }}"
+      ],
+      "name": "t:sections.custom-content.name",
+      "settings": {
+        "container": "full",
+        "color_scheme": "",
+        "enable_sticky_column": false,
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "column_gap": "extra-small",
+        "row_gap": "extra-small",
+        "swipe_on_mobile": false,
+        "columns_mobile": "1",
+        "padding_top": 0,
+        "padding_bottom": 16,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    }
+  },
+  "order": [
+    "custom_content_kJfyKb",
+    "video_hero_qjxhUU",
+    "custom_content_4GEama",
+    "custom_content_ArQKiM",
+    "custom_content_EK4bVJ",
+    "video_hero_np4cbQ",
+    "custom_content_XCnW8a",
+    "testimonials_AdTjq8",
+    "custom_content_Bx7iBY",
+    "image_with_text_overlay_HEUATk",
+    "custom_content_XLeH4V"
+  ]
+}

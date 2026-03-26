@@ -1,0 +1,146 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "Overlay group",
+  "type": "custom.overlay",
+  "sections": {
+    "cart-drawer": {
+      "type": "cart-drawer",
+      "settings": {
+        "show_cart_note": false,
+        "show_cart_discount": false,
+        "show_shipping_rates_calculator": false,
+        "show_free_shipping_goal": true,
+        "enable_cart_recommendations": true,
+        "cart_recommendations_heading": "Das könnte Ihnen gefallen",
+        "cart_recommendations_limit": 3
+      }
+    },
+    "search-drawer": {
+      "type": "search-drawer",
+      "settings": {}
+    },
+    "quick-view": {
+      "type": "quick-view",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {
+            "heading_size": "h2"
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "inventory": {
+          "type": "inventory",
+          "settings": {
+            "text_style": "body",
+            "inventory_threshold": 10,
+            "show_inventory_quantity": true
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "dropdown",
+            "swatch_type": "color_swatch",
+            "button_style": "circle",
+            "button_size": 40,
+            "size_title": "Size",
+            "size_chart_from_page": ""
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_quantity_selector": false,
+            "show_dynamic_checkout": false,
+            "show_gift_card_recipient": true
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "price",
+        "inventory",
+        "variant_picker",
+        "buy_buttons"
+      ],
+      "settings": {
+        "enable_video_looping": true
+      }
+    },
+    "popup": {
+      "type": "popup",
+      "blocks": {
+        "image": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Musselin_1.jpg",
+            "image_position": "left"
+          }
+        },
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Jetzt exklusive Vorteile sichern",
+            "text_size": "h1"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Melden Sie sich zu unserem Newsletter an und erhalten Sie Inspiration für Ihr Schlafzimmer.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "form": {
+          "type": "form",
+          "settings": {
+            "design": "design-2",
+            "button_label": "Jetzt anmelden"
+          }
+        },
+        "socials": {
+          "type": "socials",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "image",
+        "heading",
+        "text",
+        "form",
+        "socials"
+      ],
+      "settings": {
+        "enable": true,
+        "show_for_homepage_only": true,
+        "show_for_visitors_only": true,
+        "trigger_open": "delay",
+        "repeat_open": "every_day",
+        "alignment": "center",
+        "width": 880,
+        "show_teaser": false,
+        "teaser_button_text": "Newsletter",
+        "teaser_popup_bg": "#d63a2f",
+        "teaser_popup_text": "#ffffff"
+      }
+    }
+  },
+  "order": [
+    "cart-drawer",
+    "search-drawer",
+    "quick-view",
+    "popup"
+  ]
+}

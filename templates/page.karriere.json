@@ -1,0 +1,378 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "image_with_text_overlay_iL34L4": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading_ViEUjP": {
+          "type": "heading",
+          "settings": {
+            "heading": "{{ page.title }}",
+            "heading_size": "h1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_H6fEqk": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Use this text to share information about your brand with your customers. <br>Describe a product, share announcements, or welcome customers to your store.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "button_xyBdga": {
+          "type": "button",
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style": "btn--underline"
+          }
+        }
+      },
+      "block_order": [
+        "heading_ViEUjP",
+        "text_H6fEqk",
+        "button_xyBdga"
+      ],
+      "name": "t:sections.image-with-text-overlay.name",
+      "settings": {
+        "container": "full",
+        "image": "shopify://shop_images/shipping-email-image.jpg",
+        "desktop_height": "extra-large",
+        "overlay_opacity": 10,
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "color_scheme": "",
+        "content_position": "bottom-left",
+        "content_alignment": "left",
+        "mobile_height": "extra-large",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "custom_class": ""
+      }
+    },
+    "custom_content_7hMWMM": {
+      "type": "custom-content",
+      "blocks": {
+        "promotion_card_xhihyH": {
+          "type": "promotion_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/royfort_standorte_muenchen_01.webp",
+            "image_ratio": "3/4",
+            "image_overlay_opacity": 26,
+            "card_layout": "vertical-split",
+            "heading": "Position",
+            "heading_highlight_style": "none",
+            "heading_size": "h1",
+            "subheading": "Subheading",
+            "description": "<p>Hier steht eine kurze Beschreibung</p>",
+            "button_label": "Mehr erfahren",
+            "button_style": "btn--underline",
+            "card_link": "#",
+            "content_alignment": "left",
+            "width": "33%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "promotion_card_QP7CRP": {
+          "type": "promotion_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/royfort_standorte_muenchen_01.webp",
+            "image_ratio": "3/4",
+            "image_overlay_opacity": 26,
+            "card_layout": "vertical-split",
+            "heading": "Position",
+            "heading_highlight_style": "none",
+            "heading_size": "h1",
+            "subheading": "Subheading",
+            "description": "<p>Hier steht eine kurze Beschreibung</p>",
+            "button_label": "Mehr erfahren",
+            "button_style": "btn--underline",
+            "card_link": "#",
+            "content_alignment": "left",
+            "width": "33%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "promotion_card_P3rVfY": {
+          "type": "promotion_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/royfort_standorte_muenchen_01.webp",
+            "image_ratio": "3/4",
+            "image_overlay_opacity": 26,
+            "card_layout": "vertical-split",
+            "heading": "Position",
+            "heading_highlight_style": "none",
+            "heading_size": "h1",
+            "subheading": "Subheading",
+            "description": "<p>Hier steht eine kurze Beschreibung</p>",
+            "button_label": "Mehr erfahren",
+            "button_style": "btn--underline",
+            "card_link": "#",
+            "content_alignment": "left",
+            "width": "33%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        }
+      },
+      "block_order": [
+        "promotion_card_xhihyH",
+        "promotion_card_QP7CRP",
+        "promotion_card_P3rVfY"
+      ],
+      "name": "t:sections.custom-content.name",
+      "settings": {
+        "container": "fixed",
+        "color_scheme": "",
+        "enable_sticky_column": false,
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "column_gap": "medium",
+        "row_gap": "large",
+        "swipe_on_mobile": false,
+        "columns_mobile": "1",
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "featured_blog_c4by7D": {
+      "type": "featured-blog",
+      "disabled": true,
+      "name": "t:sections.featured-blog.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "heading": "Blog posts",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "blog": "",
+        "post_limit": 8,
+        "columns_desktop": 4,
+        "column_gap": "medium",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "card_title_size": "h3",
+        "show_date": false,
+        "show_excerpt": true,
+        "show_button": true,
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "video_hero_Q9M3Rt": {
+      "type": "video-hero",
+      "blocks": {
+        "heading_HrYj3h": {
+          "type": "heading",
+          "settings": {
+            "heading": "Video hero",
+            "heading_size": "h1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_xNxgLB": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Use this text to share information about your brand with your customers. <br/>Describe a product, share announcements, or welcome customers to your store.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "button_Q6KaCV": {
+          "type": "button",
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style": "btn--underline"
+          }
+        }
+      },
+      "block_order": [
+        "heading_HrYj3h",
+        "text_xNxgLB",
+        "button_Q6KaCV"
+      ],
+      "name": "t:sections.video-hero.name",
+      "settings": {
+        "container": "full",
+        "video": "shopify://files/videos/NewHomepageVideo3_a1b10b31-7110-4239-a9e8-e6a038ed73da.mp4",
+        "video_url": "",
+        "description": "",
+        "video_height": "adapt",
+        "overlay_opacity": 0,
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "color_scheme": "scheme-inverse",
+        "content_position": "bottom-left",
+        "content_alignment": "left",
+        "video_mobile_height": "large",
+        "padding_top": 0,
+        "padding_bottom": 16,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "custom_content_DUDJmq": {
+      "type": "custom-content",
+      "blocks": {
+        "image_card_RBEkNF": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/royfort-kadewe-10_11b15f9c-04b9-4e25-8d5a-d687e8709f3a.jpg",
+            "image_ratio": "3/4",
+            "image_overlay_opacity": 26,
+            "heading": "KaDeWe Berlin",
+            "heading_size": "h4",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "Mehr erfahren",
+            "button_style": "btn--underline",
+            "content_position": "bottom-left",
+            "content_alignment": "left",
+            "content_spacing": "small",
+            "card_link": "#",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "33%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_card_mgPVkN": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/royfort_standorte_hamburg_01.webp",
+            "image_ratio": "3/4",
+            "image_overlay_opacity": 26,
+            "heading": "Alsterhaus Hamburg",
+            "heading_size": "h4",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "Mehr erfahren",
+            "button_style": "btn--underline",
+            "content_position": "bottom-left",
+            "content_alignment": "left",
+            "content_spacing": "small",
+            "card_link": "#",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "33%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_card_YPGkBR": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/royfort_standorte_muenchen_01.webp",
+            "image_ratio": "3/4",
+            "image_overlay_opacity": 26,
+            "heading": "Michel Bäder München",
+            "heading_size": "h4",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "Mehr erfahren",
+            "button_style": "btn--underline",
+            "content_position": "bottom-left",
+            "content_alignment": "left",
+            "content_spacing": "small",
+            "card_link": "#",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "33%",
+            "alignment": "end",
+            "block_custom_class": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_card_RBEkNF",
+        "image_card_mgPVkN",
+        "image_card_YPGkBR"
+      ],
+      "custom_css": [
+        ".f-grid--row-gap-extra-small {--row-gap: 1rem; --row-gap-mobile: 0rem;}",
+        "@media (max-width: 767px) {.card-media--small .content-overlay {--padding-y: 1.5rem; --padding-x: 1.5rem; } .h5 {font-size: 1.5rem; text-transform: uppercase; } .section--padding {padding-block-end: 0rem; }}"
+      ],
+      "name": "t:sections.custom-content.name",
+      "settings": {
+        "container": "full",
+        "color_scheme": "",
+        "enable_sticky_column": false,
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "column_gap": "extra-small",
+        "row_gap": "extra-small",
+        "swipe_on_mobile": false,
+        "columns_mobile": "1",
+        "padding_top": 0,
+        "padding_bottom": 16,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "breadcrumbs_zf9HBa": {
+      "type": "breadcrumbs",
+      "custom_css": [
+        ".justify-center {justify-content: left;}"
+      ],
+      "name": "t:sections.breadcrumbs.name",
+      "settings": {
+        "text_alignment": "start"
+      }
+    }
+  },
+  "order": [
+    "image_with_text_overlay_iL34L4",
+    "custom_content_7hMWMM",
+    "featured_blog_c4by7D",
+    "main",
+    "video_hero_Q9M3Rt",
+    "custom_content_DUDJmq",
+    "breadcrumbs_zf9HBa"
+  ]
+}

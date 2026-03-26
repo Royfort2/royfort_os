@@ -1,0 +1,677 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumbs": {
+      "type": "breadcrumbs",
+      "settings": {
+        "text_alignment": "start"
+      }
+    },
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "badges": {
+          "type": "badges",
+          "settings": {
+            "show_soldout_badge": true,
+            "show_sale_badge": true,
+            "sale_badge_type": "percentage"
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "heading_size": "h1"
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "inventory": {
+          "type": "inventory",
+          "settings": {
+            "text_style": "body",
+            "inventory_threshold": 20,
+            "show_inventory_quantity": true
+          }
+        },
+        "description": {
+          "type": "description",
+          "disabled": true,
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "dropdown",
+            "swatch_type": "color_swatch",
+            "button_style": "standard",
+            "button_size": 40,
+            "size_title": "",
+            "size_chart_from_page": ""
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_quantity_selector": false,
+            "show_dynamic_checkout": false,
+            "show_gift_card_recipient": false
+          }
+        },
+        "icon_with_text": {
+          "type": "icon-with-text",
+          "settings": {
+            "layout": "horizontal",
+            "title_font": "body",
+            "title_size": "text-base",
+            "icon_1": "package",
+            "heading_1": "Orders over $800 ship free",
+            "icon_2": "arrow-up-left",
+            "heading_2": "30 day returns",
+            "icon_3": "star-four",
+            "heading_3": ""
+          }
+        },
+        "pickup_availability": {
+          "type": "pickup_availability",
+          "settings": {}
+        },
+        "complementary": {
+          "type": "complementary",
+          "settings": {
+            "block_heading": "Pairs well with",
+            "make_collapsible_row": false,
+            "icon": "tag",
+            "product_list_limit": 4,
+            "products_per_page": 1,
+            "image_ratio": "adapt",
+            "enable_quick_add": true
+          }
+        },
+        "collapsible-row-1": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Material & Care",
+            "icon": "none",
+            "content": "<h6><strong>Material:</strong></h6><ul><li><strong>Frame:</strong> Solid Wood</li><li><strong>Shelves:</strong> Engineered Wood with Veneer Finish</li><li><strong>Drawer:</strong> MDF with Metal Handles</li><li><strong>Legs:</strong> Metal with Powder-Coated Finish</li></ul><h6><strong>Care Instructions:</strong></h6><ul><li><strong>Cleaning:</strong> Wipe with a soft, dry cloth. Avoid using harsh chemicals or abrasive cleaners.</li><li><strong>Spills:</strong> Immediately blot any spills with a clean, dry cloth.</li><li><strong>Sunlight:</strong> Avoid prolonged exposure to direct sunlight to prevent fading.</li><li><strong>Maintenance:</strong> Periodically check and tighten any loose hardware.</li><li><strong>Protection:</strong> Use coasters or placemats to prevent damage from hot or wet items.</li></ul>",
+            "custom_liquid": "",
+            "page": "",
+            "default_open": false
+          }
+        },
+        "collapsible-row-2": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Dimensions",
+            "icon": "none",
+            "content": "<p><strong>Overall Dimensions:</strong> 30\" H x 48\" W x 20\" D</p><p><strong>Top Shelf:</strong> 28\" W x 18\" D</p><p><strong>Bottom Shelf:</strong> 28\" W x 18\" D</p><p><strong>Drawer Dimensions:</strong> 24\" W x 15\" D x 6\" H</p><p><strong>Leg Height:</strong> 4\"</p>",
+            "custom_liquid": "",
+            "page": "",
+            "default_open": false
+          }
+        },
+        "collapsible-row-3": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Shipping & Returns",
+            "icon": "none",
+            "content": "<h6><strong>Shipping Policy</strong></h6><ul><li><strong>Shipping Time:</strong> Standard shipping takes 5-7 business days. Expedited options are available at checkout.</li><li><strong>Shipping Areas:</strong> We ship to all contiguous U.S. states. No shipping to Alaska, Hawaii, or international addresses.</li><li><strong>Tracking:</strong> A confirmation email with a tracking number is sent once your order is shipped.</li></ul><h6><strong>Returns Policy</strong></h6><ul><li><strong>Return Window:</strong> Returns are accepted within 30 days of delivery.</li><li><strong>Return Process:</strong> Contact us with your order number and reason for return. We will provide return authorization and instructions.</li><li><strong>Refunds:</strong> Once we receive and inspect the returned item, a refund will be issued to your original payment method within 7-10 business days. Shipping fees are non-refundable.</li></ul><p>For questions or concerns, contact customer service at <a href=\"/pages/contact\" title=\"Contact\">contact us</a>.</p>",
+            "custom_liquid": "",
+            "page": "",
+            "default_open": false
+          }
+        },
+        "addons": {
+          "type": "addons",
+          "settings": {
+            "show_share": true,
+            "show_ask_question": true
+          }
+        }
+      },
+      "block_order": [
+        "badges",
+        "title",
+        "price",
+        "inventory",
+        "description",
+        "variant_picker",
+        "buy_buttons",
+        "icon_with_text",
+        "pickup_availability",
+        "complementary",
+        "collapsible-row-1",
+        "collapsible-row-2",
+        "collapsible-row-3",
+        "addons"
+      ],
+      "custom_css": [
+        ".loox-rating {margin-top: -1rem;}",
+        ".complementary-products__container .product-card__wrapper .btn--secondary {background-color: transparent;}"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "enable_sticky_info": true,
+        "media_size": "large",
+        "gallery_layout": "grid-mix",
+        "mobile_thumbnails": "hide",
+        "enable_image_zoom": true,
+        "enable_video_looping": true,
+        "padding_top": 0,
+        "padding_bottom": 100
+      }
+    },
+    "testimonials_8JHr3L": {
+      "type": "testimonials",
+      "blocks": {
+        "testimonial_dhi3Xf": {
+          "type": "testimonial",
+          "settings": {
+            "show_image": true,
+            "text": "<p>“Hands down one of the best shirts I’ve ever owned.  Fits great, feels amazing, seems to stay cool and is somewhat water resistant.”</p>",
+            "author": "Melissa H.",
+            "bio": "Verified Buyer",
+            "product": "",
+            "icon": "none"
+          }
+        },
+        "testimonial_D7Mq7i": {
+          "type": "testimonial",
+          "settings": {
+            "show_image": true,
+            "text": "<p>\"This decor furniture piece is a perfect blend of modern and classic design. The quality is top-notch.\"</p>",
+            "author": "Alexandra M.",
+            "bio": "Verified Buyer",
+            "product": "",
+            "icon": "none"
+          }
+        },
+        "testimonial_33tAjm": {
+          "type": "testimonial",
+          "settings": {
+            "show_image": true,
+            "text": "<p>\"Absolutely love this furniture! It's both stylish and functional, with a sturdy build that ensures durability.\"</p><p></p>",
+            "author": "Danielle S.",
+            "bio": "Verified Buyer",
+            "product": "",
+            "icon": "none"
+          }
+        },
+        "testimonial_dDRMwy": {
+          "type": "testimonial",
+          "settings": {
+            "show_image": true,
+            "text": "<p>\"The craftsmanship is impeccable, and the design is stunning. Highly recommend for any home!\"</p>",
+            "author": "Elizabeth R.",
+            "bio": "Verified Buyer",
+            "product": "",
+            "icon": "none"
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_dhi3Xf",
+        "testimonial_D7Mq7i",
+        "testimonial_33tAjm",
+        "testimonial_dDRMwy"
+      ],
+      "custom_css": [],
+      "settings": {
+        "color_scheme": "scheme-3",
+        "heading": "People are talking",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "card_color_scheme": "",
+        "card_layout": "2",
+        "card_text_size": "text-base",
+        "columns_desktop": 3,
+        "column_gap": "medium",
+        "enable_slider": true,
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 100,
+        "padding_bottom": 100,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "image_with_text_MgddA8": {
+      "type": "image-with-text",
+      "blocks": {
+        "subheading_XLgqVJ": {
+          "type": "subheading",
+          "settings": {
+            "subheading": "THE TIRED MAN"
+          }
+        },
+        "heading_J7mctK": {
+          "type": "heading",
+          "settings": {
+            "heading": "Offers a plush, soothing retreat after your day.",
+            "heading_size": "h1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_A3Dahr": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Considered one of Denmark’s greatest and most influential architects, Mogens Lassen pioneered Danish Functionalism, taking his cues from Bauhaus sensibilities. His interior designs are a natural continuation of his architectural approach and add energy and atmosphere to everyday living spaces and tasks. From decorative objects to larger furniture designs, his designs delicately balance presence without drawing undue attention, finding their natural place in any space.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "button_iVbnNU": {
+          "type": "button",
+          "settings": {
+            "button_label": "Learn more",
+            "button_link": "",
+            "button_style": "btn--secondary"
+          }
+        }
+      },
+      "block_order": [
+        "subheading_XLgqVJ",
+        "heading_J7mctK",
+        "text_A3Dahr",
+        "button_iVbnNU"
+      ],
+      "custom_css": [
+        "@media (max-width: 767.98px) {.image-with-text .image-with-text__inner {padding-top: 4.8rem; }}"
+      ],
+      "settings": {
+        "section_color_scheme": "",
+        "color_scheme": "scheme-1",
+        "image_height": "adapt",
+        "layout": "text_first",
+        "desktop_content_position": "center",
+        "desktop_content_alignment": "left",
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "mobile_content_alignment": "left",
+        "padding_top": 100,
+        "padding_bottom": 0,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "multicolumn_KPiiAW": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_BR9bh4": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image_width": "full",
+            "title": "Showroom",
+            "heading_size": "h3",
+            "text": "<p>Experience design for living at our flagship showroom located in Boston’s South End.</p>",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_empPwk": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image_width": "full",
+            "title": "Interior work",
+            "heading_size": "h3",
+            "text": "<p>Designing spaces with precision, curated materials, and purposeful, aesthetic execution.</p>",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_9jdGhL": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image_width": "full",
+            "title": "Authentic design",
+            "heading_size": "h3",
+            "text": "<p>We offer authentic, lasting pieces—chosen for their ethical integrity and timeless aesthetic appeal.</p>",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_G8cg7U": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image_width": "full",
+            "title": "Custom additions",
+            "heading_size": "h3",
+            "text": "<p>Crafting refined interiors through tailored elements, thoughtful design, and craftsmanship.</p>",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        }
+      },
+      "block_order": [
+        "column_BR9bh4",
+        "column_empPwk",
+        "column_9jdGhL",
+        "column_G8cg7U"
+      ],
+      "custom_css": [
+        ".multicolumn__items {align-items: center;}",
+        ".rich-text__heading {max-width: 630px; margin: 0 auto;}",
+        "@media (min-width: 768px) {.f-grid--gap-extra-large {--column-gap: 8.2rem; } .multicolumn-card__info .multicolumn-card__title {font-size: var(--font-h3-size); } .multicolumn-card__image {--image-spacing-bottom: 1.6rem; }}"
+      ],
+      "settings": {
+        "color_scheme": "",
+        "heading": "Change the look of your house, change the perspective of others",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "column_alignment": "left",
+        "columns_desktop": 4,
+        "column_gap": "extra-large",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 100,
+        "padding_bottom": 0,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "image_with_text_overlay_NjBNje": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading_zWnWFe": {
+          "type": "heading",
+          "settings": {
+            "heading": "Designed by Flemming Lassen",
+            "heading_size": "hd2",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_QnRp8y": {
+          "type": "text",
+          "settings": {
+            "text": "<p>A timeless icon, the mid-century armchair, The Tired Man, lets you sink into its plush and comforting embrace after a long day.</p>",
+            "text_size": "text-base"
+          }
+        }
+      },
+      "block_order": [
+        "heading_zWnWFe",
+        "text_QnRp8y"
+      ],
+      "custom_css": [
+        ".image-with-text-ovelay__content-wrapper .rich-text {max-width: 578px;}"
+      ],
+      "settings": {
+        "container": "full",
+        "desktop_height": "adapt",
+        "overlay_opacity": 20,
+        "enable_parallax": true,
+        "parallax_direction": "vertical",
+        "color_scheme": "",
+        "content_position": "middle-center",
+        "content_alignment": "center",
+        "mobile_height": "adapt",
+        "padding_top": 100,
+        "padding_bottom": 0,
+        "custom_class": ""
+      }
+    },
+    "image_with_text_zQ9iit": {
+      "type": "image-with-text",
+      "blocks": {
+        "subheading_yBQcFf": {
+          "type": "subheading",
+          "settings": {
+            "subheading": "THE TIRED MAN"
+          }
+        },
+        "heading_9Y3zkK": {
+          "type": "heading",
+          "settings": {
+            "heading": "Experience plush comfort in a refined retreat.",
+            "heading_size": "h1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_UWkrNW": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Escape to relaxation with this unique table retreat, designed for plush comfort. Sink into soft, luxurious seating that cradles your body, offering a perfect blend of style and coziness. Ideal for unwinding, reading, or enjoying a drink, this retreat provides an elegant and serene ambiance. Indulge in a sanctuary where you can relax and rejuvenate, experiencing comfort like never before. Embrace the ultimate retreat for your leisure moments, combining elegance with unmatched comfort.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "button_Wd3LCE": {
+          "type": "button",
+          "settings": {
+            "button_label": "Learn more",
+            "button_link": "",
+            "button_style": "btn--secondary"
+          }
+        }
+      },
+      "block_order": [
+        "subheading_yBQcFf",
+        "heading_9Y3zkK",
+        "text_UWkrNW",
+        "button_Wd3LCE"
+      ],
+      "custom_css": [
+        "@media (max-width: 767.98px) {.image-with-text .image-with-text__inner {padding-top: 4.8rem; }}",
+        "@media (min-width: 768px) {.image-with-text__wrapper {--gap-x: 3rem; }}",
+        "@media (min-width: 1280px) {.image-with-text__inner {--padding-x: 9rem; }}"
+      ],
+      "settings": {
+        "section_color_scheme": "",
+        "color_scheme": "scheme-1",
+        "image_height": "adapt",
+        "layout": "image_first",
+        "desktop_content_position": "center",
+        "desktop_content_alignment": "left",
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "mobile_content_alignment": "left",
+        "padding_top": 100,
+        "padding_bottom": 0,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "multicolumn_RFyHwL": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_HV3JHQ": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image_width": "large",
+            "title": "Free & fast delivery",
+            "heading_size": "h4",
+            "text": "<p>We offer free shipping with ground delivery to the lower 48 states.</p>",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_rpRxAB": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image_width": "large",
+            "title": "Online support",
+            "heading_size": "h4",
+            "text": "<p>Online Support24 hours a day,<br/>7 days a week</p>",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_e7raAD": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image_width": "large",
+            "title": "30 Days return",
+            "heading_size": "h4",
+            "text": "<p>Exchange or return items free of charge within 30 days.</p>",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_NxYagA": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image_width": "large",
+            "title": "Flexible payment",
+            "heading_size": "h4",
+            "text": "<p>Pay conveniently using multiple credit cards for added flexibility.</p>",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        }
+      },
+      "block_order": [
+        "column_HV3JHQ",
+        "column_rpRxAB",
+        "column_e7raAD",
+        "column_NxYagA"
+      ],
+      "custom_css": [
+        ".multicolumn-card--image-large {--image-width-mobile: 4rem;}",
+        ".f-grid--gap-extra-large {--column-gap: 6rem; --column-gap-mobile: 2.4rem; --row-gap-mobile: 2.4rem;}",
+        "@media (max-width: 767px) {.multicolumn-card {display: grid; grid-template-columns: 40px 1fr; gap: 1.2rem; }}"
+      ],
+      "settings": {
+        "color_scheme": "",
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "column_alignment": "left",
+        "columns_desktop": 4,
+        "column_gap": "extra-large",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "layered_images_with_text_zGqjLj": {
+      "type": "layered-images-with-text",
+      "blocks": {
+        "image_QbQjPc": {
+          "type": "image",
+          "settings": {
+            "custom_classes": "media-mover-reverse"
+          }
+        },
+        "image_Xqm79B": {
+          "type": "image",
+          "settings": {
+            "custom_classes": "media-mover-reverse"
+          }
+        },
+        "image_6C3Jwc": {
+          "type": "image",
+          "settings": {
+            "custom_classes": "media-mover"
+          }
+        },
+        "image_VVbbWM": {
+          "type": "image",
+          "settings": {
+            "custom_classes": "media-mover"
+          }
+        },
+        "image_MJY9pE": {
+          "type": "image",
+          "settings": {
+            "custom_classes": "media-mover-reverse-slower"
+          }
+        }
+      },
+      "block_order": [
+        "image_QbQjPc",
+        "image_Xqm79B",
+        "image_6C3Jwc",
+        "image_VVbbWM",
+        "image_MJY9pE"
+      ],
+      "custom_css": [
+        ".section-layered-images-with-text .section__header .section__heading {max-width: 380px; margin: 0 auto;}"
+      ],
+      "settings": {
+        "color_scheme": "scheme-3",
+        "heading": "WE’RE ON GRAM",
+        "heading_size": "hd1",
+        "heading_highlight_style": "none",
+        "subheading": "Renovate your home",
+        "description": "",
+        "description_size": "text-base",
+        "button_label": "@inove_store",
+        "button_link": "",
+        "button_style": "btn--secondary",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    }
+  },
+  "order": [
+    "breadcrumbs",
+    "main",
+    "testimonials_8JHr3L",
+    "image_with_text_MgddA8",
+    "multicolumn_KPiiAW",
+    "image_with_text_overlay_NjBNje",
+    "image_with_text_zQ9iit",
+    "multicolumn_RFyHwL",
+    "layered_images_with_text_zGqjLj"
+  ]
+}

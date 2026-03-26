@@ -1,0 +1,447 @@
+{{ 'section-products-bundle.css' | asset_url | stylesheet_tag }}
+{%- liquid
+  assign has_products = false
+  assign loading = 'lazy'
+  assign fetchpriority = 'auto'
+  if section.index <= 2
+    assign loading = 'eager'
+    assign fetchpriority = 'high'
+  endif
+  assign motion_delay = 50
+-%}
+{% style %}
+  #shopify-section-{{ section.id }} {
+    --section-padding-top: {{ section.settings.padding_top }}px;
+    --section-padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+{% endstyle %}
+
+{% render 'divider',
+  show_divider: section.settings.show_section_divider,
+  divider_width: section.settings.divider_width
+%}
+
+<div class="products-bundle page-width section--padding color-{{ section.settings.color_scheme }}{% if section.settings.custom_class != blank %} {{ section.settings.custom_class }}{% endif %}">
+  <products-bundle class="products-bundle__wrapper f-grid items-center lg:f-grid-2-cols">
+    <div class="products-bundle__image relative overflow-hidden blocks-radius">
+      <motion-element
+        class="block"
+        data-motion="zoom-out-sm"
+      >
+        <div
+          class="media-wrapper"
+          style="--aspect-ratio: {{ section.settings.image.aspect_ratio | default: '1/1' }};"
+        >
+          {%- if section.settings.image != blank -%}
+            {%- capture sizes -%}(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: 2 }}px, (min-width: 750px) calc((100vw - 8rem) / 2){%- endcapture -%}
+            {{
+              section.settings.image
+              | image_url: width: 1500
+              | image_tag:
+                loading: loading,
+                fetchpriority: fetchpriority,
+                sizes: sizes,
+                widths: '165, 360, 535, 750, 1100, 1500',
+                is: 'image-lazy'
+            }}
+          {%- else -%}
+            {{- 'collection-1' | placeholder_svg_tag: 'placeholder-svg' -}}
+          {%- endif -%}
+        </div>
+      </motion-element>
+
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign card_product = block.settings.product
+        -%}
+        {%- if card_product != blank -%}
+          <a
+            href="{{ card_product.url }}"
+            data-block-id="{{ block.id }}"
+            class="product-bundle-hotspot z-1 absolute"
+            style="--horizontal: {{ block.settings.horizontal_position }}%; --vertical: {{ block.settings.vertical_position }}%;"
+            {{ block.shopify_attributes }}
+          >
+            <motion-element
+              class="flex items-center justify-center color-{{ block.settings.color_scheme }}"
+              data-motion="zoom-in-lg"
+              data-motion-delay="{{ 150 | times: forloop.index }}"
+            >
+              {{- forloop.index -}}
+            </motion-element>
+          </a>
+        {%- else -%}
+          <div
+            data-block-id="{{ block.id }}"
+            class="product-bundle-hotspot z-1 absolute"
+            style="--horizontal: {{ block.settings.horizontal_position }}%; --vertical: {{ block.settings.vertical_position }}%;"
+            {{ block.shopify_attributes }}
+          >
+            <motion-element
+              class="flex items-center justify-center color-{{ block.settings.color_scheme }}"
+              data-motion="zoom-in-lg"
+              data-motion-delay="{{ 150 | times: forloop.index }}"
+            >
+              {{- forloop.index -}}
+            </motion-element>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+    <div class="products-bundle__content">
+      {% render 'section-heading', section_settings: section.settings, motion_delay: motion_delay %}
+      <motion-element data-motion="fade-up" data-motion-delay="{{ motion_delay }}" class="grid">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign card_product = block.settings.product
+          -%}
+          <product-bundle-variant-selector
+            data-block-id="{{ block.id }}"
+            class="product-bundle-card flex items-center gap-4"
+          >
+            {%- if card_product != blank -%}
+              {%- liquid
+                assign has_products = true
+              -%}
+              <div class="product-bundle-card__count flex items-center justify-center">{{ forloop.index }}</div>
+              {%- if card_product.featured_image -%}
+                <div class="product-bundle-card__image">
+                  <a href="{{ card_product.url }}" class="media-wrapper blocks-radius-md focus-inset">
+                    <motion-element class="block" data-motion="zoom-out-sm">
+                      {{
+                        card_product.featured_image
+                        | image_url: width: 500
+                        | image_tag:
+                          loading: 'lazy',
+                          widths: '80, 90, 160, 180',
+                          is: 'image-lazy',
+                          sizes: '(max-width: 767px) 80px, 90px'
+                      }}
+                    </motion-element>
+                  </a>
+                </div>
+              {%- endif -%}
+              <div class="product-bundle-card__details flex flex-col flex-grow gap-2">
+                <div class="product-bundle-card__title flex flex-col md:flex-row items-start justify-between gap-1">
+                  <a class="text-pcard-title" href="{{ card_product.url }}">{{ card_product.title }}</a>
+                  {%- render 'price',
+                    product: card_product,
+                    use_variant: true,
+                    price_regular_class: 'md:justify-end',
+                    price_sale_class: 'md:justify-end'
+                  -%}
+                </div>
+                {%- if card_product.available -%}
+                  <div class="product-bundle-card__option relative flex items-center{% if card_product.has_only_default_variant %} hidden{% endif %}">
+                    <select-element class="select-element relative flex items-center gap-2">
+                      <select
+                        name="id"
+                        class="form-control form-control--select"
+                        aria-label="Select variant"
+                        data-price_varies="{{ card_product.price_varies }}"
+                        data-compare_at_price_varies="{{ card_product.compare_at_price_varies }}"
+                      >
+                        {%- for variant in card_product.variants -%}
+                          <option
+                            {% if variant == product.selected_or_first_available_variant %}
+                              selected="selected"
+                            {% endif %}
+                            {% if variant.available == false %}
+                              disabled="disabled"
+                            {% endif %}
+                            value="{{ variant.id }}"
+                            data-available="{{ variant.available }}"
+                            data-price="{{ variant.price }}"
+                            data-compare_at_price="{{ variant.compare_at_price }}"
+                          >
+                            {{ variant.title }}
+                            {%- if variant.available == false %} - {{ 'products.product.sold_out' | t }}{% endif -%}
+                          </option>
+                        {%- endfor -%}
+                      </select>
+                      {%- render 'icon-caret-down', size: 'extra-small' -%}
+                    </select-element>
+                  </div>
+                {%- endif -%}
+              </div>
+            {%- else -%}
+              <div class="product-bundle-card__count flex items-center justify-center">{{ forloop.index }}</div>
+              <div class="product-bundle-card__image blocks-radius-md">
+                <motion-element class="block" data-motion="zoom-out-sm">
+                  {%- assign index = forloop.index | modulo: 3 | plus: 1 -%}
+                  {{ 'product-' | append: index | placeholder_svg_tag: 'placeholder-svg' }}
+                </motion-element>
+              </div>
+              <div class="product-bundle-card__details">
+                <div class="product-bundle-card__title">
+                  <p class="h5">{{ 'onboarding.product_title' | t }}</p>
+                </div>
+              </div>
+            {%- endif -%}
+          </product-bundle-variant-selector>
+        {%- endfor -%}
+      </motion-element>
+      {%- if has_products -%}
+        <motion-element
+          data-motion="fade-up"
+          data-motion-delay="150"
+          class="products-bundle__button flex flex-col justify-center items-center gap-4"
+        >
+          <div class="product-form__error-message blocks-radius-md alert alert--error" role="alert" hidden></div>
+          <button type="button" class="btn btn--primary">
+            <span>{{ 'products.product.add_all_to_cart' | t }}</span>
+            {%- render 'loading-spinner' -%}
+          </button>
+        </motion-element>
+      {%- endif -%}
+    </div>
+  </products-bundle>
+</div>
+{% schema %}
+{
+  "name": "t:sections.products-bundle.name",
+  "class": "products-bundle-section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "[Read How-to](https://foxecom.link/jvdmh8)"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.general.name"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:sections.all.image.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section_header.content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "t:sections.all.heading.label",
+      "default": "Build Your Own Basket"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "t:sections.all.text_size.heading.label",
+      "default": "h1",
+      "options": [
+        {
+          "value": "h6",
+          "label": "t:sections.all.text_size.options__h6.label"
+        },
+        {
+          "value": "h5",
+          "label": "t:sections.all.text_size.options__h5.label"
+        },
+        {
+          "value": "h4",
+          "label": "t:sections.all.text_size.options__h4.label"
+        },
+        {
+          "value": "h3",
+          "label": "t:sections.all.text_size.options__h3.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:sections.all.text_size.options__h2.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.text_size.options__h1.label"
+        },
+        {
+          "value": "hd3",
+          "label": "t:sections.all.text_size.options__hd3.label"
+        },
+        {
+          "value": "hd2",
+          "label": "t:sections.all.text_size.options__hd2.label"
+        },
+        {
+          "value": "hd1",
+          "label": "t:sections.all.text_size.options__hd1.label"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.highlight_text.header.content"
+    },
+    {
+      "type": "paragraph",
+      "content": "t:sections.all.highlight_text.paragraph.content"
+    },
+    {
+      "type": "select",
+      "id": "heading_highlight_style",
+      "label": "t:sections.all.highlight_text.settings.highlight_style.label",
+      "options": [
+        {
+          "value": "none",
+          "label": "t:sections.all.highlight_text.settings.highlight_style.options__1.label"
+        },
+        {
+          "value": "underline",
+          "label": "t:sections.all.highlight_text.settings.highlight_style.options__2.label"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "t:sections.all.subheading.label",
+      "default": "Bundle & save"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "t:sections.all.description.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 50,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 50,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.divider.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_section_divider",
+      "default": false,
+      "label": "t:sections.all.divider.settings.show_divider.label"
+    },
+    {
+      "type": "select",
+      "id": "divider_width",
+      "options": [
+        {
+          "value": "fixed",
+          "label": "t:sections.all.container.options__fixed.label"
+        },
+        {
+          "value": "full",
+          "label": "t:sections.all.container.options__full.label"
+        }
+      ],
+      "default": "fixed",
+      "label": "t:sections.all.divider.settings.divider_width.label",
+      "visible_if": "{{ section.settings.show_section_divider == true }}"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.custom_attr.header"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "t:sections.all.custom_attr.custom_class"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "t:sections.all.product.label",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "t:sections.all.product.label"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.all.hotspot.content"
+        },
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "t:sections.all.colors.label"
+        },
+        {
+          "type": "range",
+          "id": "horizontal_position",
+          "label": "t:sections.all.position.horizontal.label",
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "default": 30,
+          "unit": "%"
+        },
+        {
+          "type": "range",
+          "id": "vertical_position",
+          "label": "t:sections.all.position.vertical.label",
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "default": 30,
+          "unit": "%"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.products-bundle.name",
+      "blocks": [
+        {
+          "type": "product",
+          "settings": {
+            "horizontal_position": 30,
+            "vertical_position": 32
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "horizontal_position": 38,
+            "vertical_position": 60
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "horizontal_position": 65,
+            "vertical_position": 45
+          }
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer", "custom.overlay"]
+  }
+}
+{% endschema %}

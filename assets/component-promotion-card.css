@@ -1,0 +1,9 @@
+.card-promotion__subheading {
+  margin-bottom: 1.2rem;
+}
+.card-promotion__button {
+  margin-top: 1.2rem;
+}
+.card-promotion__description:not(:first-child) {
+  margin-top: 1.2rem;
+}

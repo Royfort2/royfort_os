@@ -1,0 +1,396 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "image_with_text_overlay_37pPBC": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading_NVB9zb": {
+          "type": "heading",
+          "settings": {
+            "heading": "{{ collection.title }}",
+            "heading_size": "h2",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_XafVaJ": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Use this text to share information about your brand with your customers. <br/>Describe a product, share announcements, or welcome customers to your store.</p>",
+            "text_size": "text-base"
+          }
+        }
+      },
+      "block_order": [
+        "heading_NVB9zb",
+        "text_XafVaJ"
+      ],
+      "name": "t:sections.image-with-text-overlay.name",
+      "settings": {
+        "container": "full",
+        "image": "shopify://shop_images/Musselin_d1ac143e-90e4-4825-bd62-e13f3ec94d0b.jpg",
+        "desktop_height": "small",
+        "overlay_opacity": 10,
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "color_scheme": "",
+        "content_position": "bottom-left",
+        "content_alignment": "left",
+        "mobile_height": "auto",
+        "padding_top": 0,
+        "padding_bottom": 16,
+        "custom_class": ""
+      }
+    },
+    "custom_content_JKUNNq": {
+      "type": "custom-content",
+      "blocks": {
+        "text_zUW6ii": {
+          "type": "text",
+          "settings": {
+            "heading": "",
+            "heading_size": "h1",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "text_size": "text-base",
+            "button_label": "Deckenbezug",
+            "button_link": "#",
+            "button_style": "btn--secondary",
+            "content_alignment": "left",
+            "width": "25%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        }
+      },
+      "block_order": [
+        "text_zUW6ii"
+      ],
+      "name": "t:sections.custom-content.name",
+      "settings": {
+        "container": "full",
+        "color_scheme": "",
+        "enable_sticky_column": false,
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "column_gap": "extra-small",
+        "row_gap": "inherit",
+        "swipe_on_mobile": true,
+        "columns_mobile": "2",
+        "padding_top": 0,
+        "padding_bottom": 16,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "banner": {
+      "type": "main-collection-banner",
+      "blocks": {
+        "collection_info_zUNyKV": {
+          "type": "collection_info",
+          "settings": {
+            "heading_size": "hd2",
+            "heading_tag": "h1",
+            "show_description": false,
+            "padding_top": 0,
+            "padding_bottom": 0
+          }
+        }
+      },
+      "block_order": [
+        "collection_info_zUNyKV"
+      ],
+      "disabled": true,
+      "custom_css": [],
+      "settings": {
+        "color_scheme": "scheme-inverse",
+        "text_alignment": "left",
+        "show_collection_image": true,
+        "image": "shopify://shop_images/jetztentdecken.jpg",
+        "image_overlay_opacity": 10,
+        "image_position": "as-bg",
+        "image_height": "extra-small",
+        "enable_parallax": true,
+        "parallax_direction": "vertical",
+        "image_height_mobile": "auto",
+        "padding_top": 16,
+        "padding_bottom": 16
+      }
+    },
+    "custom_content_RecVe9": {
+      "type": "custom-content",
+      "blocks": {
+        "image_card_3BJ74T": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-inverse",
+            "image": "shopify://shop_images/Baumwolle_21ebc951-cdcf-4a35-b29d-1b6f7b605faf.jpg",
+            "image_ratio": "4/3",
+            "image_overlay_opacity": 0,
+            "heading": "Baumwolle",
+            "heading_size": "h5",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "",
+            "button_style": "btn--primary",
+            "content_position": "bottom-left",
+            "content_alignment": "left",
+            "content_spacing": "small",
+            "card_link": "",
+            "color_scheme_mobile": "",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "16%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_card_yM4fdL": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-inverse",
+            "image": "shopify://shop_images/Baumwolle_21ebc951-cdcf-4a35-b29d-1b6f7b605faf.jpg",
+            "image_ratio": "4/3",
+            "image_overlay_opacity": 0,
+            "heading": "Baumwolle",
+            "heading_size": "h5",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "",
+            "button_style": "btn--primary",
+            "content_position": "bottom-left",
+            "content_alignment": "left",
+            "content_spacing": "small",
+            "card_link": "",
+            "color_scheme_mobile": "",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "16%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_card_JbyxxB": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-inverse",
+            "image": "shopify://shop_images/Baumwolle_21ebc951-cdcf-4a35-b29d-1b6f7b605faf.jpg",
+            "image_ratio": "4/3",
+            "image_overlay_opacity": 0,
+            "heading": "Baumwolle",
+            "heading_size": "h5",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "",
+            "button_style": "btn--primary",
+            "content_position": "bottom-left",
+            "content_alignment": "left",
+            "content_spacing": "small",
+            "card_link": "",
+            "color_scheme_mobile": "",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "16%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_card_M8KGEH": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-inverse",
+            "image": "shopify://shop_images/Baumwolle_21ebc951-cdcf-4a35-b29d-1b6f7b605faf.jpg",
+            "image_ratio": "4/3",
+            "image_overlay_opacity": 0,
+            "heading": "Baumwolle",
+            "heading_size": "h5",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "",
+            "button_style": "btn--primary",
+            "content_position": "bottom-left",
+            "content_alignment": "left",
+            "content_spacing": "small",
+            "card_link": "",
+            "color_scheme_mobile": "",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "16%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_card_weWWK7": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-inverse",
+            "image": "shopify://shop_images/Baumwolle_21ebc951-cdcf-4a35-b29d-1b6f7b605faf.jpg",
+            "image_ratio": "4/3",
+            "image_overlay_opacity": 0,
+            "heading": "Baumwolle",
+            "heading_size": "h5",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "",
+            "button_style": "btn--primary",
+            "content_position": "bottom-left",
+            "content_alignment": "left",
+            "content_spacing": "small",
+            "card_link": "",
+            "color_scheme_mobile": "",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "16%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_card_9iAHdF": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-inverse",
+            "image": "shopify://shop_images/Baumwolle_21ebc951-cdcf-4a35-b29d-1b6f7b605faf.jpg",
+            "image_ratio": "4/3",
+            "image_overlay_opacity": 0,
+            "heading": "Baumwolle",
+            "heading_size": "h5",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "",
+            "button_style": "btn--primary",
+            "content_position": "bottom-left",
+            "content_alignment": "left",
+            "content_spacing": "small",
+            "card_link": "",
+            "color_scheme_mobile": "",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "16%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_card_3BJ74T",
+        "image_card_yM4fdL",
+        "image_card_JbyxxB",
+        "image_card_M8KGEH",
+        "image_card_weWWK7",
+        "image_card_9iAHdF"
+      ],
+      "disabled": true,
+      "custom_css": [
+        ".card-media {--padding-y-mobile: 1.2rem;}",
+        "@media (max-width: 767px) {.card-media--mobile-content-below .bg-overlay {display: none !important; }}"
+      ],
+      "settings": {
+        "container": "fixed",
+        "color_scheme": "",
+        "enable_sticky_column": false,
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "column_gap": "extra-small",
+        "row_gap": "none",
+        "swipe_on_mobile": true,
+        "columns_mobile": "2",
+        "padding_top": 0,
+        "padding_bottom": 40,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "custom_css": [],
+      "settings": {
+        "color_scheme": "scheme-9",
+        "products_per_page": 15,
+        "columns_desktop": 3,
+        "grid_layout": "standard",
+        "pagination": "number",
+        "enable_color_swatch": true,
+        "enable_filtering": true,
+        "filter_type": "drawer",
+        "enable_sorting": true,
+        "expand_filter_groups": "Availability, Price, Color, Size, Product type",
+        "columns_mobile": "2",
+        "padding_top": 16,
+        "padding_bottom": 100,
+        "show_section_divider": false,
+        "divider_width": "fixed"
+      }
+    },
+    "featured_collection_n7AnqW": {
+      "type": "featured-collection",
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "header_layout": "vertical",
+        "heading": "Vervollständigen dein Schlaferlebnis",
+        "heading_size": "h3",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "show_collection_description": false,
+        "collection": "all",
+        "limit": 8,
+        "columns": 4,
+        "column_gap": "extra-small",
+        "row_gap": "inherit",
+        "grid_layout": "standard",
+        "enable_slider": true,
+        "controls_position": "inside",
+        "pcard_image_ratio": "",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "show_all_button_on_top": false,
+        "button_label": "",
+        "button_style": "btn--primary",
+        "padding_top": 64,
+        "padding_bottom": 100,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "breadcrumbs_Gxg9wp": {
+      "type": "breadcrumbs",
+      "settings": {
+        "text_alignment": "center"
+      }
+    }
+  },
+  "order": [
+    "image_with_text_overlay_37pPBC",
+    "custom_content_JKUNNq",
+    "banner",
+    "custom_content_RecVe9",
+    "product-grid",
+    "featured_collection_n7AnqW",
+    "breadcrumbs_Gxg9wp"
+  ]
+}
