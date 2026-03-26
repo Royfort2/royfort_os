@@ -429,7 +429,7 @@
         </div>
       {%- endif -%}
       <span class="product-card__title text-pcard-title">
-        <a class="reversed-link" href="{{ product.url }}">{{- product.title -}}</a>
+        <a href="{{ product.url }}">{{- product.title -}}</a>
       </span>
       {% render 'price', product: product, alignment: settings.pcard_content_alignment %}
       {%- if show_color_swatches -%}

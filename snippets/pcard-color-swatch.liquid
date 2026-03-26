@@ -79,7 +79,6 @@
     {%- if swatch_count > max_swatch_count -%}
       <a
         href="{{ product.url }}"
-        class="reversed-link"
         aria-controls="{{ quick_view_modal_id }}"
         aria-expanded="false"
         >+{{ swatch_count | minus: max_swatch_count -}}

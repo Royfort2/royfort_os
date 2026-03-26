@@ -44,6 +44,15 @@
     border-color: rgb(var(--color-foreground));
 }
 
+.we-product-card .product-card__title {
+    font-size: 1.4rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%;
+    letter-spacing: -0.14px;
+    text-transform: uppercase;
+}
+
 /* Stamped collection badge — reserve space; widget injects stars + rating + count */
 .we-product-card__stamped .stamped-product-reviews-badge {
     display: block !important;
