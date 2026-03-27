@@ -197,3 +197,15 @@
 .we-product-card .product-card__info .product-card__swatches {
     margin-top: 0.6rem;
 }
+
+.product-card__footnote {
+    position: absolute;
+    bottom: 0.8rem;
+    left: 0.8rem;
+    color: #FFF;
+    font-size: 1.2rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%;
+    letter-spacing: -0.12px;
+}

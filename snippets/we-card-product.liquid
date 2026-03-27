@@ -403,6 +403,9 @@
           {%- endfor -%}
         </div>
       {%- endif -%}
+      {%- if product.metafields.custom.is_excluded_from_sale -%}
+        <span class="product-card__footnote">{{ settings.pcard_excluded_from_sale_text }}</span>
+      {% endif %}
       {%- if enable_quick_view -%}
         <button
           class="product-card__quickview btn btn--icon-circle {{ settings.quickview_button_style }} no-js-hidden"

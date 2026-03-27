@@ -978,6 +978,12 @@
         "content": "[Read How-to](https://foxecom.link/-ou_xy)"
       },
       {
+        "type": "text",
+        "id": "pcard_excluded_from_sale_text",
+        "label": "[we] Excluded from sale text",
+        "default": "Exkludiert von Aktionen"
+      },
+      {
         "type": "select",
         "id": "pcard_style",
         "options": [
