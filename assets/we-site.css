@@ -11,15 +11,21 @@
     position: relative;
 }
 
+.we-product-card__static-inner {
+    position: relative;
+}
+
 /* Opacity fade only while swapping variant slides — do NOT set transition on
    .swiper-wrapper by default or Swiper’s transform-based slide motion is lost. */
-.we-product-card__swiper .swiper-wrapper.we-product-card__slides-fade-out {
+.we-product-card__swiper .swiper-wrapper.we-product-card__slides-fade-out,
+.we-product-card__static-inner.we-product-card__slides-fade-out {
     opacity: 0;
     transition: opacity 0.22s ease;
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .we-product-card__swiper .swiper-wrapper.we-product-card__slides-fade-out {
+    .we-product-card__swiper .swiper-wrapper.we-product-card__slides-fade-out,
+    .we-product-card__static-inner.we-product-card__slides-fade-out {
         transition-duration: 0.01ms;
     }
 }
@@ -42,6 +48,24 @@
 
 .swatches--product-card a.swatch-color.is-active {
     border-color: rgb(var(--color-foreground));
+}
+
+/* While pointer is over swatches, the card is still “hovered”, so theme.css would
+   fade main → second. Force main visible + second hidden so variant preview shows. */
+@media (min-width: 768px) {
+    .product-card.we-product-card.we-product-card--swatch-preview
+        .product-card__image-wrapper:not(.product-card__image-wrapper--main-only)
+        .product-card__image--main {
+        opacity: 1 !important;
+    }
+
+    .product-card.we-product-card.we-product-card--swatch-preview
+        .product-card__image-wrapper
+        .product-card__image--second {
+        opacity: 0 !important;
+        visibility: hidden !important;
+        transform: scale3d(1.08, 1.08, 1);
+    }
 }
 
 .we-product-card .product-card__title {

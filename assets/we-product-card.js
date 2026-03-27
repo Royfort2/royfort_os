@@ -13,18 +13,33 @@ if (!customElements.get('we-product-card')) {
         this.hoverBound = false;
         this.swatchPreviewBound = false;
         this.lastPreviewVariantId = null;
+        /** Non-swiper cards: swap variant images in .we-product-card__static-inner */
+        this.staticMode = false;
+        this.staticInnerEl = null;
         this.handleMediaEnter = this.handleMediaEnter.bind(this);
         this.handleMediaLeave = this.handleMediaLeave.bind(this);
         this.handleSwatchMouseOver = this.handleSwatchMouseOver.bind(this);
+        this.handleSwatchListEnter = this.handleSwatchListEnter.bind(this);
         this.handleSwatchListLeave = this.handleSwatchListLeave.bind(this);
       }
 
       connectedCallback() {
+        this.mediaLink = this.querySelector('.we-product-card__media-link');
+        this.initialVariantId = this.dataset.initialVariantId;
+        this.staticMode = this.dataset.static === 'true';
+        this.staticInnerEl = this.querySelector('.we-product-card__static-inner');
+
+        if (this.staticMode) {
+          if (!this.staticInnerEl) return;
+          this.wrapperEl = this.staticInnerEl;
+          this.card = this.closest('.product-card');
+          requestAnimationFrame(() => this.bindSwatchPreview());
+          return;
+        }
+
         this.swiperEl = this.querySelector('.we-product-card__swiper');
         this.paginationEl = this.querySelector('.we-product-card__pagination');
         this.wrapperEl = this.querySelector('.swiper-wrapper');
-        this.mediaLink = this.querySelector('.we-product-card__media-link');
-        this.initialVariantId = this.dataset.initialVariantId;
         if (!this.swiperEl || !this.wrapperEl) return;
 
         this.card = this.closest('.product-card');
@@ -41,6 +56,7 @@ if (!customElements.get('we-product-card')) {
       disconnectedCallback() {
         this.unbindHoverNavigation();
         this.unbindSwatchPreview();
+        this.card?.classList.remove('we-product-card--swatch-preview');
         this.destroyCarousel();
       }
 
@@ -83,16 +99,22 @@ if (!customElements.get('we-product-card')) {
         this.swatchList = this.card.querySelector('.swatches--product-card');
         if (!this.swatchList) return;
         this.swatchPreviewBound = true;
+        this.swatchList.addEventListener('mouseenter', this.handleSwatchListEnter);
         this.swatchList.addEventListener('mouseover', this.handleSwatchMouseOver);
         this.swatchList.addEventListener('mouseleave', this.handleSwatchListLeave);
       }
 
       unbindSwatchPreview() {
         if (!this.swatchList || !this.swatchPreviewBound) return;
+        this.swatchList.removeEventListener('mouseenter', this.handleSwatchListEnter);
         this.swatchList.removeEventListener('mouseover', this.handleSwatchMouseOver);
         this.swatchList.removeEventListener('mouseleave', this.handleSwatchListLeave);
         this.swatchPreviewBound = false;
         this.swatchList = null;
+      }
+
+      handleSwatchListEnter() {
+        this.card?.classList.add('we-product-card--swatch-preview');
       }
 
       handleSwatchMouseOver(event) {
@@ -106,6 +128,7 @@ if (!customElements.get('we-product-card')) {
 
       handleSwatchListLeave() {
         this.lastPreviewVariantId = null;
+        this.card?.classList.remove('we-product-card--swatch-preview');
         this.resetToInitialVariant();
       }
 
@@ -152,6 +175,14 @@ if (!customElements.get('we-product-card')) {
         const template = this.querySelector(`template[data-variant-id="${variantId}"]`);
         if (!template) return;
 
+        if (this.staticMode && this.staticInnerEl) {
+          const inner = template.content.querySelector('.we-product-card__static-inner');
+          if (!inner) return;
+          // No opacity fade: avoids blink and keeps swap instant (swiper path still fades).
+          this.staticInnerEl.innerHTML = inner.innerHTML;
+          return;
+        }
+
         this.fadeOutSwapIn(() => {
           this.wrapperEl.innerHTML = '';
           this.wrapperEl.appendChild(template.content.cloneNode(true));
@@ -169,6 +200,13 @@ if (!customElements.get('we-product-card')) {
       resetToInitialVariant() {
         const template = this.querySelector(`template[data-variant-id="${this.initialVariantId}"]`);
         if (!template) return;
+
+        if (this.staticMode && this.staticInnerEl) {
+          const inner = template.content.querySelector('.we-product-card__static-inner');
+          if (!inner) return;
+          this.staticInnerEl.innerHTML = inner.innerHTML;
+          return;
+        }
 
         this.fadeOutSwapIn(() => {
           this.wrapperEl.innerHTML = '';

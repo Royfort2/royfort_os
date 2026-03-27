@@ -111,6 +111,23 @@
   if use_swiper_effective and product.images.size > 1
     assign we_pcard_append_second = true
   endif
+
+  assign we_static_swatch_preview = false
+  if use_swiper_effective == false and show_color_swatches and first_media_type != 'video' and first_media_type != 'external_video' and featured_media != blank
+    assign we_static_swatch_preview = true
+  endif
+
+  assign we_static_append_second = false
+  if settings.pcard_show_second_img and product.images.size > 1 and product.images[1] != blank
+    assign we_static_append_second = true
+  endif
+
+  assign swatch_interactive_for_preview = false
+  if use_swiper_effective and swiper_interactive_swatches
+    assign swatch_interactive_for_preview = true
+  elsif we_static_swatch_preview
+    assign swatch_interactive_for_preview = true
+  endif
 -%}
 <div
   class="product-card we-product-card product-card-style-{{ settings.pcard_style }}{% if settings.pcard_style == 'card' %} color-{{ settings.pcard_color_scheme }}{% endif %}{{ card_wrapper_class }}{% if list_on_mobile %} product-card-list-on-mobile{% endif %}{% if use_swiper_effective %} we-product-card--swiper{% endif %}"
@@ -199,6 +216,87 @@
               {%- endfor -%}
             {%- endfor -%}
           {%- endif -%}
+        </we-product-card>
+      {%- elsif we_static_swatch_preview -%}
+        <we-product-card
+          class="block w-full we-product-card__host"
+          data-static="true"
+          data-initial-variant-id="{{ product.selected_or_first_available_variant.id }}"
+        >
+          <a
+            class="we-product-card__media-link block"
+            href="{{ product.url }}"
+            aria-label="{{ product.title | escape }}"
+            tabindex="-1"
+          >
+            <motion-element data-motion="zoom-out-sm" class="block">
+              <div class="we-product-card__static-inner">
+                {%- render 'we-pcard-variant-static-stack',
+                  product: product,
+                  variant: product.selected_or_first_available_variant,
+                  image_ratio: image_ratio,
+                  image_widths: image_widths,
+                  image_sizes: image_sizes,
+                  loading: loading,
+                  fetchpriority: fetchpriority,
+                  we_pcard_append_second: we_static_append_second
+                -%}
+              </div>
+            </motion-element>
+          </a>
+          {%- liquid
+            assign swatch_trigger = settings.color_swatch_trigger | downcase
+            assign variant_templates_done = false
+          -%}
+          {%- for option in product.options_with_values -%}
+            {%- liquid
+              assign option_name = option.name | downcase
+              assign is_color = false
+              if swatch_trigger contains option_name
+                assign is_color = true
+              elsif swatch_trigger contains 'color' and option_name contains 'colour'
+                assign is_color = true
+              endif
+              unless is_color
+                continue
+              endunless
+              if variant_templates_done
+                continue
+              endif
+              assign variant_templates_done = true
+              assign option_index = forloop.index0
+              assign values = ''
+              assign max_swatch_count = settings.pcard_maximum_swatches_to_show
+              assign tmpl_swatch_count = 0
+            -%}
+            {%- for variant in product.variants -%}
+              {%- liquid
+                assign value = variant.options[option_index]
+              -%}
+              {%- unless values contains value -%}
+                {%- liquid
+                  assign values = values | join: ',' | append: ',' | append: value | split: ','
+                  assign tmpl_swatch_count = tmpl_swatch_count | plus: 1
+                -%}
+                {%- if tmpl_swatch_count <= max_swatch_count -%}
+                  <template data-variant-id="{{ variant.id }}">
+                    <div class="we-product-card__static-inner">
+                      {%- render 'we-pcard-variant-static-stack',
+                        product: product,
+                        variant: variant,
+                        image_ratio: image_ratio,
+                        image_widths: image_widths,
+                        image_sizes: image_sizes,
+                        loading: 'lazy',
+                        fetchpriority: 'low',
+                        we_pcard_append_second: we_static_append_second
+                      -%}
+                    </div>
+                  </template>
+                {%- endif -%}
+              {%- endunless -%}
+            {%- endfor -%}
+          {%- endfor -%}
         </we-product-card>
       {%- else -%}
         <a href="{{ product.url }}" aria-label="{{ product.title | escape }}" tabindex="-1">
@@ -435,7 +533,7 @@
       {%- if show_color_swatches -%}
         {%- render 'pcard-color-swatch',
           product: product,
-          swatch_interactive: swiper_interactive_swatches,
+          swatch_interactive: swatch_interactive_for_preview,
           quick_view_modal_id: quick_view_modal_id
         -%}
       {%- endif -%}
