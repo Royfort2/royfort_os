@@ -71,7 +71,9 @@
 
   assign mobile_hide_quick_add = settings.pcard_mobile_hide_quick_add
 
-  assign custom_tags = product.tags | where: 'tag__'
+  assign custom_tags = product.tags | where: 'label_right_'
+  assign custom_tags_left = product.tags | where: 'label_left_'
+
 
   assign atc_button_tag = 'a'
   unless settings.pcard_choose_options_actions == 'product_page'
@@ -358,7 +360,7 @@
           </motion-element>
         </a>
       {%- endif -%}
-      {%- if product.available == false or on_sale or custom_tags.size > 0 -%}
+      {%- if product.available == false or on_sale or custom_tags.size > 0 or custom_tags_left.size > 0 -%}
         <div class="product-card__badge">
           {%- if product.available == false and show_soldout -%}
             <span class="f-badge f-badge--soldout" aria-hidden="true">
@@ -387,12 +389,17 @@
             <span class="f-badge f-badge--sale" aria-hidden="true">{{- sale_badge -}}</span>
           {%- endif -%}
           {%- for tag in custom_tags -%}
-            {%- liquid
+            {% comment %} {%- liquid
               assign tag_content = tag | split: '__' | last
               assign type = tag_content | split: '_' | first
               assign tag_name = tag_content | split: '_' | last
-            -%}
-            <span class="f-badge f-badge--{{ type }}">{{ tag_name }}</span>
+            -%} {% endcomment %}
+             {% assign tag_name = tag | split: 'label_right_' | last %}
+            <span class="f-badge f-badge--custom">{{ tag_name }}</span>
+          {%- endfor -%}
+          {%- for tag in custom_tags_left -%}
+            {% assign tag_name = tag | split: 'label_left_' | last %}
+            <span class="f-badge f-badge--custom">{{ tag_name }}</span>
           {%- endfor -%}
         </div>
       {%- endif -%}
