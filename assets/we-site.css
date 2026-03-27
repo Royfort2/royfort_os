@@ -187,3 +187,13 @@
     color: #FFFFFF;
     border: 1px solid rgb(var(--color-button));
 }
+
+.we-product-card .product-card__info {
+    gap: 0;
+}
+.we-product-card__stamped {
+    margin-bottom: 0.6rem;
+}
+.we-product-card .product-card__info .product-card__swatches {
+    margin-top: 0.6rem;
+}
