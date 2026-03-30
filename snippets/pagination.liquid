@@ -9,6 +9,7 @@
   Accepts:
   - paginate: {Object}
   - anchor: {String} (optional) This can be added so that on page reload it takes you to wherever you've placed your anchor tag.
+  - page_result_count: {Number} (optional) Items on the current page — used with infinite / load more to show “X of Y” and a progress bar.
 {% endcomment %}
 
 {%- if paginate.parts.size > 0 -%}
@@ -19,17 +20,50 @@
       aria-label="{{ 'general.pagination.label' | t }}"
     >
       {%- if type == 'infinite' or type == 'load_more' -%}
-        {%- if paginate.next -%}
-          <button
-            class="btn btn--primary"
-            action="{{ shop.url }}{{ paginate.next.url }}"
-            type="{{ type }}"
-            is="load-more-button"
-          >
-            <span>{{ 'general.pagination.show_more' | t }}</span>
-            {%- render 'loading-spinner' -%}
-          </button>
-        {%- endif -%}
+        {%- liquid
+          assign shown_total = nil
+          unless page_result_count == blank
+            assign shown_total = paginate.current_offset | plus: page_result_count
+          endunless
+          assign total_items = paginate.items
+          assign progress_percent = 100
+          if total_items > 0 and shown_total != nil
+            assign progress_percent = shown_total | times: 100 | divided_by: total_items
+            if progress_percent > 100
+              assign progress_percent = 100
+            endif
+          endif
+        -%}
+        <div class="pagination-load-more">
+          {%- if request.page_type == 'collection' and shown_total != nil and total_items > 0 -%}
+            <div class="pagination-load-more__progress">
+              <p class="pagination-load-more__label m-0" role="status">
+                {{ 'general.pagination.load_more_progress_html' | t: shown: shown_total, total: total_items }}
+              </p>
+              <div
+                class="pagination-load-more__track"
+                role="progressbar"
+                aria-valuenow="{{ shown_total }}"
+                aria-valuemin="0"
+                aria-valuemax="{{ total_items }}"
+                aria-label="{{ 'general.pagination.load_more_progress_aria' | t: shown: shown_total, total: total_items }}"
+              >
+                <span class="pagination-load-more__fill" style="--pagination-progress: {{ progress_percent }}%;"></span>
+              </div>
+            </div>
+          {%- endif -%}
+          {%- if paginate.next -%}
+            <button
+              class="btn btn--primary pagination-load-more__button"
+              action="{{ shop.url }}{{ paginate.next.url }}"
+              type="{{ type }}"
+              is="load-more-button"
+            >
+              <span>{{ 'general.pagination.show_more' | t }}</span>
+              {%- render 'loading-spinner' -%}
+            </button>
+          {%- endif -%}
+        </div>
       {%- else -%}
         <ul class="pagination__list list-unstyled flex items-center flex-wrap justify-center" role="list">
           {%- if paginate.previous -%}

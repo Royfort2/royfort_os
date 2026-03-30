@@ -290,3 +290,69 @@
 .collection__toolbar #ProductCount {
     color: #525252;
 }
+
+/* Load more / infinite: count + progress (PLP) */
+.pagination-load-more {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    width: 100%;
+    margin-top: 2.4rem;
+}
+
+/* Shrink-wraps to label text width; track matches label width */
+.pagination-load-more__progress {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: fit-content;
+    max-width: 100%;
+    gap: 1.2rem;
+}
+
+.pagination-load-more__label {
+    color: #525252;
+    font-size: 1.4rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    letter-spacing: -0.14px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.pagination-load-more__label .pagination-load-more__shown {
+    color: rgb(var(--color-foreground));
+}
+
+.pagination-load-more__track {
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    max-width: 100%;
+    height: 2px;
+    border-radius: 0;
+    background: rgba(var(--color-foreground), 0.25);
+    overflow: hidden;
+}
+
+.pagination-load-more__fill {
+    display: block;
+    height: 100%;
+    width: var(--pagination-progress, 0%);
+    max-width: 100%;
+    background: rgb(var(--color-foreground));
+    border-radius: inherit;
+    transition: width 0.35s ease;
+}
+
+.pagination-load-more__button {
+    align-self: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pagination-load-more__fill {
+        transition-duration: 0.01ms;
+    }
+ }

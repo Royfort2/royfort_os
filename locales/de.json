@@ -43,7 +43,9 @@
       "page": "Seite {{ number }}",
       "next": "Nächste",
       "previous": "Vorher",
-      "show_more": "Zeig mehr"
+      "show_more": "Mehr anzeigen",
+      "load_more_progress_html": "Sie haben <span class=\"pagination-load-more__shown\">{{ shown }}</span> von {{ total }} Produkte angesehen",
+      "load_more_progress_aria": "Sie haben {{ shown }} von {{ total }} Produkte angesehen"
     },
     "breadcrumbs": {
       "home": "Heim",
@@ -290,8 +292,8 @@
         "other": "{{ count }} ausgewählt"
       },
       "filter_selected_accessibility": "{{ type }} ({{ count }} Filter ausgewählt)",
-      "show_more": "Zeig mehr",
-      "show_less": "Zeige weniger",
+      "show_more": "Mehr anzeigen",
+      "show_less": "Weniger anzeigen",
       "max_price": "Der höchste Preis ist {{ price }}",
       "product_count": {
         "one": "{{ product_count }} von {{ count }} Produkt",

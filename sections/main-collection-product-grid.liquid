@@ -210,7 +210,7 @@
             </grid-list>
             {%- liquid
               if paginate.pages > 1
-                render 'pagination', paginate: paginate, type: section.settings.pagination
+                render 'pagination', paginate: paginate, type: section.settings.pagination, page_result_count: collection.products.size
               endif
             -%}
           </div>
