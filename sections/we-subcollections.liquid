@@ -54,27 +54,31 @@
    .section-{{  section.id }} .we-subcollections a.active {
     border-color: rgb(var(--color-foreground));
    }
-
 {% endstyle %}
 
-{% if collection.metafields.custom.plp_subcollections != blank or section.settings.collections != blank %}
+{% if collection.metafields.custom.plp_subcollections != blank or section.settings.subcollections != blank %}
   <div class="section-{{  section.id }} section-{{  section.id }}-padding">
     <div class="page-width we-subcollections">
       {% if collection.metafields.custom.plp_subcollections != blank %}
         {% for subcollection in collection.metafields.custom.plp_subcollections.value %}
-        <a
-          href="{{ subcollection.url }}"
-          {% if subcollection.url == collection.url %}
-            class="active"
-          {% endif %}
-        >
-          {{ subcollection.title }}
-        </a>
-      {% endfor %}
+          <a
+            href="{{ subcollection.url }}"
+            {% if subcollection.url == collection.url %}
+              class="active"
+            {% endif %}
+          >
+            {{ subcollection.title }}
+          </a>
+        {% endfor %}
       {% else %}
-        {% for collection in section.settings.collections %}
-          <a href="{{ collection.url }}" {% if collection.url == collection.url %}class="active"{% endif %}>
-            {{ collection.title }}
+        {% for subcollection in section.settings.subcollections %}
+          <a
+            href="{{ subcollection.url }}"
+            {% if subcollection.url == collection.url %}
+              class="active"
+            {% endif %}
+          >
+            {{ subcollection.title }}
           </a>
         {% endfor %}
       {% endif %}
@@ -91,10 +95,10 @@
       "content": "Will render subcollections from the metafield 'PLP: Subcollections'"
     },
     {
-        "type": "collection_list",
-        "id": "collections",
-        "label": "Collections",
-        "info": "If filled, will only render subcollections from the selected collections"
+      "type": "collection_list",
+      "id": "subcollections",
+      "label": "Subcollections",
+      "info": "If filled, will only render subcollections from the selected collections"
     },
     {
       "type": "header",
