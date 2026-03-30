@@ -278,6 +278,11 @@
     padding: 0 !important;
 }
 
+.facets-active {
+    margin-block-start: 0 !important;
+    margin-block-end: 1.6rem !important;
+}
+
 .collection__toolbar {
     margin: 0 !important;
 }
@@ -302,6 +307,61 @@
     --column-gap-mobile: 0.6rem;
     --row-gap: 2rem;
     --row-gap-mobile: 1.6rem;
+}
+
+/* Facets */
+#FacetDrawer .drawer__heading {
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 120%;
+}
+#FacetDrawer .accordion-details__summary .h4 {
+    font-size: 1.4rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    letter-spacing: -0.14px;
+    text-transform: uppercase;
+}
+#FacetDrawer .facet-accordion-details .accordion-details__summary {
+    padding-block: 1.6rem;
+}
+#FacetDrawer .facet-accordion-details:last-child {
+    border-block-end: 0.1rem solid rgb(var(--color-border));
+}
+#FacetDrawer .drawer__sticky--bottom {
+    padding-top: 1.6rem;
+}
+#FacetDrawer .facet-accordion-details .accordion-details__content {
+    margin-block-start: 0 !important;
+    padding-bottom: 1.6rem;
+}
+#FacetDrawer .facet-drawer__header {
+    padding: 1.6rem;
+    border-bottom: 1px solid rgb(var(--color-border));
+}
+#FacetDrawer .drawer__body {
+    padding-inline: 1.6rem;
+    padding-block-start: 0;
+}
+#FacetDrawer .accordion-details__content li label {
+    font-size: 1.4rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    letter-spacing: -0.14px;
+    text-transform: uppercase;
+}
+
+input:is([type=checkbox], [type=radio]) {
+    border-radius: 0;
+    width: 1.6rem;
+    height: 1.6rem;
+}
+input:is([type=checkbox], [type=radio])::after {
+    inset-inline-start: 0.5rem;
+    inset-block-start: 0.2rem;
 }
 
 /* Load more / infinite: count + progress (PLP) */

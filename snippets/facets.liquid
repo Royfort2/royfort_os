@@ -87,9 +87,9 @@
                   </small>
                 {%- endif -%}
               </span>
-              {%- render 'icon-plus-toggle' -%}
+              {%- render 'icon-plus-toggle', size: 'small' -%}
             </summary>
-            <div class="accordion-details__content parent-display flex flex-col gap-3">
+            <div class="accordion-details__content parent-display flex flex-col gap-2">
               {%- if is_color or filter.presentation == 'swatch' -%}
                 <ul class="swatches flex flex-wrap items-center">
                   {%- for filter_value in sorted_values -%}
@@ -161,7 +161,7 @@
                   {%- endfor -%}
                 </ul>
               {%- else -%}
-                <ul class="grid gap-3">
+                <ul class="grid f-grid-2-cols gap-3">
                   {%- for filter_value in sorted_values -%}
                     {%- liquid
                       assign filter_value_id = filter_id | append: '-' | append: forloop.index
@@ -186,9 +186,9 @@
                       >
                       <label for="{{ filter_value_id }}" class="flex items-center gap-1">
                         {{- filter_value.label | escape -}}
-                        <span class="text-sm{% unless filter_value.active %} text-subtext{% endunless %}"
+                        {% comment %} <span class="text-sm{% unless filter_value.active %} text-subtext{% endunless %}"
                           >({{ filter_value.count }})</span
-                        >
+                        > {% endcomment %}
                       </label>
                     </li>
                   {%- endfor -%}
@@ -232,7 +232,7 @@
           >
             <summary class="accordion-details__summary flex items-center justify-between">
               <span class="h4">{{- filter.label | escape -}}</span>
-              {%- render 'icon-plus-toggle' -%}
+              {%- render 'icon-plus-toggle', size: 'small' -%}
             </summary>
             <div class="accordion-details__content accordion-details__content--price">
               <price-range class="grid gap-6">
