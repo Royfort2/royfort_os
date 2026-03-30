@@ -301,6 +301,10 @@
         "one": "{{ count }} produs",
         "other": "{{ count }} produse"
       },
+      "product_count_html": {
+        "one": "<span>{{ count }}</span> produs",
+        "other": "<span>{{ count }}</span> produse"
+      },
       "reset": "Resetați",
       "sort_button": "Fel",
       "sort_by_label": "Filtrează după:",

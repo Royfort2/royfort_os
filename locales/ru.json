@@ -301,6 +301,10 @@
         "one": "{{ count }} товар",
         "other": "{{ count }} продуктов"
       },
+      "product_count_html": {
+        "one": "<span>{{ count }}</span> товар",
+        "other": "<span>{{ count }}</span> продуктов"
+      },
       "reset": "Перезагрузить",
       "sort_button": "Сортировать",
       "sort_by_label": "Сортировать по:",

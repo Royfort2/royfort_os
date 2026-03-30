@@ -72,30 +72,42 @@
           <div class="sticky-element grid gap-5 z-10" style="--sticky-offset: 0px;">
             {%- if enable_filtering or enable_sorting -%}
               <div class="collection__toolbar flex items-center justify-between">
-                {%- if filter_type == 'drawer' and collection.all_products_count > 0 and enable_filtering -%}
-                  {%- render 'facets-drawer', results: collection, enable_sorting: enable_sorting -%}
-                {%- endif -%}
-
-                {%- if filter_type == 'vertical' and collection.all_products_count > 0 and enable_filtering -%}
-                  <div class="flex xl:hidden">
-                    {%- render 'facets-drawer', results: collection, enable_sorting: enable_sorting -%}
-                  </div>
-                {%- endif -%}
-
                 <div class="gap-10 hidden md:flex items-center justify-between{% if filter_type == 'vertical' or enable_filtering == false %} xl:flex-grow{% endif %}">
                   {%- if collection.all_products_count > 0 -%}
                     <div data-facet-loading>
                       {%- render 'loading-spinner' -%}
                       <p id="ProductCount" class="m-0" role="status">
-                        {%- liquid
-                          if collection.results_count
-                            echo 'products.facets.filters_selected' | t: terms: collection.terms, count: collection.results_count
-                          elsif collection.products_count == collection.all_products_count
-                            echo 'products.facets.product_count_simple' | t: count: collection.products_count
-                          else
-                            echo 'products.facets.product_count' | t: product_count: collection.products_count, count: collection.all_products_count
-                          endif
-                        -%}
+                        {% if section.settings.render_variants %}
+                          {{ 'products.facets.product_count_html' | t: count: 0 }}
+                          <script>
+                            let products = {{ collection.products | json }};
+                            let color_option = '{{ settings.color_swatch_trigger }}'
+                            let count = 0;
+                            for (let product of products) {
+                              let unique_colors = [];
+                              let color_order = product.options.indexOf(color_option);
+                              for (let variant of product.variants) {
+                                if (variant.available) {
+                                  if (!unique_colors.includes(variant.options[color_order])) {
+                                    unique_colors.push(variant.options[color_order]);
+                                    count++;
+                                  }
+                                }
+                              }
+                            }
+                            document.querySelector('#ProductCount span').innerHTML = count;
+                          </script>
+                        {% else %}
+                          {%- liquid
+                            if collection.results_count
+                              echo 'products.facets.filters_selected' | t: terms: collection.terms, count: collection.results_count
+                            elsif collection.products_count == collection.all_products_count
+                              echo 'products.facets.product_count_simple' | t: count: collection.products_count
+                            else
+                              echo 'products.facets.product_count' | t: product_count: collection.products_count, count: collection.all_products_count
+                            endif
+                          -%}
+                        {% endif %}
                       </p>
                     </div>
                   {%- endif -%}
@@ -109,6 +121,16 @@
                     </div>
                   {%- endif -%}
                 </div>
+
+                {%- if filter_type == 'drawer' and collection.all_products_count > 0 and enable_filtering -%}
+                  {%- render 'facets-drawer', results: collection, enable_sorting: enable_sorting -%}
+                {%- endif -%}
+
+                {%- if filter_type == 'vertical' and collection.all_products_count > 0 and enable_filtering -%}
+                  <div class="flex xl:hidden">
+                    {%- render 'facets-drawer', results: collection, enable_sorting: enable_sorting -%}
+                  </div>
+                {%- endif -%}
 
                 <layout-switcher class="flex md:hidden gap-2" style="--buttons-width: 4rem;">
                   {%- for per_row in (1..2) -%}
@@ -230,6 +252,12 @@
       "step": 1,
       "default": 4,
       "label": "t:sections.main-collection-product-grid.settings.columns_desktop.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "render_variants",
+      "label": "[we] Render variants",
+      "default": false
     },
     {
       "type": "select",

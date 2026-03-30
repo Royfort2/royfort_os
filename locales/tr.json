@@ -301,6 +301,10 @@
         "one": "{{ count }} ürün",
         "other": "{{ count }} ürün"
       },
+      "product_count_html": {
+        "one": "<span>{{ count }}</span> ürün",
+        "other": "<span>{{ count }}</span> ürün"
+      },
       "reset": "Sıfırla",
       "sort_button": "Düzenlemek",
       "sort_by_label": "Göre sırala:",

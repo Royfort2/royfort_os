@@ -301,6 +301,10 @@
         "one": "{{ count }} produktas",
         "other": "{{ count }} produktai"
       },
+      "product_count_html": {
+        "one": "<span>{{ count }}</span> produktas",
+        "other": "<span>{{ count }}</span> produktai"
+      },
       "reset": "Nustatyti iš naujo",
       "sort_button": "Rūšiuoti",
       "sort_by_label": "Rūšiuoti pagal:",

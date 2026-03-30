@@ -301,6 +301,10 @@
         "one": "{{ count }} 产品",
         "other": "{{ count }} 个产品"
       },
+      "product_count_html": {
+        "one": "<span>{{ count }}</span> 个产品",
+        "other": "<span>{{ count }}</span> 个产品"
+      },
       "reset": "重置",
       "sort_button": "种类",
       "sort_by_label": "排序方式：",

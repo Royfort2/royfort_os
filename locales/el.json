@@ -301,6 +301,10 @@
         "one": "{{ count }} προϊόν",
         "other": "{{ count }} προϊόντα"
       },
+      "product_count_html": {
+        "one": "<span>{{ count }}</span> προϊόν",
+        "other": "<span>{{ count }}</span> προϊόντα"
+      },
       "reset": "Επαναφορά",
       "sort_button": "Είδος",
       "sort_by_label": "Ταξινόμηση κατά:",

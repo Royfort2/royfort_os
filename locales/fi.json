@@ -301,6 +301,10 @@
         "one": "{{ count }} tuote",
         "other": "{{ count }} tuotetta"
       },
+      "product_count_html": {
+        "one": "<span>{{ count }}</span> tuote",
+        "other": "<span>{{ count }}</span> tuotetta"
+      },
       "reset": "Nollaa",
       "sort_button": "Järjestellä",
       "sort_by_label": "Järjestä:",

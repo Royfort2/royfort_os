@@ -301,6 +301,10 @@
         "one": "{{ count }} sản phẩm",
         "other": "{{ count }} sản phẩm"
       },
+      "product_count_html": {
+        "one": "<span>{{ count }}</span> sản phẩm",
+        "other": "<span>{{ count }}</span> sản phẩm"
+      },
       "reset": "Cài lại",
       "sort_button": "Loại",
       "sort_by_label": "Sắp xếp theo:",

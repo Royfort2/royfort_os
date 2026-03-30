@@ -301,6 +301,10 @@
         "one": "{{ count }} product",
         "other": "{{ count }} producten"
       },
+      "product_count_html": {
+        "one": "<span>{{ count }}</span> product",
+        "other": "<span>{{ count }}</span> producten"
+      },
       "reset": "Opnieuw instellen",
       "sort_button": "Soort",
       "sort_by_label": "Sorteer op:",

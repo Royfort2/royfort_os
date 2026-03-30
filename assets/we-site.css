@@ -207,7 +207,7 @@
 
 .we-product-card .f-badge {
     padding: 0.2rem 0.8rem;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-style: normal;
     font-weight: 500;
     line-height: 150%;
@@ -268,4 +268,25 @@
     .we-product-card .product-card__swatches {
         font-size: 1rem;
     }
+}
+
+
+/* PLP */
+.facet-drawer-button {
+    border: none;
+    padding: 0 !important;
+}
+.collection__toolbar {
+    margin: 0 !important;
+}
+.collection__toolbar * {
+    color: rgb(var(--color-foreground));
+    font-size: 1.4rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    text-transform: none;
+}
+.collection__toolbar #ProductCount {
+    color: #525252;
 }

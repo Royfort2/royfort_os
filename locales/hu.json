@@ -301,6 +301,10 @@
         "one": "{{ count }} termék",
         "other": "{{ count }} termék"
       },
+      "product_count_html": {
+        "one": "<span>{{ count }}</span> termék",
+        "other": "<span>{{ count }}</span> termék"
+      },
       "reset": "Visszaállítás",
       "sort_button": "Fajta",
       "sort_by_label": "Rendezés:",

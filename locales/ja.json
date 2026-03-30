@@ -301,6 +301,10 @@
         "one": "{{ count }} 製品",
         "other": "{{ count }} 製品"
       },
+      "product_count_html": {
+        "one": "<span>{{ count }}</span> 製品",
+        "other": "<span>{{ count }}</span> 製品"
+      },
       "reset": "リセット",
       "sort_button": "選別",
       "sort_by_label": "並べ替え：",

@@ -301,6 +301,10 @@
         "one": "{{ count }} izdelek",
         "other": "{{ count }} izdelkov"
       },
+      "product_count_html": {
+        "one": "<span>{{ count }}</span> izdelek",
+        "other": "<span>{{ count }}</span> izdelkov"
+      },
       "reset": "Ponastaviti",
       "sort_button": "Razvrsti",
       "sort_by_label": "Razvrsti po:",
