@@ -1,0 +1,146 @@
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  {% liquid
+    assign rgb =  section.settings.background | color_to_rgb
+    assign tail = section.settings.opacity | prepend: ', ' | append: ')'
+  %}
+
+  .section-{{ section.id }} {
+    background-color: {{ rgb | replace: 'rgb', 'rgba' | replace: ')', tail }};
+  }
+
+   .section-{{  section.id }} .we-subcollections {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding-block: 1.6rem;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1.6rem;
+   }
+   .section-{{  section.id }} .we-subcollections::-webkit-scrollbar {
+    display: none;
+   }
+   .section-{{  section.id }} .we-subcollections a {
+    flex-shrink: 0;
+    color: #525252;
+    font-size: 1.4rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+    letter-spacing: -0.14px;
+    text-transform: uppercase;
+    padding-block: 0.4rem;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+    width: max-content;
+    white-space: nowrap;
+   }
+   .section-{{  section.id }} .we-subcollections a:hover,
+   .section-{{  section.id }} .we-subcollections a.active {
+    border-color: rgb(var(--color-foreground));
+   }
+
+{% endstyle %}
+
+{% if collection.metafields.custom.plp_subcollections != blank or section.settings.collections != blank %}
+  <div class="section-{{  section.id }} section-{{  section.id }}-padding">
+    <div class="page-width we-subcollections">
+      {% if collection.metafields.custom.plp_subcollections != blank %}
+        {% for subcollection in collection.metafields.custom.plp_subcollections.value %}
+        <a
+          href="{{ subcollection.url }}"
+          {% if subcollection.url == collection.url %}
+            class="active"
+          {% endif %}
+        >
+          {{ subcollection.title }}
+        </a>
+      {% endfor %}
+      {% else %}
+        {% for collection in section.settings.collections %}
+          <a href="{{ collection.url }}" {% if collection.url == collection.url %}class="active"{% endif %}>
+            {{ collection.title }}
+          </a>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "[we] Subcollections",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Will render subcollections from the metafield 'PLP: Subcollections'"
+    },
+    {
+        "type": "collection_list",
+        "id": "collections",
+        "label": "Collections",
+        "info": "If filled, will only render subcollections from the selected collections"
+    },
+    {
+      "type": "header",
+      "content": "Abstände und Hintergrund"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Hintergrund",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "opacity",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "label": "Deckkraft Hintergrund",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Abstand oben",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Abstand unten",
+      "default": 0
+    }
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "[we] Subcollections"
+    }
+  ]
+}
+{% endschema %}
