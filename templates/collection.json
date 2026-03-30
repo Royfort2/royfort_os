@@ -49,6 +49,23 @@
         "custom_class": ""
       }
     },
+    "we_subcollections_N4HKQf": {
+      "type": "we-subcollections",
+      "name": "[we] Subcollections",
+      "settings": {
+        "collections": [
+          "all",
+          "hotelbettwaesche",
+          "deckenbezuege",
+          "kissenbezuge",
+          "spannbettlaken"
+        ],
+        "background": "#FFFFFF",
+        "opacity": 1,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
     "banner": {
       "type": "main-collection-banner",
       "blocks": {
@@ -344,6 +361,7 @@
   },
   "order": [
     "image_with_text_overlay_37pPBC",
+    "we_subcollections_N4HKQf",
     "banner",
     "custom_content_RecVe9",
     "product-grid",
