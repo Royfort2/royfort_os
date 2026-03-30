@@ -104,7 +104,7 @@
       "type": "main-collection-product-grid",
       "custom_css": [],
       "settings": {
-        "color_scheme": "scheme-9",
+        "color_scheme": "scheme-1",
         "products_per_page": 15,
         "columns_desktop": 4,
         "render_variants": false,
