@@ -59,7 +59,7 @@
 <header
   data-section-id="{{ section.id }}"
   class="{{ classes }}"
-  {% if request.page_type == 'index' %}
+  {% if request.page_type == 'index' or request.page_type == 'collection' %}
     data-enable-transparent="{{ enable_transparent_header }}"
   {% endif %}
   {% if sticky_header != 'none' %}

@@ -122,7 +122,7 @@
   padding-inline: var(--page-padding);
 }
 .page-width--full {
-  --page-padding: 1.5rem;
+  --page-padding: 1.6rem;
   padding-inline: var(--page-padding);
 }
 
@@ -132,7 +132,7 @@
 }
 
 :root {
-  --page-padding: 1.5rem;
+  --page-padding: 1.6rem;
 }
 
 @media (min-width: 768px) {
@@ -153,7 +153,7 @@
     max-width: 93rem;
   }
   .page-width--small {
-    --page-padding: 1.5rem;
+    --page-padding: 1.6rem;
     max-width: 120rem;
   }
 }
@@ -2073,7 +2073,7 @@ summary::-webkit-details-marker {
 @media screen and (min-width: 1024px) {
   .main-content .shopify-challenge__container,
   .main-content .shopify-policy__container {
-    --page-padding: 1.5rem;
+    --page-padding: 1.6rem;
     max-width: 77rem;
     padding-block: 6rem;
   }

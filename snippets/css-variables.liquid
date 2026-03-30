@@ -18,7 +18,7 @@
   assign body_font_medium = settings.type_body_font | font_modify: 'weight', '500'
 
   assign body_line_height_scale = settings.body_font_size | minus: 16 | times: 0.025
-  assign body_line_height = 1.625 | plus: body_line_height_scale
+  assign body_line_height = 1.5 | plus: body_line_height_scale
 
   assign heading_font_mobile_ratio = settings.heading_mobile_scale | divided_by: 100.00
 
