@@ -3865,13 +3865,6 @@ input:is([type=radio])::after {
 .product-card__info.text-right .product-card__swatches {
   justify-content: flex-end;
 }
-.product-card__swatches {
-  color: #525252;
-  font-size: 1.2rem;
-  font-weight: 400;
-  line-height: 120%;
-  letter-spacing: -0.12px;
-}
 .product-card__type, .product-card__vendor {
   display: block;
   color: rgba(var(--color-foreground), 0.6);

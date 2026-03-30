@@ -24,6 +24,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+
     .we-product-card__swiper .swiper-wrapper.we-product-card__slides-fade-out,
     .we-product-card__static-inner.we-product-card__slides-fade-out {
         transition-duration: 0.01ms;
@@ -53,15 +54,11 @@
 /* While pointer is over swatches, the card is still “hovered”, so theme.css would
    fade main → second. Force main visible + second hidden so variant preview shows. */
 @media (min-width: 768px) {
-    .product-card.we-product-card.we-product-card--swatch-preview
-        .product-card__image-wrapper:not(.product-card__image-wrapper--main-only)
-        .product-card__image--main {
+    .product-card.we-product-card.we-product-card--swatch-preview .product-card__image-wrapper:not(.product-card__image-wrapper--main-only) .product-card__image--main {
         opacity: 1 !important;
     }
 
-    .product-card.we-product-card.we-product-card--swatch-preview
-        .product-card__image-wrapper
-        .product-card__image--second {
+    .product-card.we-product-card.we-product-card--swatch-preview .product-card__image-wrapper .product-card__image--second {
         opacity: 0 !important;
         visibility: hidden !important;
         transform: scale3d(1.08, 1.08, 1);
@@ -98,6 +95,18 @@
     padding: 0;
 }
 
+@media (max-width: 767.98px) {
+    .we-product-card .product-card__atc {
+        width: 2rem !important;
+        height: 2rem !important;
+    }
+
+    .we-product-card .product-card__atc svg {
+        width: 1.6rem !important;
+        height: 1.6rem !important;
+    }
+}
+
 .we-product-card .product-card__info {
     padding-top: 0.8rem;
 }
@@ -111,6 +120,12 @@
     text-transform: uppercase;
 }
 
+@media (max-width: 767.98px) {
+    .we-product-card .stamped-badge-caption {
+        font-size: 1rem;
+    }
+}
+
 .fa-star,
 .fa-star-checked,
 .fa-star-half-o,
@@ -122,20 +137,42 @@
 .stamped-badge-starrating {
     color: var(--color-foreground);
 }
+
 .stamped-badge-starrating .stamped-fa {
     display: inline-flex;
 }
+
 .stamped-badge-starrating {
     display: flex;
 }
-[class*=" stamped-fa-"]:before, [class*=" stamped-icon-"]:before, [class^=fa-]:before, [class^=stamped-fa-]:before, [class^=stamped-icon-]:before {
+
+[class*=" stamped-fa-"]:before,
+[class*=" stamped-icon-"]:before,
+[class^=fa-]:before,
+[class^=stamped-fa-]:before,
+[class^=stamped-icon-]:before {
     font-size: 1.2rem;
     width: 1.2rem;
     height: 1.2rem;
 }
+
 .stamped-badge {
     display: flex;
     align-items: center;
+}
+
+.stamped-badge-caption[data-reviews][data-label][data-version="2"]>span {
+    display: none !important;
+}
+
+.we-product-card .stamped-badge-caption[data-reviews][data-label][data-version="2"]:before {
+    content: '(';
+    margin-right: 0.2rem;
+}
+
+.we-product-card .stamped-badge-caption[data-reviews][data-label][data-version="2"]:after {
+    content: ')' !important;
+    margin-left: 0.2rem;
 }
 
 
@@ -158,6 +195,7 @@
 .we-product-card .f-price {
     margin: 0;
 }
+
 .we-product-card .f-price__regular {
     font-size: 1.4rem;
     font-style: normal;
@@ -168,7 +206,7 @@
 }
 
 .we-product-card .f-badge {
-    padding: 0.2rem 0.8rem; 
+    padding: 0.2rem 0.8rem;
     font-size: 1.4rem;
     font-style: normal;
     font-weight: 500;
@@ -182,6 +220,7 @@
     color: rgb(var(--color-button));
     border: 1px solid rgb(var(--color-button));
 }
+
 .we-product-card .f-badge--sale {
     background: rgb(var(--color-button));
     color: #FFFFFF;
@@ -191,9 +230,11 @@
 .we-product-card .product-card__info {
     gap: 0;
 }
+
 .we-product-card__stamped {
     margin-bottom: 0.6rem;
 }
+
 .we-product-card .product-card__info .product-card__swatches {
     margin-top: 0.6rem;
 }
@@ -208,4 +249,23 @@
     font-weight: 400;
     line-height: 130%;
     letter-spacing: -0.12px;
+}
+
+@media (max-width: 767.98px) {
+    .we-product-card .product-card__footnote {
+        font-size: 1rem;
+    }
+}
+
+.we-product-card .product-card__swatches {
+    color: #525252;
+    font-size: 1.2rem;
+    font-weight: 400;
+    line-height: 120%;
+    letter-spacing: -0.12px;
+}
+@media (max-width: 767.98px) {
+    .we-product-card .product-card__swatches {
+        font-size: 1rem;
+    }
 }
