@@ -121,15 +121,35 @@
             "col_span_mobile": "1",
             "row_span_mobile": 1
           }
+        },
+        "we_promo_4nLeiw": {
+          "type": "we_promo",
+          "settings": {
+            "color_scheme": "scheme-1",
+            "video_desktop": "shopify://files/videos/ROYFORT_LEFKADA_08_FINAL.mp4",
+            "video_url_desktop": "",
+            "video_mobile": "shopify://files/videos/600x600 (1).mp4",
+            "video_url_mobile": "",
+            "title": "Video Promo",
+            "description": "<p>Description</p>",
+            "button_label": "Button",
+            "button_url": "#",
+            "order_after": 22,
+            "col_span_desktop": 2,
+            "row_span_desktop": 2,
+            "col_span_mobile": "2",
+            "row_span_mobile": 1
+          }
         }
       },
       "block_order": [
-        "we_promo_NieM3F"
+        "we_promo_NieM3F",
+        "we_promo_4nLeiw"
       ],
       "custom_css": [],
       "settings": {
         "color_scheme": "scheme-1",
-        "products_per_page": 15,
+        "products_per_page": 18,
         "columns_desktop": 4,
         "render_variants": false,
         "grid_layout": "standard",
