@@ -199,7 +199,7 @@
         "button_style": "btn--primary",
         "padding_top": 64,
         "padding_bottom": 100,
-        "show_section_divider": false,
+        "show_section_divider": true,
         "divider_width": "fixed",
         "custom_class": ""
       }
