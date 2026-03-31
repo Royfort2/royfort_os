@@ -287,7 +287,8 @@
     margin: 0 !important;
 }
 
-.collection__toolbar * {
+.collection__toolbar .facet-drawer-button,
+.collection__toolbar #ProductCount {
     color: rgb(var(--color-foreground));
     font-size: 1.4rem;
     font-style: normal;
@@ -507,4 +508,22 @@ grid-list#ProductsList.products-list {
     line-height: 150%;
     letter-spacing: -0.14px;
     text-transform: uppercase;
+}
+
+/* PLP mobile */
+layout-switcher .btn {
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    width: 1.8rem;
+    height: 1.8rem;
+    color: #FFF;
+}
+layout-switcher .btn.btn--active {
+    color: rgb(var(--color-foreground)) !important;
+    background-color: transparent !important;
+}
+layout-switcher .btn::before,
+layout-switcher .btn::after {
+    content: none !important;
 }

@@ -2,7 +2,8 @@
   padding: 0;
 }
 .section--featured-collection .section__header-wrap {
-  padding-bottom: var(--header-padding-bottom);
+  /* padding-bottom: var(--header-padding-bottom); */
+  padding-bottom: var(--section-padding-top);
   gap: 2.4rem;
 }
 @media (max-width: 767.98px) {
