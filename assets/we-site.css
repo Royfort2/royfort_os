@@ -427,3 +427,71 @@ input:is([type=checkbox], [type=radio])::after {
         transition-duration: 0.01ms;
     }
 }
+
+
+/* Collection grid — uniform row height from tallest .we-product-card (--we-grid-row-height via we-collection-grid-row-height.js) */
+grid-list#ProductsList.products-list {
+    grid-auto-rows: var(--we-grid-row-height, auto);
+}
+
+/* Mobile layout switcher (facets.js LayoutSwitcher): 1-col mode forces full-width promos */
+@media (max-width: 767.98px) {
+    #ProductsList.f-grid-1-cols .we-collection-promo {
+        grid-column: span 1 !important;
+    }
+}
+
+/* Promo */
+.we-collection-promo .we-collection-promo__frame {
+    position: relative;
+}
+.we-collection-promo .we-collection-promo__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    color: #FFF;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2.4rem;
+    gap: 0.8rem;
+}
+.we-collection-promo__card,
+.we-collection-promo__frame,
+.we-collection-promo__media-layer,
+.we-collection-promo__media-fill,
+.we-collection-promo__media-fill > * {
+    height: 100%;
+}
+.we-collection-promo__media-fill > * {
+    object-fit: cover;
+}
+.we-collection-promo__card .we-collection-promo__media-fill > img {
+    transition: transform 0.3s ease;
+}
+.we-collection-promo__card:hover .we-collection-promo__media-fill > img {
+    transform: scale(1.05);
+}
+.we-collection-promo__title {
+    color: #FFF;
+    font-size: 2.4rem;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 120%;
+    letter-spacing: -0.24px;
+}
+.we-collection-promo__description {
+    color: #E5E5E5;
+    font-size: 1.6rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+}
+.we-collection-promo__actions * {
+    color: #FFF;
+    font-size: 1.4rem;
+    padding-bottom: 0 !important;
+}

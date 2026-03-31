@@ -1,6 +1,7 @@
 {{ 'collection.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'show-more.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'we-collection-grid-row-height.js' | asset_url }}" defer="defer"></script>
 {%- liquid
   assign current_filter_size = 0
   assign columns_desktop = section.settings.columns_desktop
@@ -177,7 +178,7 @@
             {%- endif -%}
             <grid-list
               id="ProductsList"
-              class="grid-list products-list f-grid md:f-grid-{{ columns_tablet }}-cols lg:f-grid-{{ columns_tablet_large }}-cols xl:f-grid-{{ columns_desktop }}-cols {{ default_grid_mobile }} f-grid--gap-custom"
+              class="grid-list products-list f-grid lg:f-grid-{{ columns_tablet_large }}-cols xl:f-grid-{{ columns_desktop }}-cols  f-grid--gap-custom {{ default_grid_mobile }}"
             >
               {%- for product in collection.products -%}
                 <div class="f-column card">
@@ -206,6 +207,13 @@
                     -%}
                   {%- endif -%}
                 </div>
+                {%- unless is_metro -%}
+                  {%- for block in section.blocks -%}
+                    {%- if block.type == 'we_promo' and block.settings.order_after == forloop.parentloop.index -%}
+                      {%- render 'we-collection-promo', block: block, image_sizes: image_sizes -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                {%- endunless -%}
               {%- endfor -%}
             </grid-list>
             {%- liquid
@@ -427,6 +435,142 @@
       "label": "t:sections.all.divider.settings.divider_width.label",
       "visible_if": "{{ section.settings.show_section_divider == true }}"
     }
-  ]
+  ],
+  "blocks": [
+    {
+      "type": "we_promo",
+      "name": "[we] Promo",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Promos are not shown when the collection grid layout is set to Metro."
+        },
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "Color scheme",
+          "default": "scheme-1"
+        },
+        {
+          "type": "header",
+          "content": "Desktop media"
+        },
+        {
+          "type": "video",
+          "id": "video_desktop",
+          "label": "Video (Shopify)"
+        },
+        {
+          "type": "video_url",
+          "id": "video_url_desktop",
+          "accept": ["youtube", "vimeo"],
+          "label": "Video URL (YouTube or Vimeo)"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_desktop",
+          "label": "Image",
+          "info": "Shown when no video is set, or as the poster for external video."
+        },
+        {
+          "type": "header",
+          "content": "Mobile media"
+        },
+        {
+          "type": "video",
+          "id": "video_mobile",
+          "label": "Video (Shopify)"
+        },
+        {
+          "type": "video_url",
+          "id": "video_url_mobile",
+          "accept": ["youtube", "vimeo"],
+          "label": "Video URL (YouTube or Vimeo)"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Image",
+          "info": "If empty, desktop media is used on small screens when possible."
+        },
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Button URL"
+        },
+        {
+          "type": "header",
+          "content": "Grid placement"
+        },
+        {
+          "type": "range",
+          "id": "order_after",
+          "min": 1,
+          "max": 48,
+          "step": 1,
+          "default": 3,
+          "label": "Show after product number",
+          "info": "The promo appears after this many products on the current page (e.g. 3 = after the third product card)."
+        },
+        {
+          "type": "range",
+          "id": "col_span_desktop",
+          "min": 1,
+          "max": 6,
+          "step": 1,
+          "default": 2,
+          "label": "Column span (desktop)"
+        },
+        {
+          "type": "range",
+          "id": "row_span_desktop",
+          "min": 1,
+          "max": 6,
+          "step": 1,
+          "default": 1,
+          "label": "Row span (desktop)"
+        },
+        {
+          "type": "select",
+          "id": "col_span_mobile",
+          "label": "Column span (mobile)",
+          "default": "2",
+          "options": [
+            { "value": "1", "label": "1" },
+            { "value": "2", "label": "2" }
+          ]
+        },
+        {
+          "type": "range",
+          "id": "row_span_mobile",
+          "min": 1,
+          "max": 6,
+          "step": 1,
+          "default": 1,
+          "label": "Row span (mobile)"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10
 }
 {% endschema %}
