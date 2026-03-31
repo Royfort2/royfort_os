@@ -66,6 +66,19 @@
   divider_width: section.settings.divider_width
 %}
 
+{% if section.settings.heading_styling == 'body' %}
+  {% style %}
+    .section-{{ section.id }} .section__heading {
+      font-family: 'GT America', Arial, sans-serif !important;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 120%;
+      letter-spacing: -0.24px;
+      text-transform: uppercase;
+    }
+  {% endstyle %}
+{% endif %}
+
 <div
   class="section section-{{ section.id }}{% if enable_slider %} slider-enabled{% endif %} section--featured-collection section-header-{{ header_layout }} section--padding page-width color-{{ section.settings.color_scheme }}{% if section.settings.custom_class != blank %} {{ section.settings.custom_class }}{% endif %}"
   style="--section-padding-top: {{ section.settings.padding_top }}px;--section-padding-bottom: {{ section.settings.padding_bottom }}px;"
@@ -284,6 +297,22 @@
           "label": "t:sections.all.text_size.options__hd1.label"
         }
       ]
+    },
+    {
+      "type": "select",
+      "id": "heading_styling",
+      "label": "[we] Heading styling",
+      "options": [
+        {
+          "value": "heading",
+          "label": "Heading"
+        },
+        {
+          "value": "body",
+          "label": "Body"
+        }
+      ],
+      "default": "body"
     },
     {
       "type": "header",
