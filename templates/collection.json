@@ -174,8 +174,9 @@
       "settings": {
         "color_scheme": "",
         "header_layout": "vertical",
-        "heading": "Vervollständigen dein Schlaferlebnis",
+        "heading": "ähnliche Produkte",
         "heading_size": "h3",
+        "heading_styling": "body",
         "heading_highlight_style": "none",
         "subheading": "",
         "description": "",
