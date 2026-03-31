@@ -2,6 +2,7 @@
 <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'show-more.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'we-collection-grid-row-height.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'we-facet-fab-visibility.js' | asset_url }}" defer="defer"></script>
 {%- liquid
   assign current_filter_size = 0
   assign columns_desktop = section.settings.columns_desktop
@@ -73,7 +74,7 @@
           <div class="sticky-element grid gap-5 z-10" style="--sticky-offset: 0px;">
             {%- if enable_filtering or enable_sorting -%}
               <div class="collection__toolbar flex items-center justify-between">
-                <div class="gap-10 hidden md:flex items-center justify-between{% if filter_type == 'vertical' or enable_filtering == false %} xl:flex-grow{% endif %}">
+                <div class="gap-10 flex items-center justify-between{% if filter_type == 'vertical' or enable_filtering == false %} xl:flex-grow{% endif %}">
                   {%- if collection.all_products_count > 0 -%}
                     <div data-facet-loading>
                       {%- render 'loading-spinner' -%}
@@ -124,7 +125,7 @@
                 </div>
 
                 {%- if filter_type == 'drawer' and collection.all_products_count > 0 and enable_filtering -%}
-                  {%- render 'facets-drawer', results: collection, enable_sorting: enable_sorting -%}
+                  {%- render 'facets-drawer', results: collection, enable_sorting: enable_sorting, classes: 'we-facet-drawer--mobile-fab' -%}
                 {%- endif -%}
 
                 {%- if filter_type == 'vertical' and collection.all_products_count > 0 and enable_filtering -%}

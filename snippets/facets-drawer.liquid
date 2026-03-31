@@ -14,9 +14,9 @@
   endfor
 -%}
 
-<div class="facet-drawer-wrapper">
+<div class="facet-drawer-wrapper {{ classes }}">
   <button
-    class="flex items-center gap-2 facet-drawer-button"
+    class="btn btn--secondary flex items-center gap-2 facet-drawer-button {{ button_classes }}"
     type="button"
     aria-controls="FacetDrawer"
     aria-expanded="false"
