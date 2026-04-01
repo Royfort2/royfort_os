@@ -40,18 +40,24 @@
   .product--medium .product__info-container {
     display: flex;
     justify-content: center;
+    /* padding-inline: var(--page-padding); */
   }
   .product--medium .product__info-container .product__blocks {
     max-width: 40rem;
-    padding-inline: var(--page-padding);
+    margin-inline: 16rem;
     padding-bottom: 8rem;
   }
   @media (max-width: 767.98px) {
     .product--medium > * {
       width: 100% !important;
     }
+    .product--medium .product__blocks {
+      padding-inline: var(--page-padding);
+    }
     .product--medium .product__info-container .product__blocks {
+      width: 100%;
       max-width: 100%;
+      margin-inline: 0;
     }
   }
 {% endstyle %}
