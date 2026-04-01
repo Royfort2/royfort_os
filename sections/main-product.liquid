@@ -118,6 +118,17 @@
   .product__block--variant_picker .product-form__input .option-name {
     color: #525252;
   }
+  .product__block--collapsible_tab .accordion-details__summary {
+    padding-block: 1.6rem;
+  }
+  .product__block--collapsible_tab .accordion-details__summary .h4 {
+    font-size: 1.4rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    letter-spacing: -0.14px;
+    text-transform: uppercase;
+  }
   @media (max-width: 767.98px) {
     .product--medium > * {
       width: 100% !important;
@@ -594,6 +605,22 @@
           "default": "Collapsible row",
           "info": "t:sections.main-product.blocks.collapsible_tab.settings.heading.info",
           "label": "t:sections.main-product.blocks.collapsible_tab.settings.heading.label"
+        },
+        {
+          "type": "select",
+          "id": "heading_styling",
+          "label": "[we] Heading styling",
+          "options": [
+            {
+              "value": "heading",
+              "label": "Heading"
+            },
+            {
+              "value": "body",
+              "label": "Body"
+            }
+          ],
+          "default": "body"
         },
         {
           "type": "select",

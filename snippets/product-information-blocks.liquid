@@ -194,6 +194,13 @@
                 aria-expanded="false"
               {% endif %}
             >
+              {% if block.settings.heading_styling == 'body' %}
+                {% style %}
+                  #Details-{{ block.id }}-{{ section.id }} .accordion-details__summary .h4 {
+                    font-family: 'GT America', Arial, sans-serif !important;
+                  }
+                {% endstyle %}
+              {% endif %}
               <summary class="accordion-details__summary flex items-center justify-between">
                 <div class="flex items-center gap-2">
                   {% render 'icons', icon: block.settings.icon %}
@@ -201,7 +208,7 @@
                     {{ block.settings.heading | default: block.settings.page.title | escape }}
                   </h2>
                 </div>
-                {%- render 'icon-plus-toggle' -%}
+                {%- render 'icon-plus-toggle', size: 'small' -%}
               </summary>
               <div class="accordion-details__content rte">
                 {{ block.settings.content }}
@@ -459,7 +466,7 @@
                       <h2 class="h4 complementary-products__heading">{{ block.settings.block_heading }}</h2>
                     {%- endif -%}
                     {%- if block.settings.make_collapsible_row -%}
-                      {%- render 'icon-plus-toggle' -%}
+                      {%- render 'icon-plus-toggle', size: 'small' -%}
                       </summary>
                       <div class="accordion-details__content">
                     {%- endif -%}
