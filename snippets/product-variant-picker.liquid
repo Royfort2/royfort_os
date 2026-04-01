@@ -37,7 +37,44 @@
           assign attach_size_chart = true
         endif
 
-        if block.settings.picker_type == 'button' and settings.color_swatch_trigger != blank
+        if block.settings.picker_type == 'custom_dropdown'
+          assign picker_type = 'dropdown'
+          if swatch_count > 0
+            assign picker_type = 'swatch_dropdown'
+          endif
+
+          assign is_color_option = false
+          if settings.color_swatch_trigger != blank
+            assign color_swatch_trigger_cd = settings.color_swatch_trigger | downcase | split: ','
+            assign has_color_cd = color_swatch_trigger_cd | where: option_name_downcase | first
+            if has_color_cd != blank
+              assign is_color_option = true
+            elsif option_name_downcase contains 'colour'
+              assign color_swatch_trigger_cd = color_swatch_trigger_cd | replace: 'color', 'colour'
+              assign has_color_cd = color_swatch_trigger_cd | where: option_name_downcase | first
+              if has_color_cd != blank
+                assign is_color_option = true
+              endif
+            endif
+          endif
+
+          if is_color_option
+            if block.settings.swatch_type == 'text'
+              assign picker_type = 'button'
+            else
+              assign picker_type = 'color'
+              if swatch_count > 0
+                if block.settings.swatch_type == 'shopify_swatch'
+                  assign picker_type = 'swatch'
+                elsif block.settings.swatch_type == 'variant_image' or block.settings.swatch_type == 'color_swatch'
+                  assign picker_type = 'color'
+                else
+                  assign picker_type = 'button'
+                endif
+              endif
+            endif
+          endif
+        elsif block.settings.picker_type == 'button' and settings.color_swatch_trigger != blank
           assign color_swatch_trigger = settings.color_swatch_trigger | downcase | split: ','
           assign has_color = color_swatch_trigger | where: option_name_downcase | first
           unless block.settings.swatch_type == 'text'
@@ -53,19 +90,21 @@
           endunless
         endif
 
-        if swatch_count > 0
-          if block.settings.picker_type == 'dropdown'
-            assign picker_type = 'swatch_dropdown'
-          else
-            if block.settings.swatch_type == 'shopify_swatch'
-              assign picker_type = 'swatch'
-            elsif block.settings.swatch_type == 'variant_image' or block.settings.swatch_type == 'color_swatch'
-              assign picker_type = 'color'
+        unless block.settings.picker_type == 'custom_dropdown'
+          if swatch_count > 0
+            if block.settings.picker_type == 'dropdown'
+              assign picker_type = 'swatch_dropdown'
             else
-              assign picker_type = 'button'
+              if block.settings.swatch_type == 'shopify_swatch'
+                assign picker_type = 'swatch'
+              elsif block.settings.swatch_type == 'variant_image' or block.settings.swatch_type == 'color_swatch'
+                assign picker_type = 'color'
+              else
+                assign picker_type = 'button'
+              endif
             endif
           endif
-        endif
+        endunless
 
         assign wrap_class = 'product-form__input product-form__input--' | append: picker_type
         case picker_type
