@@ -20,6 +20,25 @@
           <div class="product__block product__block--{{ block.type }}">
             {% render block %}
           </div>
+        {%- when 'stamped_reviews' -%}
+          <div
+            class="product__block product__block--{{ block.type }} product-card__stamped we-product-card__stamped text-left"
+            {{ block.shopify_attributes }}
+          >
+            {%- if settings.public_key_stamped != blank and settings.stamped_store_hash != blank -%}
+              {%- comment -%}
+                Collection / grid badge (Stamped docs): class stamped-product-reviews-badge only — not stamped-main-badge (product page) or stamped-toggle.
+              {%- endcomment -%}
+              <span
+                class="stamped-product-reviews-badge"
+                data-id="{{ product.id }}"
+                data-product-sku="{{ product.handle }}"
+                data-product-type="{{ product.type | escape }}"
+                data-product-title="{{ product.title | escape }}"
+                style="display: block;"
+              ></span>
+            {%- endif -%}
+          </div>
         {%- when 'text' -%}
           <div
             class="product__block rte product__block--{{ block.type }}"
@@ -59,19 +78,21 @@
                 <span class="text-sm text-subtext">{{ 'products.product.volume_pricing.note' | t }}</span>
               </div>
             {%- endif -%}
-            <div class="product__tax rte">
-              {%- if cart.taxes_included -%}
-                {{ 'products.product.include_taxes' | t }}
-              {%- endif -%}
-              {%- if shop.shipping_policy.body != blank -%}
-                {{ 'products.product.shipping_policy_html' | t: link: shop.shipping_policy.url }}
-              {%- endif -%}
-            </div>
-            {%- assign product_form_installment_id = 'product-form-installment-' | append: section.id -%}
+            {% if block.settings.show_tax_and_shipping %}
+              <div class="product__tax rte">
+                {%- if cart.taxes_included -%}
+                  {{ 'products.product.include_taxes' | t }}
+                {%- endif -%}
+                {%- if shop.shipping_policy.body != blank -%}
+                  {{ 'products.product.shipping_policy_html' | t: link: shop.shipping_policy.url }}
+                {%- endif -%}
+              </div>
+            {% endif %}
+            {% comment %} {%- assign product_form_installment_id = 'product-form-installment-' | append: section.id -%}
             {%- form 'product', product, id: product_form_installment_id, class: 'installment' -%}
               <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
               {{ form | payment_terms }}
-            {%- endform -%}
+            {%- endform -%} {% endcomment %}
           </div>
         {%- when 'inventory' -%}
           <div

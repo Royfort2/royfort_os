@@ -47,6 +47,40 @@
     margin-inline: 16rem;
     padding-bottom: 8rem;
   }
+  .product__block {
+    --product-blocks-gap: 2rem !important;
+    --product-blocks-gap-large: 2rem !important;
+  }
+  .product__block--stamped_reviews {
+    margin: 0 !important;
+  }
+  .product__block--stamped_reviews .stamped-product-reviews-badge:not(:empty) {
+    margin-bottom: 1.2rem !important;
+  }
+  .product__block--title {
+    margin: 0 !important;
+  }
+  .product__block--title .product__title {
+    font-size: 3.2rem;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 120%;
+  }
+  .product__block--price {
+    margin-top: 0 !important;
+  }
+  .product__block--price .f-price .f-price__regular,
+  .product__block--price .f-price .f-price__sale {
+    font-size: 1.6rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    letter-spacing: -0.16px;
+    text-transform: uppercase;
+  }
+  .product__block--price .f-price .f-price__sale {
+    color: rgb(var(--color-button));
+  }
   @media (max-width: 767.98px) {
     .product--medium > * {
       width: 100% !important;
@@ -152,6 +186,11 @@
       "type": "@app"
     },
     {
+      "type": "stamped_reviews",
+      "name": "Stamped Reviews",
+      "limit": 1
+    },
+    {
       "type": "text",
       "name": "t:sections.main-product.blocks.text.name",
       "settings": [
@@ -237,7 +276,15 @@
     {
       "type": "price",
       "name": "t:sections.main-product.blocks.price.name",
-      "limit": 1
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_tax_and_shipping",
+          "label": "Show tax and shipping",
+          "default": false
+        }
+      ]
     },
     {
       "type": "sku",

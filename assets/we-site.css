@@ -111,7 +111,8 @@
     padding-top: 0.8rem;
 }
 
-.we-product-card .stamped-badge-caption {
+.we-product-card .stamped-badge-caption,
+.product__block--stamped_reviews .stamped-badge-caption {
     color: #525252;
     font-size: 1.2rem;
     font-style: normal;
@@ -121,7 +122,9 @@
 }
 
 @media (max-width: 767.98px) {
-    .we-product-card .stamped-badge-caption {
+
+    .we-product-card .stamped-badge-caption,
+    .product__block--stamped_reviews .stamped-badge-caption {
         font-size: 1rem;
     }
 }
@@ -165,12 +168,14 @@
     display: none !important;
 }
 
-.we-product-card .stamped-badge-caption[data-reviews][data-label][data-version="2"]:before {
+.we-product-card .stamped-badge-caption[data-reviews][data-label][data-version="2"]:before,
+.product__block--stamped_reviews .stamped-badge-caption[data-reviews][data-label][data-version="2"]:before {
     content: '(';
     margin-right: 0.2rem;
 }
 
-.we-product-card .stamped-badge-caption[data-reviews][data-label][data-version="2"]:after {
+.we-product-card .stamped-badge-caption[data-reviews][data-label][data-version="2"]:after,
+.product__block--stamped_reviews .stamped-badge-caption[data-reviews][data-label][data-version="2"]:after {
     content: ')' !important;
     margin-left: 0.2rem;
 }
