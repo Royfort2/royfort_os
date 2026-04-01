@@ -273,6 +273,9 @@
 
 
 /* PLP */
+.collection-section:has(.section-divider) .section--padding {
+    padding-top: 1.2rem !important;
+}
 .facet-drawer-button {
     border: none;
     padding: 0 !important;
@@ -655,4 +658,16 @@ layout-switcher .btn.btn--active {
 layout-switcher .btn::before,
 layout-switcher .btn::after {
     content: none !important;
+}
+
+@media (max-width: 1023.98px) {
+    .collection.page-width {
+        padding-inline: 0 !important;
+    }
+    .collection .collection__toolbar {
+        padding-inline: var(--page-padding) !important;
+    }
+    .collection .we-product-card .product-card__info {
+        padding-inline: 0.8rem !important;
+    }
 }
