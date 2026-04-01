@@ -35,6 +35,9 @@
     assign fetchpriority = 'high'
   endif
 -%}
+{%- liquid
+  assign media_alt_stripped = media.alt | strip
+-%}
 {%- capture sizes -%}
 {%- if desktop_columns > 1 -%}
 (max-width: 768px) calc(100vw - 3rem), calc(((min({{ settings.page_width | plus: 30 }}px, 100vw) * {{ media_width }}) - 4.5rem - {{ desktop_columns | times: 1 | minus: 1 }}rem) / {{ desktop_columns }})
@@ -49,6 +52,10 @@
   data-media-id="{{ media.id }}"
   data-media-type="{{ media.media_type }}"
   data-media-index="{{ position }}"
+  data-media-alt="{{ media_alt_stripped | escape }}"
+  {% if media_alt_stripped == blank %}
+    data-media-filter-global="true"
+  {% endif %}
   data-src="{{ media.preview_image | image_url: width: 1946 }}"
   data-pswp-width="{{ media.preview_image.width }}"
   data-pswp-height="{{ media.preview_image.width | divided_by: media.preview_image.aspect_ratio | ceil }}"

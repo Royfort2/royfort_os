@@ -12,6 +12,26 @@
 {%- liquid
   assign media_count = product.media.size
 
+  assign color_option_index = 0
+  if settings.color_swatch_trigger != blank
+    assign trigger_list = settings.color_swatch_trigger | downcase | split: ','
+    for option in product.options_with_values
+      assign opt_name = option.name | downcase | strip
+      assign matched = false
+      for trigger in trigger_list
+        assign tr = trigger | strip
+        if opt_name == tr
+          assign color_option_index = option.position
+          assign matched = true
+          break
+        endif
+      endfor
+      if matched
+        break
+      endif
+    endfor
+  endif
+
   assign has_only_once_media = false
   if media_count < 2
     assign has_only_once_media = true
@@ -59,6 +79,7 @@
   data-enable-desktop-slider="{{ enable_desktop_slider }}"
   data-enable-mobile-thumbnails="{{ enable_mobile_thumbnails }}"
   data-media-item-gap="{{ media_item_gap }}"
+  data-color-option-index="{{ color_option_index }}"
   style="--media-item-gap: {{ media_item_gap }}px"
 >
   <div id="GalleryStatus-{{ section.id }}" class="visually-hidden" role="status"></div>

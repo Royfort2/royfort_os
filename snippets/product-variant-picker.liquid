@@ -145,7 +145,7 @@
           class="form__label"
         >
           <div class="flex flex-wrap gap-2">
-            <span class="font-body-bold">{{ option.name }}:</span>
+            <span class="option-name">{{ option.name }}:</span>
             <span data-selected-swatch-value="{{ option.name }}">
               {{- option.selected_value -}}
             </span>
@@ -162,12 +162,18 @@
         </{{ tag_legend }}>
         {%- case picker_type -%}
           {%- when 'swatch', 'color', 'button' -%}
-            {% render 'product-variant-options',
-              product: product,
-              option: option,
-              block: block,
-              picker_type: picker_type
-            %}
+              {% if picker_type == 'color' or picker_type == 'swatch' %}
+                <div class="variant-options">
+              {% endif %}
+                {% render 'product-variant-options',
+                  product: product,
+                  option: option,
+                  block: block,
+                  picker_type: picker_type
+                %}
+              {% if picker_type == 'color' or picker_type == 'swatch' %}
+                </div>
+              {% endif %}
           {%- else -%}
             <div class="select">
               {%- if picker_type == 'swatch_dropdown' -%}

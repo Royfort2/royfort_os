@@ -51,6 +51,9 @@
     --product-blocks-gap: 2rem !important;
     --product-blocks-gap-large: 2rem !important;
   }
+  .product__block--badges {
+    margin-bottom: 1.2rem !important;
+  }
   .product__block--stamped_reviews {
     margin: 0 !important;
   }
@@ -80,6 +83,40 @@
   }
   .product__block--price .f-price .f-price__sale {
     color: rgb(var(--color-button));
+  }
+  .product-form__input:not(:first-child) {
+    margin-top: 2rem !important;
+  }
+  .product__block--variant_picker .product-form__input > label,
+  .product__block--variant_picker .product-form__input > .form__label {
+    font-size: 1.4rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem !important;
+  }
+  .product__block--variant_picker .variant-options:has(.swatch-color) {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 0.6rem;
+  }
+  .product__block--variant_picker .product-form__input--color .swatch-color,
+  .product__block--variant_picker .product-form__input--swatch .swatch-color {
+    width: 100% !important;
+    min-height: unset !important;
+    height: 2.4rem !important;
+  }
+  .product-form__input--color .swatch-color:before,
+  .product-form__input--swatch .swatch-color:before {
+    content: none !important;
+  }
+  .product-form__input--color input[type='radio']:checked + label .swatch-color:after,
+  .product-form__input--swatch input[type='radio']:checked + label .swatch-color:after {
+    box-shadow: 0px 0px 0px 0.1rem var(--active-shadow-color) !important;
+  }
+  .product__block--variant_picker .product-form__input .option-name {
+    color: #525252;
   }
   @media (max-width: 767.98px) {
     .product--medium > * {
@@ -154,7 +191,11 @@
       </motion-element>
     {%- endif -%}
     <motion-element data-motion="fade-up" data-motion-delay="100" class="block product__info-wrapper w-full">
-      {% render 'product-information-blocks', enable_sticky_info: enable_sticky_info, update_browser_history: true, context: 'main-product' %}
+      {% render 'product-information-blocks',
+        enable_sticky_info: enable_sticky_info,
+        update_browser_history: true,
+        context: 'main-product'
+      %}
     </motion-element>
   </div>
   <product-recently-viewed data-product-id="{{ product.id }}" class="hidden"></product-recently-viewed>

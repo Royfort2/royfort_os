@@ -74,6 +74,31 @@
     text-transform: uppercase;
 }
 
+/* PDP gallery: hide media whose alt is not exactly the selected color (case-insensitive); empty alt = all colors */
+.product__media-item--color-hidden,
+.product__thumbs-item--color-hidden {
+    display: none !important;
+}
+
+/* grid-mix + color filter: override :nth-child (hidden slides still count in CSS). JS sets we-grid-mix--* from visible order only. */
+@media (min-width: 768px) {
+
+    .product--media-has-many.product--grid-mix .product__media-item.we-grid-mix--full {
+        width: 100% !important;
+    }
+
+    .product--media-has-many.product--grid-mix .product__media-item.we-grid-mix--half {
+        width: 50% !important;
+    }
+
+    .product--media-has-many.product--grid-mix .product__media-list {
+        gap: 0.4rem 0 !important;
+    }
+    .product--media-has-many.product--grid-mix .product__media-item {
+        padding: 0 0.2rem !important;
+    }
+}
+
 /* Stamped collection badge — reserve space; widget injects stars + rating + count */
 .we-product-card__stamped .stamped-product-reviews-badge {
     display: block !important;
