@@ -33,7 +33,7 @@
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
-            "picker_type": "button",
+            "picker_type": "custom_dropdown",
             "swatch_type": "color_swatch",
             "button_style": "standard",
             "button_size": 40,
