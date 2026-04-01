@@ -28,6 +28,12 @@
     padding-block: 4rem 2.4rem;
     --text-margin-top: 0.8rem;
   }
+
+  {% if section.settings.use_custom_overlay == true and section.settings.custom_overlay != blank %}
+    #shopify-section-{{ section.id }} .bg-overlay {
+      background: {{ section.settings.custom_overlay }};
+    }
+  {% endif %}
 {% endstyle %}
 <div class="image-with-text-overlay section--padding{% if section.settings.custom_class != blank %} {{ section.settings.custom_class }}{% endif %}">
   <div class="{% if section.settings.container == 'full' %}w-full{% else %}page-width{% endif %}">
@@ -213,6 +219,19 @@
       "step": 5,
       "unit": "%",
       "default": 70
+    },
+    {
+      "type": "checkbox",
+      "id": "use_custom_overlay",
+      "label": "Use custom overlay",
+      "default": false
+    },
+    {
+      "visible_if": "{{ section.settings.use_custom_overlay == true }}",
+      "type": "text",
+      "id": "custom_overlay",
+      "label": "Custom overlay",
+      "default": "linear-gradient(201deg, rgba(23, 23, 23, 0.00) 0.08%, rgba(23, 23, 23, 0.75) 100.09%)",
     },
     {
       "type": "checkbox",
