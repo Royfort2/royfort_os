@@ -1,3 +1,9 @@
+{{ 'section-main-product.css' | asset_url | stylesheet_tag }}
+{{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
+{% unless product.has_only_default_variant %}
+  {{ 'component-product-variant-picker.css' | asset_url | stylesheet_tag }}
+{% endunless %}
+
 {%- liquid
   assign media_layout = section.settings.gallery_layout | default: 'carousel'
   assign mobile_thumbnails = section.settings.mobile_thumbnails | default: 'hide'
@@ -19,20 +25,46 @@
       endif
   endcase
 -%}
+
+{% style %}
+  .product--medium {
+    gap: 0 !important;
+  }
+  .product--medium > * {
+    width: 50% !important;
+    max-width: 100%;
+  }
+  .product--medium .product__info-wrapper {
+    padding: 0 !important;
+  }
+  .product--medium .product__info-container {
+    display: flex;
+    justify-content: center;
+  }
+  .product--medium .product__info-container .product__blocks {
+    max-width: 40rem;
+    padding-inline: var(--page-padding);
+    padding-bottom: 8rem;
+  }
+  @media (max-width: 767.98px) {
+    .product--medium > * {
+      width: 100% !important;
+    }
+    .product--medium .product__info-container .product__blocks {
+      max-width: 100%;
+    }
+  }
+{% endstyle %}
+
 <product-info
   id="MainProduct-{{ section.id }}"
   data-section="{{ section.id }}"
   data-product-id="{{ product.id }}"
   data-update-url="true"
   data-url="{{ product.url }}"
-  class="section block section-{{ section.id }} section--padding page-width color-{{ section.settings.color_scheme }}"
+  class="section block section-{{ section.id }} {% unless section.settings.media_size == 'medium' %}section--padding page-width{% endunless %} color-{{ section.settings.color_scheme }}"
   style="--section-padding-top: {{ section.settings.padding_top }}px;--section-padding-bottom: {{ section.settings.padding_bottom }}px;"
 >
-  {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
-  {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
-  {% unless product.has_only_default_variant %}
-    {{ 'component-product-variant-picker.css' | asset_url | stylesheet_tag }}
-  {% endunless %}
   {%- assign has_models = product.media | where: 'media_type', 'model' | first -%}
   {%- if has_models -%}
     <link
