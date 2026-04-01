@@ -164,8 +164,8 @@
         "columns_mobile": "2",
         "padding_top": 16,
         "padding_bottom": 32,
-        "show_section_divider": false,
-        "divider_width": "fixed"
+        "show_section_divider": true,
+        "divider_width": "full"
       }
     },
     "featured_collection_n7AnqW": {
