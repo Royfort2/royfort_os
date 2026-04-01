@@ -30,19 +30,6 @@
           "type": "price",
           "settings": {}
         },
-        "inventory": {
-          "type": "inventory",
-          "settings": {
-            "text_style": "body",
-            "inventory_threshold": 20,
-            "show_inventory_quantity": true
-          }
-        },
-        "description": {
-          "type": "description",
-          "disabled": true,
-          "settings": {}
-        },
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
@@ -62,42 +49,12 @@
             "show_gift_card_recipient": false
           }
         },
-        "icon_with_text": {
-          "type": "icon-with-text",
-          "settings": {
-            "layout": "horizontal",
-            "title_font": "body",
-            "title_size": "text-base",
-            "icon_1": "package",
-            "heading_1": "Orders over $800 ship free",
-            "icon_2": "arrow-up-left",
-            "heading_2": "30 day returns",
-            "icon_3": "star-four",
-            "heading_3": ""
-          }
-        },
-        "pickup_availability": {
-          "type": "pickup_availability",
-          "settings": {}
-        },
-        "complementary": {
-          "type": "complementary",
-          "settings": {
-            "block_heading": "Pairs well with",
-            "make_collapsible_row": false,
-            "icon": "tag",
-            "product_list_limit": 4,
-            "products_per_page": 1,
-            "image_ratio": "adapt",
-            "enable_quick_add": true
-          }
-        },
         "collapsible-row-1": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Material & Care",
+            "heading": "Produktbeschreibung",
             "icon": "none",
-            "content": "<h6><strong>Material:</strong></h6><ul><li><strong>Frame:</strong> Solid Wood</li><li><strong>Shelves:</strong> Engineered Wood with Veneer Finish</li><li><strong>Drawer:</strong> MDF with Metal Handles</li><li><strong>Legs:</strong> Metal with Powder-Coated Finish</li></ul><h6><strong>Care Instructions:</strong></h6><ul><li><strong>Cleaning:</strong> Wipe with a soft, dry cloth. Avoid using harsh chemicals or abrasive cleaners.</li><li><strong>Spills:</strong> Immediately blot any spills with a clean, dry cloth.</li><li><strong>Sunlight:</strong> Avoid prolonged exposure to direct sunlight to prevent fading.</li><li><strong>Maintenance:</strong> Periodically check and tighten any loose hardware.</li><li><strong>Protection:</strong> Use coasters or placemats to prevent damage from hot or wet items.</li></ul>",
+            "content": "{{ product.description }}",
             "custom_liquid": "",
             "page": "",
             "default_open": false
@@ -106,9 +63,9 @@
         "collapsible-row-2": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Dimensions",
+            "heading": "Material",
             "icon": "none",
-            "content": "<p><strong>Overall Dimensions:</strong> 30\" H x 48\" W x 20\" D</p><p><strong>Top Shelf:</strong> 28\" W x 18\" D</p><p><strong>Bottom Shelf:</strong> 28\" W x 18\" D</p><p><strong>Drawer Dimensions:</strong> 24\" W x 15\" D x 6\" H</p><p><strong>Leg Height:</strong> 4\"</p>",
+            "content": "<p>Material</p>",
             "custom_liquid": "",
             "page": "",
             "default_open": false
@@ -117,19 +74,12 @@
         "collapsible-row-3": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Shipping & Returns",
+            "heading": "Pflegehinweise",
             "icon": "none",
-            "content": "<h6><strong>Shipping Policy</strong></h6><ul><li><strong>Shipping Time:</strong> Standard shipping takes 5-7 business days. Expedited options are available at checkout.</li><li><strong>Shipping Areas:</strong> We ship to all contiguous U.S. states. No shipping to Alaska, Hawaii, or international addresses.</li><li><strong>Tracking:</strong> A confirmation email with a tracking number is sent once your order is shipped.</li></ul><h6><strong>Returns Policy</strong></h6><ul><li><strong>Return Window:</strong> Returns are accepted within 30 days of delivery.</li><li><strong>Return Process:</strong> Contact us with your order number and reason for return. We will provide return authorization and instructions.</li><li><strong>Refunds:</strong> Once we receive and inspect the returned item, a refund will be issued to your original payment method within 7-10 business days. Shipping fees are non-refundable.</li></ul><p>For questions or concerns, contact customer service at <a href=\"/pages/contact\" title=\"Contact\">contact us</a>.</p>",
+            "content": "<p>Pflegehinweise</p>",
             "custom_liquid": "",
             "page": "",
             "default_open": false
-          }
-        },
-        "addons": {
-          "type": "addons",
-          "settings": {
-            "show_share": true,
-            "show_ask_question": true
           }
         }
       },
@@ -137,17 +87,11 @@
         "badges",
         "title",
         "price",
-        "inventory",
-        "description",
         "variant_picker",
         "buy_buttons",
-        "icon_with_text",
-        "pickup_availability",
-        "complementary",
         "collapsible-row-1",
         "collapsible-row-2",
-        "collapsible-row-3",
-        "addons"
+        "collapsible-row-3"
       ],
       "custom_css": [
         "/* .loox-rating {margin-top: -1rem;}.complementary-products__container .product-card__wrapper .btn--secondary {background-color: transparent;} */"
