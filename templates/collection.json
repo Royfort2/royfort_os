@@ -38,6 +38,8 @@
         "image": "shopify://shop_images/Musselin_d1ac143e-90e4-4825-bd62-e13f3ec94d0b.jpg",
         "desktop_height": "small",
         "overlay_opacity": 10,
+        "use_custom_overlay": true,
+        "custom_overlay": "linear-gradient(201deg, rgba(23, 23, 23, 0.00) 0.08%, rgba(23, 23, 23, 0.75) 100.09%)",
         "enable_parallax": false,
         "parallax_direction": "vertical",
         "color_scheme": "",
