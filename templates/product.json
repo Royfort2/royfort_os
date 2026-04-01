@@ -28,7 +28,9 @@
         },
         "price": {
           "type": "price",
-          "settings": {}
+          "settings": {
+            "show_tax_and_shipping": false
+          }
         },
         "variant_picker": {
           "type": "variant_picker",
@@ -46,7 +48,10 @@
           "settings": {
             "show_quantity_selector": false,
             "show_dynamic_checkout": false,
-            "show_gift_card_recipient": false
+            "show_gift_card_recipient": false,
+            "show_secondary_button": true,
+            "secondary_button_text": "zweiter-cta",
+            "secondary_button_url": "#"
           }
         },
         "collapsible-row-1": {
