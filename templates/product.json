@@ -9,12 +9,6 @@
  */
 {
   "sections": {
-    "breadcrumbs": {
-      "type": "breadcrumbs",
-      "settings": {
-        "text_alignment": "start"
-      }
-    },
     "main": {
       "type": "main-product",
       "blocks": {
@@ -156,341 +150,94 @@
         "addons"
       ],
       "custom_css": [
-        ".loox-rating {margin-top: -1rem;}",
-        ".complementary-products__container .product-card__wrapper .btn--secondary {background-color: transparent;}"
+        "/* .loox-rating {margin-top: -1rem;}.complementary-products__container .product-card__wrapper .btn--secondary {background-color: transparent;} */"
       ],
       "settings": {
         "color_scheme": "scheme-1",
         "enable_sticky_info": true,
-        "media_size": "large",
+        "media_size": "medium",
         "gallery_layout": "grid-mix",
         "mobile_thumbnails": "hide",
         "enable_image_zoom": true,
         "enable_video_looping": true,
         "padding_top": 0,
-        "padding_bottom": 100
-      }
-    },
-    "testimonials_8JHr3L": {
-      "type": "testimonials",
-      "blocks": {
-        "testimonial_dhi3Xf": {
-          "type": "testimonial",
-          "settings": {
-            "show_image": true,
-            "text": "<p>“Hands down one of the best shirts I’ve ever owned.  Fits great, feels amazing, seems to stay cool and is somewhat water resistant.”</p>",
-            "author": "Melissa H.",
-            "bio": "Verified Buyer",
-            "product": "",
-            "icon": "none"
-          }
-        },
-        "testimonial_D7Mq7i": {
-          "type": "testimonial",
-          "settings": {
-            "show_image": true,
-            "text": "<p>\"This decor furniture piece is a perfect blend of modern and classic design. The quality is top-notch.\"</p>",
-            "author": "Alexandra M.",
-            "bio": "Verified Buyer",
-            "product": "",
-            "icon": "none"
-          }
-        },
-        "testimonial_33tAjm": {
-          "type": "testimonial",
-          "settings": {
-            "show_image": true,
-            "text": "<p>\"Absolutely love this furniture! It's both stylish and functional, with a sturdy build that ensures durability.\"</p><p></p>",
-            "author": "Danielle S.",
-            "bio": "Verified Buyer",
-            "product": "",
-            "icon": "none"
-          }
-        },
-        "testimonial_dDRMwy": {
-          "type": "testimonial",
-          "settings": {
-            "show_image": true,
-            "text": "<p>\"The craftsmanship is impeccable, and the design is stunning. Highly recommend for any home!\"</p>",
-            "author": "Elizabeth R.",
-            "bio": "Verified Buyer",
-            "product": "",
-            "icon": "none"
-          }
-        }
-      },
-      "block_order": [
-        "testimonial_dhi3Xf",
-        "testimonial_D7Mq7i",
-        "testimonial_33tAjm",
-        "testimonial_dDRMwy"
-      ],
-      "custom_css": [],
-      "settings": {
-        "color_scheme": "scheme-3",
-        "heading": "People are talking",
-        "heading_size": "h1",
-        "heading_highlight_style": "none",
-        "subheading": "",
-        "description": "",
-        "text_size": "text-base",
-        "card_color_scheme": "",
-        "card_layout": "2",
-        "card_text_size": "text-base",
-        "columns_desktop": 3,
-        "column_gap": "medium",
-        "enable_slider": true,
-        "columns_mobile": "1",
-        "swipe_on_mobile": true,
-        "padding_top": 100,
-        "padding_bottom": 100,
-        "show_section_divider": false,
-        "divider_width": "fixed",
-        "custom_class": ""
-      }
-    },
-    "image_with_text_MgddA8": {
-      "type": "image-with-text",
-      "blocks": {
-        "subheading_XLgqVJ": {
-          "type": "subheading",
-          "settings": {
-            "subheading": "THE TIRED MAN"
-          }
-        },
-        "heading_J7mctK": {
-          "type": "heading",
-          "settings": {
-            "heading": "Offers a plush, soothing retreat after your day.",
-            "heading_size": "h1",
-            "heading_highlight_style": "none"
-          }
-        },
-        "text_A3Dahr": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Considered one of Denmark’s greatest and most influential architects, Mogens Lassen pioneered Danish Functionalism, taking his cues from Bauhaus sensibilities. His interior designs are a natural continuation of his architectural approach and add energy and atmosphere to everyday living spaces and tasks. From decorative objects to larger furniture designs, his designs delicately balance presence without drawing undue attention, finding their natural place in any space.</p>",
-            "text_size": "text-base"
-          }
-        },
-        "button_iVbnNU": {
-          "type": "button",
-          "settings": {
-            "button_label": "Learn more",
-            "button_link": "",
-            "button_style": "btn--secondary"
-          }
-        }
-      },
-      "block_order": [
-        "subheading_XLgqVJ",
-        "heading_J7mctK",
-        "text_A3Dahr",
-        "button_iVbnNU"
-      ],
-      "custom_css": [
-        "@media (max-width: 767.98px) {.image-with-text .image-with-text__inner {padding-top: 4.8rem; }}"
-      ],
-      "settings": {
-        "section_color_scheme": "",
-        "color_scheme": "scheme-1",
-        "image_height": "adapt",
-        "layout": "text_first",
-        "desktop_content_position": "center",
-        "desktop_content_alignment": "left",
-        "enable_parallax": false,
-        "parallax_direction": "vertical",
-        "mobile_content_alignment": "left",
-        "padding_top": 100,
-        "padding_bottom": 0,
-        "show_section_divider": false,
-        "divider_width": "fixed",
-        "custom_class": ""
-      }
-    },
-    "multicolumn_KPiiAW": {
-      "type": "multicolumn",
-      "blocks": {
-        "column_BR9bh4": {
-          "type": "column",
-          "settings": {
-            "show_image": true,
-            "image_width": "full",
-            "title": "Showroom",
-            "heading_size": "h3",
-            "text": "<p>Experience design for living at our flagship showroom located in Boston’s South End.</p>",
-            "text_size": "text-base",
-            "button_label": "",
-            "button_style": "btn--underline",
-            "button_link": "",
-            "mobile_layout": "inherit"
-          }
-        },
-        "column_empPwk": {
-          "type": "column",
-          "settings": {
-            "show_image": true,
-            "image_width": "full",
-            "title": "Interior work",
-            "heading_size": "h3",
-            "text": "<p>Designing spaces with precision, curated materials, and purposeful, aesthetic execution.</p>",
-            "text_size": "text-base",
-            "button_label": "",
-            "button_style": "btn--underline",
-            "button_link": "",
-            "mobile_layout": "inherit"
-          }
-        },
-        "column_9jdGhL": {
-          "type": "column",
-          "settings": {
-            "show_image": true,
-            "image_width": "full",
-            "title": "Authentic design",
-            "heading_size": "h3",
-            "text": "<p>We offer authentic, lasting pieces—chosen for their ethical integrity and timeless aesthetic appeal.</p>",
-            "text_size": "text-base",
-            "button_label": "",
-            "button_style": "btn--underline",
-            "button_link": "",
-            "mobile_layout": "inherit"
-          }
-        },
-        "column_G8cg7U": {
-          "type": "column",
-          "settings": {
-            "show_image": true,
-            "image_width": "full",
-            "title": "Custom additions",
-            "heading_size": "h3",
-            "text": "<p>Crafting refined interiors through tailored elements, thoughtful design, and craftsmanship.</p>",
-            "text_size": "text-base",
-            "button_label": "",
-            "button_style": "btn--underline",
-            "button_link": "",
-            "mobile_layout": "inherit"
-          }
-        }
-      },
-      "block_order": [
-        "column_BR9bh4",
-        "column_empPwk",
-        "column_9jdGhL",
-        "column_G8cg7U"
-      ],
-      "custom_css": [
-        ".multicolumn__items {align-items: center;}",
-        ".rich-text__heading {max-width: 630px; margin: 0 auto;}",
-        "@media (min-width: 768px) {.f-grid--gap-extra-large {--column-gap: 8.2rem; } .multicolumn-card__info .multicolumn-card__title {font-size: var(--font-h3-size); } .multicolumn-card__image {--image-spacing-bottom: 1.6rem; }}"
-      ],
-      "settings": {
-        "color_scheme": "",
-        "heading": "Change the look of your house, change the perspective of others",
-        "heading_size": "h1",
-        "heading_highlight_style": "none",
-        "subheading": "",
-        "description": "",
-        "text_size": "text-base",
-        "column_alignment": "left",
-        "columns_desktop": 4,
-        "column_gap": "extra-large",
-        "columns_mobile": "1",
-        "swipe_on_mobile": true,
-        "padding_top": 100,
-        "padding_bottom": 0,
-        "show_section_divider": false,
-        "divider_width": "fixed",
-        "custom_class": ""
-      }
-    },
-    "image_with_text_overlay_NjBNje": {
-      "type": "image-with-text-overlay",
-      "blocks": {
-        "heading_zWnWFe": {
-          "type": "heading",
-          "settings": {
-            "heading": "Designed by Flemming Lassen",
-            "heading_size": "hd2",
-            "heading_highlight_style": "none"
-          }
-        },
-        "text_QnRp8y": {
-          "type": "text",
-          "settings": {
-            "text": "<p>A timeless icon, the mid-century armchair, The Tired Man, lets you sink into its plush and comforting embrace after a long day.</p>",
-            "text_size": "text-base"
-          }
-        }
-      },
-      "block_order": [
-        "heading_zWnWFe",
-        "text_QnRp8y"
-      ],
-      "custom_css": [
-        ".image-with-text-ovelay__content-wrapper .rich-text {max-width: 578px;}"
-      ],
-      "settings": {
-        "container": "full",
-        "desktop_height": "adapt",
-        "overlay_opacity": 20,
-        "enable_parallax": true,
-        "parallax_direction": "vertical",
-        "color_scheme": "",
-        "content_position": "middle-center",
-        "content_alignment": "center",
-        "mobile_height": "adapt",
-        "padding_top": 100,
-        "padding_bottom": 0,
-        "custom_class": ""
+        "padding_bottom": 0
       }
     },
     "image_with_text_zQ9iit": {
       "type": "image-with-text",
       "blocks": {
-        "subheading_yBQcFf": {
-          "type": "subheading",
-          "settings": {
-            "subheading": "THE TIRED MAN"
-          }
-        },
         "heading_9Y3zkK": {
           "type": "heading",
           "settings": {
-            "heading": "Experience plush comfort in a refined retreat.",
-            "heading_size": "h1",
+            "heading": "Unsere außergewöhnliche Baumwolle",
+            "heading_size": "h3",
             "heading_highlight_style": "none"
           }
         },
         "text_UWkrNW": {
           "type": "text",
           "settings": {
-            "text": "<p>Escape to relaxation with this unique table retreat, designed for plush comfort. Sink into soft, luxurious seating that cradles your body, offering a perfect blend of style and coziness. Ideal for unwinding, reading, or enjoying a drink, this retreat provides an elegant and serene ambiance. Indulge in a sanctuary where you can relax and rejuvenate, experiencing comfort like never before. Embrace the ultimate retreat for your leisure moments, combining elegance with unmatched comfort.</p>",
+            "text": "<p>Baumwolle zählt zu den edelsten Naturfasern der Welt – sie ist von Natur aus temperaturregulierend, feuchtigkeitsabsorbierend und langlebig. Unsere langstapelige Bio-Baumwolle wird besonders fein versponnen, um Reibung zu minimieren und einen ruhigen, erholsamen Schlaf zu fördern.</p><p>Ihre feinen Fasern sorgen für eine unglaubliche weiche Stofftextur. Weniger als 1% der weltweit produzierten Baumwolle erreicht diese außergewöhnliche Qualität.</p>",
             "text_size": "text-base"
-          }
-        },
-        "button_Wd3LCE": {
-          "type": "button",
-          "settings": {
-            "button_label": "Learn more",
-            "button_link": "",
-            "button_style": "btn--secondary"
           }
         }
       },
       "block_order": [
-        "subheading_yBQcFf",
         "heading_9Y3zkK",
-        "text_UWkrNW",
-        "button_Wd3LCE"
+        "text_UWkrNW"
       ],
       "custom_css": [
-        "@media (max-width: 767.98px) {.image-with-text .image-with-text__inner {padding-top: 4.8rem; }}",
-        "@media (min-width: 768px) {.image-with-text__wrapper {--gap-x: 3rem; }}",
-        "@media (min-width: 1280px) {.image-with-text__inner {--padding-x: 9rem; }}"
+        "/* @media (max-width: 767.98px) {.image-with-text .image-with-text__inner {padding-top: 4.8rem; }}@media (min-width: 768px) {.image-with-text__wrapper {--gap-x: 3rem; }}@media (min-width: 1280px) {.image-with-text__inner {--padding-x: 9rem; }} */"
       ],
       "settings": {
         "section_color_scheme": "",
         "color_scheme": "scheme-1",
+        "image": "shopify://shop_images/Musselin_d1ac143e-90e4-4825-bd62-e13f3ec94d0b.jpg",
+        "image_height": "medium",
+        "layout": "text_first",
+        "desktop_content_position": "center",
+        "desktop_content_alignment": "left",
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "mobile_content_alignment": "left",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "image_with_text_dQDdte": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_4Ni4ix": {
+          "type": "heading",
+          "settings": {
+            "heading": "Spürbare Qualität in jeder Berührung",
+            "heading_size": "h3",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_FXjj84": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Wir verweben nur die hochwertigsten Garne mit einer Fadendichte von 300. Jede Garnfaser wird mit größter Sorgfalt verarbeitet, um ein ruhiges, gleichmäßiges Gewebe und ein sanftes Hautgefühl zu schaffen. Das Ergebnis: ein Stoff, der weich, atmungsaktiv und dauerhaft formschön bleibt - auch nach Jahren der Nutzung.</p><p>GOTS-zertifiziert und frei von aggressiven Chemikalien - für kompromisslose Qualität mit Verantwortung.</p>",
+            "text_size": "text-base"
+          }
+        }
+      },
+      "block_order": [
+        "heading_4Ni4ix",
+        "text_FXjj84"
+      ],
+      "custom_css": [
+        "/* @media (max-width: 767.98px) {.image-with-text .image-with-text__inner {padding-top: 4.8rem; }}@media (min-width: 768px) {.image-with-text__wrapper {--gap-x: 3rem; }}@media (min-width: 1280px) {.image-with-text__inner {--padding-x: 9rem; }} */"
+      ],
+      "settings": {
+        "section_color_scheme": "",
+        "color_scheme": "scheme-1",
+        "image": "shopify://shop_images/25-03-Royfort-12-Cotton-Weiss-1518_1012152f-d606-4709-a037-96dcc39adc84.jpg",
         "image_height": "adapt",
         "layout": "image_first",
         "desktop_content_position": "center",
@@ -498,180 +245,117 @@
         "enable_parallax": false,
         "parallax_direction": "vertical",
         "mobile_content_alignment": "left",
-        "padding_top": 100,
+        "padding_top": 0,
         "padding_bottom": 0,
         "show_section_divider": false,
         "divider_width": "fixed",
         "custom_class": ""
       }
     },
-    "multicolumn_RFyHwL": {
-      "type": "multicolumn",
+    "featured_collection_JQULLF": {
+      "type": "featured-collection",
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "header_layout": "vertical",
+        "heading": "ähnliche Produkte",
+        "heading_size": "h3",
+        "heading_styling": "body",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "show_collection_description": false,
+        "collection": "all",
+        "limit": 8,
+        "columns": 4,
+        "column_gap": "extra-small",
+        "row_gap": "inherit",
+        "grid_layout": "standard",
+        "enable_slider": true,
+        "controls_position": "inside",
+        "pcard_use_swiper": false,
+        "show_reviews": true,
+        "pcard_image_ratio": "",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "show_all_button_on_top": false,
+        "button_label": "",
+        "button_style": "btn--primary",
+        "padding_top": 32,
+        "padding_bottom": 32,
+        "show_section_divider": true,
+        "divider_width": "full",
+        "custom_class": ""
+      }
+    },
+    "we_featured_collections_Hgagwm": {
+      "type": "we-featured-collections",
       "blocks": {
-        "column_HV3JHQ": {
-          "type": "column",
+        "collection_WYgrn4": {
+          "type": "collection",
           "settings": {
-            "show_image": true,
-            "image_width": "large",
-            "title": "Free & fast delivery",
-            "heading_size": "h4",
-            "text": "<p>We offer free shipping with ground delivery to the lower 48 states.</p>",
-            "text_size": "text-base",
-            "button_label": "",
-            "button_style": "btn--underline",
-            "button_link": "",
-            "mobile_layout": "inherit"
+            "collection": "all-bedsheets"
           }
         },
-        "column_rpRxAB": {
-          "type": "column",
+        "collection_rxB9DV": {
+          "type": "collection",
           "settings": {
-            "show_image": true,
-            "image_width": "large",
-            "title": "Online support",
-            "heading_size": "h4",
-            "text": "<p>Online Support24 hours a day,<br/>7 days a week</p>",
-            "text_size": "text-base",
-            "button_label": "",
-            "button_style": "btn--underline",
-            "button_link": "",
-            "mobile_layout": "inherit"
+            "collection": "hotelbettwaesche"
           }
         },
-        "column_e7raAD": {
-          "type": "column",
+        "collection_3zkKVK": {
+          "type": "collection",
           "settings": {
-            "show_image": true,
-            "image_width": "large",
-            "title": "30 Days return",
-            "heading_size": "h4",
-            "text": "<p>Exchange or return items free of charge within 30 days.</p>",
-            "text_size": "text-base",
-            "button_label": "",
-            "button_style": "btn--underline",
-            "button_link": "",
-            "mobile_layout": "inherit"
-          }
-        },
-        "column_NxYagA": {
-          "type": "column",
-          "settings": {
-            "show_image": true,
-            "image_width": "large",
-            "title": "Flexible payment",
-            "heading_size": "h4",
-            "text": "<p>Pay conveniently using multiple credit cards for added flexibility.</p>",
-            "text_size": "text-base",
-            "button_label": "",
-            "button_style": "btn--underline",
-            "button_link": "",
-            "mobile_layout": "inherit"
+            "collection": "spannbettlaken"
           }
         }
       },
       "block_order": [
-        "column_HV3JHQ",
-        "column_rpRxAB",
-        "column_e7raAD",
-        "column_NxYagA"
+        "collection_WYgrn4",
+        "collection_rxB9DV",
+        "collection_3zkKVK"
       ],
-      "custom_css": [
-        ".multicolumn-card--image-large {--image-width-mobile: 4rem;}",
-        ".f-grid--gap-extra-large {--column-gap: 6rem; --column-gap-mobile: 2.4rem; --row-gap-mobile: 2.4rem;}",
-        "@media (max-width: 767px) {.multicolumn-card {display: grid; grid-template-columns: 40px 1fr; gap: 1.2rem; }}"
-      ],
+      "name": "[we] Featured collections",
       "settings": {
         "color_scheme": "",
+        "header_layout": "vertical",
         "heading": "",
         "heading_size": "h1",
         "heading_highlight_style": "none",
         "subheading": "",
         "description": "",
         "text_size": "text-base",
-        "column_alignment": "left",
-        "columns_desktop": 4,
-        "column_gap": "extra-large",
+        "button_label": "",
+        "button_link": "",
+        "button_style": "btn--primary",
+        "social_media": "none",
+        "columns": 3,
+        "column_gap": "extra-small",
+        "row_gap": "inherit",
+        "image_ratio": "1/1",
         "columns_mobile": "1",
         "swipe_on_mobile": false,
-        "padding_top": 80,
-        "padding_bottom": 80,
+        "padding_top": 32,
+        "padding_bottom": 0,
         "show_section_divider": false,
         "divider_width": "fixed",
         "custom_class": ""
       }
     },
-    "layered_images_with_text_zGqjLj": {
-      "type": "layered-images-with-text",
-      "blocks": {
-        "image_QbQjPc": {
-          "type": "image",
-          "settings": {
-            "custom_classes": "media-mover-reverse"
-          }
-        },
-        "image_Xqm79B": {
-          "type": "image",
-          "settings": {
-            "custom_classes": "media-mover-reverse"
-          }
-        },
-        "image_6C3Jwc": {
-          "type": "image",
-          "settings": {
-            "custom_classes": "media-mover"
-          }
-        },
-        "image_VVbbWM": {
-          "type": "image",
-          "settings": {
-            "custom_classes": "media-mover"
-          }
-        },
-        "image_MJY9pE": {
-          "type": "image",
-          "settings": {
-            "custom_classes": "media-mover-reverse-slower"
-          }
-        }
-      },
-      "block_order": [
-        "image_QbQjPc",
-        "image_Xqm79B",
-        "image_6C3Jwc",
-        "image_VVbbWM",
-        "image_MJY9pE"
-      ],
-      "custom_css": [
-        ".section-layered-images-with-text .section__header .section__heading {max-width: 380px; margin: 0 auto;}"
-      ],
+    "breadcrumbs": {
+      "type": "breadcrumbs",
       "settings": {
-        "color_scheme": "scheme-3",
-        "heading": "WE’RE ON GRAM",
-        "heading_size": "hd1",
-        "heading_highlight_style": "none",
-        "subheading": "Renovate your home",
-        "description": "",
-        "description_size": "text-base",
-        "button_label": "@inove_store",
-        "button_link": "",
-        "button_style": "btn--secondary",
-        "padding_top": 50,
-        "padding_bottom": 50,
-        "show_section_divider": false,
-        "divider_width": "fixed",
-        "custom_class": ""
+        "text_alignment": "center"
       }
     }
   },
   "order": [
-    "breadcrumbs",
     "main",
-    "testimonials_8JHr3L",
-    "image_with_text_MgddA8",
-    "multicolumn_KPiiAW",
-    "image_with_text_overlay_NjBNje",
     "image_with_text_zQ9iit",
-    "multicolumn_RFyHwL",
-    "layered_images_with_text_zGqjLj"
+    "image_with_text_dQDdte",
+    "featured_collection_JQULLF",
+    "we_featured_collections_Hgagwm",
+    "breadcrumbs"
   ]
 }
