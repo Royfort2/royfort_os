@@ -451,6 +451,7 @@
 }
 #FacetDrawer .accordion-details__summary .h4 {
     font-size: 1.4rem;
+    font-family: 'GT America', Arial, sans-serif !important;
     font-style: normal;
     font-weight: 400;
     line-height: 150%;
