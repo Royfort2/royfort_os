@@ -1,10 +1,10 @@
 {% comment %}
-  [we] Icon info text block: trigger row + optional drawer (description).
+  [we] Icon info text block: trigger row + optional drawer (richtext description or linked page body).
 {% endcomment %}
 {%- liquid
   assign modal_id = 'IconInfoText-' | append: section.id | append: '-' | append: block.id
   assign has_modal = false
-  if block.settings.description != blank
+  if block.settings.description != blank or block.settings.page != blank
     assign has_modal = true
   endif
   assign icon_alt = block.settings.title | default: '' | escape
@@ -66,8 +66,14 @@
       <div class="drawer__body we-icon-info-drawer__body rte">
         {%- if block.settings.title != blank -%}
           <h2 class="we-icon-info-drawer__heading h4">{{ block.settings.title | escape }}</h2>
+        {%- elsif block.settings.page != blank and block.settings.page.title != blank -%}
+          <h2 class="we-icon-info-drawer__heading h4">{{ block.settings.page.title | escape }}</h2>
         {%- endif -%}
-        {{ block.settings.description }}
+        {%- if block.settings.page != blank -%}
+          {{ block.settings.page.content }}
+        {%- else -%}
+          {{ block.settings.description }}
+        {%- endif -%}
       </div>
     </div>
   </basic-modal>
