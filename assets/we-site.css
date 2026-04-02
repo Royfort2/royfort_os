@@ -705,3 +705,130 @@ layout-switcher .btn::after {
     gap: 0.6rem;
     width: 100%;
 }
+
+/* [we] PDP: Icon info text — trigger row + drawer (bottom mobile / right desktop) */
+.product__block--icon_info_text {
+    width: 100%;
+}
+.product__block--icon_info_text:has(+ .product__block--icon_info_text) {
+    margin-bottom: 0;
+}
+.product__block--icon_info_text + .product__block--icon_info_text {
+    margin-top: 0;
+}
+
+.we-icon-info-trigger {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 0.8rem 0;
+    border: none;
+    border-radius: 0;
+    border-bottom: 0.1rem solid rgba(var(--color-foreground), 0.12);
+    background: transparent;
+    color: rgb(var(--color-foreground));
+    text-align: start;
+    cursor: pointer;
+    font: inherit;
+}
+
+.we-icon-info-trigger:hover .we-icon-info-trigger__chevron {
+    opacity: 0.85;
+}
+
+.we-icon-info-trigger__inner {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem 1.6rem;
+    width: 100%;
+}
+
+.we-icon-info-trigger__icon {
+    flex-shrink: 0;
+    width: 2em;
+    height: 2rem;
+    border-radius: var(--small-blocks-radius, 0.4rem);
+    overflow: hidden;
+    background-color: transparent !important;
+}
+
+.we-icon-info-trigger__icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.we-icon-info-trigger__copy {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.we-icon-info-trigger__title {
+    display: block;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+    text-transform: uppercase;
+}
+
+.we-icon-info-trigger__short {
+    display: block;
+    color: #525252;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+}
+
+.we-icon-info-trigger__chevron {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    opacity: 0.55;
+}
+
+.we-icon-info-trigger--static {
+    padding: 1.2rem 0;
+    border-block: 0.1rem solid rgba(var(--color-foreground), 0.12);
+}
+
+.we-icon-info-trigger--static .we-icon-info-trigger__inner {
+    cursor: default;
+}
+
+/*
+ * Desktop: same as cart drawer — theme `.drawer--right .drawer__inner` pins to inline-end,
+ * `--translate-x: 100%` → `0` with theme transition (smooth slide-in from the right).
+ * Mobile: override to bottom sheet below.
+ */
+@media (max-width: 767.98px) {
+    .we-icon-info-drawer.basic-modal.drawer.drawer--right > .drawer__inner {
+        --translate-x: 0;
+        --translate-y: 100%;
+        top: auto;
+        bottom: 0;
+        inset-inline: 0;
+        width: 100%;
+        max-width: none;
+        height: auto;
+        max-height: min(92vh, 100%);
+        border-radius: var(--medium-blocks-radius, 0.8rem) var(--medium-blocks-radius, 0.8rem) 0 0;
+    }
+
+    .we-icon-info-drawer.basic-modal.drawer.drawer--right[active] > .drawer__inner {
+        --translate-x: 0;
+        --translate-y: 0;
+    }
+}
+
+.we-icon-info-drawer__body {
+    padding-block-start: 2rem;
+}
+
+.we-icon-info-drawer__heading {
+    margin: 0 0 1.2rem;
+}

@@ -39,6 +39,19 @@
               ></span>
             {%- endif -%}
           </div>
+        {%- when 'icon_info_text' -%}
+          {%- if block.settings.icon != blank
+            or block.settings.title != blank
+            or block.settings.short_description != blank
+            or block.settings.description != blank
+          -%}
+            <div
+              class="product__block product__block--icon_info_text"
+              {{ block.shopify_attributes }}
+            >
+              {% render 'we-product-icon-info-text', block: block, section: section %}
+            </div>
+          {%- endif -%}
         {%- when 'text' -%}
           <div
             class="product__block rte product__block--{{ block.type }}"

@@ -1,0 +1,100 @@
+{% comment %}
+  [we] Icon info text block: trigger row + optional drawer (description).
+{% endcomment %}
+{%- liquid
+  assign modal_id = 'IconInfoText-' | append: section.id | append: '-' | append: block.id
+  assign has_modal = false
+  if block.settings.description != blank
+    assign has_modal = true
+  endif
+  assign icon_alt = block.settings.title | default: '' | escape
+  assign trigger_aria = block.settings.title | default: block.settings.short_description | default: 'Details'
+-%}
+
+{%- if has_modal -%}
+  <button
+    type="button"
+    class="we-icon-info-trigger"
+    aria-controls="{{ modal_id }}"
+    aria-haspopup="dialog"
+    aria-label="{{ trigger_aria | escape }}"
+  >
+    <span class="we-icon-info-trigger__inner">
+      {%- if block.settings.icon != blank -%}
+        <span class="we-icon-info-trigger__icon media-wrapper">
+          {{
+            block.settings.icon
+            | image_url: width: 96
+            | image_tag:
+              loading: 'lazy',
+              widths: '48, 72, 96',
+              sizes: '48px',
+              alt: icon_alt
+          }}
+        </span>
+      {%- endif -%}
+      <span class="we-icon-info-trigger__copy">
+        {%- if block.settings.title != blank -%}
+          <span class="we-icon-info-trigger__title">{{ block.settings.title | escape }}</span>
+        {%- endif -%}
+        {%- if block.settings.short_description != blank -%}
+          <span class="we-icon-info-trigger__short">{{ block.settings.short_description | escape }}</span>
+        {%- endif -%}
+      </span>
+      <span class="we-icon-info-trigger__chevron" aria-hidden="true">
+        {%- render 'icon-caret-right', size: 'small' -%}
+      </span>
+    </span>
+  </button>
+
+  <basic-modal
+    id="{{ modal_id }}"
+    class="drawer drawer--right we-icon-info-drawer"
+    style="--modal-width: min(46rem, 92vw);"
+    hidden
+  >
+    <div class="fixed-overlay" aria-controls="{{ modal_id }}"></div>
+    <div class="drawer__inner v-scrollable">
+      <button
+        type="button"
+        class="drawer__close-btn"
+        aria-controls="{{ modal_id }}"
+        aria-label="{{ 'accessibility.close' | t }}"
+      >
+        {% render 'icon-close' %}
+      </button>
+      <div class="drawer__body we-icon-info-drawer__body rte">
+        {%- if block.settings.title != blank -%}
+          <h2 class="we-icon-info-drawer__heading h4">{{ block.settings.title | escape }}</h2>
+        {%- endif -%}
+        {{ block.settings.description }}
+      </div>
+    </div>
+  </basic-modal>
+{%- else -%}
+  <div class="we-icon-info-trigger we-icon-info-trigger--static" role="group">
+    <span class="we-icon-info-trigger__inner">
+      {%- if block.settings.icon != blank -%}
+        <span class="we-icon-info-trigger__icon media-wrapper">
+          {{
+            block.settings.icon
+            | image_url: width: 96
+            | image_tag:
+              loading: 'lazy',
+              widths: '48, 72, 96',
+              sizes: '48px',
+              alt: icon_alt
+          }}
+        </span>
+      {%- endif -%}
+      <span class="we-icon-info-trigger__copy">
+        {%- if block.settings.title != blank -%}
+          <span class="we-icon-info-trigger__title">{{ block.settings.title | escape }}</span>
+        {%- endif -%}
+        {%- if block.settings.short_description != blank -%}
+          <span class="we-icon-info-trigger__short">{{ block.settings.short_description | escape }}</span>
+        {%- endif -%}
+      </span>
+    </span>
+  </div>
+{%- endif -%}
