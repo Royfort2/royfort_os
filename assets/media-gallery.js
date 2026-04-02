@@ -137,9 +137,78 @@ if (!customElements.get('media-gallery')) {
 
       destroySlider() {
         if (typeof this.sliderInstance === 'object') {
-          this.sliderInstance.slider.destroy();
+          try {
+            this.sliderInstance.slider.destroy(true, true);
+          } catch (e) {
+            /* noop */
+          }
           this.sliderInstance = false;
         }
+        if (typeof this.thumbsInstance === 'object') {
+          try {
+            this.thumbsInstance.slider.destroy(true, true);
+          } catch (e) {
+            /* noop */
+          }
+          this.thumbsInstance = false;
+        }
+        if (this.sliderOptions?.thumbs) {
+          delete this.sliderOptions.thumbs;
+        }
+      }
+
+      /**
+       * With loop:false, slideToLoop can misbehave; autoHeight needs a visible slide or height stays 0.
+       */
+      slideToSlideIndex(index) {
+        const swiper = this.sliderInstance?.slider;
+        if (!swiper || index < 0) return;
+        const max = Math.max(0, (swiper.slides?.length || 0) - 1);
+        const i = Math.min(Math.max(0, index), max);
+        if (swiper.params?.loop) {
+          swiper.slideToLoop(i, 0, false);
+        } else {
+          swiper.slideTo(i, 0, false);
+        }
+        this._syncSwiperHeightAndImages();
+      }
+
+      _syncSwiperHeightAndImages() {
+        const swiper = this.sliderInstance?.slider;
+        if (!swiper) return;
+        swiper.update();
+        if (typeof swiper.updateAutoHeight === 'function') {
+          swiper.updateAutoHeight(0);
+        }
+        /*
+         * image-lazy + `.media-wrapper.loading > img { opacity: 0 }` (theme.css) hide images until `load`.
+         * Color-filtered slides use `display: none`; native lazy + image-lazy never finish loading in that
+         * state, so `load` may never fire and the gallery stays blank while Swiper still sizes the slide.
+         */
+        this.querySelectorAll('.product__media-item:not(.product__media-item--color-hidden) img').forEach((img) => {
+          img.removeAttribute('loading');
+          img.loading = 'eager';
+          const wrap = img.closest('.media-wrapper');
+          const markLoaded = () => {
+            wrap?.classList.remove('loading');
+            wrap?.classList.add('loaded');
+            img.classList.add('loaded');
+          };
+          if (img.complete && img.naturalWidth) {
+            markLoaded();
+            return;
+          }
+          img.addEventListener('load', markLoaded, { once: true });
+          img.addEventListener('error', () => wrap?.classList.remove('loading'), { once: true });
+          if (wrap?.classList.contains('loading')) {
+            wrap.classList.remove('loading');
+          }
+          if (!img.complete && img.src) {
+            requestAnimationFrame(() => {
+              if (!img.complete) img.src = img.src;
+            });
+          }
+        });
       }
 
       initThumbsSlider() {
@@ -275,7 +344,7 @@ if (!customElements.get('media-gallery')) {
           const { currIndex } = this.lightbox.pswp;
 
           if (this.sliderInstance && this.sliderInstance.slider) {
-            this.sliderInstance.slider.slideToLoop(currIndex, 0, false);
+            this.slideToSlideIndex(currIndex);
           }
         });
 
@@ -387,7 +456,7 @@ if (!customElements.get('media-gallery')) {
         }
         if (nextIdx >= 0 && nextIdx !== real) {
           this._ensuringSlide = true;
-          swiper.slideToLoop(nextIdx, 0, false);
+          this.slideToSlideIndex(nextIdx);
           requestAnimationFrame(() => {
             this._ensuringSlide = false;
           });
@@ -410,21 +479,38 @@ if (!customElements.get('media-gallery')) {
 
         this.applyColorAltFilter(variant);
 
-        if (!variant.featured_media) {
-          this.goToFirstVisibleSlide();
-        } else if (this.sliderInstance.slider) {
-          const slideIdx = this.getSlideIndexByMediaId(variant.featured_media.id);
-          const slides = [...this.querySelectorAll('.product__media-item:not(.swiper-slide-duplicate)')];
-          const slide = slideIdx >= 0 ? slides[slideIdx] : null;
-          const featuredVisible =
-            slide && !slide.classList.contains('product__media-item--color-hidden');
-          const targetIndex = featuredVisible ? slideIdx : this.getFirstVisibleSlideIndex();
-          this.sliderInstance.slider.slideToLoop(targetIndex, 0, false);
-        } else {
-          this.sortMediaItems(variant);
-        }
+        const navigate = () => {
+          if (!this.sliderInstance?.slider) {
+            this.sortMediaItems(variant);
+            this.refreshImageZoom();
+            return;
+          }
 
-        this.refreshImageZoom();
+          if (!variant.featured_media) {
+            this.goToFirstVisibleSlide();
+          } else {
+            const slideIdx = this.getSlideIndexByMediaId(variant.featured_media.id);
+            const slides = [...this.querySelectorAll('.product__media-item:not(.swiper-slide-duplicate)')];
+            const slide = slideIdx >= 0 ? slides[slideIdx] : null;
+            const featuredVisible =
+              slide && !slide.classList.contains('product__media-item--color-hidden');
+            const targetIndex = featuredVisible ? slideIdx : this.getFirstVisibleSlideIndex();
+            this.slideToSlideIndex(targetIndex);
+          }
+
+          requestAnimationFrame(() => {
+            this.ensureActiveSlideIsVisible();
+            this._syncSwiperHeightAndImages();
+            this.refreshImageZoom();
+          });
+        };
+
+        /* Mobile reinit leaves Swiper on slide 0; that slide may be color-hidden → autoHeight 0 until we jump. */
+        if (FoxTheme.config.mqlMobile) {
+          requestAnimationFrame(() => requestAnimationFrame(navigate));
+        } else {
+          navigate();
+        }
       }
 
       getSlideIndexByMediaId(mediaId) {
@@ -435,19 +521,71 @@ if (!customElements.get('media-gallery')) {
 
       getFirstVisibleSlideIndex() {
         const slides = [...this.querySelectorAll('.product__media-item:not(.swiper-slide-duplicate)')];
-        return Math.max(
-          0,
-          slides.findIndex((s) => !s.classList.contains('product__media-item--color-hidden'))
-        );
+        const idx = slides.findIndex((s) => !s.classList.contains('product__media-item--color-hidden'));
+        return idx >= 0 ? idx : 0;
       }
 
       goToFirstVisibleSlide() {
         if (this.sliderInstance.slider) {
-          this.sliderInstance.slider.slideToLoop(this.getFirstVisibleSlideIndex(), 0, false);
+          this.slideToSlideIndex(this.getFirstVisibleSlideIndex());
+        }
+      }
+
+      /**
+       * `display:none` on swiper slides breaks Swiper (autoHeight, translate, slide 0 often hidden).
+       * Move visible slides to the front of the wrapper so index 0 is always a visible slide; restore
+       * original `data-media-index` order when no filter. Thumbs follow main order by `data-target`.
+       */
+      _reorderMobileSlidesForSwiper() {
+        const mediaList = this.querySelector('[id^="Slider-Gallery"]');
+        if (!mediaList) return;
+
+        let mainSlides = [...mediaList.querySelectorAll('.product__media-item:not(.swiper-slide-duplicate)')];
+        if (mainSlides.length === 0) return;
+
+        const hasHidden = mainSlides.some((s) => s.classList.contains('product__media-item--color-hidden'));
+
+        if (!hasHidden) {
+          mainSlides.sort((a, b) => {
+            const ai = parseInt(a.dataset.mediaIndex, 10);
+            const bi = parseInt(b.dataset.mediaIndex, 10);
+            return (Number.isFinite(ai) ? ai : 0) - (Number.isFinite(bi) ? bi : 0);
+          });
+        } else {
+          const visible = mainSlides.filter((s) => !s.classList.contains('product__media-item--color-hidden'));
+          const hidden = mainSlides.filter((s) => s.classList.contains('product__media-item--color-hidden'));
+          mainSlides = [...visible, ...hidden];
+        }
+
+        const frag = document.createDocumentFragment();
+        mainSlides.forEach((n) => frag.appendChild(n));
+        mediaList.appendChild(frag);
+
+        const thumbList = this.querySelector('[id^="Slider-Thumbnails"]');
+        if (thumbList) {
+          const orderIds = mainSlides.map((s) => String(s.dataset.mediaId));
+          const thumbs = [...thumbList.querySelectorAll('.product__thumbs-item')];
+          thumbs.sort((a, b) => {
+            const ia = orderIds.indexOf(String(a.dataset.target));
+            const ib = orderIds.indexOf(String(b.dataset.target));
+            return (ia === -1 ? 999 : ia) - (ib === -1 ? 999 : ib);
+          });
+          const tfrag = document.createDocumentFragment();
+          thumbs.forEach((t) => tfrag.appendChild(t));
+          thumbList.appendChild(tfrag);
         }
       }
 
       refreshSwipersAfterFilter() {
+        /* Hidden slides use display:none; Swiper often won't lay out images correctly until rebuilt on mobile. */
+        if (FoxTheme.config.mqlMobile) {
+          this._reorderMobileSlidesForSwiper();
+          this.destroySlider();
+          this.setSliderOptions();
+          this.initSlider();
+          this._syncSwiperHeightAndImages();
+          return;
+        }
         if (this.sliderInstance && this.sliderInstance.slider) {
           this.sliderInstance.slider.update();
           if (this.thumbsInstance && this.thumbsInstance.slider) {
