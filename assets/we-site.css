@@ -90,13 +90,6 @@
     .product--media-has-many.product--grid-mix .product__media-item.we-grid-mix--half {
         width: 50% !important;
     }
-
-    .product--media-has-many.product--grid-mix .product__media-list {
-        gap: 0.4rem 0 !important;
-    }
-    .product--media-has-many.product--grid-mix .product__media-item {
-        padding: 0 0.2rem !important;
-    }
 }
 
 /* Stamped collection badge — reserve space; widget injects stars + rating + count */
