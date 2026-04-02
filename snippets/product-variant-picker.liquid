@@ -162,43 +162,123 @@
         </{{ tag_legend }}>
         {%- case picker_type -%}
           {%- when 'swatch', 'color', 'button' -%}
-              {% if picker_type == 'color' or picker_type == 'swatch' %}
-                <div class="variant-options">
-              {% endif %}
-                {% render 'product-variant-options',
-                  product: product,
-                  option: option,
-                  block: block,
-                  picker_type: picker_type
-                %}
-              {% if picker_type == 'color' or picker_type == 'swatch' %}
-                </div>
-              {% endif %}
+            {% if picker_type == 'color' or picker_type == 'swatch' %}
+              <div class="variant-options">
+            {% endif %}
+            {% render 'product-variant-options',
+              product: product,
+              option: option,
+              block: block,
+              picker_type: picker_type
+            %}
+            {% if picker_type == 'color' or picker_type == 'swatch' %}
+              </div>
+            {% endif %}
           {%- else -%}
-            <div class="select">
-              {%- if picker_type == 'swatch_dropdown' -%}
-                <span
-                  data-selected-value
-                  class="dropdown-swatch"
+            {% comment %}
+              <div class="select">
+                {%- if picker_type == 'swatch_dropdown' -%}
+                  <span
+                    data-selected-value
+                    class="dropdown-swatch"
+                  >
+                    {% comment %} {% render 'swatch', swatch: option.selected_value.swatch %} {% endcomment %}
+                  </span>
+                {%- endif -%}
+                <select
+                  id="Option-{{ section.id }}-{{ forloop.index0 }}"
+                  class="form-control form-control--select"
+                  name="options[{{ option.name | escape }}]"
+                  form="{{ product_form_id }}"
                 >
-                  {% comment %} {% render 'swatch', swatch: option.selected_value.swatch %} {% endcomment %}
-                </span>
-              {%- endif -%}
-              <select
-                id="Option-{{ section.id }}-{{ forloop.index0 }}"
-                class="form-control form-control--select"
-                name="options[{{ option.name | escape }}]"
-                form="{{ product_form_id }}"
-              >
-                {% render 'product-variant-options',
-                  product: product,
-                  option: option,
-                  block: block,
-                  picker_type: picker_type
-                %}
-              </select>
-              {%- render 'icon-caret-down' -%}
-            </div>
+                  {% render 'product-variant-options',
+                    product: product,
+                    option: option,
+                    block: block,
+                    picker_type: picker_type
+                  %}
+                </select>
+                {%- render 'icon-caret-down' -%}
+              </div>
+            {% endcomment %}
+            <details class="we-select-container">
+              <summary class="we-select-container__summary">
+                {% assign handle = option.selected_value | handleize %}
+                {% if metaobjects.logo[handle] %}
+                  {% if metaobjects.logo[handle].bild != blank %}
+                    <span class="we-variant-logo">
+                      {{-
+                        metaobjects.logo[handle].bild
+                        | image_url: width: 16
+                        | image_tag:
+                          widths: '200,300,400,500,600,700,800,900,1000,1100,1200,1300,1400,1500',
+                          loading: 'lazy'
+                      -}}
+                    </span>
+                  {% endif %}
+                {% endif %}
+                {{ option.selected_value }}
+              </summary>
+              <div class="we-select-mobile-portal">
+                <div class="we-select-mobile-backdrop" aria-hidden="true"></div>
+                <div class="we-select-mobile-sheet">
+                <div class="we-select-mobile-sheet__header">
+                  <p
+                    class="we-select-mobile-sheet__title"
+                    id="WeSelectSheetTitle-{{ section.id }}-{{ option.position }}"
+                  >
+                    {{ 'products.product.we_select_sheet_title' | t: option_name: option.name }}
+                  </p>
+                  <button
+                    type="button"
+                    class="we-select-mobile-sheet__close"
+                    aria-label="{{ 'accessibility.close' | t }}"
+                  >
+                    {% render 'icon-close', size: 'small' %}
+                  </button>
+                </div>
+                <div class="we-select">
+                {% for value in option.values %}
+                  <div class="we-select__item">
+                    {%- assign opt_radio_name = option.name | append: '-' | append: option.position -%}
+                    <input
+                      type="radio"
+                      id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+                      name="{{ opt_radio_name | escape }}"
+                      value="{{ value | escape }}"
+                      form="{{ product_form_id }}"
+                      data-product-url="{{ value.product_url }}"
+                      data-option-value-id="{{ value.id }}"
+                      {% if value.selected %}
+                        checked
+                      {% endif %}
+                      {% if value.available == false %}
+                        class="disabled"
+                      {% endif %}
+                    >
+                    <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}">
+                      {% assign handle = value | handleize %}
+                      {% if metaobjects.logo[handle] %}
+                        {% if metaobjects.logo[handle].bild != blank %}
+                          <span class="we-variant-logo">
+                            {{-
+                              metaobjects.logo[handle].bild
+                              | image_url: width: 16
+                              | image_tag:
+                                widths: '200,300,400,500,600,700,800,900,1000,1100,1200,1300,1400,1500',
+                                loading: 'lazy'
+                            -}}
+                          </span>
+                        {% endif %}
+                      {% endif %}
+                      {{ value }}
+                    </label>
+                  </div>
+                {% endfor %}
+                </div>
+                </div>
+              </div>
+            </details>
         {%- endcase -%}
       </{{ tag_fieldset }}>
     {%- endfor -%}

@@ -7,9 +7,11 @@ if (!customElements.get('variant-selects')) {
       }
 
       get selectedOptionValues() {
-        return Array.from(this.querySelectorAll('select option[selected], fieldset input:checked')).map(
-          ({ dataset }) => dataset.optionValueId
-        );
+        return Array.from(
+          this.querySelectorAll(
+            'select option[selected], fieldset input:checked, .product-form__input input[type="radio"]:checked'
+          )
+        ).map(({ dataset }) => dataset.optionValueId);
       }
 
       getInputForEventTarget(target) {

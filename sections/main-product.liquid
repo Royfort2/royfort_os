@@ -1,3 +1,4 @@
+{{ 'we-details-select.css' | asset_url | stylesheet_tag: preload: true }}
 
 {%- liquid
   assign media_layout = section.settings.gallery_layout | default: 'carousel'
@@ -189,6 +190,7 @@
   {%- endif -%}
 
   <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'we-details-select.js' | asset_url }}" defer="defer"></script>
 
   {% assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src' %}
   <div class="product flex flex-wrap {{ product_class }}">
