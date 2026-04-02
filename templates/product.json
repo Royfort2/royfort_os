@@ -54,6 +54,33 @@
             "secondary_button_url": "#"
           }
         },
+        "icon_info_text_8ayhQN": {
+          "type": "icon_info_text",
+          "settings": {
+            "icon": "shopify://shop_images/local_shipping_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
+            "title": "Geschätzte Lieferung: 13-14 Februar",
+            "short_description": "Kostenloser Versand ab €150",
+            "description": "<p>Delivery info</p>"
+          }
+        },
+        "icon_info_text_pzJbNn": {
+          "type": "icon_info_text",
+          "settings": {
+            "icon": "shopify://shop_images/undo_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
+            "title": "30-Tage Rückgaberecht",
+            "short_description": "Kostenlose und einfache Rücksendungen",
+            "description": "<p>Return info</p>"
+          }
+        },
+        "icon_info_text_4ErYdG": {
+          "type": "icon_info_text",
+          "settings": {
+            "icon": "shopify://shop_images/chat_bubble_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
+            "title": "Brauchst du Beratung?",
+            "short_description": "Unser Team steht dir gerne zur Seite",
+            "description": "<p>Beratung info</p>"
+          }
+        },
         "collapsible-row-1": {
           "type": "collapsible_tab",
           "settings": {
@@ -97,6 +124,9 @@
         "price",
         "variant_picker",
         "buy_buttons",
+        "icon_info_text_8ayhQN",
+        "icon_info_text_pzJbNn",
+        "icon_info_text_4ErYdG",
         "collapsible-row-1",
         "collapsible-row-2",
         "collapsible-row-3"
