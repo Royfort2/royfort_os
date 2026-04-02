@@ -58,6 +58,7 @@
           "type": "collapsible_tab",
           "settings": {
             "heading": "Produktbeschreibung",
+            "heading_styling": "body",
             "icon": "none",
             "content": "{{ product.description }}",
             "custom_liquid": "",
@@ -69,6 +70,7 @@
           "type": "collapsible_tab",
           "settings": {
             "heading": "Material",
+            "heading_styling": "body",
             "icon": "none",
             "content": "<p>Material</p>",
             "custom_liquid": "",
@@ -80,6 +82,7 @@
           "type": "collapsible_tab",
           "settings": {
             "heading": "Pflegehinweise",
+            "heading_styling": "body",
             "icon": "none",
             "content": "<p>Pflegehinweise</p>",
             "custom_liquid": "",
@@ -140,6 +143,7 @@
         "/* @media (max-width: 767.98px) {.image-with-text .image-with-text__inner {padding-top: 4.8rem; }}@media (min-width: 768px) {.image-with-text__wrapper {--gap-x: 3rem; }}@media (min-width: 1280px) {.image-with-text__inner {--padding-x: 9rem; }} */"
       ],
       "settings": {
+        "is_full_width": true,
         "section_color_scheme": "",
         "color_scheme": "scheme-1",
         "image": "shopify://shop_images/Musselin_d1ac143e-90e4-4825-bd62-e13f3ec94d0b.jpg",
@@ -184,6 +188,7 @@
         "/* @media (max-width: 767.98px) {.image-with-text .image-with-text__inner {padding-top: 4.8rem; }}@media (min-width: 768px) {.image-with-text__wrapper {--gap-x: 3rem; }}@media (min-width: 1280px) {.image-with-text__inner {--padding-x: 9rem; }} */"
       ],
       "settings": {
+        "is_full_width": true,
         "section_color_scheme": "",
         "color_scheme": "scheme-1",
         "image": "shopify://shop_images/25-03-Royfort-12-Cotton-Weiss-1518_1012152f-d606-4709-a037-96dcc39adc84.jpg",
