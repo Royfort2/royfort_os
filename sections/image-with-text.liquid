@@ -25,11 +25,26 @@
   divider_width: section.settings.divider_width
 %}
 
+{% style %}
+  @media (min-width: 768px) {
+    .image-with-text--text-first > .w-full .image-with-text__inner,
+    .image-with-text--image-first > .w-full .image-with-text__inner {
+      padding-inline: var(--padding-x) !important;
+    }
+  }
+  @media (max-width: 767.98px) {
+    .image-with-text > .w-full {
+      padding-inline: var(--page-padding);
+      padding-bottom: 1.6rem;
+    }
+  }
+{% endstyle %}
+
 <div
   class="section section--padding image-with-text image-with-text--{{ section.settings.layout | replace: '_', '-' }} color-{{ section.settings.section_color_scheme }}{% if color_inherit %} color-inherit{% endif %}{% if section.settings.custom_class != blank %} {{ section.settings.custom_class }}{% endif %}"
   style="--section-padding-top: {{ section.settings.padding_top }}px;--section-padding-bottom: {{ section.settings.padding_bottom }}px;"
 >
-  <div class="page-width">
+  <div class="{% if section.settings.is_full_width %}w-full{% else %}page-width{% endif %}">
     <div class="image-with-text__wrapper hero hero--{{ section.settings.image_height }} f-grid f-grid-1-cols md:f-grid-2-cols f-grid--gap-none blocks-radius">
       <parallax-element
         class="block overflow-hidden{% if color_inherit %} blocks-radius{% endif %}"
@@ -133,6 +148,12 @@
     "groups": ["footer", "header", "custom.overlay"]
   },
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "is_full_width",
+      "label": "[we] Is full width",
+      "default": false
+    },
     {
       "type": "paragraph",
       "content": "[Read How-to](https://foxecom.link/9wkpv0d)"
