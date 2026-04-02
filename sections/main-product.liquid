@@ -94,16 +94,18 @@
     text-transform: uppercase;
     margin-bottom: 0.6rem !important;
   }
-  .product__block--variant_picker .variant-options:has(.swatch-color) {
+  .product__block--variant_picker .variant-options__row:has(.swatch-color) {
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     gap: 0.6rem;
+    width: 100%;
   }
   .product__block--variant_picker .product-form__input--color .swatch-color,
   .product__block--variant_picker .product-form__input--swatch .swatch-color {
     width: 100% !important;
     min-height: unset !important;
     height: 2.4rem !important;
+    min-width: unset !important;
   }
   .product-form__input--color .swatch-color:before,
   .product-form__input--swatch .swatch-color:before {

@@ -24,7 +24,7 @@
         "label": "t:settings_schema.general.settings.enable_rtl.label",
         "default": false
       },
-      { 
+      {
         "type": "text",
         "id": "language_support_rtl",
         "label": "t:settings_schema.general.settings.language_support_rtl.label",
@@ -994,7 +994,7 @@
           {
             "value": "card",
             "label": "t:settings_schema.product_cards.settings.style.options__2.label"
-          } 
+          }
         ],
         "default": "standard",
         "label": "t:settings_schema.product_cards.settings.style.label"
@@ -1018,7 +1018,7 @@
           }
         ],
         "default": "left"
-      }, 
+      },
       {
         "type": "color_scheme",
         "id": "pcard_color_scheme",
@@ -1092,7 +1092,7 @@
         "type": "header",
         "content": "t:settings_schema.product_cards.settings.header__quick_add.content"
       },
-      { 
+      {
         "type": "checkbox",
         "id": "pcard_show_cart_button",
         "label": "t:settings_schema.product_cards.settings.action_show_add_to_cart.label",
@@ -1596,6 +1596,18 @@
         "id": "stamped_store_hash",
         "label": "Store hash (sId)",
         "info": "Required for widget.min.js — not the same as the private key. Copy from Stamped API settings."
+      }
+    ]
+  },
+  {
+    "name": "[we] Custom",
+    "settings": [
+      {
+        "type": "text",
+        "id": "main_colors",
+        "label": "Main colors",
+        "info": "Comma separated list of colors",
+        "default": "Weiß,Sanftgrau,Cremeweiß,Tiefgrau,Taupe"
       }
     ]
   }

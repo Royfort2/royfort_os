@@ -695,3 +695,13 @@ layout-switcher .btn::after {
         padding-inline: 0.8rem !important;
     }
 }
+
+/* Variant picker: theme "Main colors" (settings.main_colors) = first row; other swatches = second row */
+.product-form__input--color .variant-options,
+.product-form__input--swatch .variant-options {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+    width: 100%;
+}
