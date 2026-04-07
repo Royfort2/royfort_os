@@ -20,6 +20,24 @@
           <div class="product__block product__block--{{ block.type }}">
             {% render block %}
           </div>
+        {%- when 'usp_list' -%}
+          <div class="product__block product__block--{{ block.type }}">
+            <div class="product__usp-list-container">
+              <span class="product__usp-list-title">{{ block.settings.title }}</span>
+              <ul class="product__usp-list-items">
+                {% for i in (1..3) %}
+                  {% assign item_title = 'item_title_' | append: i %}
+                  {% assign item_description = 'item_description_' | append: i %}
+                  {% if block.settings[item_title] != blank and block.settings[item_description] != blank %}
+                    <li class="product__usp-list-item">
+                      <span class="product__usp-list-item-title">{{ block.settings[item_title] }}</span>
+                      <span class="product__usp-list-item-description">{{ block.settings[item_description] }}</span>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
         {%- when 'stamped_reviews' -%}
           <div
             class="product__block product__block--{{ block.type }} product-card__stamped we-product-card__stamped text-left"
