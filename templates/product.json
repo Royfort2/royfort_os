@@ -173,7 +173,7 @@
           "settings": {
             "heading": "Das könnte Ihnen auch gefallen",
             "product_list_limit": 4,
-            "image_ratio": "adapt",
+            "image_ratio": "4/5",
             "show_reviews": true
           }
         }
