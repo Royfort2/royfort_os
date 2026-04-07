@@ -761,13 +761,13 @@ layout-switcher .btn::after {
 .we-icon-info-trigger__inner {
     display: flex;
     align-items: center;
-    gap: 1.2rem 1.6rem;
+    gap: 1.2rem;
     width: 100%;
 }
 
 .we-icon-info-trigger__icon {
     flex-shrink: 0;
-    width: 2em;
+    width: 2rem;
     height: 2rem;
     border-radius: var(--small-blocks-radius, 0.4rem);
     overflow: hidden;
