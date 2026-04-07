@@ -477,9 +477,10 @@ if (!customElements.get('media-gallery')) {
         const peekRatio = 0.35;
         const peekMs = 380;
         const returnMs = 420;
-        const pauseBefore = 520;
+        /** Extra wait after window load + Swiper layout so images and height are stable. */
+        const pauseAfterReady = 450;
 
-        window.setTimeout(() => {
+        const runTeaser = () => {
           if (swiper.destroyed) return;
 
           const activeSlide = slides[swiper.activeIndex];
@@ -511,7 +512,30 @@ if (!customElements.get('media-gallery')) {
               swiper.allowTouchMove = prevAllow;
             }, returnMs + 50);
           }, peekMs + 70);
-        }, pauseBefore);
+        };
+
+        const startAfterPageAndSwiperReady = () => {
+          if (swiper.destroyed) return;
+          try {
+            swiper.update();
+            if (typeof swiper.updateAutoHeight === 'function') {
+              swiper.updateAutoHeight(0);
+            }
+          } catch (e) {
+            /* noop */
+          }
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              window.setTimeout(runTeaser, pauseAfterReady);
+            });
+          });
+        };
+
+        if (document.readyState === 'complete') {
+          startAfterPageAndSwiperReady();
+        } else {
+          window.addEventListener('load', startAfterPageAndSwiperReady, { once: true });
+        }
       }
 
       closeImageTooltips() {
