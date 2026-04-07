@@ -153,6 +153,20 @@
             "page": "",
             "default_open": false
           }
+        },
+        "usp_swiper_ffaRkg": {
+          "type": "usp_swiper",
+          "settings": {
+            "hide_on_desktop": true,
+            "icon_1": "shopify://shop_images/globe.svg",
+            "usp_1": "Handgefertigt in Portugal",
+            "icon_2": "shopify://shop_images/local_shipping_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
+            "usp_2": "USP 2",
+            "icon_3": "shopify://shop_images/chat_bubble_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
+            "usp_3": "USP 3",
+            "usp_4": "",
+            "usp_5": ""
+          }
         }
       },
       "block_order": [
@@ -170,7 +184,8 @@
         "usp_list_yWyYmX",
         "collapsible-row-1",
         "collapsible-row-2",
-        "collapsible-row-3"
+        "collapsible-row-3",
+        "usp_swiper_ffaRkg"
       ],
       "custom_css": [
         "/* .loox-rating {margin-top: -1rem;}.complementary-products__container .product-card__wrapper .btn--secondary {background-color: transparent;} */"
