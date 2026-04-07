@@ -154,7 +154,15 @@ if (!customElements.get('media-gallery')) {
           this.handleSliderAfterInit();
           this.handleSlideChange();
 
-          this.sliderInstance.slider.init();
+          const swiper = this.sliderInstance.slider;
+          swiper.init();
+
+          /* Teaser must run here — Swiper may not emit `afterInit` reliably when using init: false + manual init(). */
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              this._maybeRunMobileSwipeTeaser(swiper);
+            });
+          });
         }
       }
 
@@ -436,6 +444,74 @@ if (!customElements.get('media-gallery')) {
             this.toggleSliderDraggableState(!isModelMediaType);
           }
         });
+      }
+
+      /**
+       * Mobile-only: tiny translate (~20% of one slide) and back — not a full slide change.
+       * Skipped for reduced motion, non-mobile, or no next visible slide.
+       */
+      _maybeRunMobileSwipeTeaser(swiper) {
+        if (this._mobileSwipeTeaserPlayed) return;
+        if (typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          return;
+        }
+        /* Match theme mobile breakpoint (<768px); don’t rely only on FoxTheme.config (timing / sync). */
+        if (!window.matchMedia('(max-width: 767.98px)').matches) return;
+        if (!swiper?.slides?.length) return;
+
+        const slides = swiper.slides;
+        let hasNextVisible = false;
+        for (let i = 0; i < slides.length; i++) {
+          const sl = slides[i];
+          if (sl.classList.contains('swiper-slide-duplicate')) continue;
+          if (sl.classList.contains('product__media-item--color-hidden')) continue;
+          if (i > swiper.activeIndex) {
+            hasNextVisible = true;
+            break;
+          }
+        }
+        if (!hasNextVisible) return;
+
+        this._mobileSwipeTeaserPlayed = true;
+
+        const peekRatio = 0.2;
+        const peekMs = 280;
+        const returnMs = 300;
+        const pauseBefore = 400;
+
+        window.setTimeout(() => {
+          if (swiper.destroyed) return;
+
+          const activeSlide = slides[swiper.activeIndex];
+          if (!activeSlide) return;
+
+          const space = Number(swiper.params.spaceBetween) || 0;
+          const w = activeSlide.offsetWidth;
+          const fullStep = w + space;
+          const nudge = Math.max(6, Math.round(fullStep * peekRatio));
+
+          const startT = swiper.getTranslate();
+          const rtl = Boolean(swiper.params.rtl);
+          const targetT = rtl ? startT + nudge : startT - nudge;
+
+          const prevAllow = swiper.allowTouchMove;
+          swiper.allowTouchMove = false;
+
+          swiper.setTransition(peekMs);
+          swiper.setTranslate(targetT);
+
+          window.setTimeout(() => {
+            if (swiper.destroyed) return;
+            swiper.setTransition(returnMs);
+            swiper.setTranslate(startT);
+            window.setTimeout(() => {
+              if (swiper.destroyed) return;
+              swiper.slideTo(swiper.activeIndex, 0, false);
+              swiper.update();
+              swiper.allowTouchMove = prevAllow;
+            }, returnMs + 50);
+          }, peekMs + 50);
+        }, pauseBefore);
       }
 
       closeImageTooltips() {
