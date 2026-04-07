@@ -90,6 +90,13 @@
   .product__media-gallery-viewer-wrap .swiper:not(.swiper-initialized) .swiper-slide:nth-child(n+3) {
     display: none;
   }
+  /*
+   * Full-slide ::after hit target on the zoom button; without pan-x, iOS can keep the gesture on the
+   * button after PhotoSwipe closes and the main Swiper stops receiving horizontal swipes.
+   */
+  .product__media-zoom::after {
+    touch-action: pan-x pan-y pinch-zoom;
+  }
 }
 
 .product__xr-button[data-shopify-xr-hidden] {

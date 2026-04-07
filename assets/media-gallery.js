@@ -329,6 +329,8 @@ if (!customElements.get('media-gallery')) {
           close: false,
           counter: false,
           preloader: false,
+          /* Refocusing the zoom <button> after close breaks horizontal swipe on that slide (iOS / overlay). */
+          returnFocus: false,
         });
 
         this.lightbox.addFilter('thumbEl', (thumbEl, { id }, index) => {
@@ -363,12 +365,9 @@ if (!customElements.get('media-gallery')) {
           window.pauseAllMedia(this);
         });
 
-        this.lightbox.on('destroy', () => {
-          const { currIndex } = this.lightbox.pswp;
-
-          if (this.sliderInstance && this.sliderInstance.slider) {
-            this.slideToSlideIndex(currIndex);
-          }
+        this.lightbox.on('closingAnimationEnd', () => {
+          const pswp = this.lightbox.pswp;
+          this._syncSwiperAfterLightboxClose(pswp);
         });
 
         this.lightbox.on('pointerDown', (e) => {
@@ -502,6 +501,67 @@ if (!customElements.get('media-gallery')) {
       toggleSliderDraggableState(isDraggable) {
         if (this.sliderInstance.slider.allowTouchMove !== isDraggable) {
           this.sliderInstance.slider.allowTouchMove = isDraggable;
+        }
+      }
+
+      /**
+       * After PhotoSwipe closes, sync the main Swiper index and force a layout/touch refresh.
+       * Running this on `destroy` was too late and could leave mobile Swiper in a broken touch state.
+       */
+      _blurZoomTriggerIfFocused() {
+        const el = document.activeElement;
+        if (el && this.contains(el) && el.classList?.contains('js-photoswipe--zoom')) {
+          el.blur();
+        }
+      }
+
+      _syncSwiperAfterLightboxClose(pswp) {
+        if (!pswp || typeof pswp.currIndex !== 'number' || pswp.currIndex < 0) return;
+        const swiper = this.sliderInstance?.slider;
+        if (!swiper) return;
+
+        const target = pswp.currIndex;
+
+        const finalize = () => {
+          this._blurZoomTriggerIfFocused();
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              this._blurZoomTriggerIfFocused();
+              if (typeof queueMicrotask === 'function') {
+                queueMicrotask(() => this._blurZoomTriggerIfFocused());
+              }
+              const sw = this.sliderInstance?.slider;
+              if (!sw) return;
+              sw.update();
+              if (typeof sw.updateAutoHeight === 'function') {
+                sw.updateAutoHeight(0);
+              }
+              const slides = sw.slides;
+              const ai = sw.realIndex;
+              if (slides[ai]) {
+                const isModelMediaType = slides[ai].dataset.mediaType === 'model';
+                this.toggleSliderDraggableState(!isModelMediaType);
+              }
+            });
+          });
+        };
+
+        const runSlideSync = () => {
+          this.slideToSlideIndex(target);
+          finalize();
+        };
+
+        /*
+         * Closing without changing the lightbox slide leaves realIndex unchanged; Swiper often no-ops
+         * slideTo(sameIndex) and touch tracking stays broken on that slide. Nudge to a neighbor then
+         * slide back (same pattern as changing slides in the lightbox, which already worked).
+         */
+        if (target === swiper.realIndex && swiper.slides.length > 1) {
+          const nudge = target === 0 ? 1 : target - 1;
+          swiper.slideTo(nudge, 0, false);
+          requestAnimationFrame(runSlideSync);
+        } else {
+          runSlideSync();
         }
       }
 
