@@ -35,6 +35,7 @@ if (!customElements.get('we-related-products-slider')) {
           spaceBetween: 4,
           watchOverflow: true,
           autoHeight: true,
+          mousewheel: true,
           breakpoints: {
             768: {
               slidesPerView: 2,
