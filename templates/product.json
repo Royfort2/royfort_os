@@ -12,6 +12,24 @@
     "main": {
       "type": "main-product",
       "blocks": {
+        "image_tooltip_iznpVX": {
+          "type": "image_tooltip",
+          "settings": {
+            "image_index": 2,
+            "title": "Nachhaltige Materialien",
+            "description": "<p>Das Material passt sich Ihrer Körpertemperatur an und sorgt so vor allem bei wechselnden Temperaturen für Wohlbefinden.</p>",
+            "button_text": "Mehr Infos"
+          }
+        },
+        "image_tooltip_XNgW9P": {
+          "type": "image_tooltip",
+          "settings": {
+            "image_index": 3,
+            "title": "Temperaturausgleichend",
+            "description": "<p>Das Material passt sich Ihrer Körpertemperatur an und sorgt so vor allem bei wechselnden Temperaturen für Wohlbefinden.</p>",
+            "button_text": "Mehr Infos"
+          }
+        },
         "badges": {
           "type": "badges",
           "settings": {
@@ -126,6 +144,8 @@
         }
       },
       "block_order": [
+        "image_tooltip_iznpVX",
+        "image_tooltip_XNgW9P",
         "badges",
         "stamped_reviews_Kmb8np",
         "title",
