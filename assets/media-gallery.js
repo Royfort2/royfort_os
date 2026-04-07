@@ -44,6 +44,7 @@ if (!customElements.get('media-gallery')) {
 
       setSliderOptions() {
         const mediaItemGap = parseInt(this.dataset.mediaItemGap);
+        const progressEl = this.querySelector('.product__media-gallery-progress');
 
         this.sliderOptions = {
           init: false,
@@ -53,15 +54,14 @@ if (!customElements.get('media-gallery')) {
           grabCursor: true,
           allowTouchMove: true,
           autoHeight: true,
-          navigation: {
-            nextEl: this.querySelector('.swiper-button-next'),
-            prevEl: this.querySelector('.swiper-button-prev'),
-          },
-          pagination: {
-            el: this.querySelector('.swiper-pagination'),
-            clickable: true,
-            type: 'fraction',
-          },
+          navigation: false,
+          pagination:
+            progressEl != null
+              ? {
+                  el: progressEl,
+                  type: 'progressbar',
+                }
+              : false,
           threshold: 2,
         };
 
