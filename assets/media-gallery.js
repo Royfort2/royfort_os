@@ -16,6 +16,7 @@ if (!customElements.get('media-gallery')) {
         this.thumbsInstance = false;
         this.lightbox = null;
         this._lightboxZoomUnsub = null;
+        this._onImageTooltipClick = this._onImageTooltipClick.bind(this);
       }
 
       connectedCallback() {
@@ -39,6 +40,28 @@ if (!customElements.get('media-gallery')) {
 
         if (this.enableImageZoom) {
           this.initImageZoom();
+        }
+
+        this.addEventListener('click', this._onImageTooltipClick);
+      }
+
+      _onImageTooltipClick(event) {
+        const btn = event.target.closest('.product__image-tooltip-trigger-button');
+        if (!btn || !this.contains(btn)) return;
+        event.preventDefault();
+        event.stopPropagation();
+
+        const panelId = btn.getAttribute('aria-controls');
+        if (!panelId) return;
+        const panel = document.getElementById(panelId);
+        if (!panel || !this.contains(panel)) return;
+
+        const willOpen = btn.getAttribute('aria-expanded') !== 'true';
+        btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+        panel.classList.toggle('is-open', willOpen);
+        panel.setAttribute('aria-hidden', willOpen ? 'false' : 'true');
+        if (willOpen) {
+          requestAnimationFrame(() => panel.focus({ preventScroll: true }));
         }
       }
 
@@ -416,8 +439,21 @@ if (!customElements.get('media-gallery')) {
         });
       }
 
+      closeImageTooltips() {
+        this.querySelectorAll('.product__image-tooltip-content.is-open').forEach((panel) => {
+          panel.classList.remove('is-open');
+          panel.setAttribute('aria-hidden', 'true');
+          const id = panel.getAttribute('id');
+          if (!id) return;
+          const b = this.querySelector(`.product__image-tooltip-trigger-button[aria-controls="${id}"]`);
+          if (b) b.setAttribute('aria-expanded', 'false');
+        });
+      }
+
       handleSlideChange() {
         this.sliderInstance.slider.on('realIndexChange', (swiper) => {
+          this.closeImageTooltips();
+
           const { slides, activeIndex, thumbs } = swiper;
 
           if (thumbs.swiper) {
