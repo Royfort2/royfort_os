@@ -20,6 +20,63 @@
           <div class="product__block product__block--{{ block.type }}">
             {% render block %}
           </div>
+        {%- when 'usp_swiper' -%}
+          <script src="{{ 'we-usp-swiper.js' | asset_url }}" defer="defer"></script>
+          {%- liquid
+            assign usp_slide_count = 0
+            for idx in (1..5)
+              assign icon_key = 'icon_' | append: idx
+              assign usp_key = 'usp_' | append: idx
+              if block.settings[icon_key] != blank and block.settings[usp_key] != blank
+                assign usp_slide_count = usp_slide_count | plus: 1
+              endif
+            endfor
+          -%}
+          <we-usp-swiper class="product__block product__block--{{ block.type }} {% if block.settings.hide_on_desktop %}block md:hidden{% endif %}" {{ block.shopify_attributes }}>
+            <div class="swiper we-usp-swiper">
+              <div class="swiper-wrapper">
+                {% for i in (1..5) %}
+                  {% assign icon = 'icon_' | append: i %}
+                  {% assign usp = 'usp_' | append: i %}
+                  {% if block.settings[icon] != blank and block.settings[usp] != blank %}
+                    <div class="swiper-slide">
+                      <div class="product__usp-swiper-item">
+                        {{ block.settings[icon] | image_url: width: 100 | image_tag }}
+                        <span class="product__usp-swiper-item-title">{{ block.settings[usp] }}</span>
+                      </div>
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              </div>
+              <button class="we-usp-swiper-button we-usp-swiper-button-next">
+                <svg xmlns="http://www.w3.org/2000/svg" width="7" height="16" viewBox="0 0 7 16" fill="none">
+                  <g clip-path="url(#clip0_3601_3632)">
+                    <path d="M0.0693364 15.6542L5.3208 7.93258L0.0693359 0.110481H1.44003L6.67435 7.85034L1.38007 15.6542H0.0693364Z" fill="#231F20"/>
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_3601_3632">
+                      <rect width="7" height="16" fill="white"/>
+                    </clipPath>
+                  </defs>
+                </svg>
+              </button>
+              <button class="we-usp-swiper-button we-usp-swiper-button-prev">
+                <svg xmlns="http://www.w3.org/2000/svg" width="7" height="16" viewBox="0 0 7 16" fill="none">
+                  <g clip-path="url(#clip0_3601_3626)">
+                    <path d="M6.93066 0.345817L1.6792 8.06742L6.93066 15.8895L5.55997 15.8895L0.32565 8.14966L5.61994 0.345817L6.93066 0.345817Z" fill="#231F20"/>
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_3601_3626">
+                      <rect width="7" height="16" fill="white" transform="translate(7 16) rotate(-180)"/>
+                    </clipPath>
+                  </defs>
+                </svg>
+              </button>
+              {%- if usp_slide_count > 1 -%}
+                <div class="swiper-pagination product__media-gallery-progress" aria-hidden="true"></div>
+              {%- endif -%}
+            </div>
+          </we-usp-swiper>
         {%- when 'usp_list' -%}
           <div class="product__block product__block--{{ block.type }}">
             <div class="product__usp-list-container">

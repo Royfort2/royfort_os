@@ -129,7 +129,50 @@
     letter-spacing: -0.14px;
     text-transform: uppercase;
   }
-  
+
+  .product__block--usp_swiper {
+    margin-block: 4rem;
+  }
+  .product__usp-swiper-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    justify-content: center;
+    align-items: center;
+  }
+  .product__usp-swiper-item img {
+    width: 2rem;
+    height: 2rem;
+  }
+  .product__usp-swiper-item-title {
+    font-size: 1.4rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    letter-spacing: -0.14px;
+    text-transform: uppercase;
+  }
+  /* USP swiper block: same progress treatment as PDP / card (reuses .product__media-gallery-progress) */
+  .product__block--usp_swiper .we-usp-swiper.swiper {
+      position: relative;
+      padding-block: 4rem;
+  }
+  .we-usp-swiper-button {
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    position: absolute;
+    height: auto;
+    top: 50%;
+    z-index: 2;
+  }
+  .we-usp-swiper-button-next {
+    right: 0;
+  }
+  .we-usp-swiper-button-prev {
+    left: 0;
+  }
+
   @media (max-width: 767.98px) {
     .product--medium {
       gap: 1.6rem !important;
@@ -246,6 +289,68 @@
   "blocks": [
     {
       "type": "@app"
+    },
+    {
+      "type": "usp_swiper",
+      "name": "[we] USP swiper",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "hide_on_desktop",
+          "label": "Hide on desktop",
+          "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_1",
+          "label": "Icon 1"
+        },
+        {
+          "type": "text",
+          "id": "usp_1",
+          "label": "USP 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_2",
+          "label": "Icon 2"
+        },
+        {
+          "type": "text",
+          "id": "usp_2",
+          "label": "USP 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_3",
+          "label": "Icon 3"
+        },
+        {
+          "type": "text",
+          "id": "usp_3",
+          "label": "USP 3"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_4",
+          "label": "Icon 4"
+        },
+        {
+          "type": "text",
+          "id": "usp_4",
+          "label": "USP 4"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_5",
+          "label": "Icon 5"
+        },
+        {
+          "type": "text",
+          "id": "usp_5",
+          "label": "USP 5"
+        }
+      ]
     },
     {
       "type": "usp_list",

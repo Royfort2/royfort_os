@@ -617,6 +617,11 @@
   display: inline;
 }
 
+/* USP swiper (assets/we-usp-swiper.js) — slidesPerView: auto */
+.we-usp-swiper .swiper-slide {
+  width: auto;
+}
+
 @media screen and (forced-colors: active) {
   .product-form__submit[aria-disabled=true] {
     color: Window;
