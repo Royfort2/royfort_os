@@ -135,12 +135,12 @@
           }}
         </motion-element>
         {%- if enable_image_zoom -%}
-          <span
+          {% comment %} <span
             class="product__media-icon"
             aria-hidden="true"
           >
             {%- render 'icon-zoom' -%}
-          </span>
+          </span> {% endcomment %}
           <button
             class="product__media-zoom btn--inherit js-photoswipe--zoom"
             type="button"

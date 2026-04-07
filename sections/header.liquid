@@ -54,12 +54,27 @@
     --logo-width-mobile: {{ settings.logo_width_mobile }}px;
     --color-transparent: {{ section.settings.transparent_header_color.red }},{{ section.settings.transparent_header_color.green }},{{ section.settings.transparent_header_color.blue }};
   }
+
+  {% if request.page_type == 'product' %}
+    @media (min-width: 768px) {
+      .header-transparent:not(.header-scrolled) .header, 
+      .header-transparent:not(.header-scrolled) .header__logo--text, 
+      .header-transparent:not(.header-scrolled) .header__logo--image {
+        --header-background-opacity: 1;
+        --header-logo-opacity: 1;
+        color: rgb(var(--color-foreground));
+      }
+      .header-transparent .header {
+        position: relative;
+      }
+    }
+  {% endif %}
 {% endstyle %}
 
 <header
   data-section-id="{{ section.id }}"
   class="{{ classes }}"
-  {% if request.page_type == 'index' or request.page_type == 'collection' %}
+  {% if request.page_type == 'index' or request.page_type == 'collection' or request.page_type == 'product' %}
     data-enable-transparent="{{ enable_transparent_header }}"
   {% endif %}
   {% if sticky_header != 'none' %}
