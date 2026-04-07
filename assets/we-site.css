@@ -868,6 +868,12 @@ layout-switcher .btn::after {
     right: 1.6rem;
     z-index: 3;
 }
+
+/* Allow tooltip panel to extend above the media box (theme .product__media-container uses overflow: hidden) */
+.product__media-container:has(.product__image-tooltip) {
+    overflow: visible;
+}
+
 .product__image-tooltip-container {
     padding: 0.8rem 1.6rem;
     background: #F5F5F5;
@@ -912,7 +918,8 @@ layout-switcher .btn::after {
 }
 .product__image-tooltip-content {
     position: absolute;
-    top: calc(-100% - 0.8rem);
+    top: auto;
+    bottom: calc(100% + 0.4rem);
     background: #F5F5F5;
     left: 0;
     right: 0;
