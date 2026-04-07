@@ -64,6 +64,7 @@
 .product__media-gallery-progress.swiper-pagination-progressbar .swiper-pagination-progressbar-fill {
     background: rgb(var(--color-foreground));
 }
+
 .product-card.we-product-card--swiper .product-card__wrapper:hover .product-card__image-wrapper--main-only .swiper-slide .product-card__image {
     transform: none;
 }

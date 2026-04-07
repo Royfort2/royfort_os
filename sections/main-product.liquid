@@ -154,8 +154,8 @@
   }
   /* USP swiper block: same progress treatment as PDP / card (reuses .product__media-gallery-progress) */
   .product__block--usp_swiper .we-usp-swiper.swiper {
-      position: relative;
-      padding-block: 4rem;
+    position: relative;
+    padding-block: 4rem;
   }
   .we-usp-swiper-button {
     padding: 0;
@@ -172,6 +172,57 @@
   }
   .we-usp-swiper-button-prev {
     left: 0;
+  }
+
+  .related-products-inline__heading {
+    margin: 0 0 1.2rem;
+    font-size: 1.6rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+    letter-spacing: -0.16px;
+    text-transform: uppercase;
+  }
+  .related-products-inline__header {
+    margin-bottom: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1.6rem;
+  }
+  .related-products-inline__header .slider-controls {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+  .related-products-inline__header button {
+    position: relative;
+    border: none; 
+    padding: 0;
+    background: transparent;
+    height: 100%;
+    top: unset;
+    left: unset;
+    right: unset;
+    border-radius: 0;
+    transform: none;
+    width: 2rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+  }
+  .related-products-inline__header button:hover {
+    background: transparent;
+    color: rgb(var(--color-foreground));
+  }
+  .related-products-inline__header button::after,
+  .related-products-inline__header button::before {
+    content: none;
+  }
+  .related-products-inline__header .related-products-inline__heading {
+    margin-bottom: 0;
+  }
+  .related-products-inline__slider .swiper-slide {
+    height: auto;
   }
 
   @media (max-width: 767.98px) {
@@ -240,6 +291,7 @@
   {%- endif -%}
 
   <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'we-main-product-related.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'we-details-select.js' | asset_url }}" defer="defer"></script>
 
   {% assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src' %}
@@ -290,6 +342,69 @@
   "blocks": [
     {
       "type": "@app"
+    },
+    {
+      "type": "complementary_custom",
+      "name": "[we] Complementary",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Shows algorithmic related products for the current product (Shopify recommendations API, intent: related). [Learn more](https://shopify.dev/docs/storefronts/themes/product-merchandising/recommendations/related-products)"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "You may also like",
+          "label": "Heading"
+        },
+        {
+          "type": "range",
+          "id": "product_list_limit",
+          "min": 2,
+          "max": 10,
+          "step": 1,
+          "default": 4,
+          "label": "Maximum products to show"
+        },
+        {
+          "type": "header",
+          "content": "Product card"
+        },
+        {
+          "type": "select",
+          "id": "image_ratio",
+          "options": [
+            {
+              "value": "adapt",
+              "label": "t:settings_schema.global.settings.image_ratio.options__1.label"
+            },
+            {
+              "value": "1/1",
+              "label": "t:settings_schema.global.settings.image_ratio.options__2.label"
+            },
+            {
+              "value": "3/4",
+              "label": "t:settings_schema.global.settings.image_ratio.options__3.label"
+            },
+            {
+              "value": "4/3",
+              "label": "t:settings_schema.global.settings.image_ratio.options__4.label"
+            },
+            {
+              "value": "4/5",
+              "label": "[we] 4:5"
+            }
+          ],
+          "label": "t:settings_schema.global.settings.image_ratio.label",
+          "default": "adapt"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_reviews",
+          "label": "Show product reviews",
+          "default": true
+        }
+      ]
     },
     {
       "type": "usp_swiper",
