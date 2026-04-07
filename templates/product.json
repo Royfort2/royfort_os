@@ -167,6 +167,15 @@
             "usp_4": "",
             "usp_5": ""
           }
+        },
+        "complementary_custom_y6bBfH": {
+          "type": "complementary_custom",
+          "settings": {
+            "heading": "Das könnte Ihnen auch gefallen",
+            "product_list_limit": 4,
+            "image_ratio": "adapt",
+            "show_reviews": true
+          }
         }
       },
       "block_order": [
@@ -185,7 +194,8 @@
         "collapsible-row-1",
         "collapsible-row-2",
         "collapsible-row-3",
-        "usp_swiper_ffaRkg"
+        "usp_swiper_ffaRkg",
+        "complementary_custom_y6bBfH"
       ],
       "custom_css": [
         "/* .loox-rating {margin-top: -1rem;}.complementary-products__container .product-card__wrapper .btn--secondary {background-color: transparent;} */"
