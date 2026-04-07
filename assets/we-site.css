@@ -949,6 +949,15 @@ layout-switcher .btn::after {
     letter-spacing: -0.14px;
 }
 
+.product__block--usp_list {
+    margin-top: 3.2rem !important;
+}
+.product__block--usp_list:has(+ .product__block--collapsible_tab) {
+    margin-bottom: 0 !important;
+}
+.product__block--usp_list + .product__block--collapsible_tab {
+    margin-top: 0 !important;
+}
 .product__usp-list-container {
     display: flex;
     flex-direction: column;
