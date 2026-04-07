@@ -20,6 +20,10 @@
             "sale_badge_type": "percentage"
           }
         },
+        "stamped_reviews_Kmb8np": {
+          "type": "stamped_reviews",
+          "settings": {}
+        },
         "title": {
           "type": "title",
           "settings": {
@@ -123,6 +127,7 @@
       },
       "block_order": [
         "badges",
+        "stamped_reviews_Kmb8np",
         "title",
         "price",
         "variant_picker",
