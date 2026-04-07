@@ -76,6 +76,18 @@
             "secondary_button_url": "#"
           }
         },
+        "usp_list_yWyYmX": {
+          "type": "usp_list",
+          "settings": {
+            "title": "In sapien eget fringilla magna libero consectetur adipiscing nulla felis. Maecenas suspendisse cras et.",
+            "item_title_1": "The Feel",
+            "item_description_1": "Felis mi massa lectus elit morbi imperdiet ac.",
+            "item_title_2": "The look",
+            "item_description_2": "Felis mi massa lectus elit morbi imperdiet ac.",
+            "item_title_3": "best for",
+            "item_description_3": "Felis mi massa lectus elit morbi imperdiet ac."
+          }
+        },
         "icon_info_text_8ayhQN": {
           "type": "icon_info_text",
           "settings": {
@@ -152,6 +164,7 @@
         "price",
         "variant_picker",
         "buy_buttons",
+        "usp_list_yWyYmX",
         "icon_info_text_8ayhQN",
         "icon_info_text_pzJbNn",
         "icon_info_text_4ErYdG",
