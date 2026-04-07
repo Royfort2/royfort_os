@@ -474,10 +474,10 @@ if (!customElements.get('media-gallery')) {
 
         this._mobileSwipeTeaserPlayed = true;
 
-        const peekRatio = 0.2;
-        const peekMs = 280;
-        const returnMs = 300;
-        const pauseBefore = 400;
+        const peekRatio = 0.35;
+        const peekMs = 380;
+        const returnMs = 420;
+        const pauseBefore = 520;
 
         window.setTimeout(() => {
           if (swiper.destroyed) return;
@@ -510,7 +510,7 @@ if (!customElements.get('media-gallery')) {
               swiper.update();
               swiper.allowTouchMove = prevAllow;
             }, returnMs + 50);
-          }, peekMs + 50);
+          }, peekMs + 70);
         }, pauseBefore);
       }
 
