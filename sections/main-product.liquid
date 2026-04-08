@@ -189,14 +189,14 @@
     gap: 1.2rem;
     width: 100%;
     margin: 0;
-    padding: 1.2rem 1.2rem 1.2rem 1rem;
+    padding: 1.2rem;
     cursor: pointer;
     text-align: start;
   }
   .product-set-picker__thumb {
     flex-shrink: 0;
-    width: 8rem;
-    height: 8rem;
+    aspect-ratio: 4 / 5;
+    max-height: 6rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -235,6 +235,8 @@
   .product-set-picker__price .f-price {
     font-size: 1.4rem;
     font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: -0.35px;
   }
   .product-set-picker__price .f-price-item--regular {
     color: rgb(var(--color-button));
@@ -924,6 +926,12 @@
       "name": "t:sections.main-product.blocks.variant_picker.name",
       "limit": 1,
       "settings": [
+        {
+          "type": "text",
+          "id": "set_picker_title",
+          "label": "[we] Set picker title",
+          "default": "Im selben Set"
+        },
         {
           "type": "paragraph",
           "content": "[Read How-to](https://foxecom.link/jLsoigX)"
