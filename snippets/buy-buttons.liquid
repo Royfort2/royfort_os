@@ -27,6 +27,34 @@
       assign pdp_set_products_list = product.metafields.custom.pdp_set_products.value
       assign pdp_first_set_product = pdp_set_products_list | first
     endif
+
+    assign pdp_qty_opt = product.metafields.custom.pdp_option_for_quantity_selector.value | default: product.metafields.custom.pdp_option_for_quantity_selector | strip
+    assign pdp_qty_selector_pending = false
+    if pdp_qty_opt != blank and product.has_only_default_variant == false
+      assign pdp_qty_selector_pending = true
+      assign ov_bb = ''
+      if request.query_string contains 'option_values='
+        assign ov_bb = request.query_string | split: 'option_values=' | last | split: '&' | first
+      endif
+      if product.selected_variant != blank
+        assign pdp_qty_selector_pending = false
+      elsif ov_bb != blank
+        assign pdp_qty_selector_pending = false
+      endif
+    endif
+    assign variant_picker_custom_dropdown = false
+    for sb in section.blocks
+      if sb.type == 'variant_picker' and sb.settings.picker_type == 'custom_dropdown'
+        assign variant_picker_custom_dropdown = true
+        break
+      endif
+    endfor
+    assign hide_qty_in_buy_buttons = false
+    if pdp_qty_opt != blank
+      if variant_picker_custom_dropdown and block.settings.show_quantity_selector and product.quantity_price_breaks_configured? != true and product.has_only_default_variant == false
+        assign hide_qty_in_buy_buttons = true
+      endif
+    endif
   -%}
   <div
     class="product-form"
@@ -65,8 +93,18 @@
       <input
         type="hidden"
         name="id"
-        value="{{ product.selected_or_first_available_variant.id }}"
-        {% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout or pdp_set_bundle %}
+        {% if pdp_set_bundle %}
+          value="{{ product.selected_or_first_available_variant.id }}"
+        {% elsif pdp_qty_selector_pending %}
+          value=""
+        {% else %}
+          value="{{ product.selected_or_first_available_variant.id }}"
+        {% endif %}
+        {% if product.selected_or_first_available_variant.available == false
+          or quantity_rule_soldout
+          or pdp_set_bundle
+          or pdp_qty_selector_pending
+        %}
           disabled
         {% endif %}
         class="product-variant-id"
@@ -324,7 +362,10 @@
       {%- endif -%}
 
       <div class="product-form__buttons" id="QuantityForm-{{ section_id }}">
-        {%- if block.settings.show_quantity_selector and product.quantity_price_breaks_configured? != true -%}
+        {%- if block.settings.show_quantity_selector
+          and product.quantity_price_breaks_configured? != true
+          and hide_qty_in_buy_buttons == false
+        -%}
           {%- assign cart_qty = cart | item_count_for_variant: product.selected_or_first_available_variant.id -%}
           <div class="product-form__quantity">
             <label class="quantity__label form__label visually-hidden" for="Quantity-{{ section.id }}">
@@ -373,12 +414,17 @@
           type="submit"
           name="add"
           class="product-form__submit btn{% if show_dynamic_checkout %} btn--secondary{% else %} btn--primary{% endif %}"
-          {% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout %}
+          {% if pdp_qty_selector_pending
+            or product.selected_or_first_available_variant.available == false
+            or quantity_rule_soldout
+          %}
             disabled
           {% endif %}
         >
           <span>
-            {%- if product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
+            {%- if pdp_qty_selector_pending -%}
+              Select a variant
+            {%- elsif product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
               {{ 'products.product.sold_out' | t }}
             {%- else -%}
               {{ 'products.product.add_to_cart' | t }}

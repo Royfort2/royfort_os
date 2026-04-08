@@ -8,6 +8,9 @@
   - update_url: {Boolean} whether or not to update url when changing variants. If false, the url isn't updated. Default: true (optional).
   - picker_id_suffix: {String} optional suffix for DOM ids when multiple pickers share a section (e.g. set products).
   - option_name_suffix: {String} optional suffix for option input names (e.g. product id) to avoid collisions in one form.
+  - pdp_qty_metafield_source: {Object} optional product used to read pdp_option_for_quantity_selector (bundle product on set PDPs).
+  - pdp_set_bundle_context: {Boolean} when true, inline quantity is non-submitting (embedded set pickers; avoids duplicate name="quantity").
+  - pdp_qty_embedded_picker: {Boolean} when true, placeholder clears only when product.selected_variant is set or a section fetch includes option_values (set child pickers).
   Usage:
   {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
 {% endcomment %}
@@ -17,12 +20,59 @@
     assign option_name_suffix = option_name_suffix | default: ''
     assign id_ns = section.id | append: '-' | append: picker_id_suffix
 
+    assign pdp_qty_metafield_source = pdp_qty_metafield_source | default: product
+    assign pdp_set_bundle_context = pdp_set_bundle_context | default: false
+    assign pdp_qty_embedded_picker = pdp_qty_embedded_picker | default: false
+    assign pdp_qty_option_raw = pdp_qty_metafield_source.metafields.custom.pdp_option_for_quantity_selector.value | default: pdp_qty_metafield_source.metafields.custom.pdp_option_for_quantity_selector
+    assign pdp_qty_option_name = pdp_qty_option_raw | strip
+    assign pdp_qty_selector_pending = false
+    if pdp_qty_option_name != blank
+      assign pdp_qty_selector_pending = true
+      assign ov_part = ''
+      if request.query_string contains 'option_values='
+        assign ov_part = request.query_string | split: 'option_values=' | last | split: '&' | first | strip
+      endif
+      assign is_section_fetch = false
+      if request.query_string contains 'section_id='
+        assign is_section_fetch = true
+      endif
+      if pdp_qty_embedded_picker
+        if product.selected_variant != blank
+          assign pdp_qty_selector_pending = false
+        elsif is_section_fetch and ov_part != blank
+          assign pdp_qty_selector_pending = false
+        endif
+      else
+        if product.selected_variant != blank
+          assign pdp_qty_selector_pending = false
+        elsif ov_part != blank
+          assign pdp_qty_selector_pending = false
+        endif
+      endif
+    endif
+
     assign size_option_name = block.settings.size_title | downcase
     assign size_chart_content = product.metafields.foxtheme.size_chart.value.content
     assign size_chart_modal_id = 'SizeChartModal-' | append: block.id | append: '-' | append: picker_id_suffix
 
     if size_chart_content == blank and block.settings.size_chart_from_page != blank
       assign size_chart_content = pages[block.settings.size_chart_from_page].content
+    endif
+
+    assign ov_part_global = ''
+    if request.query_string contains 'option_values='
+      assign ov_part_global = request.query_string | split: 'option_values=' | last | split: '&' | first | strip
+    endif
+    assign is_section_fetch_global = false
+    if request.query_string contains 'section_id='
+      assign is_section_fetch_global = true
+    endif
+    assign pdp_embedded_variant_pending = false
+    if pdp_qty_embedded_picker and product.selected_variant == blank
+      assign pdp_embedded_variant_pending = true
+      if is_section_fetch_global and ov_part_global != blank
+        assign pdp_embedded_variant_pending = false
+      endif
     endif
   %}
   <script src="{{ 'variant-selects.js' | asset_url }}" defer="defer"></script>
@@ -32,6 +82,13 @@
     data-url="{{ product.url }}"
     data-product-id="{{ product.id }}"
     data-update-url="{% if update_url == false %}false{% else %}true{% endif %}"
+    {% if pdp_qty_option_name != blank %}
+      data-pdp-qty-option="{{ pdp_qty_option_name | escape }}"
+      data-pdp-qty-pending="{% if pdp_qty_selector_pending %}true{% else %}false{% endif %}"
+    {% endif %}
+    {% if pdp_qty_embedded_picker %}
+      data-pdp-embedded-pending="{% if pdp_embedded_variant_pending %}true{% else %}false{% endif %}"
+    {% endif %}
   >
     {%- for option in product.options_with_values -%}
       {%- liquid
@@ -137,6 +194,57 @@
           assign tag_fieldset = 'div'
           assign tag_legend = 'label'
         endunless
+
+        assign is_pdp_qty_option = false
+        if pdp_qty_option_name != blank
+          assign opt_cmp = option.name | strip | downcase
+          assign pdp_cmp = pdp_qty_option_name | strip | downcase
+          assign opt_h = option.name | handleize
+          assign pdp_h = pdp_qty_option_name | handleize
+          if opt_cmp == pdp_cmp or opt_h == pdp_h
+            assign is_pdp_qty_option = true
+          endif
+        endif
+        if pdp_qty_embedded_picker and pdp_qty_option_name != blank and is_pdp_qty_option == false
+          assign opt_l = option.name | strip | downcase
+          assign pdp_l = pdp_qty_option_name | strip | downcase
+          if pdp_l != blank and opt_l != blank
+            if opt_l contains pdp_l or pdp_l contains opt_l
+              assign is_pdp_qty_option = true
+            endif
+          endif
+        endif
+        assign is_color_swatch_picker = false
+        if picker_type == 'swatch' or picker_type == 'color'
+          assign is_color_swatch_picker = true
+        elsif picker_type == 'button' and settings.color_swatch_trigger != blank
+          assign cst_emb = settings.color_swatch_trigger | downcase | split: ','
+          assign has_c_emb = cst_emb | where: option_name_downcase | first
+          if has_c_emb != blank
+            assign is_color_swatch_picker = true
+          elsif option_name_downcase contains 'colour'
+            assign cst_emb = settings.color_swatch_trigger | replace: 'color', 'colour' | downcase | split: ','
+            assign has_c_emb = cst_emb | where: option_name_downcase | first
+            if has_c_emb != blank
+              assign is_color_swatch_picker = true
+            endif
+          endif
+        endif
+
+        assign pdp_skip_value_selected = false
+        if is_pdp_qty_option and pdp_qty_selector_pending
+          assign pdp_skip_value_selected = true
+        endif
+        if pdp_embedded_variant_pending
+          assign pdp_skip_value_selected = true
+          if is_color_swatch_picker
+            assign pdp_skip_value_selected = false
+          endif
+        endif
+        assign pdp_qty_row_active = false
+        if is_pdp_qty_option and pdp_qty_option_name != blank
+          assign pdp_qty_row_active = true
+        endif
       -%}
       <{{ tag_fieldset }}
         class="{{ wrap_class }}"
@@ -154,7 +262,13 @@
           <div class="flex flex-wrap gap-2">
             <span class="option-name">{{ option.name }}:</span>
             <span data-selected-swatch-value="{{ option.name }}">
-              {{- option.selected_value -}}
+              {%- if is_pdp_qty_option and pdp_qty_selector_pending -%}
+                {{- option.name -}}
+              {%- elsif pdp_embedded_variant_pending and is_color_swatch_picker == false -%}
+                {{- option.name -}}
+              {%- else -%}
+                {{- option.selected_value -}}
+              {%- endif -%}
             </span>
           </div>
           {%- if size_chart_content != blank and attach_size_chart -%}
@@ -178,7 +292,8 @@
               block: block,
               picker_type: picker_type,
               option_id_namespace: id_ns,
-              option_name_suffix: option_name_suffix
+              option_name_suffix: option_name_suffix,
+              skip_value_selected: pdp_skip_value_selected
             %}
             {% if picker_type == 'color' or picker_type == 'swatch' %}
               </div>
@@ -206,29 +321,44 @@
                     block: block,
                     picker_type: picker_type,
                     option_id_namespace: id_ns,
-                    option_name_suffix: option_name_suffix
+                    option_name_suffix: option_name_suffix,
+                    skip_value_selected: pdp_skip_value_selected
                   %}
                 </select>
                 {%- render 'icon-caret-down' -%}
               </div>
             {% endcomment %}
-            <details class="we-select-container">
+            {%- if pdp_qty_row_active -%}
+              <div
+                class="pdp-variant-qty-row{% unless pdp_qty_selector_pending or pdp_embedded_variant_pending %} pdp-variant-qty-row--has-variant{% endunless %}"
+              >
+                <div class="pdp-variant-qty-row__picker">
+            {%- endif -%}
+            <details
+              class="we-select-container{% if is_pdp_qty_option and pdp_qty_selector_pending %} we-select-container--placeholder{% elsif pdp_embedded_variant_pending and is_color_swatch_picker == false %} we-select-container--placeholder{% endif %}"
+            >
               <summary class="we-select-container__summary">
-                {% assign handle = option.selected_value | handleize %}
-                {% if metaobjects.logo[handle] %}
-                  {% if metaobjects.logo[handle].bild != blank %}
-                    <span class="we-variant-logo">
-                      {{-
-                        metaobjects.logo[handle].bild
-                        | image_url: width: 16
-                        | image_tag:
-                          widths: '200,300,400,500,600,700,800,900,1000,1100,1200,1300,1400,1500',
-                          loading: 'lazy'
-                      -}}
-                    </span>
+                {%- if is_pdp_qty_option and pdp_qty_selector_pending -%}
+                  <span class="we-select-placeholder-label">{{ option.name }}</span>
+                {%- elsif pdp_embedded_variant_pending and is_color_swatch_picker == false -%}
+                  <span class="we-select-placeholder-label">{{ option.name }}</span>
+                {%- else -%}
+                  {% assign handle = option.selected_value | handleize %}
+                  {% if metaobjects.logo[handle] %}
+                    {% if metaobjects.logo[handle].bild != blank %}
+                      <span class="we-variant-logo">
+                        {{-
+                          metaobjects.logo[handle].bild
+                          | image_url: width: 16
+                          | image_tag:
+                            widths: '200,300,400,500,600,700,800,900,1000,1100,1200,1300,1400,1500',
+                            loading: 'lazy'
+                        -}}
+                      </span>
+                    {% endif %}
                   {% endif %}
-                {% endif %}
-                {{ option.selected_value }}
+                  {{ option.selected_value }}
+                {%- endif -%}
               </summary>
               <div class="we-select-mobile-portal">
                 <div class="we-select-mobile-backdrop" aria-hidden="true"></div>
@@ -260,7 +390,7 @@
                       form="{{ product_form_id }}"
                       data-product-url="{{ value.product_url }}"
                       data-option-value-id="{{ value.id }}"
-                      {% if value.selected %}
+                      {% if value.selected and pdp_skip_value_selected == false %}
                         checked
                       {% endif %}
                       {% if value.available == false %}
@@ -290,11 +420,56 @@
                 </div>
               </div>
             </details>
+            {%- if pdp_qty_row_active -%}
+                </div>
+                {%- liquid
+                  assign pdp_qr = product.selected_or_first_available_variant.quantity_rule
+                  assign pdp_q_min = pdp_qr.min | default: 1
+                  if pdp_q_min < 1
+                    assign pdp_q_min = 1
+                  endif
+                  assign pdp_q_max = pdp_qr.max | default: 10
+                  if pdp_q_max == blank or pdp_q_max == 0
+                    assign pdp_q_max = 10
+                  endif
+                  if pdp_q_max > 10
+                    assign pdp_q_max = 10
+                  endif
+                  if pdp_q_max < pdp_q_min
+                    assign pdp_q_max = pdp_q_min
+                  endif
+                  assign pdp_q_inc = pdp_qr.increment | default: 1
+                  if pdp_q_inc < 1
+                    assign pdp_q_inc = 1
+                  endif
+                -%}
+                <div
+                  class="pdp-inline-quantity"
+                  aria-hidden="{% if pdp_qty_selector_pending or pdp_embedded_variant_pending %}true{% else %}false{% endif %}"
+                >
+                  {% render 'pdp-inline-quantity-we-select',
+                    id_ns: id_ns,
+                    product_form_id: product_form_id,
+                    option_position: option.position,
+                    pdp_q_min: pdp_q_min,
+                    pdp_q_max: pdp_q_max,
+                    pdp_q_inc: pdp_q_inc,
+                    pdp_set_bundle_context: pdp_set_bundle_context,
+                    pdp_qty_selector_pending: pdp_qty_selector_pending,
+                    pdp_embedded_variant_pending: pdp_embedded_variant_pending
+                  %}
+                </div>
+              </div>
+            {%- endif -%}
         {%- endcase -%}
       </{{ tag_fieldset }}>
     {%- endfor -%}
     <script type="application/json" data-selected-variant>
-      {{ product.selected_or_first_available_variant | json }}
+      {%- if pdp_qty_selector_pending or pdp_embedded_variant_pending -%}
+        null
+      {%- else -%}
+        {{- product.selected_or_first_available_variant | json -}}
+      {%- endif -%}
     </script>
   </variant-selects>
   {%- if size_chart_content != blank -%}

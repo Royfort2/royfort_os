@@ -21,6 +21,7 @@
   assign option_name_suffix = option_name_suffix | default: ''
   assign product_form_id = 'product-form-' | append: section.id
   assign image_size = block.settings.button_size | times: 1.5
+  assign skip_value_selected = skip_value_selected | default: false
   assign use_main_color_rows = false
   if settings.main_colors != blank
     if picker_type == 'color' or picker_type == 'swatch'
@@ -82,7 +83,8 @@
               image_size: image_size,
               value_index: forloop.index0,
               id_namespace: option_id_namespace,
-              option_name_suffix: option_name_suffix
+              option_name_suffix: option_name_suffix,
+              skip_value_selected: skip_value_selected
             %}
             {%- break -%}
           {%- endif -%}
@@ -116,7 +118,8 @@
             image_size: image_size,
             value_index: forloop.index0,
             id_namespace: option_id_namespace,
-            option_name_suffix: option_name_suffix
+            option_name_suffix: option_name_suffix,
+            skip_value_selected: skip_value_selected
           %}
         {%- endunless -%}
       {%- endfor -%}
@@ -134,7 +137,8 @@
       image_size: image_size,
       value_index: forloop.index0,
       id_namespace: option_id_namespace,
-      option_name_suffix: option_name_suffix
+      option_name_suffix: option_name_suffix,
+      skip_value_selected: skip_value_selected
     %}
   {%- endfor -%}
 {%- endif -%}

@@ -8,9 +8,62 @@ if (!customElements.get('product-info')) {
       preProcessHtmlCallbacks = [];
       postProcessHtmlCallbacks = [];
       cartUpdateUnsubscriber = undefined;
+      /** When true, next embedded variant-selects swap should replay the inline quantity width/opacity transition. */
+      pendingEmbeddedQtyReveal = false;
 
       constructor() {
         super();
+      }
+
+      /**
+       * Embedded set pickers: section HTML arrives with the quantity column already “open”, so CSS transition
+       * never runs. After initWeDetailsSelects, force a max-width Web Animations API tween (same easing/duration
+       * as theme CSS). Does not rely on class-toggle timing.
+       */
+      animateEmbeddedInlineQtyReveal(vsRoot) {
+        if (!vsRoot) return;
+        if (window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches) return;
+
+        const inlineQty =
+          vsRoot.querySelector('.pdp-variant-qty-row--has-variant .pdp-inline-quantity') ||
+          vsRoot.querySelector('.pdp-inline-quantity');
+        if (!inlineQty || typeof inlineQty.animate !== 'function') return;
+
+        inlineQty.getAnimations?.().forEach((a) => a.cancel());
+
+        inlineQty.style.width = '0px';
+        inlineQty.style.minWidth = '0px';
+        inlineQty.style.maxWidth = '0px';
+        inlineQty.style.opacity = '0';
+        void inlineQty.offsetWidth;
+
+        requestAnimationFrame(() => {
+          const anim = inlineQty.animate(
+            [
+              {
+                width: '0px',
+                minWidth: '0px',
+                maxWidth: '0px',
+                opacity: 0,
+              },
+              {
+                width: '8rem',
+                minWidth: '8rem',
+                maxWidth: '8rem',
+                opacity: 1,
+              },
+            ],
+            { duration: 400, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: 'forwards' }
+          );
+          anim.finished
+            .then(() => {
+              inlineQty.style.removeProperty('width');
+              inlineQty.style.removeProperty('min-width');
+              inlineQty.style.removeProperty('max-width');
+              inlineQty.style.removeProperty('opacity');
+            })
+            .catch(() => {});
+        });
       }
 
       get variantSelectors() {
@@ -68,6 +121,11 @@ if (!customElements.get('product-info')) {
       handleOptionValueChange({ data: { event, target, selectedOptionValues } }) {
         if (!this.contains(event.target)) return;
 
+        const t = event.target;
+        if (t?.closest?.('.pdp-inline-quantity')) return;
+        if (t?.hasAttribute?.('data-pdp-inline-qty-value')) return;
+        if (t?.tagName === 'SELECT' && t?.getAttribute?.('name') === 'quantity') return;
+
         const variantSelectsEl = event.target.closest('variant-selects');
         const variantSelectsId = variantSelectsEl?.id;
 
@@ -102,6 +160,8 @@ if (!customElements.get('product-info')) {
 
         const shouldFetchFullPage = this.dataset.updateUrl === 'true' && shouldSwapProduct;
         const viewMode = this.dataset.viewMode || 'main-product';
+
+        this.pendingEmbeddedQtyReveal = variantSelectsEl?.dataset?.pdpEmbeddedPending === 'true';
 
         this.renderProductInfo({
           requestUrl: this.buildRequestUrlWithParams(productUrl, selectedOptionValues, shouldFetchFullPage),
@@ -172,14 +232,42 @@ if (!customElements.get('product-info')) {
           const isMainPicker = this.isMainProductVariantPicker(variantSelectsId);
           const variant = this.getSelectedVariant(html, variantSelectsId);
 
+          let hadQtyRowExpandedBefore = false;
+          let incomingQtyRowExpanded = false;
+          if (variantSelectsId && !isMainPicker) {
+            const destBefore = document.getElementById(variantSelectsId);
+            hadQtyRowExpandedBefore = !!destBefore?.querySelector('.pdp-variant-qty-row--has-variant');
+            let sourceVs = null;
+            if (destBefore?.dataset?.productId) {
+              sourceVs = html.querySelector(
+                `variant-selects[data-product-id="${destBefore.dataset.productId}"]`
+              );
+            }
+            if (!sourceVs) {
+              sourceVs = html.getElementById(variantSelectsId);
+            }
+            incomingQtyRowExpanded = !!sourceVs?.querySelector('.pdp-variant-qty-row--has-variant');
+          }
+
           this.updateOptionValues(html, variantSelectsId);
 
           if (!isMainPicker) {
+            const shouldRevealQty =
+              this.pendingEmbeddedQtyReveal ||
+              (!hadQtyRowExpandedBefore && incomingQtyRowExpanded);
+            this.pendingEmbeddedQtyReveal = false;
             this.enableButtons();
             requestAnimationFrame(() => {
-              if (typeof window.initWeDetailsSelects === 'function' && variantSelectsId) {
-                const vsRoot = document.getElementById(variantSelectsId);
-                if (vsRoot) window.initWeDetailsSelects(vsRoot);
+              const vsRoot = variantSelectsId ? document.getElementById(variantSelectsId) : null;
+              if (typeof window.initWeDetailsSelects === 'function' && vsRoot) {
+                window.initWeDetailsSelects(vsRoot);
+              }
+              const revealAfterInit =
+                shouldRevealQty ||
+                (!hadQtyRowExpandedBefore &&
+                  !!vsRoot?.querySelector('.pdp-variant-qty-row--has-variant .pdp-inline-quantity'));
+              if (revealAfterInit && vsRoot) {
+                this.animateEmbeddedInlineQtyReveal(vsRoot);
               }
               document.dispatchEvent(new CustomEvent('pdp-set:refresh-submit', { bubbles: true }));
             });
@@ -273,8 +361,13 @@ if (!customElements.get('product-info')) {
         const root = variantSelectsId
           ? productInfoNode.getElementById(variantSelectsId)
           : productInfoNode.querySelector('variant-selects');
-        const selectedVariant = root?.querySelector('[data-selected-variant]')?.innerHTML;
-        return !!selectedVariant ? JSON.parse(selectedVariant) : null;
+        const raw = root?.querySelector('[data-selected-variant]')?.textContent?.trim();
+        if (!raw) return null;
+        try {
+          return JSON.parse(raw);
+        } catch {
+          return null;
+        }
       }
 
       renderProductInfo({ requestUrl, targetId, callback }) {

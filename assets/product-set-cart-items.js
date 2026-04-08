@@ -18,10 +18,22 @@
     const values = [];
     if (!variantSelects) return values;
     variantSelects.querySelectorAll(':scope > .product-form__input').forEach((wrap) => {
-      const checked = wrap.querySelector('input[type="radio"]:checked');
+      const checked = wrap.querySelector(
+        'input[type="radio"]:checked:not([data-pdp-inline-qty-value])'
+      );
       if (checked) values.push(checked.value);
     });
     return values;
+  }
+
+  function getIncompleteSelection(variantSelects) {
+    if (!variantSelects) return false;
+    const groups = variantSelects.querySelectorAll(':scope > .product-form__input');
+    for (const wrap of groups) {
+      if (!wrap.querySelector('input[type="radio"]:checked:not([data-pdp-inline-qty-value])'))
+        return true;
+    }
+    return false;
   }
 
   function findVariantByOptions(variants, selected) {
@@ -36,15 +48,21 @@
   }
 
   function resolveVariant(variantSelects, productId) {
+    if (!variantSelects) return null;
     const variants = getVariantsForProduct(productId);
     const selected = getSelectedOptionValues(variantSelects);
     let variant = findVariantByOptions(variants, selected);
     if (!variant && variantSelects) {
       const script = variantSelects.querySelector('[data-selected-variant]');
       if (script?.textContent) {
-        try {
-          variant = JSON.parse(script.textContent);
-        } catch (e) {}
+        const raw = script.textContent.trim();
+        if (raw === 'null' || raw === '') {
+          variant = null;
+        } else {
+          try {
+            variant = JSON.parse(script.textContent);
+          } catch (e) {}
+        }
       }
     }
     return variant;
@@ -61,6 +79,7 @@
    */
   function getResolvedVariant(sectionId, productId, fallbackId) {
     const vs = document.getElementById(`variant-selects-${sectionId}-${productId}`);
+    if (vs && getIncompleteSelection(vs)) return null;
     let variant = resolveVariant(vs, productId);
     if (!variant && fallbackId != null && fallbackId !== '') {
       variant = findVariantById(getVariantsForProduct(productId), fallbackId);
@@ -68,9 +87,14 @@
     if (!variant && vs) {
       const script = vs.querySelector('[data-selected-variant]');
       if (script?.textContent) {
-        try {
-          variant = JSON.parse(script.textContent);
-        } catch (e) {}
+        const raw = script.textContent.trim();
+        if (raw === 'null' || raw === '') {
+          variant = null;
+        } else {
+          try {
+            variant = JSON.parse(script.textContent);
+          } catch (e) {}
+        }
       }
     }
     return variant;
@@ -89,11 +113,28 @@
   function getVariantIdForProduct(sectionId, productId, fallbackId) {
     const vs = document.getElementById(`variant-selects-${sectionId}-${productId}`);
     if (vs) {
+      if (getIncompleteSelection(vs)) return '';
       const v = resolveVariant(vs, productId);
       if (v?.id) return String(v.id);
     }
     if (fallbackId != null && fallbackId !== '') return String(fallbackId);
     return getDefaultVariantIdFromDom(productId);
+  }
+
+  /**
+   * Inline quantity lives under each variant-selects (we-select radios with data-pdp-inline-qty-value).
+   * Set-bundle embedded pickers use name qty-inline-*; values must be read per product for cart lines.
+   */
+  function getInlineQuantityForProduct(sectionId, productId) {
+    const vs = document.getElementById(`variant-selects-${sectionId}-${productId}`);
+    if (!vs) return 1;
+    const checked = vs.querySelector(
+      '.pdp-inline-quantity input[type="radio"][data-pdp-inline-qty-value]:checked'
+    );
+    if (!checked) return 1;
+    const raw = checked.getAttribute('data-pdp-inline-qty-value') || checked.value;
+    const n = parseInt(String(raw), 10);
+    return Number.isFinite(n) && n > 0 ? n : 1;
   }
 
   function isVariantPurchasable(variant) {
@@ -138,8 +179,29 @@
       typeof FoxTheme !== 'undefined' && FoxTheme.variantStrings && FoxTheme.variantStrings.addToCart
         ? FoxTheme.variantStrings.addToCart
         : 'Add to cart';
+    const selectVariant = 'Select a variant';
 
     const span = submitBtn.querySelector('span');
+
+    const incomplete =
+      getIncompleteSelection(document.getElementById(`variant-selects-${sectionId}-${mainProductId}`)) ||
+      getIncompleteSelection(document.getElementById(`variant-selects-${sectionId}-${firstSetProductId}`));
+    let incompleteOptional = false;
+    optionalProductIds.forEach((pid) => {
+      const cb = productInfo.querySelector(`input.product-set-picker__toggle[data-set-optional-product-id="${pid}"]`);
+      if (cb?.checked && getIncompleteSelection(document.getElementById(`variant-selects-${sectionId}-${pid}`))) {
+        incompleteOptional = true;
+      }
+    });
+
+    if (incomplete || incompleteOptional) {
+      submitBtn.disabled = true;
+      submitBtn.setAttribute('disabled', 'disabled');
+      if (span) span.textContent = selectVariant;
+      submitBtn.style.pointerEvents = 'none';
+      submitBtn.style.opacity = '0.6';
+      return;
+    }
 
     if (!allPurchasable) {
       submitBtn.disabled = true;
@@ -174,7 +236,12 @@
     const lines = [];
 
     const firstId = getVariantIdForProduct(sectionId, firstSetProductId, firstVariantFallback);
-    if (firstId) lines.push({ id: firstId, quantity: 1 });
+    if (firstId) {
+      lines.push({
+        id: firstId,
+        quantity: getInlineQuantityForProduct(sectionId, firstSetProductId),
+      });
+    }
 
     const productInfo = form.closest('product-info');
 
@@ -184,7 +251,12 @@
       );
       if (!cb?.checked) return;
       const vid = getVariantIdForProduct(sectionId, pid, '');
-      if (vid) lines.push({ id: vid, quantity: 1 });
+      if (vid) {
+        lines.push({
+          id: vid,
+          quantity: getInlineQuantityForProduct(sectionId, pid),
+        });
+      }
     });
 
     lines.forEach((line, n) => {
@@ -216,9 +288,11 @@
 
     if (productInfo) {
       productInfo.addEventListener('change', (e) => {
+        const t = e.target;
         if (
-          e.target.closest?.('variant-selects') ||
-          e.target.classList?.contains('product-set-picker__toggle')
+          t?.closest?.('variant-selects') ||
+          t?.classList?.contains('product-set-picker__toggle') ||
+          t?.hasAttribute?.('data-pdp-inline-qty-value')
         ) {
           refresh(form);
         }

@@ -467,14 +467,18 @@
                 product_form_id: product_form_id,
                 update_url: update_browser_history,
                 picker_id_suffix: product.id,
-                option_name_suffix: product.id | prepend: '-'
+                option_name_suffix: product.id | prepend: '-',
+                pdp_qty_metafield_source: product,
+                pdp_set_bundle_context: false
               %}
             {%- else -%}
               {% render 'product-variant-picker',
                 product: product,
                 block: block,
                 product_form_id: product_form_id,
-                update_url: update_browser_history
+                update_url: update_browser_history,
+                pdp_qty_metafield_source: product,
+                pdp_set_bundle_context: false
               %}
             {%- endif -%}
             {% if pdp_set_active %}
@@ -486,7 +490,10 @@
                 product_form_id: product_form_id,
                 update_url: update_browser_history,
                 picker_id_suffix: first_product.id,
-                option_name_suffix: first_option_name_suffix
+                option_name_suffix: first_option_name_suffix,
+                pdp_qty_metafield_source: product,
+                pdp_set_bundle_context: true,
+                pdp_qty_embedded_picker: true
               %}
               <script type="application/json" data-set-product-variants="{{ first_product.id }}">
                 {{ first_product.variants | json }}
@@ -571,7 +578,10 @@
                                 product_form_id: product_form_id,
                                 update_url: update_browser_history,
                                 picker_id_suffix: set_product.id,
-                                option_name_suffix: set_product.id | prepend: '-'
+                                option_name_suffix: set_product.id | prepend: '-',
+                                pdp_qty_metafield_source: product,
+                                pdp_set_bundle_context: true,
+                                pdp_qty_embedded_picker: true
                               %}
                             </div>
                           </div>

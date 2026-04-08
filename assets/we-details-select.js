@@ -297,6 +297,14 @@ class detailSelect {
     const label = that.parentNode && that.parentNode.querySelector('label');
     if (!summary || !label) return;
 
+    this.container.classList.remove('we-select-container--placeholder');
+    const qtyRow = this.container.closest('.pdp-variant-qty-row');
+    if (qtyRow) {
+      qtyRow.classList.add('pdp-variant-qty-row--has-variant');
+      const inlineQty = qtyRow.querySelector('.pdp-inline-quantity');
+      if (inlineQty) inlineQty.setAttribute('aria-hidden', 'false');
+    }
+
     const pos = [...this.options].indexOf(that.parentNode) + 1;
 
     if (this.value !== that.value) {

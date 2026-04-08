@@ -43,6 +43,9 @@
     padding-bottom: 8rem;
     overflow: hidden;
   }
+  .product--medium .product__info-container .product__blocks:has(details.we-select-container[open]) {
+    overflow: visible;
+  }
   .product__block {
     --product-blocks-gap: 2rem !important;
     --product-blocks-gap-large: 2rem !important;
@@ -141,6 +144,83 @@
   .product__block--variant_picker:has(details.we-select-container[open]) {
     position: relative;
     z-index: 25;
+  }
+  .product__block--variant_picker:has(.pdp-inline-quantity details.we-select-container[open]) {
+    position: relative;
+    z-index: 25;
+  }
+  .pdp-variant-qty-row:has(details.we-select-container[open]) {
+    overflow: visible;
+  }
+  .pdp-variant-qty-row {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0.6rem;
+    width: 100%;
+  }
+  .pdp-variant-qty-row__picker {
+    flex: 1;
+    min-width: 0;
+  }
+  /*
+    Collapsed inline qty uses width:0 but summary text still wraps → enormous column height + align-items:stretch
+    inflated the whole row and pushed the next option down. Collapse height until the row is “open”.
+  */
+  .pdp-variant-qty-row--has-variant {
+    align-items: stretch;
+  }
+  /* Fixed 8rem column when open; tween width (embedded path uses WAAPI, main path uses transition). */
+  .pdp-inline-quantity {
+    flex: 0 0 auto;
+    align-self: flex-start;
+    box-sizing: border-box;
+    /* Collapsed: no reserved flex basis so width tween runs from 0 → 8rem */
+    width: 0;
+    min-width: 0;
+    max-width: 0;
+    max-height: 0;
+    min-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    pointer-events: none;
+    transition:
+      width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+      min-width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+      max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+      max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.25s ease;
+  }
+  .pdp-variant-qty-row--has-variant .pdp-inline-quantity {
+    align-self: stretch;
+    width: 8rem;
+    min-width: 8rem;
+    max-width: 8rem;
+    max-height: none;
+    min-height: 0;
+    flex: 0 0 8rem;
+    opacity: 1;
+    overflow: visible;
+    pointer-events: auto;
+  }
+  .pdp-inline-quantity:has(details.we-select-container[open]) {
+    overflow: visible;
+    z-index: 26;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pdp-inline-quantity {
+      transition: none;
+    }
+  }
+  /* Set-bundle / nested pickers: don’t clip the width tween (grid/flex parents). */
+  .product-set-picker__expand-inner .pdp-inline-quantity,
+  .product-set-picker__card .pdp-inline-quantity {
+    contain: none;
+  }
+  /* Inline quantity uses same we-select-container markup + we-details-select.css */
+  .pdp-inline-quantity .pdp-inline-qty-we-select.we-select-container {
+    width: 100%;
+    display: inline-block;
   }
   .product-set-picker__accordion {
     margin-top: 0;

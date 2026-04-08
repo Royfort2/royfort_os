@@ -5,10 +5,16 @@
   - section, block, option, value, picker_type, product_form_id, image_size, value_index (index in option.values)
   - id_namespace: optional, defaults to section.id; used for unique input ids when multiple pickers share a section.
   - option_name_suffix: legacy param; radio names use id_namespace (sectionId-productId) so groups stay isolated.
+  - skip_value_selected: when true, no value is pre-selected (embedded set PDP with no variant in URL)
 {% endcomment %}
 {%- liquid
   assign id_namespace = id_namespace | default: section.id
   assign option_name_suffix = option_name_suffix | default: ''
+  assign skip_value_selected = skip_value_selected | default: false
+  assign value_should_select = value.selected
+  if skip_value_selected
+    assign value_should_select = false
+  endif
   assign option_disabled = true
   if value.available
     assign option_disabled = false
@@ -61,7 +67,7 @@
     value: value,
     swatch: value.swatch,
     product_form_id: product_form_id,
-    checked: value.selected,
+    checked: value_should_select,
     visually_disabled: option_disabled,
     help_text: help_text,
     additional_props: input_dataset,
@@ -116,7 +122,7 @@
     name="{{ input_name }}"
     value="{{ value | escape }}"
     form="{{ product_form_id }}"
-    {% if value.selected %}
+    {% if value_should_select %}
       checked
     {% endif %}
     {% if option_disabled %}
@@ -140,7 +146,7 @@
     name="{{ input_name | escape }}"
     value="{{ value | escape }}"
     form="{{ product_form_id }}"
-    {% if value.selected %}
+    {% if value_should_select %}
       checked
     {% endif %}
     {% if option_disabled %}
@@ -156,7 +162,7 @@
   <option
     id="{{ input_id }}"
     value="{{ value | escape }}"
-    {% if value.selected %}
+    {% if value_should_select %}
       selected="selected"
     {% endif %}
     {% if swatch_value and picker_type == 'swatch_dropdown' %}
