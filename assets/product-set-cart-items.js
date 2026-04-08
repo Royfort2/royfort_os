@@ -4,6 +4,8 @@
  * Disables the submit button if the main product, first set product, or any selected optional is unavailable.
  */
 (function () {
+  let pdpSetBundleChangeDelegationBound = false;
+
   function getVariantsForProduct(productId) {
     const el = document.querySelector(`script[data-set-product-variants="${productId}"]`);
     if (!el?.textContent) return [];
@@ -141,6 +143,122 @@
     return Boolean(variant && variant.available === true);
   }
 
+  /**
+   * Zwischensumme: main bundle product + first set product + checked optionals; prices/qty from current variant + inline qty.
+   */
+  function updatePdpSetZwischensumme(form) {
+    const cfgEl = form.querySelector('script[data-pdp-set-config]');
+    const productInfo = form.closest('product-info');
+    const root = productInfo?.querySelector('[data-pdp-set-zwischensumme]');
+    if (!cfgEl?.textContent || !root) return;
+
+    let cfg;
+    try {
+      cfg = JSON.parse(cfgEl.textContent);
+    } catch (e) {
+      return;
+    }
+
+    const { sectionId, firstSetProductId, firstVariantFallback, optionalProductIds = [] } = cfg;
+    const mainProductId = productInfo?.dataset?.productId;
+    const metaEl = root.querySelector('[data-pdp-set-zwischensumme-meta]');
+    let titles = {};
+    if (metaEl?.textContent) {
+      try {
+        const meta = JSON.parse(metaEl.textContent);
+        titles = meta.titles || {};
+      } catch (e) {}
+    }
+
+    const fmt = window.FoxTheme?.Currency?.formatMoney;
+    const mf = window.FoxTheme?.settings?.moneyFormat;
+    if (typeof fmt !== 'function') return;
+
+    const lines = [];
+
+    if (mainProductId) {
+      const vMain = getResolvedVariant(sectionId, mainProductId, null);
+      const qMain = getInlineQuantityForProduct(sectionId, mainProductId);
+      if (vMain) {
+        lines.push({
+          title: titles[String(mainProductId)] || '',
+          variant: vMain,
+          qty: qMain,
+        });
+      }
+    }
+
+    const vFirst = getResolvedVariant(sectionId, firstSetProductId, firstVariantFallback);
+    const qFirst = getInlineQuantityForProduct(sectionId, firstSetProductId);
+    if (vFirst) {
+      lines.push({
+        title: titles[String(firstSetProductId)] || '',
+        variant: vFirst,
+        qty: qFirst,
+      });
+    }
+
+    optionalProductIds.forEach((pid) => {
+      const cb = productInfo.querySelector(
+        `input.product-set-picker__toggle[data-set-optional-product-id="${pid}"]`
+      );
+      if (!cb?.checked) return;
+      const v = getResolvedVariant(sectionId, pid, getDefaultVariantIdFromDom(pid));
+      const q = getInlineQuantityForProduct(sectionId, pid);
+      if (v) {
+        lines.push({
+          title: titles[String(pid)] || '',
+          variant: v,
+          qty: q,
+        });
+      }
+    });
+
+    let saleTotal = 0;
+    let compareTotal = 0;
+    lines.forEach((line) => {
+      saleTotal += line.variant.price * line.qty;
+      const unitCompare =
+        line.variant.compare_at_price && line.variant.compare_at_price > line.variant.price
+          ? line.variant.compare_at_price
+          : line.variant.price;
+      compareTotal += unitCompare * line.qty;
+    });
+
+    const compareEl = root.querySelector('.pdp-set-zwischensumme__compare');
+    const saleEl = root.querySelector('.pdp-set-zwischensumme__sale');
+    const badgeEl = root.querySelector('.pdp-set-zwischensumme__badge');
+    const breakdownEl = root.querySelector('.pdp-set-zwischensumme__breakdown');
+
+    if (saleEl) saleEl.textContent = fmt(saleTotal, mf);
+
+    if (compareTotal > saleTotal) {
+      if (compareEl) {
+        compareEl.textContent = fmt(compareTotal, mf);
+        compareEl.hidden = false;
+      }
+      if (badgeEl) {
+        const pct = Math.round(((compareTotal - saleTotal) * 100) / compareTotal);
+        badgeEl.textContent = `-${pct}%`;
+        badgeEl.hidden = false;
+      }
+    } else {
+      if (compareEl) {
+        compareEl.textContent = '';
+        compareEl.hidden = true;
+      }
+      if (badgeEl) badgeEl.hidden = true;
+    }
+
+    if (breakdownEl) {
+      const parts = lines.map((line) => {
+        const lineSale = line.variant.price * line.qty;
+        return `${line.qty}x ${line.title} (${fmt(lineSale, mf)})`;
+      });
+      breakdownEl.textContent = parts.join(' + ');
+    }
+  }
+
   function updatePdpSetSubmitButton(form) {
     const cfgEl = form.querySelector('script[data-pdp-set-config]');
     if (!cfgEl?.textContent) return;
@@ -275,44 +393,55 @@
 
   function refresh(form) {
     syncSetCartLineItems(form);
+    updatePdpSetZwischensumme(form);
     updatePdpSetSubmitButton(form);
+  }
+
+  function shouldRefreshPdpSetBundle(target) {
+    if (!target) return false;
+    if (target.classList?.contains('product-set-picker__toggle')) return true;
+    if (target.hasAttribute?.('data-pdp-inline-qty-value')) return true;
+    if (target.closest?.('variant-selects')) return true;
+    return false;
   }
 
   function bindForm(form) {
     if (!form.classList.contains('pdp-set-bundle')) return;
 
-    const productInfo = form.closest('product-info');
     refresh(form);
 
     form.addEventListener('submit', () => refresh(form), { capture: true });
+  }
 
-    if (productInfo) {
-      productInfo.addEventListener('change', (e) => {
-        const t = e.target;
-        if (
-          t?.closest?.('variant-selects') ||
-          t?.classList?.contains('product-set-picker__toggle') ||
-          t?.hasAttribute?.('data-pdp-inline-qty-value')
-        ) {
+  function bindPdpSetBundleChangeDelegation() {
+    if (pdpSetBundleChangeDelegationBound) return;
+    pdpSetBundleChangeDelegationBound = true;
+    document.addEventListener(
+      'change',
+      (e) => {
+        if (!shouldRefreshPdpSetBundle(e.target)) return;
+        document.querySelectorAll('form.pdp-set-bundle').forEach((form) => {
           refresh(form);
-        }
-      });
-    }
+        });
+      },
+      true
+    );
   }
 
   function init() {
+    bindPdpSetBundleChangeDelegation();
     document.querySelectorAll('form.pdp-set-bundle').forEach(bindForm);
 
     document.addEventListener('pdp-set:refresh-submit', () => {
       document.querySelectorAll('form.pdp-set-bundle').forEach((form) => {
-        updatePdpSetSubmitButton(form);
+        refresh(form);
       });
     });
 
     if (typeof FoxTheme !== 'undefined' && FoxTheme.pubsub && FoxTheme.pubsub.PUB_SUB_EVENTS) {
       FoxTheme.pubsub.subscribe(FoxTheme.pubsub.PUB_SUB_EVENTS.variantChange, () => {
         document.querySelectorAll('form.pdp-set-bundle').forEach((form) => {
-          updatePdpSetSubmitButton(form);
+          refresh(form);
         });
       });
     }

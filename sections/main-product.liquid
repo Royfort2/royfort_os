@@ -372,8 +372,69 @@
     position: relative;
     z-index: 2;
   }
+  /* Open custom dropdown (variant or inline qty): stack above sibling set cards so the list isn’t covered. */
+  .product-set-picker__card:has(.product-set-picker__toggle:checked):has(details.we-select-container[open]) {
+    z-index: 20;
+  }
   .product-set-picker__card-row + .product-set-picker__expand .product-set-picker__expand-inner .product-form__input:first-child {
     margin-top: 0 !important;
+  }
+
+  .pdp-set-zwischensumme {
+    margin-top: 2.4rem;
+    padding-top: 2rem;
+    border-top: 0.1rem solid rgb(var(--color-border));
+  }
+  .pdp-set-zwischensumme__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.2rem 2rem;
+  }
+  .pdp-set-zwischensumme__title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 150%;
+    letter-spacing: -0.14px;
+    text-transform: uppercase;
+    color: rgb(var(--color-foreground));
+  }
+  .pdp-set-zwischensumme__prices {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.8rem 1.2rem;
+  }
+  .pdp-set-zwischensumme__compare {
+    font-size: 1.4rem;
+    text-decoration: line-through;
+    color: rgb(var(--color-foreground) / 0.55);
+  }
+  .pdp-set-zwischensumme__sale {
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: rgb(var(--color-button));
+  }
+  .pdp-set-zwischensumme__badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.6rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: rgb(var(--color-background));
+    background: rgb(var(--color-button));
+  }
+  .pdp-set-zwischensumme__breakdown {
+    margin: 1rem 0 0;
+    font-size: 1.2rem;
+    font-weight: 400;
+    line-height: 150%;
+    letter-spacing: -0.12px;
+    color: rgb(var(--color-foreground) / 0.65);
   }
 
   .product__block--usp_swiper {
