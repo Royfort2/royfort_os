@@ -488,6 +488,12 @@
                 picker_id_suffix: first_product.id,
                 option_name_suffix: first_option_name_suffix
               %}
+              <script type="application/json" data-set-product-variants="{{ first_product.id }}">
+                {{ first_product.variants | json }}
+              </script>
+              <script type="application/json" data-set-default-variant-id="{{ first_product.id }}">
+                {{ first_product.selected_or_first_available_variant.id | json }}
+              </script>
 
               {% if product.metafields.custom.pdp_set_products.value.size > 1 %}
                 <details
@@ -509,11 +515,21 @@
                   >
                     {% for set_product in product.metafields.custom.pdp_set_products.value offset: 1 %}
                       <div class="product-set-picker__item">
+                        <script type="application/json" data-set-product-variants="{{ set_product.id }}">
+                          {{ set_product.variants | json }}
+                        </script>
+                        <script type="application/json" data-set-default-variant-id="{{ set_product.id }}">
+                          {{ set_product.selected_or_first_available_variant.id | json }}
+                        </script>
+                        <template id="SetCardDefaultPrice-{{ block.id }}-{{ section.id }}-{{ set_product.id }}">
+                          {% render 'price', product: set_product, price_class: 'product-set-picker__f-price' %}
+                        </template>
                         <div class="product-set-picker__card">
                           <input
                             type="checkbox"
                             id="SetProductToggle-{{ block.id }}-{{ section.id }}-{{ set_product.id }}"
                             class="product-set-picker__toggle visually-hidden"
+                            data-set-optional-product-id="{{ set_product.id }}"
                           >
                           <label
                             class="product-set-picker__card-row"
@@ -536,7 +552,12 @@
                             </span>
                             <span class="product-set-picker__info">
                               <span class="product-set-picker__title">{{ set_product.title | escape }}</span>
-                              <span class="product-set-picker__price">
+                              <span
+                                class="product-set-picker__price"
+                                data-set-card-price
+                                data-product-id="{{ set_product.id }}"
+                                data-default-price-template="SetCardDefaultPrice-{{ block.id }}-{{ section.id }}-{{ set_product.id }}"
+                              >
                                 {% render 'price', product: set_product, price_class: 'product-set-picker__f-price' %}
                               </span>
                             </span>
@@ -559,6 +580,7 @@
                     {% endfor %}
                   </div>
                 </details>
+                <script src="{{ 'product-set-picker-price.js' | asset_url }}" defer="defer"></script>
               {% endif %}
             {% endif %}
           </div>

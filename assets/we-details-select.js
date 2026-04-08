@@ -322,6 +322,8 @@ function initWeDetailsSelects(root = document) {
   });
 }
 
+window.initWeDetailsSelects = initWeDetailsSelects;
+
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => initWeDetailsSelects());
 } else {

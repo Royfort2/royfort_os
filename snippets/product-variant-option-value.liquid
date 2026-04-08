@@ -4,7 +4,7 @@
   Accepts:
   - section, block, option, value, picker_type, product_form_id, image_size, value_index (index in option.values)
   - id_namespace: optional, defaults to section.id; used for unique input ids when multiple pickers share a section.
-  - option_name_suffix: optional string appended to radio name (e.g. product id) to avoid collisions in one form.
+  - option_name_suffix: legacy param; radio names use id_namespace (sectionId-productId) so groups stay isolated.
 {% endcomment %}
 {%- liquid
   assign id_namespace = id_namespace | default: section.id
@@ -30,8 +30,12 @@
   {{ id_namespace }}-{{ option.position }}-{{ value_index -}}
 {%- endcapture -%}
 
+{%- comment -%}
+  Radio groups are global: name must be unique per picker. id_namespace is sectionId-productId
+  so main vs set pickers never share a group (option_name_suffix alone was not reliable).
+{%- endcomment -%}
 {%- capture input_name -%}
-  {{ option.name }}-{{ option.position }}{{ option_name_suffix }}
+  vs-{{ id_namespace }}-o{{ option.position }}
 {%- endcapture -%}
 
 {%- capture label_unavailable -%}

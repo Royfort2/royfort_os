@@ -7,11 +7,22 @@ if (!customElements.get('variant-selects')) {
       }
 
       get selectedOptionValues() {
-        return Array.from(
-          this.querySelectorAll(
-            'select option[selected], fieldset input:checked, .product-form__input input[type="radio"]:checked'
-          )
-        ).map(({ dataset }) => dataset.optionValueId);
+        const ids = [];
+        const optionValueId = (el) =>
+          el?.dataset?.optionValueId ?? el?.getAttribute?.('data-option-value-id');
+
+        this.querySelectorAll('select, input[type="radio"]:checked').forEach((el) => {
+          if (el.tagName === 'SELECT') {
+            const opt = el.selectedOptions?.[0];
+            const id = optionValueId(opt);
+            if (id) ids.push(id);
+          } else if (el.type === 'radio' && el.checked) {
+            const id = optionValueId(el);
+            if (id) ids.push(id);
+          }
+        });
+
+        return ids;
       }
 
       getInputForEventTarget(target) {
@@ -59,7 +70,10 @@ if (!customElements.get('variant-selects')) {
             target.selectedOptions[0].dataset.optionSwatchFocalPoint || 'unset'
           );
         } else if (tagName === 'INPUT' && target.type === 'radio') {
-          const selectedSwatchValue = target.closest(`.product-form__input`).querySelector('[data-selected-value]');
+          const fieldset = target.closest('.product-form__input');
+          const selectedSwatchValue = fieldset?.querySelector(
+            '[data-selected-swatch-value], [data-selected-value]'
+          );
           if (selectedSwatchValue) selectedSwatchValue.innerHTML = value;
         }
       }

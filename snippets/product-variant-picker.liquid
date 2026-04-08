@@ -13,19 +13,13 @@
 {% endcomment %}
 {%- unless product.has_only_default_variant -%}
   {% liquid
-    assign picker_id_suffix = picker_id_suffix | default: ''
+    assign picker_id_suffix = picker_id_suffix | default: product.id
     assign option_name_suffix = option_name_suffix | default: ''
-    assign id_ns = section.id
-    if picker_id_suffix != blank
-      assign id_ns = section.id | append: '-' | append: picker_id_suffix
-    endif
+    assign id_ns = section.id | append: '-' | append: picker_id_suffix
 
     assign size_option_name = block.settings.size_title | downcase
     assign size_chart_content = product.metafields.foxtheme.size_chart.value.content
-    assign size_chart_modal_id = 'SizeChartModal-' | append: block.id
-    if picker_id_suffix != blank
-      assign size_chart_modal_id = size_chart_modal_id | append: '-' | append: picker_id_suffix
-    endif
+    assign size_chart_modal_id = 'SizeChartModal-' | append: block.id | append: '-' | append: picker_id_suffix
 
     if size_chart_content == blank and block.settings.size_chart_from_page != blank
       assign size_chart_content = pages[block.settings.size_chart_from_page].content
@@ -36,6 +30,7 @@
     id="variant-selects-{{ id_ns }}"
     data-section="{{ section.id }}"
     data-url="{{ product.url }}"
+    data-product-id="{{ product.id }}"
     data-update-url="{% if update_url == false %}false{% else %}true{% endif %}"
   >
     {%- for option in product.options_with_values -%}
@@ -256,7 +251,7 @@
                 <div class="we-select">
                 {% for value in option.values %}
                   <div class="we-select__item">
-                    {%- assign opt_radio_name = option.name | append: '-' | append: option.position | append: option_name_suffix -%}
+                    {%- assign opt_radio_name = 'vs-' | append: id_ns | append: '-o' | append: option.position -%}
                     <input
                       type="radio"
                       id="{{ id_ns }}-{{ option.position }}-{{ forloop.index0 }}"

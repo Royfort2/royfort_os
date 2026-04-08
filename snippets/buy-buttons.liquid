@@ -20,6 +20,13 @@
     if block.settings.show_dynamic_checkout and gift_card_recipient_feature_active == false
       assign show_dynamic_checkout = true
     endif
+
+    assign pdp_set_bundle = false
+    if product.metafields.custom.pdp_is_set == true and product.metafields.custom.pdp_set_products != blank
+      assign pdp_set_bundle = true
+      assign pdp_set_products_list = product.metafields.custom.pdp_set_products.value
+      assign pdp_first_set_product = pdp_set_products_list | first
+    endif
   -%}
   <div
     class="product-form"
@@ -40,10 +47,16 @@
       </svg>
       <div class="product-form__error-message blocks-radius-md alert alert--error" role="alert" hidden></div>
     </div>
+    {%- liquid
+      assign main_product_form_class = 'main-product-form grid gap-4'
+      if pdp_set_bundle
+        assign main_product_form_class = main_product_form_class | append: ' pdp-set-bundle'
+      endif
+    -%}
     {%- form 'product',
       product,
       id: product_form_id,
-      class: 'main-product-form grid gap-4',
+      class: main_product_form_class,
       data-type: 'add-to-cart-form',
       is: 'product-form',
       data-hide-errors: gift_card_recipient_feature_active,
@@ -53,11 +66,27 @@
         type="hidden"
         name="id"
         value="{{ product.selected_or_first_available_variant.id }}"
-        {% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout %}
+        {% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout or pdp_set_bundle %}
           disabled
         {% endif %}
         class="product-variant-id"
       >
+      {%- if pdp_set_bundle -%}
+        <div class="js-pdp-set-line-items" data-pdp-set-line-items aria-hidden="true"></div>
+        <script type="application/json" data-pdp-set-config>
+          {
+            "sectionId": {{ section.id | json }},
+            "firstSetProductId": {{ pdp_first_set_product.id | json }},
+            "firstVariantFallback": {{ pdp_first_set_product.selected_or_first_available_variant.id | json }},
+            "optionalProductIds": [
+              {%- for sp in pdp_set_products_list offset: 1 -%}
+                {{ sp.id }}{%- unless forloop.last -%},{%- endunless -%}
+              {%- endfor -%}
+            ]
+          }
+        </script>
+        <script src="{{ 'product-set-cart-items.js' | asset_url }}" defer="defer"></script>
+      {%- endif -%}
       {%- liquid
         assign check_against_inventory = true
         if product.selected_or_first_available_variant.inventory_management != 'shopify' or product.selected_or_first_available_variant.inventory_policy == 'continue'
@@ -119,6 +148,9 @@
                     inputmode="numeric"
                     autocomplete="off"
                     form="{{ product_form_id }}"
+                    {% if pdp_set_bundle %}
+                      disabled
+                    {% endif %}
                   >
                   <button class="quantity__button" name="plus" type="button">
                     <span class="visually-hidden">
@@ -323,6 +355,9 @@
                 inputmode="numeric"
                 autocomplete="off"
                 form="{{ product_form_id }}"
+                {% if pdp_set_bundle %}
+                  disabled
+                {% endif %}
               >
               <button class="quantity__button" name="plus" type="button">
                 <span class="visually-hidden">

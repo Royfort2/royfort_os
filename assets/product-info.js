@@ -68,9 +68,38 @@ if (!customElements.get('product-info')) {
       handleOptionValueChange({ data: { event, target, selectedOptionValues } }) {
         if (!this.contains(event.target)) return;
 
+        const variantSelectsEl = event.target.closest('variant-selects');
+        const variantSelectsId = variantSelectsEl?.id;
+
+        const mainProductId = String(this.productId);
+        const pickerProductId = variantSelectsEl?.dataset?.productId;
+        const isEmbeddedPicker =
+          pickerProductId != null && String(pickerProductId) !== mainProductId;
+
         this.disableButtons();
-        const productUrl = target.dataset.productUrl || this.pendingRequestUrl || this.dataset.url;
-        const shouldSwapProduct = this.dataset.url !== productUrl;
+
+        const productUrlFromInput = target.dataset.productUrl;
+        const pickerBaseUrl = variantSelectsEl?.dataset?.url;
+
+        let productUrl =
+          productUrlFromInput || pickerBaseUrl || this.pendingRequestUrl || this.dataset.url;
+
+        if (isEmbeddedPicker && !productUrlFromInput && pickerBaseUrl) {
+          productUrl = pickerBaseUrl;
+        }
+
+        const pathnameOnly = (u) => {
+          if (!u) return '';
+          try {
+            return new URL(u, window.location.origin).pathname;
+          } catch {
+            return String(u).split('?')[0];
+          }
+        };
+
+        const shouldSwapProduct =
+          !isEmbeddedPicker && pathnameOnly(this.dataset.url) !== pathnameOnly(productUrl);
+
         const shouldFetchFullPage = this.dataset.updateUrl === 'true' && shouldSwapProduct;
         const viewMode = this.dataset.viewMode || 'main-product';
 
@@ -79,7 +108,7 @@ if (!customElements.get('product-info')) {
           targetId: target.id,
           callback: shouldSwapProduct
             ? this.handleSwapProduct(productUrl, shouldFetchFullPage, viewMode)
-            : this.handleUpdateProductInfo(productUrl, viewMode),
+            : this.handleUpdateProductInfo(productUrl, viewMode, variantSelectsId),
         });
       }
 
@@ -126,16 +155,38 @@ if (!customElements.get('product-info')) {
         };
       }
 
-      handleUpdateProductInfo(productUrl, viewMode) {
+      isMainProductVariantPicker(variantSelectsId) {
+        if (!variantSelectsId) return true;
+        const el = document.getElementById(variantSelectsId);
+        if (!el?.dataset?.productId) return true;
+        return String(el.dataset.productId) === String(this.productId);
+      }
+
+      handleUpdateProductInfo(productUrl, viewMode, variantSelectsId) {
         return (html) => {
           const quickView = html.querySelector('#MainProduct-quick-view__content');
           if (quickView && viewMode === 'quick-view') {
             html = quickView.content.cloneNode(true);
           }
-          const variant = this.getSelectedVariant(html);
+
+          const isMainPicker = this.isMainProductVariantPicker(variantSelectsId);
+          const variant = this.getSelectedVariant(html, variantSelectsId);
+
+          this.updateOptionValues(html, variantSelectsId);
+
+          if (!isMainPicker) {
+            this.enableButtons();
+            requestAnimationFrame(() => {
+              if (typeof window.initWeDetailsSelects === 'function' && variantSelectsId) {
+                const vsRoot = document.getElementById(variantSelectsId);
+                if (vsRoot) window.initWeDetailsSelects(vsRoot);
+              }
+              document.dispatchEvent(new CustomEvent('pdp-set:refresh-submit', { bubbles: true }));
+            });
+            return;
+          }
 
           this.pickupAvailability?.update(variant);
-          this.updateOptionValues(html);
           this.updateURL(productUrl, variant?.id);
           this.updateShareUrl(variant?.id);
           this.updateVariantInputs(variant?.id);
@@ -168,8 +219,8 @@ if (!customElements.get('product-info')) {
           updateSourceFromDestination('VolumeNote');
 
           HTMLUpdateUtility.viewTransition(
-            document.querySelector(`#SizeChart-${this.sectionId}`),
-            html.querySelector(`#SizeChart-${this.sectionId}`),
+            document.querySelector(`#SizeChart-${this.sectionId}-${this.productId}`),
+            html.querySelector(`#SizeChart-${this.sectionId}-${this.productId}`),
             this.preProcessHtmlCallbacks,
             this.postProcessHtmlCallbacks
           );
@@ -209,15 +260,20 @@ if (!customElements.get('product-info')) {
 
         !shouldFetchFullPage && params.push(`section_id=${this.sectionId}`);
 
-        if (optionValues.length) {
-          params.push(`option_values=${optionValues.join(',')}`);
+        const ids = (optionValues || []).filter((id) => id != null && String(id).length > 0);
+        if (ids.length) {
+          params.push(`option_values=${ids.join(',')}`);
         }
 
-        return `${url}?${params.join('&')}`;
+        const sep = String(url).includes('?') ? '&' : '?';
+        return `${url}${sep}${params.join('&')}`;
       }
 
-      getSelectedVariant(productInfoNode) {
-        const selectedVariant = productInfoNode.querySelector('variant-selects [data-selected-variant]')?.innerHTML;
+      getSelectedVariant(productInfoNode, variantSelectsId) {
+        const root = variantSelectsId
+          ? productInfoNode.getElementById(variantSelectsId)
+          : productInfoNode.querySelector('variant-selects');
+        const selectedVariant = root?.querySelector('[data-selected-variant]')?.innerHTML;
         return !!selectedVariant ? JSON.parse(selectedVariant) : null;
       }
 
@@ -245,9 +301,22 @@ if (!customElements.get('product-info')) {
           });
       }
 
-      updateOptionValues(html) {
+      updateOptionValues(html, variantSelectsId) {
+        if (variantSelectsId) {
+          let source = html.getElementById(variantSelectsId);
+          const destination = document.getElementById(variantSelectsId);
+          if (!source && destination?.dataset?.productId) {
+            source = html.querySelector(
+              `variant-selects[data-product-id="${destination.dataset.productId}"]`
+            );
+          }
+          if (source && destination) {
+            HTMLUpdateUtility.viewTransition(destination, source, this.preProcessHtmlCallbacks);
+          }
+          return;
+        }
         const variantSelects = html.querySelector('variant-selects');
-        if (variantSelects) {
+        if (variantSelects && this.variantSelectors) {
           HTMLUpdateUtility.viewTransition(this.variantSelectors, variantSelects, this.preProcessHtmlCallbacks);
         }
       }
