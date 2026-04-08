@@ -6,14 +6,26 @@
   - block: {Object} passing the block information.
   - product_form_id: {String} Id of the product form to which the variant picker is associated.
   - update_url: {Boolean} whether or not to update url when changing variants. If false, the url isn't updated. Default: true (optional).
+  - picker_id_suffix: {String} optional suffix for DOM ids when multiple pickers share a section (e.g. set products).
+  - option_name_suffix: {String} optional suffix for option input names (e.g. product id) to avoid collisions in one form.
   Usage:
   {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
 {% endcomment %}
 {%- unless product.has_only_default_variant -%}
   {% liquid
+    assign picker_id_suffix = picker_id_suffix | default: ''
+    assign option_name_suffix = option_name_suffix | default: ''
+    assign id_ns = section.id
+    if picker_id_suffix != blank
+      assign id_ns = section.id | append: '-' | append: picker_id_suffix
+    endif
+
     assign size_option_name = block.settings.size_title | downcase
     assign size_chart_content = product.metafields.foxtheme.size_chart.value.content
     assign size_chart_modal_id = 'SizeChartModal-' | append: block.id
+    if picker_id_suffix != blank
+      assign size_chart_modal_id = size_chart_modal_id | append: '-' | append: picker_id_suffix
+    endif
 
     if size_chart_content == blank and block.settings.size_chart_from_page != blank
       assign size_chart_content = pages[block.settings.size_chart_from_page].content
@@ -21,7 +33,7 @@
   %}
   <script src="{{ 'variant-selects.js' | asset_url }}" defer="defer"></script>
   <variant-selects
-    id="variant-selects-{{ section.id }}"
+    id="variant-selects-{{ id_ns }}"
     data-section="{{ section.id }}"
     data-url="{{ product.url }}"
     data-update-url="{% if update_url == false %}false{% else %}true{% endif %}"
@@ -140,7 +152,7 @@
       >
         <{{ tag_legend }}
           {% unless is_fieldset_tag %}
-            for="Option-{{ section.id }}-{{ forloop.index0 }}"
+            for="Option-{{ id_ns }}-{{ forloop.index0 }}"
           {% endunless %}
           class="form__label"
         >
@@ -169,7 +181,9 @@
               product: product,
               option: option,
               block: block,
-              picker_type: picker_type
+              picker_type: picker_type,
+              option_id_namespace: id_ns,
+              option_name_suffix: option_name_suffix
             %}
             {% if picker_type == 'color' or picker_type == 'swatch' %}
               </div>
@@ -186,7 +200,7 @@
                   </span>
                 {%- endif -%}
                 <select
-                  id="Option-{{ section.id }}-{{ forloop.index0 }}"
+                  id="Option-{{ id_ns }}-{{ forloop.index0 }}"
                   class="form-control form-control--select"
                   name="options[{{ option.name | escape }}]"
                   form="{{ product_form_id }}"
@@ -195,7 +209,9 @@
                     product: product,
                     option: option,
                     block: block,
-                    picker_type: picker_type
+                    picker_type: picker_type,
+                    option_id_namespace: id_ns,
+                    option_name_suffix: option_name_suffix
                   %}
                 </select>
                 {%- render 'icon-caret-down' -%}
@@ -225,7 +241,7 @@
                 <div class="we-select-mobile-sheet__header">
                   <p
                     class="we-select-mobile-sheet__title"
-                    id="WeSelectSheetTitle-{{ section.id }}-{{ option.position }}"
+                    id="WeSelectSheetTitle-{{ id_ns }}-{{ option.position }}"
                   >
                     {{ 'products.product.we_select_sheet_title' | t: option_name: option.name }}
                   </p>
@@ -240,10 +256,10 @@
                 <div class="we-select">
                 {% for value in option.values %}
                   <div class="we-select__item">
-                    {%- assign opt_radio_name = option.name | append: '-' | append: option.position -%}
+                    {%- assign opt_radio_name = option.name | append: '-' | append: option.position | append: option_name_suffix -%}
                     <input
                       type="radio"
-                      id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+                      id="{{ id_ns }}-{{ option.position }}-{{ forloop.index0 }}"
                       name="{{ opt_radio_name | escape }}"
                       value="{{ value | escape }}"
                       form="{{ product_form_id }}"
@@ -256,7 +272,7 @@
                         class="disabled"
                       {% endif %}
                     >
-                    <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}">
+                    <label for="{{ id_ns }}-{{ option.position }}-{{ forloop.index0 }}">
                       {% assign handle = value | handleize %}
                       {% if metaobjects.logo[handle] %}
                         {% if metaobjects.logo[handle].bild != blank %}
@@ -287,7 +303,7 @@
     </script>
   </variant-selects>
   {%- if size_chart_content != blank -%}
-    <div id="SizeChart-{{ section.id }}">
+    <div id="SizeChart-{{ id_ns }}">
       <basic-modal id="{{ size_chart_modal_id }}" class="drawer modal" style="--modal-width: 77rem;">
         <div class="fixed-overlay" aria-controls="{{ size_chart_modal_id }}"></div>
         <div class="drawer__inner">

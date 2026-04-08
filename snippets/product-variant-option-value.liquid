@@ -3,8 +3,12 @@
 
   Accepts:
   - section, block, option, value, picker_type, product_form_id, image_size, value_index (index in option.values)
+  - id_namespace: optional, defaults to section.id; used for unique input ids when multiple pickers share a section.
+  - option_name_suffix: optional string appended to radio name (e.g. product id) to avoid collisions in one form.
 {% endcomment %}
 {%- liquid
+  assign id_namespace = id_namespace | default: section.id
+  assign option_name_suffix = option_name_suffix | default: ''
   assign option_disabled = true
   if value.available
     assign option_disabled = false
@@ -23,11 +27,11 @@
 -%}
 
 {%- capture input_id -%}
-  {{ section.id }}-{{ option.position }}-{{ value_index -}}
+  {{ id_namespace }}-{{ option.position }}-{{ value_index -}}
 {%- endcapture -%}
 
 {%- capture input_name -%}
-  {{ option.name }}-{{ option.position }}
+  {{ option.name }}-{{ option.position }}{{ option_name_suffix }}
 {%- endcapture -%}
 
 {%- capture label_unavailable -%}

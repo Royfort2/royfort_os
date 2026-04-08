@@ -17,6 +17,8 @@
   %}
 {% endcomment %}
 {%- liquid
+  assign option_id_namespace = option_id_namespace | default: section.id
+  assign option_name_suffix = option_name_suffix | default: ''
   assign product_form_id = 'product-form-' | append: section.id
   assign image_size = block.settings.button_size | times: 1.5
   assign use_main_color_rows = false
@@ -78,7 +80,9 @@
               picker_type: picker_type,
               product_form_id: product_form_id,
               image_size: image_size,
-              value_index: forloop.index0
+              value_index: forloop.index0,
+              id_namespace: option_id_namespace,
+              option_name_suffix: option_name_suffix
             %}
             {%- break -%}
           {%- endif -%}
@@ -110,7 +114,9 @@
             picker_type: picker_type,
             product_form_id: product_form_id,
             image_size: image_size,
-            value_index: forloop.index0
+            value_index: forloop.index0,
+            id_namespace: option_id_namespace,
+            option_name_suffix: option_name_suffix
           %}
         {%- endunless -%}
       {%- endfor -%}
@@ -126,7 +132,9 @@
       picker_type: picker_type,
       product_form_id: product_form_id,
       image_size: image_size,
-      value_index: forloop.index0
+      value_index: forloop.index0,
+      id_namespace: option_id_namespace,
+      option_name_suffix: option_name_suffix
     %}
   {%- endfor -%}
 {%- endif -%}

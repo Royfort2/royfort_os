@@ -454,12 +454,113 @@
             class="product__block product__block--{{ block.type }}"
             {{ block.shopify_attributes }}
           >
-            {% render 'product-variant-picker',
-              product: product,
-              block: block,
-              product_form_id: product_form_id,
-              update_url: update_browser_history
-            %}
+            {%- liquid
+              assign pdp_set_active = false
+              if product.metafields.custom.pdp_is_set == true and product.metafields.custom.pdp_set_products != blank
+                assign pdp_set_active = true
+              endif
+            -%}
+            {%- if pdp_set_active -%}
+              {% render 'product-variant-picker',
+                product: product,
+                block: block,
+                product_form_id: product_form_id,
+                update_url: update_browser_history,
+                picker_id_suffix: product.id,
+                option_name_suffix: product.id | prepend: '-'
+              %}
+            {%- else -%}
+              {% render 'product-variant-picker',
+                product: product,
+                block: block,
+                product_form_id: product_form_id,
+                update_url: update_browser_history
+              %}
+            {%- endif -%}
+            {% if pdp_set_active %}
+              {% assign first_product = product.metafields.custom.pdp_set_products.value | first %}
+              {% assign first_option_name_suffix = first_product.id | prepend: '-' %}
+              {% render 'product-variant-picker',
+                product: first_product,
+                block: block,
+                product_form_id: product_form_id,
+                update_url: update_browser_history,
+                picker_id_suffix: first_product.id,
+                option_name_suffix: first_option_name_suffix
+              %}
+
+              {% if product.metafields.custom.pdp_set_products.value.size > 1 %}
+                <details
+                  id="Details-set-{{ block.id }}-{{ section.id }}"
+                  class="accordion-details product-set-picker__accordion"
+                  is="accordion-group"
+                  open
+                  aria-expanded="true"
+                >
+                  <summary class="accordion-details__summary flex items-center justify-between">
+                    <span class="product-set-picker__heading">
+                      Im selben Set
+                    </span>
+                    {%- render 'icon-plus-toggle', size: 'small' -%}
+                  </summary>
+                  <div
+                    id="ProductSetAccordionContent-{{ block.id }}-{{ section.id }}"
+                    class="accordion-details__content product-set-picker__list"
+                  >
+                    {% for set_product in product.metafields.custom.pdp_set_products.value offset: 1 %}
+                      <div class="product-set-picker__item">
+                        <div class="product-set-picker__card">
+                          <input
+                            type="checkbox"
+                            id="SetProductToggle-{{ block.id }}-{{ section.id }}-{{ set_product.id }}"
+                            class="product-set-picker__toggle visually-hidden"
+                          >
+                          <label
+                            class="product-set-picker__card-row"
+                            for="SetProductToggle-{{ block.id }}-{{ section.id }}-{{ set_product.id }}"
+                          >
+                            <span class="product-set-picker__thumb">
+                              {%- if set_product.featured_image -%}
+                                {{
+                                  set_product.featured_image
+                                  | image_url: width: 160
+                                  | image_tag:
+                                    loading: 'lazy',
+                                    class: 'product-set-picker__thumb-img',
+                                    widths: '80,120,160',
+                                    sizes: '8rem'
+                                }}
+                              {%- else -%}
+                                <span class="product-set-picker__thumb-placeholder" aria-hidden="true"></span>
+                              {%- endif -%}
+                            </span>
+                            <span class="product-set-picker__info">
+                              <span class="product-set-picker__title">{{ set_product.title | escape }}</span>
+                              <span class="product-set-picker__price">
+                                {% render 'price', product: set_product, price_class: 'product-set-picker__f-price' %}
+                              </span>
+                            </span>
+                            <span class="product-set-picker__checkbox-ui" aria-hidden="true"></span>
+                          </label>
+                          <div class="product-set-picker__expand">
+                            <div class="product-set-picker__expand-inner">
+                              {% render 'product-variant-picker',
+                                product: set_product,
+                                block: block,
+                                product_form_id: product_form_id,
+                                update_url: update_browser_history,
+                                picker_id_suffix: set_product.id,
+                                option_name_suffix: set_product.id | prepend: '-'
+                              %}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </details>
+              {% endif %}
+            {% endif %}
           </div>
         {%- when 'buy_buttons' -%}
           <div
