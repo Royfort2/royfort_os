@@ -1,3 +1,26 @@
+/**
+ * Match gallery image alt text to the selected color option value.
+ * Exact match alone hid all color-specific images when alt wording differed from the option label.
+ */
+function colorAltMatchesOption(altRaw, normalizedOption) {
+  const alt = (altRaw || '').trim().toLowerCase();
+  const opt = (normalizedOption || '').trim().toLowerCase();
+  if (!opt) return false;
+  if (!alt) return false;
+  if (alt === opt) return true;
+  if (alt.includes(opt) || opt.includes(alt)) return true;
+  const splitRe = /[\s,;/|]+/;
+  const altParts = alt.split(splitRe).filter((p) => p.length >= 2);
+  const optParts = opt.split(splitRe).filter((p) => p.length >= 2);
+  for (const o of optParts) {
+    if (altParts.some((a) => a === o || a.includes(o) || o.includes(a))) return true;
+  }
+  for (const a of altParts) {
+    if (optParts.some((o) => o === a || o.includes(a) || a.includes(o))) return true;
+  }
+  return false;
+}
+
 if (!customElements.get('media-gallery')) {
   customElements.define(
     'media-gallery',
@@ -163,6 +186,7 @@ if (!customElements.get('media-gallery')) {
               this._maybeRunMobileSwipeTeaser(swiper);
             });
           });
+          requestAnimationFrame(() => this.syncImageTooltips());
         }
       }
 
@@ -780,6 +804,7 @@ if (!customElements.get('media-gallery')) {
           this.setSliderOptions();
           this.initSlider();
           this._syncSwiperHeightAndImages();
+          requestAnimationFrame(() => this.syncImageTooltips());
           return;
         }
         if (this.sliderInstance && this.sliderInstance.slider) {
@@ -788,6 +813,48 @@ if (!customElements.get('media-gallery')) {
             this.thumbsInstance.slider.update();
           }
         }
+        requestAnimationFrame(() => this.syncImageTooltips());
+      }
+
+      /**
+       * Image tooltips are cloned from <template> roots onto the Nth *visible* image slide after color filter,
+       * so they stay on the correct on-screen image when the swatch changes (Liquid alone attached them to fixed slots).
+       */
+      syncImageTooltips() {
+        const cfgEl = this.querySelector('script.js-image-tooltip-config');
+        if (!cfgEl?.textContent?.trim()) return;
+        let configs;
+        try {
+          configs = JSON.parse(cfgEl.textContent);
+        } catch (e) {
+          return;
+        }
+        if (!Array.isArray(configs) || configs.length === 0) return;
+
+        this.querySelectorAll('.product__image-tooltip[data-js-synced]').forEach((el) => el.remove());
+
+        const visibleImageSlides = [
+          ...this.querySelectorAll(
+            '.product__media-item:not(.swiper-slide-duplicate):not(.product__media-item--color-hidden)'
+          ),
+        ].filter((s) => s.dataset.mediaType === 'image');
+
+        const sectionId = this.id.replace(/^MediaGallery-/, '');
+
+        configs.forEach(({ blockId, imageIndex }) => {
+          const n = parseInt(imageIndex, 10);
+          if (!Number.isFinite(n) || n < 1) return;
+          const slide = visibleImageSlides[n - 1];
+          if (!slide) return;
+          const container = slide.querySelector('.product__media-container');
+          if (!container) return;
+          const tpl = document.getElementById(`ImageTooltipTpl-${sectionId}-${blockId}`);
+          const root = tpl?.content?.firstElementChild;
+          if (!root) return;
+          const node = root.cloneNode(true);
+          node.setAttribute('data-js-synced', 'true');
+          container.appendChild(node);
+        });
       }
 
       clearColorFilter() {
@@ -798,6 +865,7 @@ if (!customElements.get('media-gallery')) {
           el.classList.remove('product__thumbs-item--color-hidden');
         });
         this.syncGridMixLayout();
+        requestAnimationFrame(() => this.syncImageTooltips());
       }
 
       /**
@@ -850,8 +918,8 @@ if (!customElements.get('media-gallery')) {
 
         mainSlides.forEach((slide) => {
           const isGlobal = slide.dataset.mediaFilterGlobal === 'true';
-          const alt = (slide.dataset.mediaAlt || '').trim().toLowerCase();
-          const match = isGlobal || alt === normalized;
+          const altRaw = slide.dataset.mediaAlt || '';
+          const match = isGlobal || colorAltMatchesOption(altRaw, normalized);
           slide.classList.toggle('product__media-item--color-hidden', !match);
           if (match) visibleCount++;
 
@@ -906,6 +974,7 @@ if (!customElements.get('media-gallery')) {
         }
 
         this.syncGridMixLayout();
+        requestAnimationFrame(() => this.syncImageTooltips());
       }
     }
   );

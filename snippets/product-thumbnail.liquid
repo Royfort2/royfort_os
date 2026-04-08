@@ -5,7 +5,7 @@
   Accepts:
   - media: {Object} Product Media object
   - media_count: {Number} Number of media objects
-  - position: {String} Position of the media. Used for accessible label.
+  - position: {Number} 0-based index in product.media (all types); used for swiper/zoom/lightbox.
   - desktop_layout: {String} Layout of the media for desktop.
   - mobile_layout: {String} Layout of the media for mobile.
   - loop: {Boolean} Enable video looping (optional)
@@ -155,48 +155,5 @@
           </button>
         {%- endif -%}
     {%- endcase -%}
-
-    {% for block in section.blocks %}
-      {% if block.type == 'image_tooltip' %}
-        {% assign tooltip_index = block.settings.image_index | minus: 1 %}
-        {% if tooltip_index == position and block.settings.title != blank and block.settings.description != blank %}
-          <div class="product__image-tooltip">
-            <div class="product__image-tooltip-container">
-              <span id="product__image-tooltip-title-{{ block.id }}" class="product__image-tooltip-trigger-title">
-                {{- block.settings.title -}}
-              </span>
-              <button
-                type="button"
-                class="product__image-tooltip-trigger-button"
-                aria-expanded="false"
-                aria-controls="product__image-tooltip-content-{{ block.id }}"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false">
-                  <g clip-path="url(#we-img-tip-clip-{{ block.id }})">
-                    <path d="M6 8V6M6 4H6.005M11 6C11 8.76142 8.76142 11 6 11C3.23858 11 1 8.76142 1 6C1 3.23858 3.23858 1 6 1C8.76142 1 11 3.23858 11 6Z" stroke="#525252" stroke-linecap="round" stroke-linejoin="round"/>
-                  </g>
-                  <defs>
-                    <clipPath id="we-img-tip-clip-{{ block.id }}">
-                      <rect width="12" height="12" fill="white"/>
-                    </clipPath>
-                  </defs>
-                </svg>
-                <span class="trigger-button-text">{{ block.settings.button_text }}</span>
-              </button>
-              <div
-                id="product__image-tooltip-content-{{ block.id }}"
-                class="product__image-tooltip-content rte"
-                role="region"
-                aria-labelledby="product__image-tooltip-title-{{ block.id }}"
-                aria-hidden="true"
-                tabindex="-1"
-              >
-                {{ block.settings.description }}
-              </div>
-            </div>
-          </div>
-        {% endif %}
-      {% endif %}
-    {% endfor %}
   </div>
 </div>
