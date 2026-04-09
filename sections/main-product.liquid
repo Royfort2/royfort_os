@@ -534,7 +534,7 @@
 
   @media (max-width: 767.98px) {
     .product--medium {
-      gap: 1.6rem !important;
+      gap: 0 !important;
     }
     .product--medium > * {
       width: 100% !important;
@@ -560,6 +560,31 @@
 
     .product--medium .product__info-container .product__blocks {
       overflow: visible;
+    }
+
+    /*
+      Mobile: gallery is sticky so it stays pinned while the product info block scrolls up over it
+      (higher z-index + solid background). align-self: flex-start lets sticky work inside the flex column.
+    */
+    product-info[id^='MainProduct-'] .product:not(.product--media-has-0) {
+      overflow: visible;
+    }
+    product-info[id^='MainProduct-'] .product:not(.product--media-has-0) .product__media-wrapper {
+      display: block;
+      position: sticky;
+      top: 0;
+      z-index: 0;
+      align-self: flex-start;
+      width: 100%;
+    }
+    product-info[id^='MainProduct-'] .product:not(.product--media-has-0) .product__info-wrapper {
+      position: relative;
+      z-index: 2;
+      margin-top: 0;
+      padding-top: 0;
+      background: rgb(var(--color-background));
+      padding-top: 1.6rem;
+      box-shadow: 0 -0.6rem 2.4rem rgba(var(--color-foreground), 0.06);
     }
   }
 {% endstyle %}
