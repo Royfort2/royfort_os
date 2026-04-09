@@ -156,7 +156,7 @@
         "render_variants": true,
         "grid_layout": "standard",
         "pagination": "load_more",
-        "enable_color_swatch": true,
+        "enable_color_swatch": false,
         "pcard_use_swiper": true,
         "show_reviews": true,
         "enable_filtering": true,
