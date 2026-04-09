@@ -37,8 +37,26 @@
       padding-inline: var(--page-padding);
       padding-bottom: 1.6rem;
     }
+    {% if section.settings.different_mobile_padding %}
+      #shopify-section-{{ section.id }} .image-with-text.section--padding {
+        padding-block-start: {{ section.settings.padding_top_mobile | default: 30 }}px;
+        padding-block-end: {{ section.settings.padding_bottom_mobile | default: 30 }}px;
+      }
+    {% endif %}
   }
 {% endstyle %}
+{%- liquid
+  assign image_with_text_has_truncate = false
+  for block in section.blocks
+    if block.type == 'text' and block.settings.truncate_on_mobile
+      assign image_with_text_has_truncate = true
+      break
+    endif
+  endfor
+-%}
+{%- if image_with_text_has_truncate -%}
+  <script src="{{ 'we-image-with-text-truncate.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
 
 <div
   class="section section--padding image-with-text image-with-text--{{ section.settings.layout | replace: '_', '-' }} color-{{ section.settings.section_color_scheme }}{% if color_inherit %} color-inherit{% endif %}{% if section.settings.custom_class != blank %} {{ section.settings.custom_class }}{% endif %}"
@@ -106,12 +124,44 @@
                 {%- assign motion_delay = motion_delay | plus: 50 -%}
               {% when 'text' %}
                 <motion-element
-                  class="block rich-text__text rte {{ block.settings.text_size }}"
+                  class="block rich-text__text{% unless block.settings.truncate_on_mobile %} rte{% endunless %} {{ block.settings.text_size }}"
                   data-motion="fade-up"
                   data-motion-delay="{{ motion_delay }}"
                   {{ block.shopify_attributes }}
                 >
-                  {{ block.settings.text }}
+                  {%- if block.settings.truncate_on_mobile -%}
+                    {%- liquid
+                      assign iw_t_lines = block.settings.truncate_on_mobile_lines | default: 3
+                      assign iw_t_more = block.settings.truncate_trigger_text | default: 'Mehr lesen'
+                      assign iw_t_less = block.settings.truncate_collapse_text | default: 'Weniger'
+                    -%}
+                    <div
+                      class="image-with-text__truncate"
+                      data-we-truncate
+                      id="iwt-trunc-{{ section.id }}-{{ block.id }}"
+                      style="--iw-t-lines: {{ iw_t_lines }};"
+                    >
+                      <div
+                        class="rte image-with-text__truncate-body"
+                        id="iwt-trunc-body-{{ section.id }}-{{ block.id }}"
+                      >
+                        {{ block.settings.text }}
+                      </div>
+                      <button
+                        type="button"
+                        class="image-with-text__truncate-btn mt-2"
+                        data-we-truncate-toggle
+                        aria-expanded="false"
+                        aria-controls="iwt-trunc-body-{{ section.id }}-{{ block.id }}"
+                        data-label-more="{{ iw_t_more | escape }}"
+                        data-label-less="{{ iw_t_less | escape }}"
+                      >
+                        {{- iw_t_more -}}
+                      </button>
+                    </div>
+                  {%- else -%}
+                    {{ block.settings.text }}
+                  {%- endif -%}
                 </motion-element>
                 {%- assign motion_delay = motion_delay | plus: 50 -%}
               {% when 'button' %}
@@ -342,6 +392,40 @@
     },
     {
       "type": "header",
+      "content": "[we] Mobile padding"
+    },
+    {
+      "type": "checkbox",
+      "id": "different_mobile_padding",
+      "label": "[we] Different mobile padding",
+      "default": false
+    },
+    {
+      "visible_if": "{{ section.settings.different_mobile_padding == true }}",
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "[we] Padding top (mobile)",
+      "default": 30,
+      "info": "Applies below 768px width. Overrides the default scaled section padding on mobile."
+    },
+    {
+      "visible_if": "{{ section.settings.different_mobile_padding == true }}",
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "[we] Padding bottom (mobile)",
+      "default": 30,
+      "info": "Applies below 768px width."
+    },
+    {
+      "type": "header",
       "content": "t:sections.all.divider.content"
     },
     {
@@ -505,6 +589,35 @@
               "label": "t:sections.all.text_size.options__inherit.label"
             }
           ]
+        },
+        {
+          "type": "checkbox",
+          "id": "truncate_on_mobile",
+          "label": "[we] Truncate on mobile",
+          "default": false
+        },
+        {
+          "visible_if": "{{ block.settings.truncate_on_mobile == true }}",
+          "type": "range",
+          "id": "truncate_on_mobile_lines",
+          "label": "[we] Truncate on mobile after lines",
+          "default": 3,
+          "min": 1,
+          "max": 10
+        },
+        {
+          "visible_if": "{{ block.settings.truncate_on_mobile == true }}",
+          "type": "text",
+          "id": "truncate_trigger_text",
+          "label": "[we] Truncate trigger text",
+          "default": "Mehr lesen"
+        },
+        {
+          "visible_if": "{{ block.settings.truncate_on_mobile == true }}",
+          "type": "text",
+          "id": "truncate_collapse_text",
+          "label": "[we] Truncate collapse text",
+          "default": "Weniger",
         }
       ]
     },

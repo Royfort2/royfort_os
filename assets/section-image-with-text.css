@@ -42,3 +42,44 @@
     padding-inline-start: var(--padding-x);
   }
 }
+
+/* Mobile-only truncate + “read more” (see we-image-with-text-truncate.js) */
+@media (max-width: 767.98px) {
+  [data-we-truncate]:not(.is-expanded) .image-with-text__truncate-body {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: var(--iw-t-lines, 3);
+    overflow: hidden;
+  }
+  [data-we-truncate].is-expanded .image-with-text__truncate-body {
+    display: block;
+    -webkit-line-clamp: unset;
+    overflow: visible;
+  }
+  [data-we-truncate] .image-with-text__truncate-btn {
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    font-size: 1.4rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    height: auto;
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-decoration-skip-ink: auto;
+    text-decoration-thickness: auto;
+    text-underline-offset: auto;
+    text-underline-position: from-font;
+  }
+}
+@media (min-width: 768px) {
+  [data-we-truncate] .image-with-text__truncate-body {
+    display: block !important;
+    -webkit-line-clamp: unset !important;
+    overflow: visible !important;
+  }
+  [data-we-truncate] .image-with-text__truncate-btn {
+    display: none !important;
+  }
+}
