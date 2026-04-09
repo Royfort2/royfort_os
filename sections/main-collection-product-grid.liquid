@@ -181,41 +181,130 @@
               id="ProductsList"
               class="grid-list products-list f-grid lg:f-grid-{{ columns_tablet_large }}-cols xl:f-grid-{{ columns_desktop }}-cols  f-grid--gap-custom {{ default_grid_mobile }}"
             >
+              {%- liquid
+                assign grid_card_position = paginate.current_offset
+              -%}
               {%- for product in collection.products -%}
-                {%- assign product_index_global = paginate.current_offset | plus: forloop.index -%}
-                <div class="f-column card">
-                  {%- if is_metro -%}
-                    {%- render 'card-product-metro',
-                      product: product,
-                      image_sizes: image_sizes,
-                      section_id: section.id,
-                      section_index: 2,
-                      index: forloop.index,
-                      index0: forloop.index0,
-                      desktop_breakpoint: 1280,
-                      columns_desktop: columns_desktop,
-                      columns_tablet: columns_tablet,
-                      columns_mobile: columns_mobile
-                    -%}
-                  {%- else -%}
-                    {%- render 'we-card-product',
-                      product: product,
-                      image_sizes: image_sizes,
-                      section_id: section.id,
-                      section_index: 2,
-                      index: forloop.index,
-                      use_swiper: section.settings.pcard_use_swiper,
-                      show_reviews: section.settings.show_reviews
-                    -%}
-                  {%- endif -%}
-                </div>
-                {%- unless is_metro -%}
-                  {%- for block in section.blocks -%}
-                    {%- if block.type == 'we_promo' and block.settings.order_after == product_index_global -%}
-                      {%- render 'we-collection-promo', block: block, image_sizes: image_sizes -%}
+                {% unless section.settings.render_variants %}
+                  <div class="f-column card">
+                    {%- if is_metro -%}
+                      {%- render 'card-product-metro',
+                        product: product,
+                        image_sizes: image_sizes,
+                        section_id: section.id,
+                        section_index: 2,
+                        index: forloop.index,
+                        index0: forloop.index0,
+                        desktop_breakpoint: 1280,
+                        columns_desktop: columns_desktop,
+                        columns_tablet: columns_tablet,
+                        columns_mobile: columns_mobile
+                      -%}
+                    {%- else -%}
+                      {%- render 'we-card-product',
+                        product: product,
+                        image_sizes: image_sizes,
+                        section_id: section.id,
+                        section_index: 2,
+                        index: forloop.index,
+                        use_swiper: section.settings.pcard_use_swiper,
+                        show_reviews: section.settings.show_reviews
+                      -%}
                     {%- endif -%}
-                  {%- endfor -%}
-                {%- endunless -%}
+                  </div>
+                  {%- assign grid_card_position = grid_card_position | plus: 1 -%}
+                  {%- unless is_metro -%}
+                    {%- render 'we-collection-promo-grid-slot',
+                      section: section,
+                      image_sizes: image_sizes,
+                      grid_card_position: grid_card_position
+                    -%}
+                  {%- endunless -%}
+                {% else %}
+                  {%- if is_metro -%}
+                    <div class="f-column card">
+                      {%- render 'card-product-metro',
+                        product: product,
+                        image_sizes: image_sizes,
+                        section_id: section.id,
+                        section_index: 2,
+                        index: forloop.index,
+                        index0: forloop.index0,
+                        desktop_breakpoint: 1280,
+                        columns_desktop: columns_desktop,
+                        columns_tablet: columns_tablet,
+                        columns_mobile: columns_mobile
+                      -%}
+                    </div>
+                    {%- assign grid_card_position = grid_card_position | plus: 1 -%}
+                  {%- else -%}
+                    {%- liquid
+                      assign color_option_index = nil
+                      assign swatch_trigger = settings.color_swatch_trigger | downcase
+                      for option in product.options_with_values
+                        assign option_name = option.name | downcase
+                        assign is_color = false
+                        if swatch_trigger contains option_name
+                          assign is_color = true
+                        elsif swatch_trigger contains 'color' and option_name contains 'colour'
+                          assign is_color = true
+                        endif
+                        if is_color
+                          assign color_option_index = forloop.index0
+                          break
+                        endif
+                      endfor
+                    -%}
+                    {%- if color_option_index == nil -%}
+                      <div class="f-column card">
+                        {%- render 'we-card-product',
+                          product: product,
+                          image_sizes: image_sizes,
+                          section_id: section.id,
+                          section_index: 2,
+                          index: forloop.index,
+                          use_swiper: section.settings.pcard_use_swiper,
+                          show_reviews: section.settings.show_reviews
+                        -%}
+                      </div>
+                      {%- assign grid_card_position = grid_card_position | plus: 1 -%}
+                      {%- render 'we-collection-promo-grid-slot',
+                        section: section,
+                        image_sizes: image_sizes,
+                        grid_card_position: grid_card_position
+                      -%}
+                    {%- else -%}
+                      {% assign unique_colors = '' %}
+                      {% for variant in product.variants %}
+                        {% assign color_value = variant.options[color_option_index] %}
+                        {% unless unique_colors contains color_value %}
+                          {% assign unique_colors = unique_colors | append: color_value | append: ',' %}
+                        {% else %}
+                          {% continue %}
+                        {% endunless %}
+
+                        <div class="f-column card">
+                          {%- render 'we-card-product',
+                            product: product,
+                            color_variant: variant,
+                            image_sizes: image_sizes,
+                            section_id: section.id,
+                            section_index: 2,
+                            index: forloop.index,
+                            use_swiper: section.settings.pcard_use_swiper,
+                            show_reviews: section.settings.show_reviews
+                          -%}
+                        </div>
+                        {%- assign grid_card_position = grid_card_position | plus: 1 -%}
+                        {%- render 'we-collection-promo-grid-slot',
+                          section: section,
+                          image_sizes: image_sizes,
+                          grid_card_position: grid_card_position
+                        -%}
+                      {% endfor %}
+                    {%- endif -%}
+                  {%- endif -%}
+                {% endunless %}
               {%- endfor -%}
             </grid-list>
             {%- liquid
@@ -527,7 +616,7 @@
           "type": "number",
           "id": "order_after",
           "label": "Show after product number",
-          "info": "Place the promo after this many products in the collection (counted across all pages). Example: 15 per page and value 20 — the promo appears after product 20 when loading more."
+          "info": "Place the promo after this many grid cards. One product = one card by default. With “[we] Render variants”, each variant card counts. Example: 8 with two products and five variants each inserts the promo after the 8th card (e.g. third color of the second product). With pagination, the count continues from the page offset (same as before for one card per product)."
         },
         {
           "type": "range",

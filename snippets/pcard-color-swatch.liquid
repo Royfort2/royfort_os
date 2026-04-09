@@ -1,3 +1,6 @@
+{%- comment -%}
+  @param initial_variant {Variant} Optional. Swatch selection + order: this variant's color is selected and shown first.
+{%- endcomment -%}
 {%- liquid
   assign swatch_trigger = settings.color_swatch_trigger | downcase
   assign swatch_file_extension = 'png'
@@ -24,64 +27,174 @@
     assign value = ''
     assign values = ''
     assign max_swatch_count = settings.pcard_maximum_swatches_to_show
-    assign initial_color_value = product.selected_or_first_available_variant.options[option_index]
+
+    assign count_values = ''
+    assign total_unique_swatches = 0
+    for variant in product.variants
+      assign cv = variant.options[option_index]
+      unless count_values contains cv
+        assign count_values = count_values | join: ',' | append: ',' | append: cv | split: ','
+        assign total_unique_swatches = total_unique_swatches | plus: 1
+      endunless
+    endfor
   -%}
   <div class="product-card__swatches flex flex-wrap items-center gap-2">
     <ul class="swatches swatches--product-card flex flex-wrap items-center{% if settings.pcard_swatches_type == 'variant_image' %} swatches--variant-image{% endif %}">
-      {%- for variant in product.variants -%}
+      {%- if initial_variant != blank -%}
         {%- liquid
-          assign value = variant.options[option_index]
+          assign initial_color_value = initial_variant.options[option_index]
+          assign values = ''
+          assign swatch_count = 0
         -%}
-        {%- unless values contains value -%}
+        {%- comment -%} Gallery variant: that color first and selected. {%- endcomment -%}
+        {%- for variant in product.variants -%}
           {%- liquid
-            assign values = values | join: ',' | append: ',' | append: value | split: ','
-            assign swatch_count = swatch_count | plus: 1
-            assign swatch_title = product.title | append: ' - ' | append: value
-            assign swatch_url = variant.url
-
-            assign swatch = blank
-            if value.swatch != blank
-              assign swatch = value.swatch
-            endif
-
-            if settings.pcard_swatches_type == 'variant_image' and variant.image
-              assign swatch = variant
-            endif
-
-            assign swatches = swatch
-            if settings.pcard_swatches_type == 'color_swatch'
-              assign swatches = ''
-            endif
-
-            assign swatch_selected = false
-            if value == initial_color_value
-              assign swatch_selected = true
-            endif
+            assign value = variant.options[option_index]
           -%}
-          {%- if swatch_count <= max_swatch_count -%}
-            <li data-tooltip>
-              {%- render 'swatch',
-                href: swatch_url,
-                variant_id: variant.id,
-                swatch_selected: swatch_selected,
-                swatch_interactive: swatch_interactive,
-                title: swatch_title,
-                value: value,
-                file_extension: swatch_file_extension,
-                swatch: swatches,
-                tooltip: value
+          {%- if value == initial_color_value -%}
+            {%- unless values contains value -%}
+              {%- liquid
+                assign values = values | join: ',' | append: ',' | append: value | split: ','
+                assign swatch_count = swatch_count | plus: 1
+                assign swatch_title = product.title | append: ' - ' | append: value
+                assign swatch_url = variant.url
+
+                assign swatch = blank
+                if value.swatch != blank
+                  assign swatch = value.swatch
+                endif
+
+                if settings.pcard_swatches_type == 'variant_image' and variant.image
+                  assign swatch = variant
+                endif
+
+                assign swatches = swatch
+                if settings.pcard_swatches_type == 'color_swatch'
+                  assign swatches = ''
+                endif
               -%}
-            </li>
+              {%- if swatch_count <= max_swatch_count -%}
+                <li data-tooltip>
+                  {%- render 'swatch',
+                    href: swatch_url,
+                    variant_id: variant.id,
+                    swatch_selected: true,
+                    swatch_interactive: swatch_interactive,
+                    title: swatch_title,
+                    value: value,
+                    file_extension: swatch_file_extension,
+                    swatch: swatches,
+                    tooltip: value
+                  -%}
+                </li>
+              {%- endif -%}
+            {%- endunless -%}
           {%- endif -%}
-        {%- endunless -%}
-      {%- endfor -%}
+        {%- endfor -%}
+        {%- for variant in product.variants -%}
+          {%- liquid
+            assign value = variant.options[option_index]
+          -%}
+          {%- if value != initial_color_value -%}
+            {%- unless values contains value -%}
+              {%- liquid
+                assign values = values | join: ',' | append: ',' | append: value | split: ','
+                assign swatch_count = swatch_count | plus: 1
+                assign swatch_title = product.title | append: ' - ' | append: value
+                assign swatch_url = variant.url
+
+                assign swatch = blank
+                if value.swatch != blank
+                  assign swatch = value.swatch
+                endif
+
+                if settings.pcard_swatches_type == 'variant_image' and variant.image
+                  assign swatch = variant
+                endif
+
+                assign swatches = swatch
+                if settings.pcard_swatches_type == 'color_swatch'
+                  assign swatches = ''
+                endif
+              -%}
+              {%- if swatch_count <= max_swatch_count -%}
+                <li data-tooltip>
+                  {%- render 'swatch',
+                    href: swatch_url,
+                    variant_id: variant.id,
+                    swatch_selected: false,
+                    swatch_interactive: swatch_interactive,
+                    title: swatch_title,
+                    value: value,
+                    file_extension: swatch_file_extension,
+                    swatch: swatches,
+                    tooltip: value
+                  -%}
+                </li>
+              {%- endif -%}
+            {%- endunless -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- liquid
+          assign initial_color_value = product.selected_or_first_available_variant.options[option_index]
+          assign swatch_count = 0
+        -%}
+        {%- for variant in product.variants -%}
+          {%- liquid
+            assign value = variant.options[option_index]
+          -%}
+          {%- unless values contains value -%}
+            {%- liquid
+              assign values = values | join: ',' | append: ',' | append: value | split: ','
+              assign swatch_count = swatch_count | plus: 1
+              assign swatch_title = product.title | append: ' - ' | append: value
+              assign swatch_url = variant.url
+
+              assign swatch = blank
+              if value.swatch != blank
+                assign swatch = value.swatch
+              endif
+
+              if settings.pcard_swatches_type == 'variant_image' and variant.image
+                assign swatch = variant
+              endif
+
+              assign swatches = swatch
+              if settings.pcard_swatches_type == 'color_swatch'
+                assign swatches = ''
+              endif
+
+              assign swatch_selected = false
+              if value == initial_color_value
+                assign swatch_selected = true
+              endif
+            -%}
+            {%- if swatch_count <= max_swatch_count -%}
+              <li data-tooltip>
+                {%- render 'swatch',
+                  href: swatch_url,
+                  variant_id: variant.id,
+                  swatch_selected: swatch_selected,
+                  swatch_interactive: swatch_interactive,
+                  title: swatch_title,
+                  value: value,
+                  file_extension: swatch_file_extension,
+                  swatch: swatches,
+                  tooltip: value
+                -%}
+              </li>
+            {%- endif -%}
+          {%- endunless -%}
+        {%- endfor -%}
+      {%- endif -%}
     </ul>
-    {%- if swatch_count > max_swatch_count -%}
+    {%- if total_unique_swatches > max_swatch_count -%}
       <a
         href="{{ product.url }}"
         aria-controls="{{ quick_view_modal_id }}"
         aria-expanded="false"
-        >+{{ swatch_count | minus: max_swatch_count -}}
+        >+{{ total_unique_swatches | minus: max_swatch_count -}}
       </a>
     {%- endif -%}
   </div>

@@ -1,0 +1,9 @@
+{%- comment -%}
+  Promo blocks where Grid placement "Show after product number" matches this card index.
+  @param grid_card_position {Number} Running count: each product card or variant card adds one.
+{%- endcomment -%}
+{%- for block in section.blocks -%}
+  {%- if block.type == 'we_promo' and block.settings.order_after == grid_card_position -%}
+    {%- render 'we-collection-promo', block: block, image_sizes: image_sizes -%}
+  {%- endif -%}
+{%- endfor -%}
