@@ -1,4 +1,5 @@
 {{ 'collection.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'we-collection-variant-card-count.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'show-more.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'we-collection-grid-row-height.js' | asset_url }}" defer="defer"></script>
@@ -78,27 +79,18 @@
                   {%- if collection.all_products_count > 0 -%}
                     <div data-facet-loading>
                       {%- render 'loading-spinner' -%}
-                      <p id="ProductCount" class="m-0" role="status">
+                      <p
+                        id="ProductCount"
+                        class="m-0"
+                        role="status"
+                        {% if section.settings.render_variants %}
+                          data-variant-card-count
+                          data-color-trigger="{{ settings.color_swatch_trigger | escape }}"
+                          data-products-json-href="{{ collection.url | append: '/products.json' }}"
+                        {% endif %}
+                      >
                         {% if section.settings.render_variants %}
                           {{ 'products.facets.product_count_html' | t: count: 0 }}
-                          <script>
-                            let products = {{ collection.products | json }};
-                            let color_option = '{{ settings.color_swatch_trigger }}'
-                            let count = 0;
-                            for (let product of products) {
-                              let unique_colors = [];
-                              let color_order = product.options.indexOf(color_option);
-                              for (let variant of product.variants) {
-                                if (variant.available) {
-                                  if (!unique_colors.includes(variant.options[color_order])) {
-                                    unique_colors.push(variant.options[color_order]);
-                                    count++;
-                                  }
-                                }
-                              }
-                            }
-                            document.querySelector('#ProductCount span').innerHTML = count;
-                          </script>
                         {% else %}
                           {%- liquid
                             if collection.results_count
