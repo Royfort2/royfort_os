@@ -90,6 +90,23 @@ if (!customElements.get('product-info')) {
         return this.querySelector('quantity-input input');
       }
 
+      /**
+       * Selected variant from [data-selected-variant], or first available from [data-pdp-bootstrap-variant]
+       * when the picker is still pending (null JSON) or as fallback if no variant is in the URL.
+       */
+      getInitialVariantForGallery(productInfoNode) {
+        const selected = this.getSelectedVariant(productInfoNode);
+        if (selected) return selected;
+        const root = productInfoNode.querySelector('variant-selects');
+        const raw = root?.querySelector('[data-pdp-bootstrap-variant]')?.textContent?.trim();
+        if (!raw) return null;
+        try {
+          return JSON.parse(raw);
+        } catch {
+          return null;
+        }
+      }
+
       connectedCallback() {
         this.initializeProductSwapUtility();
 
@@ -100,7 +117,7 @@ if (!customElements.get('product-info')) {
 
         this.initQuantityHandlers();
 
-        this.currentVariant = this.getSelectedVariant(this);
+        this.currentVariant = this.getInitialVariantForGallery(this);
         if (this.currentVariant) {
           this.updateMedia(this.currentVariant);
         }

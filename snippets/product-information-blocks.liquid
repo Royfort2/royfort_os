@@ -150,6 +150,12 @@
             </a>
           </div>
         {%- when 'price' -%}
+          {%- liquid
+            assign pdp_main_price_use_variant = true
+            if product.selected_variant == blank and product.price_varies
+              assign pdp_main_price_use_variant = false
+            endif
+          -%}
           <div
             class="product__block product__block--{{ block.type }}"
             {{ block.shopify_attributes }}
@@ -157,7 +163,7 @@
             <div id="price-{{ section.id }}" role="status">
               {%- render 'price',
                 product: product,
-                use_variant: true,
+                use_variant: pdp_main_price_use_variant,
                 show_sale_badge: false,
                 price_class: 'f-price--large'
               -%}

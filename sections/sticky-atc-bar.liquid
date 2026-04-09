@@ -43,7 +43,13 @@
           <h3 class="sticky-atc-bar__product-title text-pcard-title text-limit-2-lines">
             {{ product.title }}
           </h3>
-          {%- render 'price', product: product, use_variant: true -%}
+          {%- liquid
+            assign sticky_price_use_variant = true
+            if product.selected_variant == blank and product.price_varies
+              assign sticky_price_use_variant = false
+            endif
+          -%}
+          {%- render 'price', product: product, use_variant: sticky_price_use_variant -%}
         </div>
       </div>
       {%- assign product_form_id = 'product-form-' | append: section.id -%}

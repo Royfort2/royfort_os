@@ -471,6 +471,17 @@
         {{- product.selected_or_first_available_variant | json -}}
       {%- endif -%}
     </script>
+    {%- comment -%}
+      When no variant is selected in the URL, expose first available variant so the gallery can match default media
+      (see product-info getInitialVariantForGallery). Main picker only — embedded set pickers use their own gallery context.
+    {%- endcomment -%}
+    {%- unless pdp_qty_embedded_picker -%}
+      {%- if product.selected_variant == blank -%}
+        <script type="application/json" data-pdp-bootstrap-variant>
+          {{- product.selected_or_first_available_variant | json -}}
+        </script>
+      {%- endif -%}
+    {%- endunless -%}
   </variant-selects>
   {%- if size_chart_content != blank -%}
     <div id="SizeChart-{{ id_ns }}">
