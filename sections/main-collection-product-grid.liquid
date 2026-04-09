@@ -249,7 +249,8 @@
                     {%- render 'we-collection-promo-grid-slot',
                       section: section,
                       image_sizes: image_sizes,
-                      grid_card_position: grid_card_position
+                      grid_card_position: grid_card_position,
+                      product_offset: paginate.current_offset
                     -%}
                   {%- endunless -%}
                 {% else %}
@@ -303,7 +304,8 @@
                       {%- render 'we-collection-promo-grid-slot',
                         section: section,
                         image_sizes: image_sizes,
-                        grid_card_position: grid_card_position
+                        grid_card_position: grid_card_position,
+                        product_offset: paginate.current_offset
                       -%}
                     {%- else -%}
                       {% assign unique_colors = '' %}
@@ -331,7 +333,8 @@
                         {%- render 'we-collection-promo-grid-slot',
                           section: section,
                           image_sizes: image_sizes,
-                          grid_card_position: grid_card_position
+                          grid_card_position: grid_card_position,
+                          product_offset: paginate.current_offset
                         -%}
                       {% endfor %}
                     {%- endif -%}
@@ -652,7 +655,7 @@
           "type": "number",
           "id": "order_after",
           "label": "Show after product number",
-          "info": "Place the promo after this many grid cards (running count in the collection). One product = one card by default. With “[we] Render variants”, each color card counts; pagination adds the number of cards from earlier products on previous pages so the promo does not repeat. If you page deep into very large collections, Shopify may limit how many earlier products are counted."
+          "info": "Place the promo after this many grid cards (running count). One product = one card by default; with “[we] Render variants”, each color card counts. Promos only render when this number is greater than the number of products on earlier pages (so “after 2” cannot repeat on page 2+). Very high numbers may need tuning if promos rely on exact variant-card counts past the first 50 products."
         },
         {
           "type": "range",
