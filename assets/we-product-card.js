@@ -118,7 +118,10 @@ if (!customElements.get('we-product-card')) {
       }
 
       handleSwatchMouseOver(event) {
-        const link = event.target.closest('a[data-variant-id]');
+        // closest() only walks ancestors; hover often hits <li> padding or the tooltip span, not the <a>.
+        const item = event.target.closest('ul.swatches--product-card li');
+        const link =
+          item?.querySelector?.('[data-variant-id]') || event.target.closest('[data-variant-id]');
         if (!link || !this.swatchList?.contains(link)) return;
         const id = link.dataset.variantId;
         if (!id || id === this.lastPreviewVariantId) return;

@@ -71,7 +71,8 @@
     class="swatch-color block relative{% if swatch_selected %} is-active{% endif %}"
     title="{{ title | escape }}"
     aria-label="{{ title | escape }}"
-    {% if variant_id != blank and swatch_interactive %}
+    {%- comment -%} Always output when variant_id is set so card swatch preview JS can resolve hover (not gated on swatch_interactive). {%- endcomment -%}
+    {% if variant_id != blank %}
       data-variant-id="{{ variant_id }}"
     {% endif %}
     {% if class != blank %}

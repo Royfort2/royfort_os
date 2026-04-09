@@ -199,6 +199,7 @@
             {%- liquid
               assign swatch_trigger = settings.color_swatch_trigger | downcase
               assign variant_templates_done = false
+              assign initial_swiper_template_done = false
             -%}
             {%- for option in product.options_with_values -%}
               {%- liquid
@@ -244,10 +245,33 @@
                         we_pcard_append_second: we_pcard_append_second
                       -%}
                     </template>
+                    {%- if variant.id == swiper_variant.id -%}
+                      {%- assign initial_swiper_template_done = true -%}
+                    {%- endif -%}
                   {%- endif -%}
                 {%- endunless -%}
               {%- endfor -%}
             {%- endfor -%}
+            {%- comment -%}
+              Card media uses swiper_variant; preview templates only cover the first N unique colors.
+              If the visible variant is not in that set (or another variant owns the same color slot),
+              JS cannot reset or re-preview — always emit a template for the card’s variant id.
+            {%- endcomment -%}
+            {%- if initial_swiper_template_done == false -%}
+              <template data-variant-id="{{ swiper_variant.id }}">
+                {%- render 'we-pcard-variant-slides',
+                  product: product,
+                  variant: swiper_variant,
+                  variant_color_name: gallery_color_name,
+                  image_ratio: image_ratio,
+                  image_widths: image_widths,
+                  image_sizes: image_sizes,
+                  loading: 'lazy',
+                  fetchpriority: 'low',
+                  we_pcard_append_second: we_pcard_append_second
+                -%}
+              </template>
+            {%- endif -%}
           {%- endif -%}
         </we-product-card>
       {%- elsif we_static_swatch_preview -%}
