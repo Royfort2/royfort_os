@@ -183,6 +183,46 @@
             >
               {%- liquid
                 assign grid_card_position = paginate.current_offset
+                if section.settings.render_variants
+                  assign cards_before = 0
+                  assign swatch_trigger = settings.color_swatch_trigger | downcase
+                  assign prev_coll = collections[collection.handle]
+                  if prev_coll != blank
+                    for product in prev_coll.products limit: paginate.current_offset
+                      if is_metro
+                        assign cards_before = cards_before | plus: 1
+                      else
+                        assign promo_color_option_index = nil
+                        for option in product.options_with_values
+                          assign option_name = option.name | downcase
+                          assign is_color = false
+                          if swatch_trigger contains option_name
+                            assign is_color = true
+                          elsif swatch_trigger contains 'color' and option_name contains 'colour'
+                            assign is_color = true
+                          endif
+                          if is_color
+                            assign promo_color_option_index = forloop.index0
+                            break
+                          endif
+                        endfor
+                        if promo_color_option_index == nil
+                          assign cards_before = cards_before | plus: 1
+                        else
+                          assign promo_unique_colors = ''
+                          for variant in product.variants
+                            assign color_value = variant.options[promo_color_option_index]
+                            unless promo_unique_colors contains color_value
+                              assign promo_unique_colors = promo_unique_colors | append: color_value | append: ','
+                              assign cards_before = cards_before | plus: 1
+                            endunless
+                          endfor
+                        endif
+                      endif
+                    endfor
+                  endif
+                  assign grid_card_position = cards_before
+                endif
               -%}
               {%- for product in collection.products -%}
                 {% unless section.settings.render_variants %}
@@ -616,7 +656,7 @@
           "type": "number",
           "id": "order_after",
           "label": "Show after product number",
-          "info": "Place the promo after this many grid cards. One product = one card by default. With “[we] Render variants”, each variant card counts. Example: 8 with two products and five variants each inserts the promo after the 8th card (e.g. third color of the second product). With pagination, the count continues from the page offset (same as before for one card per product)."
+          "info": "Place the promo after this many grid cards (running count in the collection). One product = one card by default. With “[we] Render variants”, each color card counts; pagination adds the number of cards from earlier products on previous pages so the promo does not repeat. If you page deep into very large collections, Shopify may limit how many earlier products are counted."
         },
         {
           "type": "range",
