@@ -151,9 +151,9 @@
       "custom_css": [],
       "settings": {
         "color_scheme": "scheme-1",
-        "products_per_page": 18,
+        "products_per_page": 12,
         "columns_desktop": 4,
-        "render_variants": false,
+        "render_variants": true,
         "grid_layout": "standard",
         "pagination": "load_more",
         "enable_color_swatch": true,
