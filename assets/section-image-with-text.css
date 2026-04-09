@@ -52,9 +52,10 @@
     overflow: hidden;
   }
   [data-we-truncate].is-expanded .image-with-text__truncate-body {
-    display: block;
-    -webkit-line-clamp: unset;
-    overflow: visible;
+    display: block !important;
+    -webkit-box-orient: unset !important;
+    -webkit-line-clamp: unset !important;
+    overflow: visible !important;
   }
   [data-we-truncate] .image-with-text__truncate-btn {
     padding: 0;

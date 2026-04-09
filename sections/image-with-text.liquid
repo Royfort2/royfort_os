@@ -45,18 +45,7 @@
     {% endif %}
   }
 {% endstyle %}
-{%- liquid
-  assign image_with_text_has_truncate = false
-  for block in section.blocks
-    if block.type == 'text' and block.settings.truncate_on_mobile
-      assign image_with_text_has_truncate = true
-      break
-    endif
-  endfor
--%}
-{%- if image_with_text_has_truncate -%}
-  <script src="{{ 'we-image-with-text-truncate.js' | asset_url }}" defer="defer"></script>
-{%- endif -%}
+<script src="{{ 'we-image-with-text-truncate.js' | asset_url }}" defer="defer"></script>
 
 <div
   class="section section--padding image-with-text image-with-text--{{ section.settings.layout | replace: '_', '-' }} color-{{ section.settings.section_color_scheme }}{% if color_inherit %} color-inherit{% endif %}{% if section.settings.custom_class != blank %} {{ section.settings.custom_class }}{% endif %}"
