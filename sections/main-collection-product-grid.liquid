@@ -341,7 +341,11 @@
             </grid-list>
             {%- liquid
               if paginate.pages > 1
-                render 'pagination', paginate: paginate, type: section.settings.pagination, page_result_count: collection.products.size
+                if section.settings.render_variants
+                  render 'pagination', paginate: paginate, type: section.settings.pagination, page_result_count: collection.products.size, variant_cards_shown: grid_card_position, variant_card_progress: true, color_trigger: settings.color_swatch_trigger, products_json_href: collection.url | append: '/products.json'
+                else
+                  render 'pagination', paginate: paginate, type: section.settings.pagination, page_result_count: collection.products.size
+                endif
               endif
             -%}
           </div>

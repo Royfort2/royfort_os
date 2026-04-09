@@ -449,6 +449,10 @@ class LoadMoreButton extends HTMLButtonElement {
       .then((responseText) => {
         this.renderPagination(responseText);
         this.renderProductGridContainer(responseText);
+      })
+      .finally(() => {
+        document.dispatchEvent(new CustomEvent('collection:rerendered'));
+        this.classList.remove('pointer-events-none', 'btn--loading');
       });
   }
 
@@ -473,15 +477,12 @@ class LoadMoreButton extends HTMLButtonElement {
 
     const parsedHTML = new DOMParser().parseFromString(responseText, 'text/html');
     const productList = productGridContainer.querySelector('.products-list');
-    const gridList = productGridContainer.querySelector('grid-list');
     const source = parsedHTML.querySelector('.products-list');
 
     if (source && productList) {
       source.querySelectorAll(':scope > *').forEach((item) => {
         productList.appendChild(item);
       });
-
-      gridList && gridList.reload();
     }
   }
 

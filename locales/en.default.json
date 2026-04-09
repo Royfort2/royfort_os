@@ -45,7 +45,9 @@
       "previous": "Prev",
       "show_more": "Show more",
       "load_more_progress_html": "You've viewed <span class=\"pagination-load-more__shown\">{{ shown }}</span> of {{ total }} products",
-      "load_more_progress_aria": "You've viewed {{ shown }} of {{ total }} products"
+      "load_more_progress_aria": "You've viewed {{ shown }} of {{ total }} products",
+      "load_more_progress_variant_html": "You've viewed <span class=\"pagination-load-more__shown\">{{ shown }}</span> of <span class=\"pagination-load-more__total\">{{ total }}</span> products",
+      "load_more_progress_variant_aria": "You've viewed {{ shown }} of {{ total }} products"
     },
     "breadcrumbs": {
       "home": "Home",
