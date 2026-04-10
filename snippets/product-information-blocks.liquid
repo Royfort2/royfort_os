@@ -490,6 +490,10 @@
             {% if pdp_set_active %}
               {% assign first_product = product.metafields.custom.pdp_set_products.value | first %}
               {% assign first_option_name_suffix = first_product.id | prepend: '-' %}
+              {% comment %}
+                First set product: same picker treatment as main (embedded set line item — custom dropdown, swatches, inline qty).
+                Additional metafield products: checkbox cards below.
+              {% endcomment %}
               {% render 'product-variant-picker',
                 product: first_product,
                 block: block,
@@ -538,16 +542,13 @@
                           {% render 'price', product: set_product, price_class: 'product-set-picker__f-price' %}
                         </template>
                         <div class="product-set-picker__card">
-                          <input
-                            type="checkbox"
-                            id="SetProductToggle-{{ block.id }}-{{ section.id }}-{{ set_product.id }}"
-                            class="product-set-picker__toggle visually-hidden"
-                            data-set-optional-product-id="{{ set_product.id }}"
-                          >
-                          <label
-                            class="product-set-picker__card-row"
-                            for="SetProductToggle-{{ block.id }}-{{ section.id }}-{{ set_product.id }}"
-                          >
+                          <label class="product-set-picker__card-row">
+                            <input
+                              type="checkbox"
+                              id="SetProductToggle-{{ block.id }}-{{ section.id }}-{{ set_product.id }}"
+                              class="product-set-picker__toggle visually-hidden"
+                              data-set-optional-product-id="{{ set_product.id }}"
+                            >
                             <span class="product-set-picker__thumb">
                               {%- if set_product.featured_image -%}
                                 {{
@@ -599,76 +600,78 @@
                 <script src="{{ 'product-set-picker-price.js' | asset_url }}" defer="defer"></script>
               {% endif %}
 
-              {%- liquid
-                comment
-                  SSR: main bundle product + first set product. Optional set lines are added via product-set-cart-items.js when checkboxes are checked.
-                endcomment
-                assign set_products_zw = product.metafields.custom.pdp_set_products.value
-                assign zw_first = set_products_zw | first
+              {%- unless context == 'quick-view' -%}
+                {%- liquid
+                  comment
+                    SSR: main bundle product + first set product. Optional set lines are added via product-set-cart-items.js when checkboxes are checked.
+                  endcomment
+                  assign set_products_zw = product.metafields.custom.pdp_set_products.value
+                  assign zw_first = set_products_zw | first
 
-                assign zw_main_v = product.selected_or_first_available_variant
-                assign zw_main_qr = zw_main_v.quantity_rule
-                assign zw_main_q_min = zw_main_qr.min | default: 1
-                if zw_main_q_min < 1
-                  assign zw_main_q_min = 1
-                endif
-                assign zw_main_sale_cents = zw_main_v.price | times: zw_main_q_min
-                assign zw_main_compare_cents = zw_main_sale_cents
-                if zw_main_v.compare_at_price > zw_main_v.price
-                  assign zw_main_compare_cents = zw_main_v.compare_at_price | times: zw_main_q_min
-                endif
+                  assign zw_main_v = product.selected_or_first_available_variant
+                  assign zw_main_qr = zw_main_v.quantity_rule
+                  assign zw_main_q_min = zw_main_qr.min | default: 1
+                  if zw_main_q_min < 1
+                    assign zw_main_q_min = 1
+                  endif
+                  assign zw_main_sale_cents = zw_main_v.price | times: zw_main_q_min
+                  assign zw_main_compare_cents = zw_main_sale_cents
+                  if zw_main_v.compare_at_price > zw_main_v.price
+                    assign zw_main_compare_cents = zw_main_v.compare_at_price | times: zw_main_q_min
+                  endif
 
-                assign zw_v = zw_first.selected_or_first_available_variant
-                assign zw_qr = zw_v.quantity_rule
-                assign zw_q_min = zw_qr.min | default: 1
-                if zw_q_min < 1
-                  assign zw_q_min = 1
-                endif
-                assign zw_first_sale_cents = zw_v.price | times: zw_q_min
-                assign zw_first_compare_cents = zw_first_sale_cents
-                if zw_v.compare_at_price > zw_v.price
-                  assign zw_first_compare_cents = zw_v.compare_at_price | times: zw_q_min
-                endif
+                  assign zw_v = zw_first.selected_or_first_available_variant
+                  assign zw_qr = zw_v.quantity_rule
+                  assign zw_q_min = zw_qr.min | default: 1
+                  if zw_q_min < 1
+                    assign zw_q_min = 1
+                  endif
+                  assign zw_first_sale_cents = zw_v.price | times: zw_q_min
+                  assign zw_first_compare_cents = zw_first_sale_cents
+                  if zw_v.compare_at_price > zw_v.price
+                    assign zw_first_compare_cents = zw_v.compare_at_price | times: zw_q_min
+                  endif
 
-                assign zw_sale_cents = zw_main_sale_cents | plus: zw_first_sale_cents
-                assign zw_compare_cents = zw_main_compare_cents | plus: zw_first_compare_cents
-                assign zw_has_compare = false
-                if zw_compare_cents > zw_sale_cents
-                  assign zw_has_compare = true
-                  assign zw_discount_pct = zw_compare_cents | minus: zw_sale_cents | times: 100 | divided_by: zw_compare_cents
-                endif
-              -%}
-              <div class="pdp-set-zwischensumme" data-pdp-set-zwischensumme>
-                <script type="application/json" data-pdp-set-zwischensumme-meta>
-                  {"titles":{
-                  "{{ product.id }}":{{ product.title | json }},
-                  {%- for sp in set_products_zw -%}
-                  "{{ sp.id }}":{{ sp.title | json }}{%- unless forloop.last -%},{%- endunless -%}
-                  {%- endfor -%}
-                  }}
-                </script>
-                <div class="pdp-set-zwischensumme__header">
-                  <span class="pdp-set-zwischensumme__title">ZWISCHENSUMME:</span>
-                  <div class="pdp-set-zwischensumme__prices">
-                    <span
-                      class="pdp-set-zwischensumme__compare"
-                      {% unless zw_has_compare %}hidden{% endunless %}
-                    >
-                      {%- if zw_has_compare -%}{{ zw_compare_cents | money }}{%- endif -%}
-                    </span>
-                    <span class="pdp-set-zwischensumme__sale">{{ zw_sale_cents | money }}</span>
-                    <span
-                      class="pdp-set-zwischensumme__badge"
-                      {% unless zw_has_compare %}hidden{% endunless %}
-                    >
-                      {%- if zw_has_compare -%}-{{ zw_discount_pct }}%{%- endif -%}
-                    </span>
+                  assign zw_sale_cents = zw_main_sale_cents | plus: zw_first_sale_cents
+                  assign zw_compare_cents = zw_main_compare_cents | plus: zw_first_compare_cents
+                  assign zw_has_compare = false
+                  if zw_compare_cents > zw_sale_cents
+                    assign zw_has_compare = true
+                    assign zw_discount_pct = zw_compare_cents | minus: zw_sale_cents | times: 100 | divided_by: zw_compare_cents
+                  endif
+                -%}
+                <div class="pdp-set-zwischensumme" data-pdp-set-zwischensumme>
+                  <script type="application/json" data-pdp-set-zwischensumme-meta>
+                    {"titles":{
+                    "{{ product.id }}":{{ product.title | json }},
+                    {%- for sp in set_products_zw -%}
+                    "{{ sp.id }}":{{ sp.title | json }}{%- unless forloop.last -%},{%- endunless -%}
+                    {%- endfor -%}
+                    }}
+                  </script>
+                  <div class="pdp-set-zwischensumme__header">
+                    <span class="pdp-set-zwischensumme__title">ZWISCHENSUMME:</span>
+                    <div class="pdp-set-zwischensumme__prices">
+                      <span
+                        class="pdp-set-zwischensumme__compare"
+                        {% unless zw_has_compare %}hidden{% endunless %}
+                      >
+                        {%- if zw_has_compare -%}{{ zw_compare_cents | money }}{%- endif -%}
+                      </span>
+                      <span class="pdp-set-zwischensumme__sale">{{ zw_sale_cents | money }}</span>
+                      <span
+                        class="pdp-set-zwischensumme__badge"
+                        {% unless zw_has_compare %}hidden{% endunless %}
+                      >
+                        {%- if zw_has_compare -%}-{{ zw_discount_pct }}%{%- endif -%}
+                      </span>
+                    </div>
                   </div>
+                  <p class="pdp-set-zwischensumme__breakdown">
+                    {{- zw_main_q_min }}x {{ product.title }} ({{ zw_main_sale_cents | money }}) + {{ zw_q_min }}x {{ zw_first.title }} ({{ zw_first_sale_cents | money }})
+                  </p>
                 </div>
-                <p class="pdp-set-zwischensumme__breakdown">
-                  {{- zw_main_q_min }}x {{ product.title }} ({{ zw_main_sale_cents | money }}) + {{ zw_q_min }}x {{ zw_first.title }} ({{ zw_first_sale_cents | money }})
-                </p>
-              </div>
+              {%- endunless -%}
             {% endif %}
           </div>
         {%- when 'buy_buttons' -%}

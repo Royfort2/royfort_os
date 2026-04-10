@@ -407,6 +407,8 @@
 
   function bindForm(form) {
     if (!form.classList.contains('pdp-set-bundle')) return;
+    if (form.dataset.pdpSetBundleSubmitBound === 'true') return;
+    form.dataset.pdpSetBundleSubmitBound = 'true';
 
     refresh(form);
 
@@ -431,6 +433,10 @@
   function init() {
     bindPdpSetBundleChangeDelegation();
     document.querySelectorAll('form.pdp-set-bundle').forEach(bindForm);
+
+    document.addEventListener('pdp-set:bind-bundle-forms', () => {
+      document.querySelectorAll('form.pdp-set-bundle').forEach(bindForm);
+    });
 
     document.addEventListener('pdp-set:refresh-submit', () => {
       document.querySelectorAll('form.pdp-set-bundle').forEach((form) => {

@@ -3,7 +3,6 @@ if (!customElements.get('product-info')) {
     'product-info',
     class ProductInfo extends HTMLElement {
       abortController = undefined;
-      onVariantChangeUnsubscriber = undefined;
       pendingRequestUrl = null;
       preProcessHtmlCallbacks = [];
       postProcessHtmlCallbacks = [];
@@ -110,10 +109,11 @@ if (!customElements.get('product-info')) {
       connectedCallback() {
         this.initializeProductSwapUtility();
 
-        this.onVariantChangeUnsubscriber = FoxTheme.pubsub.subscribe(
-          FoxTheme.pubsub.PUB_SUB_EVENTS.optionValueSelectionChange,
-          this.handleOptionValueChange.bind(this)
-        );
+        /**
+         * Document capture: embedded set pickers share one form; mobile we-select portaled radios
+         * do not bubble through variant-selects.
+         */
+        document.addEventListener('change', this._onDocumentOptionChange, true);
 
         this.initQuantityHandlers();
 
@@ -124,9 +124,59 @@ if (!customElements.get('product-info')) {
       }
 
       disconnectedCallback() {
-        this.onVariantChangeUnsubscriber();
+        document.removeEventListener('change', this._onDocumentOptionChange, true);
         this.cartUpdateUnsubscriber?.();
       }
+
+      /**
+       * This product's add-to-cart form (avoids wrong `input.form` when duplicate ids exist on the page).
+       */
+      getScopedProductForm() {
+        const sid = this.dataset?.section;
+        if (!sid) return this.querySelector('form[is="product-form"]');
+        return (
+          this.querySelector(`#product-form-${sid}`) || this.querySelector('form[is="product-form"]')
+        );
+      }
+
+      _onDocumentOptionChange = (e) => {
+        const t = e.target;
+        if (!t) return;
+        if (t.closest?.('.pdp-inline-quantity')) return;
+        if (t.hasAttribute?.('data-pdp-inline-qty-value')) return;
+        if (t.tagName === 'SELECT' && t.getAttribute?.('name') === 'quantity') return;
+        if (t.type !== 'radio' && t.tagName !== 'SELECT') return;
+        if (t.tagName === 'SELECT') {
+          const nm = t.getAttribute('name') || '';
+          if (!nm.startsWith('options')) return;
+        }
+        if (t.type === 'radio') {
+          const nm = t.getAttribute('name') || '';
+          if (nm.startsWith('qty-inline-')) return;
+        }
+
+        const scopedForm = this.getScopedProductForm();
+        const form = scopedForm || t.form;
+        if (!form || !this.contains(form)) return;
+
+        let vs = t.closest('variant-selects');
+        if (!vs && t.dataset?.vsRoot) {
+          vs = document.getElementById(t.dataset.vsRoot);
+        }
+        if (!vs || !this.contains(vs)) return;
+
+        const target =
+          t.tagName === 'SELECT' && t.selectedOptions?.length ? t.selectedOptions[0] : t;
+        if (!target) return;
+
+        this.handleOptionValueChange({
+          data: {
+            event: e,
+            target,
+            selectedOptionValues: vs.selectedOptionValues,
+          },
+        });
+      };
 
       initializeProductSwapUtility() {
         this.postProcessHtmlCallbacks.push((newNode) => {
@@ -135,15 +185,93 @@ if (!customElements.get('product-info')) {
         });
       }
 
-      handleOptionValueChange({ data: { event, target, selectedOptionValues } }) {
-        if (!this.contains(event.target)) return;
+      /**
+       * Mobile we-select portals option radios to `document.body`; they are no longer under `.product-form__input`.
+       */
+      findCheckedOptionRadio(wrap) {
+        const local = wrap.querySelector(
+          'input[type="radio"]:checked:not([data-pdp-inline-qty-value])'
+        );
+        if (local) return local;
+        const groupName = wrap.querySelector('details.we-select-container')?.dataset?.radioGroupName;
+        if (!groupName) return null;
+        const esc =
+          typeof CSS !== 'undefined' && CSS.escape ? CSS.escape(groupName) : groupName.replace(/"/g, '\\"');
+        return document.querySelector(
+          `input[type="radio"][name="${esc}"]:checked:not([data-pdp-inline-qty-value])`
+        );
+      }
 
-        const t = event.target;
-        if (t?.closest?.('.pdp-inline-quantity')) return;
-        if (t?.hasAttribute?.('data-pdp-inline-qty-value')) return;
-        if (t?.tagName === 'SELECT' && t?.getAttribute?.('name') === 'quantity') return;
+      normOptionValue(s) {
+        return String(s)
+          .trim()
+          .replace(/\u00a0/g, ' ')
+          .replace(/\s+/g, ' ');
+      }
 
-        const variantSelectsEl = event.target.closest('variant-selects');
+      /**
+       * Shopify Liquid sets product.selected_variant from the `variant` query param, not `option_values` alone.
+       * Resolve the matching variant id from current picker UI so section fetches return correct SSR (summary + radios).
+       */
+      resolveVariantIdFromSelectedOptions(productInfo, variantSelectsEl) {
+        if (!variantSelectsEl) return null;
+        const pickerProductId = variantSelectsEl.dataset?.productId;
+        let scriptEl = null;
+        if (pickerProductId && String(pickerProductId) !== String(this.productId)) {
+          scriptEl = document.querySelector(`script[data-set-product-variants="${pickerProductId}"]`);
+        } else {
+          scriptEl = productInfo.querySelector('script[data-product-variants-for-url]');
+        }
+        if (!scriptEl?.textContent?.trim()) return null;
+        let variants;
+        try {
+          variants = JSON.parse(scriptEl.textContent.trim());
+        } catch {
+          return null;
+        }
+        if (!Array.isArray(variants) || !variants.length) return null;
+
+        const groups = variantSelectsEl.querySelectorAll(':scope > .product-form__input');
+        if (!groups.length) return null;
+
+        const selected = [];
+        for (const wrap of groups) {
+          const selectEl = wrap.querySelector('select[name^="options"]');
+          if (selectEl) {
+            const opt = selectEl.selectedOptions?.[0];
+            if (!opt) return null;
+            selected.push(opt.value);
+            continue;
+          }
+          const checked = this.findCheckedOptionRadio(wrap);
+          if (!checked) return null;
+          selected.push(checked.value);
+        }
+
+        const found = variants.find((v) => {
+          const vo = [v.option1, v.option2, v.option3].filter((x) => x != null && String(x).length);
+          if (vo.length !== selected.length) return false;
+          for (let i = 0; i < selected.length; i++) {
+            if (this.normOptionValue(vo[i]) !== this.normOptionValue(selected[i])) return false;
+          }
+          return true;
+        });
+        return found?.id != null ? String(found.id) : null;
+      }
+
+      handleOptionValueChange(payload) {
+        const event = payload?.data?.event;
+        const target = payload?.data?.target;
+        const selectedOptionValues = payload?.data?.selectedOptionValues;
+        if (!event) return;
+
+        const el = event.target;
+        let variantSelectsEl = el.closest('variant-selects');
+        if (!variantSelectsEl && el?.dataset?.vsRoot) {
+          variantSelectsEl = document.getElementById(el.dataset.vsRoot);
+        }
+        if (!variantSelectsEl || !this.contains(variantSelectsEl)) return;
+
         const variantSelectsId = variantSelectsEl?.id;
 
         const mainProductId = String(this.productId);
@@ -180,8 +308,15 @@ if (!customElements.get('product-info')) {
 
         this.pendingEmbeddedQtyReveal = variantSelectsEl?.dataset?.pdpEmbeddedPending === 'true';
 
+        const variantIdForFetch = this.resolveVariantIdFromSelectedOptions(this, variantSelectsEl);
+
         this.renderProductInfo({
-          requestUrl: this.buildRequestUrlWithParams(productUrl, selectedOptionValues, shouldFetchFullPage),
+          requestUrl: this.buildRequestUrlWithParams(
+            productUrl,
+            selectedOptionValues,
+            shouldFetchFullPage,
+            variantIdForFetch
+          ),
           targetId: target.id,
           callback: shouldSwapProduct
             ? this.handleSwapProduct(productUrl, shouldFetchFullPage, viewMode)
@@ -360,10 +495,14 @@ if (!customElements.get('product-info')) {
         };
       }
 
-      buildRequestUrlWithParams(url, optionValues, shouldFetchFullPage = false) {
+      buildRequestUrlWithParams(url, optionValues, shouldFetchFullPage = false, variantId = null) {
         const params = [];
 
         !shouldFetchFullPage && params.push(`section_id=${this.sectionId}`);
+
+        if (variantId != null && String(variantId).length > 0) {
+          params.push(`variant=${encodeURIComponent(String(variantId))}`);
+        }
 
         const ids = (optionValues || []).filter((id) => id != null && String(id).length > 0);
         if (ids.length) {
@@ -399,8 +538,7 @@ if (!customElements.get('product-info')) {
             callback(html);
           })
           .then(() => {
-            // set focus to last clicked option value
-            document.querySelector(`#${targetId}`)?.focus();
+            if (targetId) document.getElementById(targetId)?.focus();
           })
           .catch((error) => {
             if (error.name === 'AbortError') {

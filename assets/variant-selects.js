@@ -6,6 +6,20 @@ if (!customElements.get('variant-selects')) {
         super();
       }
 
+      /** Mobile we-select portals radios to body; resolve checked input when it is no longer under this wrap. */
+      _findCheckedOptionRadio(wrap) {
+        const local = wrap.querySelector(
+          'input[type="radio"]:checked:not([data-pdp-inline-qty-value])'
+        );
+        if (local) return local;
+        const groupName = wrap.querySelector('details.we-select-container')?.dataset?.radioGroupName;
+        if (!groupName || typeof document === 'undefined') return null;
+        const esc = typeof CSS !== 'undefined' && CSS.escape ? CSS.escape(groupName) : groupName.replace(/"/g, '\\"');
+        return document.querySelector(
+          `input[type="radio"][name="${esc}"]:checked:not([data-pdp-inline-qty-value])`
+        );
+      }
+
       get selectedOptionValues() {
         const ids = [];
         const optionValueId = (el) =>
@@ -19,9 +33,7 @@ if (!customElements.get('variant-selects')) {
             if (id) ids.push(id);
             return;
           }
-          const checked = wrap.querySelector(
-            'input[type="radio"]:checked:not([data-pdp-inline-qty-value])'
-          );
+          const checked = this._findCheckedOptionRadio(wrap);
           if (checked) {
             const id = optionValueId(checked);
             if (id) ids.push(id);
@@ -31,26 +43,32 @@ if (!customElements.get('variant-selects')) {
         return ids;
       }
 
-      getInputForEventTarget(target) {
-        return target.tagName === 'SELECT' ? target.selectedOptions[0] : target;
-      }
-
       connectedCallback() {
-        this.addEventListener('change', (event) => {
+        this._onOptionChange = (event) => {
           const el = event.target;
           if (el?.closest?.('.pdp-inline-quantity')) return;
           if (el?.tagName === 'SELECT' && el?.getAttribute?.('name') === 'quantity') return;
 
-          const target = this.getInputForEventTarget(event.target);
           this.updateSelectedSwatchValue(event);
-          FoxTheme.pubsub.publish(FoxTheme.pubsub.PUB_SUB_EVENTS.optionValueSelectionChange, {
-            data: {
-              event,
-              target,
-              selectedOptionValues: this.selectedOptionValues,
-            },
-          });
-        });
+        };
+
+        this.addEventListener('change', this._onOptionChange);
+
+        /** Mobile we-select portals radios under body; change does not bubble through variant-selects. */
+        this._onDocumentChange = (event) => {
+          const el = event.target;
+          if (el?.type !== 'radio' || el?.dataset?.vsRoot !== this.id) return;
+          if (this.contains(el)) return;
+          this._onOptionChange(event);
+        };
+        document.addEventListener('change', this._onDocumentChange, true);
+      }
+
+      disconnectedCallback() {
+        this.removeEventListener('change', this._onOptionChange);
+        if (this._onDocumentChange) {
+          document.removeEventListener('change', this._onDocumentChange, true);
+        }
       }
 
       updateSelectedSwatchValue({ target }) {
@@ -81,7 +99,17 @@ if (!customElements.get('variant-selects')) {
           );
         } else if (tagName === 'INPUT' && target.type === 'radio') {
           if (target.hasAttribute('data-pdp-inline-qty-value')) return;
-          const fieldset = target.closest('.product-form__input');
+          let fieldset = target.closest('.product-form__input');
+          if (!fieldset && target.dataset?.vsRoot) {
+            const vs = document.getElementById(target.dataset.vsRoot);
+            const nm = target.getAttribute('name');
+            if (vs && nm) {
+              const det = Array.from(vs.querySelectorAll('details.we-select-container')).find(
+                (d) => d.dataset.radioGroupName === nm
+              );
+              fieldset = det?.closest('.product-form__input');
+            }
+          }
           const selectedSwatchValue = fieldset?.querySelector(
             '[data-selected-swatch-value], [data-selected-value]'
           );

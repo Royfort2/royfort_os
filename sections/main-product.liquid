@@ -332,11 +332,12 @@
     justify-content: center;
     transition: background-color var(--animation-default), border-color var(--animation-default);
   }
-  .product-set-picker__toggle:checked + .product-set-picker__card-row .product-set-picker__checkbox-ui {
+  /* :has() — adjacent-sibling (+) breaks if whitespace text nodes sit between input and label */
+  .product-set-picker__card:has(.product-set-picker__toggle:checked) .product-set-picker__checkbox-ui {
     background-color: rgb(var(--color-foreground));
     border-color: rgb(var(--color-foreground));
   }
-  .product-set-picker__toggle:checked + .product-set-picker__card-row .product-set-picker__checkbox-ui::after {
+  .product-set-picker__card:has(.product-set-picker__toggle:checked) .product-set-picker__checkbox-ui::after {
     content: '';
     width: 1rem;
     height: 0.55rem;
@@ -598,6 +599,11 @@
   class="section block section-{{ section.id }} {% unless section.settings.media_size == 'medium' %}section--padding page-width{% endunless %} color-{{ section.settings.color_scheme }}"
   style="--section-padding-top: {{ section.settings.padding_top }}px;--section-padding-bottom: {{ section.settings.padding_bottom }}px;"
 >
+  {%- unless product.has_only_default_variant -%}
+    <script type="application/json" data-product-variants-for-url>
+      {{- product.variants | json -}}
+    </script>
+  {%- endunless -%}
   {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
   {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
   {% unless product.has_only_default_variant %}

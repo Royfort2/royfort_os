@@ -120,6 +120,9 @@
 
   assign quick_view_suffix = quick_view_suffix | default: ''
   assign quick_view_modal_id = 'QuickView-' | append: product.id | append: '-' | append: section.id | append: quick_view_suffix
+  if color_variant != blank
+    assign quick_view_modal_id = quick_view_modal_id | append: '-v' | append: color_variant.id
+  endif
 
   assign loading = 'lazy'
   assign fetchpriority = 'low'
@@ -606,6 +609,6 @@
     </div>
   </div>
   {%- if settings.pcard_choose_options_actions == 'open_popup' or enable_quick_view -%}
-    {% render 'quick-view-modal', modal_id: quick_view_modal_id, product: product %}
+    {% render 'quick-view-modal', modal_id: quick_view_modal_id, product: product, product_url: product_url %}
   {%- endif -%}
 </div>

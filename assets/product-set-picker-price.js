@@ -134,4 +134,6 @@
   } else {
     syncCheckedSetPickers();
   }
+
+  document.addEventListener('quick-view:loaded', syncCheckedSetPickers);
 })();

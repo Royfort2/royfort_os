@@ -69,7 +69,17 @@ if (!customElements.get('quick-view-modal')) {
       quickview() {
         const drawerContent = this.querySelector(this.selector);
         const sectionId = this.getProductQuickViewSectionId();
-        const sectionUrl = `${this.dataset.productUrl.split('?')[0]}?section_id=${sectionId}`;
+        const basePath = this.dataset.productUrl.split('?')[0];
+        const params = new URLSearchParams();
+        params.set('section_id', sectionId);
+        try {
+          const u = new URL(this.dataset.productUrl, window.location.origin);
+          const v = u.searchParams.get('variant');
+          if (v) params.set('variant', v);
+        } catch (e) {
+          /* ignore */
+        }
+        const sectionUrl = `${basePath}?${params.toString()}`;
         fetch(sectionUrl)
           .then((response) => response.text())
           .then((responseText) => {
@@ -84,15 +94,20 @@ if (!customElements.get('quick-view-modal')) {
               Shopify.PaymentButton.init();
             }
 
-            setTimeout(() => {
-              this.classList.add(this._classes.loaded);
-            }, 300);
+            if (typeof window.initWeDetailsSelects === 'function') {
+              window.initWeDetailsSelects(drawerContent);
+            }
+            document.dispatchEvent(new CustomEvent('pdp-set:bind-bundle-forms', { bubbles: true }));
 
             document.dispatchEvent(
               new CustomEvent('quick-view:loaded', {
                 detail: { productUrl: this.dataset.productUrl },
               })
             );
+
+            setTimeout(() => {
+              this.classList.add(this._classes.loaded);
+            }, 300);
           })
           .catch((e) => {
             console.error(e);

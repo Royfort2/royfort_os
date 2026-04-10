@@ -3596,6 +3596,14 @@ input:is([type=radio])::after {
   --quick-view-gap: 2rem;
   --drawer-close-btn-size: 4.8rem;
 }
+/* Panel above the full-screen dim overlay so clicks hit the drawer (not the backdrop). */
+.quick-view.drawer[open] > .fixed-overlay {
+  z-index: 1;
+}
+.quick-view .drawer__inner {
+  z-index: 2;
+  pointer-events: auto;
+}
 .quick-view .drawer__inner > .loading__spinner {
   --loading-size: 4.8rem;
   display: inline-block;

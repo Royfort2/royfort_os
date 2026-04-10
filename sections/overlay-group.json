@@ -51,11 +51,12 @@
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
-            "picker_type": "dropdown",
+            "set_picker_title": "Im selben Set",
+            "picker_type": "custom_dropdown",
             "swatch_type": "color_swatch",
-            "button_style": "circle",
+            "button_style": "standard",
             "button_size": 40,
-            "size_title": "Size",
+            "size_title": "",
             "size_chart_from_page": ""
           }
         },
