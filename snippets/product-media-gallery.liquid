@@ -4,12 +4,14 @@
   Accepts:
   - product: {Object} Product liquid object
   - variant_images: {Array} Product images associated with a variant
+  - vertical_thumbs_always: {Boolean} optional — force vertical thumb swiper (e.g. quick view drawer below 768px)
 
   Usage:
   {% render 'product-media-gallery' %}
 {% endcomment %}
 
 {%- liquid
+  assign vertical_thumbs_always = vertical_thumbs_always | default: false
   assign media_count = product.media.size
 
   assign color_option_index = 0
@@ -71,6 +73,7 @@
   data-enable-mobile-thumbnails="{{ enable_mobile_thumbnails }}"
   data-media-item-gap="{{ media_item_gap }}"
   data-color-option-index="{{ color_option_index }}"
+  {% if vertical_thumbs_always %}data-vertical-thumbs-always="true"{% endif %}
   style="--media-item-gap: {{ media_item_gap }}px"
 >
   <div id="GalleryStatus-{{ section.id }}" class="visually-hidden" role="status"></div>
@@ -143,7 +146,10 @@
             data-media-position="{{ media_index }}"
           >
             <div class="product__thumbs-container medium-blocks-radius media-wrapper">
-              <div class="product__thumbs-inner" style="--aspect-ratio: 1">
+              <div
+                class="product__thumbs-inner"
+                style="--aspect-ratio: {% if vertical_thumbs_always %}4 / 5{% else %}1{% endif %}"
+              >
                 {{
                   media.preview_image
                   | image_url: width: media.preview_image.width

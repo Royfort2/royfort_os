@@ -40,6 +40,8 @@ if (!customElements.get('media-gallery')) {
         this.lightbox = null;
         this._lightboxZoomUnsub = null;
         this._onImageTooltipClick = this._onImageTooltipClick.bind(this);
+        /** Set once — product-info calls init() on every variant change; re-running breaks Swiper + listeners. */
+        this._galleryInitDone = false;
       }
 
       connectedCallback() {
@@ -48,6 +50,11 @@ if (!customElements.get('media-gallery')) {
       }
 
       init() {
+        if (this._galleryInitDone) {
+          return;
+        }
+        this._galleryInitDone = true;
+
         this.elements = window.FoxTheme.utils.queryDomNodes(this.selectors, this);
         this.mediaLayout = this.dataset.mediaLayout;
         this.onlyImage = this.dataset.onlyImage === 'true';
@@ -127,14 +134,27 @@ if (!customElements.get('media-gallery')) {
 
         switch (this.mediaLayout) {
           case 'vertical-carousel':
-            this.thumbsOptions = Object.assign({}, this.thumbsOptions, {
-              breakpoints: {
-                768: {
-                  direction: 'vertical',
-                  slidesPerView: 'auto',
+            if (this.dataset.verticalThumbsAlways === 'true') {
+              /* Quick view drawer: always vertical thumbs + horizontal main (narrow viewport < 768). */
+              this.thumbsOptions = {
+                slidesPerView: 'auto',
+                spaceBetween: mediaItemGap,
+                loop: false,
+                freeMode: true,
+                watchSlidesProgress: true,
+                threshold: 2,
+                direction: 'vertical',
+              };
+            } else {
+              this.thumbsOptions = Object.assign({}, this.thumbsOptions, {
+                breakpoints: {
+                  768: {
+                    direction: 'vertical',
+                    slidesPerView: 'auto',
+                  },
                 },
-              },
-            });
+              });
+            }
             break;
           case 'slider-freemode':
             this.sliderOptions = Object.assign({}, this.sliderOptions, {
@@ -573,20 +593,47 @@ if (!customElements.get('media-gallery')) {
         });
       }
 
+      /**
+       * Desktop keeps filtered slides in original order unless we rebuild; swiping can land on display:none
+       * slides and collapse autoHeight. Jump to the next visible slide before thumbs sync.
+       */
+      _fixIndexIfOnHiddenSlide(swiper) {
+        if (!swiper || swiper.destroyed) return;
+        const slides = [...this.querySelectorAll('.product__media-item:not(.swiper-slide-duplicate)')];
+        const real = swiper.realIndex;
+        const current = slides[real];
+        if (!current?.classList.contains('product__media-item--color-hidden')) return;
+        let nextIdx = slides.findIndex(
+          (s, idx) => idx >= real && !s.classList.contains('product__media-item--color-hidden')
+        );
+        if (nextIdx < 0) {
+          nextIdx = slides.findIndex((s) => !s.classList.contains('product__media-item--color-hidden'));
+        }
+        if (nextIdx >= 0 && nextIdx !== real) {
+          swiper.slideTo(nextIdx, 0, false);
+        }
+      }
+
       handleSlideChange() {
         this.sliderInstance.slider.on('realIndexChange', (swiper) => {
           this.closeImageTooltips();
 
-          const { slides, activeIndex, thumbs } = swiper;
-
-          if (thumbs.swiper) {
-            thumbs.swiper.slideTo(activeIndex);
+          if (this.colorOptionIndex) {
+            this._fixIndexIfOnHiddenSlide(swiper);
           }
 
-          if (slides[activeIndex]) {
-            this.playActiveMedia(slides[activeIndex]);
+          const activeIndex = swiper.realIndex;
+          const { slides, thumbs } = swiper;
+          const activeSlide = slides[activeIndex];
 
-            const isModelMediaType = slides[activeIndex].dataset.mediaType === 'model';
+          if (thumbs.swiper && activeSlide && !activeSlide.classList.contains('product__media-item--color-hidden')) {
+            thumbs.swiper.slideTo(activeIndex, 0, false);
+          }
+
+          if (activeSlide) {
+            this.playActiveMedia(activeSlide);
+
+            const isModelMediaType = activeSlide.dataset.mediaType === 'model';
             this.toggleSliderDraggableState(!isModelMediaType);
           }
         });
@@ -694,10 +741,12 @@ if (!customElements.get('media-gallery')) {
         if (deferredMedia) deferredMedia.loadContent(false);
       }
 
-      setActiveMedia(variant) {
+      setActiveMedia(variant, options = {}) {
         if (!variant) return;
-
-        this.applyColorAltFilter(variant);
+        const { skipColorFilter = false } = options;
+        if (!skipColorFilter) {
+          this.applyColorAltFilter(variant);
+        }
 
         const navigate = () => {
           if (!this.sliderInstance?.slider) {
@@ -743,6 +792,24 @@ if (!customElements.get('media-gallery')) {
         const slides = [...this.querySelectorAll('.product__media-item:not(.swiper-slide-duplicate)')];
         const idx = slides.findIndex((s) => !s.classList.contains('product__media-item--color-hidden'));
         return idx >= 0 ? idx : 0;
+      }
+
+      /**
+       * After toggling color-hidden, the active slide can still be hidden → Swiper autoHeight becomes 0 and the
+       * gallery vanishes. Move the main swiper to a visible slide before swiper.update() / refresh.
+       */
+      _ensureMainSwiperNotOnHiddenSlide() {
+        const swiper = this.sliderInstance?.slider;
+        if (!swiper || swiper.destroyed) return;
+        const slides = [...this.querySelectorAll('.product__media-item:not(.swiper-slide-duplicate)')];
+        if (!slides.length) return;
+        const cur = slides[swiper.realIndex];
+        if (cur && !cur.classList.contains('product__media-item--color-hidden')) return;
+        const idx = this.getFirstVisibleSlideIndex();
+        if (idx >= 0) {
+          swiper.slideTo(idx, 0, false);
+        }
+        /* Thumbs sync via Swiper Thumbs module on slideChange — forced slideTo breaks when thumb slides are hidden. */
       }
 
       goToFirstVisibleSlide() {
@@ -797,9 +864,17 @@ if (!customElements.get('media-gallery')) {
       }
 
       refreshSwipersAfterFilter() {
-        /* Hidden slides use display:none; Swiper often won't lay out images correctly until rebuilt on mobile. */
-        if (FoxTheme.config.mqlMobile) {
-          this._reorderMobileSlidesForSwiper();
+        /*
+         * Reorder so visible slides come first when filtering — otherwise desktop users can swipe onto
+         * display:none slides (autoHeight → 0). Rebuild Swiper whenever any slide is hidden (same as mobile).
+         */
+        this._reorderMobileSlidesForSwiper();
+
+        const hasHidden = [...this.querySelectorAll('.product__media-item:not(.swiper-slide-duplicate)')].some(
+          (s) => s.classList.contains('product__media-item--color-hidden')
+        );
+
+        if (FoxTheme.config.mqlMobile || hasHidden) {
           this.destroySlider();
           this.setSliderOptions();
           this.initSlider();
@@ -807,11 +882,16 @@ if (!customElements.get('media-gallery')) {
           requestAnimationFrame(() => this.syncImageTooltips());
           return;
         }
-        if (this.sliderInstance && this.sliderInstance.slider) {
-          this.sliderInstance.slider.update();
-          if (this.thumbsInstance && this.thumbsInstance.slider) {
-            this.thumbsInstance.slider.update();
+
+        if (this.thumbsInstance?.slider) {
+          const tw = this.thumbsInstance.slider;
+          tw.update();
+          if (typeof tw.updateAutoHeight === 'function') {
+            tw.updateAutoHeight(0);
           }
+        }
+        if (this.sliderInstance?.slider) {
+          this._syncSwiperHeightAndImages();
         }
         requestAnimationFrame(() => this.syncImageTooltips());
       }
@@ -935,6 +1015,7 @@ if (!customElements.get('media-gallery')) {
           return;
         }
 
+        this._ensureMainSwiperNotOnHiddenSlide();
         this.refreshSwipersAfterFilter();
         this.syncGridMixLayout();
       }

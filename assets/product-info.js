@@ -3,6 +3,8 @@ if (!customElements.get('product-info')) {
     'product-info',
     class ProductInfo extends HTMLElement {
       abortController = undefined;
+      /** Last variant used for gallery color filtering (quick view: detect color-only changes). */
+      _lastGalleryVariant = null;
       pendingRequestUrl = null;
       preProcessHtmlCallbacks = [];
       postProcessHtmlCallbacks = [];
@@ -514,9 +516,26 @@ if (!customElements.get('product-info')) {
       }
 
       getSelectedVariant(productInfoNode, variantSelectsId) {
-        const root = variantSelectsId
-          ? productInfoNode.getElementById(variantSelectsId)
-          : productInfoNode.querySelector('variant-selects');
+        if (!productInfoNode) return null;
+        let root = null;
+        if (variantSelectsId) {
+          if (typeof productInfoNode.getElementById === 'function') {
+            root = productInfoNode.getElementById(variantSelectsId);
+          }
+          if (!root && typeof productInfoNode.querySelector === 'function') {
+            try {
+              const esc =
+                typeof CSS !== 'undefined' && CSS.escape
+                  ? CSS.escape(variantSelectsId)
+                  : String(variantSelectsId).replace(/\\/g, '\\\\');
+              root = productInfoNode.querySelector(`#${esc}`);
+            } catch {
+              root = null;
+            }
+          }
+        } else {
+          root = productInfoNode.querySelector?.('variant-selects') ?? null;
+        }
         const raw = root?.querySelector('[data-selected-variant]')?.textContent?.trim();
         if (!raw) return null;
         try {
@@ -588,10 +607,27 @@ if (!customElements.get('product-info')) {
         const productMedia = this.querySelector(`[id^="MediaGallery-${this.dataset.section}"]`);
         if (!productMedia) return; // Early return if productMedia is not found
 
+        const viewMode = this.dataset.viewMode || 'main-product';
+        const colorIdx = parseInt(productMedia.dataset?.colorOptionIndex, 10) || 0;
+        let skipColorFilter = false;
+        if (viewMode === 'quick-view' && colorIdx > 0 && variant && this._lastGalleryVariant) {
+          const key = `option${colorIdx}`;
+          const prev = String(this._lastGalleryVariant[key] ?? '')
+            .trim()
+            .toLowerCase();
+          const next = String(variant[key] ?? '')
+            .trim()
+            .toLowerCase();
+          skipColorFilter = prev === next;
+        }
+        if (variant) {
+          this._lastGalleryVariant = variant;
+        }
+
         const setActiveMedia = () => {
           if (typeof productMedia.setActiveMedia === 'function') {
             productMedia.init();
-            productMedia.setActiveMedia(variant);
+            productMedia.setActiveMedia(variant, { skipColorFilter });
             return true; // Indicate success
           }
           return false; // Indicate failure

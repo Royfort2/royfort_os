@@ -7,7 +7,7 @@
 -%}
 {%- if product != blank -%}
   {%- liquid
-    assign media_layout = 'slider-freemode'
+    assign media_layout = 'vertical-carousel'
     assign mobile_thumbnails = 'hide'
     assign enable_image_zoom = false
 
@@ -313,6 +313,83 @@
             .product-set-picker__card-row + .product-set-picker__expand .product-set-picker__expand-inner .product-form__input:first-child {
               margin-top: 0 !important;
             }
+
+            /* Gallery: main swipe horizontal, vertical 4:5 thumbs on the right */
+            .quick-view .product__media-gallery {
+              position: relative;
+            }
+            .quick-view .product--vertical-carousel {
+              --thumbnails-width: 5.6rem;
+              --thumbnails-spacing: 0.4rem;
+            }
+            @media (min-width: 768px) {
+              .quick-view .product--vertical-carousel {
+                --thumbnails-width: 6.4rem;
+                --thumbnails-spacing: 0.6rem;
+              }
+            }
+            @media (min-width: 1024px) {
+              .quick-view .product--vertical-carousel {
+                --thumbnails-spacing: 0.6rem;
+                --thumbnails-width: 7.2rem;
+              }
+            }
+            @media (min-width: 1280px) {
+              .quick-view .product--vertical-carousel {
+                --thumbnails-width: 7.2rem;
+              }
+            }
+            .quick-view .product--vertical-carousel.product--media-has-many .product__media-gallery-viewer-wrap {
+              margin-inline-start: 0;
+              margin-inline-end: calc(var(--thumbnails-width) + var(--thumbnails-spacing));
+            }
+            /* Global vertical-carousel layout is md+ only; quick view needs the same at all widths. */
+            .quick-view .product--vertical-carousel.product--media-has-many .product__media-gallery-thumbails {
+              position: absolute;
+              top: 0;
+              inset-inline-start: auto;
+              inset-inline-end: 0;
+              width: var(--thumbnails-width);
+              height: 100%;
+              margin: 0;
+            }
+            .quick-view .product--vertical-carousel.product--media-has-many .product__media-gallery-thumbails .swiper-wrapper {
+              flex-direction: column;
+            }
+            .quick-view .product--vertical-carousel.product--media-has-many .product__media-gallery-thumbails .swiper-slide {
+              width: 100%;
+              max-width: 100%;
+              box-sizing: border-box;
+              height: auto !important;
+              margin-inline-end: 0;
+              margin-bottom: var(--media-item-gap);
+            }
+            .quick-view .product--vertical-carousel .product__media-gallery-thumbails.swiper {
+              overflow: hidden;
+            }
+            .quick-view .product--vertical-carousel .product__media-item {
+              width: 100% !important;
+              max-width: 100%;
+            }
+            @media (max-width: 767.98px) {
+              .quick-view .product--vertical-carousel.product--media-has-many .product__media-gallery-viewer-wrap {
+                margin-inline-end: 0;
+              }
+            }
+            .quick-view .product--vertical-carousel .product__media-gallery-viewer-wrap,
+            .quick-view .product--vertical-carousel .product__media-gallery-viewer.swiper {
+              max-width: 100%;
+            }
+            .quick-view .product--vertical-carousel .product__media-gallery-viewer,
+            .quick-view .product--vertical-carousel .product__media-container {
+              border-radius: 0;
+            }
+            .quick-view .product--vertical-carousel .product__thumbs-container {
+              border-radius: 0;
+            }
+            .quick-view .product--vertical-carousel .product__media-gallery-thumbails .swiper-slide.swiper-slide-thumb-active .product__thumbs-container {
+              padding: 0;
+            }
           {% endstyle %}
           {%- assign has_models = product.media | where: 'media_type', 'model' | first -%}
           {%- if has_models -%}
@@ -369,7 +446,8 @@
                 media_layout: media_layout,
                 mobile_thumbnails: mobile_thumbnails,
                 variant_images: variant_images,
-                enable_image_zoom: enable_image_zoom
+                enable_image_zoom: enable_image_zoom,
+                vertical_thumbs_always: true
               %}
             </div>
             <div class="product__info-wrapper w-full">
