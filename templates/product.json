@@ -54,15 +54,15 @@
             "show_tax_and_shipping": false
           }
         },
-        "variant_picker": {
-          "type": "variant_picker",
+        "we_variant_picker_jJ7CqM": {
+          "type": "we_variant_picker",
           "settings": {
             "set_picker_title": "Im selben Set",
             "picker_type": "custom_dropdown",
             "swatch_type": "color_swatch",
             "button_style": "standard",
             "button_size": 40,
-            "size_title": "",
+            "size_title": "Size",
             "size_chart_from_page": ""
           }
         },
@@ -186,7 +186,7 @@
         "stamped_reviews_Kmb8np",
         "title",
         "price",
-        "variant_picker",
+        "we_variant_picker_jJ7CqM",
         "buy_buttons",
         "icon_info_text_8ayhQN",
         "icon_info_text_pzJbNn",
