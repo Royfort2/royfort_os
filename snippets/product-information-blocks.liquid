@@ -455,6 +455,197 @@
               {%- endif -%}
             </div>
           {%- endif -%}
+        {%- when 'we_variant_picker' -%}
+          <div
+            class="product__block product__block--{{ block.type }}"
+            {{ block.shopify_attributes }}
+          >
+            {%- if product.metafields.custom.pdp_set_products != blank -%}
+              {%- assign we_set_products = product.metafields.custom.pdp_set_products.value -%}
+              {%- comment -%}
+                First two set products: inline pickers (same idea as variant_picker first embedded line, but two).
+                Remaining products: accordion with optional checkbox + picker (offset 2).
+              {%- endcomment -%}
+              {%- for set_product in we_set_products limit: 2 -%}
+                {% render 'we-product-variant-picker',
+                  product: set_product,
+                  block: block,
+                  product_form_id: product_form_id,
+                  update_url: update_browser_history,
+                  picker_id_suffix: set_product.id
+                %}
+                <script type="application/json" data-set-product-variants="{{ set_product.id }}">
+                  {{ set_product.variants | json }}
+                </script>
+                <script type="application/json" data-set-default-variant-id="{{ set_product.id }}">
+                  {{ set_product.selected_or_first_available_variant.id | json }}
+                </script>
+              {%- endfor -%}
+
+              {%- if we_set_products.size > 2 -%}
+                <details
+                  id="Details-we-set-{{ block.id }}-{{ section.id }}"
+                  class="accordion-details product-set-picker__accordion"
+                  is="accordion-group"
+                  open
+                  aria-expanded="true"
+                >
+                  <summary class="accordion-details__summary flex items-center justify-between">
+                    <span class="product-set-picker__heading">
+                      {{ block.settings.set_picker_title }}
+                    </span>
+                    {%- render 'icon-plus-toggle', size: 'small' -%}
+                  </summary>
+                  <div
+                    id="ProductSetWeAccordionContent-{{ block.id }}-{{ section.id }}"
+                    class="accordion-details__content product-set-picker__list"
+                  >
+                    {%- for set_product in we_set_products offset: 2 -%}
+                      <div class="product-set-picker__item">
+                        <script type="application/json" data-set-product-variants="{{ set_product.id }}">
+                          {{ set_product.variants | json }}
+                        </script>
+                        <script type="application/json" data-set-default-variant-id="{{ set_product.id }}">
+                          {{ set_product.selected_or_first_available_variant.id | json }}
+                        </script>
+                        <template id="SetWeCardDefaultPrice-{{ block.id }}-{{ section.id }}-{{ set_product.id }}">
+                          {% render 'price', product: set_product, price_class: 'product-set-picker__f-price' %}
+                        </template>
+                        <div class="product-set-picker__card">
+                          <label class="product-set-picker__card-row">
+                            <input
+                              type="checkbox"
+                              id="SetWeProductToggle-{{ block.id }}-{{ section.id }}-{{ set_product.id }}"
+                              class="product-set-picker__toggle visually-hidden"
+                              data-set-optional-product-id="{{ set_product.id }}"
+                            >
+                            <span class="product-set-picker__thumb">
+                              {%- if set_product.featured_image -%}
+                                {{
+                                  set_product.featured_image
+                                  | image_url: width: 160
+                                  | image_tag:
+                                    loading: 'lazy',
+                                    class: 'product-set-picker__thumb-img',
+                                    widths: '80,120,160',
+                                    sizes: '8rem'
+                                }}
+                              {%- else -%}
+                                <span class="product-set-picker__thumb-placeholder" aria-hidden="true"></span>
+                              {%- endif -%}
+                            </span>
+                            <span class="product-set-picker__info">
+                              <span class="product-set-picker__title">{{ set_product.title | escape }}</span>
+                              <span
+                                class="product-set-picker__price"
+                                data-set-card-price
+                                data-product-id="{{ set_product.id }}"
+                                data-default-price-template="SetWeCardDefaultPrice-{{ block.id }}-{{ section.id }}-{{ set_product.id }}"
+                              >
+                                {% render 'price', product: set_product, price_class: 'product-set-picker__f-price' %}
+                              </span>
+                            </span>
+                            <span class="product-set-picker__checkbox-ui" aria-hidden="true"></span>
+                          </label>
+                          <div class="product-set-picker__expand">
+                            <div class="product-set-picker__expand-inner">
+                              {% render 'we-product-variant-picker',
+                                product: set_product,
+                                block: block,
+                                product_form_id: product_form_id,
+                                update_url: update_browser_history,
+                                picker_id_suffix: set_product.id
+                              %}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    {%- endfor -%}
+                  </div>
+                </details>
+                <script src="{{ 'product-set-picker-price.js' | asset_url }}" defer="defer"></script>
+              {%- endif -%}
+
+              {%- unless context == 'quick-view' -%}
+                {%- liquid
+                  assign set_products_zw = we_set_products
+                  assign zw_sale_cents = 0
+                  assign zw_compare_cents = 0
+                  for sp in set_products_zw limit: 2
+                    assign zw_v = sp.selected_or_first_available_variant
+                    assign zw_qr = zw_v.quantity_rule
+                    assign zw_q_min = zw_qr.min | default: 1
+                    if zw_q_min < 1
+                      assign zw_q_min = 1
+                    endif
+                    assign zw_line_sale = zw_v.price | times: zw_q_min
+                    assign zw_sale_cents = zw_sale_cents | plus: zw_line_sale
+                    assign unit_cmp = zw_v.price
+                    if zw_v.compare_at_price > zw_v.price
+                      assign unit_cmp = zw_v.compare_at_price
+                    endif
+                    assign zw_line_cmp = unit_cmp | times: zw_q_min
+                    assign zw_compare_cents = zw_compare_cents | plus: zw_line_cmp
+                  endfor
+                  assign zw_has_compare = false
+                  if zw_compare_cents > zw_sale_cents
+                    assign zw_has_compare = true
+                    assign zw_discount_pct = zw_compare_cents | minus: zw_sale_cents | times: 100 | divided_by: zw_compare_cents
+                  endif
+                -%}
+                <div class="pdp-set-zwischensumme" data-pdp-set-zwischensumme>
+                  <script type="application/json" data-pdp-set-zwischensumme-meta>
+                    {"titles":{
+                    "{{ product.id }}":{{ product.title | json }},
+                    {%- for sp in set_products_zw -%}
+                    "{{ sp.id }}":{{ sp.title | json }}{%- unless forloop.last -%},{%- endunless -%}
+                    {%- endfor -%}
+                    }}
+                  </script>
+                  <div class="pdp-set-zwischensumme__header">
+                    <span class="pdp-set-zwischensumme__title">ZWISCHENSUMME:</span>
+                    <div class="pdp-set-zwischensumme__prices">
+                      <span
+                        class="pdp-set-zwischensumme__compare {%unless zw_has_compare %}visually-hidden{% endunless %}"
+                        {% unless zw_has_compare %}hidden{% endunless %}
+                      >
+                        {%- if zw_has_compare -%}{{ zw_compare_cents | money }}{%- endif -%}
+                      </span>
+                      <span class="pdp-set-zwischensumme__sale">{{ zw_sale_cents | money }}</span>
+                      <span
+                        class="pdp-set-zwischensumme__badge {% unless zw_has_compare %}visually-hidden{% endunless %}"
+                        {% unless zw_has_compare %}hidden{% endunless %}
+                      >
+                        {%- if zw_has_compare -%}-{{ zw_discount_pct }}%{%- endif -%}
+                      </span>
+                    </div>
+                  </div>
+                  <p class="pdp-set-zwischensumme__breakdown">
+                    {%- for sp in set_products_zw limit: 2 -%}
+                      {%- assign zw_v = sp.selected_or_first_available_variant -%}
+                      {%- assign zw_qr = zw_v.quantity_rule -%}
+                      {%- assign zw_q_min = zw_qr.min | default: 1 -%}
+                      {%- if zw_q_min < 1 -%}
+                        {%- assign zw_q_min = 1 -%}
+                      {%- endif -%}
+                      {%- assign zw_line_sale = zw_v.price | times: zw_q_min -%}
+                      {%- unless forloop.first -%}
+                        +
+                      {%- endunless -%}
+                      {{- zw_q_min }}x {{ sp.title }} ({{ zw_line_sale | money }})
+                    {%- endfor -%}
+                  </p>
+                </div>
+              {%- endunless -%}
+            {%- else -%}
+              {% render 'we-product-variant-picker',
+                product: product,
+                block: block,
+                product_form_id: product_form_id,
+                update_url: update_browser_history
+              %}
+            {%- endif -%}
+          </div>
         {%- when 'variant_picker' -%}
           <div
             class="product__block product__block--{{ block.type }}"

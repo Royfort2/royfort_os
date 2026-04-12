@@ -8,9 +8,16 @@ if (!customElements.get('variant-selects')) {
 
       /** Mobile we-select portals radios to body; resolve checked input when it is no longer under this wrap. */
       _findCheckedOptionRadio(wrap) {
-        const local = wrap.querySelector(
-          'input[type="radio"]:checked:not([data-pdp-inline-qty-value])'
+        /** Quantity radios stay in the wrap; option radios may be portaled — never treat qty as the option value. */
+        const locals = wrap.querySelectorAll(
+          'input[type="radio"]:checked:not([data-pdp-inline-qty-value]):not([data-we-qty-selector])'
         );
+        let local = null;
+        for (const input of locals) {
+          if (input.closest('.we-quantity-selector')) continue;
+          local = input;
+          break;
+        }
         if (local) return local;
         const groupName = wrap.querySelector('details.we-select-container')?.dataset?.radioGroupName;
         if (!groupName || typeof document === 'undefined') return null;
@@ -47,6 +54,7 @@ if (!customElements.get('variant-selects')) {
         this._onOptionChange = (event) => {
           const el = event.target;
           if (el?.closest?.('.pdp-inline-quantity')) return;
+          if (el?.closest?.('.we-quantity-selector')) return;
           if (el?.tagName === 'SELECT' && el?.getAttribute?.('name') === 'quantity') return;
 
           this.updateSelectedSwatchValue(event);
@@ -57,7 +65,8 @@ if (!customElements.get('variant-selects')) {
         /** Mobile we-select portals radios under body; change does not bubble through variant-selects. */
         this._onDocumentChange = (event) => {
           const el = event.target;
-          if (el?.type !== 'radio' || el?.dataset?.vsRoot !== this.id) return;
+          const vsRoot = el?.dataset?.vsRoot || el?.getAttribute?.('data-vs-root');
+          if (el?.type !== 'radio' || vsRoot !== this.id) return;
           if (this.contains(el)) return;
           this._onOptionChange(event);
         };
@@ -99,6 +108,7 @@ if (!customElements.get('variant-selects')) {
           );
         } else if (tagName === 'INPUT' && target.type === 'radio') {
           if (target.hasAttribute('data-pdp-inline-qty-value')) return;
+          if (target.closest?.('.we-quantity-selector')) return;
           let fieldset = target.closest('.product-form__input');
           if (!fieldset && target.dataset?.vsRoot) {
             const vs = document.getElementById(target.dataset.vsRoot);

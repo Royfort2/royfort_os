@@ -13,7 +13,7 @@
       this.portalEl = container.querySelector('.we-select-mobile-portal');
       const scope = this.portalEl || container;
       this.options = scope.querySelectorAll('.we-select > .we-select__item');
-      const checked = scope.querySelector('input[type="radio"]:checked');
+      const checked = scope.querySelector('.we-select input[type="radio"]:checked');
       this.value = checked ? checked.value : null;
       this.mouseDown = false;
       this._portaled = false;
@@ -223,10 +223,10 @@
         });
         opt.addEventListener('mouseup', () => {
           this.mouseDown = false;
+          // Close after click/change; mouseup/touch fires before radio `change` on mobile too — defer like desktop.
           if (this._isMobileSheet()) {
-            this._closeMobileSheet();
+            setTimeout(() => this._closeMobileSheet(), 0);
           } else {
-            // Close after click/change; closing on mouseup runs before radio change in many browsers.
             setTimeout(() => {
               this.container.removeAttribute('open');
             }, 0);
@@ -295,7 +295,8 @@
     }
 
     updateValue() {
-      const that = (this.portalEl || this.container).querySelector('input[type="radio"]:checked');
+      const scope = this.portalEl || this.container;
+      const that = scope.querySelector('.we-select input[type="radio"]:checked');
       if (!that) return;
       this.setValue(that);
     }

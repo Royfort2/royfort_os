@@ -62,6 +62,7 @@
     >
   {%- endif -%}
 
+  <script src="{{ 'product-form-line-items.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
 
   {%- if featured_product.quantity_price_breaks_configured? -%}

@@ -81,6 +81,7 @@
     data-section="{{ section.id }}"
     data-url="{{ product.url }}"
     data-product-id="{{ product.id }}"
+    data-selected-variant-id="{% if product.selected_variant %}{{ product.selected_variant.id }}{% endif %}"
     data-update-url="{% if update_url == false %}false{% else %}true{% endif %}"
     {% if pdp_qty_option_name != blank %}
       data-pdp-qty-option="{{ pdp_qty_option_name | escape }}"

@@ -44,10 +44,10 @@
           {{ 'we-details-select.css' | asset_url | stylesheet_tag }}
           {% style %}
             .product-form__input:not(:first-child) {
-              margin-top: 2rem !important;
+              margin-top: 1.2rem !important;
             }
-            .product__block--variant_picker .product-form__input > label,
-            .product__block--variant_picker .product-form__input > .form__label {
+            .product__block--we_variant_picker .product-form__input > label,
+            .product__block--we_variant_picker .product-form__input > .form__label {
               font-size: 1.4rem;
               font-style: normal;
               font-weight: 400;
@@ -55,14 +55,14 @@
               text-transform: uppercase;
               margin-bottom: 0.6rem !important;
             }
-            .product__block--variant_picker .variant-options__row:has(.swatch-color) {
+            .product__block--we_variant_picker .variant-options__row:has(.swatch-color) {
               display: grid;
               grid-template-columns: repeat(8, 1fr);
               gap: 0.6rem;
               width: 100%;
             }
-            .product__block--variant_picker .product-form__input--color .swatch-color,
-            .product__block--variant_picker .product-form__input--swatch .swatch-color {
+            .product__block--we_variant_picker .product-form__input--color .swatch-color,
+            .product__block--we_variant_picker .product-form__input--swatch .swatch-color {
               width: 100% !important;
               min-height: unset !important;
               height: 2.4rem !important;
@@ -76,19 +76,19 @@
             .product-form__input--swatch input[type='radio']:checked + label .swatch-color:after {
               box-shadow: 0px 0px 0px 0.1rem var(--active-shadow-color) !important;
             }
-            .product__block--variant_picker .product-form__input .option-name {
+            .product__block--we_variant_picker .product-form__input .option-name {
               color: #525252;
             }
-            .product__block--variant_picker {
+            .product__block--we_variant_picker {
               display: flex;
               flex-direction: column;
               gap: 2rem;
             }
-            .product__block--variant_picker:has(details.we-select-container[open]) {
+            .product__block--we_variant_picker:has(details.we-select-container[open]) {
               position: relative;
               z-index: 25;
             }
-            .product__block--variant_picker:has(.pdp-inline-quantity details.we-select-container[open]) {
+            .product__block--we_variant_picker:has(.pdp-inline-quantity details.we-select-container[open]) {
               position: relative;
               z-index: 25;
             }
@@ -424,6 +424,7 @@
             <script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
           {%- endif -%}
 
+          <script src="{{ 'product-form-line-items.js' | asset_url }}" defer="defer"></script>
           <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
           <script src="{{ 'we-details-select.js' | asset_url }}" defer="defer"></script>
 

@@ -123,6 +123,16 @@ if (!customElements.get('product-info')) {
         if (this.currentVariant) {
           this.updateMedia(this.currentVariant);
         }
+        requestAnimationFrame(() => {
+          if (this._isPdpSetBundleForm()) {
+            const firstSetId = this._getPdpSetFirstSetProductId();
+            if (firstSetId) {
+              const vs = document.getElementById(`variant-selects-${this.dataset.section}-${firstSetId}`);
+              if (vs) this.syncMainMediaGalleryFromFirstSetPicker(vs);
+            }
+          }
+          this._syncFormLineItems();
+        });
       }
 
       disconnectedCallback() {
@@ -141,10 +151,17 @@ if (!customElements.get('product-info')) {
         );
       }
 
+      _syncFormLineItems() {
+        if (typeof window.syncProductFormLineItems === 'function') {
+          window.syncProductFormLineItems(this);
+        }
+      }
+
       _onDocumentOptionChange = (e) => {
         const t = e.target;
         if (!t) return;
         if (t.closest?.('.pdp-inline-quantity')) return;
+        if (t.closest?.('.we-quantity-selector')) return;
         if (t.hasAttribute?.('data-pdp-inline-qty-value')) return;
         if (t.tagName === 'SELECT' && t.getAttribute?.('name') === 'quantity') return;
         if (t.type !== 'radio' && t.tagName !== 'SELECT') return;
@@ -155,16 +172,26 @@ if (!customElements.get('product-info')) {
         if (t.type === 'radio') {
           const nm = t.getAttribute('name') || '';
           if (nm.startsWith('qty-inline-')) return;
+          // Portaled to `body`; `closest('.we-quantity-selector')` no longer matches.
+          if (nm.startsWith('quantity-')) return;
+        }
+
+        let vs = t.closest('variant-selects');
+        const vsRootId = t.dataset?.vsRoot || t.getAttribute?.('data-vs-root');
+        if (!vs && vsRootId) {
+          vs = document.getElementById(vsRootId);
         }
 
         const scopedForm = this.getScopedProductForm();
         const form = scopedForm || t.form;
-        if (!form || !this.contains(form)) return;
+        /** Mobile we-select moves radios under `body`; WebKit often leaves `input.form` null even with `form="…"`. */
+        const portaledOptionRadio =
+          t.type === 'radio' &&
+          vs?.tagName === 'VARIANT-SELECTS' &&
+          this.contains(vs);
 
-        let vs = t.closest('variant-selects');
-        if (!vs && t.dataset?.vsRoot) {
-          vs = document.getElementById(t.dataset.vsRoot);
-        }
+        if (!portaledOptionRadio && (!form || !this.contains(form))) return;
+
         if (!vs || !this.contains(vs)) return;
 
         const target =
@@ -189,19 +216,101 @@ if (!customElements.get('product-info')) {
 
       /**
        * Mobile we-select portals option radios to `document.body`; they are no longer under `.product-form__input`.
+       * Must ignore inline quantity radios (`data-we-qty-selector`) in the same row as `we-product-variant-picker`.
        */
       findCheckedOptionRadio(wrap) {
-        const local = wrap.querySelector(
-          'input[type="radio"]:checked:not([data-pdp-inline-qty-value])'
+        const locals = wrap.querySelectorAll(
+          'input[type="radio"]:checked:not([data-pdp-inline-qty-value]):not([data-we-qty-selector])'
         );
+        let local = null;
+        for (const input of locals) {
+          if (input.closest('.we-quantity-selector')) continue;
+          local = input;
+          break;
+        }
         if (local) return local;
-        const groupName = wrap.querySelector('details.we-select-container')?.dataset?.radioGroupName;
-        if (!groupName) return null;
+        const optDetails =
+          wrap.querySelector(
+            'details.we-select-container[data-radio-group-name]:not([data-radio-group-name^="quantity-"])'
+          ) || wrap.querySelector('details.we-select-container');
+        const groupName = optDetails?.dataset?.radioGroupName;
+        if (!groupName || String(groupName).startsWith('quantity-')) return null;
         const esc =
           typeof CSS !== 'undefined' && CSS.escape ? CSS.escape(groupName) : groupName.replace(/"/g, '\\"');
         return document.querySelector(
-          `input[type="radio"][name="${esc}"]:checked:not([data-pdp-inline-qty-value])`
+          `input[type="radio"][name="${esc}"]:checked:not([data-pdp-inline-qty-value]):not([data-we-qty-selector])`
         );
+      }
+
+      _escapeAttrSelector(value) {
+        return typeof CSS !== 'undefined' && CSS.escape
+          ? CSS.escape(value)
+          : String(value).replace(/"/g, '\\"');
+      }
+
+      /** Checked radio with this `name` (works when inputs are portaled under `body`). */
+      _findCheckedRadioByName(name) {
+        if (!name || typeof document === 'undefined') return null;
+        const esc = this._escapeAttrSelector(name);
+        return document.querySelector(`input[type="radio"][name="${esc}"]:checked`);
+      }
+
+      /**
+       * Snapshot we-select option groups + inline quantity before `variant-selects` is replaced (e.g. color swatch).
+       */
+      _captureWePickerUiState(variantSelectsEl) {
+        if (!variantSelectsEl?.querySelectorAll) return null;
+        const state = { groups: [], quantity: null };
+        variantSelectsEl
+          .querySelectorAll('details.we-select-container[data-radio-group-name]')
+          .forEach((det) => {
+            const name = det.dataset.radioGroupName;
+            if (!name) return;
+            if (name.startsWith('quantity-')) {
+              const checked = this._findCheckedRadioByName(name);
+              if (checked) {
+                state.quantity = checked.value;
+              } else {
+                const summary = det.querySelector('.we-select-container__summary');
+                const t = summary?.textContent?.trim();
+                if (t && /^\d+$/.test(t)) state.quantity = t;
+              }
+              return;
+            }
+            const checked = this._findCheckedRadioByName(name);
+            if (checked) state.groups.push({ name, value: checked.value });
+          });
+        if (!state.groups.length && state.quantity == null) return null;
+        return state;
+      }
+
+      _applyRadioNameValue(name, value) {
+        const esc = this._escapeAttrSelector(name);
+        const inputs = document.querySelectorAll(`input[type="radio"][name="${esc}"]`);
+        for (const input of inputs) {
+          if (input.value !== value) continue;
+          if (input.disabled || input.classList.contains('disabled')) return false;
+          input.checked = true;
+          return true;
+        }
+        return false;
+      }
+
+      _restoreWePickerUiState(variantSelectsEl, state) {
+        if (!variantSelectsEl || !state) return;
+        for (const { name, value } of state.groups) {
+          this._applyRadioNameValue(name, value);
+        }
+        if (state.quantity != null && String(state.quantity).length) {
+          const qtyDetails = variantSelectsEl.querySelector(
+            '.we-quantity-selector details.we-select-container[data-radio-group-name]'
+          );
+          const qName = qtyDetails?.dataset?.radioGroupName;
+          if (qName) this._applyRadioNameValue(qName, String(state.quantity));
+        }
+        if (typeof window.initWeDetailsSelects === 'function') {
+          window.initWeDetailsSelects(variantSelectsEl);
+        }
       }
 
       normOptionValue(s) {
@@ -261,6 +370,83 @@ if (!customElements.get('product-info')) {
         return found?.id != null ? String(found.id) : null;
       }
 
+      /**
+       * PDP set bundles: main product has no variant picker, but gallery should follow the same color as the
+       * first set product. Map the color option value from that picker to a main-product variant and update media.
+       */
+      _getPdpSetFirstSetProductId() {
+        const form = document.getElementById(`product-form-${this.dataset.section}`);
+        const cfgEl = form?.querySelector?.('script[data-pdp-set-config]');
+        if (!cfgEl?.textContent?.trim()) return null;
+        try {
+          const cfg = JSON.parse(cfgEl.textContent);
+          return cfg.firstSetProductId != null ? String(cfg.firstSetProductId) : null;
+        } catch {
+          return null;
+        }
+      }
+
+      _getMainProductVariantsFromDom() {
+        const scriptEl = this.querySelector('script[data-product-variants-for-url]');
+        if (!scriptEl?.textContent?.trim()) return null;
+        try {
+          const v = JSON.parse(scriptEl.textContent.trim());
+          return Array.isArray(v) ? v : null;
+        } catch {
+          return null;
+        }
+      }
+
+      /**
+       * Option values in order (size, color, …), allowing empty strings for groups not yet chosen.
+       */
+      _getSelectedOptionValuesFromVariantSelects(vs) {
+        if (!vs?.querySelectorAll) return [];
+        const selected = [];
+        vs.querySelectorAll(':scope > .product-form__input').forEach((wrap) => {
+          const selectEl = wrap.querySelector('select[name^="options"]');
+          if (selectEl) {
+            const opt = selectEl.selectedOptions?.[0];
+            selected.push(opt?.value ?? '');
+            return;
+          }
+          const checked = this.findCheckedOptionRadio(wrap);
+          selected.push(checked?.value ?? '');
+        });
+        return selected;
+      }
+
+      syncMainMediaGalleryFromFirstSetPicker(variantSelectsEl) {
+        if (!variantSelectsEl || !this._isPdpSetBundleForm()) return;
+        const firstSetId = this._getPdpSetFirstSetProductId();
+        if (!firstSetId || String(variantSelectsEl.dataset?.productId) !== firstSetId) return;
+
+        const productMedia = this.querySelector(`[id^="MediaGallery-${this.dataset.section}"]`);
+        if (!productMedia) return;
+
+        const colorIdx = parseInt(productMedia.dataset?.colorOptionIndex, 10) || 0;
+        if (colorIdx < 1) return;
+
+        const selected = this._getSelectedOptionValuesFromVariantSelects(variantSelectsEl);
+        const colorValue = selected[colorIdx - 1];
+        if (colorValue == null || String(colorValue).trim() === '') return;
+
+        const variants = this._getMainProductVariantsFromDom();
+        if (!variants?.length) return;
+
+        const key = `option${colorIdx}`;
+        const norm = (s) => this.normOptionValue(s);
+        const want = norm(colorValue);
+        const match = (v) => norm(v[key]) === want;
+
+        const variant =
+          variants.find((v) => match(v) && v.available !== false) || variants.find((v) => match(v));
+
+        if (variant) {
+          this.updateMedia(variant);
+        }
+      }
+
       handleOptionValueChange(payload) {
         const event = payload?.data?.event;
         const target = payload?.data?.target;
@@ -280,6 +466,10 @@ if (!customElements.get('product-info')) {
         const pickerProductId = variantSelectsEl?.dataset?.productId;
         const isEmbeddedPicker =
           pickerProductId != null && String(pickerProductId) !== mainProductId;
+
+        if (isEmbeddedPicker) {
+          this.syncMainMediaGalleryFromFirstSetPicker(variantSelectsEl);
+        }
 
         this.disableButtons();
 
@@ -424,6 +614,7 @@ if (!customElements.get('product-info')) {
                 this.animateEmbeddedInlineQtyReveal(vsRoot);
               }
               document.dispatchEvent(new CustomEvent('pdp-set:refresh-submit', { bubbles: true }));
+              this._syncFormLineItems();
             });
             return;
           }
@@ -432,6 +623,7 @@ if (!customElements.get('product-info')) {
           this.updateURL(productUrl, variant?.id);
           this.updateShareUrl(variant?.id);
           this.updateVariantInputs(variant?.id);
+          this._syncFormLineItems();
 
           if (!variant) {
             this.setUnavailable();
@@ -569,6 +761,21 @@ if (!customElements.get('product-info')) {
       }
 
       updateOptionValues(html, variantSelectsId) {
+        const swapVariantSelects = (destination, source) => {
+          if (!source || !destination) return;
+          const wePickerState = this._captureWePickerUiState(destination);
+          if (wePickerState) {
+            const postProcess = [...(this.postProcessHtmlCallbacks || []), (newNode) => {
+              if (newNode?.matches?.('variant-selects')) {
+                this._restoreWePickerUiState(newNode, wePickerState);
+              }
+            }];
+            HTMLUpdateUtility.viewTransition(destination, source, this.preProcessHtmlCallbacks, postProcess);
+          } else {
+            HTMLUpdateUtility.viewTransition(destination, source, this.preProcessHtmlCallbacks);
+          }
+        };
+
         if (variantSelectsId) {
           let source = html.getElementById(variantSelectsId);
           const destination = document.getElementById(variantSelectsId);
@@ -577,14 +784,12 @@ if (!customElements.get('product-info')) {
               `variant-selects[data-product-id="${destination.dataset.productId}"]`
             );
           }
-          if (source && destination) {
-            HTMLUpdateUtility.viewTransition(destination, source, this.preProcessHtmlCallbacks);
-          }
+          swapVariantSelects(destination, source);
           return;
         }
         const variantSelects = html.querySelector('variant-selects');
         if (variantSelects && this.variantSelectors) {
-          HTMLUpdateUtility.viewTransition(this.variantSelectors, variantSelects, this.preProcessHtmlCallbacks);
+          swapVariantSelects(this.variantSelectors, variantSelects);
         }
       }
 
@@ -649,11 +854,37 @@ if (!customElements.get('product-info')) {
         shareButton.updateUrl(`${window.shopUrl}${this.dataset.url}?variant=${variantId}`);
       }
 
+      /** Set PDPs: ATC state comes from `product-set-cart-items.js` (we-variant pickers only), not `input[name="id"]`. */
+      _isPdpSetBundleForm() {
+        const productForm = document.getElementById(`product-form-${this.dataset.section}`);
+        return Boolean(productForm?.classList?.contains('pdp-set-bundle'));
+      }
+
       updateButtonsState(disabled, options = {}) {
         const { updateText = false, text = null, updateStyles = true } = options;
 
-        // Handle main add button in product form
         const productForm = document.getElementById(`product-form-${this.dataset.section}`);
+        if (productForm?.classList?.contains('pdp-set-bundle')) {
+          const addButton = productForm.querySelector('[name="add"]');
+          const addButtonText = productForm.querySelector('[name="add"] > span');
+          if (disabled) {
+            if (addButton) {
+              addButton.setAttribute('disabled', 'disabled');
+              if (updateText && text && addButtonText) {
+                addButtonText.textContent = this.decoded(text);
+              }
+              if (updateStyles) {
+                addButton.style.pointerEvents = 'none';
+                addButton.style.opacity = '0.6';
+              }
+            }
+            return;
+          }
+          document.dispatchEvent(new CustomEvent('pdp-set:refresh-submit', { bubbles: true }));
+          return;
+        }
+
+        // Handle main add button in product form
         if (productForm) {
           const addButton = productForm.querySelector('[name="add"]');
           const addButtonText = productForm.querySelector('[name="add"] > span');
@@ -711,10 +942,14 @@ if (!customElements.get('product-info')) {
       }
 
       setUnavailable() {
-        this.updateButtonsState(true, {
-          updateText: true,
-          text: FoxTheme.variantStrings.unavailable,
-        });
+        if (this._isPdpSetBundleForm()) {
+          document.dispatchEvent(new CustomEvent('pdp-set:refresh-submit', { bubbles: true }));
+        } else {
+          this.updateButtonsState(true, {
+            updateText: true,
+            text: FoxTheme.variantStrings.unavailable,
+          });
+        }
         const price = document.getElementById(`price-${this.dataset.section}`);
         const inventory = document.getElementById(`Inventory-${this.dataset.section}`);
         const sku = document.getElementById(`Sku-${this.dataset.section}`);

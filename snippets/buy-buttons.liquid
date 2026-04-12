@@ -22,10 +22,26 @@
     endif
 
     assign pdp_set_bundle = false
-    if product.metafields.custom.pdp_is_set == true and product.metafields.custom.pdp_set_products != blank
+    assign pdp_set_optional_offset = 1
+    assign pdp_zw_omit_main = false
+    if product.metafields.custom.pdp_set_products != blank
       assign pdp_set_bundle = true
       assign pdp_set_products_list = product.metafields.custom.pdp_set_products.value
       assign pdp_first_set_product = pdp_set_products_list | first
+      assign pdp_section_has_we_variant_picker = false
+      assign pdp_section_has_variant_picker = false
+      for sb in section.blocks
+        if sb.type == 'we_variant_picker'
+          assign pdp_section_has_we_variant_picker = true
+        endif
+        if sb.type == 'variant_picker'
+          assign pdp_section_has_variant_picker = true
+        endif
+      endfor
+      if pdp_section_has_we_variant_picker and pdp_section_has_variant_picker == false
+        assign pdp_set_optional_offset = 2
+        assign pdp_zw_omit_main = true
+      endif
     endif
 
     assign pdp_qty_opt = product.metafields.custom.pdp_option_for_quantity_selector.value | default: product.metafields.custom.pdp_option_for_quantity_selector | strip
@@ -44,9 +60,11 @@
     endif
     assign variant_picker_custom_dropdown = false
     for sb in section.blocks
-      if sb.type == 'variant_picker' and sb.settings.picker_type == 'custom_dropdown'
-        assign variant_picker_custom_dropdown = true
-        break
+      if sb.settings.picker_type == 'custom_dropdown'
+        if sb.type == 'variant_picker' or sb.type == 'we_variant_picker'
+          assign variant_picker_custom_dropdown = true
+          break
+        endif
       endif
     endfor
     assign hide_qty_in_buy_buttons = false
@@ -116,10 +134,22 @@
             "sectionId": {{ section.id | json }},
             "firstSetProductId": {{ pdp_first_set_product.id | json }},
             "firstVariantFallback": {{ pdp_first_set_product.selected_or_first_available_variant.id | json }},
-            "optionalProductIds": [
-              {%- for sp in pdp_set_products_list offset: 1 -%}
+            "omitMainProductFromZwischensumme": {{ pdp_zw_omit_main | json }},
+            "requiredSetProductIds": [
+              {%- for sp in pdp_set_products_list limit: 2 -%}
                 {{ sp.id }}{%- unless forloop.last -%},{%- endunless -%}
               {%- endfor -%}
+            ],
+            "optionalProductIds": [
+              {%- if pdp_set_optional_offset == 2 -%}
+                {%- for sp in pdp_set_products_list offset: 2 -%}
+                  {{ sp.id }}{%- unless forloop.last -%},{%- endunless -%}
+                {%- endfor -%}
+              {%- else -%}
+                {%- for sp in pdp_set_products_list offset: 1 -%}
+                  {{ sp.id }}{%- unless forloop.last -%},{%- endunless -%}
+                {%- endfor -%}
+              {%- endif -%}
             ]
           }
         </script>

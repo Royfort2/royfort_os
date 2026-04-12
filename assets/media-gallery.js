@@ -1,6 +1,6 @@
 /**
  * Match gallery image alt text to the selected color option value.
- * Exact match alone hid all color-specific images when alt wording differed from the option label.
+ * Exact / substring match first; then require every option word to match the alt (whole-word style).
  */
 function colorAltMatchesOption(altRaw, normalizedOption) {
   const alt = (altRaw || '').trim().toLowerCase();
@@ -12,13 +12,10 @@ function colorAltMatchesOption(altRaw, normalizedOption) {
   const splitRe = /[\s,;/|]+/;
   const altParts = alt.split(splitRe).filter((p) => p.length >= 2);
   const optParts = opt.split(splitRe).filter((p) => p.length >= 2);
-  for (const o of optParts) {
-    if (altParts.some((a) => a === o || a.includes(o) || o.includes(a))) return true;
-  }
-  for (const a of altParts) {
-    if (optParts.some((o) => o === a || o.includes(a) || a.includes(o))) return true;
-  }
-  return false;
+  if (optParts.length === 0) return false;
+  return optParts.every((o) =>
+    altParts.some((a) => a === o || a.includes(o) || o.includes(a))
+  );
 }
 
 if (!customElements.get('media-gallery')) {
@@ -865,8 +862,9 @@ if (!customElements.get('media-gallery')) {
 
       refreshSwipersAfterFilter() {
         /*
-         * Reorder so visible slides come first when filtering — otherwise desktop users can swipe onto
-         * display:none slides (autoHeight → 0). Rebuild Swiper whenever any slide is hidden (same as mobile).
+         * Reorder so visible slides come first when filtering. Swiper must rebuild when slides are hidden
+         * only if this layout actually uses Swiper (mobile, or desktop carousel). Desktop grid has no
+         * slider — rebuilding Swiper here used to force a broken mobile swiper on large viewports.
          */
         this._reorderMobileSlidesForSwiper();
 
@@ -874,11 +872,20 @@ if (!customElements.get('media-gallery')) {
           (s) => s.classList.contains('product__media-item--color-hidden')
         );
 
-        if (FoxTheme.config.mqlMobile || hasHidden) {
+        const needsSwiperRebuild =
+          FoxTheme.config.mqlMobile || (Boolean(this.enableDesktopSlider) && hasHidden);
+
+        if (needsSwiperRebuild) {
           this.destroySlider();
           this.setSliderOptions();
           this.initSlider();
           this._syncSwiperHeightAndImages();
+          requestAnimationFrame(() => this.syncImageTooltips());
+          return;
+        }
+
+        if (hasHidden) {
+          this.syncGridMixLayout();
           requestAnimationFrame(() => this.syncImageTooltips());
           return;
         }
