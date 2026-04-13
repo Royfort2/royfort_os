@@ -1,11 +1,12 @@
 {%- liquid
   assign product_form_id = 'product-form-' | append: section.id
-  
+
   if context == 'main-product'
     assign title_tag = 'h1'
   else
     assign title_tag = 'h2'
   endif
+
 -%}
 <div
   id="ProductInfo-{{ section.id }}"
@@ -467,18 +468,33 @@
                 Remaining products: accordion with optional checkbox + picker (offset 2).
               {%- endcomment -%}
               {%- for set_product in we_set_products limit: 2 -%}
+                {%- capture we_set_line_vid_c -%}
+                  {%- render 'we-pdp-first-set-line-variant-id', bundle_product: product, line_product: set_product -%}
+                {%- endcapture -%}
+                {%- assign we_set_line_vid_str = we_set_line_vid_c | strip -%}
+                {%- assign we_set_line_resolved = set_product.selected_or_first_available_variant -%}
+                {%- if we_set_line_vid_str != blank -%}
+                  {%- assign we_set_line_vid_num = we_set_line_vid_str | plus: 0 -%}
+                  {%- for v in set_product.variants -%}
+                    {%- if v.id == we_set_line_vid_num -%}
+                      {%- assign we_set_line_resolved = v -%}
+                      {%- break -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                {%- endif -%}
                 {% render 'we-product-variant-picker',
                   product: set_product,
                   block: block,
                   product_form_id: product_form_id,
                   update_url: update_browser_history,
-                  picker_id_suffix: set_product.id
+                  picker_id_suffix: set_product.id,
+                  pdp_set_line_variant_from_bundle: we_set_line_resolved
                 %}
                 <script type="application/json" data-set-product-variants="{{ set_product.id }}">
                   {{ set_product.variants | json }}
                 </script>
                 <script type="application/json" data-set-default-variant-id="{{ set_product.id }}">
-                  {{ set_product.selected_or_first_available_variant.id | json }}
+                  {{ we_set_line_resolved.id | json }}
                 </script>
                 <script type="application/json" data-set-product-variant-images="{{ set_product.id }}">
                   {
@@ -513,12 +529,26 @@
                     class="accordion-details__content product-set-picker__list"
                   >
                     {%- for set_product in we_set_products offset: 2 -%}
+                      {%- capture we_set_line_vid_c -%}
+                        {%- render 'we-pdp-first-set-line-variant-id', bundle_product: product, line_product: set_product -%}
+                      {%- endcapture -%}
+                      {%- assign we_set_line_vid_str = we_set_line_vid_c | strip -%}
+                      {%- assign we_set_line_resolved = set_product.selected_or_first_available_variant -%}
+                      {%- if we_set_line_vid_str != blank -%}
+                        {%- assign we_set_line_vid_num = we_set_line_vid_str | plus: 0 -%}
+                        {%- for v in set_product.variants -%}
+                          {%- if v.id == we_set_line_vid_num -%}
+                            {%- assign we_set_line_resolved = v -%}
+                            {%- break -%}
+                          {%- endif -%}
+                        {%- endfor -%}
+                      {%- endif -%}
                       <div class="product-set-picker__item">
                         <script type="application/json" data-set-product-variants="{{ set_product.id }}">
                           {{ set_product.variants | json }}
                         </script>
                         <script type="application/json" data-set-default-variant-id="{{ set_product.id }}">
-                          {{ set_product.selected_or_first_available_variant.id | json }}
+                          {{ we_set_line_resolved.id | json }}
                         </script>
                         <script type="application/json" data-set-product-variant-images="{{ set_product.id }}">
                           {
@@ -581,7 +611,8 @@
                                 block: block,
                                 product_form_id: product_form_id,
                                 update_url: update_browser_history,
-                                picker_id_suffix: set_product.id
+                                picker_id_suffix: set_product.id,
+                                pdp_set_line_variant_from_bundle: we_set_line_resolved
                               %}
                             </div>
                           </div>
@@ -593,32 +624,43 @@
               {%- endif -%}
 
               {%- unless context == 'quick-view' -%}
-                {%- liquid
-                  assign set_products_zw = we_set_products
-                  assign zw_sale_cents = 0
-                  assign zw_compare_cents = 0
-                  for sp in set_products_zw limit: 2
-                    assign zw_v = sp.selected_or_first_available_variant
-                    assign zw_qr = zw_v.quantity_rule
-                    assign zw_q_min = zw_qr.min | default: 1
-                    if zw_q_min < 1
-                      assign zw_q_min = 1
-                    endif
-                    assign zw_line_sale = zw_v.price | times: zw_q_min
-                    assign zw_sale_cents = zw_sale_cents | plus: zw_line_sale
-                    assign unit_cmp = zw_v.price
-                    if zw_v.compare_at_price > zw_v.price
-                      assign unit_cmp = zw_v.compare_at_price
-                    endif
-                    assign zw_line_cmp = unit_cmp | times: zw_q_min
-                    assign zw_compare_cents = zw_compare_cents | plus: zw_line_cmp
-                  endfor
-                  assign zw_has_compare = false
-                  if zw_compare_cents > zw_sale_cents
-                    assign zw_has_compare = true
-                    assign zw_discount_pct = zw_compare_cents | minus: zw_sale_cents | times: 100 | divided_by: zw_compare_cents
-                  endif
-                -%}
+                {%- assign set_products_zw = we_set_products -%}
+                {%- assign zw_sale_cents = 0 -%}
+                {%- assign zw_compare_cents = 0 -%}
+                {%- for sp in set_products_zw limit: 2 -%}
+                  {%- capture we_set_line_vid_c -%}
+                    {%- render 'we-pdp-first-set-line-variant-id', bundle_product: product, line_product: sp -%}
+                  {%- endcapture -%}
+                  {%- assign we_set_line_vid_str = we_set_line_vid_c | strip -%}
+                  {%- assign zw_v = sp.selected_or_first_available_variant -%}
+                  {%- if we_set_line_vid_str != blank -%}
+                    {%- assign we_set_line_vid_num = we_set_line_vid_str | plus: 0 -%}
+                    {%- for v in sp.variants -%}
+                      {%- if v.id == we_set_line_vid_num -%}
+                        {%- assign zw_v = v -%}
+                        {%- break -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+                  {%- endif -%}
+                  {%- assign zw_qr = zw_v.quantity_rule -%}
+                  {%- assign zw_q_min = zw_qr.min | default: 1 -%}
+                  {%- if zw_q_min < 1 -%}
+                    {%- assign zw_q_min = 1 -%}
+                  {%- endif -%}
+                  {%- assign zw_line_sale = zw_v.price | times: zw_q_min -%}
+                  {%- assign zw_sale_cents = zw_sale_cents | plus: zw_line_sale -%}
+                  {%- assign unit_cmp = zw_v.price -%}
+                  {%- if zw_v.compare_at_price > zw_v.price -%}
+                    {%- assign unit_cmp = zw_v.compare_at_price -%}
+                  {%- endif -%}
+                  {%- assign zw_line_cmp = unit_cmp | times: zw_q_min -%}
+                  {%- assign zw_compare_cents = zw_compare_cents | plus: zw_line_cmp -%}
+                {%- endfor -%}
+                {%- assign zw_has_compare = false -%}
+                {%- if zw_compare_cents > zw_sale_cents -%}
+                  {%- assign zw_has_compare = true -%}
+                  {%- assign zw_discount_pct = zw_compare_cents | minus: zw_sale_cents | times: 100 | divided_by: zw_compare_cents -%}
+                {%- endif -%}
                 <div class="pdp-set-zwischensumme" data-pdp-set-zwischensumme>
                   <script type="application/json" data-pdp-set-zwischensumme-meta>
                     {"titles":{
@@ -648,7 +690,20 @@
                   </div>
                   <p class="pdp-set-zwischensumme__breakdown">
                     {%- for sp in set_products_zw limit: 2 -%}
+                      {%- capture we_set_line_vid_c -%}
+                        {%- render 'we-pdp-first-set-line-variant-id', bundle_product: product, line_product: sp -%}
+                      {%- endcapture -%}
+                      {%- assign we_set_line_vid_str = we_set_line_vid_c | strip -%}
                       {%- assign zw_v = sp.selected_or_first_available_variant -%}
+                      {%- if we_set_line_vid_str != blank -%}
+                        {%- assign we_set_line_vid_num = we_set_line_vid_str | plus: 0 -%}
+                        {%- for v in sp.variants -%}
+                          {%- if v.id == we_set_line_vid_num -%}
+                            {%- assign zw_v = v -%}
+                            {%- break -%}
+                          {%- endif -%}
+                        {%- endfor -%}
+                      {%- endif -%}
                       {%- assign zw_qr = zw_v.quantity_rule -%}
                       {%- assign zw_q_min = zw_qr.min | default: 1 -%}
                       {%- if zw_q_min < 1 -%}
@@ -707,6 +762,20 @@
             {% if pdp_set_active %}
               {% assign first_product = product.metafields.custom.pdp_set_products.value | first %}
               {% assign first_option_name_suffix = first_product.id | prepend: '-' %}
+              {%- capture we_set_line_vid_c -%}
+                {%- render 'we-pdp-first-set-line-variant-id', bundle_product: product, line_product: first_product -%}
+              {%- endcapture -%}
+              {%- assign we_set_line_vid_str = we_set_line_vid_c | strip -%}
+              {%- assign we_set_line_resolved = first_product.selected_or_first_available_variant -%}
+              {%- if we_set_line_vid_str != blank -%}
+                {%- assign we_set_line_vid_num = we_set_line_vid_str | plus: 0 -%}
+                {%- for v in first_product.variants -%}
+                  {%- if v.id == we_set_line_vid_num -%}
+                    {%- assign we_set_line_resolved = v -%}
+                    {%- break -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- endif -%}
               {% comment %}
                 First set product: same picker treatment as main (embedded set line item — custom dropdown, swatches, inline qty).
                 Additional metafield products: checkbox cards below.
@@ -720,13 +789,14 @@
                 option_name_suffix: first_option_name_suffix,
                 pdp_qty_metafield_source: product,
                 pdp_set_bundle_context: true,
-                pdp_qty_embedded_picker: true
+                pdp_qty_embedded_picker: true,
+                pdp_set_line_variant_from_bundle: we_set_line_resolved
               %}
               <script type="application/json" data-set-product-variants="{{ first_product.id }}">
                 {{ first_product.variants | json }}
               </script>
               <script type="application/json" data-set-default-variant-id="{{ first_product.id }}">
-                {{ first_product.selected_or_first_available_variant.id | json }}
+                {{ we_set_line_resolved.id | json }}
               </script>
 
               {% if product.metafields.custom.pdp_set_products.value.size > 1 %}
@@ -748,12 +818,26 @@
                     class="accordion-details__content product-set-picker__list"
                   >
                     {% for set_product in product.metafields.custom.pdp_set_products.value offset: 1 %}
+                      {%- capture we_set_line_vid_c -%}
+                        {%- render 'we-pdp-first-set-line-variant-id', bundle_product: product, line_product: set_product -%}
+                      {%- endcapture -%}
+                      {%- assign we_set_line_vid_str = we_set_line_vid_c | strip -%}
+                      {%- assign we_set_line_resolved = set_product.selected_or_first_available_variant -%}
+                      {%- if we_set_line_vid_str != blank -%}
+                        {%- assign we_set_line_vid_num = we_set_line_vid_str | plus: 0 -%}
+                        {%- for v in set_product.variants -%}
+                          {%- if v.id == we_set_line_vid_num -%}
+                            {%- assign we_set_line_resolved = v -%}
+                            {%- break -%}
+                          {%- endif -%}
+                        {%- endfor -%}
+                      {%- endif -%}
                       <div class="product-set-picker__item">
                         <script type="application/json" data-set-product-variants="{{ set_product.id }}">
                           {{ set_product.variants | json }}
                         </script>
                         <script type="application/json" data-set-default-variant-id="{{ set_product.id }}">
-                          {{ set_product.selected_or_first_available_variant.id | json }}
+                          {{ we_set_line_resolved.id | json }}
                         </script>
                         <script type="application/json" data-set-product-variant-images="{{ set_product.id }}">
                           {
@@ -820,7 +904,8 @@
                                 option_name_suffix: set_product.id | prepend: '-',
                                 pdp_qty_metafield_source: product,
                                 pdp_set_bundle_context: true,
-                                pdp_qty_embedded_picker: true
+                                pdp_qty_embedded_picker: true,
+                                pdp_set_line_variant_from_bundle: we_set_line_resolved
                               %}
                             </div>
                           </div>
@@ -852,7 +937,20 @@
                     assign zw_main_compare_cents = zw_main_v.compare_at_price | times: zw_main_q_min
                   endif
 
+                  capture zw_first_vid_c
+                    render 'we-pdp-first-set-line-variant-id', bundle_product: product, line_product: zw_first
+                  endcapture
+                  assign zw_first_vid_str = zw_first_vid_c | strip
                   assign zw_v = zw_first.selected_or_first_available_variant
+                  if zw_first_vid_str != blank
+                    assign zw_first_vid_num = zw_first_vid_str | plus: 0
+                    for v in zw_first.variants
+                      if v.id == zw_first_vid_num
+                        assign zw_v = v
+                        break
+                      endif
+                    endfor
+                  endif
                   assign zw_qr = zw_v.quantity_rule
                   assign zw_q_min = zw_qr.min | default: 1
                   if zw_q_min < 1

@@ -6,14 +6,34 @@
   - id_namespace: optional, defaults to section.id; used for unique input ids when multiple pickers share a section.
   - option_name_suffix: legacy param; radio names use id_namespace (sectionId-productId) so groups stay isolated.
   - skip_value_selected: when true, no value is pre-selected (embedded set PDP with no variant in URL)
+  - pdp_line_variant_for_selection: optional variant object when overriding selection (bundle URL → first set line).
+  - we_override_option_selection: when true, use pdp_line_variant_for_selection instead of value.selected
 {% endcomment %}
 {%- liquid
   assign id_namespace = id_namespace | default: section.id
   assign option_name_suffix = option_name_suffix | default: ''
   assign skip_value_selected = skip_value_selected | default: false
+  assign we_override_option_selection = we_override_option_selection | default: false
   assign value_should_select = value.selected
   if skip_value_selected
     assign value_should_select = false
+  endif
+  if we_override_option_selection and pdp_line_variant_for_selection != blank and skip_value_selected == false
+    assign value_should_select = false
+    case option.position
+      when 1
+        if value == pdp_line_variant_for_selection.option1
+          assign value_should_select = true
+        endif
+      when 2
+        if value == pdp_line_variant_for_selection.option2
+          assign value_should_select = true
+        endif
+      when 3
+        if value == pdp_line_variant_for_selection.option3
+          assign value_should_select = true
+        endif
+    endcase
   endif
   assign option_disabled = true
   if value.available

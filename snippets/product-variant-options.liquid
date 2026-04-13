@@ -15,6 +15,7 @@
     block: block
     picker_type: picker_type
   %}
+  Optional: pdp_line_variant_for_selection, we_override_option_selection (passed to variant-option-value)
 {% endcomment %}
 {%- liquid
   assign option_id_namespace = option_id_namespace | default: section.id
@@ -84,7 +85,9 @@
               value_index: forloop.index0,
               id_namespace: option_id_namespace,
               option_name_suffix: option_name_suffix,
-              skip_value_selected: skip_value_selected
+              skip_value_selected: skip_value_selected,
+              pdp_line_variant_for_selection: pdp_line_variant_for_selection,
+              we_override_option_selection: we_override_option_selection
             %}
             {%- break -%}
           {%- endif -%}
@@ -119,7 +122,9 @@
             value_index: forloop.index0,
             id_namespace: option_id_namespace,
             option_name_suffix: option_name_suffix,
-            skip_value_selected: skip_value_selected
+            skip_value_selected: skip_value_selected,
+            pdp_line_variant_for_selection: pdp_line_variant_for_selection,
+            we_override_option_selection: we_override_option_selection
           %}
         {%- endunless -%}
       {%- endfor -%}
@@ -138,7 +143,9 @@
       value_index: forloop.index0,
       id_namespace: option_id_namespace,
       option_name_suffix: option_name_suffix,
-      skip_value_selected: skip_value_selected
+      skip_value_selected: skip_value_selected,
+      pdp_line_variant_for_selection: pdp_line_variant_for_selection,
+      we_override_option_selection: we_override_option_selection
     %}
   {%- endfor -%}
 {%- endif -%}

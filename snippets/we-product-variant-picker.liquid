@@ -7,6 +7,7 @@
   - product_form_id: {String} Id of the product form to which the variant picker is associated.
   - update_url: {Boolean} whether or not to update url when changing variants. If false, the url isn't updated. Default: true (optional).
   - picker_id_suffix: {String} optional; defaults to product.id — used for id_ns (unique radio name/id; matches product-variant-picker).
+  - pdp_set_line_variant_from_bundle: {Object} optional — first set line variant matching bundle ?variant= (set PDP / quick view).
   Usage:
   {% render 'we-product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
 {% endcomment %}
@@ -14,6 +15,16 @@
   {% liquid
     assign picker_id_suffix = picker_id_suffix | default: product.id
     assign id_ns = section.id | append: '-' | append: picker_id_suffix
+    assign we_active_variant = product.selected_variant
+    if pdp_set_line_variant_from_bundle != blank
+      assign we_active_variant = pdp_set_line_variant_from_bundle
+    elsif we_active_variant == blank
+      assign we_active_variant = product.selected_or_first_available_variant
+    endif
+    assign we_use_bundle_line_variant = false
+    if pdp_set_line_variant_from_bundle != blank
+      assign we_use_bundle_line_variant = true
+    endif
     assign size_option_name = block.settings.size_title | downcase
     assign size_chart_content = product.metafields.foxtheme.size_chart.value.content
     assign size_chart_modal_id = 'SizeChartModal-' | append: block.id | append: '-' | append: picker_id_suffix
@@ -28,7 +39,7 @@
     data-section="{{ section.id }}"
     data-url="{{ product.url }}"
     data-product-id="{{ product.id }}"
-    data-selected-variant-id="{% if product.selected_variant %}{{ product.selected_variant.id }}{% endif %}"
+    data-selected-variant-id="{% if we_active_variant %}{{ we_active_variant.id }}{% endif %}"
     data-update-url="{% if update_url == false %}false{% else %}true{% endif %}"
     data-we-dropdown-meta="true"
     data-we-low-stock-threshold="{{ block.settings.dropdown_low_inventory_threshold | default: 5 }}"
@@ -118,8 +129,19 @@
           <div class="flex flex-wrap gap-2">
             <span class="option-name">{{ option.name }}:</span>
             <span data-selected-swatch-value="{{ option.name }}">
-                {% unless product.selected_variant.id == blank %}
-                  {{- option.selected_value -}}
+                {% unless we_active_variant.id == blank %}
+                  {%- liquid
+                    assign we_opt_show = option.selected_value
+                    case option.position
+                      when 1
+                        assign we_opt_show = we_active_variant.option1
+                      when 2
+                        assign we_opt_show = we_active_variant.option2
+                      when 3
+                        assign we_opt_show = we_active_variant.option3
+                    endcase
+                  -%}
+                  {{- we_opt_show -}}
                 {% endunless %}
             </span>
           </div>
@@ -143,7 +165,9 @@
               option: option,
               block: block,
               picker_type: picker_type,
-              option_id_namespace: id_ns
+              option_id_namespace: id_ns,
+              pdp_line_variant_for_selection: we_active_variant,
+              we_override_option_selection: we_use_bundle_line_variant
             %}
             {% if picker_type == 'color' or picker_type == 'swatch' %}
               </div>
@@ -179,21 +203,32 @@
             {%- liquid
               assign opt_radio_name = 'vs-' | append: id_ns | append: '-o' | append: option.position
               assign pdp_skip_value_selected = false
-              if product.selected_variant.id == blank and product.metafields.custom.pdp_option_for_quantity_selector == option.name
+              if we_active_variant.id == blank and product.metafields.custom.pdp_option_for_quantity_selector == option.name
                 assign pdp_skip_value_selected = true
               endif
             -%}
             <div class="we-variant-picker__dropdown-container">
               <details
-                class="we-select-container {% if product.selected_variant.id == blank and product.metafields.custom.pdp_option_for_quantity_selector == option.name %}we-select-container--placeholder{% endif %}"
+                class="we-select-container {% if we_active_variant.id == blank and product.metafields.custom.pdp_option_for_quantity_selector == option.name %}we-select-container--placeholder{% endif %}"
                 data-radio-group-name="{{ opt_radio_name | escape }}"
                 data-we-option-position="{{ option.position }}"
               >
                 <summary class="we-select-container__summary">
-                  {% if product.selected_variant.id == blank and product.metafields.custom.pdp_option_for_quantity_selector == option.name %}
+                  {% if we_active_variant.id == blank and product.metafields.custom.pdp_option_for_quantity_selector == option.name %}
                     <span class="we-select-placeholder-label">{{ block.settings.select_variant_text }}</span>
                   {% else %}
-                    {{ option.selected_value }}
+                    {%- liquid
+                      assign we_dd_show = option.selected_value
+                      case option.position
+                        when 1
+                          assign we_dd_show = we_active_variant.option1
+                        when 2
+                          assign we_dd_show = we_active_variant.option2
+                        when 3
+                          assign we_dd_show = we_active_variant.option3
+                      endcase
+                    -%}
+                    {{ we_dd_show }}
                   {% endif %}
                 </summary>
                 <div class="we-select-mobile-portal">
@@ -216,6 +251,29 @@
                     </div>
                     <div class="we-select">
                       {% for value in option.values %}
+                        {%- liquid
+                          assign we_dd_checked = false
+                          if pdp_skip_value_selected == false
+                            if we_use_bundle_line_variant
+                              case option.position
+                                when 1
+                                  if value == we_active_variant.option1
+                                    assign we_dd_checked = true
+                                  endif
+                                when 2
+                                  if value == we_active_variant.option2
+                                    assign we_dd_checked = true
+                                  endif
+                                when 3
+                                  if value == we_active_variant.option3
+                                    assign we_dd_checked = true
+                                  endif
+                              endcase
+                            elsif value.selected
+                              assign we_dd_checked = true
+                            endif
+                          endif
+                        -%}
                         <div class="we-select__item">
                           <input
                             type="radio"
@@ -225,7 +283,7 @@
                             form="{{ product_form_id }}"
                             data-product-url="{{ value.product_url }}"
                             data-option-value-id="{{ value.id }}"
-                            {% if value.selected and pdp_skip_value_selected == false %}
+                            {% if we_dd_checked %}
                               checked
                             {% endif %}
                             {% if value.available == false %}
@@ -307,7 +365,7 @@
       </{{ tag_fieldset }}>
     {%- endfor -%}
     <script type="application/json" data-selected-variant>
-      {{ product.selected_or_first_available_variant | json }}
+      {{ we_active_variant | json }}
     </script>
   </variant-selects>
   {%- if size_chart_content != blank -%}

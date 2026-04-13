@@ -11,6 +11,7 @@
   - pdp_qty_metafield_source: {Object} optional product used to read pdp_option_for_quantity_selector (bundle product on set PDPs).
   - pdp_set_bundle_context: {Boolean} when true, inline quantity is non-submitting (embedded set pickers; avoids duplicate name="quantity").
   - pdp_qty_embedded_picker: {Boolean} when true, placeholder clears only when product.selected_variant is set or a section fetch includes option_values (set child pickers).
+  - pdp_set_line_variant_from_bundle: {Object} optional — first set line variant matching bundle ?variant= (set PDP / quick view).
   Usage:
   {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
 {% endcomment %}
@@ -19,6 +20,16 @@
     assign picker_id_suffix = picker_id_suffix | default: product.id
     assign option_name_suffix = option_name_suffix | default: ''
     assign id_ns = section.id | append: '-' | append: picker_id_suffix
+    assign we_active_variant = product.selected_variant
+    if pdp_set_line_variant_from_bundle != blank
+      assign we_active_variant = pdp_set_line_variant_from_bundle
+    elsif we_active_variant == blank
+      assign we_active_variant = product.selected_or_first_available_variant
+    endif
+    assign we_use_bundle_line_variant = false
+    if pdp_set_line_variant_from_bundle != blank
+      assign we_use_bundle_line_variant = true
+    endif
 
     assign pdp_qty_metafield_source = pdp_qty_metafield_source | default: product
     assign pdp_set_bundle_context = pdp_set_bundle_context | default: false
@@ -37,7 +48,7 @@
         assign is_section_fetch = true
       endif
       if pdp_qty_embedded_picker
-        if product.selected_variant != blank
+        if product.selected_variant != blank or pdp_set_line_variant_from_bundle != blank
           assign pdp_qty_selector_pending = false
         elsif is_section_fetch and ov_part != blank
           assign pdp_qty_selector_pending = false
@@ -68,7 +79,7 @@
       assign is_section_fetch_global = true
     endif
     assign pdp_embedded_variant_pending = false
-    if pdp_qty_embedded_picker and product.selected_variant == blank
+    if pdp_qty_embedded_picker and product.selected_variant == blank and pdp_set_line_variant_from_bundle == blank
       assign pdp_embedded_variant_pending = true
       if is_section_fetch_global and ov_part_global != blank
         assign pdp_embedded_variant_pending = false
@@ -81,7 +92,7 @@
     data-section="{{ section.id }}"
     data-url="{{ product.url }}"
     data-product-id="{{ product.id }}"
-    data-selected-variant-id="{% if product.selected_variant %}{{ product.selected_variant.id }}{% endif %}"
+    data-selected-variant-id="{% if we_active_variant %}{{ we_active_variant.id }}{% endif %}"
     data-update-url="{% if update_url == false %}false{% else %}true{% endif %}"
     {% if pdp_qty_option_name != blank %}
       data-pdp-qty-option="{{ pdp_qty_option_name | escape }}"
@@ -267,6 +278,17 @@
                 {{- option.name -}}
               {%- elsif pdp_embedded_variant_pending and is_color_swatch_picker == false -%}
                 {{- option.name -}}
+              {%- elsif we_use_bundle_line_variant -%}
+                {%- liquid
+                  case option.position
+                    when 1
+                      echo we_active_variant.option1
+                    when 2
+                      echo we_active_variant.option2
+                    when 3
+                      echo we_active_variant.option3
+                  endcase
+                -%}
               {%- else -%}
                 {{- option.selected_value -}}
               {%- endif -%}
@@ -294,7 +316,9 @@
               picker_type: picker_type,
               option_id_namespace: id_ns,
               option_name_suffix: option_name_suffix,
-              skip_value_selected: pdp_skip_value_selected
+              skip_value_selected: pdp_skip_value_selected,
+              pdp_line_variant_for_selection: we_active_variant,
+              we_override_option_selection: we_use_bundle_line_variant
             %}
             {% if picker_type == 'color' or picker_type == 'swatch' %}
               </div>
@@ -323,7 +347,9 @@
                     picker_type: picker_type,
                     option_id_namespace: id_ns,
                     option_name_suffix: option_name_suffix,
-                    skip_value_selected: pdp_skip_value_selected
+                    skip_value_selected: pdp_skip_value_selected,
+                    pdp_line_variant_for_selection: we_active_variant,
+                    we_override_option_selection: we_use_bundle_line_variant
                   %}
                 </select>
                 {%- render 'icon-caret-down' -%}
@@ -348,7 +374,20 @@
                 {%- elsif pdp_embedded_variant_pending and is_color_swatch_picker == false -%}
                   <span class="we-select-placeholder-label">{{ option.name }}</span>
                 {%- else -%}
-                  {% assign handle = option.selected_value | handleize %}
+                  {%- liquid
+                    assign we_dd_label = option.selected_value
+                    if we_use_bundle_line_variant
+                      case option.position
+                        when 1
+                          assign we_dd_label = we_active_variant.option1
+                        when 2
+                          assign we_dd_label = we_active_variant.option2
+                        when 3
+                          assign we_dd_label = we_active_variant.option3
+                      endcase
+                    endif
+                  -%}
+                  {% assign handle = we_dd_label | handleize %}
                   {% if metaobjects.logo[handle] %}
                     {% if metaobjects.logo[handle].bild != blank %}
                       <span class="we-variant-logo">
@@ -362,7 +401,7 @@
                       </span>
                     {% endif %}
                   {% endif %}
-                  {{ option.selected_value }}
+                  {{ we_dd_label }}
                 {%- endif -%}
               </summary>
               <div class="we-select-mobile-portal">
@@ -385,6 +424,29 @@
                 </div>
                 <div class="we-select">
                 {% for value in option.values %}
+                  {%- liquid
+                    assign we_dd_checked = false
+                    if pdp_skip_value_selected == false
+                      if we_use_bundle_line_variant
+                        case option.position
+                          when 1
+                            if value == we_active_variant.option1
+                              assign we_dd_checked = true
+                            endif
+                          when 2
+                            if value == we_active_variant.option2
+                              assign we_dd_checked = true
+                            endif
+                          when 3
+                            if value == we_active_variant.option3
+                              assign we_dd_checked = true
+                            endif
+                        endcase
+                      elsif value.selected
+                        assign we_dd_checked = true
+                      endif
+                    endif
+                  -%}
                   <div class="we-select__item">
                     <input
                       type="radio"
@@ -394,7 +456,7 @@
                       form="{{ product_form_id }}"
                       data-product-url="{{ value.product_url }}"
                       data-option-value-id="{{ value.id }}"
-                      {% if value.selected and pdp_skip_value_selected == false %}
+                      {% if we_dd_checked %}
                         checked
                       {% endif %}
                       {% if value.available == false %}
@@ -472,7 +534,7 @@
       {%- if pdp_qty_selector_pending or pdp_embedded_variant_pending -%}
         null
       {%- else -%}
-        {{- product.selected_or_first_available_variant | json -}}
+        {{- we_active_variant | json -}}
       {%- endif -%}
     </script>
     {%- comment -%}
@@ -480,7 +542,7 @@
       (see product-info getInitialVariantForGallery). Main picker only — embedded set pickers use their own gallery context.
     {%- endcomment -%}
     {%- unless pdp_qty_embedded_picker -%}
-      {%- if product.selected_variant == blank -%}
+      {%- if product.selected_variant == blank and pdp_set_line_variant_from_bundle == blank -%}
         <script type="application/json" data-pdp-bootstrap-variant>
           {{- product.selected_or_first_available_variant | json -}}
         </script>

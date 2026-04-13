@@ -28,6 +28,20 @@
       assign pdp_set_bundle = true
       assign pdp_set_products_list = product.metafields.custom.pdp_set_products.value
       assign pdp_first_set_product = pdp_set_products_list | first
+      assign pdp_first_set_resolved_variant = pdp_first_set_product.selected_or_first_available_variant
+      capture pdp_first_set_vid_cap
+        render 'we-pdp-first-set-line-variant-id', bundle_product: product, line_product: pdp_first_set_product
+      endcapture
+      assign pdp_first_set_vid_str = pdp_first_set_vid_cap | strip
+      if pdp_first_set_vid_str != blank
+        assign pdp_first_set_vid_num = pdp_first_set_vid_str | plus: 0
+        for v in pdp_first_set_product.variants
+          if v.id == pdp_first_set_vid_num
+            assign pdp_first_set_resolved_variant = v
+            break
+          endif
+        endfor
+      endif
       assign pdp_section_has_we_variant_picker = false
       assign pdp_section_has_variant_picker = false
       for sb in section.blocks
@@ -133,7 +147,7 @@
           {
             "sectionId": {{ section.id | json }},
             "firstSetProductId": {{ pdp_first_set_product.id | json }},
-            "firstVariantFallback": {{ pdp_first_set_product.selected_or_first_available_variant.id | json }},
+            "firstVariantFallback": {{ pdp_first_set_resolved_variant.id | json }},
             "omitMainProductFromZwischensumme": {{ pdp_zw_omit_main | json }},
             "requiredSetProductIds": [
               {%- for sp in pdp_set_products_list limit: 2 -%}
