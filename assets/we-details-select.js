@@ -365,4 +365,11 @@
       requestAnimationFrame(() => initWeDetailsSelects(document));
     });
   }
+
+  /* bfcache restore can bring back body overflow:hidden from an open mobile sheet — clear so the page scrolls. */
+  window.addEventListener('pageshow', (event) => {
+    if (event.persisted) {
+      document.body.style.overflow = '';
+    }
+  });
 })();
