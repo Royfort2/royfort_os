@@ -32,6 +32,9 @@
     if size_chart_content == blank and block.settings.size_chart_from_page != blank
       assign size_chart_content = pages[block.settings.size_chart_from_page].content
     endif
+
+    assign qty_unit_short = settings.qty_selector_unit_short | default: 'St.'
+    assign qty_unit_long = settings.qty_selector_unit_long | default: 'Stück'
   %}
   <script src="{{ 'variant-selects.js' | asset_url }}" defer="defer"></script>
   <variant-selects
@@ -313,13 +316,16 @@
                 </div>
               </details>
               {% if product.metafields.custom.pdp_option_for_quantity_selector == option.name %}
-                <div class="we-quantity-selector">
+                <div
+                  class="we-quantity-selector"
+                  data-qty-unit-short="{{ qty_unit_short | escape }}"
+                >
                   <details
                     class="we-select-container"
                     data-radio-group-name="quantity-{{ product.id }}"
                   >
                     <summary class="we-select-container__summary">
-                      1
+                      1&nbsp;{{ qty_unit_short }}
                     </summary>
                     <div class="we-select-mobile-portal">
                       <div class="we-select-mobile-backdrop" aria-hidden="true"></div>
@@ -349,8 +355,18 @@
                                 value="{{ i }}"
                                 data-we-qty-selector
                               >
-                              <label for="quantity-{{ product.id }}-{{ forloop.index0 }}">
-                                {{ i }}
+                              <label
+                                class="we-select__label we-select__label--qty"
+                                for="quantity-{{ product.id }}-{{ forloop.index0 }}"
+                              >
+                                <span class="we-select__label-primary">
+                                  <span class="we-select__qty-line we-select__qty-line--short"
+                                    >{{ i }}&nbsp;{{ qty_unit_short -}}
+                                  </span>
+                                  <span class="we-select__qty-line we-select__qty-line--long"
+                                    >{{ i }}&nbsp;{{ qty_unit_long -}}
+                                  </span>
+                                </span>
                               </label>
                             </div>
                           {% endfor %}

@@ -19,10 +19,14 @@
   unless pdp_set_bundle_context
     assign qty_radio_name = 'quantity'
   endunless
+  assign qty_unit_short = settings.qty_selector_unit_short | default: 'St.'
+  assign qty_unit_long = settings.qty_selector_unit_long | default: 'Stück'
 -%}
 <details class="we-select-container pdp-inline-qty-we-select">
   <summary class="we-select-container__summary">
-    <span class="pdp-inline-qty-we-select__value">{{ pdp_q_min }} St.</span>
+    <span class="pdp-inline-qty-we-select__value"
+      >{{ pdp_q_min }}&nbsp;{{ qty_unit_short -}}
+    </span>
   </summary>
   <div class="we-select-mobile-portal">
     <div class="we-select-mobile-backdrop" aria-hidden="true"></div>
@@ -62,7 +66,16 @@
                     checked
                   {% endif %}
                 >
-                <label for="{{ qty_id }}">{{ i }} St.</label>
+                <label class="we-select__label we-select__label--qty" for="{{ qty_id }}">
+                  <span class="we-select__label-primary">
+                    <span class="we-select__qty-line we-select__qty-line--short"
+                      >{{ i }}&nbsp;{{ qty_unit_short -}}
+                    </span>
+                    <span class="we-select__qty-line we-select__qty-line--long"
+                      >{{ i }}&nbsp;{{ qty_unit_long -}}
+                    </span>
+                  </span>
+                </label>
               </div>
             {%- endif -%}
           {%- endif -%}

@@ -330,8 +330,18 @@
         this.value = that.value;
       }
 
-      const primary = label.querySelector('.we-select__label-primary');
-      summary.innerHTML = primary ? primary.innerHTML : label.innerHTML;
+      const shortQtyLine = label.querySelector('.we-select__qty-line--short');
+      const inlineQtyVal = summary.querySelector('.pdp-inline-qty-we-select__value');
+      if (shortQtyLine) {
+        if (inlineQtyVal) {
+          inlineQtyVal.innerHTML = shortQtyLine.innerHTML;
+        } else {
+          summary.innerHTML = shortQtyLine.innerHTML;
+        }
+      } else {
+        const primary = label.querySelector('.we-select__label-primary');
+        summary.innerHTML = primary ? primary.innerHTML : label.innerHTML;
+      }
       summary.setAttribute('aria-label', `${that.value}, listbox ${pos} of ${this.options.length}`);
 
       this.options.forEach((opt) => {

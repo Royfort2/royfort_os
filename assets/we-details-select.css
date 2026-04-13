@@ -499,3 +499,16 @@ details.we-select-container .we-select-container__summary:hover {
   cursor: not-allowed;
   user-select: none;
 }
+
+/* Quantity units: short (St.) on desktop list + summary; long (Stück) in mobile sheet */
+@media (min-width: 768px) {
+  .we-select__label--qty .we-select__qty-line--long {
+    display: none !important;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .we-select__label--qty .we-select__qty-line--short {
+    display: none !important;
+  }
+}

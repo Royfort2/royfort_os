@@ -120,6 +120,7 @@
     });
 
     const summary = qtyRoot.querySelector('.we-select-container__summary');
+    const unitShort = (qtyRoot.dataset.qtyUnitShort || '').trim();
 
     if (maxQty < 1) {
       if (summary) summary.textContent = '—';
@@ -138,15 +139,26 @@
       document.querySelector(`input[name="${esc}"][data-we-qty-selector][value="${targetVal}"]`) ||
       qtyRoot.querySelector(`input[data-we-qty-selector][value="${targetVal}"]`);
 
+    function setQtySummaryText(n) {
+      if (!summary) return;
+      const text = unitShort ? `${n}\u00A0${unitShort}` : String(n);
+      const wrap = summary.querySelector('.pdp-inline-qty-we-select__value');
+      if (wrap) {
+        wrap.textContent = text;
+      } else {
+        summary.textContent = text;
+      }
+    }
+
     if (desired && !desired.disabled) {
       if (checked && checked !== desired) checked.checked = false;
       if (!desired.checked) {
         desired.checked = true;
         desired.dispatchEvent(new Event('change', { bubbles: true }));
       }
-      if (summary) summary.textContent = String(targetVal);
-    } else if (summary) {
-      summary.textContent = String(targetVal);
+      setQtySummaryText(targetVal);
+    } else {
+      setQtySummaryText(targetVal);
     }
   }
 

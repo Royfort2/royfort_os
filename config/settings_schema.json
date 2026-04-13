@@ -1614,6 +1614,18 @@
         "id": "select_variant_text",
         "label": "Select variant text",
         "default": "Variante auswählen"
+      },
+      {
+        "type": "text",
+        "id": "qty_selector_unit_short",
+        "label": "Quantity selector unit short",
+        "default": "St."
+      },
+      {
+        "type": "text",
+        "id": "qty_selector_unit_long",
+        "label": "Quantity selector unit long",
+        "default": "Stück"
       }
     ]
   }
