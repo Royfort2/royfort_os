@@ -480,7 +480,19 @@
                 <script type="application/json" data-set-default-variant-id="{{ set_product.id }}">
                   {{ set_product.selected_or_first_available_variant.id | json }}
                 </script>
+                <script type="application/json" data-set-product-variant-images="{{ set_product.id }}">
+                  {
+                  {%- for variant in set_product.variants -%}
+                    {%- liquid
+                      assign v_thumb = variant.featured_image | default: set_product.featured_image
+                    -%}
+                    "{{ variant.id }}":{% if v_thumb != blank %}{{ v_thumb | image_url: width: 360 | json }}{% else %}null{% endif %}{%- unless forloop.last -%},{%- endunless -%}
+                  {%- endfor -%}
+                  }
+                </script>
               {%- endfor -%}
+
+              <script src="{{ 'product-set-picker-price.js' | asset_url }}" defer="defer"></script>
 
               {%- if we_set_products.size > 2 -%}
                 <details
@@ -508,6 +520,16 @@
                         <script type="application/json" data-set-default-variant-id="{{ set_product.id }}">
                           {{ set_product.selected_or_first_available_variant.id | json }}
                         </script>
+                        <script type="application/json" data-set-product-variant-images="{{ set_product.id }}">
+                          {
+                          {%- for variant in set_product.variants -%}
+                            {%- liquid
+                              assign v_thumb = variant.featured_image | default: set_product.featured_image
+                            -%}
+                            "{{ variant.id }}":{% if v_thumb != blank %}{{ v_thumb | image_url: width: 360 | json }}{% else %}null{% endif %}{%- unless forloop.last -%},{%- endunless -%}
+                          {%- endfor -%}
+                          }
+                        </script>
                         <template id="SetWeCardDefaultPrice-{{ block.id }}-{{ section.id }}-{{ set_product.id }}">
                           {% render 'price', product: set_product, price_class: 'product-set-picker__f-price' %}
                         </template>
@@ -519,7 +541,12 @@
                               class="product-set-picker__toggle visually-hidden"
                               data-set-optional-product-id="{{ set_product.id }}"
                             >
-                            <span class="product-set-picker__thumb">
+                            <span
+                              class="product-set-picker__thumb"
+                              {% if set_product.featured_image != blank %}
+                                data-default-thumb-url="{{ set_product.featured_image | image_url: width: 360 }}"
+                              {% endif %}
+                            >
                               {%- if set_product.featured_image -%}
                                 {{
                                   set_product.featured_image
@@ -563,7 +590,6 @@
                     {%- endfor -%}
                   </div>
                 </details>
-                <script src="{{ 'product-set-picker-price.js' | asset_url }}" defer="defer"></script>
               {%- endif -%}
 
               {%- unless context == 'quick-view' -%}
@@ -729,6 +755,16 @@
                         <script type="application/json" data-set-default-variant-id="{{ set_product.id }}">
                           {{ set_product.selected_or_first_available_variant.id | json }}
                         </script>
+                        <script type="application/json" data-set-product-variant-images="{{ set_product.id }}">
+                          {
+                          {%- for variant in set_product.variants -%}
+                            {%- liquid
+                              assign v_thumb = variant.featured_image | default: set_product.featured_image
+                            -%}
+                            "{{ variant.id }}":{% if v_thumb != blank %}{{ v_thumb | image_url: width: 360 | json }}{% else %}null{% endif %}{%- unless forloop.last -%},{%- endunless -%}
+                          {%- endfor -%}
+                          }
+                        </script>
                         <template id="SetCardDefaultPrice-{{ block.id }}-{{ section.id }}-{{ set_product.id }}">
                           {% render 'price', product: set_product, price_class: 'product-set-picker__f-price' %}
                         </template>
@@ -740,7 +776,12 @@
                               class="product-set-picker__toggle visually-hidden"
                               data-set-optional-product-id="{{ set_product.id }}"
                             >
-                            <span class="product-set-picker__thumb">
+                            <span
+                              class="product-set-picker__thumb"
+                              {% if set_product.featured_image != blank %}
+                                data-default-thumb-url="{{ set_product.featured_image | image_url: width: 360 }}"
+                              {% endif %}
+                            >
                               {%- if set_product.featured_image -%}
                                 {{
                                   set_product.featured_image

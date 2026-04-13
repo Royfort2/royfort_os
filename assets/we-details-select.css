@@ -465,3 +465,20 @@ details.we-select-container .we-select-container__summary:hover {
 .we-select__stock-marker[data-stock-level=''] {
   display: none;
 }
+
+/* Quantity dropdown: options above available stock are hidden by we-quantity-selector-cap.js */
+.we-select__item.we-select__item--we-qty-hidden {
+  display: none !important;
+}
+
+/* No orderable quantity (OOS / unavailable): block opening the quantity dropdown */
+.we-quantity-selector.we-quantity-selector--disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.we-quantity-selector.we-quantity-selector--disabled .we-select-container__summary {
+  cursor: not-allowed;
+  user-select: none;
+}

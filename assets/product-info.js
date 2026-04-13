@@ -217,6 +217,9 @@ if (!customElements.get('product-info')) {
           ) {
             window.initWeVariantDropdownMeta(newNode);
           }
+          if (typeof window.syncWeQuantitySelectorCap === 'function' && newNode?.matches?.('variant-selects')) {
+            window.syncWeQuantitySelectorCap(newNode);
+          }
         });
       }
 
@@ -614,6 +617,12 @@ if (!customElements.get('product-info')) {
               }
               if (typeof window.initWeVariantDropdownMeta === 'function' && vsRoot) {
                 window.initWeVariantDropdownMeta(vsRoot);
+              }
+              if (typeof window.syncWeQuantitySelectorCap === 'function' && vsRoot) {
+                window.syncWeQuantitySelectorCap(vsRoot);
+              }
+              if (typeof window.syncProductSetPickerCards === 'function') {
+                window.syncProductSetPickerCards();
               }
               const revealAfterInit =
                 shouldRevealQty ||

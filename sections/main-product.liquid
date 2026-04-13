@@ -668,6 +668,7 @@
   <script src="{{ 'we-main-product-related.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'we-details-select.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'we-variant-dropdown-meta.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'we-quantity-selector-cap.js' | asset_url }}" defer="defer"></script>
 
   {% assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src' %}
   <div class="product flex flex-wrap {{ product_class }}">
