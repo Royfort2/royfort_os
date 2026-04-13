@@ -79,6 +79,29 @@
     return candidates.find((v) => v.available !== false) || candidates[0];
   }
 
+  /**
+   * Full variant match (every option has a chosen value). Used for card **price** so we do not
+   * show a specific variant price while a dropdown is still on the placeholder (partial selection
+   * is only for thumbnail / preview).
+   */
+  function resolveVariantForPrice(variantSelects) {
+    const variants = getVariantsForProduct(variantSelects.dataset.productId);
+    const selected = getSelectedOptionValues(variantSelects);
+    if (!selected.length || !selected.every((v) => v != null && String(v).trim() !== '')) {
+      const script = variantSelects.querySelector('[data-selected-variant]');
+      const raw = script?.textContent?.trim();
+      if (raw && raw !== 'null') {
+        try {
+          const parsed = JSON.parse(raw);
+          if (parsed && parsed.id) return parsed;
+        } catch (e) {}
+      }
+      return null;
+    }
+    return findVariantByOptions(variants, selected);
+  }
+
+  /** Thumbnail / preview: allow partial option match (e.g. color swatch before size is chosen). */
   function resolveVariant(variantSelects) {
     const variants = getVariantsForProduct(variantSelects.dataset.productId);
     const selected = getSelectedOptionValues(variantSelects);
@@ -178,16 +201,20 @@
     if (!isCardSelected(card)) return;
 
     const pid = variantSelects.dataset.productId;
-    const variant = resolveVariant(variantSelects);
-    if (!variant) return;
+    const variantForPrice = resolveVariantForPrice(variantSelects);
+    const variantForThumb = resolveVariant(variantSelects);
 
     const priceHost = card?.querySelector('[data-set-card-price][data-product-id="' + pid + '"]');
     if (priceHost) {
-      const html = formatPriceHtml(variant);
-      if (html) priceHost.innerHTML = html;
+      if (variantForPrice) {
+        const html = formatPriceHtml(variantForPrice);
+        if (html) priceHost.innerHTML = html;
+      } else {
+        restoreDefaultPriceFromTemplate(priceHost);
+      }
     }
 
-    updateThumbForCard(card, pid, variant);
+    updateThumbForCard(card, pid, variantForThumb);
   }
 
   function syncCheckedSetPickers() {
