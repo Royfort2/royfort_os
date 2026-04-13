@@ -100,6 +100,7 @@
     "currency_code_enabled": false,
     "public_key_stamped": "pubkey-B4c4NYWuD8FT6z4kMNufy1gKq86KL7",
     "stamped_store_hash": "112545",
+    "use_metafield_media": true,
     "buttons_uppercase": false,
     "blog_card_style": "standard",
     "blog_card_text_alignment": "left",
