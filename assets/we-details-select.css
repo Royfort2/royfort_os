@@ -170,6 +170,21 @@ details.we-select-container .we-select-container__summary:hover {
 }
 
 @media (max-width: 767.98px) {
+  /*
+    Opening <details> paints before the toggle handler moves the portal to body and adds
+    .we-select-container--portaled — the in-flow absolute .we-select flashes as a desktop dropdown.
+    Hide the portal until portaled; also cover the one-frame gap after appendChild before the class is set.
+  */
+  details.we-select-container[open] > .we-select-mobile-portal:not(.we-select-container--portaled) {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  body > .we-select-mobile-portal:not(.we-select-container--portaled) {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
   /* Overlay portaled to body; <details> stays in .product-form__input */
   .we-select-mobile-portal.we-select-container--portaled {
     position: fixed;
