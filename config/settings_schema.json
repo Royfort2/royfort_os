@@ -1608,6 +1608,12 @@
         "label": "Main colors",
         "info": "Comma separated list of colors",
         "default": "Weiß,Sanftgrau,Cremeweiß,Tiefgrau,Taupe"
+      },
+      {
+        "type": "text",
+        "id": "select_variant_text",
+        "label": "Select variant text",
+        "default": "Variante auswählen"
       }
     ]
   }

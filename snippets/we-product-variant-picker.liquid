@@ -191,7 +191,7 @@
               >
                 <summary class="we-select-container__summary">
                   {% if product.selected_variant.id == blank and product.metafields.custom.pdp_option_for_quantity_selector == option.name %}
-                    <span class="we-select-placeholder-label">Größe auswählen</span>
+                    <span class="we-select-placeholder-label">{{ block.settings.select_variant_text }}</span>
                   {% else %}
                     {{ option.selected_value }}
                   {% endif %}

@@ -454,7 +454,12 @@
       typeof FoxTheme !== 'undefined' && FoxTheme.variantStrings && FoxTheme.variantStrings.addToCart
         ? FoxTheme.variantStrings.addToCart
         : 'Add to cart';
-    const selectVariant = 'Select a variant';
+    const selectVariant =
+      typeof FoxTheme !== 'undefined' &&
+      FoxTheme.variantStrings &&
+      String(FoxTheme.variantStrings.select_variant_text || '').trim()
+        ? String(FoxTheme.variantStrings.select_variant_text).trim()
+        : 'Variante auswählen';
 
     const span = submitBtn.querySelector('span');
 
