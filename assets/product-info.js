@@ -767,7 +767,8 @@ if (!customElements.get('product-info')) {
             callback(html);
           })
           .then(() => {
-            if (targetId) document.getElementById(targetId)?.focus();
+            /* Default focus() scrolls the target into view — on set PDPs that yanks the page toward the pickers on every fetch. */
+            if (targetId) document.getElementById(targetId)?.focus({ preventScroll: true });
           })
           .catch((error) => {
             if (error.name === 'AbortError') {
@@ -781,6 +782,15 @@ if (!customElements.get('product-info')) {
       updateOptionValues(html, variantSelectsId) {
         const swapVariantSelects = (destination, source) => {
           if (!source || !destination) return;
+          /*
+           * Set-product embedded pickers: replacing `variant-selects` destroys the DOM while a mobile
+           * we-select sheet can still have portaled markup under `body` and `overflow:hidden` on `body`.
+           * Main-picker updates publish `variantChange`, which clears that — embedded updates do not.
+           * Closing open sheets first runs toggle handlers so the portal is restored and scroll unlocks.
+           */
+          destination.querySelectorAll('details.we-select-container[open]').forEach((det) => {
+            det.removeAttribute('open');
+          });
           const wePickerState = this._captureWePickerUiState(destination);
           if (wePickerState) {
             const postProcess = [...(this.postProcessHtmlCallbacks || []), (newNode) => {

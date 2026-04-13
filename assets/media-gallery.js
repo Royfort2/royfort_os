@@ -197,12 +197,6 @@ if (!customElements.get('media-gallery')) {
           const swiper = this.sliderInstance.slider;
           swiper.init();
 
-          /* Teaser must run here — Swiper may not emit `afterInit` reliably when using init: false + manual init(). */
-          requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-              this._maybeRunMobileSwipeTeaser(swiper);
-            });
-          });
           requestAnimationFrame(() => this.syncImageTooltips());
         }
       }
@@ -487,98 +481,6 @@ if (!customElements.get('media-gallery')) {
         });
       }
 
-      /**
-       * Mobile-only: tiny translate (~20% of one slide) and back — not a full slide change.
-       * Skipped for reduced motion, non-mobile, or no next visible slide.
-       */
-      _maybeRunMobileSwipeTeaser(swiper) {
-        if (this._mobileSwipeTeaserPlayed) return;
-        if (typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-          return;
-        }
-        /* Match theme mobile breakpoint (<768px); don’t rely only on FoxTheme.config (timing / sync). */
-        if (!window.matchMedia('(max-width: 767.98px)').matches) return;
-        if (!swiper?.slides?.length) return;
-
-        const slides = swiper.slides;
-        let hasNextVisible = false;
-        for (let i = 0; i < slides.length; i++) {
-          const sl = slides[i];
-          if (sl.classList.contains('swiper-slide-duplicate')) continue;
-          if (sl.classList.contains('product__media-item--color-hidden')) continue;
-          if (i > swiper.activeIndex) {
-            hasNextVisible = true;
-            break;
-          }
-        }
-        if (!hasNextVisible) return;
-
-        this._mobileSwipeTeaserPlayed = true;
-
-        const peekRatio = 0.35;
-        const peekMs = 380;
-        const returnMs = 420;
-        /** Extra wait after window load + Swiper layout so images and height are stable. */
-        const pauseAfterReady = 450;
-
-        const runTeaser = () => {
-          if (swiper.destroyed) return;
-
-          const activeSlide = slides[swiper.activeIndex];
-          if (!activeSlide) return;
-
-          const space = Number(swiper.params.spaceBetween) || 0;
-          const w = activeSlide.offsetWidth;
-          const fullStep = w + space;
-          const nudge = Math.max(6, Math.round(fullStep * peekRatio));
-
-          const startT = swiper.getTranslate();
-          const rtl = Boolean(swiper.params.rtl);
-          const targetT = rtl ? startT + nudge : startT - nudge;
-
-          const prevAllow = swiper.allowTouchMove;
-          swiper.allowTouchMove = false;
-
-          swiper.setTransition(peekMs);
-          swiper.setTranslate(targetT);
-
-          window.setTimeout(() => {
-            if (swiper.destroyed) return;
-            swiper.setTransition(returnMs);
-            swiper.setTranslate(startT);
-            window.setTimeout(() => {
-              if (swiper.destroyed) return;
-              swiper.slideTo(swiper.activeIndex, 0, false);
-              swiper.update();
-              swiper.allowTouchMove = prevAllow;
-            }, returnMs + 50);
-          }, peekMs + 70);
-        };
-
-        const startAfterPageAndSwiperReady = () => {
-          if (swiper.destroyed) return;
-          try {
-            swiper.update();
-            if (typeof swiper.updateAutoHeight === 'function') {
-              swiper.updateAutoHeight(0);
-            }
-          } catch (e) {
-            /* noop */
-          }
-          requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-              window.setTimeout(runTeaser, pauseAfterReady);
-            });
-          });
-        };
-
-        if (document.readyState === 'complete') {
-          startAfterPageAndSwiperReady();
-        } else {
-          window.addEventListener('load', startAfterPageAndSwiperReady, { once: true });
-        }
-      }
-
       closeImageTooltips() {
         this.querySelectorAll('.product__image-tooltip-content.is-open').forEach((panel) => {
           panel.classList.remove('is-open');
@@ -768,6 +670,12 @@ if (!customElements.get('media-gallery')) {
             this.ensureActiveSlideIsVisible();
             this._syncSwiperHeightAndImages();
             this.refreshImageZoom();
+            const sw = this.sliderInstance?.slider;
+            if (sw && !sw.destroyed) {
+              const slide = sw.slides[sw.activeIndex];
+              const isModel = slide?.dataset?.mediaType === 'model';
+              sw.allowTouchMove = !isModel;
+            }
           });
         };
 
@@ -1049,17 +957,11 @@ if (!customElements.get('media-gallery')) {
           this.elements.mediaList.appendChild(media);
         });
 
-        if (!FoxTheme.config.mqlMobile) {
-          const selectedMedia = this.querySelector(
-            `.product__media-item:not(.product__media-item--color-hidden)[data-media-id="${variant.featured_media.id}"]`
-          );
-          const scrollTarget =
-            selectedMedia ||
-            this.querySelector('.product__media-item:not(.product__media-item--color-hidden)');
-          if (scrollTarget) {
-            window.scrollTo({ top: scrollTarget.offsetTop, behavior: 'smooth' });
-          }
-        }
+        /*
+         * Do not window.scrollTo here. `offsetTop` is relative to offsetParent, not the document, so
+         * scrollTo(wrongY) pulled the viewport upward on variant / set-line updates and felt like the
+         * page was constantly trying to scroll up.
+         */
 
         this.syncGridMixLayout();
         requestAnimationFrame(() => this.syncImageTooltips());

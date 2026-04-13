@@ -143,6 +143,8 @@
       if (this.container.open) {
         this.container.removeAttribute('open');
       }
+      /* Belt-and-suspenders: ensure scroll isn’t left locked if toggle ordering differs by browser. */
+      this._setBodyScrollLock(false);
     }
 
     _syncActiveFromDom() {
@@ -366,10 +368,20 @@
     });
   }
 
-  /* bfcache restore can bring back body overflow:hidden from an open mobile sheet — clear so the page scrolls. */
-  window.addEventListener('pageshow', (event) => {
-    if (event.persisted) {
-      document.body.style.overflow = '';
+  function clearBodyScrollLockFromSheet() {
+    if (
+      window.matchMedia('(max-width: 767.98px)').matches &&
+      document.querySelector('details.we-select-container[open]')
+    ) {
+      return;
     }
-  });
+    document.body.style.overflow = '';
+  }
+
+  /*
+   * Mobile sheet sets body overflow:hidden. After full load (images/layout) and on every pageshow,
+   * clear a stuck lock — but not while a mobile sheet is still open.
+   */
+  window.addEventListener('load', clearBodyScrollLockFromSheet);
+  window.addEventListener('pageshow', clearBodyScrollLockFromSheet);
 })();
