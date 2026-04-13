@@ -47,6 +47,7 @@
   .product--medium .product__info-container .product__blocks {
     max-width: 40rem;
     padding-bottom: 8rem;
+    padding-top: 6.4rem;
     overflow: visible;
   }
   .product__block {
@@ -245,7 +246,7 @@
     overflow: visible;
   }
   .product-set-picker__item {
-    margin-block-end: 1.2rem;
+    margin-block-end: 0.4rem;
   }
   .product-set-picker__item:last-child {
     margin-block-end: 0;
@@ -298,7 +299,6 @@
     min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
   }
   .product-set-picker__title {
     font-size: 1.4rem;
@@ -397,9 +397,9 @@
   }
   .pdp-set-zwischensumme__title {
     font-size: 1.4rem;
-    font-weight: 700;
+    font-style: normal;
+    font-weight: 500;
     line-height: 150%;
-    letter-spacing: -0.14px;
     text-transform: uppercase;
     color: rgb(var(--color-foreground));
   }
@@ -411,28 +411,35 @@
     gap: 0.8rem 1.2rem;
   }
   .pdp-set-zwischensumme__compare {
-    font-size: 1.4rem;
-    text-decoration: line-through;
-    color: rgb(var(--color-foreground) / 0.55);
+    color: #525252;
+    font-size: 1.2rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%;
+    letter-spacing: -0.12px;
+    text-decoration-line: line-through;
+    text-transform: uppercase;
   }
   .pdp-set-zwischensumme__sale {
-    font-size: 1.8rem;
-    font-weight: 700;
-    line-height: 1.2;
+    font-size: 1.4rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%;
+    text-transform: uppercase;
     color: rgb(var(--color-button));
   }
   .pdp-set-zwischensumme__badge {
     display: inline-flex;
     align-items: center;
     padding: 0.2rem 0.6rem;
-    font-size: 1.2rem;
-    font-weight: 700;
-    line-height: 1.2;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 150%;
     color: rgb(var(--color-background));
     background: rgb(var(--color-button));
   }
   .pdp-set-zwischensumme__breakdown {
-    margin: 1rem 0 0;
+    margin: 0.4rem 0 0;
     font-size: 1.2rem;
     font-weight: 400;
     line-height: 150%;

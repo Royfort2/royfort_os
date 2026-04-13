@@ -59,7 +59,7 @@
   }
 {% endstyle %}
 <div
-  class="section section-featured-collections section-header-{{ header_layout }} section--padding page-width color-{{ section.settings.color_scheme }}{% if section.settings.custom_class != blank %} {{ section.settings.custom_class }}{% endif %}"
+  class="section section-featured-collections section-header-{{ header_layout }} section--padding {% if section.settings.section_width == 'page' %}page-width{% endif %} color-{{ section.settings.color_scheme }}{% if section.settings.custom_class != blank %} {{ section.settings.custom_class }}{% endif %}"
   style="--section-padding-top: {{ section.settings.padding_top }}px;--section-padding-bottom: {{ section.settings.padding_bottom }}px;"
 >
   {% render 'section-heading',
@@ -169,6 +169,22 @@
       "id": "color_scheme",
       "label": "t:sections.all.colors.label",
       "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        {
+          "value": "full",
+          "label": "Full"
+        },
+        {
+          "value": "page",
+          "label": "Page",
+        }
+      ],
+      "default": "full"
     },
     {
       "type": "header",
