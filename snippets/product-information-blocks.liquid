@@ -9,6 +9,12 @@
 
   assign blocks_render_mode = blocks_render_mode | default: 'all'
   assign compact_header_wrapper = compact_header_wrapper | default: false
+
+  assign qv_sticky_footer = false
+  if context == 'quick-view' and blocks_render_mode == 'exclude_title_price'
+    assign qv_sticky_footer = true
+  endif
+  assign qv_buy_buttons_block = false
 -%}
 {%- if blocks_render_mode == 'title_price_only' and compact_header_wrapper -%}
   <div class="quick-view__product-heading w-full">
@@ -1020,18 +1026,22 @@
             {% endif %}
           </div>
         {%- when 'buy_buttons' -%}
-          <div
-            class="product__block product__block--{{ block.type }}"
-            {{ block.shopify_attributes }}
-          >
-            {%- render 'buy-buttons',
-              block: block,
-              product: product,
-              product_form_id: product_form_id,
-              section_id: section.id,
-              product_id: product.id
-            -%}
-          </div>
+          {%- if qv_sticky_footer -%}
+            {%- assign qv_buy_buttons_block = block -%}
+          {%- else -%}
+            <div
+              class="product__block product__block--{{ block.type }}"
+              {{ block.shopify_attributes }}
+            >
+              {%- render 'buy-buttons',
+                block: block,
+                product: product,
+                product_form_id: product_form_id,
+                section_id: section.id,
+                product_id: product.id
+              -%}
+            </div>
+          {%- endif -%}
         {%- when 'pickup_availability' -%}
           <div
             class="product__block product__block--{{ block.type }}"
@@ -1467,8 +1477,38 @@
           </div>
       {%- endcase -%}
     {%- endfor -%}
+    {%- if qv_sticky_footer and qv_buy_buttons_block != false -%}
+      <div class="quick-view__sticky-actions">
+        <div class="quick-view__sticky-actions__inner">
+          <div
+            class="product__block product__block--buy_buttons"
+            {{ qv_buy_buttons_block.shopify_attributes }}
+          >
+            {%- render 'buy-buttons',
+              block: qv_buy_buttons_block,
+              product: product,
+              product_form_id: product_form_id,
+              section_id: section.id,
+              product_id: product.id
+            -%}
+          </div>
+          {%- if show_details_link == true -%}
+            <a
+              {% if product == blank %}
+                role="link" aria-disabled="true"
+              {% else %}
+                href="{{ product.url }}"
+              {% endif %}
+              class="quick-view__view-details-link"
+            >
+              {{- 'products.product.view_full_details' | t -}}
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
   </div>
-  {%- if show_details_link == true and blocks_render_mode != 'title_price_only' -%}
+  {%- if show_details_link == true and blocks_render_mode != 'title_price_only' and context != 'quick-view' -%}
     <a
       {% if product == blank %}
         role="link" aria-disabled="true"

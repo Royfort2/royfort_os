@@ -1086,3 +1086,10 @@ layout-switcher .btn::after {
     opacity: 0;
     width: 0;
 }
+
+.quick-view__product-heading .product__title {
+    font-size: 2.4rem;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 120%;
+}
