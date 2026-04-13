@@ -11,10 +11,16 @@
     assign mobile_thumbnails = 'hide'
     assign enable_image_zoom = false
 
+    assign we_qv_mf = product.metafields.custom.we_temp_product_media.value
+    assign we_qv_media_count = product.media.size
+    if settings.use_metafield_media and we_qv_mf != blank and we_qv_mf.size > 0
+      assign we_qv_media_count = we_qv_mf.size
+    endif
+
     assign product_class = 'product--' | append: section.settings.media_size
     assign product_class = product_class | append: ' product--' | append: media_layout
-    assign product_class = product_class | append: ' product--media-has-' | append: product.media.size
-    if product.media.size > 1
+    assign product_class = product_class | append: ' product--media-has-' | append: we_qv_media_count
+    if we_qv_media_count > 1
       assign product_class = product_class | append: ' product--media-has-many'
     endif
   -%}
@@ -562,7 +568,16 @@
             <script src="{{ 'photoswipe.js' | asset_url }}" defer="defer"></script>
           {%- endif -%}
 
-          {%- if product.media.size > 0 -%}
+          {%- liquid
+            assign we_qv_show_gallery = false
+            if product.media.size > 0
+              assign we_qv_show_gallery = true
+            endif
+            if settings.use_metafield_media and we_qv_mf != blank and we_qv_mf.size > 0
+              assign we_qv_show_gallery = true
+            endif
+          -%}
+          {%- if we_qv_show_gallery -%}
             <script src="{{ 'media-gallery.js' | asset_url }}" defer="defer"></script>
           {%- endif -%}
 

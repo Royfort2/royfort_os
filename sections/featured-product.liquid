@@ -10,8 +10,13 @@
   assign product_class = product_class | append: ' product--' | append: media_layout
 
   if featured_product != blank
-    assign product_class = product_class | append: ' product--media-has-' | append: featured_product.media.size
-    if featured_product.media.size > 1
+    assign we_fp_mf = featured_product.metafields.custom.we_temp_product_media.value
+    assign we_fp_media_count = featured_product.media.size
+    if settings.use_metafield_media and we_fp_mf != blank and we_fp_mf.size > 0
+      assign we_fp_media_count = we_fp_mf.size
+    endif
+    assign product_class = product_class | append: ' product--media-has-' | append: we_fp_media_count
+    if we_fp_media_count > 1
       assign product_class = product_class | append: ' product--media-has-many'
     endif
   else
@@ -146,7 +151,19 @@
     <script src="{{ 'photoswipe.js' | asset_url }}" defer="defer"></script>
   {%- endif -%}
 
-  {%- if featured_product.media.size > 0 -%}
+  {%- liquid
+    assign we_fp_show_mg = false
+    if featured_product != blank and featured_product.media.size > 0
+      assign we_fp_show_mg = true
+    endif
+    if featured_product != blank and settings.use_metafield_media
+      assign we_fp_mf_chk = featured_product.metafields.custom.we_temp_product_media.value
+      if we_fp_mf_chk != blank and we_fp_mf_chk.size > 0
+        assign we_fp_show_mg = true
+      endif
+    endif
+  -%}
+  {%- if we_fp_show_mg -%}
     <script src="{{ 'media-gallery.js' | asset_url }}" defer="defer"></script>
   {%- endif -%}
 

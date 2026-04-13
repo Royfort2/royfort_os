@@ -27,11 +27,25 @@
     assign show_product_option = settings.pcard_show_color_swatch
   endif
 
-  assign first_media_type = product.featured_media.media_type
-  assign featured_media = product.featured_media
+  assign we_mf_temp_media = product.metafields.custom.we_temp_product_media.value
+  assign we_use_mf_pcard = false
+  if settings.use_metafield_media and we_mf_temp_media != blank and we_mf_temp_media.size > 0
+    assign we_use_mf_pcard = true
+  endif
 
-  if first_media_type == 'model' or first_media_type == 'video'
-    assign featured_media = product.featured_media.preview_image
+  if we_use_mf_pcard
+    assign mf0 = we_mf_temp_media[0]
+    if mf0.preview_image != blank
+      assign mf0 = mf0.preview_image
+    endif
+    assign featured_media = mf0
+    assign first_media_type = 'image'
+  else
+    assign first_media_type = product.featured_media.media_type
+    assign featured_media = product.featured_media
+    if first_media_type == 'model' or first_media_type == 'video'
+      assign featured_media = product.featured_media.preview_image
+    endif
   endif
 
   if product.metafields.foxtheme.landscape_image.value != blank
@@ -50,7 +64,15 @@
   endif
 
   assign second_image = ''
-  if settings.pcard_show_second_img and product.images.size > 1 and product.images[1] != blank
+  if we_use_mf_pcard
+    if settings.pcard_show_second_img and we_mf_temp_media.size > 1
+      assign mf1 = we_mf_temp_media[1]
+      if mf1.preview_image != blank
+        assign mf1 = mf1.preview_image
+      endif
+      assign second_image = mf1
+    endif
+  elsif settings.pcard_show_second_img and product.images.size > 1 and product.images[1] != blank
     assign second_image = product.images[1]
   endif
 

@@ -9,14 +9,31 @@
     assign show_type = settings.pcard_show_type
   endif
 
-  assign first_media_type = product.media.first.media_type
-  assign featured_media = product.featured_media
+  assign we_mf_temp_media = product.metafields.custom.we_temp_product_media.value
+  assign we_use_mf_pcard = false
+  if settings.use_metafield_media and we_mf_temp_media != blank and we_mf_temp_media.size > 0
+    assign we_use_mf_pcard = true
+  endif
+
+  if we_use_mf_pcard
+    assign mf0 = we_mf_temp_media[0]
+    if mf0.preview_image != blank
+      assign mf0 = mf0.preview_image
+    endif
+    assign featured_media = mf0
+    assign first_media_type = 'image'
+  else
+    assign first_media_type = product.media.first.media_type
+    assign featured_media = product.featured_media
+  endif
 
   if image_ratio == blank
     assign image_ratio = settings.pcard_image_ratio | default: '1/1'
   endif
   if image_ratio == 'adapt'
-    if first_media_type == 'video' or first_media_type == 'model'
+    if we_use_mf_pcard
+      assign image_ratio = featured_media.aspect_ratio
+    elsif first_media_type == 'video' or first_media_type == 'model'
       assign image_ratio = product.media.first.preview_image.aspect_ratio
     else
       assign image_ratio = product.featured_media.aspect_ratio

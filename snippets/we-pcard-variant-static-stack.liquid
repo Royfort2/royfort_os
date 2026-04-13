@@ -4,13 +4,107 @@
   @param we_pcard_append_second {Boolean}
   @param we_static_single_image {Boolean} If true, only the first variant image (no second layer). Use for
     swatch preview so theme hover rules do not hide the main image while swatches are hovered.
+  @param variant_color_name {String} Optional. Color option value for metafield alt matching (same as we-pcard-variant-slides).
 {% endcomment %}
 {%- liquid
   assign slide_count = 0
   assign included_ids = ''
   assign we_pcard_append_second = we_pcard_append_second | default: false
   assign we_static_single_image = we_static_single_image | default: false
+  assign we_mf_temp_media = product.metafields.custom.we_temp_product_media.value
+  assign we_mf_static_stack = false
+  if settings.use_metafield_media and we_mf_temp_media != blank and we_mf_temp_media.size > 0
+    assign we_mf_static_stack = true
+  endif
 -%}
+{%- if we_mf_static_stack -%}
+  {%- liquid
+    assign color_key = variant_color_name | default: '' | downcase | strip
+    assign mf_main = blank
+    assign mf_second = blank
+  -%}
+  {%- if color_key != blank -%}
+    {%- for media_item in we_mf_temp_media -%}
+      {%- if mf_main != blank and mf_second != blank -%}
+        {%- break -%}
+      {%- endif -%}
+      {%- liquid
+        assign preview = media_item
+        if media_item.preview_image != blank
+          assign preview = media_item.preview_image
+        endif
+        assign alt_key = preview.alt | default: '' | downcase | strip
+        assign alt_matches = false
+        if alt_key != blank and color_key != blank
+          if alt_key == color_key
+            assign alt_matches = true
+          elsif alt_key contains color_key or color_key contains alt_key
+            assign alt_matches = true
+          endif
+        endif
+      -%}
+      {%- if alt_matches -%}
+        {%- if mf_main == blank -%}
+          {%- assign mf_main = preview -%}
+        {%- elsif mf_second == blank -%}
+          {%- assign mf_second = preview -%}
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+  {%- if mf_main == blank -%}
+    {%- assign mf_fb0 = we_mf_temp_media[0] -%}
+    {%- if mf_fb0.preview_image != blank -%}
+      {%- assign mf_fb0 = mf_fb0.preview_image -%}
+    {%- endif -%}
+    {%- assign mf_main = mf_fb0 -%}
+    {%- if we_mf_temp_media.size > 1 -%}
+      {%- assign mf_fb1 = we_mf_temp_media[1] -%}
+      {%- if mf_fb1.preview_image != blank -%}
+        {%- assign mf_fb1 = mf_fb1.preview_image -%}
+      {%- endif -%}
+      {%- assign mf_second = mf_fb1 -%}
+    {%- endif -%}
+  {%- endif -%}
+  {%- if mf_main != blank -%}
+    {%- assign slide_widths = image_widths | append: ', ' | append: mf_main.width -%}
+    <div
+      class="media-wrapper product-card__image product-card__image--main"
+      style="--aspect-ratio: {{ image_ratio }}"
+    >
+      {{
+        mf_main
+        | image_url: width: mf_main.width
+        | image_tag:
+          loading: loading,
+          fetchpriority: fetchpriority,
+          class: 'motion-reduce',
+          widths: slide_widths,
+          sizes: image_sizes,
+          is: 'image-lazy'
+      }}
+    </div>
+  {%- endif -%}
+  {%- if we_pcard_append_second and mf_second != blank -%}
+    {%- assign slide_widths2 = image_widths | append: ', ' | append: mf_second.width -%}
+    <div
+      class="media-wrapper product-card__image product-card__image--second inset-full hidden md:block"
+      style="--aspect-ratio: {{ image_ratio }}"
+    >
+      {{
+        mf_second
+        | image_url: width: mf_second.width
+        | image_tag:
+          loading: loading,
+          fetchpriority: fetchpriority,
+          class: 'motion-reduce',
+          widths: slide_widths2,
+          sizes: image_sizes,
+          is: 'image-lazy'
+      }}
+    </div>
+  {%- endif -%}
+{%- else -%}
 {%- for media in product.media -%}
   {%- if media.media_type == 'image' -%}
     {%- liquid
@@ -163,4 +257,5 @@
         is: 'image-lazy'
     }}
   </div>
+{%- endif -%}
 {%- endif -%}

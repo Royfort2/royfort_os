@@ -14,6 +14,15 @@
     assign first_media_type = product.media.first.media_type
 
     assign product_thumbnail = product.featured_media
+    assign we_mf_temp_media = product.metafields.custom.we_temp_product_media.value
+    if settings.use_metafield_media and we_mf_temp_media != blank and we_mf_temp_media.size > 0
+      assign mf0 = we_mf_temp_media[0]
+      if mf0.preview_image != blank
+        assign mf0 = mf0.preview_image
+      endif
+      assign product_thumbnail = mf0
+      assign first_media_type = 'image'
+    endif
     assign product_showcase_image = product_thumbnail
     if product.metafields.foxtheme.showcase_image.value != blank
       assign product_showcase_image = product.metafields.foxtheme.showcase_image.value

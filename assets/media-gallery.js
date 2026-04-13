@@ -643,6 +643,7 @@ if (!customElements.get('media-gallery')) {
       setActiveMedia(variant, options = {}) {
         if (!variant) return;
         const { skipColorFilter = false } = options;
+
         if (!skipColorFilter) {
           this.applyColorAltFilter(variant);
         }
@@ -654,7 +655,9 @@ if (!customElements.get('media-gallery')) {
             return;
           }
 
-          if (!variant.featured_media) {
+          const isMetafieldGallery = this.dataset.weMetafieldMedia === 'true';
+
+          if (!variant.featured_media || isMetafieldGallery) {
             this.goToFirstVisibleSlide();
           } else {
             const slideIdx = this.getSlideIndexByMediaId(variant.featured_media.id);

@@ -60,6 +60,26 @@
         assign pdp_set_line_ui_pending = false
       endif
     endif
+
+    assign line_color_option_index = 0
+    if settings.color_swatch_trigger != blank
+      assign trigger_list_cc = settings.color_swatch_trigger | downcase | split: ','
+      for option in product.options_with_values
+        assign opt_name_cc = option.name | downcase | strip
+        assign matched_cc = false
+        for trigger in trigger_list_cc
+          assign tr_cc = trigger | strip
+          if opt_name_cc == tr_cc
+            assign line_color_option_index = option.position
+            assign matched_cc = true
+            break
+          endif
+        endfor
+        if matched_cc
+          break
+        endif
+      endfor
+    endif
   %}
   <script src="{{ 'variant-selects.js' | asset_url }}" defer="defer"></script>
   <variant-selects
@@ -67,6 +87,7 @@
     data-section="{{ section.id }}"
     data-url="{{ product.url }}"
     data-product-id="{{ product.id }}"
+    data-line-color-option-position="{{ line_color_option_index }}"
     data-selected-variant-id="{% if we_active_variant %}{{ we_active_variant.id }}{% endif %}"
     data-update-url="{% if update_url == false %}false{% else %}true{% endif %}"
     data-we-dropdown-meta="true"

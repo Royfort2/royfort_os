@@ -1603,6 +1603,13 @@
     "name": "[we] Custom",
     "settings": [
       {
+        "type": "checkbox",
+        "id": "use_metafield_media",
+        "label": "Use metafield media",
+        "default": false,
+        "info": "If enabled, the media will be loaded from the metafield custom.we_temp_product_media instead of the product.media"
+      },
+      {
         "type": "text",
         "id": "main_colors",
         "label": "Main colors",

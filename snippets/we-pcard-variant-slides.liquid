@@ -6,6 +6,96 @@
   @param we_pcard_append_second {Boolean} Appends product.images[1] when not already included (2-slide UX).
 {% endcomment %}
 {%- liquid
+  assign we_mf_temp_media = product.metafields.custom.we_temp_product_media.value
+  assign we_mf_pcard_slides = false
+  if settings.use_metafield_media and we_mf_temp_media != blank and we_mf_temp_media.size > 0
+    assign we_mf_pcard_slides = true
+  endif
+-%}
+{%- if we_mf_pcard_slides -%}
+  {%- liquid
+    assign color_key = variant_color_name | default: '' | downcase | strip
+    assign slide_count = 0
+  -%}
+  {%- if color_key != blank -%}
+    {%- for media_item in we_mf_temp_media -%}
+      {%- if slide_count >= 2 -%}
+        {%- break -%}
+      {%- endif -%}
+      {%- liquid
+        assign preview = media_item
+        if media_item.preview_image != blank
+          assign preview = media_item.preview_image
+        endif
+        assign alt_key = preview.alt | default: '' | downcase | strip
+        assign alt_matches = false
+        if alt_key != blank and color_key != blank
+          if alt_key == color_key
+            assign alt_matches = true
+          elsif alt_key contains color_key or color_key contains alt_key
+            assign alt_matches = true
+          endif
+        endif
+      -%}
+      {%- if alt_matches -%}
+        {%- assign slide_widths = image_widths | append: ', ' | append: preview.width -%}
+        <div class="swiper-slide" data-media-id="we-mf-{{ slide_count }}">
+          <div
+            class="media-wrapper product-card__image"
+            style="--aspect-ratio: {{ image_ratio }}"
+          >
+            {{
+              preview
+              | image_url: width: preview.width
+              | image_tag:
+                loading: loading,
+                fetchpriority: fetchpriority,
+                class: 'motion-reduce',
+                widths: slide_widths,
+                sizes: image_sizes,
+                is: 'image-lazy'
+            }}
+          </div>
+        </div>
+        {%- assign slide_count = slide_count | plus: 1 -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+  {%- if slide_count == 0 -%}
+    {%- for media_item in we_mf_temp_media -%}
+      {%- if slide_count >= 2 -%}
+        {%- break -%}
+      {%- endif -%}
+      {%- liquid
+        assign preview = media_item
+        if media_item.preview_image != blank
+          assign preview = media_item.preview_image
+        endif
+        assign slide_widths = image_widths | append: ', ' | append: preview.width
+      -%}
+      <div class="swiper-slide" data-media-id="we-mf-{{ slide_count }}">
+        <div
+          class="media-wrapper product-card__image"
+          style="--aspect-ratio: {{ image_ratio }}"
+        >
+          {{
+            preview
+            | image_url: width: preview.width
+            | image_tag:
+              loading: loading,
+              fetchpriority: fetchpriority,
+              class: 'motion-reduce',
+              widths: slide_widths,
+              sizes: image_sizes,
+              is: 'image-lazy'
+          }}
+        </div>
+      </div>
+      {%- assign slide_count = slide_count | plus: 1 -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- else -%}
+{%- liquid
   assign slide_count = 0
   assign included_ids = ''
   assign we_pcard_append_second = we_pcard_append_second | default: false
@@ -189,4 +279,5 @@
       }}
     </div>
   </div>
+{%- endif -%}
 {%- endif -%}

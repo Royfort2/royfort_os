@@ -12,7 +12,16 @@
 
 {%- liquid
   assign vertical_thumbs_always = vertical_thumbs_always | default: false
-  assign media_count = product.media.size
+  assign we_mf_media_list = product.metafields.custom.we_temp_product_media.value
+  assign we_use_metafield_gallery = false
+  if settings.use_metafield_media and we_mf_media_list != blank and we_mf_media_list.size > 0
+    assign we_use_metafield_gallery = true
+  endif
+  if we_use_metafield_gallery
+    assign media_count = we_mf_media_list.size
+  else
+    assign media_count = product.media.size
+  endif
 
   assign color_option_index = 0
   if settings.color_swatch_trigger != blank
@@ -74,6 +83,7 @@
   data-media-item-gap="{{ media_item_gap }}"
   data-color-option-index="{{ color_option_index }}"
   {% if vertical_thumbs_always %}data-vertical-thumbs-always="true"{% endif %}
+  {% if we_use_metafield_gallery %}data-we-metafield-media="true"{% endif %}
   style="--media-item-gap: {{ media_item_gap }}px"
 >
   <div id="GalleryStatus-{{ section.id }}" class="visually-hidden" role="status"></div>
@@ -90,20 +100,37 @@
         class="product__media-list flex swiper-wrapper"
         role="list"
       >
-        {%- for media in product.media -%}
-          {% render 'product-thumbnail',
-            media: media,
-            media_count: media_count,
-            position: forloop.index0,
-            desktop_layout: media_layout,
-            mobile_layout: mobile_thumbnails,
-            enable_image_zoom: enable_image_zoom,
-            loop: section.settings.enable_video_looping,
-            modal_id: section.id,
-            xr_button: true,
-            media_width: media_width
-          %}
-        {%- endfor -%}
+        {%- if we_use_metafield_gallery -%}
+          {%- for media_item in we_mf_media_list -%}
+            {%- assign we_mf_syn_id = 'we-mf-' | append: forloop.index0 -%}
+            {% render 'we-metafield-media-item',
+              product: product,
+              media_item: media_item,
+              synthetic_id: we_mf_syn_id,
+              position: forloop.index0,
+              media_count: media_count,
+              desktop_layout: media_layout,
+              mobile_layout: mobile_thumbnails,
+              enable_image_zoom: enable_image_zoom,
+              media_width: media_width
+            %}
+          {%- endfor -%}
+        {%- else -%}
+          {%- for media in product.media -%}
+            {% render 'product-thumbnail',
+              media: media,
+              media_count: media_count,
+              position: forloop.index0,
+              desktop_layout: media_layout,
+              mobile_layout: mobile_thumbnails,
+              enable_image_zoom: enable_image_zoom,
+              loop: section.settings.enable_video_looping,
+              modal_id: section.id,
+              xr_button: true,
+              media_width: media_width
+            %}
+          {%- endfor -%}
+        {%- endif -%}
       </div>
       {%- if media_count > 1 -%}
         <div class="swiper-pagination product__media-gallery-progress" aria-hidden="true"></div>
@@ -127,54 +154,90 @@
         id="Slider-Thumbnails-{{ section.id }}"
         class="thumbnail-list swiper-wrapper"
       >
-        {%- for media in product.media -%}
-          {%- liquid
-            capture media_index
-              if media.media_type == 'model'
-                increment model_index
-              elsif media.media_type == 'video' or media.media_type == 'external_video'
-                increment video_index
-              elsif media.media_type == 'image'
-                increment image_index
+        {%- if we_use_metafield_gallery -%}
+          {%- for media_item in we_mf_media_list -%}
+            {%- liquid
+              assign we_thumb_preview = media_item
+              if media_item.preview_image != blank
+                assign we_thumb_preview = media_item.preview_image
               endif
-            endcapture
-            assign media_index = media_index | plus: 1
-          -%}
-          <div
-            class="product__thumbs-item swiper-slide"
-            data-target="{{ media.id }}"
-            data-media-position="{{ media_index }}"
-          >
-            <div class="product__thumbs-container medium-blocks-radius media-wrapper">
-              <div
-                class="product__thumbs-inner"
-                style="--aspect-ratio: {% if vertical_thumbs_always %}4 / 5{% else %}1{% endif %}"
-              >
-                {{
-                  media.preview_image
-                  | image_url: width: media.preview_image.width
-                  | image_tag:
-                    loading: 'lazy',
-                    widths: '70, 100, 140, 150, 200, 300, 400',
-                    sizes: '(max-width: 767px) calc((100vw - 30px) / 4), (max-width: 1023px) 70px, 150px',
-                    id: thumbnail_id,
-                    is: 'image-lazy',
-                    alt: media.alt
-                  | escape
-                }}
+              assign we_thumb_w = we_thumb_preview.width | default: 400
+              assign we_syn = 'we-mf-' | append: forloop.index0
+            -%}
+            <div
+              class="product__thumbs-item swiper-slide"
+              data-target="{{ we_syn }}"
+              data-media-position="{{ forloop.index }}"
+            >
+              <div class="product__thumbs-container medium-blocks-radius media-wrapper">
+                <div
+                  class="product__thumbs-inner"
+                  style="--aspect-ratio: {% if vertical_thumbs_always %}4 / 5{% else %}1{% endif %}"
+                >
+                  {{
+                    we_thumb_preview
+                    | image_url: width: we_thumb_w
+                    | image_tag:
+                      loading: 'lazy',
+                      widths: '70, 100, 140, 150, 200, 300, 400',
+                      sizes: '(max-width: 767px) calc((100vw - 30px) / 4), (max-width: 1023px) 70px, 150px',
+                      is: 'image-lazy',
+                      alt: we_thumb_preview.alt
+                  }}
+                </div>
               </div>
-              {%- if media.media_type == 'model' -%}
-                <span class="product__thumbs-badge" aria-hidden="true">
-                  {%- render 'icon-3d-model', size: 'small' -%}
-                </span>
-              {%- elsif media.media_type == 'video' or media.media_type == 'external_video' -%}
-                <span class="product__thumbs-badge" aria-hidden="true">
-                  {%- render 'icon-video', size: 'small' -%}
-                </span>
-              {%- endif -%}
             </div>
-          </div>
-        {%- endfor -%}
+          {%- endfor -%}
+        {%- else -%}
+          {%- for media in product.media -%}
+            {%- liquid
+              capture media_index
+                if media.media_type == 'model'
+                  increment model_index
+                elsif media.media_type == 'video' or media.media_type == 'external_video'
+                  increment video_index
+                elsif media.media_type == 'image'
+                  increment image_index
+                endif
+              endcapture
+              assign media_index = media_index | plus: 1
+            -%}
+            <div
+              class="product__thumbs-item swiper-slide"
+              data-target="{{ media.id }}"
+              data-media-position="{{ media_index }}"
+            >
+              <div class="product__thumbs-container medium-blocks-radius media-wrapper">
+                <div
+                  class="product__thumbs-inner"
+                  style="--aspect-ratio: {% if vertical_thumbs_always %}4 / 5{% else %}1{% endif %}"
+                >
+                  {{
+                    media.preview_image
+                    | image_url: width: media.preview_image.width
+                    | image_tag:
+                      loading: 'lazy',
+                      widths: '70, 100, 140, 150, 200, 300, 400',
+                      sizes: '(max-width: 767px) calc((100vw - 30px) / 4), (max-width: 1023px) 70px, 150px',
+                      id: thumbnail_id,
+                      is: 'image-lazy',
+                      alt: media.alt
+                    | escape
+                  }}
+                </div>
+                {%- if media.media_type == 'model' -%}
+                  <span class="product__thumbs-badge" aria-hidden="true">
+                    {%- render 'icon-3d-model', size: 'small' -%}
+                  </span>
+                {%- elsif media.media_type == 'video' or media.media_type == 'external_video' -%}
+                  <span class="product__thumbs-badge" aria-hidden="true">
+                    {%- render 'icon-video', size: 'small' -%}
+                  </span>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        {%- endif -%}
       </div>
     </div>
   {%- endif -%}

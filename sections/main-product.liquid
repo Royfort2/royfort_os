@@ -6,16 +6,22 @@
   assign enable_image_zoom = section.settings.enable_image_zoom | default: false
   assign enable_sticky_info = section.settings.enable_sticky_info
 
+  assign we_mf_list_top = product.metafields.custom.we_temp_product_media.value
+  assign we_effective_media_count = product.media.size
+  if settings.use_metafield_media and we_mf_list_top != blank and we_mf_list_top.size > 0
+    assign we_effective_media_count = we_mf_list_top.size
+  endif
+
   assign product_class = 'product--' | append: section.settings.media_size
   assign product_class = product_class | append: ' product--' | append: media_layout
-  assign product_class = product_class | append: ' product--media-has-' | append: product.media.size
-  if product.media.size > 1
+  assign product_class = product_class | append: ' product--media-has-' | append: we_effective_media_count
+  if we_effective_media_count > 1
     assign product_class = product_class | append: ' product--media-has-many'
   endif
 
   case media_layout
     when 'grid-mix'
-      assign media_modulo = product.media.size | modulo: 3
+      assign media_modulo = we_effective_media_count | modulo: 3
       if media_modulo == 2
         assign product_class = product_class | append: ' product--odd-media'
       endif
@@ -644,8 +650,17 @@
   <script src="{{ 'we-quantity-selector-cap.js' | asset_url }}" defer="defer"></script>
 
   {% assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src' %}
+  {%- liquid
+    assign we_show_gallery = false
+    if product.media.size > 0
+      assign we_show_gallery = true
+    endif
+    if settings.use_metafield_media and we_mf_list_top != blank and we_mf_list_top.size > 0
+      assign we_show_gallery = true
+    endif
+  -%}
   <div class="product flex flex-wrap {{ product_class }}">
-    {%- if product.media.size > 0 -%}
+    {%- if we_show_gallery -%}
       <motion-element data-motion="fade-up" data-motion-delay="50" class="product__media-wrapper w-full relative">
         {% render 'product-media-gallery',
           enable_sticky_info: enable_sticky_info,
@@ -669,7 +684,7 @@
     <script src="{{ 'photoswipe.js' | asset_url }}" defer="defer"></script>
   {%- endif -%}
 
-  {%- if product.media.size > 0 -%}
+  {%- if we_show_gallery -%}
     <script src="{{ 'media-gallery.js' | asset_url }}" defer="defer"></script>
   {%- endif -%}
 

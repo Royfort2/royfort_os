@@ -20,6 +20,23 @@
       endif
     endfor
   endif
+  assign we_pcard_color_for_media = gallery_color_name
+  if we_pcard_color_for_media == blank
+    assign swatch_trigger_opt2 = settings.color_swatch_trigger | downcase
+    for option in product.options_with_values
+      assign option_name = option.name | downcase
+      assign is_color_opt2 = false
+      if swatch_trigger_opt2 contains option_name
+        assign is_color_opt2 = true
+      elsif swatch_trigger_opt2 contains 'color' and option_name contains 'colour'
+        assign is_color_opt2 = true
+      endif
+      if is_color_opt2
+        assign we_pcard_color_for_media = swiper_variant.options[forloop.index0]
+        break
+      endif
+    endfor
+  endif
   assign compare_at_price = variant.compare_at_price
   assign price = variant.price
   assign on_sale = false
@@ -47,11 +64,67 @@
     assign show_product_option = settings.pcard_show_color_swatch
   endif
 
-  assign first_media_type = product.featured_media.media_type
-  assign featured_media = product.featured_media
+  assign we_mf_temp_media = product.metafields.custom.we_temp_product_media.value
+  assign we_use_mf_pcard = false
+  if settings.use_metafield_media and we_mf_temp_media != blank and we_mf_temp_media.size > 0
+    assign we_use_mf_pcard = true
+  endif
 
-  if first_media_type == 'model' or first_media_type == 'video'
-    assign featured_media = product.featured_media.preview_image
+  if we_use_mf_pcard
+    assign color_key_fc = we_pcard_color_for_media | default: '' | downcase | strip
+    assign mf_pick_count = 0
+    assign mf_pick_0 = blank
+    assign mf_pick_1 = blank
+    if color_key_fc != blank
+      for media_item in we_mf_temp_media
+        if mf_pick_count >= 2
+          break
+        endif
+        assign preview_mf = media_item
+        if media_item.preview_image != blank
+          assign preview_mf = media_item.preview_image
+        endif
+        assign alt_key_fc = preview_mf.alt | default: '' | downcase | strip
+        assign alt_matches_fc = false
+        if alt_key_fc != blank and color_key_fc != blank
+          if alt_key_fc == color_key_fc
+            assign alt_matches_fc = true
+          elsif alt_key_fc contains color_key_fc or color_key_fc contains alt_key_fc
+            assign alt_matches_fc = true
+          endif
+        endif
+        if alt_matches_fc
+          if mf_pick_count == 0
+            assign mf_pick_0 = preview_mf
+          elsif mf_pick_count == 1
+            assign mf_pick_1 = preview_mf
+          endif
+          assign mf_pick_count = mf_pick_count | plus: 1
+        endif
+      endfor
+    endif
+    if mf_pick_count == 0
+      assign mf_fb0 = we_mf_temp_media[0]
+      if mf_fb0.preview_image != blank
+        assign mf_fb0 = mf_fb0.preview_image
+      endif
+      assign mf_pick_0 = mf_fb0
+      if we_mf_temp_media.size > 1
+        assign mf_fb1 = we_mf_temp_media[1]
+        if mf_fb1.preview_image != blank
+          assign mf_fb1 = mf_fb1.preview_image
+        endif
+        assign mf_pick_1 = mf_fb1
+      endif
+    endif
+    assign featured_media = mf_pick_0
+    assign first_media_type = 'image'
+  else
+    assign first_media_type = product.featured_media.media_type
+    assign featured_media = product.featured_media
+    if first_media_type == 'model' or first_media_type == 'video'
+      assign featured_media = product.featured_media.preview_image
+    endif
   endif
 
   if image_ratio == blank
@@ -77,7 +150,11 @@
   endif
 
   assign second_image = ''
-  if use_swiper_effective == false and settings.pcard_show_second_img and product.images.size > 1 and product.images[1] != blank
+  if we_use_mf_pcard
+    if use_swiper_effective == false and settings.pcard_show_second_img and mf_pick_1 != blank
+      assign second_image = mf_pick_1
+    endif
+  elsif use_swiper_effective == false and settings.pcard_show_second_img and product.images.size > 1 and product.images[1] != blank
     assign second_image = product.images[1]
   endif
 
@@ -137,8 +214,12 @@
   assign show_reviews = show_reviews | default: false
 
   assign we_pcard_append_second = false
-  if use_swiper_effective and product.images.size > 1
-    assign we_pcard_append_second = true
+  if use_swiper_effective
+    if we_use_mf_pcard and we_mf_temp_media.size > 1
+      assign we_pcard_append_second = true
+    elsif product.images.size > 1
+      assign we_pcard_append_second = true
+    endif
   endif
 
   assign we_static_swatch_preview = false
@@ -147,7 +228,11 @@
   endif
 
   assign we_static_append_second = false
-  if settings.pcard_show_second_img and product.images.size > 1 and product.images[1] != blank
+  if we_use_mf_pcard
+    if settings.pcard_show_second_img and we_mf_temp_media.size > 1
+      assign we_static_append_second = true
+    endif
+  elsif settings.pcard_show_second_img and product.images.size > 1 and product.images[1] != blank
     assign we_static_append_second = true
   endif
 
@@ -185,7 +270,7 @@
                   {%- render 'we-pcard-variant-slides',
                     product: product,
                     variant: swiper_variant,
-                    variant_color_name: gallery_color_name,
+                    variant_color_name: we_pcard_color_for_media,
                     image_ratio: image_ratio,
                     image_widths: image_widths,
                     image_sizes: image_sizes,
@@ -265,7 +350,7 @@
                 {%- render 'we-pcard-variant-slides',
                   product: product,
                   variant: swiper_variant,
-                  variant_color_name: gallery_color_name,
+                  variant_color_name: we_pcard_color_for_media,
                   image_ratio: image_ratio,
                   image_widths: image_widths,
                   image_sizes: image_sizes,
@@ -294,6 +379,7 @@
                 {%- render 'we-pcard-variant-static-stack',
                   product: product,
                   variant: product.selected_or_first_available_variant,
+                  variant_color_name: we_pcard_color_for_media,
                   image_ratio: image_ratio,
                   image_widths: image_widths,
                   image_sizes: image_sizes,
@@ -344,6 +430,7 @@
                       {%- render 'we-pcard-variant-static-stack',
                         product: product,
                         variant: variant,
+                        variant_color_name: value,
                         image_ratio: image_ratio,
                         image_widths: image_widths,
                         image_sizes: image_sizes,

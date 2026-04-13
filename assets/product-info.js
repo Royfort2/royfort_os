@@ -92,10 +92,33 @@ if (!customElements.get('product-info')) {
       }
 
       /**
+       * Bundle (set) PDP: gallery uses the main product variant; the first `variant-selects` in the DOM
+       * is often an embedded line-product picker whose `data-selected-variant` is a line variant — wrong
+       * `optionN` keys for `applyColorAltFilter` on the bundle media gallery (including metafield images).
+       */
+      getBundleVariantForGallery(productInfoNode) {
+        const variants = this._getMainProductVariantsFromDom();
+        if (!variants?.length) return null;
+        const sid = this.dataset?.section;
+        if (!sid) return null;
+        const form =
+          productInfoNode.querySelector(`#product-form-${sid}`) ||
+          productInfoNode.querySelector('form[is="product-form"]');
+        const input = form?.querySelector?.('input[name="id"].product-variant-id');
+        const vid = input?.value?.trim();
+        if (!vid) return null;
+        return variants.find((x) => String(x.id) === String(vid)) || null;
+      }
+
+      /**
        * Selected variant from [data-selected-variant], or first available from [data-pdp-bootstrap-variant]
        * when the picker is still pending (null JSON) or as fallback if no variant is in the URL.
        */
       getInitialVariantForGallery(productInfoNode) {
+        if (this._isPdpSetBundleForm()) {
+          const bundleVariant = this.getBundleVariantForGallery(productInfoNode);
+          if (bundleVariant) return bundleVariant;
+        }
         const selected = this.getSelectedVariant(productInfoNode);
         if (selected) return selected;
         const root = productInfoNode.querySelector('variant-selects');
@@ -436,9 +459,29 @@ if (!customElements.get('product-info')) {
         const colorIdx = parseInt(productMedia.dataset?.colorOptionIndex, 10) || 0;
         if (colorIdx < 1) return;
 
-        const selected = this._getSelectedOptionValuesFromVariantSelects(variantSelectsEl);
-        const colorValue = selected[colorIdx - 1];
-        if (colorValue == null || String(colorValue).trim() === '') return;
+        const lineColorPos = parseInt(variantSelectsEl.dataset?.lineColorOptionPosition, 10) || 0;
+        let colorValue = '';
+        const rawSv = variantSelectsEl.querySelector('[data-selected-variant]')?.textContent?.trim();
+        let lineVariant = null;
+        if (rawSv) {
+          try {
+            lineVariant = JSON.parse(rawSv);
+          } catch {
+            lineVariant = null;
+          }
+        }
+        if (lineVariant && lineColorPos > 0) {
+          const lv = lineVariant[`option${lineColorPos}`];
+          if (lv != null && String(lv).trim() !== '') {
+            colorValue = String(lv).trim();
+          }
+        }
+        if (!colorValue) {
+          const selected = this._getSelectedOptionValuesFromVariantSelects(variantSelectsEl);
+          const cv = selected[colorIdx - 1];
+          if (cv == null || String(cv).trim() === '') return;
+          colorValue = String(cv).trim();
+        }
 
         const variants = this._getMainProductVariantsFromDom();
         if (!variants?.length) return;
