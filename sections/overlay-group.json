@@ -40,24 +40,18 @@
           "type": "price",
           "settings": {}
         },
-        "inventory": {
-          "type": "inventory",
-          "settings": {
-            "text_style": "body",
-            "inventory_threshold": 10,
-            "show_inventory_quantity": true
-          }
-        },
-        "variant_picker": {
-          "type": "variant_picker",
+        "we_variant_picker_D4q7Fr": {
+          "type": "we_variant_picker",
           "settings": {
             "set_picker_title": "Im selben Set",
+            "select_variant_text": "Größe auswählen",
             "picker_type": "custom_dropdown",
             "swatch_type": "color_swatch",
             "button_style": "standard",
             "button_size": 40,
-            "size_title": "",
-            "size_chart_from_page": ""
+            "size_title": "Size",
+            "size_chart_from_page": "",
+            "dropdown_low_inventory_threshold": 5
           }
         },
         "buy_buttons": {
@@ -72,8 +66,7 @@
       "block_order": [
         "title",
         "price",
-        "inventory",
-        "variant_picker",
+        "we_variant_picker_D4q7Fr",
         "buy_buttons"
       ],
       "settings": {
