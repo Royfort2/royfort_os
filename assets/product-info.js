@@ -211,6 +211,12 @@ if (!customElements.get('product-info')) {
         this.postProcessHtmlCallbacks.push((newNode) => {
           window?.Shopify?.PaymentButton?.init();
           window?.ProductModel?.loadShopifyXR();
+          if (
+            typeof window.initWeVariantDropdownMeta === 'function' &&
+            newNode?.matches?.('variant-selects[data-we-dropdown-meta]')
+          ) {
+            window.initWeVariantDropdownMeta(newNode);
+          }
         });
       }
 
@@ -605,6 +611,9 @@ if (!customElements.get('product-info')) {
               const vsRoot = variantSelectsId ? document.getElementById(variantSelectsId) : null;
               if (typeof window.initWeDetailsSelects === 'function' && vsRoot) {
                 window.initWeDetailsSelects(vsRoot);
+              }
+              if (typeof window.initWeVariantDropdownMeta === 'function' && vsRoot) {
+                window.initWeVariantDropdownMeta(vsRoot);
               }
               const revealAfterInit =
                 shouldRevealQty ||

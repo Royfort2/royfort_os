@@ -30,6 +30,9 @@
     data-product-id="{{ product.id }}"
     data-selected-variant-id="{% if product.selected_variant %}{{ product.selected_variant.id }}{% endif %}"
     data-update-url="{% if update_url == false %}false{% else %}true{% endif %}"
+    data-we-dropdown-meta="true"
+    data-we-low-stock-threshold="{{ block.settings.dropdown_low_inventory_threshold | default: 5 }}"
+    data-sold-out-label="{{ 'products.product.sold_out' | t | escape }}"
   >
     {%- for option in product.options_with_values -%}
       {%- liquid
@@ -184,6 +187,7 @@
               <details
                 class="we-select-container {% if product.selected_variant.id == blank and product.metafields.custom.pdp_option_for_quantity_selector == option.name %}we-select-container--placeholder{% endif %}"
                 data-radio-group-name="{{ opt_radio_name | escape }}"
+                data-we-option-position="{{ option.position }}"
               >
                 <summary class="we-select-container__summary">
                   {% if product.selected_variant.id == blank and product.metafields.custom.pdp_option_for_quantity_selector == option.name %}
@@ -228,8 +232,21 @@
                               class="disabled"
                             {% endif %}
                           >
-                          <label for="{{ id_ns }}-{{ option.position }}-{{ forloop.index0 }}">
-                            {{ value }}
+                          <label
+                            class="we-select__label we-select__label--with-meta"
+                            for="{{ id_ns }}-{{ option.position }}-{{ forloop.index0 }}"
+                          >
+                            <span class="we-select__label-primary">
+                              <span class="we-select__value-text">{{ value }}</span>
+                            </span>
+                            <span class="we-select__meta" hidden>
+                              <span class="we-select__price-block"></span>
+                              <span
+                                class="we-select__stock-marker"
+                                data-stock-level=""
+                                aria-hidden="true"
+                              ></span>
+                            </span>
                           </label>
                         </div>
                       {% endfor %}

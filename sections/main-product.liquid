@@ -380,11 +380,11 @@
     margin-top: 0 !important;
   }
 
-  .pdp-set-zwischensumme {
+  /* .pdp-set-zwischensumme {
     margin-top: 2.4rem;
     padding-top: 2rem;
     border-top: 0.1rem solid rgb(var(--color-border));
-  }
+  } */
   .pdp-set-zwischensumme__header {
     display: flex;
     flex-wrap: wrap;
@@ -667,6 +667,7 @@
   <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'we-main-product-related.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'we-details-select.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'we-variant-dropdown-meta.js' | asset_url }}" defer="defer"></script>
 
   {% assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src' %}
   <div class="product flex flex-wrap {{ product_class }}">
@@ -839,6 +840,22 @@
         {
           "type": "paragraph",
           "content": "t:sections.main-product.blocks.variant_picker.settings.size_chart.paragraph_2.content"
+        },
+        {
+          "type": "header",
+          "content": "[we] Custom dropdown variant info",
+          "visible_if": "{{ block.settings.picker_type == 'dropdown' or block.settings.picker_type == 'custom_dropdown' }}"
+        },
+        {
+          "type": "range",
+          "id": "dropdown_low_inventory_threshold",
+          "min": 1,
+          "max": 100,
+          "step": 1,
+          "default": 5,
+          "label": "Low inventory threshold",
+          "info": "When inventory is tracked and quantity is at or below this number, the dropdown shows a yellow stock marker. Higher stock shows green; sold out shows red.",
+          "visible_if": "{{ block.settings.picker_type == 'dropdown' or block.settings.picker_type == 'custom_dropdown' }}"
         }
       ]
     },

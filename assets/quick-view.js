@@ -97,6 +97,9 @@ if (!customElements.get('quick-view-modal')) {
             if (typeof window.initWeDetailsSelects === 'function') {
               window.initWeDetailsSelects(drawerContent);
             }
+            if (typeof window.initWeVariantDropdownMeta === 'function') {
+              window.initWeVariantDropdownMeta(drawerContent);
+            }
             document.dispatchEvent(new CustomEvent('pdp-set:bind-bundle-forms', { bubbles: true }));
 
             document.dispatchEvent(

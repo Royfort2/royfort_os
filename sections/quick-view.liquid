@@ -427,6 +427,7 @@
           <script src="{{ 'product-form-line-items.js' | asset_url }}" defer="defer"></script>
           <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
           <script src="{{ 'we-details-select.js' | asset_url }}" defer="defer"></script>
+          <script src="{{ 'we-variant-dropdown-meta.js' | asset_url }}" defer="defer"></script>
 
           {% assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src' %}
           <product-info

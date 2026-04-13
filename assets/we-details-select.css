@@ -372,3 +372,96 @@ details.we-select-container .we-select-container__summary:hover {
     animation: none !important;
   }
 }
+
+/* [we] Dropdown rows: option label + price + stock marker (we-product-variant-picker) */
+.we-select__label.we-select__label--with-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.we-select__label-primary {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.we-select__value-text--unavailable {
+  text-decoration: line-through;
+  color: #525252;
+}
+
+.we-select__meta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.8rem;
+  flex: 0 0 auto;
+  max-width: 55%;
+  font-size: 0.92em;
+}
+
+.we-select__price-block {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  text-align: right;
+}
+
+.we-select__compare-at {
+  color: #525252;
+}
+
+.we-select__current-price {
+  font-weight: 600;
+  color: rgb(var(--color-foreground));
+}
+
+.we-select__current-price--sale {
+  color: rgb(var(--color-link));
+}
+
+.we-select__soldout {
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-size: 0.9em;
+  color: #525252;
+}
+
+.we-select__price-placeholder {
+  color: rgba(var(--color-foreground), 0.35);
+}
+
+.we-select__stock-marker {
+  display: inline-block;
+  width: 0.4rem;
+  height: 0.4rem;
+  flex: 0 0 auto;
+  border-radius: 1px;
+  background: transparent;
+}
+
+.we-select__stock-marker[data-stock-level='ok'] {
+  background: #16A34A;
+}
+
+.we-select__stock-marker[data-stock-level='low'] {
+  background: #FCC44A;
+}
+
+.we-select__stock-marker[data-stock-level='out'] {
+  background: #DC2626;
+}
+
+/* Do not use :empty — the marker is always an empty span; hide only before JS sets a level. */
+.we-select__stock-marker:not([data-stock-level]),
+.we-select__stock-marker[data-stock-level=''] {
+  display: none;
+}

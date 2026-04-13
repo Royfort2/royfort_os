@@ -328,7 +328,8 @@
         this.value = that.value;
       }
 
-      summary.innerHTML = label.innerHTML;
+      const primary = label.querySelector('.we-select__label-primary');
+      summary.innerHTML = primary ? primary.innerHTML : label.innerHTML;
       summary.setAttribute('aria-label', `${that.value}, listbox ${pos} of ${this.options.length}`);
 
       this.options.forEach((opt) => {
