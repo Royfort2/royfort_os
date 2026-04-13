@@ -1062,3 +1062,27 @@ layout-switcher .btn::after {
 .quick-view .product--vertical-carousel:not(.product--media-has-1) .product__media-item {
     width: 100%;
 }
+
+.we-variant-picker__dropdown-container {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.we-variant-picker__dropdown-container:has(.we-select-container--placeholder) {
+    gap: 0;
+}
+
+.we-variant-picker__dropdown-container .we-select-container {
+    flex: 1;
+}
+
+.we-quantity-selector {
+    width: 8rem;
+    opacity: 1;
+    transition: all 0.3s ease-in-out;
+}
+
+.we-select-container--placeholder+.we-quantity-selector {
+    opacity: 0;
+    width: 0;
+}

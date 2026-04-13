@@ -331,6 +331,154 @@
       ]
     },
     {
+      "type": "we_variant_picker",
+      "name": "[we] Variant picker",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "set_picker_title",
+          "label": "[we] Set picker title",
+          "default": "Im selben Set"
+        },
+        {
+          "type": "text",
+          "id": "select_variant_text",
+          "label": "[we] Select variant text",
+          "default": "Größe auswählen"
+        },
+        {
+          "type": "paragraph",
+          "content": "[Read How-to](https://foxecom.link/jLsoigX)"
+        },
+        {
+          "type": "select",
+          "id": "picker_type",
+          "options": [
+            {
+              "value": "dropdown",
+              "label": "t:sections.main-product.blocks.variant_picker.settings.picker_type.options__1.label"
+            },
+            {
+              "value": "button",
+              "label": "t:sections.main-product.blocks.variant_picker.settings.picker_type.options__2.label"
+            },
+            {
+              "value": "custom_dropdown",
+              "label": "[we] Custom dropdown"
+            }
+          ],
+          "default": "custom_dropdown",
+          "label": "t:sections.main-product.blocks.variant_picker.settings.picker_type.label"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.main-product.blocks.variant_picker.settings.header__color_swatches.content",
+          "info": "t:sections.main-product.blocks.variant_picker.settings.header__color_swatches.paragraph.content",
+          "visible_if": "{{ block.settings.picker_type == 'button' or block.settings.picker_type == 'custom_dropdown' }}"
+        },
+        {
+          "type": "select",
+          "id": "swatch_type",
+          "options": [
+            {
+              "value": "color_swatch",
+              "label": "t:sections.main-product.blocks.variant_picker.settings.swatch_type.options__1.label"
+            },
+            {
+              "value": "variant_image",
+              "label": "t:sections.main-product.blocks.variant_picker.settings.swatch_type.options__2.label"
+            },
+            {
+              "value": "shopify_swatch",
+              "label": "t:sections.main-product.blocks.variant_picker.settings.swatch_type.options__3.label"
+            },
+            {
+              "value": "text",
+              "label": "t:sections.main-product.blocks.variant_picker.settings.swatch_type.options__4.label"
+            }
+          ],
+          "default": "color_swatch",
+          "label": "t:sections.main-product.blocks.variant_picker.settings.swatch_type.label",
+          "visible_if": "{{ block.settings.picker_type == 'button' or block.settings.picker_type == 'custom_dropdown' }}"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "options": [
+            {
+              "value": "standard",
+              "label": "t:sections.main-product.blocks.variant_picker.settings.button_style.options__1.label"
+            },
+            {
+              "value": "circle",
+              "label": "t:sections.main-product.blocks.variant_picker.settings.button_style.options__2.label"
+            },
+            {
+              "value": "square",
+              "label": "t:sections.main-product.blocks.variant_picker.settings.button_style.options__3.label"
+            }
+          ],
+          "default": "standard",
+          "label": "t:sections.main-product.blocks.variant_picker.settings.button_style.label",
+          "visible_if": "{{ block.settings.picker_type == 'button' or block.settings.picker_type == 'custom_dropdown' }}"
+        },
+        {
+          "type": "range",
+          "id": "button_size",
+          "label": "t:sections.main-product.blocks.variant_picker.settings.button_size.label",
+          "min": 20,
+          "max": 128,
+          "step": 2,
+          "default": 40,
+          "unit": "px",
+          "visible_if": "{{ block.settings.picker_type == 'button' or block.settings.picker_type == 'custom_dropdown' }}"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.main-product.blocks.variant_picker.settings.size_chart.content"
+        },
+        {
+          "type": "text",
+          "id": "size_title",
+          "default": "Size",
+          "label": "t:sections.main-product.blocks.variant_picker.settings.size_chart.form_option_title.label",
+          "info": "t:sections.main-product.blocks.variant_picker.settings.size_chart.form_option_title.info"
+        },
+        {
+          "type": "page",
+          "id": "size_chart_from_page",
+          "label": "t:sections.main-product.blocks.variant_picker.settings.size_chart.from_page.label",
+          "info": "t:sections.main-product.blocks.variant_picker.settings.size_chart.from_page.info"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.main-product.blocks.variant_picker.settings.size_chart.custom.content",
+          "info": "t:sections.main-product.blocks.variant_picker.settings.size_chart.custom.info"
+        },
+        {
+          "type": "paragraph",
+          "content": "t:sections.main-product.blocks.variant_picker.settings.size_chart.paragraph_2.content"
+        },
+        {
+          "type": "header",
+          "content": "[we] Custom dropdown variant info",
+          "visible_if": "{{ block.settings.picker_type == 'dropdown' or block.settings.picker_type == 'custom_dropdown' }}"
+        },
+        {
+          "type": "range",
+          "id": "dropdown_low_inventory_threshold",
+          "min": 1,
+          "max": 100,
+          "step": 1,
+          "default": 5,
+          "label": "Low inventory threshold",
+          "info": "When inventory is tracked and quantity is at or below this number, the dropdown shows a yellow stock marker. Higher stock shows green; sold out shows red.",
+          "visible_if": "{{ block.settings.picker_type == 'dropdown' or block.settings.picker_type == 'custom_dropdown' }}"
+        }
+      ]
+    },
+    {
       "type": "variant_picker",
       "name": "t:sections.main-product.blocks.variant_picker.name",
       "limit": 1,
