@@ -3,6 +3,8 @@ if (!customElements.get('product-info')) {
     'product-info',
     class ProductInfo extends HTMLElement {
       abortController = undefined;
+      /** Mobile PDP: restore window scroll after variant section fetch (gallery reflow can jump the viewport). */
+      _pendingScrollRestoreY = null;
       /** Last variant used for gallery color filtering (quick view: detect color-only changes). */
       _lastGalleryVariant = null;
       pendingRequestUrl = null;
@@ -807,11 +809,32 @@ if (!customElements.get('product-info')) {
           .then((responseText) => {
             this.pendingRequestUrl = null;
             const html = new DOMParser().parseFromString(responseText, 'text/html');
+            const viewMode = this.dataset.viewMode || 'main-product';
+            const preserveScroll =
+              viewMode === 'main-product' &&
+              typeof FoxTheme !== 'undefined' &&
+              FoxTheme.config?.mqlMobile === true;
+            const scrollYBefore = preserveScroll ? window.scrollY : null;
+
             callback(html);
+
+            if (scrollYBefore != null) {
+              this._pendingScrollRestoreY = scrollYBefore;
+            }
           })
           .then(() => {
             /* Default focus() scrolls the target into view — on set PDPs that yanks the page toward the pickers on every fetch. */
             if (targetId) document.getElementById(targetId)?.focus({ preventScroll: true });
+
+            if (this._pendingScrollRestoreY == null) return;
+            const y = this._pendingScrollRestoreY;
+            this._pendingScrollRestoreY = null;
+            requestAnimationFrame(() => {
+              window.scrollTo(0, y);
+              requestAnimationFrame(() => {
+                window.scrollTo(0, y);
+              });
+            });
           })
           .catch((error) => {
             if (error.name === 'AbortError') {
