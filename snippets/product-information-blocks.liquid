@@ -7,15 +7,30 @@
     assign title_tag = 'h2'
   endif
 
+  assign blocks_render_mode = blocks_render_mode | default: 'all'
+  assign compact_header_wrapper = compact_header_wrapper | default: false
 -%}
-<div
-  id="ProductInfo-{{ section.id }}"
-  data-section="{{ section.id }}"
-  data-url="{{ product.url }}"
-  class="product__info-container{% if enable_sticky_info %} sticky-element{% endif %}"
->
+{%- if blocks_render_mode == 'title_price_only' and compact_header_wrapper -%}
+  <div class="quick-view__product-heading w-full">
+{%- else -%}
+  <div
+    id="ProductInfo-{{ section.id }}"
+    data-section="{{ section.id }}"
+    data-url="{{ product.url }}"
+    class="product__info-container{% if enable_sticky_info %} sticky-element{% endif %}"
+  >
+{%- endif -%}
   <div class="product__blocks accordion-parent">
     {%- for block in section.blocks -%}
+      {%- if blocks_render_mode == 'title_price_only' -%}
+        {%- unless block.type == 'title' or block.type == 'price' -%}
+          {%- continue -%}
+        {%- endunless -%}
+      {%- elsif blocks_render_mode == 'exclude_title_price' -%}
+        {%- if block.type == 'title' or block.type == 'price' -%}
+          {%- continue -%}
+        {%- endif -%}
+      {%- endif -%}
       {%- case block.type -%}
         {%- when '@app' -%}
           <div class="product__block product__block--{{ block.type }}">
@@ -1453,7 +1468,7 @@
       {%- endcase -%}
     {%- endfor -%}
   </div>
-  {%- if show_details_link == true -%}
+  {%- if show_details_link == true and blocks_render_mode != 'title_price_only' -%}
     <a
       {% if product == blank %}
         role="link" aria-disabled="true"
@@ -1466,4 +1481,8 @@
       {% render 'icon-caret' %}
     </a>
   {%- endif -%}
-</div>
+{%- if blocks_render_mode == 'title_price_only' and compact_header_wrapper -%}
+  </div>
+{%- else -%}
+  </div>
+{%- endif -%}

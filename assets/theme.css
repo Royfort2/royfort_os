@@ -3630,14 +3630,26 @@ input:is([type=radio])::after {
   padding: var(--quick-view-gap) var(--quick-view-gap) 0;
   flex-direction: column;
   flex-wrap: nowrap;
+  /* Cap spacing between title strip, gallery, and info (global .product uses large --product-gap). */
+  gap: min(1.6rem, var(--quick-view-gap));
+  justify-content: flex-start;
+  align-items: stretch;
   opacity: 0;
   height: 100%;
+  min-height: 0;
   position: relative;
 }
 .quick-view .product__media-wrapper {
   width: 100% !important;
   max-width: 100% !important;
+  flex: 0 0 auto;
   flex-shrink: 0;
+  margin-top: 0;
+  min-height: 0;
+}
+.quick-view .product__media-gallery,
+.quick-view .product__media-gallery-viewer-wrap {
+  min-height: 0;
 }
 .quick-view .product__info-wrapper {
   width: 100% !important;

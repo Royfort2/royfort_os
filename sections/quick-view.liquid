@@ -43,6 +43,25 @@
         <template id="MainProduct-quick-view__content">
           {{ 'we-details-select.css' | asset_url | stylesheet_tag }}
           {% style %}
+            .quick-view__product-heading {
+              flex: 0 0 auto;
+              width: 100%;
+              padding: 0;
+            }
+            .quick-view__product-heading .product__blocks {
+              display: flex;
+              flex-direction: column;
+              gap: 0.4rem;
+            }
+            .quick-view__product-heading .product__block {
+              margin-block: 0 !important;
+            }
+            .quick-view__product-heading .product__block--title {
+              margin: 0 !important;
+            }
+            .quick-view__product-heading .product__block--price {
+              margin: 0 !important;
+            }
             .product-form__input:not(:first-child) {
               margin-top: 1.2rem !important;
             }
@@ -444,6 +463,14 @@
                 {{- product.variants | json -}}
               </script>
             {%- endunless -%}
+            {% render 'product-information-blocks',
+              section: section,
+              update_browser_history: false,
+              show_details_link: false,
+              context: 'quick-view',
+              blocks_render_mode: 'title_price_only',
+              compact_header_wrapper: true
+            %}
             <div class="product__media-wrapper w-full relative">
               {% render 'product-media-gallery',
                 media_layout: media_layout,
@@ -458,7 +485,8 @@
                 section: section,
                 update_browser_history: false,
                 show_details_link: true,
-                context: 'quick-view'
+                context: 'quick-view',
+                blocks_render_mode: 'exclude_title_price'
               %}
             </div>
           </product-info>
