@@ -48,13 +48,13 @@
         assign is_section_fetch = true
       endif
       if pdp_qty_embedded_picker
-        if product.selected_variant != blank or pdp_set_line_variant_from_bundle != blank
+        if request.query_string contains 'variant='
           assign pdp_qty_selector_pending = false
         elsif is_section_fetch and ov_part != blank
           assign pdp_qty_selector_pending = false
         endif
       else
-        if product.selected_variant != blank
+        if request.query_string contains 'variant='
           assign pdp_qty_selector_pending = false
         elsif ov_part != blank
           assign pdp_qty_selector_pending = false
@@ -79,10 +79,13 @@
       assign is_section_fetch_global = true
     endif
     assign pdp_embedded_variant_pending = false
-    if pdp_qty_embedded_picker and product.selected_variant == blank and pdp_set_line_variant_from_bundle == blank
-      assign pdp_embedded_variant_pending = true
-      if is_section_fetch_global and ov_part_global != blank
+    if pdp_qty_embedded_picker
+      if request.query_string contains 'variant='
         assign pdp_embedded_variant_pending = false
+      elsif is_section_fetch_global and ov_part_global != blank
+        assign pdp_embedded_variant_pending = false
+      else
+        assign pdp_embedded_variant_pending = true
       endif
     endif
   %}
@@ -253,6 +256,9 @@
             assign pdp_skip_value_selected = false
           endif
         endif
+        if pdp_qty_selector_pending and is_color_swatch_picker == false
+          assign pdp_skip_value_selected = true
+        endif
         assign pdp_qty_row_active = false
         if is_pdp_qty_option and pdp_qty_option_name != blank
           assign pdp_qty_row_active = true
@@ -275,9 +281,11 @@
             <span class="option-name">{{ option.name }}:</span>
             <span data-selected-swatch-value="{{ option.name }}">
               {%- if is_pdp_qty_option and pdp_qty_selector_pending -%}
-                {{- option.name -}}
+                {{- block.settings.select_variant_text -}}
+              {%- elsif pdp_qty_selector_pending and is_color_swatch_picker == false -%}
+                {{- block.settings.select_variant_text -}}
               {%- elsif pdp_embedded_variant_pending and is_color_swatch_picker == false -%}
-                {{- option.name -}}
+                {{- block.settings.select_variant_text -}}
               {%- elsif we_use_bundle_line_variant -%}
                 {%- liquid
                   case option.position
@@ -290,7 +298,18 @@
                   endcase
                 -%}
               {%- else -%}
-                {{- option.selected_value -}}
+                {%- liquid
+                  assign we_legend_val = option.selected_value
+                  case option.position
+                    when 1
+                      assign we_legend_val = we_active_variant.option1
+                    when 2
+                      assign we_legend_val = we_active_variant.option2
+                    when 3
+                      assign we_legend_val = we_active_variant.option3
+                  endcase
+                -%}
+                {{- we_legend_val -}}
               {%- endif -%}
             </span>
           </div>
@@ -365,14 +384,16 @@
                 <div class="pdp-variant-qty-row__picker">
             {%- endif -%}
             <details
-              class="we-select-container{% if is_pdp_qty_option and pdp_qty_selector_pending %} we-select-container--placeholder{% elsif pdp_embedded_variant_pending and is_color_swatch_picker == false %} we-select-container--placeholder{% endif %}"
+              class="we-select-container{%- if is_pdp_qty_option and pdp_qty_selector_pending %} we-select-container--placeholder{%- elsif pdp_qty_selector_pending and is_color_swatch_picker == false %} we-select-container--placeholder{%- elsif pdp_embedded_variant_pending and is_color_swatch_picker == false %} we-select-container--placeholder{%- endif -%}"
               data-radio-group-name="{{ opt_radio_name | escape }}"
             >
               <summary class="we-select-container__summary">
                 {%- if is_pdp_qty_option and pdp_qty_selector_pending -%}
-                  <span class="we-select-placeholder-label">{{ option.name }}</span>
+                  <span class="we-select-placeholder-label">{{ block.settings.select_variant_text }}</span>
+                {%- elsif pdp_qty_selector_pending and is_color_swatch_picker == false -%}
+                  <span class="we-select-placeholder-label">{{ block.settings.select_variant_text }}</span>
                 {%- elsif pdp_embedded_variant_pending and is_color_swatch_picker == false -%}
-                  <span class="we-select-placeholder-label">{{ option.name }}</span>
+                  <span class="we-select-placeholder-label">{{ block.settings.select_variant_text }}</span>
                 {%- else -%}
                   {%- liquid
                     assign we_dd_label = option.selected_value
@@ -538,16 +559,19 @@
       {%- endif -%}
     </script>
     {%- comment -%}
-      When no variant is selected in the URL, expose first available variant so the gallery can match default media
-      (see product-info getInitialVariantForGallery). Main picker only — embedded set pickers use their own gallery context.
+      Gallery fallback when SSR exposes no committed variant (see product-info getInitialVariantForGallery).
     {%- endcomment -%}
-    {%- unless pdp_qty_embedded_picker -%}
-      {%- if product.selected_variant == blank and pdp_set_line_variant_from_bundle == blank -%}
+    {%- if pdp_qty_embedded_picker -%}
+      {%- if pdp_qty_selector_pending or pdp_embedded_variant_pending -%}
         <script type="application/json" data-pdp-bootstrap-variant>
           {{- product.selected_or_first_available_variant | json -}}
         </script>
       {%- endif -%}
-    {%- endunless -%}
+    {%- elsif pdp_set_line_variant_from_bundle == blank and pdp_qty_selector_pending -%}
+      <script type="application/json" data-pdp-bootstrap-variant>
+        {{- product.selected_or_first_available_variant | json -}}
+      </script>
+    {%- endif -%}
   </variant-selects>
   {%- if size_chart_content != blank -%}
     <div id="SizeChart-{{ id_ns }}">

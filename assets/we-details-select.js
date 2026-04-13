@@ -344,6 +344,21 @@
       }
       summary.setAttribute('aria-label', `${that.value}, listbox ${pos} of ${this.options.length}`);
 
+      const isInlineQuantityDropdown =
+        !!this.container.closest('.pdp-inline-quantity') || !!this.container.closest('.we-quantity-selector');
+      if (!isInlineQuantityDropdown) {
+        const fieldset = this.container.closest('.product-form__input');
+        const legendSwatch = fieldset?.querySelector('[data-selected-swatch-value]');
+        if (legendSwatch) {
+          if (shortQtyLine) {
+            legendSwatch.textContent = shortQtyLine.textContent.replace(/\s+/g, ' ').trim();
+          } else {
+            const primaryForLegend = label.querySelector('.we-select__label-primary');
+            legendSwatch.innerHTML = primaryForLegend ? primaryForLegend.innerHTML : label.innerHTML;
+          }
+        }
+      }
+
       this.options.forEach((opt) => {
         opt.classList.remove('active');
         opt.setAttribute('aria-selected', 'false');

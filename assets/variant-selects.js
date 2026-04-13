@@ -109,6 +109,9 @@ if (!customElements.get('variant-selects')) {
         } else if (tagName === 'INPUT' && target.type === 'radio') {
           if (target.hasAttribute('data-pdp-inline-qty-value')) return;
           if (target.closest?.('.we-quantity-selector')) return;
+          if (target.closest?.('details.we-select-container')) {
+            return;
+          }
           let fieldset = target.closest('.product-form__input');
           if (!fieldset && target.dataset?.vsRoot) {
             const vs = document.getElementById(target.dataset.vsRoot);
@@ -120,9 +123,9 @@ if (!customElements.get('variant-selects')) {
               fieldset = det?.closest('.product-form__input');
             }
           }
-          const selectedSwatchValue = fieldset?.querySelector(
-            '[data-selected-swatch-value], [data-selected-value]'
-          );
+          const selectedSwatchValue =
+            fieldset?.querySelector('[data-selected-swatch-value]') ||
+            fieldset?.querySelector('[data-selected-value]');
           if (selectedSwatchValue) selectedSwatchValue.innerHTML = value;
         }
       }

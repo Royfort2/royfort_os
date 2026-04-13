@@ -66,7 +66,7 @@
       if request.query_string contains 'option_values='
         assign ov_bb = request.query_string | split: 'option_values=' | last | split: '&' | first
       endif
-      if product.selected_variant != blank
+      if request.query_string contains 'variant='
         assign pdp_qty_selector_pending = false
       elsif ov_bb != blank
         assign pdp_qty_selector_pending = false

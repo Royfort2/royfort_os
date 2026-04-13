@@ -35,6 +35,31 @@
 
     assign qty_unit_short = settings.qty_selector_unit_short | default: 'St.'
     assign qty_unit_long = settings.qty_selector_unit_long | default: 'Stück'
+
+    assign pdp_qty_option_raw = product.metafields.custom.pdp_option_for_quantity_selector.value | default: product.metafields.custom.pdp_option_for_quantity_selector
+    assign pdp_qty_option_name = pdp_qty_option_raw | strip
+    assign pdp_ov_for_url = ''
+    if request.query_string contains 'option_values='
+      assign pdp_ov_for_url = request.query_string | split: 'option_values=' | last | split: '&' | first | strip
+    endif
+    assign pdp_qty_selector_pending = false
+    if pdp_qty_option_name != blank
+      assign pdp_qty_selector_pending = true
+      if pdp_ov_for_url != blank
+        assign pdp_qty_selector_pending = false
+      elsif request.query_string contains 'variant='
+        assign pdp_qty_selector_pending = false
+      endif
+    endif
+    assign pdp_set_line_ui_pending = false
+    if pdp_set_line_variant_from_bundle != blank
+      assign pdp_set_line_ui_pending = true
+      if pdp_ov_for_url != blank
+        assign pdp_set_line_ui_pending = false
+      elsif request.query_string contains 'variant='
+        assign pdp_set_line_ui_pending = false
+      endif
+    endif
   %}
   <script src="{{ 'variant-selects.js' | asset_url }}" defer="defer"></script>
   <variant-selects
@@ -115,6 +140,45 @@
           assign tag_fieldset = 'div'
           assign tag_legend = 'label'
         endunless
+
+        assign is_color_swatch_picker = false
+        if picker_type == 'swatch' or picker_type == 'color'
+          assign is_color_swatch_picker = true
+        elsif picker_type == 'button' and settings.color_swatch_trigger != blank
+          assign cst_w = settings.color_swatch_trigger | downcase | split: ','
+          assign has_cw = cst_w | where: option_name_downcase | first
+          if has_cw != blank
+            assign is_color_swatch_picker = true
+          elsif option_name_downcase contains 'colour'
+            assign cst_w = settings.color_swatch_trigger | replace: 'color', 'colour' | downcase | split: ','
+            assign has_cw = cst_w | where: option_name_downcase | first
+            if has_cw != blank
+              assign is_color_swatch_picker = true
+            endif
+          endif
+        endif
+
+        assign is_pdp_qty_option = false
+        if pdp_qty_option_name != blank
+          assign opt_cmp = option.name | strip | downcase
+          assign pdp_cmp = pdp_qty_option_name | strip | downcase
+          assign opt_h = option.name | handleize
+          assign pdp_h = pdp_qty_option_name | handleize
+          if opt_cmp == pdp_cmp or opt_h == pdp_h
+            assign is_pdp_qty_option = true
+          endif
+        endif
+
+        assign we_option_skip_selected = false
+        if is_pdp_qty_option and pdp_qty_selector_pending
+          assign we_option_skip_selected = true
+        endif
+        if pdp_qty_selector_pending and is_color_swatch_picker == false
+          assign we_option_skip_selected = true
+        endif
+        if pdp_set_line_ui_pending and is_color_swatch_picker == false
+          assign we_option_skip_selected = true
+        endif
       -%}
       <{{ tag_fieldset }}
         class="{{ wrap_class }}"
@@ -132,20 +196,37 @@
           <div class="flex flex-wrap gap-2">
             <span class="option-name">{{ option.name }}:</span>
             <span data-selected-swatch-value="{{ option.name }}">
-                {% unless we_active_variant.id == blank %}
-                  {%- liquid
-                    assign we_opt_show = option.selected_value
-                    case option.position
-                      when 1
-                        assign we_opt_show = we_active_variant.option1
-                      when 2
-                        assign we_opt_show = we_active_variant.option2
-                      when 3
-                        assign we_opt_show = we_active_variant.option3
-                    endcase
-                  -%}
-                  {{- we_opt_show -}}
-                {% endunless %}
+              {%- if is_pdp_qty_option and pdp_qty_selector_pending -%}
+                {{- block.settings.select_variant_text -}}
+              {%- elsif pdp_qty_selector_pending and is_color_swatch_picker == false -%}
+                {{- block.settings.select_variant_text -}}
+              {%- elsif pdp_set_line_ui_pending and is_color_swatch_picker == false -%}
+                {{- block.settings.select_variant_text -}}
+              {%- elsif we_use_bundle_line_variant -%}
+                {%- liquid
+                  case option.position
+                    when 1
+                      echo we_active_variant.option1
+                    when 2
+                      echo we_active_variant.option2
+                    when 3
+                      echo we_active_variant.option3
+                  endcase
+                -%}
+              {%- else -%}
+                {%- liquid
+                  assign we_opt_show = option.selected_value
+                  case option.position
+                    when 1
+                      assign we_opt_show = we_active_variant.option1
+                    when 2
+                      assign we_opt_show = we_active_variant.option2
+                    when 3
+                      assign we_opt_show = we_active_variant.option3
+                  endcase
+                -%}
+                {{- we_opt_show -}}
+              {%- endif -%}
             </span>
           </div>
           {%- if size_chart_content != blank and attach_size_chart -%}
@@ -169,6 +250,7 @@
               block: block,
               picker_type: picker_type,
               option_id_namespace: id_ns,
+              skip_value_selected: we_option_skip_selected,
               pdp_line_variant_for_selection: we_active_variant,
               we_override_option_selection: we_use_bundle_line_variant
             %}
@@ -205,19 +287,19 @@
             {% endcomment %}
             {%- liquid
               assign opt_radio_name = 'vs-' | append: id_ns | append: '-o' | append: option.position
-              assign pdp_skip_value_selected = false
-              if we_active_variant.id == blank and product.metafields.custom.pdp_option_for_quantity_selector == option.name
-                assign pdp_skip_value_selected = true
-              endif
             -%}
             <div class="we-variant-picker__dropdown-container">
               <details
-                class="we-select-container {% if we_active_variant.id == blank and product.metafields.custom.pdp_option_for_quantity_selector == option.name %}we-select-container--placeholder{% endif %}"
+                class="we-select-container {% if is_pdp_qty_option and pdp_qty_selector_pending %} we-select-container--placeholder{% elsif pdp_qty_selector_pending and is_color_swatch_picker == false %} we-select-container--placeholder{% elsif pdp_set_line_ui_pending and is_color_swatch_picker == false %} we-select-container--placeholder{% endif %}"
                 data-radio-group-name="{{ opt_radio_name | escape }}"
                 data-we-option-position="{{ option.position }}"
               >
                 <summary class="we-select-container__summary">
-                  {% if we_active_variant.id == blank and product.metafields.custom.pdp_option_for_quantity_selector == option.name %}
+                  {% if is_pdp_qty_option and pdp_qty_selector_pending %}
+                    <span class="we-select-placeholder-label">{{ block.settings.select_variant_text }}</span>
+                  {% elsif pdp_qty_selector_pending and is_color_swatch_picker == false %}
+                    <span class="we-select-placeholder-label">{{ block.settings.select_variant_text }}</span>
+                  {% elsif pdp_set_line_ui_pending and is_color_swatch_picker == false %}
                     <span class="we-select-placeholder-label">{{ block.settings.select_variant_text }}</span>
                   {% else %}
                     {%- liquid
@@ -256,7 +338,7 @@
                       {% for value in option.values %}
                         {%- liquid
                           assign we_dd_checked = false
-                          if pdp_skip_value_selected == false
+                          if we_option_skip_selected == false
                             if we_use_bundle_line_variant
                               case option.position
                                 when 1
@@ -381,8 +463,17 @@
       </{{ tag_fieldset }}>
     {%- endfor -%}
     <script type="application/json" data-selected-variant>
-      {{ we_active_variant | json }}
+      {%- if pdp_qty_selector_pending or pdp_set_line_ui_pending -%}
+        null
+      {%- else -%}
+        {{- we_active_variant | json -}}
+      {%- endif -%}
     </script>
+    {%- if pdp_qty_selector_pending or pdp_set_line_ui_pending -%}
+      <script type="application/json" data-pdp-bootstrap-variant>
+        {{- product.selected_or_first_available_variant | json -}}
+      </script>
+    {%- endif -%}
   </variant-selects>
   {%- if size_chart_content != blank -%}
     <div id="SizeChart-{{ id_ns }}">
