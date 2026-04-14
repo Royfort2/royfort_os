@@ -1,0 +1,589 @@
+{% assign layers_size = product.metafields.mattress.layers.value.count %}
+
+{% if layers_size %}
+  <style>
+    .mattressShared {
+        display: flex;
+        display: -webkit-flex;
+        display: -moz-flex;
+        width: 100%;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        margin: 50px 0;
+        overflow: hidden;
+        padding: 13% 0;
+        padding-bottom: 5%;
+        margin-top: 12px;
+    }
+
+    .mattressShared__layer {
+        position: relative;
+        cursor: pointer;
+        display: flex;
+        display: -webkit-flex;
+        display: -moz-flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .mattressShared__layerBox {
+        flex-grow: 0;
+        flex-basis: 33.3333%;
+        max-width: 33.3333%;
+        border: 1px solid #ebebeb;
+        border-radius: 6px;
+        margin-top: 8px;
+        margin-bottom: 8px;
+        margin-left: 8.33333%;
+    }
+
+    .mattressShared__layerBoxInner {
+        padding: 12px 30px;
+        position: relative;
+    }
+
+    .mattressShared__layerBoxInner:after {
+        content: "";
+        background-color: #ebebeb;
+        height: 1px;
+        position: absolute;
+        right: -20%;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 20%;
+        z-index: -1;
+    }
+
+    .mattressShared__layer.active .mattressShared__layerBoxInner:after {
+        width: 10%;
+        right: -10%;
+    }
+
+    .mattressShared__title {
+        font-size: 18px;
+        color: {{ section.settings.header_color }};
+        font-family: "ArizonaMix", serif;
+        font-weight: 600;
+        margin-bottom: 6px;
+        overflow-wrap: break-word;
+    }
+
+    .mattressShared__subtitle {
+        font-size: 14px;
+        color: {{ section.settings.text_color }};
+    }
+
+    .mattressShared__dropIcon {
+        border-style: solid;
+        border-width: 1px 1px 0 0;
+        content: "";
+        display: inline-block;
+        height: 10px;
+        position: absolute;
+        top: 40%;
+        right: 16px;
+        transform: rotate(-225deg);
+        vertical-align: top;
+        width: 10px;
+        transition: 350ms;
+    }
+
+    .mattressShared__layer.active .mattressShared__dropIcon {
+        transform: rotate(-45deg);
+    }
+
+    .mattressShared__uspIcon {
+        position: absolute;
+        display: flex;
+        width: 44px;
+        left: -22px;
+        top: 50%;
+        transform: translateY(-50%);
+        justify-content: center;
+        align-items: center;
+    }
+
+    .mattressShared__uspIcon > img {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+        background-color: #fff;
+        border-top: 7px solid white;
+        border-bottom: 7px solid #fff;
+    }
+
+    .mattressShared__description {
+        top: -1px;
+        opacity: 0;
+        position: relative;
+        overflow: hidden;
+        padding: 0 30px;
+        max-height: 0;
+        transition: max-height .75s cubic-bezier(0.215, 0.61, 0.355, 1), opacity .5s cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+
+    .mattressShared__layer.active .mattressShared__description {
+        opacity: 1;
+        max-height: 750px;
+        transition: max-height 2s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 2s cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+
+    .mattressShared__descriptionWrapper {
+        padding: 20px 0;
+        font-size: 14px;
+        border-top: 1px solid #EBEBEB;
+        overflow-wrap: break-word;
+    }
+
+    .mattressShared__imageBox {
+        position: absolute;
+        width: 67.5%;
+        right: -17%;
+        display: flex;
+        display: -webkit-flex;
+        display: -moz-flex;
+        display: -ms-flex;
+        overflow: visible;
+        top: -200px;
+    }
+
+    .mattressShared__mattressImage {
+        position: relative;
+        width: 1200px;
+        object-fit: contain;
+        object-position: left;
+        transition: transform .264s ease-out;
+        height: 360px;
+        filter: drop-shadow(15px 10px 6px #00000080);
+    }
+
+    .mattressShared__mattressImage:last-child {
+      filter: none;
+    }
+
+    .mattressShared__imageButton {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        z-index: 9;
+        left: 145px;
+        top: 223px;
+        cursor: pointer;
+        width: 1.75rem;
+        height: 1.75rem;
+        border-radius: 50%;
+        background-color: #fff;
+        padding: 0;
+        align-self: center;
+        border: 1px solid #2E3192;
+        color: #2E3192;
+        transition: opacity 0.15s ease-out 1s, transform 0.3s ease-out 0s, color 0.15s ease-out 0s, background-color 0.15s ease-out 0s;
+        box-shadow: rgb(30 48 110 / 40%) 0px 0px 0px 0px;
+    }
+
+    .mattressShared__imageButton:focus {
+        outline: none !important;
+    }
+
+    .mattressShared__layer.active .mattressShared__imageButton, .mattressShared__imageBox:hover .mattressShared__imageButton {
+        background-color: #2E3192;
+        color: #fff;
+    }
+
+    .mattressShared__imageButton:before {
+        content: "";
+        display: block;
+        z-index: -1;
+        position: absolute;
+        width: 300%;
+        height: 300%;
+        top: -100%;
+        left: -100%;
+        border-radius: 100%;
+        box-shadow: rgb(30 48 110) 0px 0px 0.1875rem 0.1875rem;
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease-out;
+        animation-name: animateButtonMattress;
+    }
+
+    .mattressShared__imageButton:after {
+        content: "";
+        display: block;
+        z-index: -1;
+        position: absolute;
+        width: 300%;
+        height: 300%;
+        top: -100%;
+        left: -100%;
+        border-radius: 100%;
+        box-shadow: rgb(30 48 110) 0px 0px 0.1875rem 0.1875rem;
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease-out;
+        animation-name: animateButtonMattress1;
+    }
+
+    .mattressShared__layer.active .mattressShared__imageButton:before, .mattressShared__imageBox:hover .mattressShared__imageButton:before {
+        content: none;
+    }
+
+    .mattressShared__layer.active .mattressShared__imageButton:after, .mattressShared__imageBox:hover .mattressShared__imageButton:after {
+        content: none;
+    }
+
+    @-webkit-keyframes animateButtonMattress {
+        0% {
+            -webkit-transform: scale(0.3);
+            -ms-transform: scale(0.3);
+            transform: scale(0.3);
+            opacity: 0;
+        }
+        2.5% {
+            opacity: 0.6;
+        }
+        50% {
+            -webkit-transform: scale(0.8);
+            -ms-transform: scale(0.8);
+            transform: scale(0.8);
+            opacity: 0;
+        }
+        100% {
+            -webkit-transform: scale(0.8);
+            -ms-transform: scale(0.8);
+            transform: scale(0.8);
+            opacity: 0;
+        }
+    }
+
+    @keyframes animateButtonMattress {
+        0% {
+            -webkit-transform: scale(0.3);
+            -ms-transform: scale(0.3);
+            transform: scale(0.3);
+            opacity: 0;
+        }
+        2.5% {
+            opacity: 0.6;
+        }
+        50% {
+            -webkit-transform: scale(0.8);
+            -ms-transform: scale(0.8);
+            transform: scale(0.8);
+            opacity: 0;
+        }
+        100% {
+            -webkit-transform: scale(0.8);
+            -ms-transform: scale(0.8);
+            transform: scale(0.8);
+            opacity: 0;
+        }
+    }
+
+    @-webkit-keyframes animateButtonMattress1 {
+        0% {
+            -webkit-transform: scale(0.3);
+            -ms-transform: scale(0.3);
+            transform: scale(0.3);
+            opacity: 0;
+        }
+        6% {
+            -webkit-transform: scale(0.3);
+            -ms-transform: scale(0.3);
+            transform: scale(0.3);
+            opacity: 0.6;
+        }
+        100% {
+            -webkit-transform: scale(0.8);
+            -ms-transform: scale(0.8);
+            transform: scale(0.8);
+            opacity: 0;
+        }
+    }
+
+    @keyframes animateButtonMattress1 {
+        0% {
+            -webkit-transform: scale(0.3);
+            -ms-transform: scale(0.3);
+            transform: scale(0.3);
+            opacity: 0;
+        }
+        6% {
+            -webkit-transform: scale(0.3);
+            -ms-transform: scale(0.3);
+            transform: scale(0.3);
+            opacity: 0.6;
+        }
+        100% {
+            -webkit-transform: scale(0.8);
+            -ms-transform: scale(0.8);
+            transform: scale(0.8);
+            opacity: 0;
+        }
+    }
+
+    .mattressShared__layer.active .mattressShared__mattressImage {
+        transform: translateX(-2.5vw);
+    }
+
+    .mattressShared__layerMobile {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        width: 100%;
+        height: auto;
+        margin-bottom: 21.5vw;
+    }
+
+    .mattressShared__layerMobile .mattressShared__imageBox {
+        position: relative;
+        margin-bottom: -18.4vw;
+        right: -42.5%;
+        width: 120%;
+        cursor: pointer;
+        transition: transform .264s ease-out;
+        top: -60px;
+    }
+
+    .mattressShared__layerMobile .mattressShared__mattressImage {
+        max-width: 750px;
+        width: 135vw;
+        object-position: left;
+        min-height: 100px;
+        max-height: 360px;
+        height: 100%;
+        transform: scale(1.25);
+    }
+
+    .mattressShared__layerMobile .mattressShared__imageButton:after {
+        content: none;
+    }
+
+    @media screen and (max-width: 996px) {
+        .mattressShared__layerMobile {
+            display: flex;
+            display: -ms-flex;
+            display: -webkit-flex;
+            display: -moz-flex;
+        }
+
+        .mattressShared__layer .mattressShared__imageBox {
+            display: none;
+        }
+
+        .mattressShared__layer {
+            justify-content: center;
+        }
+
+        .mattressShared__layer .mattressShared__layerBox {
+            margin-left: 0;
+            max-width: 86%;
+            flex-basis: 86%;
+            transform: translateX(5px);
+        }
+
+        .mattressShared__layer .mattressShared__layerBoxInner:after {
+            content: none;
+        }
+
+        .mattressShared__layerMobile .mattressShared__imageButton {
+            min-width: 1.5rem;
+            min-height: 1.5rem;
+            max-width: 1.8rem;
+            max-height: 1.8rem;
+            width: 5.5vw;
+            height: 5.5vw;
+            line-height: normal;
+            font-size: 0.92rem;
+            top: 27.05vw;
+            left: 17.15%;
+        }
+    }
+    @media screen and (min-width: 580px) {
+        .mattressShared__layerMobile{
+            margin-bottom: 100px;
+        }
+        .mattressShared__layerMobile .mattressShared__imageBox{
+            margin-bottom: -100px;
+        }
+        .mattressShared__layerMobile .mattressShared__imageButton{
+            top: 160px;
+            left: 119px;
+        }
+    }
+  </style>
+
+  <div class="mattressShared">
+    {% # Mobile Image Modules %}
+    <div class="mattressShared__layerMobile">
+      {% for layer in product.metafields.mattress.layers.value %}
+        {% liquid
+          assign layer_image = layer.layer_image.value
+          assign layerIndex = forloop.index0
+          assign uspCount = forloop.index
+          if layer_image and layer_image != blank
+            assign valid = true
+          else
+            assign valid = false
+          endif
+        %}
+        {% if valid %}
+          <div class="mattressShared__imageBox">
+            <button class="mattressShared__imageButton">{{ uspCount }}</button>
+            <img
+              class="mattressShared__mattressImage"
+              style="z-index: {{ layers_size | minus: layerIndex }}!important;"
+              width="1420"
+              height="425"
+              loading="lazy"
+              src="{{ layer_image | image_url: height: '425', width: '1420' }}"
+            >
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+    {% for layer in product.metafields.mattress.layers.value %}
+      {% liquid
+        assign layer_image = layer.layer_image.value
+        assign desc_image = layer.left_image.value
+        assign layerIndex = forloop.index0
+        assign uspCount = forloop.index
+        if layer_image and layer_image != blank
+          assign valid = true
+        else
+          assign valid = false
+        endif
+      %}
+      {% if valid %}
+        <div class="mattressShared__layer">
+          <div class="mattressShared__layerBox">
+            <div class="mattressShared__layerBoxInner">
+              {% if desc_image and desc_image != blank %}
+                <div class="mattressShared__uspIcon">
+                  <img
+                    width="120"
+                    height="120"
+                    src="{{ desc_image | image_url: height: '120', width: '120' }}"
+                    loading="lazy"
+                  >
+                </div>
+              {% endif %}
+              <div class="mattressShared__title">
+                {{ layer.title.value }}
+              </div>
+              <div class="mattressShared__subtitle">
+                {{ layer.subtitle.value }}
+              </div>
+              <span class="mattressShared__dropIcon"></span>
+            </div>
+            <div class="mattressShared__description">
+              <div class="mattressShared__descriptionWrapper">
+                {{ layer.description.value }}
+              </div>
+            </div>
+          </div>
+          <div class="mattressShared__imageBox">
+            <button class="mattressShared__imageButton">{{ uspCount }}</button>
+            <img
+              class="mattressShared__mattressImage lazyload"
+              style="z-index: {{ layers_size | minus: layerIndex }}!important;"
+              width="1420"
+              height="425"
+              loading="lazy"
+              src="{{ layer_image | image_url: width: '1420' }}"
+            >
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <script>
+    let toggledElement;
+    let toggledImage;
+    let toggledIndex;
+
+    function toggleElement(element) {
+      if (element.classList.contains('active')) {
+        element.classList.remove('active');
+        toggledElement = null;
+      } else {
+        if (toggledElement) {
+          toggledElement.classList.remove('active');
+        }
+        element.classList.add('active');
+        toggledElement = element;
+      }
+    }
+
+    function toggleImage(element) {
+      if (element.classList.contains('active')) {
+        element.classList.remove('active');
+        toggledImage = null;
+      } else {
+        if (toggledImage) {
+          toggledImage.classList.remove('active');
+        }
+        element.classList.add('active');
+        toggledImage = element;
+      }
+    }
+
+    const layerBox = document.querySelectorAll('.mattressShared__layer');
+    const imageBox = document.querySelectorAll('.mattressShared__layerMobile .mattressShared__imageBox');
+
+    layerBox.forEach((element, index) => {
+      element.addEventListener('click', () => {
+        toggleElement(element);
+        toggleImage(imageBox[index]);
+      });
+    });
+
+    let toggledElementSize = 82;
+    imageBox.forEach((element, index) => {
+      element.addEventListener('click', () => {
+        toggleImage(element);
+        if (toggledElement && toggledIndex < index) {
+          toggledElementSize = toggledElement.offsetHeight;
+        } else if (toggledIndex > index) {
+          toggledElementSize = 82;
+        }
+        let topCoordinates = layerBox[index].getBoundingClientRect().top + window.scrollY - toggledElementSize;
+        toggleElement(layerBox[index]);
+        toggledIndex = index;
+        window.scroll({
+          top: topCoordinates,
+          behavior: 'smooth',
+        });
+      });
+    });
+  </script>
+{% endif %}
+{% schema %}
+{
+  "name": "Mattress Layers",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Mattress Details"
+    },
+    {
+      "type": "color",
+      "id": "header_color",
+      "label": "Header Color",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#888"
+    }
+  ]
+}
+{% endschema %}
