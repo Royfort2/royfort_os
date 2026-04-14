@@ -406,9 +406,9 @@
   .pdp-set-zwischensumme__prices {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: anchor-center;
     justify-content: flex-end;
-    gap: 0.8rem 1.2rem;
+    gap: 0.4rem;
   }
   .pdp-set-zwischensumme__compare {
     color: #525252;
@@ -435,6 +435,7 @@
     font-size: 1rem;
     font-weight: 500;
     line-height: 150%;
+    letter-spacing: 0.25px;
     color: rgb(var(--color-background));
     background: rgb(var(--color-button));
   }
@@ -729,6 +730,12 @@
           "id": "select_variant_text",
           "label": "[we] Select variant text",
           "default": "Größe auswählen"
+        },
+        {
+          "type": "text",
+          "id": "set_zwischensumme_title",
+          "label": "[we] Set zwischensumme title",
+          "default": "ZWISCHENSUMME"
         },
         {
           "type": "paragraph",

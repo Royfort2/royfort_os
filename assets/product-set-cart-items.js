@@ -277,6 +277,61 @@
   }
 
   /**
+   * Keeps `#price-{sectionId}` in sync with zwischensumme (same cents + same sale/compare rules).
+   * Preserves `.f-price__unit-wrapper` from SSR when present.
+   */
+  function syncMainPriceWithZwischensumme(productInfo, sectionId, fmt, mf, saleTotal, compareTotal, setDiscountAmount) {
+    if (sectionId == null || sectionId === '') return;
+    const host = document.getElementById(`price-${sectionId}`);
+    if (!host) return;
+
+    const prevUnit = host.querySelector('.f-price__unit-wrapper');
+    const unitHtml = prevUnit ? prevUnit.outerHTML : '<div class="f-price__unit-wrapper hidden"></div>';
+
+    const onSale = setDiscountAmount > 0 || compareTotal > saleTotal;
+    const saleStr = fmt(saleTotal, mf);
+    const compareStr = fmt(compareTotal, mf);
+
+    let rootClass = 'f-price f-price--large';
+    if (onSale) rootClass += ' f-price--on-sale';
+
+    let inner;
+    if (onSale) {
+      inner =
+        `<div class="${rootClass}">` +
+        '<div class="f-price__regular">' +
+        '<span class="visually-hidden visually-hidden--inline"></span>' +
+        `<span class="f-price-item f-price-item--regular">${saleStr}</span>` +
+        '</div>' +
+        '<div class="f-price__sale">' +
+        '<span class="visually-hidden visually-hidden--inline"></span>' +
+        `<span class="f-price-item f-price-item--sale">${saleStr}</span>` +
+        '<span class="visually-hidden visually-hidden--inline"></span>' +
+        `<span class="f-price-item f-price-item--regular"><s>${compareStr}</s></span>` +
+        '</div>' +
+        unitHtml +
+        '</div>';
+    } else {
+      inner =
+        `<div class="${rootClass}">` +
+        '<div class="f-price__regular">' +
+        '<span class="visually-hidden visually-hidden--inline"></span>' +
+        `<span class="f-price-item f-price-item--regular">${saleStr}</span>` +
+        '</div>' +
+        '<div class="f-price__sale">' +
+        '<span class="visually-hidden visually-hidden--inline"></span>' +
+        `<span class="f-price-item f-price-item--sale">${saleStr}</span>` +
+        '<span class="visually-hidden visually-hidden--inline"></span>' +
+        '<span class="f-price-item f-price-item--regular"><s></s></span>' +
+        '</div>' +
+        unitHtml +
+        '</div>';
+    }
+
+    host.innerHTML = inner;
+  }
+
+  /**
    * Zwischensumme: main bundle product + first set product + checked optionals; prices/qty from current variant + inline qty.
    */
   function updatePdpSetZwischensumme(form) {
@@ -299,7 +354,9 @@
       optionalProductIds = [],
       omitMainProductFromZwischensumme = false,
       requiredSetProductIds = [],
+      setDiscountAmount: setDiscountAmountRaw = 0,
     } = cfg;
+    const setDiscountAmount = Math.max(0, Number(setDiscountAmountRaw) || 0);
     const mainProductId = productInfo?.dataset?.productId;
     const metaEl = root.querySelector('[data-pdp-set-zwischensumme-meta]');
     let titles = {};
@@ -387,9 +444,23 @@
     const badgeEl = root.querySelector('.pdp-set-zwischensumme__badge');
     const breakdownEl = root.querySelector('.pdp-set-zwischensumme__breakdown');
 
+    if (setDiscountAmount > 0) {
+      const amountDifference = 100 - setDiscountAmount;
+      saleTotal = Math.floor((compareTotal * amountDifference) / 100);
+    }
+
     if (saleEl) saleEl.textContent = fmt(saleTotal, mf);
 
-    if (compareTotal > saleTotal) {
+    if (setDiscountAmount > 0) {
+      if (compareEl) {
+        compareEl.textContent = fmt(compareTotal, mf);
+        compareEl.hidden = false;
+      }
+      if (badgeEl) {
+        badgeEl.textContent = `-${setDiscountAmount}%`;
+        badgeEl.hidden = false;
+      }
+    } else if (compareTotal > saleTotal) {
       if (compareEl) {
         compareEl.textContent = fmt(compareTotal, mf);
         compareEl.hidden = false;
@@ -414,6 +485,8 @@
       });
       breakdownEl.textContent = parts.join(' + ');
     }
+
+    syncMainPriceWithZwischensumme(productInfo, sectionId, fmt, mf, saleTotal, compareTotal, setDiscountAmount);
   }
 
   function updatePdpSetSubmitButton(form) {

@@ -656,6 +656,12 @@ if (!customElements.get('product-info')) {
             this.pendingEmbeddedQtyReveal = false;
             this.enableButtons();
             requestAnimationFrame(() => {
+              const sourcePrice = html.getElementById(`price-${this.sectionId}`);
+              const destPrice = this.querySelector(`#price-${this.dataset.section}`);
+              if (sourcePrice && destPrice) {
+                destPrice.innerHTML = sourcePrice.innerHTML;
+                destPrice.classList.toggle('hidden', sourcePrice.classList.contains('hidden'));
+              }
               const vsRoot = variantSelectsId ? document.getElementById(variantSelectsId) : null;
               if (typeof window.initWeDetailsSelects === 'function' && vsRoot) {
                 window.initWeDetailsSelects(vsRoot);

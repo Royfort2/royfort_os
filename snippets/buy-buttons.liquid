@@ -148,6 +148,7 @@
             "sectionId": {{ section.id | json }},
             "firstSetProductId": {{ pdp_first_set_product.id | json }},
             "firstVariantFallback": {{ pdp_first_set_resolved_variant.id | json }},
+            "setDiscountAmount": {{ product.metafields.custom.set_discount_amount | default: 0 | json }},
             "omitMainProductFromZwischensumme": {{ pdp_zw_omit_main | json }},
             "requiredSetProductIds": [
               {%- for sp in pdp_set_products_list limit: 2 -%}

@@ -38,28 +38,133 @@
     assign money_price = 'products.product.price.from_price_html' | t: price: money_price
   endif
 
-  if product.metafields.custom.pdp_set_products != blank and product.metafields.custom.set_discount_amount > 0
-    assign price_set_product_1 = 0
-    assign price_set_product_2 = 0
-    for set_product in product.metafields.custom.pdp_set_products.value
-      if forloop.first
-        assign price_set_product_1 = set_product.price_min
+  if product.metafields.custom.pdp_set_products != blank
+    if section
+      assign pdp_section_has_we_variant_picker = false
+      assign pdp_section_has_variant_picker = false
+      for sb in section.blocks
+        if sb.type == 'we_variant_picker'
+          assign pdp_section_has_we_variant_picker = true
+        endif
+        if sb.type == 'variant_picker'
+          assign pdp_section_has_variant_picker = true
+        endif
+      endfor
+      assign pdp_zw_omit_main = false
+      if pdp_section_has_we_variant_picker and pdp_section_has_variant_picker == false
+        assign pdp_zw_omit_main = true
       endif
-      if forloop.index == 2
-        assign price_set_product_2 = set_product.price_min
+
+      assign zw_sale_cents = 0
+      assign zw_compare_cents = 0
+      assign set_products_zw = product.metafields.custom.pdp_set_products.value
+
+      if pdp_zw_omit_main
+        for sp in set_products_zw limit: 2
+          capture we_set_line_vid_c
+            render 'we-pdp-first-set-line-variant-id', bundle_product: product, line_product: sp
+          endcapture
+          assign we_set_line_vid_str = we_set_line_vid_c | strip
+          assign zw_v = sp.selected_or_first_available_variant
+          if we_set_line_vid_str != blank
+            assign we_set_line_vid_num = we_set_line_vid_str | plus: 0
+            for v in sp.variants
+              if v.id == we_set_line_vid_num
+                assign zw_v = v
+                break
+              endif
+            endfor
+          endif
+          assign zw_qr = zw_v.quantity_rule
+          assign zw_q_min = zw_qr.min | default: 1
+          if zw_q_min < 1
+            assign zw_q_min = 1
+          endif
+          assign zw_line_sale = zw_v.price | times: zw_q_min
+          assign zw_sale_cents = zw_sale_cents | plus: zw_line_sale
+          assign unit_cmp = zw_v.price
+          if zw_v.compare_at_price > zw_v.price
+            assign unit_cmp = zw_v.compare_at_price
+          endif
+          assign zw_line_cmp = unit_cmp | times: zw_q_min
+          assign zw_compare_cents = zw_compare_cents | plus: zw_line_cmp
+        endfor
+      else
+        assign zw_first = set_products_zw | first
+        assign zw_main_v = product.selected_or_first_available_variant
+        assign zw_main_qr = zw_main_v.quantity_rule
+        assign zw_main_q_min = zw_main_qr.min | default: 1
+        if zw_main_q_min < 1
+          assign zw_main_q_min = 1
+        endif
+        assign zw_main_sale_cents = zw_main_v.price | times: zw_main_q_min
+        assign zw_main_compare_cents = zw_main_sale_cents
+        if zw_main_v.compare_at_price > zw_main_v.price
+          assign zw_main_compare_cents = zw_main_v.compare_at_price | times: zw_main_q_min
+        endif
+        capture zw_first_vid_c
+          render 'we-pdp-first-set-line-variant-id', bundle_product: product, line_product: zw_first
+        endcapture
+        assign zw_first_vid_str = zw_first_vid_c | strip
+        assign zw_v = zw_first.selected_or_first_available_variant
+        if zw_first_vid_str != blank
+          assign zw_first_vid_num = zw_first_vid_str | plus: 0
+          for v in zw_first.variants
+            if v.id == zw_first_vid_num
+              assign zw_v = v
+              break
+            endif
+          endfor
+        endif
+        assign zw_qr = zw_v.quantity_rule
+        assign zw_q_min = zw_qr.min | default: 1
+        if zw_q_min < 1
+          assign zw_q_min = 1
+        endif
+        assign zw_first_sale_cents = zw_v.price | times: zw_q_min
+        assign zw_first_compare_cents = zw_first_sale_cents
+        if zw_v.compare_at_price > zw_v.price
+          assign zw_first_compare_cents = zw_v.compare_at_price | times: zw_q_min
+        endif
+        assign zw_sale_cents = zw_main_sale_cents | plus: zw_first_sale_cents
+        assign zw_compare_cents = zw_main_compare_cents | plus: zw_first_compare_cents
       endif
-    endfor
-    assign set_compare_at_total = price_set_product_1 | plus: price_set_product_2
-    assign compare_at_price = set_compare_at_total
-    assign discount_amount = product.metafields.custom.set_discount_amount
-    assign amount_difference = 100 | minus: discount_amount
-    assign price = set_compare_at_total | times: amount_difference | divided_by: 100
-    assign money_price = price | money
-    if settings.currency_code_enabled
-      assign money_price = price | money_with_currency
+
+      if product.metafields.custom.set_discount_amount > 0
+        assign zw_amount_difference = 100 | minus: product.metafields.custom.set_discount_amount
+        assign zw_sale_cents = zw_compare_cents | times: zw_amount_difference | divided_by: 100
+      endif
+
+      assign compare_at_price = zw_compare_cents
+      assign price = zw_sale_cents
+      assign money_price = price | money
+      if settings.currency_code_enabled
+        assign money_price = price | money_with_currency
+      endif
+      assign money_price_min = money_price
+    elsif product.metafields.custom.set_discount_amount > 0
+      assign price_set_product_1 = 0
+      assign price_set_product_2 = 0
+      for set_product in product.metafields.custom.pdp_set_products.value
+        if forloop.first
+          assign price_set_product_1 = set_product.price_min
+        endif
+        if forloop.index == 2
+          assign price_set_product_2 = set_product.price_min
+        endif
+      endfor
+      assign set_compare_at_total = price_set_product_1 | plus: price_set_product_2
+      assign compare_at_price = set_compare_at_total
+      assign discount_amount = product.metafields.custom.set_discount_amount
+      assign amount_difference = 100 | minus: discount_amount
+      assign price = set_compare_at_total | times: amount_difference | divided_by: 100
+      assign money_price = price | money
+      if settings.currency_code_enabled
+        assign money_price = price | money_with_currency
+      endif
+      assign money_price_min = money_price
+      assign money_price = 'products.product.price.from_price_html' | t: price: money_price
     endif
-    assign money_price_min = money_price
-    assign money_price = 'products.product.price.from_price_html' | t: price: money_price
   endif
 -%}
 <div

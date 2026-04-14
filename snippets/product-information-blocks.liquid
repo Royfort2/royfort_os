@@ -678,7 +678,14 @@
                   {%- assign zw_compare_cents = zw_compare_cents | plus: zw_line_cmp -%}
                 {%- endfor -%}
                 {%- assign zw_has_compare = false -%}
-                {%- if zw_compare_cents > zw_sale_cents -%}
+                {%- assign zw_discount_pct = 0 -%}
+                {%- if product.metafields.custom.pdp_set_products != blank and product.metafields.custom.set_discount_amount > 0 -%}
+                  {%- assign zw_bundle_discount = product.metafields.custom.set_discount_amount -%}
+                  {%- assign zw_amount_difference = 100 | minus: zw_bundle_discount -%}
+                  {%- assign zw_sale_cents = zw_compare_cents | times: zw_amount_difference | divided_by: 100 -%}
+                  {%- assign zw_has_compare = true -%}
+                  {%- assign zw_discount_pct = zw_bundle_discount -%}
+                {%- elsif zw_compare_cents > zw_sale_cents -%}
                   {%- assign zw_has_compare = true -%}
                   {%- assign zw_discount_pct = zw_compare_cents | minus: zw_sale_cents | times: 100 | divided_by: zw_compare_cents -%}
                 {%- endif -%}
@@ -692,7 +699,7 @@
                     }}
                   </script>
                   <div class="pdp-set-zwischensumme__header">
-                    <span class="pdp-set-zwischensumme__title">ZWISCHENSUMME:</span>
+                    <span class="pdp-set-zwischensumme__title">{{ block.settings.set_zwischensumme_title }}:</span>
                     <div class="pdp-set-zwischensumme__prices">
                       <span
                         class="pdp-set-zwischensumme__compare {%unless zw_has_compare %}visually-hidden{% endunless %}"
@@ -986,7 +993,14 @@
                   assign zw_sale_cents = zw_main_sale_cents | plus: zw_first_sale_cents
                   assign zw_compare_cents = zw_main_compare_cents | plus: zw_first_compare_cents
                   assign zw_has_compare = false
-                  if zw_compare_cents > zw_sale_cents
+                  assign zw_discount_pct = 0
+                  if product.metafields.custom.pdp_set_products != blank and product.metafields.custom.set_discount_amount > 0
+                    assign zw_bundle_discount = product.metafields.custom.set_discount_amount
+                    assign zw_amount_difference = 100 | minus: zw_bundle_discount
+                    assign zw_sale_cents = zw_compare_cents | times: zw_amount_difference | divided_by: 100
+                    assign zw_has_compare = true
+                    assign zw_discount_pct = zw_bundle_discount
+                  elsif zw_compare_cents > zw_sale_cents
                     assign zw_has_compare = true
                     assign zw_discount_pct = zw_compare_cents | minus: zw_sale_cents | times: 100 | divided_by: zw_compare_cents
                   endif
