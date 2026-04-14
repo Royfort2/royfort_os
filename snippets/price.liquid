@@ -37,6 +37,30 @@
   if target == product and product.price_varies
     assign money_price = 'products.product.price.from_price_html' | t: price: money_price
   endif
+
+  if product.metafields.custom.pdp_set_products != blank and product.metafields.custom.set_discount_amount > 0
+    assign price_set_product_1 = 0
+    assign price_set_product_2 = 0
+    for set_product in product.metafields.custom.pdp_set_products.value
+      if forloop.first
+        assign price_set_product_1 = set_product.price_min
+      endif
+      if forloop.index == 2
+        assign price_set_product_2 = set_product.price_min
+      endif
+    endfor
+    assign set_compare_at_total = price_set_product_1 | plus: price_set_product_2
+    assign compare_at_price = set_compare_at_total
+    assign discount_amount = product.metafields.custom.set_discount_amount
+    assign amount_difference = 100 | minus: discount_amount
+    assign price = set_compare_at_total | times: amount_difference | divided_by: 100
+    assign money_price = price | money
+    if settings.currency_code_enabled
+      assign money_price = price | money_with_currency
+    endif
+    assign money_price_min = money_price
+    assign money_price = 'products.product.price.from_price_html' | t: price: money_price
+  endif
 -%}
 <div
   class="
