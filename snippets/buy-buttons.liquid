@@ -108,6 +108,10 @@
       <div class="product-form__error-message blocks-radius-md alert alert--error" role="alert" hidden></div>
     </div>
     {%- liquid
+      assign pdp_current_variant = product.selected_or_first_available_variant
+      if product.selected_variant != blank
+        assign pdp_current_variant = product.selected_variant
+      endif
       assign main_product_form_class = 'main-product-form grid gap-4'
       if pdp_set_bundle
         assign main_product_form_class = main_product_form_class | append: ' pdp-set-bundle'
@@ -126,14 +130,13 @@
         type="hidden"
         name="id"
         {% if pdp_set_bundle %}
-          value="{{ product.selected_or_first_available_variant.id }}"
+          value="{{ pdp_current_variant.id }}"
         {% elsif pdp_qty_selector_pending %}
           value=""
         {% else %}
-          value="{{ product.selected_or_first_available_variant.id }}"
+          value="{{ pdp_current_variant.id }}"
         {% endif %}
-        {% if product.selected_or_first_available_variant.available == false
-          or quantity_rule_soldout
+        {% if pdp_current_variant.available == false
           or pdp_set_bundle
           or pdp_qty_selector_pending
         %}
@@ -170,15 +173,6 @@
         </script>
         <script src="{{ 'product-set-cart-items.js' | asset_url }}" defer="defer"></script>
       {%- endif -%}
-      {%- liquid
-        assign check_against_inventory = true
-        if product.selected_or_first_available_variant.inventory_management != 'shopify' or product.selected_or_first_available_variant.inventory_policy == 'continue'
-          assign check_against_inventory = false
-        endif
-        if product.selected_or_first_available_variant.quantity_rule.min > product.selected_or_first_available_variant.inventory_quantity and check_against_inventory
-          assign quantity_rule_soldout = true
-        endif
-      -%}
       {%- if gift_card_recipient_feature_active -%}
         {%- render 'gift-card-recipient-form', product: product, form: form, section: section -%}
       {%- endif -%}
@@ -188,7 +182,7 @@
           id="QuantityForm-{{ section_id }}"
           class="grid gap-4"
         >
-          {%- assign cart_qty = cart | item_count_for_variant: product.selected_or_first_available_variant.id -%}
+          {%- assign cart_qty = cart | item_count_for_variant: pdp_current_variant.id -%}
 
           <div class="grid gap-2">
             <div class="grid gap-3">
@@ -219,14 +213,14 @@
                     name="quantity"
                     id="Quantity-{{ section.id }}"
                     data-cart-quantity="{{ cart_qty }}"
-                    step="{{ product.selected_or_first_available_variant.quantity_rule.increment }}"
-                    value="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
-                    data-quantity-variant-id="{{ product.selected_or_first_available_variant.id }}"
-                    data-min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
-                    min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
-                    {% if product.selected_or_first_available_variant.quantity_rule.max != null %}
-                      data-max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"
-                      max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"
+                    step="{{ pdp_current_variant.quantity_rule.increment }}"
+                    value="{{ pdp_current_variant.quantity_rule.min }}"
+                    data-quantity-variant-id="{{ pdp_current_variant.id }}"
+                    data-min="{{ pdp_current_variant.quantity_rule.min }}"
+                    min="{{ pdp_current_variant.quantity_rule.min }}"
+                    {% if pdp_current_variant.quantity_rule.max != null %}
+                      data-max="{{ pdp_current_variant.quantity_rule.max }}"
+                      max="{{ pdp_current_variant.quantity_rule.max }}"
                     {% endif %}
                     inputmode="numeric"
                     autocomplete="off"
@@ -245,19 +239,19 @@
 
                 {%- if product.quantity_price_breaks_configured? -%}
                   {%- liquid
-                    assign volume_pricing_array = product.selected_or_first_available_variant.quantity_price_breaks | sort: 'quantity' | reverse
-                    assign current_qty_for_volume_pricing = cart_qty | plus: product.selected_or_first_available_variant.quantity_rule.min
+                    assign volume_pricing_array = pdp_current_variant.quantity_price_breaks | sort: 'quantity' | reverse
+                    assign current_qty_for_volume_pricing = cart_qty | plus: pdp_current_variant.quantity_rule.min
                     if cart_qty > 0
-                      assign current_qty_for_volume_pricing = cart_qty | plus: product.selected_or_first_available_variant.quantity_rule.increment
+                      assign current_qty_for_volume_pricing = cart_qty | plus: pdp_current_variant.quantity_rule.increment
                     endif
-                    assign variant_price_compare = product.selected_or_first_available_variant.compare_at_price
+                    assign variant_price_compare = pdp_current_variant.compare_at_price
                   -%}
                   <price-per-item
                     id="PricePerItem-{{ section_id }}"
                     class="price flex flex-wrap items-center gap-2 lg:gap-1d5"
                     data-section-id="{{ section_id }}"
                     data-product-id="{{ product_id }}"
-                    data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+                    data-variant-id="{{ pdp_current_variant.id }}"
                   >
                     {%- if variant_price_compare -%}
                       <span class="visually-hidden">{{ 'products.product.price.regular_price' | t }}</span>
@@ -273,13 +267,13 @@
                       <span class="visually-hidden">{{ 'products.product.price.sale_price' | t }}</span>
                     {%- endif -%}
 
-                    {%- if product.selected_or_first_available_variant.quantity_price_breaks.size > 0 -%}
+                    {%- if pdp_current_variant.quantity_price_breaks.size > 0 -%}
                       {%- if current_qty_for_volume_pricing < volume_pricing_array.last.minimum_quantity -%}
                         {%- liquid
                           if settings.currency_code_enabled
-                            assign variant_price = product.selected_or_first_available_variant.price | money_with_currency
+                            assign variant_price = pdp_current_variant.price | money_with_currency
                           else
-                            assign variant_price = product.selected_or_first_available_variant.price | money
+                            assign variant_price = pdp_current_variant.price | money
                           endif
                         -%}
                         <span class="price-per-item--current price__regular whitespace-nowrap">
@@ -306,9 +300,9 @@
                       <span class="price-per-item--current price__regular whitespace-nowrap">
                         {%- liquid
                           if settings.currency_code_enabled
-                            assign variant_price = product.selected_or_first_available_variant.price | money_with_currency
+                            assign variant_price = pdp_current_variant.price | money_with_currency
                           else
-                            assign variant_price = product.selected_or_first_available_variant.price | money
+                            assign variant_price = pdp_current_variant.price | money
                           endif
                         -%}
                         {{- 'products.product.volume_pricing.price_at_each_html' | t: price: variant_price -}}
@@ -323,27 +317,27 @@
               class="quantity__rules text-sm"
               id="QuantityRules-{{ section_id }}"
             >
-              {%- if product.selected_or_first_available_variant.quantity_rule.increment > 1 -%}
+              {%- if pdp_current_variant.quantity_rule.increment > 1 -%}
                 <span class="divider">
                   {{-
                     'products.product.quantity.multiples_of'
-                    | t: quantity: product.selected_or_first_available_variant.quantity_rule.increment
+                    | t: quantity: pdp_current_variant.quantity_rule.increment
                   -}}
                 </span>
               {%- endif -%}
-              {%- if product.selected_or_first_available_variant.quantity_rule.min > 1 -%}
+              {%- if pdp_current_variant.quantity_rule.min > 1 -%}
                 <span class="divider">
                   {{-
                     'products.product.quantity.minimum_of'
-                    | t: quantity: product.selected_or_first_available_variant.quantity_rule.min
+                    | t: quantity: pdp_current_variant.quantity_rule.min
                   -}}
                 </span>
               {%- endif -%}
-              {%- if product.selected_or_first_available_variant.quantity_rule.max != null -%}
+              {%- if pdp_current_variant.quantity_rule.max != null -%}
                 <span class="divider font-body-bold">
                   {{-
                     'products.product.quantity.maximum_of'
-                    | t: quantity: product.selected_or_first_available_variant.quantity_rule.max
+                    | t: quantity: pdp_current_variant.quantity_rule.max
                   -}}
                 </span>
               {%- endif -%}
@@ -352,23 +346,23 @@
 
           {%- if product.quantity_price_breaks_configured? -%}
             <volume-pricing class="block parent-display blocks-radius-md" id="Volume-{{ section.id }}">
-              {%- if product.selected_or_first_available_variant.quantity_price_breaks.size > 0 -%}
+              {%- if pdp_current_variant.quantity_price_breaks.size > 0 -%}
                 <span class="caption block">{{ 'products.product.volume_pricing.title' | t }}</span>
                 <ul class="list-unstyled">
                   <li class="blocks-radius-md">
-                    <span>{{ product.selected_or_first_available_variant.quantity_rule.min }}+</span>
+                    <span>{{ pdp_current_variant.quantity_rule.min }}+</span>
                     {%- liquid
                       if settings.currency_code_enabled
-                        assign price = product.selected_or_first_available_variant.price | money_with_currency
+                        assign price = pdp_current_variant.price | money_with_currency
                       else
-                        assign price = product.selected_or_first_available_variant.price | money
+                        assign price = pdp_current_variant.price | money
                       endif
                     -%}
                     <span data-text="{{ 'products.product.volume_pricing.price_at_each' | t: price: price }}">
                       {{- 'products.product.volume_pricing.each_html' | t: money: price -}}
                     </span>
                   </li>
-                  {%- for price_break in product.selected_or_first_available_variant.quantity_price_breaks -%}
+                  {%- for price_break in pdp_current_variant.quantity_price_breaks -%}
                     {%- liquid
                       if settings.currency_code_enabled
                         assign price_break_price = price_break.price | money_with_currency
@@ -387,7 +381,7 @@
                     </li>
                   {%- endfor -%}
                 </ul>
-                {%- if product.selected_or_first_available_variant.quantity_price_breaks.size >= 3 -%}
+                {%- if pdp_current_variant.quantity_price_breaks.size >= 3 -%}
                   <show-more-button>
                     <button
                       class="button-show-more btn--link"
@@ -411,7 +405,7 @@
           and product.quantity_price_breaks_configured? != true
           and hide_qty_in_buy_buttons == false
         -%}
-          {%- assign cart_qty = cart | item_count_for_variant: product.selected_or_first_available_variant.id -%}
+          {%- assign cart_qty = cart | item_count_for_variant: pdp_current_variant.id -%}
           <div class="product-form__quantity">
             <label class="quantity__label form__label visually-hidden" for="Quantity-{{ section.id }}">
               <span class="font-body-bold">{{ 'products.product.quantity.label' | t }}</span>
@@ -429,14 +423,14 @@
                 name="quantity"
                 id="Quantity-{{ section.id }}"
                 data-cart-quantity="{{ cart_qty }}"
-                step="{{ product.selected_or_first_available_variant.quantity_rule.increment }}"
-                value="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
-                data-quantity-variant-id="{{ product.selected_or_first_available_variant.id }}"
-                data-min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
-                min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
-                {% if product.selected_or_first_available_variant.quantity_rule.max != null %}
-                  data-max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"
-                  max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"
+                step="{{ pdp_current_variant.quantity_rule.increment }}"
+                value="{{ pdp_current_variant.quantity_rule.min }}"
+                data-quantity-variant-id="{{ pdp_current_variant.id }}"
+                data-min="{{ pdp_current_variant.quantity_rule.min }}"
+                min="{{ pdp_current_variant.quantity_rule.min }}"
+                {% if pdp_current_variant.quantity_rule.max != null %}
+                  data-max="{{ pdp_current_variant.quantity_rule.max }}"
+                  max="{{ pdp_current_variant.quantity_rule.max }}"
                 {% endif %}
                 inputmode="numeric"
                 autocomplete="off"
@@ -460,8 +454,7 @@
           name="add"
           class="product-form__submit btn{% if show_dynamic_checkout %} btn--secondary{% else %} btn--primary{% endif %}"
           {% if pdp_qty_selector_pending
-            or product.selected_or_first_available_variant.available == false
-            or quantity_rule_soldout
+            or pdp_current_variant.available == false
           %}
             disabled
           {% endif %}
@@ -469,7 +462,7 @@
           <span>
             {%- if pdp_qty_selector_pending -%}
               {{ settings.select_variant_text }}
-            {%- elsif product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
+            {%- elsif pdp_current_variant.available == false -%}
               {{ 'products.product.sold_out' | t }}
             {%- else -%}
               {{ 'products.product.add_to_cart' | t }}

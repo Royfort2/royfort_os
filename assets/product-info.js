@@ -376,7 +376,15 @@ if (!customElements.get('product-info')) {
         }
         if (!Array.isArray(variants) || !variants.length) return null;
 
-        const groups = variantSelectsEl.querySelectorAll(':scope > .product-form__input');
+        let groups = Array.from(variantSelectsEl.children).filter(
+          (node) =>
+            node.nodeType === 1 &&
+            node.classList &&
+            node.classList.contains('product-form__input')
+        );
+        if (!groups.length) {
+          groups = Array.from(variantSelectsEl.querySelectorAll(':scope > .product-form__input'));
+        }
         if (!groups.length) return null;
 
         const selected = [];
@@ -385,22 +393,32 @@ if (!customElements.get('product-info')) {
           if (selectEl) {
             const opt = selectEl.selectedOptions?.[0];
             if (!opt) return null;
-            selected.push(opt.value);
+            selected.push(String(opt.value));
             continue;
           }
           const checked = this.findCheckedOptionRadio(wrap);
           if (!checked) return null;
-          selected.push(checked.value);
+          selected.push(String(checked.value));
         }
 
-        const found = variants.find((v) => {
+        const matchesOptions = (v, sel) => {
+          if (Array.isArray(v.options) && v.options.length > 0) {
+            const vo = v.options.filter((x) => x != null && String(x).length);
+            if (vo.length !== sel.length) return false;
+            for (let i = 0; i < sel.length; i++) {
+              if (this.normOptionValue(vo[i]) !== this.normOptionValue(sel[i])) return false;
+            }
+            return true;
+          }
           const vo = [v.option1, v.option2, v.option3].filter((x) => x != null && String(x).length);
-          if (vo.length !== selected.length) return false;
-          for (let i = 0; i < selected.length; i++) {
-            if (this.normOptionValue(vo[i]) !== this.normOptionValue(selected[i])) return false;
+          if (vo.length !== sel.length) return false;
+          for (let i = 0; i < sel.length; i++) {
+            if (this.normOptionValue(vo[i]) !== this.normOptionValue(sel[i])) return false;
           }
           return true;
-        });
+        };
+
+        const found = variants.find((v) => matchesOptions(v, selected));
         return found?.id != null ? String(found.id) : null;
       }
 
@@ -555,6 +573,7 @@ if (!customElements.get('product-info')) {
         this.pendingEmbeddedQtyReveal = variantSelectsEl?.dataset?.pdpEmbeddedPending === 'true';
 
         const variantIdForFetch = this.resolveVariantIdFromSelectedOptions(this, variantSelectsEl);
+        this._pendingSectionVariantId = variantIdForFetch;
 
         this.renderProductInfo({
           requestUrl: this.buildRequestUrlWithParams(
@@ -622,13 +641,30 @@ if (!customElements.get('product-info')) {
 
       handleUpdateProductInfo(productUrl, viewMode, variantSelectsId) {
         return (html) => {
+          const pendingVariantId = this._pendingSectionVariantId;
+          this._pendingSectionVariantId = null;
+
           const quickView = html.querySelector('#MainProduct-quick-view__content');
           if (quickView && viewMode === 'quick-view') {
             html = quickView.content.cloneNode(true);
           }
 
           const isMainPicker = this.isMainProductVariantPicker(variantSelectsId);
-          const variant = this.getSelectedVariant(html, variantSelectsId);
+          let variant = this.getSelectedVariant(html, variantSelectsId);
+          if (!variant && pendingVariantId) {
+            const script =
+              html.querySelector('script[data-product-variants-for-url]') ||
+              this.querySelector('script[data-product-variants-for-url]');
+            if (script?.textContent?.trim()) {
+              try {
+                const list = JSON.parse(script.textContent.trim());
+                if (Array.isArray(list)) {
+                  const v = list.find((x) => String(x.id) === String(pendingVariantId));
+                  if (v) variant = v;
+                }
+              } catch (e) {}
+            }
+          }
 
           let hadQtyRowExpandedBefore = false;
           let incomingQtyRowExpanded = false;
@@ -734,7 +770,10 @@ if (!customElements.get('product-info')) {
           }
 
           const newAddButton = html.getElementById(`ProductSubmitButton-${this.sectionId}`);
-          const isDisabled = !newAddButton || newAddButton.hasAttribute('disabled');
+          let isDisabled = !newAddButton || newAddButton.hasAttribute('disabled');
+          if (!this._isPdpSetBundleForm() && variant && variant.available === true) {
+            isDisabled = false;
+          }
           this.updateButtonsState(isDisabled, {
             updateText: true,
             text: isDisabled ? FoxTheme.variantStrings.soldOut : null,
