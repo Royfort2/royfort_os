@@ -23,7 +23,7 @@
         "text_XafVaJ": {
           "type": "text",
           "settings": {
-            "text": "<p>Use this text to share information about your brand with your customers. <br/>Describe a product, share announcements, or welcome customers to your store.</p>",
+            "text": "<p></p>{{ collection.description }}",
             "text_size": "text-base"
           }
         }
@@ -237,6 +237,7 @@
       "name": "[we] Featured collections",
       "settings": {
         "color_scheme": "",
+        "section_width": "full",
         "header_layout": "vertical",
         "heading": "",
         "heading_size": "h1",
