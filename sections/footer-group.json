@@ -154,9 +154,9 @@
           "type": "menu",
           "settings": {
             "block_width": 33,
-            "heading": "Shop",
+            "heading": "Über Royfort",
             "heading_size": "h4",
-            "menu": "footer",
+            "menu": "footer-menu-one",
             "open_default": false,
             "show_divider": true
           }
@@ -167,7 +167,7 @@
             "block_width": 33,
             "heading": "Shop",
             "heading_size": "h4",
-            "menu": "footer",
+            "menu": "top-right",
             "open_default": false,
             "show_divider": true
           }
@@ -176,7 +176,7 @@
           "type": "menu",
           "settings": {
             "block_width": 33,
-            "heading": "Customer care",
+            "heading": "Kundenservice",
             "heading_size": "h4",
             "menu": "footer",
             "open_default": false,
