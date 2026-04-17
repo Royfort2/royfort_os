@@ -23,6 +23,7 @@
         },
         "announcement_bar_FCCaeU": {
           "type": "announcement_bar",
+          "disabled": true,
           "settings": {
             "text": "Text für einen Mehrwert",
             "link": ""
@@ -30,6 +31,7 @@
         },
         "timer_ieJtwp": {
           "type": "timer",
+          "disabled": true,
           "settings": {
             "type": "fixed_time",
             "duration": "every_month",
