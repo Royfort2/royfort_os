@@ -9,12 +9,6 @@
  */
 {
   "sections": {
-    "breadcrumbs_F4iNAA": {
-      "type": "breadcrumbs",
-      "settings": {
-        "text_alignment": "center"
-      }
-    },
     "main": {
       "type": "main-blog",
       "blocks": {
@@ -51,10 +45,16 @@
         "padding_top": 36,
         "padding_bottom": 100
       }
+    },
+    "breadcrumbs_F4iNAA": {
+      "type": "breadcrumbs",
+      "settings": {
+        "text_alignment": "center"
+      }
     }
   },
   "order": [
-    "breadcrumbs_F4iNAA",
-    "main"
+    "main",
+    "breadcrumbs_F4iNAA"
   ]
 }
