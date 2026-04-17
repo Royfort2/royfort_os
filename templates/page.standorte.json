@@ -55,6 +55,8 @@
         "image": "shopify://shop_images/shipping-email-image.jpg",
         "desktop_height": "extra-large",
         "overlay_opacity": 10,
+        "use_custom_overlay": false,
+        "custom_overlay": "linear-gradient(201deg, rgba(23, 23, 23, 0.00) 0.08%, rgba(23, 23, 23, 0.75) 100.09%)",
         "enable_parallax": false,
         "parallax_direction": "vertical",
         "color_scheme": "",
@@ -105,8 +107,8 @@
             "heading": "",
             "heading_size": "h1",
             "text": "<h3>KaDeWe Berlin</h3><p><strong>Adresse: <br/></strong>Tauentzienstraße 21-24, 10789 Berlin | 5. Etage Home & Living</p><p><strong>Öffnungszeiten: <br/></strong>Montag bis Samstag, 10.00 bis 20.00 Uhr</p><p><strong>E-Mail: <br/></strong>beril@royfort.de | Store Manager</p><p><strong>Telefon: <br/></strong>+49 179 220 7188 | +49 (0) 30 2332 7430</p>",
-            "button_label": "",
-            "button_style": "btn--primary",
+            "button_label": "Jetzt Termin buchen",
+            "button_style": "btn--secondary",
             "button_link": ""
           }
         },
@@ -119,8 +121,8 @@
             "heading": "",
             "heading_size": "h1",
             "text": "<h3>Alsterhaus Hamburg</h3><p><strong>Adresse: </strong><br/>Jungfernstieg 16-20, 20354 Hamburg | Untergeschoss Home & Living</p><p><strong>Öffnungszeiten: </strong><br/>Montag bis Samstag, 10.00 bis 20.00 Uhr</p><p><strong>E-Mail: </strong><br/>alsterhaus@royfort.de | Store Manager</p><p><strong>Telefon: </strong><br/>+49 152 294 515 78 | +49 (0) 30 2332 7430</p>",
-            "button_label": "",
-            "button_style": "btn--primary",
+            "button_label": "Jetzt Termin buchen",
+            "button_style": "btn--secondary",
             "button_link": ""
           }
         }
