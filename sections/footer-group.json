@@ -178,7 +178,7 @@
             "block_width": 33,
             "heading": "Kundenservice",
             "heading_size": "h4",
-            "menu": "footer",
+            "menu": "main-menu-1",
             "open_default": false,
             "show_divider": true
           }
