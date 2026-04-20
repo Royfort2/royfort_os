@@ -1,0 +1,228 @@
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  {% liquid
+    assign rgb =  section.settings.background | color_to_rgb
+    assign tail = section.settings.opacity | prepend: ', ' | append: ')'
+  %}
+
+  .section-{{ section.id }} {
+    background-color: {{ rgb | replace: 'rgb', 'rgba' | replace: ')', tail }};
+  }
+
+  #stamped-reviews-widget[data-widget-type=carousel] .stamped-carousel-title {
+    font-style: var(--font-heading-style);
+    font-weight: var(--font-heading-weight) !important;
+    letter-spacing: var(--font-heading-letter-spacing);
+    text-transform: var(--font-heading-transform);
+    color: rgb(var(--color-foreground));
+    line-height: calc(1 + 0.2 / max(1, var(--font-heading-scale)));
+    word-break: break-word;
+    font-size: var(--font-h2-size) !important;
+    line-height: calc(1 + 0.3125 / max(1, var(--font-heading-scale)));
+    font-family: 'ABCArizonaMix-Light', Arial, sans-serif !important;
+    margin-bottom: 4rem !important;
+  }
+  #stamped-reviews-widget[data-widget-type=carousel] .stamped-carousel-scroll .stamped-reviews-rating {
+    font-size: unset !important;
+  }
+  #stamped-reviews-widget[data-widget-type=carousel] .stamped-carousel-scroll .stamped-reviews-message-block {
+    font-style: normal !important;
+  }
+  #stamped-reviews-widget[data-widget-type=carousel] .stamped-carousel-scroll .stamped-reviews-image {
+    border-radius: 0 !important;
+  }
+  #stamped-reviews-widget[data-widget-type=carousel] .stamped-carousel-scroll:before {
+    border: none !important;
+  }
+  #stamped-reviews-widget[data-widget-type=carousel] .stamped-carousel-subtitle {
+    display: none !important;
+  }
+  #stamped-reviews-widget[data-widget-type=carousel] .stamped-carousel-buttons .we-stamped-carousel-controls {
+    align-items: center;
+    gap: 1.2rem;
+  }
+  #stamped-reviews-widget[data-widget-type=carousel]
+    .stamped-carousel-buttons
+    .swiper-btn-next,
+  #stamped-reviews-widget[data-widget-type=carousel] .stamped-carousel-buttons .swiper-btn-prev {
+    position: relative;
+    transform: none;
+    margin: 0;
+    inset: auto;
+  }
+  #stamped-reviews-widget[data-widget-type=carousel] .stamped-carousel-buttons {
+    width: auto !important;
+  }
+  #stamped-reviews-widget[data-widget-type=carousel] {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+{% endstyle %}
+
+<div class="section-{{ section.id }} section-{{ section.id }}-padding page-width">
+  <div
+    id="stamped-reviews-widget"
+    data-widget-type="carousel"
+    data-title="{{ section.settings.title }}"
+    data-auto-play="false"
+    data-take="{{ section.settings.take }}"
+    data-style-color-title="#171717"
+    data-style-color-star="#171717"
+    data-style-color-text="#171717"
+    data-style-color-link="#171717"
+    data-random="? string:{{ section.settings.title }} ?"
+  ></div>
+</div>
+
+<template id="we-stamped-carousel-controls-{{ section.id }}">
+  <motion-element
+    data-motion="fade-up"
+    data-motion-delay="50"
+    class="swiper-controls hidden md:inline-flex we-stamped-carousel-controls"
+  >
+    <button
+      type="button"
+      class="swiper-btn-prev btn btn--icon-circle shrink-0"
+      name="previous"
+      aria-label="{{ 'general.slider.previous_slide' | t }}"
+    >
+      {%- render 'icon-slider-prev' -%}
+    </button>
+    <button
+      type="button"
+      class="swiper-btn-next btn btn--icon-circle shrink-0"
+      name="next"
+      aria-label="{{ 'general.slider.next_slide' | t }}"
+    >
+      {%- render 'icon-slider-next' -%}
+    </button>
+  </motion-element>
+</template>
+
+<script>
+  (function () {
+    var root = document.getElementById('stamped-reviews-widget');
+    var sectionId = {{ section.id | json }};
+    var tpl = document.getElementById('we-stamped-carousel-controls-' + sectionId);
+    if (!root || !tpl) return;
+
+    function bindButtons(box) {
+      var prev = box.querySelector('.swiper-btn-prev');
+      var next = box.querySelector('.swiper-btn-next');
+      if (prev) {
+        prev.addEventListener('click', function (e) {
+          e.preventDefault();
+          if (window.StampedCarouselFn && typeof window.StampedCarouselFn.switchSlide === 'function') {
+            StampedCarouselFn.switchSlide(prev, -1, true);
+          }
+        });
+      }
+      if (next) {
+        next.addEventListener('click', function (e) {
+          e.preventDefault();
+          if (window.StampedCarouselFn && typeof window.StampedCarouselFn.switchSlide === 'function') {
+            StampedCarouselFn.switchSlide(next, 1, true);
+          }
+        });
+      }
+    }
+
+    function enhanceStampedNav() {
+      var box = root.querySelector('.stamped-carousel-buttons');
+      if (!box || box.querySelector('.we-stamped-carousel-controls')) return;
+      box.replaceChildren();
+      box.appendChild(tpl.content.cloneNode(true));
+      bindButtons(box);
+    }
+
+    var mo = new MutationObserver(function () {
+      enhanceStampedNav();
+    });
+    mo.observe(root, { childList: true, subtree: true });
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', enhanceStampedNav);
+    } else {
+      enhanceStampedNav();
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "[we] Stamped Carousel",
+  "settings": [
+    {
+        "type": "text",
+        "id": "title",
+        "label": "Titel",
+        "default": "Das sagen unsere Kund:innen"
+    },
+    {
+      "type": "range",
+      "id": "take",
+      "label": "Anzahl der Bewertungen (1-30)",
+      "min": 1,
+      "max": 30,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Abstände und Hintergrund"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Hintergrund",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "opacity",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "label": "Deckkraft Hintergrund",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Abstand oben",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Abstand unten",
+      "default": 0
+    }
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "[we] Stamped Carousel"
+    }
+  ]
+}
+{% endschema %}
