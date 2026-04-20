@@ -37,10 +37,18 @@
             "heading_size": "hd2",
             "heading_highlight_style": "none"
           }
+        },
+        "text_mdcnUe": {
+          "type": "text",
+          "settings": {
+            "text": "{{ page.content }}",
+            "text_size": "text-base"
+          }
         }
       },
       "block_order": [
-        "heading_G9wWUy"
+        "heading_G9wWUy",
+        "text_mdcnUe"
       ],
       "name": "t:sections.rich-text.presets.name",
       "settings": {
