@@ -147,6 +147,15 @@
         "custom_class": ""
       }
     },
+    "hp_insta_rBXWtX": {
+      "type": "hp-insta",
+      "name": "Insta Gallery Section",
+      "settings": {
+        "feed_title": "Shop Our Instagram",
+        "username": "royfort_",
+        "gallery_id": "20752"
+      }
+    },
     "footer": {
       "type": "footer",
       "blocks": {
@@ -225,6 +234,7 @@
     "177375403878897b07",
     "newsletter_d8KF4g",
     "multicolumn_XGJqAN",
+    "hp_insta_rBXWtX",
     "footer"
   ]
 }
