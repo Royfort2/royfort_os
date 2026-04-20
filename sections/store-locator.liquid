@@ -7,6 +7,12 @@
 
 {%- assign motion_delay = 50 -%}
 
+{% style %}
+  .store-location__info {
+    flex-wrap: wrap;
+  }
+{% endstyle %}
+
 <div
   class="section section--padding store-locator color-{{ section.settings.color_scheme }}{% if section.settings.custom_class != blank %} {{ section.settings.custom_class }}{% endif %}"
   style="--section-padding-top: {{ section.settings.padding_top }}px;--section-padding-bottom: {{ section.settings.padding_bottom }}px;"
