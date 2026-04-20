@@ -519,6 +519,43 @@ if (!customElements.get('product-info')) {
         }
       }
 
+      /**
+       * Regular PDPs: when not all options are chosen, `resolveVariantIdFromSelectedOptions` is null and the
+       * section response has no `data-selected-variant`, so `updateMedia` never runs. Still map the chosen color
+       * (when `colorOptionIndex` is set) to any matching main-product variant so the gallery filters/slides like
+       * set-bundle PDPs when only color is selected first.
+       */
+      syncMainMediaGalleryFromColorOnly(variantSelectsEl) {
+        if (!variantSelectsEl || this._isPdpSetBundleForm()) return;
+        const pickerId = variantSelectsEl.dataset?.productId;
+        if (pickerId != null && String(pickerId) !== String(this.productId)) return;
+
+        const productMedia = this.querySelector(`[id^="MediaGallery-${this.dataset.section}"]`);
+        if (!productMedia) return;
+
+        const colorIdx = parseInt(productMedia.dataset?.colorOptionIndex, 10) || 0;
+        if (colorIdx < 1) return;
+
+        const selected = this._getSelectedOptionValuesFromVariantSelects(variantSelectsEl);
+        const cv = selected[colorIdx - 1];
+        if (cv == null || String(cv).trim() === '') return;
+
+        const variants = this._getMainProductVariantsFromDom();
+        if (!variants?.length) return;
+
+        const key = `option${colorIdx}`;
+        const norm = (s) => this.normOptionValue(s);
+        const want = norm(cv);
+        const match = (v) => norm(v[key]) === want;
+
+        const variant =
+          variants.find((v) => match(v) && v.available !== false) || variants.find((v) => match(v));
+
+        if (variant) {
+          this.updateMedia(variant);
+        }
+      }
+
       handleOptionValueChange(payload) {
         const event = payload?.data?.event;
         const target = payload?.data?.target;
@@ -574,6 +611,10 @@ if (!customElements.get('product-info')) {
 
         const variantIdForFetch = this.resolveVariantIdFromSelectedOptions(this, variantSelectsEl);
         this._pendingSectionVariantId = variantIdForFetch;
+
+        if (!isEmbeddedPicker && variantIdForFetch == null) {
+          this.syncMainMediaGalleryFromColorOnly(variantSelectsEl);
+        }
 
         this.renderProductInfo({
           requestUrl: this.buildRequestUrlWithParams(
@@ -731,6 +772,10 @@ if (!customElements.get('product-info')) {
           this._syncFormLineItems();
 
           if (!variant) {
+            if (variantSelectsId && !this._isPdpSetBundleForm()) {
+              const vs = document.getElementById(variantSelectsId);
+              this.syncMainMediaGalleryFromColorOnly(vs);
+            }
             this.setUnavailable();
             return;
           }

@@ -283,7 +283,7 @@
 .we-product-card .f-badge--custom {
     background: #FFFFFF;
     color: rgb(var(--color-button));
-    border: 1px solid rgb(var(--color-button));
+    /* border: 1px solid rgb(var(--color-button)); */
 }
 
 .we-product-card .f-badge--sale {
