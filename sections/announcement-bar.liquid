@@ -6,8 +6,12 @@
     max-width: 100%;
   }
   .announcement-bar__content:has(.announcement-bar__text-right) {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
     align-items: center;
+  }
+  .announcement-bar__content > :first-child:empty {
+    display: block !important;
   }
   .announcement-bar__content .announcement-bar__text {
     flex: 1;
@@ -15,6 +19,7 @@
   .announcement-bar__content .announcement-bar__text-right {
     font-size: 1.33rem;
     gap: 1.2rem;
+    justify-content: end;
   }
 {% endstyle %}
 <div
