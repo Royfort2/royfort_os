@@ -484,91 +484,16 @@
         "custom_class": ""
       }
     },
-    "testimonials_AdTjq8": {
-      "type": "testimonials",
-      "blocks": {
-        "testimonial_W3qqEN": {
-          "type": "testimonial",
-          "settings": {
-            "show_image": true,
-            "image": "shopify://shop_images/Website_Images_Template_5.png",
-            "text": "<p>Die Qualität der Bettwäsche ist außergewöhnlich – ich schlafe wie auf Wolken.</p>",
-            "author": "Maria S.",
-            "bio": "",
-            "product": "baumwolle-satin-deckenbezug",
-            "icon": "5-stars"
-          }
-        },
-        "testimonial_mKfeHw": {
-          "type": "testimonial",
-          "settings": {
-            "show_image": true,
-            "image": "shopify://shop_images/Website_Images_Template_5.png",
-            "text": "<p>Die Qualität der Bettwäsche ist außergewöhnlich – ich schlafe wie auf Wolken.</p>",
-            "author": "Maria S.",
-            "bio": "",
-            "product": "baumwolle-satin-deckenbezug",
-            "icon": "4-stars"
-          }
-        },
-        "testimonial_YxcdhN": {
-          "type": "testimonial",
-          "settings": {
-            "show_image": true,
-            "image": "shopify://shop_images/Website_Images_Template_5.png",
-            "text": "<p>Die Qualität der Bettwäsche ist außergewöhnlich – ich schlafe wie auf Wolken.</p>",
-            "author": "Maria S.",
-            "bio": "",
-            "product": "baumwolle-satin-deckenbezug",
-            "icon": "5-stars"
-          }
-        },
-        "testimonial_aQhdN7": {
-          "type": "testimonial",
-          "settings": {
-            "show_image": true,
-            "image": "shopify://shop_images/Website_Images_Template_5.png",
-            "text": "<p>Die Qualität der Bettwäsche ist außergewöhnlich – ich schlafe wie auf Wolken.</p>",
-            "author": "Maria S.",
-            "bio": "",
-            "product": "baumwolle-satin-deckenbezug",
-            "icon": "4-stars"
-          }
-        }
-      },
-      "block_order": [
-        "testimonial_W3qqEN",
-        "testimonial_mKfeHw",
-        "testimonial_YxcdhN",
-        "testimonial_aQhdN7"
-      ],
-      "custom_css": [
-        ".page-width {padding-inline: 1.5rem;}",
-        ".testimonials-wrapper .f-column.swiper-slide {height: inherit;}",
-        ".testimonial--layout-2 {border: solid; border-width: 1px; border-color: #d4d4d4;}"
-      ],
-      "name": "Testimonials",
+    "we_stamped_carousel_JX6Df9": {
+      "type": "we-stamped-carousel",
+      "name": "[we] Stamped Carousel",
       "settings": {
-        "color_scheme": "",
-        "heading": "Das sagen unsere Kund:innen",
-        "heading_size": "h2",
-        "heading_highlight_style": "none",
-        "subheading": "",
-        "description": "",
-        "text_size": "text-base",
-        "card_color_scheme": "scheme-8",
-        "card_layout": "2",
-        "card_text_size": "text-base",
-        "columns_desktop": 3,
-        "column_gap": "medium",
-        "enable_slider": true,
-        "columns_mobile": "1",
-        "swipe_on_mobile": true,
+        "title": "Das sagen unsere Kund:innen",
+        "take": 10,
+        "background": "#FFFFFF",
+        "opacity": 1,
         "padding_top": 40,
-        "padding_bottom": 64,
-        "show_section_divider": false,
-        "divider_width": "fixed",
-        "custom_class": ""
+        "padding_bottom": 0
       }
     },
     "custom_content_Bx7iBY": {
@@ -855,7 +780,7 @@
     "custom_content_EK4bVJ",
     "video_hero_np4cbQ",
     "custom_content_XCnW8a",
-    "testimonials_AdTjq8",
+    "we_stamped_carousel_JX6Df9",
     "custom_content_Bx7iBY",
     "image_with_text_overlay_HEUATk",
     "custom_content_XLeH4V"
