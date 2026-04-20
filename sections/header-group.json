@@ -19,7 +19,6 @@
           "settings": {
             "text": "Text für einen Mehrwert",
             "link": "",
-            "content_right": true,
             "links_right": "we-drawer-bottom-menu"
           }
         },
@@ -29,7 +28,6 @@
           "settings": {
             "text": "Text für einen Mehrwert",
             "link": "",
-            "content_right": false,
             "links_right": ""
           }
         },
