@@ -20,6 +20,13 @@
     --logo-width: {{ settings.logo_width }}px;
     --logo-width-mobile: {{ settings.logo_width_mobile }}px;
   }
+  .menu-drawer__footer-menu-list {
+    display: flex;
+    flex-direction: column;
+  }
+  .menu-drawer__footer-menu-list > * {
+    flex: 1;
+  }
 {% endstyle %}
 <menu-drawer id="MenuDrawer" class="menu-drawer drawer drawer--left" hidden>
   <div class="fixed-overlay" aria-controls="MenuDrawer"></div>
@@ -81,6 +88,17 @@
       </nav>
       <div class="drawer__footer menu-drawer__footer flex justify-center flex-col gap-y-5">
         <div class="grid gap-3">
+          {% if section.settings.drawer_bottom_menu != blank %}
+            <div class="menu-drawer__footer-menu">
+              <ul class="menu-drawer__footer-menu-list">
+                {% for link in section.settings.drawer_bottom_menu.links %}
+                  <li class="menu-drawer__footer-menu-item">
+                    <a href="{{ link.url }}" class="menu-drawer__footer-menu-link">{{ link.title }}</a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
           {%- if section.settings.enable_language_selector or section.settings.enable_country_selector -%}
             <div class="menu-drawer__localization-form flex justify-center flex-wrap gap-x-6 gap-y-4">
               {%- liquid
