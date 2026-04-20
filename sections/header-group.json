@@ -18,7 +18,9 @@
           "type": "announcement_bar",
           "settings": {
             "text": "Text für einen Mehrwert",
-            "link": ""
+            "link": "",
+            "content_right": true,
+            "links_right": "we-drawer-bottom-menu"
           }
         },
         "announcement_bar_FCCaeU": {
@@ -26,7 +28,9 @@
           "disabled": true,
           "settings": {
             "text": "Text für einen Mehrwert",
-            "link": ""
+            "link": "",
+            "content_right": false,
+            "links_right": ""
           }
         },
         "timer_ieJtwp": {
@@ -98,6 +102,7 @@
         "color_scheme": "scheme-1",
         "menu": "ws-navigation",
         "menu_mobile": "",
+        "drawer_bottom_menu": "we-drawer-bottom-menu",
         "header_layout": "left-center",
         "sticky_header": "on-scroll-up",
         "menu_trigger": "hover",
