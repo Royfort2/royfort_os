@@ -37,11 +37,11 @@
                 <div class="announcement-bar__content rte text-center">
               {%- endif -%}
               {%- if block.settings.text != blank -%}
-                {% if block.settings.content_right and block.settings.links_right != blank %}
+                {% if block.settings.links_right != blank %}
                   <p class="hidden lg:block"></p>
                 {% endif %}
                 <p class="announcement-bar__text">{{ block.settings.text }}</p>
-                {% if block.settings.content_right and block.settings.links_right != blank %}
+                {% if block.settings.links_right != blank %}
                   <span class="announcement-bar__text-right hidden lg:flex">
                     {% for link in block.settings.links_right.links %}
                       <a href="{{ link.url }}">{{ link.title }}</a>
@@ -194,12 +194,6 @@
           "type": "url",
           "id": "link",
           "label": "t:sections.all.link.label"
-        },
-        {
-          "type": "checkbox",
-          "id": "content_right",
-          "label": "[we] Add Links on the right",
-          "default": false
         },
         {
           "type": "link_list",
