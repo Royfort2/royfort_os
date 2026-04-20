@@ -16,13 +16,23 @@
       {% liquid
         assign row = 0
         assign col = 1
+        assign show_map_block = false
+        assign map_embed_stripped = ''
+        if block.settings.show_map
+          assign map_embed_stripped = block.settings.map_embed_url | strip
+          if map_embed_stripped != blank
+            assign show_map_block = true
+          elsif block.settings.map_latitude != blank and block.settings.map_longitude != blank
+            assign show_map_block = true
+          endif
+        endif
         if block.settings.heading != blank and block.settings.button_label != blank
           assign col = col | plus: 1
         endif
         if block.settings.heading != blank or block.settings.button_label != blank
           assign row = row | plus: 1
         endif
-        if block.settings.image != blank or block.settings.text != blank
+        if block.settings.image != blank or block.settings.text != blank or show_map_block
           assign row = row | plus: 1
         endif
         assign motion_delay = motion_delay | plus: 50
@@ -38,26 +48,55 @@
           <h2 class="store-location__title {{ block.settings.heading_size }}">{{ block.settings.heading }}</h2>
         {% endif %}
 
-        {% if block.settings.image != blank or block.settings.text != blank %}
+        {% if block.settings.image != blank or block.settings.text != blank or show_map_block %}
+          {% if block.settings.show_image %}
+            <div
+              class="store-location__image media-wrapper blocks-radius"
+              style="--image-width: 100%;"
+            >
+              {%- if block.settings.image != blank -%}
+                {{
+                  block.settings.image
+                  | image_url: width: 1100
+                  | image_tag:
+                    loading: 'lazy',
+                    class: 'motion-reduce',
+                    widths: '165, 360, 535, 750, 940, 1100',
+                    is: 'image-lazy'
+                }}
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+              {%- endif -%}
+            </div>
+          {% endif %}
           <div class="store-location__info flex flex-col md:flex-row md:items-center">
-            {% if block.settings.show_image %}
-              <div
-                class="store-location__image media-wrapper blocks-radius"
-                style="--image-width: {{ block.settings.image_width }}px;"
-              >
-                {%- if block.settings.image != blank -%}
-                  {{
-                    block.settings.image
-                    | image_url: width: 1100
-                    | image_tag:
-                      loading: 'lazy',
-                      class: 'motion-reduce',
-                      widths: '165, 360, 535, 750, 940, 1100',
-                      is: 'image-lazy'
-                  }}
-                {%- else -%}
-                  {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
-                {%- endif -%}
+            {% if block.settings.show_map and show_map_block %}
+              {%- liquid
+                assign map_iframe_title = 'Map'
+                if block.settings.heading != blank
+                  assign map_iframe_title = block.settings.heading | strip_html | strip | escape
+                endif
+                assign map_src = ''
+                if map_embed_stripped != blank
+                  assign map_src = map_embed_stripped
+                else
+                  assign map_lat = block.settings.map_latitude | strip
+                  assign map_lng = block.settings.map_longitude | strip
+                  assign map_zoom = block.settings.map_zoom | default: 15
+                  assign map_src = 'https://maps.google.com/maps?q='
+                  assign map_src = map_src | append: map_lat | append: ',' | append: map_lng
+                  assign map_src = map_src | append: '&z=' | append: map_zoom | append: '&output=embed'
+                endif
+              -%}
+              <div class="store-location__map media-wrapper blocks-radius">
+                <iframe
+                  class="store-location__map-iframe"
+                  src="{{ map_src }}"
+                  title="{{ map_iframe_title }}"
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                  allowfullscreen
+                ></iframe>
               </div>
             {% endif %}
             {% if block.settings.text != blank %}
@@ -195,6 +234,43 @@
           "label": "t:sections.store-locator.blocks.location.settings.image_width.label",
           "default": 210,
           "visible_if": "{{ block.settings.show_image == true }}"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_map",
+          "label": "Show Google Map",
+          "default": false
+        },
+        {
+          "type": "textarea",
+          "id": "map_embed_url",
+          "label": "Map embed URL",
+          "info": "Optional. In Google Maps: Share → Embed a map → copy only the **src** value from the iframe (starts with https://). If set, latitude/longitude below are ignored.",
+          "visible_if": "{{ block.settings.show_map == true }}"
+        },
+        {
+          "type": "text",
+          "id": "map_latitude",
+          "label": "Map latitude",
+          "placeholder": "e.g. 52.520008",
+          "visible_if": "{{ block.settings.show_map == true }}"
+        },
+        {
+          "type": "text",
+          "id": "map_longitude",
+          "label": "Map longitude",
+          "placeholder": "e.g. 13.404954",
+          "visible_if": "{{ block.settings.show_map == true }}"
+        },
+        {
+          "type": "range",
+          "id": "map_zoom",
+          "min": 10,
+          "max": 19,
+          "step": 1,
+          "label": "Map zoom",
+          "default": 15,
+          "visible_if": "{{ block.settings.show_map == true }}"
         },
         {
           "type": "inline_richtext",
