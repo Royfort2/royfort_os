@@ -761,6 +761,9 @@ layout-switcher .btn::after {
     }
 }
 
+.product-form__input:has(.we-select-container--placeholder) .option-name + [data-selected-swatch-value] {
+    display: none;
+}
 /* Variant picker: theme "Main colors" (settings.main_colors) = first row; other swatches = second row */
 .product-form__input--color .variant-options,
 .product-form__input--swatch .variant-options {
