@@ -40,13 +40,27 @@
     assign option_disabled = false
   endif
 
+  assign pattern_handle = value | handle
+  assign pattern_mo = metaobjects.pattern_swatch[pattern_handle]
+
   assign swatch_focal_point = null
-  if value.swatch.image and picker_type == 'swatch'
-    assign image_url = value.swatch.image | image_url: width: image_size
-    assign swatch_value = 'url(' | append: image_url | append: ')'
-    assign swatch_focal_point = value.swatch.image.presentation.focal_point
-  elsif value.swatch.color and picker_type == 'swatch'
-    assign swatch_value = 'rgb(' | append: value.swatch.color.rgb | append: ')'
+  if picker_type == 'swatch' or picker_type == 'swatch_dropdown'
+    if pattern_mo != blank and pattern_mo.swatch != blank
+      assign image_url = pattern_mo.swatch | image_url: width: image_size
+      assign swatch_value = 'url(' | append: image_url | append: ')'
+      assign swatch_focal_point = null
+      if pattern_mo.swatch.presentation != blank and pattern_mo.swatch.presentation.focal_point != blank
+        assign swatch_focal_point = pattern_mo.swatch.presentation.focal_point
+      endif
+    elsif value.swatch.image
+      assign image_url = value.swatch.image | image_url: width: image_size
+      assign swatch_value = 'url(' | append: image_url | append: ')'
+      assign swatch_focal_point = value.swatch.image.presentation.focal_point
+    elsif value.swatch.color
+      assign swatch_value = 'rgb(' | append: value.swatch.color.rgb | append: ')'
+    else
+      assign swatch_value = null
+    endif
   else
     assign swatch_value = null
   endif
@@ -76,6 +90,12 @@
 {%- endcapture -%}
 
 {%- if picker_type == 'swatch' -%}
+  {%- liquid
+    assign effective_swatch = value.swatch
+    if pattern_mo != blank and pattern_mo.swatch != blank
+      assign effective_swatch = pattern_mo
+    endif
+  -%}
   {%- capture help_text -%}
     <span class="visually-hidden">{{ value | escape }}</span>
     {{ label_unavailable }}
@@ -85,7 +105,7 @@
     name: input_name,
     block: block,
     value: value,
-    swatch: value.swatch,
+    swatch: effective_swatch,
     product_form_id: product_form_id,
     checked: value_should_select,
     visually_disabled: option_disabled,
@@ -96,7 +116,10 @@
   %}
 {%- elsif picker_type == 'color' -%}
   {%- liquid
-    if block.settings.swatch_type == 'variant_image' and value.variant.image != blank
+    if pattern_mo != blank and pattern_mo.swatch != blank
+      assign image_url = pattern_mo.swatch | image_url: width: image_size
+      assign swatch_value = 'url(' | append: image_url | append: ')'
+    elsif block.settings.swatch_type == 'variant_image' and value.variant.image != blank
       assign image_url = value.variant.image | image_url: width: image_size
       assign swatch_value = 'url(' | append: image_url | append: ')'
     elsif swatch_value == blank

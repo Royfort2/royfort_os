@@ -33,7 +33,13 @@
     assign swatch_image = blank
     assign swatch_fallback = value | split: ' ' | last | handle
     assign swatch_focal_point = null
-    if swatch.image
+    if swatch.swatch != blank
+      assign swatch_image = swatch.swatch | image_url: width: 72
+      assign swatch_fallback_override = false
+      if swatch.swatch.presentation != blank and swatch.swatch.presentation.focal_point != blank
+        assign swatch_focal_point = swatch.swatch.presentation.focal_point
+      endif
+    elsif swatch.image
       assign swatch_image = swatch.image | image_url: width: 72
       assign swatch_fallback_override = false
       assign swatch_focal_point = swatch.image.presentation.focal_point

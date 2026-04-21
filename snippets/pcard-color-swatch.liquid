@@ -59,18 +59,22 @@
                 assign swatch_title = product.title | append: ' - ' | append: value
                 assign swatch_url = variant.url
 
+                assign pattern_handle = value | handle
+                assign pattern_mo = metaobjects.pattern_swatch[pattern_handle]
                 assign swatch = blank
-                if value.swatch != blank
+                if pattern_mo != blank and pattern_mo.swatch != blank
+                  assign swatch = pattern_mo
+                elsif value.swatch != blank
                   assign swatch = value.swatch
                 endif
-
-                if settings.pcard_swatches_type == 'variant_image' and variant.image
+                if settings.pcard_swatches_type == 'variant_image' and variant.image and swatch == blank
                   assign swatch = variant
                 endif
-
                 assign swatches = swatch
                 if settings.pcard_swatches_type == 'color_swatch'
-                  assign swatches = ''
+                  unless pattern_mo != blank and pattern_mo.swatch != blank
+                    assign swatches = ''
+                  endunless
                 endif
               -%}
               {%- if swatch_count <= max_swatch_count -%}
@@ -103,18 +107,22 @@
                 assign swatch_title = product.title | append: ' - ' | append: value
                 assign swatch_url = variant.url
 
+                assign pattern_handle = value | handle
+                assign pattern_mo = metaobjects.pattern_swatch[pattern_handle]
                 assign swatch = blank
-                if value.swatch != blank
+                if pattern_mo != blank and pattern_mo.swatch != blank
+                  assign swatch = pattern_mo
+                elsif value.swatch != blank
                   assign swatch = value.swatch
                 endif
-
-                if settings.pcard_swatches_type == 'variant_image' and variant.image
+                if settings.pcard_swatches_type == 'variant_image' and variant.image and swatch == blank
                   assign swatch = variant
                 endif
-
                 assign swatches = swatch
                 if settings.pcard_swatches_type == 'color_swatch'
-                  assign swatches = ''
+                  unless pattern_mo != blank and pattern_mo.swatch != blank
+                    assign swatches = ''
+                  endunless
                 endif
               -%}
               {%- if swatch_count <= max_swatch_count -%}
@@ -151,18 +159,22 @@
               assign swatch_title = product.title | append: ' - ' | append: value
               assign swatch_url = variant.url
 
+              assign pattern_handle = value | handle
+              assign pattern_mo = metaobjects.pattern_swatch[pattern_handle]
               assign swatch = blank
-              if value.swatch != blank
+              if pattern_mo != blank and pattern_mo.swatch != blank
+                assign swatch = pattern_mo
+              elsif value.swatch != blank
                 assign swatch = value.swatch
               endif
-
-              if settings.pcard_swatches_type == 'variant_image' and variant.image
+              if settings.pcard_swatches_type == 'variant_image' and variant.image and swatch == blank
                 assign swatch = variant
               endif
-
               assign swatches = swatch
               if settings.pcard_swatches_type == 'color_swatch'
-                assign swatches = ''
+                unless pattern_mo != blank and pattern_mo.swatch != blank
+                  assign swatches = ''
+                endunless
               endif
 
               assign swatch_selected = false
