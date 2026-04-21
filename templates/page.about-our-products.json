@@ -1,0 +1,787 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "image_with_text_overlay_PdpRAk": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading_nVjkiN": {
+          "type": "heading",
+          "settings": {
+            "heading": "{{ page.title }}",
+            "heading_size": "h1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_JbmiVt": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Use this text to share information about your brand with your customers. <br>Describe a product, share announcements, or welcome customers to your store.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "button_z3Gm4T": {
+          "type": "button",
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style": "btn--underline"
+          }
+        }
+      },
+      "block_order": [
+        "heading_nVjkiN",
+        "text_JbmiVt",
+        "button_z3Gm4T"
+      ],
+      "name": "t:sections.image-with-text-overlay.name",
+      "settings": {
+        "container": "full",
+        "image": "shopify://shop_images/shipping-email-image.jpg",
+        "desktop_height": "extra-large",
+        "overlay_opacity": 10,
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "color_scheme": "",
+        "content_position": "bottom-left",
+        "content_alignment": "left",
+        "mobile_height": "extra-large",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "custom_class": ""
+      }
+    },
+    "custom_content_dDhdnh": {
+      "type": "custom-content",
+      "blocks": {
+        "image_card_YUF7Ny": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/Baumwolle_1.jpg",
+            "image_ratio": "1/1",
+            "image_overlay_opacity": 10,
+            "heading": "Baumwolle Bettwäsche",
+            "heading_size": "h4",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "",
+            "button_style": "btn--primary",
+            "content_position": "bottom-left",
+            "content_alignment": "left",
+            "content_spacing": "medium",
+            "card_link": "",
+            "color_scheme_mobile": "scheme-3",
+            "show_text_below": false,
+            "content_alignment_mobile": "left",
+            "width": "16%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_card_RKVPV4": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/Baumwolle_2.jpg",
+            "image_ratio": "1/1",
+            "image_overlay_opacity": 10,
+            "heading": "Leinen Bettwäsche",
+            "heading_size": "h4",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "",
+            "button_style": "btn--primary",
+            "content_position": "bottom-left",
+            "content_alignment": "left",
+            "content_spacing": "medium",
+            "card_link": "",
+            "color_scheme_mobile": "scheme-3",
+            "show_text_below": false,
+            "content_alignment_mobile": "left",
+            "width": "16%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_card_XFd8Wt": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/Kaschmir_Weiss_2.jpg",
+            "image_ratio": "1/1",
+            "image_overlay_opacity": 10,
+            "heading": "Kaschmir Bettwäsche",
+            "heading_size": "h4",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "",
+            "button_style": "btn--primary",
+            "content_position": "bottom-left",
+            "content_alignment": "left",
+            "content_spacing": "medium",
+            "card_link": "",
+            "color_scheme_mobile": "scheme-3",
+            "show_text_below": false,
+            "content_alignment_mobile": "left",
+            "width": "16%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_card_JHtixh": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/Baumwolle_1.jpg",
+            "image_ratio": "1/1",
+            "image_overlay_opacity": 10,
+            "heading": "Handtücher",
+            "heading_size": "h4",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "",
+            "button_style": "btn--primary",
+            "content_position": "bottom-left",
+            "content_alignment": "left",
+            "content_spacing": "medium",
+            "card_link": "",
+            "color_scheme_mobile": "scheme-3",
+            "show_text_below": false,
+            "content_alignment_mobile": "left",
+            "width": "16%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_card_BG6mWU": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/Decken-und-kissen-desktop_2547fee6-fda7-4c4d-960c-ef1b4b433df3.jpg",
+            "image_ratio": "1/1",
+            "image_overlay_opacity": 10,
+            "heading": "Kissen",
+            "heading_size": "h4",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "",
+            "button_style": "btn--primary",
+            "content_position": "bottom-left",
+            "content_alignment": "left",
+            "content_spacing": "medium",
+            "card_link": "",
+            "color_scheme_mobile": "scheme-3",
+            "show_text_below": false,
+            "content_alignment_mobile": "left",
+            "width": "16%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_card_AQ4C6F": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/Musselin_2_61a69467-7ecc-4db1-a446-fade4c670e07.jpg",
+            "image_ratio": "1/1",
+            "image_overlay_opacity": 10,
+            "heading": "Daunendecken",
+            "heading_size": "h4",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "",
+            "button_style": "btn--primary",
+            "content_position": "bottom-left",
+            "content_alignment": "left",
+            "content_spacing": "medium",
+            "card_link": "",
+            "color_scheme_mobile": "scheme-3",
+            "show_text_below": false,
+            "content_alignment_mobile": "left",
+            "width": "16%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_card_YUF7Ny",
+        "image_card_RKVPV4",
+        "image_card_XFd8Wt",
+        "image_card_JHtixh",
+        "image_card_BG6mWU",
+        "image_card_AQ4C6F"
+      ],
+      "name": "t:sections.custom-content.name",
+      "settings": {
+        "container": "full",
+        "color_scheme": "",
+        "enable_sticky_column": false,
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "column_gap": "extra-small",
+        "row_gap": "inherit",
+        "swipe_on_mobile": true,
+        "columns_mobile": "1",
+        "padding_top": 16,
+        "padding_bottom": 16,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "image_width_text_columns_3x6xrt": {
+      "type": "image-width-text-columns",
+      "blocks": {
+        "column_kPkkVF": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "Column",
+            "heading_size": "h4",
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post.<br/> Add details on availability, style.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "column_wPwRBX": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "Column",
+            "heading_size": "h4",
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post.<br> Add details on availability, style.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "column_qM3Bf3": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "Column",
+            "heading_size": "h4",
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post.<br> Add details on availability, style.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "column_JMwWin": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "Column",
+            "heading_size": "h4",
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post.<br> Add details on availability, style.</p>",
+            "text_size": "text-base"
+          }
+        }
+      },
+      "block_order": [
+        "column_kPkkVF",
+        "column_wPwRBX",
+        "column_qM3Bf3",
+        "column_JMwWin"
+      ],
+      "name": "t:sections.image-with-text-columns.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "layout_gap": "medium",
+        "content_alignment": "center",
+        "image": "shopify://shop_images/Baumwolle_2.jpg",
+        "image_position": "text_first",
+        "heading": "Titel für Kollektion",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "Subheading",
+        "description": "",
+        "text_size": "text-base",
+        "column_alignment": "left",
+        "columns_desktop": 2,
+        "column_gap": "large",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "image_width_text_columns_yHh3ma": {
+      "type": "image-width-text-columns",
+      "blocks": {
+        "column_yjApYg": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "Column",
+            "heading_size": "h4",
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post.<br/> Add details on availability, style.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "column_cW7EUF": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "Column",
+            "heading_size": "h4",
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post.<br> Add details on availability, style.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "column_RRCVVT": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "Column",
+            "heading_size": "h4",
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post.<br> Add details on availability, style.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "column_XyHDic": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "Column",
+            "heading_size": "h4",
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post.<br> Add details on availability, style.</p>",
+            "text_size": "text-base"
+          }
+        }
+      },
+      "block_order": [
+        "column_yjApYg",
+        "column_cW7EUF",
+        "column_RRCVVT",
+        "column_XyHDic"
+      ],
+      "name": "t:sections.image-with-text-columns.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "layout_gap": "medium",
+        "content_alignment": "center",
+        "image": "shopify://shop_images/Baumwolle_2.jpg",
+        "image_position": "image_first",
+        "heading": "Titel für Kollektion",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "Subheading",
+        "description": "",
+        "text_size": "text-base",
+        "column_alignment": "left",
+        "columns_desktop": 2,
+        "column_gap": "large",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "image_with_text_overlay_hqPP7X": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading_LmUYpc": {
+          "type": "heading",
+          "settings": {
+            "heading": "Image with text overlay",
+            "heading_size": "h1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_fyYkah": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Use this text to share information about your brand with your customers. <br>Describe a product, share announcements, or welcome customers to your store.</p>",
+            "text_size": "text-base"
+          }
+        }
+      },
+      "block_order": [
+        "heading_LmUYpc",
+        "text_fyYkah"
+      ],
+      "name": "t:sections.image-with-text-overlay.name",
+      "settings": {
+        "container": "full",
+        "image": "shopify://shop_images/Website_Images_Template_4.png",
+        "desktop_height": "extra-large",
+        "overlay_opacity": 20,
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "color_scheme": "",
+        "content_position": "bottom-left",
+        "content_alignment": "left",
+        "mobile_height": "extra-large",
+        "padding_top": 16,
+        "padding_bottom": 16,
+        "custom_class": ""
+      }
+    },
+    "image_width_text_columns_CCnMqV": {
+      "type": "image-width-text-columns",
+      "blocks": {
+        "column_aB8RKq": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "Column",
+            "heading_size": "h4",
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post.<br/> Add details on availability, style.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "column_bkj9TA": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "Column",
+            "heading_size": "h4",
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post.<br> Add details on availability, style.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "column_VX4gER": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "Column",
+            "heading_size": "h4",
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post.<br> Add details on availability, style.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "column_fcP4z8": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "Column",
+            "heading_size": "h4",
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post.<br> Add details on availability, style.</p>",
+            "text_size": "text-base"
+          }
+        }
+      },
+      "block_order": [
+        "column_aB8RKq",
+        "column_bkj9TA",
+        "column_VX4gER",
+        "column_fcP4z8"
+      ],
+      "name": "t:sections.image-with-text-columns.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "layout_gap": "medium",
+        "content_alignment": "center",
+        "image": "shopify://shop_images/Baumwolle_2.jpg",
+        "image_position": "text_first",
+        "heading": "Titel für Kollektion",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "Subheading",
+        "description": "",
+        "text_size": "text-base",
+        "column_alignment": "left",
+        "columns_desktop": 2,
+        "column_gap": "large",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "image_width_text_columns_pYdjj3": {
+      "type": "image-width-text-columns",
+      "blocks": {
+        "column_exhTp6": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "Column",
+            "heading_size": "h4",
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post.<br/> Add details on availability, style.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "column_LMBrxL": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "Column",
+            "heading_size": "h4",
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post.<br> Add details on availability, style.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "column_UfbCwY": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "Column",
+            "heading_size": "h4",
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post.<br> Add details on availability, style.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "column_VAtJx6": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "Column",
+            "heading_size": "h4",
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post.<br> Add details on availability, style.</p>",
+            "text_size": "text-base"
+          }
+        }
+      },
+      "block_order": [
+        "column_exhTp6",
+        "column_LMBrxL",
+        "column_UfbCwY",
+        "column_VAtJx6"
+      ],
+      "name": "t:sections.image-with-text-columns.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "layout_gap": "medium",
+        "content_alignment": "center",
+        "image": "shopify://shop_images/Baumwolle_2.jpg",
+        "image_position": "image_first",
+        "heading": "Titel für Kollektion",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "Subheading",
+        "description": "",
+        "text_size": "text-base",
+        "column_alignment": "left",
+        "columns_desktop": 2,
+        "column_gap": "large",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "video_hero_nJwNwM": {
+      "type": "video-hero",
+      "blocks": {
+        "heading_WC4NEK": {
+          "type": "heading",
+          "settings": {
+            "heading": "Video hero",
+            "heading_size": "h1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_LHnbwC": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Use this text to share information about your brand with your customers. <br/>Describe a product, share announcements, or welcome customers to your store.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "button_y8JmmQ": {
+          "type": "button",
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style": "btn--underline"
+          }
+        }
+      },
+      "block_order": [
+        "heading_WC4NEK",
+        "text_LHnbwC",
+        "button_y8JmmQ"
+      ],
+      "name": "t:sections.video-hero.name",
+      "settings": {
+        "container": "full",
+        "video": "shopify://files/videos/NewHomepageVideo3_a1b10b31-7110-4239-a9e8-e6a038ed73da.mp4",
+        "video_url": "",
+        "description": "",
+        "video_height": "adapt",
+        "overlay_opacity": 0,
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "color_scheme": "scheme-inverse",
+        "content_position": "bottom-left",
+        "content_alignment": "left",
+        "video_mobile_height": "large",
+        "padding_top": 0,
+        "padding_bottom": 16,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "custom_content_rYKMqP": {
+      "type": "custom-content",
+      "blocks": {
+        "image_card_DKnbyY": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/royfort-kadewe-10_11b15f9c-04b9-4e25-8d5a-d687e8709f3a.jpg",
+            "image_ratio": "3/4",
+            "image_overlay_opacity": 26,
+            "heading": "KaDeWe Berlin",
+            "heading_size": "h4",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "Mehr erfahren",
+            "button_style": "btn--underline",
+            "content_position": "bottom-left",
+            "content_alignment": "left",
+            "content_spacing": "small",
+            "card_link": "#",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "33%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_card_HLArBN": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/royfort_standorte_hamburg_01.webp",
+            "image_ratio": "3/4",
+            "image_overlay_opacity": 26,
+            "heading": "Alsterhaus Hamburg",
+            "heading_size": "h4",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "Mehr erfahren",
+            "button_style": "btn--underline",
+            "content_position": "bottom-left",
+            "content_alignment": "left",
+            "content_spacing": "small",
+            "card_link": "#",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "33%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_card_dYWACE": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/royfort_standorte_muenchen_01.webp",
+            "image_ratio": "3/4",
+            "image_overlay_opacity": 26,
+            "heading": "Michel Bäder München",
+            "heading_size": "h4",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "Mehr erfahren",
+            "button_style": "btn--underline",
+            "content_position": "bottom-left",
+            "content_alignment": "left",
+            "content_spacing": "small",
+            "card_link": "#",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "33%",
+            "alignment": "end",
+            "block_custom_class": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_card_DKnbyY",
+        "image_card_HLArBN",
+        "image_card_dYWACE"
+      ],
+      "custom_css": [
+        ".f-grid--row-gap-extra-small {--row-gap: 1rem; --row-gap-mobile: 0rem;}",
+        "@media (max-width: 767px) {.card-media--small .content-overlay {--padding-y: 1.5rem; --padding-x: 1.5rem; } .h5 {font-size: 1.5rem; text-transform: uppercase; } .section--padding {padding-block-end: 0rem; }}"
+      ],
+      "name": "t:sections.custom-content.name",
+      "settings": {
+        "container": "full",
+        "color_scheme": "",
+        "enable_sticky_column": false,
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "column_gap": "extra-small",
+        "row_gap": "extra-small",
+        "swipe_on_mobile": false,
+        "columns_mobile": "1",
+        "padding_top": 0,
+        "padding_bottom": 16,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "breadcrumbs_zf9HBa": {
+      "type": "breadcrumbs",
+      "custom_css": [
+        ".justify-center {justify-content: left;}"
+      ],
+      "name": "t:sections.breadcrumbs.name",
+      "settings": {
+        "text_alignment": "start"
+      }
+    }
+  },
+  "order": [
+    "image_with_text_overlay_PdpRAk",
+    "custom_content_dDhdnh",
+    "image_width_text_columns_3x6xrt",
+    "image_width_text_columns_yHh3ma",
+    "image_with_text_overlay_hqPP7X",
+    "image_width_text_columns_CCnMqV",
+    "image_width_text_columns_pYdjj3",
+    "video_hero_nJwNwM",
+    "custom_content_rYKMqP",
+    "main",
+    "breadcrumbs_zf9HBa"
+  ]
+}
