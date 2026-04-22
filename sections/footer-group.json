@@ -73,8 +73,9 @@
           "type": "column",
           "settings": {
             "show_image": true,
+            "image": "shopify://shop_images/delivery_truck_speed_100dp_1F1F1F_FILL0_wght400_GRAD0_opsz48.png",
             "image_width": "medium",
-            "title": "Kostenloser Versand",
+            "title": "Schnelle Lieferung",
             "heading_size": "h5",
             "text": "",
             "text_size": "text-base",
@@ -88,8 +89,9 @@
           "type": "column",
           "settings": {
             "show_image": true,
+            "image": "shopify://shop_images/eco_100dp_1F1F1F_FILL0_wght400_GRAD0_opsz48.png",
             "image_width": "medium",
-            "title": "Kostenloser Versand",
+            "title": "Nachhaltig & Langlebig",
             "heading_size": "h5",
             "text": "",
             "text_size": "text-base",
@@ -103,8 +105,9 @@
           "type": "column",
           "settings": {
             "show_image": true,
+            "image": "shopify://shop_images/diamond_100dp_1F1F1F_FILL0_wght400_GRAD0_opsz48.png",
             "image_width": "medium",
-            "title": "Kostenloser Versand",
+            "title": "Höchste Qualität & Verarbeitung",
             "heading_size": "h5",
             "text": "",
             "text_size": "text-base",
@@ -118,8 +121,9 @@
           "type": "column",
           "settings": {
             "show_image": true,
+            "image": "shopify://shop_images/bed_100dp_1F1F1F_FILL0_wght400_GRAD0_opsz48.png",
             "image_width": "medium",
-            "title": "Kostenloser Versand",
+            "title": "Erholsamer Schlaf & Komfort",
             "heading_size": "h5",
             "text": "",
             "text_size": "text-base",
