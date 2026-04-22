@@ -216,7 +216,8 @@
         "image_text_F3FNhx"
       ],
       "custom_css": [
-        ".media-wrapper {width: 100% !important;}"
+        ".media-wrapper {width: 100% !important;}",
+        ".media-wrapper>img {width: 100% !important;}"
       ],
       "settings": {
         "color_scheme": "scheme-3",
