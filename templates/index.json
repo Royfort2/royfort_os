@@ -9,6 +9,57 @@
  */
 {
   "sections": {
+    "image_with_text_overlay_nrqpPE": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading_dYJPBr": {
+          "type": "heading",
+          "settings": {
+            "heading": "The Luxury of Sleep.",
+            "heading_size": "h1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_DGYfwe": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Entdecken Sie zeitloses Design, handverlesene Materialien und erstklassige Verarbeitung. <br/>Durch nachhaltige Herstellung und Liebe zum Detail schaffen wir Produkte, die Ihren Schlaf neu definieren.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "button_HHyGXk": {
+          "type": "button",
+          "settings": {
+            "button_label": "Jetzt entdecken",
+            "button_link": "shopify://collections",
+            "button_style": "btn--underline"
+          }
+        }
+      },
+      "block_order": [
+        "heading_dYJPBr",
+        "text_DGYfwe",
+        "button_HHyGXk"
+      ],
+      "name": "t:sections.image-with-text-overlay.name",
+      "settings": {
+        "container": "full",
+        "image": "shopify://shop_images/shipping-email-image.jpg",
+        "desktop_height": "extra-large",
+        "overlay_opacity": 10,
+        "use_custom_overlay": false,
+        "custom_overlay": "linear-gradient(201deg, rgba(23, 23, 23, 0.00) 0.08%, rgba(23, 23, 23, 0.75) 100.09%)",
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "color_scheme": "",
+        "content_position": "bottom-left",
+        "content_alignment": "left",
+        "mobile_height": "extra-large",
+        "padding_top": 0,
+        "padding_bottom": 16,
+        "custom_class": ""
+      }
+    },
     "custom_content_kJfyKb": {
       "type": "custom-content",
       "blocks": {
@@ -151,29 +202,11 @@
     "custom_content_4GEama": {
       "type": "custom-content",
       "blocks": {
-        "image_EiCraM": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/brigitte-de-logo-vector_66e1e9a6-0c78-4162-8614-a0941751d95c.svg",
-            "width": "16%",
-            "alignment": "center",
-            "block_custom_class": ""
-          }
-        },
         "image_AewnVC": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/Cosmopolitan_logo_black.png",
-            "width": "16%",
-            "alignment": "center",
-            "block_custom_class": ""
-          }
-        },
-        "image_L9pbLm": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/brigitte-de-logo-vector_66e1e9a6-0c78-4162-8614-a0941751d95c.svg",
-            "width": "16%",
+            "image": "shopify://shop_images/SZ2_2.png",
+            "width": "25%",
             "alignment": "center",
             "block_custom_class": ""
           }
@@ -181,8 +214,8 @@
         "image_9NAXCQ": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/brigitte-de-logo-vector_66e1e9a6-0c78-4162-8614-a0941751d95c.svg",
-            "width": "16%",
+            "image": "shopify://shop_images/2000px-Die_Zeit-Logo-Bremen.svg_9abe320f-2fad-4614-9630-846c8c8f4122.png",
+            "width": "20%",
             "alignment": "center",
             "block_custom_class": ""
           }
@@ -190,29 +223,17 @@
         "image_pmH7VN": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/brigitte-de-logo-vector_66e1e9a6-0c78-4162-8614-a0941751d95c.svg",
-            "width": "16%",
-            "alignment": "center",
-            "block_custom_class": ""
-          }
-        },
-        "image_tbYwBE": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/brigitte-de-logo-vector_66e1e9a6-0c78-4162-8614-a0941751d95c.svg",
-            "width": "16%",
+            "image": "shopify://shop_images/Website_Images_Template_6.png",
+            "width": "20%",
             "alignment": "center",
             "block_custom_class": ""
           }
         }
       },
       "block_order": [
-        "image_EiCraM",
         "image_AewnVC",
-        "image_L9pbLm",
         "image_9NAXCQ",
-        "image_pmH7VN",
-        "image_tbYwBE"
+        "image_pmH7VN"
       ],
       "disabled": true,
       "name": "t:sections.custom-content.name",
@@ -848,6 +869,7 @@
     }
   },
   "order": [
+    "image_with_text_overlay_nrqpPE",
     "custom_content_kJfyKb",
     "video_hero_qjxhUU",
     "custom_content_4GEama",
