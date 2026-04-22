@@ -120,6 +120,7 @@
         "image_card_mQPzQP",
         "image_card_CkWQ4E"
       ],
+      "disabled": true,
       "custom_css": [
         ".f-grid--row-gap-extra-small {--row-gap: 1rem; --row-gap-mobile: 0rem;}",
         "@media (max-width: 767px) {.card-media--small .content-overlay {--padding-y: 1.5rem; --padding-x: 1.5rem; } .section--padding {padding-block-end: 0rem; }}"
@@ -312,6 +313,118 @@
         "custom_class": ""
       }
     },
+    "custom_content_Bx7iBY": {
+      "type": "custom-content",
+      "blocks": {
+        "image_card_YeqpA7": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/Featured_Category_Bettwasche_small_746baeff-f64d-4458-9038-cb914b6e5acf.jpg",
+            "image_ratio": "1/1",
+            "image_overlay_opacity": 10,
+            "heading": "Bettwäsche",
+            "heading_size": "h5",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "",
+            "button_style": "btn--primary",
+            "content_position": "bottom-left",
+            "content_alignment": "center",
+            "content_spacing": "small",
+            "card_link": "",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "33%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_card_r4bbmh": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/Featured_Category_Decken_Kissen_small_eac569dd-12a7-4007-a5f7-d06b6965800b.jpg",
+            "image_ratio": "1/1",
+            "image_overlay_opacity": 10,
+            "heading": "Decken & Kissen",
+            "heading_size": "h5",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "",
+            "button_style": "btn--primary",
+            "content_position": "bottom-left",
+            "content_alignment": "center",
+            "content_spacing": "small",
+            "card_link": "",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "33%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_card_Ew9UTi": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/Featured_Category_Betten_Matratzen_small_e453b342-76fb-4d8b-a375-a37b02a98c11.jpg",
+            "image_ratio": "1/1",
+            "image_overlay_opacity": 10,
+            "heading": "Betten & Matratzen",
+            "heading_size": "h5",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "",
+            "button_style": "btn--primary",
+            "content_position": "bottom-left",
+            "content_alignment": "center",
+            "content_spacing": "small",
+            "card_link": "",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "33%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_card_YeqpA7",
+        "image_card_r4bbmh",
+        "image_card_Ew9UTi"
+      ],
+      "custom_css": [
+        ".f-grid--row-gap-extra-small {--row-gap: 1rem; --row-gap-mobile: 0rem;}",
+        "@media (max-width: 767px) {.card-media--small .content-overlay {--padding-y: 1.5rem; --padding-x: 1.5rem; } .h5 {font-size: 1.5rem; text-transform: uppercase; } .section--padding {padding-block-end: 0rem; }}"
+      ],
+      "name": "t:sections.custom-content.name",
+      "settings": {
+        "container": "full",
+        "color_scheme": "",
+        "enable_sticky_column": false,
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "column_gap": "extra-small",
+        "row_gap": "extra-small",
+        "swipe_on_mobile": false,
+        "columns_mobile": "1",
+        "padding_top": 0,
+        "padding_bottom": 16,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
     "custom_content_EK4bVJ": {
       "type": "custom-content",
       "blocks": {
@@ -372,6 +485,7 @@
         "image_card_kdVfjb",
         "image_card_8468g8"
       ],
+      "disabled": true,
       "custom_css": [
         ".f-grid--row-gap-extra-small {--row-gap: 1rem; --row-gap-mobile: 0rem;}",
         "@media (max-width: 767px) {.card-media--small .content-overlay {--padding-y: 1.5rem; --padding-x: 1.5rem; } .h5 {font-size: 1.5rem; text-transform: uppercase; } .section--padding {padding-block-end: 0rem; }}"
@@ -515,118 +629,6 @@
         "opacity": 1,
         "padding_top": 40,
         "padding_bottom": 0
-      }
-    },
-    "custom_content_Bx7iBY": {
-      "type": "custom-content",
-      "blocks": {
-        "image_card_YeqpA7": {
-          "type": "image_card",
-          "settings": {
-            "color_scheme": "scheme-3",
-            "image": "shopify://shop_images/Featured_Category_Bettwasche_small_746baeff-f64d-4458-9038-cb914b6e5acf.jpg",
-            "image_ratio": "1/1",
-            "image_overlay_opacity": 10,
-            "heading": "Bettwäsche",
-            "heading_size": "h5",
-            "heading_highlight_style": "none",
-            "subheading": "",
-            "description": "",
-            "button_label": "",
-            "button_style": "btn--primary",
-            "content_position": "bottom-left",
-            "content_alignment": "center",
-            "content_spacing": "small",
-            "card_link": "",
-            "color_scheme_mobile": "scheme-6",
-            "show_text_below": true,
-            "content_alignment_mobile": "left",
-            "width": "33%",
-            "alignment": "center",
-            "block_custom_class": ""
-          }
-        },
-        "image_card_r4bbmh": {
-          "type": "image_card",
-          "settings": {
-            "color_scheme": "scheme-3",
-            "image": "shopify://shop_images/Featured_Category_Decken_Kissen_small_eac569dd-12a7-4007-a5f7-d06b6965800b.jpg",
-            "image_ratio": "1/1",
-            "image_overlay_opacity": 10,
-            "heading": "Decken & Kissen",
-            "heading_size": "h5",
-            "heading_highlight_style": "none",
-            "subheading": "",
-            "description": "",
-            "button_label": "",
-            "button_style": "btn--primary",
-            "content_position": "bottom-left",
-            "content_alignment": "center",
-            "content_spacing": "small",
-            "card_link": "",
-            "color_scheme_mobile": "scheme-6",
-            "show_text_below": true,
-            "content_alignment_mobile": "left",
-            "width": "33%",
-            "alignment": "center",
-            "block_custom_class": ""
-          }
-        },
-        "image_card_Ew9UTi": {
-          "type": "image_card",
-          "settings": {
-            "color_scheme": "scheme-3",
-            "image": "shopify://shop_images/Featured_Category_Betten_Matratzen_small_e453b342-76fb-4d8b-a375-a37b02a98c11.jpg",
-            "image_ratio": "1/1",
-            "image_overlay_opacity": 10,
-            "heading": "Betten & Matratzen",
-            "heading_size": "h5",
-            "heading_highlight_style": "none",
-            "subheading": "",
-            "description": "",
-            "button_label": "",
-            "button_style": "btn--primary",
-            "content_position": "bottom-left",
-            "content_alignment": "center",
-            "content_spacing": "small",
-            "card_link": "",
-            "color_scheme_mobile": "scheme-6",
-            "show_text_below": true,
-            "content_alignment_mobile": "left",
-            "width": "33%",
-            "alignment": "center",
-            "block_custom_class": ""
-          }
-        }
-      },
-      "block_order": [
-        "image_card_YeqpA7",
-        "image_card_r4bbmh",
-        "image_card_Ew9UTi"
-      ],
-      "custom_css": [
-        ".f-grid--row-gap-extra-small {--row-gap: 1rem; --row-gap-mobile: 0rem;}",
-        "@media (max-width: 767px) {.card-media--small .content-overlay {--padding-y: 1.5rem; --padding-x: 1.5rem; } .h5 {font-size: 1.5rem; text-transform: uppercase; } .section--padding {padding-block-end: 0rem; }}"
-      ],
-      "name": "t:sections.custom-content.name",
-      "settings": {
-        "container": "full",
-        "color_scheme": "",
-        "enable_sticky_column": false,
-        "heading": "",
-        "heading_size": "h1",
-        "heading_highlight_style": "none",
-        "subheading": "",
-        "description": "",
-        "column_gap": "extra-small",
-        "row_gap": "extra-small",
-        "swipe_on_mobile": false,
-        "columns_mobile": "1",
-        "padding_top": 0,
-        "padding_bottom": 16,
-        "show_section_divider": false,
-        "divider_width": "fixed",
-        "custom_class": ""
       }
     },
     "image_with_text_overlay_HEUATk": {
@@ -799,7 +801,8 @@
           "type": "column",
           "settings": {
             "show_image": true,
-            "image_width": "medium",
+            "image": "shopify://shop_images/Website_Images_Template_7.png",
+            "image_width": "full",
             "title": "",
             "heading_size": "h4",
             "text": "",
@@ -814,7 +817,8 @@
           "type": "column",
           "settings": {
             "show_image": true,
-            "image_width": "medium",
+            "image": "shopify://shop_images/2000px-Die_Zeit-Logo-Bremen.svg_9abe320f-2fad-4614-9630-846c8c8f4122.png",
+            "image_width": "full",
             "title": "",
             "heading_size": "h4",
             "text": "",
@@ -829,7 +833,8 @@
           "type": "column",
           "settings": {
             "show_image": true,
-            "image_width": "medium",
+            "image": "shopify://shop_images/SZ2_2.png",
+            "image_width": "full",
             "title": "",
             "heading_size": "h4",
             "text": "",
@@ -846,6 +851,7 @@
         "column_xexFQc",
         "column_mTiiwn"
       ],
+      "disabled": true,
       "name": "t:sections.multicolumn.presets.name",
       "settings": {
         "color_scheme": "",
@@ -874,11 +880,11 @@
     "video_hero_qjxhUU",
     "custom_content_4GEama",
     "custom_content_ArQKiM",
+    "custom_content_Bx7iBY",
     "custom_content_EK4bVJ",
     "video_hero_np4cbQ",
     "custom_content_XCnW8a",
     "we_stamped_carousel_JX6Df9",
-    "custom_content_Bx7iBY",
     "image_with_text_overlay_HEUATk",
     "custom_content_XLeH4V",
     "multicolumn_dGdzNX"
