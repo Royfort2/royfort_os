@@ -36,7 +36,7 @@
       "type": "hp-insta",
       "name": "Insta Gallery Section",
       "settings": {
-        "feed_title": "Shop Our Instagram",
+        "feed_title": "Inspiration auf Instagram",
         "username": "royfort_",
         "gallery_id": "20752"
       }
@@ -217,7 +217,7 @@
       ],
       "custom_css": [
         ".media-wrapper {width: 100% !important;}",
-        ".media-wrapper>img {width: 100% !important;}"
+        ".media-wrapper > img {width: 100% !important;}"
       ],
       "settings": {
         "color_scheme": "scheme-3",
