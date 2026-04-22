@@ -503,7 +503,7 @@
           "type": "image_card",
           "settings": {
             "color_scheme": "scheme-3",
-            "image": "shopify://shop_images/blog_image3.jpg",
+            "image": "shopify://shop_images/Featured_Category_Bettwasche_small_746baeff-f64d-4458-9038-cb914b6e5acf.jpg",
             "image_ratio": "1/1",
             "image_overlay_opacity": 10,
             "heading": "Bettwäsche",
@@ -529,7 +529,7 @@
           "type": "image_card",
           "settings": {
             "color_scheme": "scheme-3",
-            "image": "shopify://shop_images/Website_Images_Template_5.png",
+            "image": "shopify://shop_images/Featured_Category_Decken_Kissen_small_eac569dd-12a7-4007-a5f7-d06b6965800b.jpg",
             "image_ratio": "1/1",
             "image_overlay_opacity": 10,
             "heading": "Decken & Kissen",
@@ -555,7 +555,7 @@
           "type": "image_card",
           "settings": {
             "color_scheme": "scheme-3",
-            "image": "shopify://shop_images/blog_image3.jpg",
+            "image": "shopify://shop_images/Featured_Category_Betten_Matratzen_small_e453b342-76fb-4d8b-a375-a37b02a98c11.jpg",
             "image_ratio": "1/1",
             "image_overlay_opacity": 10,
             "heading": "Betten & Matratzen",
