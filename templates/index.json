@@ -490,7 +490,7 @@
       "settings": {
         "title": "Das sagen unsere Kund:innen",
         "take": 10,
-        "background": "#FFFFFF",
+        "background": "#ffffff",
         "opacity": 1,
         "padding_top": 40,
         "padding_bottom": 0
@@ -770,6 +770,81 @@
         "divider_width": "fixed",
         "custom_class": ""
       }
+    },
+    "multicolumn_dGdzNX": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_433Ff7": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image_width": "medium",
+            "title": "",
+            "heading_size": "h4",
+            "text": "",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_xexFQc": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image_width": "medium",
+            "title": "",
+            "heading_size": "h4",
+            "text": "",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_mTiiwn": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image_width": "medium",
+            "title": "",
+            "heading_size": "h4",
+            "text": "",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        }
+      },
+      "block_order": [
+        "column_433Ff7",
+        "column_xexFQc",
+        "column_mTiiwn"
+      ],
+      "name": "t:sections.multicolumn.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "column_alignment": "left",
+        "columns_desktop": 3,
+        "column_gap": "large",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
     }
   },
   "order": [
@@ -783,6 +858,7 @@
     "we_stamped_carousel_JX6Df9",
     "custom_content_Bx7iBY",
     "image_with_text_overlay_HEUATk",
-    "custom_content_XLeH4V"
+    "custom_content_XLeH4V",
+    "multicolumn_dGdzNX"
   ]
 }

@@ -24,11 +24,21 @@
       "block_order": [
         "gsc_instagram_feed_instafeed_fmJBXn"
       ],
+      "disabled": true,
       "settings": {
         "include_margins": true,
         "padding_top": 0,
         "padding_bottom": 0,
         "custom_class": ""
+      }
+    },
+    "hp_insta_rBXWtX": {
+      "type": "hp-insta",
+      "name": "Insta Gallery Section",
+      "settings": {
+        "feed_title": "Shop Our Instagram",
+        "username": "royfort_",
+        "gallery_id": "20752"
       }
     },
     "newsletter_d8KF4g": {
@@ -147,15 +157,6 @@
         "custom_class": ""
       }
     },
-    "hp_insta_rBXWtX": {
-      "type": "hp-insta",
-      "name": "Insta Gallery Section",
-      "settings": {
-        "feed_title": "Shop Our Instagram",
-        "username": "royfort_",
-        "gallery_id": "20752"
-      }
-    },
     "footer": {
       "type": "footer",
       "blocks": {
@@ -232,9 +233,9 @@
   },
   "order": [
     "177375403878897b07",
+    "hp_insta_rBXWtX",
     "newsletter_d8KF4g",
     "multicolumn_XGJqAN",
-    "hp_insta_rBXWtX",
     "footer"
   ]
 }
