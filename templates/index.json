@@ -631,6 +631,118 @@
         "padding_bottom": 0
       }
     },
+    "custom_content_UpLfPE": {
+      "type": "custom-content",
+      "blocks": {
+        "image_card_qAWjQm": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/Featured_Category_Baumwolle.jpg",
+            "image_ratio": "1/1",
+            "image_overlay_opacity": 10,
+            "heading": "Baumwolle",
+            "heading_size": "h5",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "",
+            "button_style": "btn--primary",
+            "content_position": "bottom-left",
+            "content_alignment": "center",
+            "content_spacing": "small",
+            "card_link": "shopify://collections/baumwolle-kollektion",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "33%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_card_zW4Vtz": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/Featured_Category_Musselin.jpg",
+            "image_ratio": "1/1",
+            "image_overlay_opacity": 10,
+            "heading": "Musselin",
+            "heading_size": "h5",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "",
+            "button_style": "btn--primary",
+            "content_position": "bottom-left",
+            "content_alignment": "center",
+            "content_spacing": "small",
+            "card_link": "shopify://collections/musselin-kollektion",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "33%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_card_8AVPRr": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/Featured_Category_Leinen.jpg",
+            "image_ratio": "1/1",
+            "image_overlay_opacity": 10,
+            "heading": "Leinen",
+            "heading_size": "h5",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "",
+            "button_style": "btn--primary",
+            "content_position": "bottom-left",
+            "content_alignment": "center",
+            "content_spacing": "small",
+            "card_link": "shopify://collections/leinen-kollektion",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "33%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_card_qAWjQm",
+        "image_card_zW4Vtz",
+        "image_card_8AVPRr"
+      ],
+      "custom_css": [
+        ".f-grid--row-gap-extra-small {--row-gap: 1rem; --row-gap-mobile: 0rem;}",
+        "@media (max-width: 767px) {.card-media--small .content-overlay {--padding-y: 1.5rem; --padding-x: 1.5rem; } .h5 {font-size: 1.5rem; text-transform: uppercase; } .section--padding {padding-block-end: 0rem; }}"
+      ],
+      "name": "t:sections.custom-content.name",
+      "settings": {
+        "container": "full",
+        "color_scheme": "",
+        "enable_sticky_column": false,
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "column_gap": "extra-small",
+        "row_gap": "extra-small",
+        "swipe_on_mobile": false,
+        "columns_mobile": "1",
+        "padding_top": 0,
+        "padding_bottom": 16,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
     "image_with_text_overlay_HEUATk": {
       "type": "image-with-text-overlay",
       "blocks": {
@@ -885,6 +997,7 @@
     "video_hero_np4cbQ",
     "custom_content_XCnW8a",
     "we_stamped_carousel_JX6Df9",
+    "custom_content_UpLfPE",
     "image_with_text_overlay_HEUATk",
     "custom_content_XLeH4V",
     "multicolumn_dGdzNX"
