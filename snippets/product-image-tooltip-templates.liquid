@@ -1,57 +1,161 @@
 {% comment %}
   Config + <template> roots for image tooltips. markup is cloned onto visible image slides by media-gallery.js
   after the color filter so "Image index" means the Nth visible image for the selected variant.
+
+  When any image_tooltip block has "Render tooltips from metafield" enabled, entries come only from
+  product.metafields.custom.pdp_image_tooltips (list of lines: image_index|trigger_text|tooltip_text).
 {% endcomment %}
+{%- liquid
+  assign image_tooltips_from_metafield = false
+  assign metafield_tooltip_button_text = 'Mehr Infos'
+  for block in section.blocks
+    if block.type == 'image_tooltip' and block.settings.render_from_metafield
+      assign image_tooltips_from_metafield = true
+      if block.settings.button_text != blank
+        assign metafield_tooltip_button_text = block.settings.button_text
+      endif
+      break
+    endif
+  endfor
+-%}
 <script type="application/json" class="js-image-tooltip-config">
   [
   {%- assign tip_first = true -%}
-  {%- for block in section.blocks -%}
-    {%- if block.type == 'image_tooltip' and block.settings.title != blank and block.settings.description != blank -%}
-      {%- unless tip_first -%},{%- endunless -%}
-      {"blockId":{{ block.id | json }},"imageIndex":{{ block.settings.image_index | default: 1 | plus: 0 }}}
-      {%- assign tip_first = false -%}
+  {%- if image_tooltips_from_metafield -%}
+    {%- if product.metafields.custom.pdp_image_tooltips.value != blank -%}
+      {%- for entry in product.metafields.custom.pdp_image_tooltips.value -%}
+        {%- assign mf_line = entry | strip -%}
+        {%- if mf_line == blank -%}{%- continue -%}{%- endif -%}
+        {%- assign mf_parts = mf_line | split: '|' -%}
+        {%- if mf_parts.size < 3 -%}{%- continue -%}{%- endif -%}
+        {%- assign mf_image_index = mf_parts[0] | strip | plus: 0 -%}
+        {%- if mf_image_index < 1 -%}{%- continue -%}{%- endif -%}
+        {%- assign mf_title = mf_parts[1] | strip -%}
+        {%- if mf_parts.size > 3 -%}
+          {%- assign mf_desc_len = mf_parts.size | minus: 2 -%}
+          {%- assign mf_desc_slice = mf_parts | slice: 2, mf_desc_len -%}
+          {%- assign mf_description = mf_desc_slice | join: '|' | strip -%}
+        {%- else -%}
+          {%- assign mf_description = mf_parts[2] | strip -%}
+        {%- endif -%}
+        {%- if mf_title != blank and mf_description != blank -%}
+          {%- unless tip_first -%},{%- endunless -%}
+          {%- assign mf_block_id = 'mf-' | append: forloop.index0 -%}
+          {"blockId":{{ mf_block_id | json }},"imageIndex":{{ mf_image_index }}}
+          {%- assign tip_first = false -%}
+        {%- endif -%}
+      {%- endfor -%}
     {%- endif -%}
-  {%- endfor -%}
+  {%- else -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'image_tooltip' and block.settings.title != blank and block.settings.description != blank -%}
+        {%- unless tip_first -%},{%- endunless -%}
+        {"blockId":{{ block.id | json }},"imageIndex":{{ block.settings.image_index | default: 1 | plus: 0 }}}
+        {%- assign tip_first = false -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
   ]
 </script>
-{%- for block in section.blocks -%}
-  {%- if block.type == 'image_tooltip' and block.settings.title != blank and block.settings.description != blank -%}
-    <template id="ImageTooltipTpl-{{ section.id }}-{{ block.id }}">
-      <div class="product__image-tooltip">
-        <div class="product__image-tooltip-container">
-          <span id="product__image-tooltip-title-{{ block.id }}" class="product__image-tooltip-trigger-title">
-            {{- block.settings.title -}}
-          </span>
-          <button
-            type="button"
-            class="product__image-tooltip-trigger-button"
-            aria-expanded="false"
-            aria-controls="product__image-tooltip-content-{{ block.id }}"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false">
-              <g clip-path="url(#we-img-tip-clip-{{ block.id }})">
-                <path d="M6 8V6M6 4H6.005M11 6C11 8.76142 8.76142 11 6 11C3.23858 11 1 8.76142 1 6C1 3.23858 3.23858 1 6 1C8.76142 1 11 3.23858 11 6Z" stroke="#525252" stroke-linecap="round" stroke-linejoin="round"/>
-              </g>
-              <defs>
-                <clipPath id="we-img-tip-clip-{{ block.id }}">
-                  <rect width="12" height="12" fill="white"/>
-                </clipPath>
-              </defs>
-            </svg>
-            <span class="trigger-button-text">{{ block.settings.button_text }}</span>
-          </button>
-          <div
-            id="product__image-tooltip-content-{{ block.id }}"
-            class="product__image-tooltip-content rte"
-            role="region"
-            aria-labelledby="product__image-tooltip-title-{{ block.id }}"
-            aria-hidden="true"
-            tabindex="-1"
-          >
-            {{ block.settings.description }}
+{%- if image_tooltips_from_metafield -%}
+  {%- if product.metafields.custom.pdp_image_tooltips.value != blank -%}
+    {%- for entry in product.metafields.custom.pdp_image_tooltips.value -%}
+      {%- assign mf_line = entry | strip -%}
+      {%- if mf_line == blank -%}{%- continue -%}{%- endif -%}
+      {%- assign mf_parts = mf_line | split: '|' -%}
+      {%- if mf_parts.size < 3 -%}{%- continue -%}{%- endif -%}
+      {%- assign mf_image_index = mf_parts[0] | strip | plus: 0 -%}
+      {%- if mf_image_index < 1 -%}{%- continue -%}{%- endif -%}
+      {%- assign mf_title = mf_parts[1] | strip -%}
+      {%- if mf_parts.size > 3 -%}
+        {%- assign mf_desc_len = mf_parts.size | minus: 2 -%}
+        {%- assign mf_desc_slice = mf_parts | slice: 2, mf_desc_len -%}
+        {%- assign mf_description = mf_desc_slice | join: '|' | strip -%}
+      {%- else -%}
+        {%- assign mf_description = mf_parts[2] | strip -%}
+      {%- endif -%}
+      {%- if mf_title != blank and mf_description != blank -%}
+        {%- assign mf_block_id = 'mf-' | append: forloop.index0 -%}
+        <template id="ImageTooltipTpl-{{ section.id }}-{{ mf_block_id }}">
+          <div class="product__image-tooltip">
+            <div class="product__image-tooltip-container">
+              <span id="product__image-tooltip-title-{{ mf_block_id }}" class="product__image-tooltip-trigger-title">
+                {{- mf_title | escape -}}
+              </span>
+              <button
+                type="button"
+                class="product__image-tooltip-trigger-button"
+                aria-expanded="false"
+                aria-controls="product__image-tooltip-content-{{ mf_block_id }}"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false">
+                  <g clip-path="url(#we-img-tip-clip-{{ mf_block_id }})">
+                    <path d="M6 8V6M6 4H6.005M11 6C11 8.76142 8.76142 11 6 11C3.23858 11 1 8.76142 1 6C1 3.23858 3.23858 1 6 1C8.76142 1 11 3.23858 11 6Z" stroke="#525252" stroke-linecap="round" stroke-linejoin="round"/>
+                  </g>
+                  <defs>
+                    <clipPath id="we-img-tip-clip-{{ mf_block_id }}">
+                      <rect width="12" height="12" fill="white"/>
+                    </clipPath>
+                  </defs>
+                </svg>
+                <span class="trigger-button-text">{{ metafield_tooltip_button_text | escape }}</span>
+              </button>
+              <div
+                id="product__image-tooltip-content-{{ mf_block_id }}"
+                class="product__image-tooltip-content rte"
+                role="region"
+                aria-labelledby="product__image-tooltip-title-{{ mf_block_id }}"
+                aria-hidden="true"
+                tabindex="-1"
+              >
+                <p>{{- mf_description | escape | newline_to_br -}}</p>
+              </div>
+            </div>
+          </div>
+        </template>
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- else -%}
+  {%- for block in section.blocks -%}
+    {%- if block.type == 'image_tooltip' and block.settings.title != blank and block.settings.description != blank -%}
+      <template id="ImageTooltipTpl-{{ section.id }}-{{ block.id }}">
+        <div class="product__image-tooltip">
+          <div class="product__image-tooltip-container">
+            <span id="product__image-tooltip-title-{{ block.id }}" class="product__image-tooltip-trigger-title">
+              {{- block.settings.title -}}
+            </span>
+            <button
+              type="button"
+              class="product__image-tooltip-trigger-button"
+              aria-expanded="false"
+              aria-controls="product__image-tooltip-content-{{ block.id }}"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false">
+                <g clip-path="url(#we-img-tip-clip-{{ block.id }})">
+                  <path d="M6 8V6M6 4H6.005M11 6C11 8.76142 8.76142 11 6 11C3.23858 11 1 8.76142 1 6C1 3.23858 3.23858 1 6 1C8.76142 1 11 3.23858 11 6Z" stroke="#525252" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+                <defs>
+                  <clipPath id="we-img-tip-clip-{{ block.id }}">
+                    <rect width="12" height="12" fill="white"/>
+                  </clipPath>
+                </defs>
+              </svg>
+              <span class="trigger-button-text">{{ block.settings.button_text }}</span>
+            </button>
+            <div
+              id="product__image-tooltip-content-{{ block.id }}"
+              class="product__image-tooltip-content rte"
+              role="region"
+              aria-labelledby="product__image-tooltip-title-{{ block.id }}"
+              aria-hidden="true"
+              tabindex="-1"
+            >
+              {{ block.settings.description }}
+            </div>
           </div>
         </div>
-      </div>
-    </template>
-  {%- endif -%}
-{%- endfor -%}
+      </template>
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}

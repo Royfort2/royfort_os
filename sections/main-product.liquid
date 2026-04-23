@@ -1039,6 +1039,13 @@
       "name": "[we] Image tooltip",
       "settings": [
         {
+          "type": "checkbox",
+          "id": "render_from_metafield",
+          "label": "Render tooltips from metafield",
+          "info": "When enabled for any Image tooltip block, tooltips load only from product metafield custom.pdp_image_tooltips (list). Each line: image_index|trigger_text|tooltip_text (1-based image index). Other Image tooltip blocks are ignored.",
+          "default": true
+        },
+        {
           "type": "number",
           "id": "image_index",
           "label": "Image index",
