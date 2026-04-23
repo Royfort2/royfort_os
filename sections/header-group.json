@@ -69,7 +69,9 @@
           "type": "product_list",
           "settings": {
             "menu_title": "Decken & Kissen",
-            "collections": [],
+            "collections": [
+              "daunendecken-kissen"
+            ],
             "menu_columns": 3,
             "show_menu_column_divider": true,
             "enable_on_mobile": true,
