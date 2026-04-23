@@ -8,13 +8,19 @@
 {%- assign motion_delay = 50 -%}
 
 {% style %}
+  /* Viewport scrolling is tied to the root element; `body` alone often ignores scroll-behavior. */
+  @media (prefers-reduced-motion: no-preference) {
+    html:has(.section-{{ section.id }}) {
+      scroll-behavior: smooth;
+    }
+  }
   .store-location__info {
     flex-wrap: wrap;
   }
 {% endstyle %}
 
 <div
-  class="section section--padding store-locator color-{{ section.settings.color_scheme }}{% if section.settings.custom_class != blank %} {{ section.settings.custom_class }}{% endif %}"
+  class="section section-{{ section.id }} section--padding store-locator color-{{ section.settings.color_scheme }}{% if section.settings.custom_class != blank %} {{ section.settings.custom_class }}{% endif %}"
   style="--section-padding-top: {{ section.settings.padding_top }}px;--section-padding-bottom: {{ section.settings.padding_bottom }}px;"
 >
   <div class="page-width page-width--narrow">
