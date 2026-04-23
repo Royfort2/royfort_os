@@ -77,8 +77,8 @@
           "settings": {
             "icon": "shopify://shop_images/local_shipping_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
             "title": "Geschätzte Lieferung: {{ product.metafields.custom.we_pdp_estimated_delivery_time.value }}",
-            "short_description": "Kostenloser Versand ab €150",
-            "description": "<p>Delivery info</p>",
+            "short_description": "Kostenloser Versand",
+            "description": "<ul><li>Kostenlose Lieferung in 2-3 Werktagen</li><li>Schlafen Sie 30 Tage lang sorglos in unseren Bettwaren und erleben Sie das Royfort-Gefühl. Wenn Sie nicht zufrieden sind, können Sie die Bettwaren einfach und kostenlos an uns zurückschicken.</li><li>Plastikfreie Lieferung in exklusiver Box für einen umweltbewussten Versand.</li></ul>",
             "page": ""
           }
         },
@@ -98,20 +98,20 @@
             "icon": "shopify://shop_images/chat_bubble_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
             "title": "Brauchst du Beratung?",
             "short_description": "Unser Team steht dir gerne zur Seite",
-            "description": "<p>Beratung Info</p>",
+            "description": "<p>+49 / (0) 30 2332 7430</p>",
             "page": ""
           }
         },
         "usp_list_yWyYmX": {
           "type": "usp_list",
           "settings": {
-            "title": "In sapien eget fringilla magna libero consectetur adipiscing nulla felis. Maecenas suspendisse cras et.",
-            "item_title_1": "The Feel",
-            "item_description_1": "Felis mi massa lectus elit morbi imperdiet ac.",
-            "item_title_2": "The look",
-            "item_description_2": "Felis mi massa lectus elit morbi imperdiet ac.",
-            "item_title_3": "best for",
-            "item_description_3": "Felis mi massa lectus elit morbi imperdiet ac."
+            "title": "Mit jeder Wäsche entfaltet der Stoff mehr Geschmeidigkeit und entwickelt eine lebendig weiche, natürliche Textur, die mit der Zeit nur schöner wird.",
+            "item_title_1": "weich",
+            "item_description_1": "Unsere Baumwollbettwäsche schmiegt sich sanft an die Haut und vermittelt das Gefühl purer Leichtigkeit.",
+            "item_title_2": "seidig",
+            "item_description_2": "Die glatte, seidige Oberfläche lädt zum Hineingleiten ein und sorgt für ein luxuriöses, ruhiges Schlafgefühl.",
+            "item_title_3": "atmungsaktiv",
+            "item_description_3": "Das Schlafklima stets angenehm trocken und ausgeglichen - erfrischend im Sommer, wohlig im Winter."
           }
         },
         "collapsible-row-1": {
@@ -132,7 +132,7 @@
             "heading": "Material",
             "heading_styling": "body",
             "icon": "none",
-            "content": "<p>Material</p>",
+            "content": "<ul><li>100% GOTS-zertifizierter, langstapelige Bio-Baumwolle</li><li>Handgefertigt in Portugal</li><li>300 Fadendichte - optimale Balance zwischen Geschmeidigkeit und natürlicher Atmungsaktivität</li><li>Feine Satinwebart – sorgt für glatte, langlebige Oberfläche mit dezentem Schimmer</li></ul>",
             "custom_liquid": "",
             "page": "",
             "default_open": false
@@ -144,7 +144,7 @@
             "heading": "Pflegehinweise",
             "heading_styling": "body",
             "icon": "none",
-            "content": "<p>Pflegehinweise</p>",
+            "content": "<ul><li>Normales oder schonendes Baumwollwaschprogramm mit ähnlichen Farben.</li><li>Für die ersten Wäschen empfehlen wir 30°C, um die Fasern zu schützen und Einlaufen zu vermeiden. Bei regelmäßiger Nutzung sind 60°C ideal für optimale Hygiene und dauerhafte Frische.</li><li>Bei Bedarf mit hoher Temperatur (200–230°C) bügeln oder steamen.</li><li>Trocknergeeignet – am besten bei niedriger bis mittlerer Temperatur. <br/></li></ul>",
             "custom_liquid": "",
             "page": "",
             "default_open": false
@@ -157,7 +157,7 @@
             "icon_1": "shopify://shop_images/globe.svg",
             "usp_1": "Handgefertigt in Portugal",
             "icon_2": "shopify://shop_images/local_shipping_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
-            "usp_2": "USP 2",
+            "usp_2": "Traditionelle Fertigung",
             "icon_3": "shopify://shop_images/chat_bubble_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
             "usp_3": "USP 3",
             "usp_4": "",
@@ -213,7 +213,7 @@
         "heading_9Y3zkK": {
           "type": "heading",
           "settings": {
-            "heading": "Unsere außergewöhnliche Baumwolle",
+            "heading": "Besonderheiten – unsere außergewöhnliche Baumwolle",
             "heading_size": "h3",
             "heading_highlight_style": "none"
           }
@@ -241,8 +241,8 @@
         "is_full_width": true,
         "section_color_scheme": "",
         "color_scheme": "scheme-1",
-        "image": "shopify://shop_images/Musselin_d1ac143e-90e4-4825-bd62-e13f3ec94d0b.jpg",
-        "image_height": "medium",
+        "image": "shopify://shop_images/Baumwolle_2_6daab056-2b68-4ab1-9a53-c3a367ec5e06.jpg",
+        "image_height": "adapt",
         "layout": "text_first",
         "desktop_content_position": "center",
         "desktop_content_alignment": "left",
@@ -293,7 +293,7 @@
         "is_full_width": true,
         "section_color_scheme": "",
         "color_scheme": "scheme-1",
-        "image": "shopify://shop_images/25-03-Royfort-12-Cotton-Weiss-1518_1012152f-d606-4709-a037-96dcc39adc84.jpg",
+        "image": "shopify://shop_images/Baumwolle_6.jpg",
         "image_height": "adapt",
         "layout": "image_first",
         "desktop_content_position": "center",
@@ -354,19 +354,22 @@
         "collection_WYgrn4": {
           "type": "collection",
           "settings": {
-            "collection": "all-bedsheets"
+            "collection": "kaschmir-kollektion",
+            "image": "shopify://shop_images/Featured_Category_Bettwasche_small_746baeff-f64d-4458-9038-cb914b6e5acf.jpg"
           }
         },
         "collection_rxB9DV": {
           "type": "collection",
           "settings": {
-            "collection": "hotelbettwaesche"
+            "collection": "matratzen",
+            "image": "shopify://shop_images/Featured_Category_Betten_Matratzen_small_e453b342-76fb-4d8b-a375-a37b02a98c11.jpg"
           }
         },
         "collection_3zkKVK": {
           "type": "collection",
           "settings": {
-            "collection": "spannbettlaken"
+            "collection": "daunendecken-kissen",
+            "image": "shopify://shop_images/Featured_Category_Decken_Kissen_small_eac569dd-12a7-4007-a5f7-d06b6965800b.jpg"
           }
         }
       },

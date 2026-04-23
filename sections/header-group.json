@@ -16,6 +16,7 @@
       "blocks": {
         "announcement_bar_yqQJzd": {
           "type": "announcement_bar",
+          "disabled": true,
           "settings": {
             "text": "Gefertigt in Europa – kompromisslose Qualität für besten Schlaf.",
             "link": "",
@@ -24,9 +25,8 @@
         },
         "announcement_bar_FCCaeU": {
           "type": "announcement_bar",
-          "disabled": true,
           "settings": {
-            "text": "Kostenlose Lieferung & Retoure",
+            "text": "Genießen Sie jetzt 20% auf alles in unserem exklusiven Spring Sale.",
             "link": "",
             "links_right": ""
           }
@@ -69,7 +69,9 @@
           "type": "product_list",
           "settings": {
             "menu_title": "Decken & Kissen",
-            "collections": [],
+            "collections": [
+              "daunendecken-kissen"
+            ],
             "menu_columns": 3,
             "show_menu_column_divider": true,
             "enable_on_mobile": true,
