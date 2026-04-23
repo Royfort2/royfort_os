@@ -648,6 +648,7 @@
                 {%- assign set_products_zw = we_set_products -%}
                 {%- assign zw_sale_cents = 0 -%}
                 {%- assign zw_compare_cents = 0 -%}
+                {%- assign zw_min_sum = 0 -%}
                 {%- for sp in set_products_zw limit: 2 -%}
                   {%- capture we_set_line_vid_c -%}
                     {%- render 'we-pdp-first-set-line-variant-id', bundle_product: product, line_product: sp -%}
@@ -676,27 +677,41 @@
                   {%- endif -%}
                   {%- assign zw_line_cmp = unit_cmp | times: zw_q_min -%}
                   {%- assign zw_compare_cents = zw_compare_cents | plus: zw_line_cmp -%}
+                  {%- assign zw_line_min = sp.price_min | times: zw_q_min -%}
+                  {%- assign zw_min_sum = zw_min_sum | plus: zw_line_min -%}
                 {%- endfor -%}
+                {%- assign zw_line_sale_sum = zw_sale_cents -%}
+                {%- assign zw_line_compare_sum = zw_compare_cents -%}
                 {%- assign zw_has_compare = false -%}
                 {%- assign zw_discount_pct = 0 -%}
                 {%- if product.metafields.custom.pdp_set_products != blank and product.metafields.custom.set_discount_amount > 0 -%}
-                  {%- assign zw_bundle_discount = product.metafields.custom.set_discount_amount -%}
+                  {%- comment -%} SSR: sum of price_min × qty; bundle % off that sum. JS replaces when pickers resolve. {%- endcomment -%}
+                  {%- assign zw_bundle_discount = product.metafields.custom.set_discount_amount | plus: 0 -%}
                   {%- assign zw_amount_difference = 100 | minus: zw_bundle_discount -%}
-                  {%- assign zw_sale_cents = zw_compare_cents | times: zw_amount_difference | divided_by: 100 -%}
+                  {%- assign zw_compare_cents = zw_min_sum -%}
+                  {%- assign zw_sale_cents = zw_min_sum | times: zw_amount_difference | divided_by: 100 -%}
                   {%- assign zw_has_compare = true -%}
                   {%- assign zw_discount_pct = zw_bundle_discount -%}
-                {%- elsif zw_compare_cents > zw_sale_cents -%}
+                {%- elsif zw_line_compare_sum > zw_line_sale_sum -%}
                   {%- assign zw_has_compare = true -%}
-                  {%- assign zw_discount_pct = zw_compare_cents | minus: zw_sale_cents | times: 100 | divided_by: zw_compare_cents -%}
+                  {%- assign zw_discount_pct = zw_line_compare_sum | minus: zw_line_sale_sum | times: 100 | divided_by: zw_line_compare_sum -%}
                 {%- endif -%}
                 <div class="pdp-set-zwischensumme" data-pdp-set-zwischensumme>
                   <script type="application/json" data-pdp-set-zwischensumme-meta>
-                    {"titles":{
-                    "{{ product.id }}":{{ product.title | json }},
-                    {%- for sp in set_products_zw -%}
-                    "{{ sp.id }}":{{ sp.title | json }}{%- unless forloop.last -%},{%- endunless -%}
-                    {%- endfor -%}
-                    }}
+                    {
+                      "titles":{
+                        "{{ product.id }}":{{ product.title | json }},
+                        {%- for sp in set_products_zw -%}
+                          "{{ sp.id }}":{{ sp.title | json }}{%- unless forloop.last -%},{%- endunless -%}
+                        {%- endfor -%}
+                      },
+                      "fromPrefix": {{ 'products.product.price.from_price_html' | t: price: '' | json }},
+                      "priceMinById":{
+                        {%- for sp in set_products_zw -%}
+                          "{{ sp.id }}":{{ sp.price_min }}{%- unless forloop.last -%},{%- endunless -%}
+                        {%- endfor -%}
+                      }
+                    }
                   </script>
                   <div class="pdp-set-zwischensumme__header">
                     <span class="pdp-set-zwischensumme__title">{{ block.settings.set_zwischensumme_title }}:</span>
@@ -705,9 +720,18 @@
                         class="pdp-set-zwischensumme__compare {%unless zw_has_compare %}visually-hidden{% endunless %}"
                         {% unless zw_has_compare %}hidden{% endunless %}
                       >
-                        {%- if zw_has_compare -%}{{ zw_compare_cents | money }}{%- endif -%}
+                        {%- if zw_has_compare -%}
+                          {{- zw_compare_cents | money -}}
+                        {%- endif -%}
                       </span>
-                      <span class="pdp-set-zwischensumme__sale">{{ zw_sale_cents | money }}</span>
+                      <span class="pdp-set-zwischensumme__sale">
+                        {%- if product.metafields.custom.pdp_set_products != blank and product.metafields.custom.set_discount_amount > 0 -%}
+                          {%- assign zw_zw_sale_m = zw_sale_cents | money -%}
+                          {{- 'products.product.price.from_price_html' | t: price: zw_zw_sale_m -}}
+                        {%- else -%}
+                          {{- zw_sale_cents | money -}}
+                        {%- endif -%}
+                      </span>
                       <span
                         class="pdp-set-zwischensumme__badge {% unless zw_has_compare %}visually-hidden{% endunless %}"
                         {% unless zw_has_compare %}hidden{% endunless %}
@@ -737,11 +761,17 @@
                       {%- if zw_q_min < 1 -%}
                         {%- assign zw_q_min = 1 -%}
                       {%- endif -%}
-                      {%- assign zw_line_sale = zw_v.price | times: zw_q_min -%}
+                      {%- assign zw_br_line = sp.price_min | times: zw_q_min | money -%}
                       {%- unless forloop.first -%}
                         +
                       {%- endunless -%}
-                      {{- zw_q_min }}x {{ sp.title }} ({{ zw_line_sale | money }})
+                      {{- zw_q_min }}x {{ sp.title }} (
+                      {%- if product.metafields.custom.set_discount_amount > 0 -%}
+                        {{- 'products.product.price.from_price_html' | t: price: zw_br_line -}}
+                      {%- else -%}
+                        {{- zw_br_line -}}
+                      {%- endif -%}
+                      )
                     {%- endfor -%}
                   </p>
                 </div>
@@ -948,71 +978,75 @@
               {%- unless context == 'quick-view' -%}
                 {%- liquid
                   comment
-                    SSR: main bundle product + first set product. Optional set lines are added via product-set-cart-items.js when checkboxes are checked.
+                    SSR: first two pdp_set_products; min-sum + from until JS runs. Optional lines are added in JS.
                   endcomment
                   assign set_products_zw = product.metafields.custom.pdp_set_products.value
-                  assign zw_first = set_products_zw | first
-
-                  assign zw_main_v = product.selected_or_first_available_variant
-                  assign zw_main_qr = zw_main_v.quantity_rule
-                  assign zw_main_q_min = zw_main_qr.min | default: 1
-                  if zw_main_q_min < 1
-                    assign zw_main_q_min = 1
-                  endif
-                  assign zw_main_sale_cents = zw_main_v.price | times: zw_main_q_min
-                  assign zw_main_compare_cents = zw_main_sale_cents
-                  if zw_main_v.compare_at_price > zw_main_v.price
-                    assign zw_main_compare_cents = zw_main_v.compare_at_price | times: zw_main_q_min
-                  endif
-
-                  capture zw_first_vid_c
-                    render 'we-pdp-first-set-line-variant-id', bundle_product: product, line_product: zw_first
-                  endcapture
-                  assign zw_first_vid_str = zw_first_vid_c | strip
-                  assign zw_v = zw_first.selected_or_first_available_variant
-                  if zw_first_vid_str != blank
-                    assign zw_first_vid_num = zw_first_vid_str | plus: 0
-                    for v in zw_first.variants
-                      if v.id == zw_first_vid_num
-                        assign zw_v = v
-                        break
-                      endif
-                    endfor
-                  endif
-                  assign zw_qr = zw_v.quantity_rule
-                  assign zw_q_min = zw_qr.min | default: 1
-                  if zw_q_min < 1
-                    assign zw_q_min = 1
-                  endif
-                  assign zw_first_sale_cents = zw_v.price | times: zw_q_min
-                  assign zw_first_compare_cents = zw_first_sale_cents
-                  if zw_v.compare_at_price > zw_v.price
-                    assign zw_first_compare_cents = zw_v.compare_at_price | times: zw_q_min
-                  endif
-
-                  assign zw_sale_cents = zw_main_sale_cents | plus: zw_first_sale_cents
-                  assign zw_compare_cents = zw_main_compare_cents | plus: zw_first_compare_cents
-                  assign zw_has_compare = false
-                  assign zw_discount_pct = 0
-                  if product.metafields.custom.pdp_set_products != blank and product.metafields.custom.set_discount_amount > 0
-                    assign zw_bundle_discount = product.metafields.custom.set_discount_amount
-                    assign zw_amount_difference = 100 | minus: zw_bundle_discount
-                    assign zw_sale_cents = zw_compare_cents | times: zw_amount_difference | divided_by: 100
-                    assign zw_has_compare = true
-                    assign zw_discount_pct = zw_bundle_discount
-                  elsif zw_compare_cents > zw_sale_cents
-                    assign zw_has_compare = true
-                    assign zw_discount_pct = zw_compare_cents | minus: zw_sale_cents | times: 100 | divided_by: zw_compare_cents
-                  endif
+                  assign zw_sale_cents = 0
+                  assign zw_compare_cents = 0
+                  assign zw_min_sum = 0
                 -%}
+                {%- for sp in set_products_zw limit: 2 -%}
+                  {%- capture we_set_line_vid_c -%}
+                    {%- render 'we-pdp-first-set-line-variant-id', bundle_product: product, line_product: sp -%}
+                  {%- endcapture -%}
+                  {%- assign we_set_line_vid_str = we_set_line_vid_c | strip -%}
+                  {%- assign zw_v = sp.selected_or_first_available_variant -%}
+                  {%- if we_set_line_vid_str != blank -%}
+                    {%- assign we_set_line_vid_num = we_set_line_vid_str | plus: 0 -%}
+                    {%- for v in sp.variants -%}
+                      {%- if v.id == we_set_line_vid_num -%}
+                        {%- assign zw_v = v -%}
+                        {%- break -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+                  {%- endif -%}
+                  {%- assign zw_qr = zw_v.quantity_rule -%}
+                  {%- assign zw_q_min = zw_qr.min | default: 1 -%}
+                  {%- if zw_q_min < 1 -%}
+                    {%- assign zw_q_min = 1 -%}
+                  {%- endif -%}
+                  {%- assign zw_line_sale = zw_v.price | times: zw_q_min -%}
+                  {%- assign zw_sale_cents = zw_sale_cents | plus: zw_line_sale -%}
+                  {%- assign unit_cmp = zw_v.price -%}
+                  {%- if zw_v.compare_at_price > zw_v.price -%}
+                    {%- assign unit_cmp = zw_v.compare_at_price -%}
+                  {%- endif -%}
+                  {%- assign zw_line_cmp = unit_cmp | times: zw_q_min -%}
+                  {%- assign zw_compare_cents = zw_compare_cents | plus: zw_line_cmp -%}
+                  {%- assign zw_line_min = sp.price_min | times: zw_q_min -%}
+                  {%- assign zw_min_sum = zw_min_sum | plus: zw_line_min -%}
+                {%- endfor -%}
+                {%- assign zw_line_sale_sum = zw_sale_cents -%}
+                {%- assign zw_line_compare_sum = zw_compare_cents -%}
+                {%- assign zw_has_compare = false -%}
+                {%- assign zw_discount_pct = 0 -%}
+                {%- if product.metafields.custom.pdp_set_products != blank and product.metafields.custom.set_discount_amount > 0 -%}
+                  {%- assign zw_bundle_discount = product.metafields.custom.set_discount_amount | plus: 0 -%}
+                  {%- assign zw_amount_difference = 100 | minus: zw_bundle_discount -%}
+                  {%- assign zw_compare_cents = zw_min_sum -%}
+                  {%- assign zw_sale_cents = zw_min_sum | times: zw_amount_difference | divided_by: 100 -%}
+                  {%- assign zw_has_compare = true -%}
+                  {%- assign zw_discount_pct = zw_bundle_discount -%}
+                {%- elsif zw_line_compare_sum > zw_line_sale_sum -%}
+                  {%- assign zw_has_compare = true -%}
+                  {%- assign zw_discount_pct = zw_line_compare_sum | minus: zw_line_sale_sum | times: 100 | divided_by: zw_line_compare_sum -%}
+                {%- endif -%}
                 <div class="pdp-set-zwischensumme" data-pdp-set-zwischensumme>
                   <script type="application/json" data-pdp-set-zwischensumme-meta>
-                    {"titles":{
-                    "{{ product.id }}":{{ product.title | json }},
-                    {%- for sp in set_products_zw -%}
-                    "{{ sp.id }}":{{ sp.title | json }}{%- unless forloop.last -%},{%- endunless -%}
-                    {%- endfor -%}
-                    }}
+                    {
+                      "titles":{
+                        "{{ product.id }}":{{ product.title | json }},
+                        {%- for sp in set_products_zw -%}
+                          "{{ sp.id }}":{{ sp.title | json }}{%- unless forloop.last -%},{%- endunless -%}
+                        {%- endfor -%}
+                      },
+                      "fromPrefix": {{ 'products.product.price.from_price_html' | t: price: '' | json }},
+                      "priceMinById":{
+                        {%- for sp in set_products_zw -%}
+                          "{{ sp.id }}":{{ sp.price_min }}{%- unless forloop.last -%},{%- endunless -%}
+                        {%- endfor -%}
+                      }
+                    }
                   </script>
                   <div class="pdp-set-zwischensumme__header">
                     <span class="pdp-set-zwischensumme__title">ZWISCHENSUMME:</span>
@@ -1021,9 +1055,18 @@
                         class="pdp-set-zwischensumme__compare"
                         {% unless zw_has_compare %}hidden{% endunless %}
                       >
-                        {%- if zw_has_compare -%}{{ zw_compare_cents | money }}{%- endif -%}
+                        {%- if zw_has_compare -%}
+                          {{- zw_compare_cents | money -}}
+                        {%- endif -%}
                       </span>
-                      <span class="pdp-set-zwischensumme__sale">{{ zw_sale_cents | money }}</span>
+                      <span class="pdp-set-zwischensumme__sale">
+                        {%- if product.metafields.custom.pdp_set_products != blank and product.metafields.custom.set_discount_amount > 0 -%}
+                          {%- assign zw_zw_sale_m2 = zw_sale_cents | money -%}
+                          {{- 'products.product.price.from_price_html' | t: price: zw_zw_sale_m2 -}}
+                        {%- else -%}
+                          {{- zw_sale_cents | money -}}
+                        {%- endif -%}
+                      </span>
                       <span
                         class="pdp-set-zwischensumme__badge"
                         {% unless zw_has_compare %}hidden{% endunless %}
@@ -1033,7 +1076,38 @@
                     </div>
                   </div>
                   <p class="pdp-set-zwischensumme__breakdown">
-                    {{- zw_main_q_min }}x {{ product.title }} ({{ zw_main_sale_cents | money }}) + {{ zw_q_min }}x {{ zw_first.title }} ({{ zw_first_sale_cents | money }})
+                    {%- for sp in set_products_zw limit: 2 -%}
+                      {%- capture we_set_line_vid_c -%}
+                        {%- render 'we-pdp-first-set-line-variant-id', bundle_product: product, line_product: sp -%}
+                      {%- endcapture -%}
+                      {%- assign we_set_line_vid_str = we_set_line_vid_c | strip -%}
+                      {%- assign zw_v = sp.selected_or_first_available_variant -%}
+                      {%- if we_set_line_vid_str != blank -%}
+                        {%- assign we_set_line_vid_num = we_set_line_vid_str | plus: 0 -%}
+                        {%- for v in sp.variants -%}
+                          {%- if v.id == we_set_line_vid_num -%}
+                            {%- assign zw_v = v -%}
+                            {%- break -%}
+                          {%- endif -%}
+                        {%- endfor -%}
+                      {%- endif -%}
+                      {%- assign zw_qr = zw_v.quantity_rule -%}
+                      {%- assign zw_q_min = zw_qr.min | default: 1 -%}
+                      {%- if zw_q_min < 1 -%}
+                        {%- assign zw_q_min = 1 -%}
+                      {%- endif -%}
+                      {%- assign zw_br_line2 = sp.price_min | times: zw_q_min | money -%}
+                      {%- unless forloop.first -%}
+                        +
+                      {%- endunless -%}
+                      {{- zw_q_min }}x {{ sp.title }} (
+                      {%- if product.metafields.custom.set_discount_amount > 0 -%}
+                        {{- 'products.product.price.from_price_html' | t: price: zw_br_line2 -}}
+                      {%- else -%}
+                        {{- zw_br_line2 -}}
+                      {%- endif -%}
+                      )
+                    {%- endfor -%}
                   </p>
                 </div>
               {%- endunless -%}

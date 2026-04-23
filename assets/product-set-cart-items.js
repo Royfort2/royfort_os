@@ -276,11 +276,57 @@
     return true;
   }
 
+  function minPriceCentsForProduct(productId, priceMinById) {
+    const k = String(productId);
+    if (priceMinById && priceMinById[k] != null) {
+      const n = Number(priceMinById[k]);
+      return Number.isFinite(n) && n > 0 ? n : 0;
+    }
+    const vars = getVariantsForProduct(k);
+    if (!vars?.length) return 0;
+    return Math.min(...vars.map((v) => Number(v.price) || 0));
+  }
+
+  function formatZwFromTotal(fromPrefix, cents, fmt, mf) {
+    const m = fmt(cents, mf);
+    const p = String(fromPrefix || '').trim();
+    if (!p) return m;
+    return `${p} ${m}`.replace(/\s+/g, ' ').trim();
+  }
+
+  function lineSaleCents(line, priceMinById) {
+    if (line.resolved && line.variant) return line.variant.price * line.qty;
+    const unit = line.priceMinCents || minPriceCentsForProduct(line.productId, priceMinById);
+    return unit * line.qty;
+  }
+
+  function lineCompareCents(line, priceMinById) {
+    if (line.resolved && line.variant) {
+      const u =
+        line.variant.compare_at_price && line.variant.compare_at_price > line.variant.price
+          ? line.variant.compare_at_price
+          : line.variant.price;
+      return u * line.qty;
+    }
+    const unit = line.priceMinCents || minPriceCentsForProduct(line.productId, priceMinById);
+    return unit * line.qty;
+  }
+
   /**
    * Keeps `#price-{sectionId}` in sync with zwischensumme (same cents + same sale/compare rules).
    * Preserves `.f-price__unit-wrapper` from SSR when present.
    */
-  function syncMainPriceWithZwischensumme(productInfo, sectionId, fmt, mf, saleTotal, compareTotal, setDiscountAmount) {
+  function syncMainPriceWithZwischensumme(
+    productInfo,
+    sectionId,
+    fmt,
+    mf,
+    saleTotal,
+    compareTotal,
+    setDiscountAmount,
+    useFromTotals,
+    fromPrefix
+  ) {
     if (sectionId == null || sectionId === '') return;
     const host = document.getElementById(`price-${sectionId}`);
     if (!host) return;
@@ -289,7 +335,7 @@
     const unitHtml = prevUnit ? prevUnit.outerHTML : '<div class="f-price__unit-wrapper hidden"></div>';
 
     const onSale = setDiscountAmount > 0 || compareTotal > saleTotal;
-    const saleStr = fmt(saleTotal, mf);
+    const saleStr = useFromTotals ? formatZwFromTotal(fromPrefix, saleTotal, fmt, mf) : fmt(saleTotal, mf);
     const compareStr = fmt(compareTotal, mf);
 
     let rootClass = 'f-price f-price--large';
@@ -360,16 +406,28 @@
     const mainProductId = productInfo?.dataset?.productId;
     const metaEl = root.querySelector('[data-pdp-set-zwischensumme-meta]');
     let titles = {};
+    let fromPrefix = '';
+    let priceMinById = {};
     if (metaEl?.textContent) {
       try {
         const meta = JSON.parse(metaEl.textContent);
         titles = meta.titles || {};
+        fromPrefix = String(meta.fromPrefix ?? '').trim();
+        priceMinById = meta.priceMinById || {};
       } catch (e) {}
     }
 
     const fmt = window.FoxTheme?.Currency?.formatMoney;
     const mf = window.FoxTheme?.settings?.moneyFormat;
     if (typeof fmt !== 'function') return;
+
+    const firstTwoPickers = getFirstTwoSetPickers(productInfo, cfg);
+    const requiredGateIds = (requiredSetProductIds || []).map(String).slice(0, 2);
+    const bothFirstTwoResolved =
+      firstTwoPickers.length >= 2 &&
+      firstTwoPickers.every((vs) => wePickerHasResolvedVariant(vs, String(vs.dataset?.productId || '')));
+
+    const useFromTotals = !bothFirstTwoResolved;
 
     const lines = [];
 
@@ -378,9 +436,13 @@
       const qMain = getInlineQuantityForProduct(sectionId, mainProductId);
       if (vMain) {
         lines.push({
+          productId: String(mainProductId),
           title: titles[String(mainProductId)] || '',
           variant: vMain,
           qty: qMain,
+          gated: false,
+          resolved: true,
+          priceMinCents: 0,
         });
       }
     }
@@ -388,31 +450,75 @@
     if (omitMainProductFromZwischensumme && Array.isArray(requiredSetProductIds) && requiredSetProductIds.length > 0) {
       requiredSetProductIds.forEach((pidRaw) => {
         const pid = String(pidRaw);
+        const gated = requiredGateIds.includes(pid);
+        const vs = document.getElementById(`variant-selects-${sectionId}-${pid}`);
+        const resolved = !gated || wePickerHasResolvedVariant(vs, pid);
+        const q = getInlineQuantityForProduct(sectionId, pid);
+        const priceMinCents = minPriceCentsForProduct(pid, priceMinById);
         const fallback =
           String(pid) === String(firstSetProductId) ? firstVariantFallback : getDefaultVariantIdFromDom(pid);
-        const v = getResolvedVariant(sectionId, pid, fallback);
-        const q = getInlineQuantityForProduct(sectionId, pid);
-        if (v) {
+        if (!resolved) {
+          if (priceMinCents <= 0) return;
           lines.push({
+            productId: pid,
+            title: titles[pid] || titles[String(pid)] || '',
+            variant: null,
+            qty: q,
+            gated,
+            resolved: false,
+            priceMinCents,
+          });
+        } else {
+          const v = getResolvedVariant(sectionId, pid, fallback);
+          if (!v) return;
+          lines.push({
+            productId: pid,
             title: titles[pid] || titles[String(pid)] || '',
             variant: v,
             qty: q,
+            gated,
+            resolved: true,
+            priceMinCents,
           });
         }
       });
     } else {
-      const vFirst = getResolvedVariant(sectionId, firstSetProductId, firstVariantFallback);
+      const pid = String(firstSetProductId);
+      const gated = requiredGateIds.includes(pid);
+      const vs = document.getElementById(`variant-selects-${sectionId}-${pid}`);
+      const resolved = !gated || wePickerHasResolvedVariant(vs, pid);
       const qFirst = getInlineQuantityForProduct(sectionId, firstSetProductId);
-      if (vFirst) {
-        lines.push({
-          title: titles[String(firstSetProductId)] || '',
-          variant: vFirst,
-          qty: qFirst,
-        });
+      const priceMinCents = minPriceCentsForProduct(pid, priceMinById);
+      if (!resolved) {
+        if (priceMinCents > 0) {
+          lines.push({
+            productId: pid,
+            title: titles[pid] || titles[String(pid)] || '',
+            variant: null,
+            qty: qFirst,
+            gated,
+            resolved: false,
+            priceMinCents,
+          });
+        }
+      } else {
+        const vFirst = getResolvedVariant(sectionId, firstSetProductId, firstVariantFallback);
+        if (vFirst) {
+          lines.push({
+            productId: pid,
+            title: titles[pid] || titles[String(pid)] || '',
+            variant: vFirst,
+            qty: qFirst,
+            gated,
+            resolved: true,
+            priceMinCents,
+          });
+        }
       }
     }
 
-    optionalProductIds.forEach((pid) => {
+    optionalProductIds.forEach((pidRaw) => {
+      const pid = String(pidRaw);
       const cb = productInfo.querySelector(
         `input.product-set-picker__toggle[data-set-optional-product-id="${pid}"]`
       );
@@ -421,35 +527,40 @@
       const q = getInlineQuantityForProduct(sectionId, pid);
       if (v) {
         lines.push({
-          title: titles[String(pid)] || '',
+          productId: pid,
+          title: titles[pid] || titles[String(pid)] || '',
           variant: v,
           qty: q,
+          gated: false,
+          resolved: true,
+          priceMinCents: minPriceCentsForProduct(pid, priceMinById),
         });
       }
     });
 
-    let saleTotal = 0;
-    let compareTotal = 0;
+    let lineSaleSum = 0;
+    let lineCompareSum = 0;
     lines.forEach((line) => {
-      saleTotal += line.variant.price * line.qty;
-      const unitCompare =
-        line.variant.compare_at_price && line.variant.compare_at_price > line.variant.price
-          ? line.variant.compare_at_price
-          : line.variant.price;
-      compareTotal += unitCompare * line.qty;
+      lineSaleSum += lineSaleCents(line, priceMinById);
+      lineCompareSum += lineCompareCents(line, priceMinById);
     });
+
+    let saleTotal = lineSaleSum;
+    let compareTotal = lineCompareSum;
+
+    if (setDiscountAmount > 0) {
+      compareTotal = lineSaleSum;
+      saleTotal = Math.floor((lineSaleSum * (100 - setDiscountAmount)) / 100);
+    }
 
     const compareEl = root.querySelector('.pdp-set-zwischensumme__compare');
     const saleEl = root.querySelector('.pdp-set-zwischensumme__sale');
     const badgeEl = root.querySelector('.pdp-set-zwischensumme__badge');
     const breakdownEl = root.querySelector('.pdp-set-zwischensumme__breakdown');
 
-    if (setDiscountAmount > 0) {
-      const amountDifference = 100 - setDiscountAmount;
-      saleTotal = Math.floor((compareTotal * amountDifference) / 100);
+    if (saleEl) {
+      saleEl.textContent = useFromTotals ? formatZwFromTotal(fromPrefix, saleTotal, fmt, mf) : fmt(saleTotal, mf);
     }
-
-    if (saleEl) saleEl.textContent = fmt(saleTotal, mf);
 
     if (setDiscountAmount > 0) {
       if (compareEl) {
@@ -480,13 +591,26 @@
 
     if (breakdownEl) {
       const parts = lines.map((line) => {
-        const lineSale = line.variant.price * line.qty;
-        return `${line.qty}x ${line.title} (${fmt(lineSale, mf)})`;
+        const cents = lineSaleCents(line, priceMinById);
+        const money = fmt(cents, mf);
+        const inner =
+          line.gated && !line.resolved && fromPrefix ? formatZwFromTotal(fromPrefix, cents, fmt, mf) : money;
+        return `${line.qty}x ${line.title} (${inner})`;
       });
       breakdownEl.textContent = parts.join(' + ');
     }
 
-    syncMainPriceWithZwischensumme(productInfo, sectionId, fmt, mf, saleTotal, compareTotal, setDiscountAmount);
+    syncMainPriceWithZwischensumme(
+      productInfo,
+      sectionId,
+      fmt,
+      mf,
+      saleTotal,
+      compareTotal,
+      setDiscountAmount,
+      useFromTotals,
+      fromPrefix
+    );
   }
 
   function updatePdpSetSubmitButton(form) {

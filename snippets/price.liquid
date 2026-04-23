@@ -12,6 +12,7 @@
   {% render 'price', product: product %}
 {% endcomment %}
 {%- liquid
+  assign we_set_pricing = false
   assign selected_variant = product.selected_or_first_available_variant
   if use_variant
     assign target = selected_variant
@@ -39,134 +40,41 @@
   endif
 
   if product.metafields.custom.pdp_set_products != blank
-    if section
-      assign pdp_section_has_we_variant_picker = false
-      assign pdp_section_has_variant_picker = false
-      for sb in section.blocks
-        if sb.type == 'we_variant_picker'
-          assign pdp_section_has_we_variant_picker = true
-        endif
-        if sb.type == 'variant_picker'
-          assign pdp_section_has_variant_picker = true
-        endif
-      endfor
-      assign pdp_zw_omit_main = false
-      if pdp_section_has_we_variant_picker and pdp_section_has_variant_picker == false
-        assign pdp_zw_omit_main = true
-      endif
-
-      assign zw_sale_cents = 0
-      assign zw_compare_cents = 0
-      assign set_products_zw = product.metafields.custom.pdp_set_products.value
-
-      if pdp_zw_omit_main
-        for sp in set_products_zw limit: 2
-          capture we_set_line_vid_c
-            render 'we-pdp-first-set-line-variant-id', bundle_product: product, line_product: sp
-          endcapture
-          assign we_set_line_vid_str = we_set_line_vid_c | strip
-          assign zw_v = sp.selected_or_first_available_variant
-          if we_set_line_vid_str != blank
-            assign we_set_line_vid_num = we_set_line_vid_str | plus: 0
-            for v in sp.variants
-              if v.id == we_set_line_vid_num
-                assign zw_v = v
-                break
-              endif
-            endfor
-          endif
-          assign zw_qr = zw_v.quantity_rule
-          assign zw_q_min = zw_qr.min | default: 1
-          if zw_q_min < 1
-            assign zw_q_min = 1
-          endif
-          assign zw_line_sale = zw_v.price | times: zw_q_min
-          assign zw_sale_cents = zw_sale_cents | plus: zw_line_sale
-          assign unit_cmp = zw_v.price
-          if zw_v.compare_at_price > zw_v.price
-            assign unit_cmp = zw_v.compare_at_price
-          endif
-          assign zw_line_cmp = unit_cmp | times: zw_q_min
-          assign zw_compare_cents = zw_compare_cents | plus: zw_line_cmp
-        endfor
-      else
-        assign zw_first = set_products_zw | first
-        assign zw_main_v = product.selected_or_first_available_variant
-        assign zw_main_qr = zw_main_v.quantity_rule
-        assign zw_main_q_min = zw_main_qr.min | default: 1
-        if zw_main_q_min < 1
-          assign zw_main_q_min = 1
-        endif
-        assign zw_main_sale_cents = zw_main_v.price | times: zw_main_q_min
-        assign zw_main_compare_cents = zw_main_sale_cents
-        if zw_main_v.compare_at_price > zw_main_v.price
-          assign zw_main_compare_cents = zw_main_v.compare_at_price | times: zw_main_q_min
-        endif
-        capture zw_first_vid_c
-          render 'we-pdp-first-set-line-variant-id', bundle_product: product, line_product: zw_first
-        endcapture
-        assign zw_first_vid_str = zw_first_vid_c | strip
-        assign zw_v = zw_first.selected_or_first_available_variant
-        if zw_first_vid_str != blank
-          assign zw_first_vid_num = zw_first_vid_str | plus: 0
-          for v in zw_first.variants
-            if v.id == zw_first_vid_num
-              assign zw_v = v
-              break
-            endif
-          endfor
-        endif
-        assign zw_qr = zw_v.quantity_rule
-        assign zw_q_min = zw_qr.min | default: 1
-        if zw_q_min < 1
-          assign zw_q_min = 1
-        endif
-        assign zw_first_sale_cents = zw_v.price | times: zw_q_min
-        assign zw_first_compare_cents = zw_first_sale_cents
-        if zw_v.compare_at_price > zw_v.price
-          assign zw_first_compare_cents = zw_v.compare_at_price | times: zw_q_min
-        endif
-        assign zw_sale_cents = zw_main_sale_cents | plus: zw_first_sale_cents
-        assign zw_compare_cents = zw_main_compare_cents | plus: zw_first_compare_cents
-      endif
-
-      if product.metafields.custom.set_discount_amount > 0
-        assign zw_amount_difference = 100 | minus: product.metafields.custom.set_discount_amount
-        assign zw_sale_cents = zw_compare_cents | times: zw_amount_difference | divided_by: 100
-      endif
-
-      assign compare_at_price = zw_compare_cents
-      assign price = zw_sale_cents
-      assign money_price = price | money
-      if settings.currency_code_enabled
-        assign money_price = price | money_with_currency
-      endif
-      assign money_price_min = money_price
-    elsif product.metafields.custom.set_discount_amount > 0
-      assign price_set_product_1 = 0
-      assign price_set_product_2 = 0
-      for set_product in product.metafields.custom.pdp_set_products.value
-        if forloop.first
-          assign price_set_product_1 = set_product.price_min
-        endif
-        if forloop.index == 2
-          assign price_set_product_2 = set_product.price_min
-        endif
-      endfor
-      assign set_compare_at_total = price_set_product_1 | plus: price_set_product_2
-      assign compare_at_price = set_compare_at_total
-      assign discount_amount = product.metafields.custom.set_discount_amount
-      assign amount_difference = 100 | minus: discount_amount
-      assign price = set_compare_at_total | times: amount_difference | divided_by: 100
-      assign money_price = price | money
-      if settings.currency_code_enabled
-        assign money_price = price | money_with_currency
-      endif
-      assign money_price_min = money_price
-      assign money_price = 'products.product.price.from_price_html' | t: price: money_price
+    assign we_set_pricing = true
+    comment
+      Set bundles: x,y = price_min of 1st/2nd pdp_set_products entries; d = set_discount_amount (%).
+      Compare (strikethrough) = x+y; sale = (x+y)*(100-d)/100. Shown as: from sale (x+y).
+      Ignore bundle product target.compare_at_price_varies (else theme hides <s> or adds f-price--no-compare).
+      product-set-cart-items.js updates #price on PDP when pickers change.
+    endcomment
+    assign we_set_plist = product.metafields.custom.pdp_set_products.value
+    assign we_set_two_min_sum = 0
+    for we_sp in we_set_plist limit: 2
+      assign we_set_two_min_sum = we_set_two_min_sum | plus: we_sp.price_min
+    endfor
+    assign we_set_disc_pct = product.metafields.custom.set_discount_amount | default: 0 | plus: 0
+    assign compare_at_price = we_set_two_min_sum
+    assign we_set_price_factor = 100 | minus: we_set_disc_pct
+    assign price = we_set_two_min_sum | times: we_set_price_factor | divided_by: 100
+    assign money_price = price | money
+    if settings.currency_code_enabled
+      assign money_price = price | money_with_currency
     endif
+    assign money_price_min = money_price
+    assign money_price = 'products.product.price.from_price_html' | t: price: money_price
   endif
 -%}
+<script>
+  console.log('product', '{{ product.title }}');
+  console.log('we_set_two_min_sum', '{{ we_set_two_min_sum }}');
+  console.log('we_set_disc_pct', '{{ we_set_disc_pct }}');
+  console.log('we_set_price_factor', '{{ we_set_price_factor }}');
+  console.log('price', '{{ price }}');
+  console.log('money_price', '{{ money_price }}');
+  console.log('money_price_min', '{{ money_price_min }}');
+  console.log('money_price_max', '{{ money_price_max }}');
+  console.log('money_price_from', '{{ money_price_from }}');
+</script>
 <div
   class="
     f-price
@@ -174,7 +82,7 @@
     {%- if price_class %} {{ price_class }}{% endif -%}
     {%- if available == false %} f-price--sold-out {% endif -%}
     {%- if compare_at_price > price and product.quantity_price_breaks_configured? != true %} f-price--on-sale {% endif -%}
-    {%- if target.price_varies == false and target.compare_at_price_varies %} f-price--no-compare{% endif -%}
+    {%- if we_set_pricing != true and target.price_varies == false and target.compare_at_price_varies %} f-price--no-compare{% endif -%}
     {%- if compare_at_price > price and product.quantity_price_breaks_configured? %} volume-pricing--sale-badge{% endif -%}
   "
 >
@@ -185,7 +93,7 @@
   {%- endcomment -%}
   <div class="f-price__regular{% if price_regular_class %} {{ price_regular_class }}{% endif %}">
     {%- if product.quantity_price_breaks_configured? -%}
-      {%- unless product.price_varies == false and product.compare_at_price_varies == true %}
+      {%- if we_set_pricing -%}
         <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.regular_price' | t }}</span>
         <span class="f-price-item f-price-item--regular">
           <s>
@@ -196,7 +104,20 @@
             {% endif %}
           </s>
         </span>
-      {%- endunless -%}
+      {%- else -%}
+        {%- unless product.price_varies == false and product.compare_at_price_varies == true %}
+          <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.regular_price' | t }}</span>
+          <span class="f-price-item f-price-item--regular">
+            <s>
+              {% if settings.currency_code_enabled %}
+                {{ compare_at_price | money_with_currency }}
+              {% else %}
+                {{ compare_at_price | money }}
+              {% endif %}
+            </s>
+          </span>
+        {%- endunless -%}
+      {%- endif -%}
       <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.regular_price' | t }}</span>
       <span class="f-price-item f-price-item--regular">
         {{- 'products.product.volume_pricing.price_range' | t: minimum: money_price_min, maximum: money_price_max -}}
@@ -213,7 +134,7 @@
     <span class="f-price-item f-price-item--sale">
       {{ money_price }}
     </span>
-    {%- unless target.price_varies == false and target.compare_at_price_varies %}
+    {%- if we_set_pricing -%}
       <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.regular_price' | t }}</span>
       <span class="f-price-item f-price-item--regular">
         <s>
@@ -224,7 +145,20 @@
           {% endif %}
         </s>
       </span>
-    {%- endunless -%}
+    {%- else -%}
+      {%- unless target.price_varies == false and target.compare_at_price_varies %}
+        <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.regular_price' | t }}</span>
+        <span class="f-price-item f-price-item--regular">
+          <s>
+            {% if settings.currency_code_enabled %}
+              {{ compare_at_price | money_with_currency }}
+            {% else %}
+              {{ compare_at_price | money }}
+            {% endif %}
+          </s>
+        </span>
+      {%- endunless -%}
+    {%- endif -%}
   </div>
   <div class="f-price__unit-wrapper{% if selected_variant.unit_price_measurement == nil %} hidden{% endif %}">
     <span class="visually-hidden">{{ 'products.product.price.unit_price' | t }}</span>
