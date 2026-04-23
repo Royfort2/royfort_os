@@ -77,7 +77,7 @@
           "settings": {
             "icon": "shopify://shop_images/local_shipping_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
             "title": "Geschätzte Lieferung: {{ product.metafields.custom.we_pdp_estimated_delivery_time.value }}",
-            "short_description": "Kostenloser Versand ab €150",
+            "short_description": "Kostenloser Versand",
             "description": "<p>Delivery info</p>",
             "page": ""
           }
@@ -105,13 +105,13 @@
         "usp_list_yWyYmX": {
           "type": "usp_list",
           "settings": {
-            "title": "In sapien eget fringilla magna libero consectetur adipiscing nulla felis. Maecenas suspendisse cras et.",
-            "item_title_1": "The Feel",
-            "item_description_1": "Felis mi massa lectus elit morbi imperdiet ac.",
-            "item_title_2": "The look",
-            "item_description_2": "Felis mi massa lectus elit morbi imperdiet ac.",
-            "item_title_3": "best for",
-            "item_description_3": "Felis mi massa lectus elit morbi imperdiet ac."
+            "title": "Mit jeder Wäsche entfaltet der Stoff mehr Geschmeidigkeit und entwickelt eine lebendig weiche, natürliche Textur, die mit der Zeit nur schöner wird.",
+            "item_title_1": "weich",
+            "item_description_1": "Unsere Baumwollbettwäsche schmiegt sich sanft an die Haut und vermittelt das Gefühl purer Leichtigkeit.",
+            "item_title_2": "seidig",
+            "item_description_2": "Die glatte, seidige Oberfläche lädt zum Hineingleiten ein und sorgt für ein luxuriöses, ruhiges Schlafgefühl.",
+            "item_title_3": "atmungsaktiv",
+            "item_description_3": "Das Schlafklima stets angenehm trocken und ausgeglichen - erfrischend im Sommer, wohlig im Winter."
           }
         },
         "collapsible-row-1": {
@@ -132,7 +132,7 @@
             "heading": "Material",
             "heading_styling": "body",
             "icon": "none",
-            "content": "<p>Material</p>",
+            "content": "<ul><li>100% GOTS-zertifizierter, langstapelige Bio-Baumwolle</li><li>Handgefertigt in Portugal</li><li>300 Fadendichte - optimale Balance zwischen Geschmeidigkeit und natürlicher Atmungsaktivität</li><li>Feine Satinwebart – sorgt für glatte, langlebige Oberfläche mit dezentem Schimmer</li></ul>",
             "custom_liquid": "",
             "page": "",
             "default_open": false
@@ -144,7 +144,7 @@
             "heading": "Pflegehinweise",
             "heading_styling": "body",
             "icon": "none",
-            "content": "<p>Pflegehinweise</p>",
+            "content": "<ul><li>Normales oder schonendes Baumwollwaschprogramm mit ähnlichen Farben.</li><li>Für die ersten Wäschen empfehlen wir 30°C, um die Fasern zu schützen und Einlaufen zu vermeiden. Bei regelmäßiger Nutzung sind 60°C ideal für optimale Hygiene und dauerhafte Frische.</li><li>Bei Bedarf mit hoher Temperatur (200–230°C) bügeln oder steamen.</li><li>Trocknergeeignet – am besten bei niedriger bis mittlerer Temperatur. <br/></li></ul>",
             "custom_liquid": "",
             "page": "",
             "default_open": false
