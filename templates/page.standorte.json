@@ -68,6 +68,81 @@
         "custom_class": ""
       }
     },
+    "multicolumn_XAXReL": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_Ut7Bqg": {
+          "type": "column",
+          "settings": {
+            "show_image": false,
+            "image_width": "medium",
+            "title": "",
+            "heading_size": "h4",
+            "text": "",
+            "text_size": "text-base",
+            "button_label": "Berlin",
+            "button_style": "btn--secondary",
+            "button_link": "#berlin",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_TeCLjw": {
+          "type": "column",
+          "settings": {
+            "show_image": false,
+            "image_width": "medium",
+            "title": "",
+            "heading_size": "h4",
+            "text": "",
+            "text_size": "text-base",
+            "button_label": "Hamburg",
+            "button_style": "btn--secondary",
+            "button_link": "#hamburg",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_PK3x9D": {
+          "type": "column",
+          "settings": {
+            "show_image": false,
+            "image_width": "medium",
+            "title": "",
+            "heading_size": "h4",
+            "text": "",
+            "text_size": "text-base",
+            "button_label": "München",
+            "button_style": "btn--secondary",
+            "button_link": "#muenchen",
+            "mobile_layout": "inherit"
+          }
+        }
+      },
+      "block_order": [
+        "column_Ut7Bqg",
+        "column_TeCLjw",
+        "column_PK3x9D"
+      ],
+      "name": "t:sections.multicolumn.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "heading": "Multicolumn",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "column_alignment": "left",
+        "columns_desktop": 4,
+        "column_gap": "large",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
     "rich_text_BqT8nB": {
       "type": "rich-text",
       "blocks": {
@@ -101,6 +176,7 @@
         "location_N7bgBe": {
           "type": "location",
           "settings": {
+            "location_id": "berlin",
             "show_image": true,
             "image": "shopify://shop_images/royfort-kadewe-12.jpg",
             "image_width": 480,
@@ -120,6 +196,7 @@
         "location_pwMiyy": {
           "type": "location",
           "settings": {
+            "location_id": "hamburg",
             "show_image": true,
             "image": "shopify://shop_images/royfort-kadewe-12.jpg",
             "image_width": 480,
@@ -139,6 +216,7 @@
         "location_UtUw7e": {
           "type": "location",
           "settings": {
+            "location_id": "muenchen",
             "show_image": true,
             "image": "shopify://shop_images/royfort-kadewe-12.jpg",
             "image_width": 480,
@@ -293,6 +371,7 @@
   "order": [
     "main",
     "image_with_text_overlay_EF8EN6",
+    "multicolumn_XAXReL",
     "rich_text_BqT8nB",
     "store_locator_AyKxpa",
     "custom_content_YqTUDD",
