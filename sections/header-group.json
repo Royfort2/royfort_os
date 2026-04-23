@@ -65,6 +65,20 @@
     "header": {
       "type": "header",
       "blocks": {
+        "product_list_B8M3pi": {
+          "type": "product_list",
+          "settings": {
+            "menu_title": "Decken & Kissen",
+            "collections": [],
+            "menu_columns": 3,
+            "show_menu_column_divider": true,
+            "enable_on_mobile": true,
+            "promotions_width": 38,
+            "number_of_columns": 3,
+            "product_list": [],
+            "heading": ""
+          }
+        },
         "product_list_w4QhxH": {
           "type": "product_list",
           "settings": {
@@ -93,6 +107,7 @@
         }
       },
       "block_order": [
+        "product_list_B8M3pi",
         "product_list_w4QhxH"
       ],
       "settings": {
