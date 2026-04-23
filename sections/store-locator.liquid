@@ -44,6 +44,9 @@
         assign motion_delay = motion_delay | plus: 50
       %}
       <motion-element
+        {% if block.settings.location_id != blank %}
+          id="{{ block.settings.location_id }}"
+        {% endif %}
         data-motion="fade-up"
         data-motion-delay="{{ motion_delay }}"
         class="store-location"
@@ -219,6 +222,12 @@
       "type": "location",
       "name": "t:sections.store-locator.blocks.location.name",
       "settings": [
+        {
+          "type": "text",
+          "id": "location_id",
+          "label": "Location ID",
+          "info": "This ID will be used for page navigation"
+        },
         {
           "type": "checkbox",
           "id": "show_image",
