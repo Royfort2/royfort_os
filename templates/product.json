@@ -96,9 +96,9 @@
           "type": "icon_info_text",
           "settings": {
             "icon": "shopify://shop_images/chat_bubble_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
-            "title": "Brauchst du Beratung?",
+            "title": "Persönliche Beratung",
             "short_description": "Unser Team steht dir gerne zur Seite",
-            "description": "<p>+49 / (0) 30 2332 7430</p>",
+            "description": "<p>Wir wissen, dass die richtige Entscheidung Zeit braucht.<br/>Ob Sie sich zwischen Materialien entscheiden oder Fragen zur Passform haben – wir unterstützen Sie gerne mit einer persönlichen Empfehlung.<br/><br/>Wir beraten Sie telefonisch oder per E-Mail und nehmen uns Zeit für Ihr Anliegen.<br/><br/><br/>+49 (0) 30 2332 7430<br/>service@royfort.com</p>",
             "page": ""
           }
         },
@@ -106,11 +106,11 @@
           "type": "usp_list",
           "settings": {
             "title": "Mit jeder Wäsche entfaltet der Stoff mehr Geschmeidigkeit und entwickelt eine lebendig weiche, natürliche Textur, die mit der Zeit nur schöner wird.",
-            "item_title_1": "weich",
+            "item_title_1": "GEFÜHL",
             "item_description_1": "Unsere Baumwollbettwäsche schmiegt sich sanft an die Haut und vermittelt das Gefühl purer Leichtigkeit.",
-            "item_title_2": "seidig",
+            "item_title_2": "OPTIK",
             "item_description_2": "Die glatte, seidige Oberfläche lädt zum Hineingleiten ein und sorgt für ein luxuriöses, ruhiges Schlafgefühl.",
-            "item_title_3": "atmungsaktiv",
+            "item_title_3": "GEEIGNET FÜR",
             "item_description_3": "Das Schlafklima stets angenehm trocken und ausgeglichen - erfrischend im Sommer, wohlig im Winter."
           }
         },
