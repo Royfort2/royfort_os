@@ -16,7 +16,6 @@
       "blocks": {
         "announcement_bar_yqQJzd": {
           "type": "announcement_bar",
-          "disabled": true,
           "settings": {
             "text": "Gefertigt in Europa – kompromisslose Qualität für besten Schlaf.",
             "link": "",
@@ -25,6 +24,7 @@
         },
         "announcement_bar_FCCaeU": {
           "type": "announcement_bar",
+          "disabled": true,
           "settings": {
             "text": "Genießen Sie jetzt 20% auf alles in unserem exklusiven Spring Sale.",
             "link": "",
