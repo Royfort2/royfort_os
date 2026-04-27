@@ -178,7 +178,7 @@
 .stamped-fa-star-half-o,
 .stamped-fa-star-o,
 .stamped-badge-starrating {
-    color: var(--color-foreground);
+    color: var(--color-foreground) !important;
 }
 
 .stamped-badge-starrating .stamped-fa {

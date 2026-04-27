@@ -200,6 +200,11 @@
         if pdp_set_line_ui_pending and is_color_swatch_picker == false
           assign we_option_skip_selected = true
         endif
+
+        assign show_selected_value_in_label = false
+        if picker_type == 'swatch' or picker_type == 'color' or picker_type == 'button'
+          assign show_selected_value_in_label = true
+        endif
       -%}
       <{{ tag_fieldset }}
         class="{{ wrap_class }}"
@@ -216,39 +221,41 @@
         >
           <div class="flex flex-wrap gap-2">
             <span class="option-name">{{ option.name }}:</span>
-            <span data-selected-swatch-value="{{ option.name }}">
-              {%- if is_pdp_qty_option and pdp_qty_selector_pending -%}
-                {{- block.settings.select_variant_text -}}
-              {%- elsif pdp_qty_selector_pending and is_color_swatch_picker == false -%}
-                {{- block.settings.select_variant_text -}}
-              {%- elsif pdp_set_line_ui_pending and is_color_swatch_picker == false -%}
-                {{- block.settings.select_variant_text -}}
-              {%- elsif we_use_bundle_line_variant -%}
-                {%- liquid
-                  case option.position
-                    when 1
-                      echo we_active_variant.option1
-                    when 2
-                      echo we_active_variant.option2
-                    when 3
-                      echo we_active_variant.option3
-                  endcase
-                -%}
-              {%- else -%}
-                {%- liquid
-                  assign we_opt_show = option.selected_value
-                  case option.position
-                    when 1
-                      assign we_opt_show = we_active_variant.option1
-                    when 2
-                      assign we_opt_show = we_active_variant.option2
-                    when 3
-                      assign we_opt_show = we_active_variant.option3
-                  endcase
-                -%}
-                {{- we_opt_show -}}
-              {%- endif -%}
-            </span>
+            {%- if show_selected_value_in_label -%}
+              <span data-selected-swatch-value="{{ option.name }}">
+                {%- if is_pdp_qty_option and pdp_qty_selector_pending -%}
+                  {{- block.settings.select_variant_text -}}
+                {%- elsif pdp_qty_selector_pending and is_color_swatch_picker == false -%}
+                  {{- block.settings.select_variant_text -}}
+                {%- elsif pdp_set_line_ui_pending and is_color_swatch_picker == false -%}
+                  {{- block.settings.select_variant_text -}}
+                {%- elsif we_use_bundle_line_variant -%}
+                  {%- liquid
+                    case option.position
+                      when 1
+                        echo we_active_variant.option1
+                      when 2
+                        echo we_active_variant.option2
+                      when 3
+                        echo we_active_variant.option3
+                    endcase
+                  -%}
+                {%- else -%}
+                  {%- liquid
+                    assign we_opt_show = option.selected_value
+                    case option.position
+                      when 1
+                        assign we_opt_show = we_active_variant.option1
+                      when 2
+                        assign we_opt_show = we_active_variant.option2
+                      when 3
+                        assign we_opt_show = we_active_variant.option3
+                    endcase
+                  -%}
+                  {{- we_opt_show -}}
+                {%- endif -%}
+              </span>
+            {%- endif -%}
           </div>
           {%- if size_chart_content != blank and attach_size_chart -%}
             <button
