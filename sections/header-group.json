@@ -58,8 +58,8 @@
         "content_width": 30,
         "autoplay": true,
         "autoplay_speed": 4,
-        "padding_top": 8,
-        "padding_bottom": 8
+        "padding_top": 4,
+        "padding_bottom": 4
       }
     },
     "header": {
