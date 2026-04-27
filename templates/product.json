@@ -26,7 +26,7 @@
           "type": "badges",
           "settings": {
             "show_soldout_badge": true,
-            "show_sale_badge": true,
+            "show_sale_badge": false,
             "sale_badge_type": "percentage"
           }
         },
