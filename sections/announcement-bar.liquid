@@ -4,6 +4,7 @@
   }
   .announcement-bar__content {
     max-width: 100%;
+    padding-inline: {{ section.settings.desktop_inline_padding }}px;
   }
   .announcement-bar__content:has(.announcement-bar__text-right) {
     display: grid;
@@ -11,9 +12,11 @@
     align-items: center;
   }
   @media (max-width: 1023.98px) {
+    .announcement-bar__content {
+      padding-inline: {{ section.settings.mobile_inline_padding }}px;
+    }
     .announcement-bar__content:has(.announcement-bar__text-right) {
       grid-template-columns: 1fr;
-      padding-inline: 1rem;
     }
   }
   .announcement-bar__content > :first-child:empty {
@@ -189,6 +192,26 @@
       "id": "padding_bottom",
       "label": "t:sections.all.padding.padding_bottom",
       "default": 12,
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_inline_padding",
+      "label": "Desktop inline padding",
+      "default": 16,
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_inline_padding",
+      "label": "Mobile inline padding",
+      "default": 10,
       "min": 0,
       "max": 50,
       "step": 1,
