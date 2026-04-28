@@ -71,12 +71,10 @@
           "type": "product_list",
           "settings": {
             "menu_title": "Decken & Kissen",
-            "collections": [
-              "daunendecken-kissen"
-            ],
+            "collections": [],
             "menu_columns": 3,
-            "show_menu_column_divider": true,
-            "enable_on_mobile": true,
+            "show_menu_column_divider": false,
+            "enable_on_mobile": false,
             "promotions_width": 38,
             "number_of_columns": 3,
             "product_list": [
@@ -99,7 +97,7 @@
             ],
             "menu_columns": 3,
             "show_menu_column_divider": false,
-            "enable_on_mobile": true,
+            "enable_on_mobile": false,
             "promotions_width": 30,
             "number_of_columns": 3,
             "product_list": [
