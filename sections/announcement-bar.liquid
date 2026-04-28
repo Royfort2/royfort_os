@@ -10,8 +10,15 @@
     grid-template-columns: 1fr 3fr 1fr;
     align-items: center;
   }
+  @media (max-width: 1023.98px) {
+    .announcement-bar__content:has(.announcement-bar__text-right) {
+      grid-template-columns: 1fr;
+      padding-inline: 1rem;
+    }
+  }
   .announcement-bar__content > :first-child:empty {
     display: block !important;
+    margin: 0 !important;
   }
   .announcement-bar__content .announcement-bar__text {
     flex: 1;
