@@ -460,7 +460,9 @@ class MenuDrawer extends DrawerComponent {
   }
   get menuItems() {
     if (!this._menuItems) {
-      this._menuItems = this.querySelectorAll('.menu-drawer__menus:not(.active) > li');
+      this._menuItems = this.querySelectorAll(
+        '.menu-drawer__menus:not(.active) > li, .menu-drawer__footer-menu-list > li'
+      );
     }
     return this._menuItems;
   }

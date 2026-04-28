@@ -92,8 +92,8 @@
             <div class="menu-drawer__footer-menu">
               <ul class="menu-drawer__footer-menu-list">
                 {% for link in section.settings.drawer_bottom_menu.links %}
-                  <li class="menu-drawer__footer-menu-item">
-                    <a href="{{ link.url }}" class="menu-drawer__footer-menu-link">{{ link.title }}</a>
+                  <li class="menu-drawer__item menu-drawer__footer-menu-item">
+                    <a href="{{ link.url }}" class="menu-drawer__item-link menu-drawer__footer-menu-link">{{ link.title }}</a>
                   </li>
                 {% endfor %}
               </ul>
