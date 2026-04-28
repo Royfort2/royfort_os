@@ -79,8 +79,11 @@
             "enable_on_mobile": true,
             "promotions_width": 38,
             "number_of_columns": 3,
-            "product_list": [],
-            "heading": ""
+            "product_list": [
+              "daunenkissen",
+              "daunendecke"
+            ],
+            "heading": "Decken & Kissen"
           }
         },
         "product_list_w4QhxH": {
