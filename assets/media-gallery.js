@@ -1,21 +1,14 @@
 /**
  * Match gallery image alt text to the selected color option value.
- * Exact / substring match first; then require every option word to match the alt (whole-word style).
+ * Requires exact normalized equality to avoid partial overlaps
+ * (e.g. "weiss" must not match "cremeweiss").
  */
 function colorAltMatchesOption(altRaw, normalizedOption) {
-  const alt = (altRaw || '').trim().toLowerCase();
-  const opt = (normalizedOption || '').trim().toLowerCase();
-  if (!opt) return false;
-  if (!alt) return false;
-  if (alt === opt) return true;
-  if (alt.includes(opt) || opt.includes(alt)) return true;
-  const splitRe = /[\s,;/|]+/;
-  const altParts = alt.split(splitRe).filter((p) => p.length >= 2);
-  const optParts = opt.split(splitRe).filter((p) => p.length >= 2);
-  if (optParts.length === 0) return false;
-  return optParts.every((o) =>
-    altParts.some((a) => a === o || a.includes(o) || o.includes(a))
-  );
+  const normalize = (value) => String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
+  const alt = normalize(altRaw);
+  const opt = normalize(normalizedOption);
+  if (!alt || !opt) return false;
+  return alt === opt;
 }
 
 if (!customElements.get('media-gallery')) {
