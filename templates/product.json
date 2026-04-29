@@ -133,7 +133,7 @@
             "heading": "Material",
             "heading_styling": "body",
             "icon": "none",
-            "content": "<ul><li>100% GOTS-zertifizierter, langstapelige Bio-Baumwolle</li><li>Handgefertigt in Portugal</li><li>300 Fadendichte - optimale Balance zwischen Geschmeidigkeit und natürlicher Atmungsaktivität</li><li>Feine Satinwebart – sorgt für glatte, langlebige Oberfläche mit dezentem Schimmer</li></ul>",
+            "content": "{{ product.metafields.custom.we_pdp_material | metafield_tag }}",
             "custom_liquid": "",
             "page": "",
             "default_open": false
