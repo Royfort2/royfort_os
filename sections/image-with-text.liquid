@@ -47,137 +47,162 @@
 {% endstyle %}
 <script src="{{ 'we-image-with-text-truncate.js' | asset_url }}" defer="defer"></script>
 
-<div
-  class="section section--padding image-with-text image-with-text--{{ section.settings.layout | replace: '_', '-' }} color-{{ section.settings.section_color_scheme }}{% if color_inherit %} color-inherit{% endif %}{% if section.settings.custom_class != blank %} {{ section.settings.custom_class }}{% endif %}"
-  style="--section-padding-top: {{ section.settings.padding_top }}px;--section-padding-bottom: {{ section.settings.padding_bottom }}px;"
->
-  <div class="{% if section.settings.is_full_width %}w-full{% else %}page-width{% endif %}">
-    <div class="image-with-text__wrapper hero hero--{{ section.settings.image_height }} f-grid f-grid-1-cols md:f-grid-2-cols f-grid--gap-none blocks-radius">
-      <parallax-element
-        class="block overflow-hidden{% if color_inherit %} blocks-radius{% endif %}"
-        {% if section.settings.enable_parallax %}
-          data-parallax="0.3" data-parallax-direction="{{ section.settings.parallax_direction }}"
-        {% endif %}
-      >
-        <motion-element data-motion="zoom-out" class="block w-full h-full">
-          <div
-            class="image-with-text__media hero__media media-wrapper hover-wrapper"
-            style="{% if section.settings.image_height == 'adapt' %}--aspect-ratio: {{ section.settings.image.aspect_ratio | default: '16/9' }};{% endif %}"
-          >
-            {% if section.settings.image != blank %}
-              {{-
-                image
-                | image_url: width: image.width
-                | image_tag:
-                  loading: loading,
-                  fetchpriority: fetchpriority,
-                  sizes: sizes,
-                  width: image.width,
-                  height: image.height,
-                  widths: '300,400,500,600,700,800,900,1000,1200,1400,1600,1800,2000,2200,2400,2600,2800,3000,3200',
-                  alt: alt_image,
-                  class: 'hover-scale-up'
-              -}}
-            {% else %}
-              {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg w-full h-full hover-scale-up' }}
-            {% endif %}
-          </div>
-        </motion-element>
-      </parallax-element>
-      <div class="image-with-text__inner md:flex items-{{ section.settings.desktop_content_position }} text-{{ section.settings.mobile_content_alignment }} md:text-{{ section.settings.desktop_content_alignment }} color-{{ section.settings.color_scheme }}">
-        <div class="image-with-text__content rich-text">
-          {% for block in section.blocks %}
-            {% case block.type %}
-              {% when 'subheading' %}
-                <motion-element
-                  class="rich-text__subheading text-subheading block"
-                  data-motion="fade-up"
-                  data-motion-delay="{{ motion_delay }}"
-                  {{ block.shopify_attributes }}
-                >
-                  {{ block.settings.subheading }}
-                </motion-element>
-                {%- assign motion_delay = motion_delay | plus: 50 -%}
-              {% when 'heading' %}
-                <h2
-                  class="rich-text__heading overflow-hidden {{ block.settings.heading_size }}"
-                  {{ block.shopify_attributes }}
-                >
-                  <motion-element data-motion="fade-up" data-motion-delay="{{ motion_delay }}" class="block">
-                    {% render 'highlight-text',
-                      text: block.settings.heading,
-                      style: block.settings.heading_highlight_style
-                    %}
-                  </motion-element>
-                </h2>
-                {%- assign motion_delay = motion_delay | plus: 50 -%}
-              {% when 'text' %}
-                <motion-element
-                  class="block rich-text__text{% unless block.settings.truncate_on_mobile %} rte{% endunless %} {{ block.settings.text_size }}"
-                  data-motion="fade-up"
-                  data-motion-delay="{{ motion_delay }}"
-                  {{ block.shopify_attributes }}
-                >
-                  {%- if block.settings.truncate_on_mobile -%}
-                    {%- liquid
-                      assign iw_t_lines = block.settings.truncate_on_mobile_lines | default: 3
-                      assign iw_t_more = block.settings.truncate_trigger_text | default: 'Mehr lesen'
-                      assign iw_t_less = block.settings.truncate_collapse_text | default: 'Weniger'
-                    -%}
-                    <div
-                      class="image-with-text__truncate"
-                      data-we-truncate
-                      id="iwt-trunc-{{ section.id }}-{{ block.id }}"
-                      style="--iw-t-lines: {{ iw_t_lines }};"
-                    >
-                      <div
-                        class="rte image-with-text__truncate-body"
-                        id="iwt-trunc-body-{{ section.id }}-{{ block.id }}"
-                      >
-                        {{ block.settings.text }}
-                      </div>
-                      <button
-                        type="button"
-                        class="image-with-text__truncate-btn mt-2"
-                        data-we-truncate-toggle
-                        aria-expanded="false"
-                        aria-controls="iwt-trunc-body-{{ section.id }}-{{ block.id }}"
-                        data-label-more="{{ iw_t_more | escape }}"
-                        data-label-less="{{ iw_t_less | escape }}"
-                      >
-                        {{- iw_t_more -}}
-                      </button>
-                    </div>
-                  {%- else -%}
-                    {{ block.settings.text }}
-                  {%- endif -%}
-                </motion-element>
-                {%- assign motion_delay = motion_delay | plus: 50 -%}
-              {% when 'button' %}
-                {% if block.settings.button_label != blank %}
-                  <motion-element class="block" data-motion="fade-up" data-motion-delay="{{ motion_delay }}">
-                    <a
-                      {% if block.settings.button_link != blank %}
-                        href="{{ block.settings.button_link }}"
-                      {% else %}
-                        role="link" aria-disabled="true"
-                        disabled
-                      {% endif %}
-                      class="btn {{ block.settings.button_style }}"
-                      {{ block.shopify_attributes }}
-                    >
-                      {{- block.settings.button_label -}}
-                    </a>
+{% assign is_render = true %}
+{% if template.name == 'product' %}
+  {% if section.settings.image == blank %}
+    {% assign is_render = false %}
+  {% endif %}
+  {% assign is_heading_empty = false %}
+  {% assign is_text_empty = false %}
+  {% for block in section.blocks %}
+    {% if block.type == 'heading' %}
+      {% if block.settings.heading == blank %}
+        {% assign is_heading_empty = true %}
+      {% endif %}
+    {% elsif block.type == 'text' %}
+      {% if block.settings.text == blank %}
+        {% assign is_text_empty = true %}
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+  {% if is_heading_empty and is_text_empty %}
+    {% assign is_render = false %}
+  {% endif %}
+{% endif %}
+
+{% if is_render %}
+  <div
+    class="section section--padding image-with-text image-with-text--{{ section.settings.layout | replace: '_', '-' }} color-{{ section.settings.section_color_scheme }}{% if color_inherit %} color-inherit{% endif %}{% if section.settings.custom_class != blank %} {{ section.settings.custom_class }}{% endif %}"
+    style="--section-padding-top: {{ section.settings.padding_top }}px;--section-padding-bottom: {{ section.settings.padding_bottom }}px;"
+  >
+    <div class="{% if section.settings.is_full_width %}w-full{% else %}page-width{% endif %}">
+      <div class="image-with-text__wrapper hero hero--{{ section.settings.image_height }} f-grid f-grid-1-cols md:f-grid-2-cols f-grid--gap-none blocks-radius">
+        <parallax-element
+          class="block overflow-hidden{% if color_inherit %} blocks-radius{% endif %}"
+          {% if section.settings.enable_parallax %}
+            data-parallax="0.3" data-parallax-direction="{{ section.settings.parallax_direction }}"
+          {% endif %}
+        >
+          <motion-element data-motion="zoom-out" class="block w-full h-full">
+            <div
+              class="image-with-text__media hero__media media-wrapper hover-wrapper"
+              style="{% if section.settings.image_height == 'adapt' %}--aspect-ratio: {{ section.settings.image.aspect_ratio | default: '16/9' }};{% endif %}"
+            >
+              {% if section.settings.image != blank %}
+                {{-
+                  image
+                  | image_url: width: image.width
+                  | image_tag:
+                    loading: loading,
+                    fetchpriority: fetchpriority,
+                    sizes: sizes,
+                    width: image.width,
+                    height: image.height,
+                    widths: '300,400,500,600,700,800,900,1000,1200,1400,1600,1800,2000,2200,2400,2600,2800,3000,3200',
+                    alt: alt_image,
+                    class: 'hover-scale-up'
+                -}}
+              {% else %}
+                {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg w-full h-full hover-scale-up' }}
+              {% endif %}
+            </div>
+          </motion-element>
+        </parallax-element>
+        <div class="image-with-text__inner md:flex items-{{ section.settings.desktop_content_position }} text-{{ section.settings.mobile_content_alignment }} md:text-{{ section.settings.desktop_content_alignment }} color-{{ section.settings.color_scheme }}">
+          <div class="image-with-text__content rich-text">
+            {% for block in section.blocks %}
+              {% case block.type %}
+                {% when 'subheading' %}
+                  <motion-element
+                    class="rich-text__subheading text-subheading block"
+                    data-motion="fade-up"
+                    data-motion-delay="{{ motion_delay }}"
+                    {{ block.shopify_attributes }}
+                  >
+                    {{ block.settings.subheading }}
                   </motion-element>
                   {%- assign motion_delay = motion_delay | plus: 50 -%}
-                {% endif %}
-            {% endcase %}
-          {% endfor %}
+                {% when 'heading' %}
+                  <h2
+                    class="rich-text__heading overflow-hidden {{ block.settings.heading_size }}"
+                    {{ block.shopify_attributes }}
+                  >
+                    <motion-element data-motion="fade-up" data-motion-delay="{{ motion_delay }}" class="block">
+                      {% render 'highlight-text',
+                        text: block.settings.heading,
+                        style: block.settings.heading_highlight_style
+                      %}
+                    </motion-element>
+                  </h2>
+                  {%- assign motion_delay = motion_delay | plus: 50 -%}
+                {% when 'text' %}
+                  <motion-element
+                    class="block rich-text__text{% unless block.settings.truncate_on_mobile %} rte{% endunless %} {{ block.settings.text_size }}"
+                    data-motion="fade-up"
+                    data-motion-delay="{{ motion_delay }}"
+                    {{ block.shopify_attributes }}
+                  >
+                    {%- if block.settings.truncate_on_mobile -%}
+                      {%- liquid
+                        assign iw_t_lines = block.settings.truncate_on_mobile_lines | default: 3
+                        assign iw_t_more = block.settings.truncate_trigger_text | default: 'Mehr lesen'
+                        assign iw_t_less = block.settings.truncate_collapse_text | default: 'Weniger'
+                      -%}
+                      <div
+                        class="image-with-text__truncate"
+                        data-we-truncate
+                        id="iwt-trunc-{{ section.id }}-{{ block.id }}"
+                        style="--iw-t-lines: {{ iw_t_lines }};"
+                      >
+                        <div
+                          class="rte image-with-text__truncate-body"
+                          id="iwt-trunc-body-{{ section.id }}-{{ block.id }}"
+                        >
+                          {{ block.settings.text }}
+                        </div>
+                        <button
+                          type="button"
+                          class="image-with-text__truncate-btn mt-2"
+                          data-we-truncate-toggle
+                          aria-expanded="false"
+                          aria-controls="iwt-trunc-body-{{ section.id }}-{{ block.id }}"
+                          data-label-more="{{ iw_t_more | escape }}"
+                          data-label-less="{{ iw_t_less | escape }}"
+                        >
+                          {{- iw_t_more -}}
+                        </button>
+                      </div>
+                    {%- else -%}
+                      {{ block.settings.text }}
+                    {%- endif -%}
+                  </motion-element>
+                  {%- assign motion_delay = motion_delay | plus: 50 -%}
+                {% when 'button' %}
+                  {% if block.settings.button_label != blank %}
+                    <motion-element class="block" data-motion="fade-up" data-motion-delay="{{ motion_delay }}">
+                      <a
+                        {% if block.settings.button_link != blank %}
+                          href="{{ block.settings.button_link }}"
+                        {% else %}
+                          role="link" aria-disabled="true"
+                          disabled
+                        {% endif %}
+                        class="btn {{ block.settings.button_style }}"
+                        {{ block.shopify_attributes }}
+                      >
+                        {{- block.settings.button_label -}}
+                      </a>
+                    </motion-element>
+                    {%- assign motion_delay = motion_delay | plus: 50 -%}
+                  {% endif %}
+              {% endcase %}
+            {% endfor %}
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+{% endif %}
 
 {% schema %}
 {
