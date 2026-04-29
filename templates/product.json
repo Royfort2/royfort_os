@@ -145,7 +145,7 @@
             "heading": "Pflegehinweise",
             "heading_styling": "body",
             "icon": "none",
-            "content": "{{ product.metafields.custom.we_pdp_pflegehinweise | metafield_tag }}",
+            "content": "<p>{{ product.metafields.custom.we_pdp_pflegehinweise | metafield_tag }}</p>",
             "custom_liquid": "",
             "page": "",
             "default_open": false
@@ -214,7 +214,7 @@
         "heading_9Y3zkK": {
           "type": "heading",
           "settings": {
-            "heading": "Besonderheiten – unsere außergewöhnliche Baumwolle",
+            "heading": "{{ product.metafields.custom.we_pdp_image_with_text_1_title.value }}",
             "heading_size": "h3",
             "heading_highlight_style": "none"
           }
@@ -222,7 +222,7 @@
         "text_UWkrNW": {
           "type": "text",
           "settings": {
-            "text": "<p>Baumwolle zählt zu den edelsten Naturfasern der Welt – sie ist von Natur aus temperaturregulierend, feuchtigkeitsabsorbierend und langlebig. Unsere langstapelige Bio-Baumwolle wird besonders fein versponnen, um Reibung zu minimieren und einen ruhigen, erholsamen Schlaf zu fördern.</p><p>Ihre feinen Fasern sorgen für eine unglaubliche weiche Stofftextur. Weniger als 1% der weltweit produzierten Baumwolle erreicht diese außergewöhnliche Qualität.</p>",
+            "text": "{{ product.metafields.custom.we_pdp_image_with_text_1_text | metafield_tag }}",
             "text_size": "text-base",
             "truncate_on_mobile": true,
             "truncate_on_mobile_lines": 3,
@@ -242,7 +242,7 @@
         "is_full_width": true,
         "section_color_scheme": "",
         "color_scheme": "scheme-1",
-        "image": "shopify://shop_images/Baumwolle_2_6daab056-2b68-4ab1-9a53-c3a367ec5e06.jpg",
+        "image": "{{ product.metafields.custom.we_pdp_image_with_text_1_image.value }}",
         "image_height": "adapt",
         "layout": "text_first",
         "desktop_content_position": "center",
