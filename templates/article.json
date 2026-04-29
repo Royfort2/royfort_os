@@ -15,8 +15,10 @@
         "title": {
           "type": "title",
           "settings": {
+            "show_date": true,
             "show_author": true,
-            "show_blog": true
+            "show_blog": true,
+            "heading_size": "hd2"
           }
         },
         "content": {
@@ -47,10 +49,12 @@
       "settings": {
         "image_height": "medium",
         "show_related_posts": true,
+        "related_heading_size": "h1",
         "column_gap": "extra-large",
         "show_date": true,
         "show_excerpt": true,
-        "show_button": true
+        "show_button": true,
+        "comments_heading_size": "h1"
       }
     }
   },

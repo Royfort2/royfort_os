@@ -44,7 +44,7 @@
     "buttons_font_weight": "500",
     "buttons_letter_spacing": 2,
     "buttons_transform": "uppercase",
-    "page_width": 1440,
+    "page_width": 2000,
     "section_header_alignment": "left",
     "buttons_corner_radius": "round",
     "inputs_corner_radius": "square",
