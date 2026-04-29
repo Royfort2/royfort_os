@@ -251,6 +251,118 @@
         "custom_class": ""
       }
     },
+    "multicolumn_C7xXE3": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_gLpNED": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image": "shopify://shop_images/royfort-kadewe-10.jpg",
+            "image_width": "full",
+            "title": "",
+            "heading_size": "h4",
+            "text": "",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_TX6AGT": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image": "shopify://shop_images/royfort-kadewe-2_1.jpg",
+            "image_width": "full",
+            "title": "",
+            "heading_size": "h4",
+            "text": "",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_gAxxAL": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image": "shopify://shop_images/2024.10.24_Royfort_x_KaDeWe_Motiv_01_0098.jpg",
+            "image_width": "full",
+            "title": "",
+            "heading_size": "h4",
+            "text": "",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_8hbqYq": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image": "shopify://shop_images/2024.10.24_Royfort_x_KaDeWe_Motiv_01_0112.jpg",
+            "image_width": "full",
+            "title": "",
+            "heading_size": "h4",
+            "text": "",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_bPptgk": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image": "shopify://shop_images/2024.10.24_Royfort_x_KaDeWe_Motiv_01_0058.jpg",
+            "image_width": "full",
+            "title": "",
+            "heading_size": "h4",
+            "text": "",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        }
+      },
+      "block_order": [
+        "column_gLpNED",
+        "column_TX6AGT",
+        "column_gAxxAL",
+        "column_8hbqYq",
+        "column_bPptgk"
+      ],
+      "name": "t:sections.multicolumn.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "column_alignment": "left",
+        "columns_desktop": 5,
+        "column_gap": "extra-small",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
     "custom_content_YqTUDD": {
       "type": "custom-content",
       "blocks": {
@@ -376,6 +488,7 @@
     "multicolumn_XAXReL",
     "rich_text_BqT8nB",
     "store_locator_AyKxpa",
+    "multicolumn_C7xXE3",
     "custom_content_YqTUDD",
     "breadcrumbs_zf9HBa"
   ]
