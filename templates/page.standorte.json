@@ -31,12 +31,13 @@
         "text_TwJffD": {
           "type": "text",
           "settings": {
-            "text": "<p>Use this text to share information about your brand with your customers. <br>Describe a product, share announcements, or welcome customers to your store.</p>",
+            "text": "<p>Erleben Sie Royfort an unseren Standorten – entdecken Sie Betten, Matratzen und Bettwäsche und lassen Sie sich individuell zu Ihrem perfekten Schlaf beraten.</p>",
             "text_size": "text-base"
           }
         },
         "button_pq9fL4": {
           "type": "button",
+          "disabled": true,
           "settings": {
             "button_label": "Button label",
             "button_link": "",
@@ -52,7 +53,7 @@
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
-        "image": "shopify://shop_images/shipping-email-image.jpg",
+        "image": "shopify://shop_images/royfort-kadewe-12.jpg",
         "desktop_height": "extra-large",
         "overlay_opacity": 10,
         "use_custom_overlay": false,

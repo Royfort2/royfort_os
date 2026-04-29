@@ -200,64 +200,6 @@
         "custom_class": ""
       }
     },
-    "custom_content_4GEama": {
-      "type": "custom-content",
-      "blocks": {
-        "image_AewnVC": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/SZ2_2.png",
-            "width": "25%",
-            "alignment": "center",
-            "block_custom_class": ""
-          }
-        },
-        "image_9NAXCQ": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/2000px-Die_Zeit-Logo-Bremen.svg_9abe320f-2fad-4614-9630-846c8c8f4122.png",
-            "width": "20%",
-            "alignment": "center",
-            "block_custom_class": ""
-          }
-        },
-        "image_pmH7VN": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/Website_Images_Template_6.png",
-            "width": "20%",
-            "alignment": "center",
-            "block_custom_class": ""
-          }
-        }
-      },
-      "block_order": [
-        "image_AewnVC",
-        "image_9NAXCQ",
-        "image_pmH7VN"
-      ],
-      "disabled": true,
-      "name": "t:sections.custom-content.name",
-      "settings": {
-        "container": "fixed",
-        "color_scheme": "",
-        "enable_sticky_column": false,
-        "heading": "",
-        "heading_size": "h1",
-        "heading_highlight_style": "none",
-        "subheading": "",
-        "description": "",
-        "column_gap": "small",
-        "row_gap": "inherit",
-        "swipe_on_mobile": true,
-        "columns_mobile": "2",
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "show_section_divider": false,
-        "divider_width": "fixed",
-        "custom_class": ""
-      }
-    },
     "custom_content_ArQKiM": {
       "type": "custom-content",
       "blocks": {
@@ -963,7 +905,6 @@
         "column_xexFQc",
         "column_mTiiwn"
       ],
-      "disabled": true,
       "name": "t:sections.multicolumn.presets.name",
       "settings": {
         "color_scheme": "",
@@ -990,7 +931,6 @@
     "image_with_text_overlay_nrqpPE",
     "custom_content_kJfyKb",
     "video_hero_qjxhUU",
-    "custom_content_4GEama",
     "custom_content_ArQKiM",
     "custom_content_Bx7iBY",
     "custom_content_EK4bVJ",
