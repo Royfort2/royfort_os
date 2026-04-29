@@ -773,6 +773,9 @@ layout-switcher .btn::after {
     gap: 0.6rem;
     width: 100%;
 }
+.variant-options .tooltip {
+    text-transform: uppercase;
+}
 
 /* [we] PDP: Icon info text — trigger row + drawer (bottom mobile / right desktop) */
 .product__block--icon_info_text {
