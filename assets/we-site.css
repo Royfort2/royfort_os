@@ -707,6 +707,18 @@ grid-list#ProductsList.products-list {
     line-height: 150%;
 }
 
+.we-collection-promo__description.mobile {
+    display: none;
+}
+@media (max-width: 1023.98px) {
+    .we-collection-promo__description.mobile {
+        display: block;
+    }
+    .we-collection-promo__description.desktop {
+        display: none;
+    }
+}
+
 .we-collection-promo__actions * {
     color: #FFF;
     font-size: 1.4rem;
