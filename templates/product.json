@@ -266,7 +266,7 @@
         "heading_4Ni4ix": {
           "type": "heading",
           "settings": {
-            "heading": "Spürbare Qualität in jeder Berührung",
+            "heading": "{{ product.metafields.custom.we_pdp_image_with_text_2_title.value }}",
             "heading_size": "h3",
             "heading_highlight_style": "none"
           }
@@ -274,7 +274,7 @@
         "text_FXjj84": {
           "type": "text",
           "settings": {
-            "text": "<p>Wir verweben nur die hochwertigsten Garne mit einer Fadendichte von 300. Jede Garnfaser wird mit größter Sorgfalt verarbeitet, um ein ruhiges, gleichmäßiges Gewebe und ein sanftes Hautgefühl zu schaffen. Das Ergebnis: ein Stoff, der weich, atmungsaktiv und dauerhaft formschön bleibt - auch nach Jahren der Nutzung.</p><p>GOTS-zertifiziert und frei von aggressiven Chemikalien - für kompromisslose Qualität mit Verantwortung.</p>",
+            "text": "{{ product.metafields.custom.we_pdp_image_with_text_2_text | metafield_tag }}",
             "text_size": "text-base",
             "truncate_on_mobile": true,
             "truncate_on_mobile_lines": 3,
@@ -294,7 +294,7 @@
         "is_full_width": true,
         "section_color_scheme": "",
         "color_scheme": "scheme-1",
-        "image": "shopify://shop_images/Baumwolle_6.jpg",
+        "image": "{{ product.metafields.custom.we_pdp_image_with_text_2_image.value }}",
         "image_height": "adapt",
         "layout": "image_first",
         "desktop_content_position": "center",
