@@ -313,44 +313,46 @@
             {{ block.settings.custom_liquid }}
           </div>
         {%- when 'collapsible_tab' -%}
-          <div
-            class="product__block product__block--{{ block.type }}"
-            {{ block.shopify_attributes }}
-          >
-            <details
-              id="Details-{{ block.id }}-{{ section.id }}"
-              class="accordion-details"
-              is="accordion-group"
-              {% if block.settings.default_open %}
-                open
-                aria-expanded="true"
-              {% else %}
-                aria-expanded="false"
-              {% endif %}
+          {% if block.settings.content != blank or block.settings.custom_liquid != blank or block.settings.page.content != blank %}
+            <div
+              class="product__block product__block--{{ block.type }}"
+              {{ block.shopify_attributes }}
             >
-              {% if block.settings.heading_styling == 'body' %}
-                {% style %}
-                  #Details-{{ block.id }}-{{ section.id }} .accordion-details__summary .h4 {
-                    font-family: 'GT America', Arial, sans-serif !important;
-                  }
-                {% endstyle %}
-              {% endif %}
-              <summary class="accordion-details__summary flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                  {% render 'icons', icon: block.settings.icon %}
-                  <h2 class="h4 inline-richtext">
-                    {{ block.settings.heading | default: block.settings.page.title | escape }}
-                  </h2>
+              <details
+                id="Details-{{ block.id }}-{{ section.id }}"
+                class="accordion-details"
+                is="accordion-group"
+                {% if block.settings.default_open %}
+                  open
+                  aria-expanded="true"
+                {% else %}
+                  aria-expanded="false"
+                {% endif %}
+              >
+                {% if block.settings.heading_styling == 'body' %}
+                  {% style %}
+                    #Details-{{ block.id }}-{{ section.id }} .accordion-details__summary .h4 {
+                      font-family: 'GT America', Arial, sans-serif !important;
+                    }
+                  {% endstyle %}
+                {% endif %}
+                <summary class="accordion-details__summary flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    {% render 'icons', icon: block.settings.icon %}
+                    <h2 class="h4 inline-richtext">
+                      {{ block.settings.heading | default: block.settings.page.title | escape }}
+                    </h2>
+                  </div>
+                  {%- render 'icon-plus-toggle', size: 'small' -%}
+                </summary>
+                <div class="accordion-details__content rte">
+                  {{ block.settings.content }}
+                  {{ block.settings.custom_liquid }}
+                  {{ block.settings.page.content }}
                 </div>
-                {%- render 'icon-plus-toggle', size: 'small' -%}
-              </summary>
-              <div class="accordion-details__content rte">
-                {{ block.settings.content }}
-                {{ block.settings.custom_liquid }}
-                {{ block.settings.page.content }}
-              </div>
-            </details>
-          </div>
+              </details>
+            </div>
+          {% endif %}
         {%- when 'popup' -%}
           <div
             class="product__block product__block--{{ block.type }}"

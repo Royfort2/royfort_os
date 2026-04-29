@@ -1076,6 +1076,10 @@ layout-switcher .btn::after {
     }
 }
 
+.product__block--collapsible_tab .accordion-details__content ul:only-child {
+    margin-block: 0;
+}
+
 /* Vertical-carousel quick view: keep gallery inside horizontal padding; no edge bleed. */
 .quick-view .product--vertical-carousel:not(.product--media-has-1) .product__media-gallery {
     margin-inline: 0;
