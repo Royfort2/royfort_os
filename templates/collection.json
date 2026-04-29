@@ -55,13 +55,7 @@
       "type": "we-subcollections",
       "name": "[we] Subcollections",
       "settings": {
-        "subcollections": [
-          "all",
-          "hotelbettwaesche",
-          "deckenbezuege",
-          "kissenbezuge",
-          "spannbettlaken"
-        ],
+        "subcollections": "{{ collection.metafields.custom.plp_subcollections.value }}",
         "background": "#ffffff",
         "opacity": 1,
         "padding_top": 0,

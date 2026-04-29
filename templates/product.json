@@ -145,7 +145,7 @@
             "heading": "Pflegehinweise",
             "heading_styling": "body",
             "icon": "none",
-            "content": "<p>{{ product.metafields.custom.we_pdp_pflegehinweise | metafield_tag }}</p>",
+            "content": "{{ product.metafields.custom.we_pdp_pflegehinweise | metafield_tag }}",
             "custom_liquid": "",
             "page": "",
             "default_open": false
