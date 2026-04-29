@@ -145,7 +145,7 @@
             "heading": "Pflegehinweise",
             "heading_styling": "body",
             "icon": "none",
-            "content": "<ul><li>Normales oder schonendes Baumwollwaschprogramm mit ähnlichen Farben.</li><li>Für die ersten Wäschen empfehlen wir 30°C, um die Fasern zu schützen und Einlaufen zu vermeiden. Bei regelmäßiger Nutzung sind 60°C ideal für optimale Hygiene und dauerhafte Frische.</li><li>Bei Bedarf mit hoher Temperatur (200–230°C) bügeln oder steamen.</li><li>Trocknergeeignet – am besten bei niedriger bis mittlerer Temperatur. <br/></li></ul>",
+            "content": "{{ product.metafields.custom.we_pdp_pflegehinweise | metafield_tag }}",
             "custom_liquid": "",
             "page": "",
             "default_open": false
