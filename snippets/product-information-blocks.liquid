@@ -102,9 +102,11 @@
         {%- when 'usp_list' -%}
           <div class="product__block product__block--{{ block.type }}">
             <div class="product__usp-list-container">
-              <span class="product__usp-list-title">{{ block.settings.title }}</span>
+              {% if block.settings.title != blank %}
+                <span class="product__usp-list-title">{{ block.settings.title }}</span>
+              {% endif %}
               <ul class="product__usp-list-items">
-                {% if block.settings.use_usp_metafield and product.metafields.custom.we_pdp_usp_list_items.value != blank %}
+                {%- if block.settings.use_usp_metafield and product.metafields.custom.we_pdp_usp_list_items.value != blank -%}
                   {% assign usp_list_items = product.metafields.custom.we_pdp_usp_list_items.value %}
                   {% for item in usp_list_items %}
                     {% assign item_array = item | split: '|' %}
@@ -128,7 +130,7 @@
                       </li>
                     {% endif %}
                   {% endfor %}
-                {% endif %}
+                {%- endif -%}
               </ul>
             </div>
           </div>

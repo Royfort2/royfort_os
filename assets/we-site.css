@@ -1023,6 +1023,9 @@ layout-switcher .btn::after {
     padding: 2.4rem;
     border: 1px solid #E5E5E5;
 }
+.product__block--usp_list:not(:has(li, .product__usp-list-title)) {
+    display: none;
+}
 
 .product__usp-list-title {
     font-size: 1.4rem;
@@ -1036,6 +1039,9 @@ layout-switcher .btn::after {
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
+}
+.product__usp-list-items:not(:has( > li)) {
+    display: none;
 }
 
 .product__usp-list-item {
