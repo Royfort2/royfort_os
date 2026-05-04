@@ -128,6 +128,7 @@
         },
         "we_promo_4nLeiw": {
           "type": "we_promo",
+          "disabled": true,
           "settings": {
             "color_scheme": "scheme-1",
             "video_desktop": "shopify://files/videos/ROYFORT_LEFKADA_08_FINAL.mp4",
