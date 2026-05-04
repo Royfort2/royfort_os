@@ -11,6 +11,7 @@
     >
   {%- endif -%}
   <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'we-main-product-related.js' | asset_url }}" defer="defer"></script>
   {%- if linklists['gift-wrapping'].links != blank and linklists['gift-wrapping'].links.first.type == 'product_link' -%}
     <script src="{{ 'gift-wrapping.js' | asset_url }}" defer="defer"></script>
   {%- endif -%}
@@ -462,12 +463,30 @@
                       </div>
                     </div>
                     {%- if section.settings.enable_cart_recommendations -%}
-                      {%- render 'cart-drawer-products-recommendation',
-                        section_id: section.id
-                        product_id: item.product_id,
-                        heading: section.settings.cart_recommendations_heading,
-                        limit: section.settings.cart_recommendations_limit
+                      {% comment %} {%- render 'cart-drawer-products-recommendation',
+                      section_id: section.id
+                      product_id: item.product_id,
+                      heading: section.settings.cart_recommendations_heading,
+                      limit: section.settings.cart_recommendations_limit
+                    -%} {% endcomment %}
+
+                      {%- liquid
+                        assign cart_rel_limit = section.settings.cart_recommendations_limit | default: 4
+                        assign cart_rel_root_id = 'we-main-product-related-' | append: section.id | append: '-cart-' | append: item.index
+                        assign cart_rel_heading_id = 'RelatedProductsHeading-cart-' | append: section.id | append: '-' | append: item.index
                       -%}
+                      {% render 'we-complementary-inline',
+                        section: section,
+                        seed_product: item.product,
+                        rel_root_id: cart_rel_root_id,
+                        rel_limit: cart_rel_limit,
+                        heading: section.settings.cart_recommendations_heading,
+                        heading_element_id: cart_rel_heading_id,
+                        image_ratio: settings.pcard_image_ratio,
+                        show_reviews: true,
+                        intent: 'related',
+                        start_hidden: true
+                      %}
                     {%- endif -%}
                     {% liquid
                       assign collections = ''
@@ -836,7 +855,7 @@
                 action="{{ routes.cart_url }}"
                 method="POST"
                 novalidate
-                class="drawer__footer-buttons flex flex-wrap gap-2"
+                class="drawer__footer-buttons flex flex-wrap flex-col gap-2"
               >
                 <a href="{{ routes.cart_url }}" class="btn btn--secondary flex-3">
                   {{ 'general.cart.view_empty_cart' | t }}

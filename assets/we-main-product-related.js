@@ -94,6 +94,7 @@ if (!customElements.get('we-main-product-related')) {
             }
 
             this.innerHTML = incoming.innerHTML;
+            this.classList.remove('hidden');
             this.dispatchEvent(new CustomEvent('main-product-related:loaded', { bubbles: true }));
           })
           .catch((e) => {

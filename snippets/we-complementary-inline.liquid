@@ -1,0 +1,84 @@
+{%- liquid
+  assign rel_intent = intent | default: 'related'
+  assign rel_img_ratio = image_ratio | default: settings.pcard_image_ratio | default: '4/5'
+  if show_reviews == false
+    assign rel_show_reviews = false
+  else
+    assign rel_show_reviews = true
+  endif
+-%}
+{%- capture rel_image_sizes -%}
+  (max-width: 767px) calc((100vw - 3rem) / 1.7), {{ settings.page_width | divided_by: 2 }}px
+{%- endcapture -%}
+<we-main-product-related
+  class="we-complementary-inline{% if start_hidden %} hidden{% endif %}"
+  data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ seed_product.id }}&limit={{ rel_limit }}&intent={{ rel_intent }}"
+  data-root-id="{{ rel_root_id }}"
+>
+  <div id="{{ rel_root_id }}" class="we-main-product-related__root">
+    {%- if recommendations.performed and recommendations.products_count > 0 -%}
+      <aside
+        class="related-products-inline__aside"
+        {% if heading != blank %}
+          aria-labelledby="{{ heading_element_id }}"
+        {% else %}
+          aria-label="{{ 'accessibility.complementary_products' | t }}"
+        {% endif %}
+      >
+        {%- if heading != blank or recommendations.products_count > 1 -%}
+          <div
+            class="related-products-inline__header flex items-center gap-4{% if heading == blank %} justify-end{% else %} justify-between{% endif %}"
+          >
+            {%- if heading != blank -%}
+              <span id="{{ heading_element_id }}" class="related-products-inline__heading">
+                {{ heading }}
+              </span>
+            {%- endif -%}
+            {%- if recommendations.products_count > 1 -%}
+              <div class="related-products-inline__nav slider-controls flex items-center">
+                <button
+                  class="swiper-button-prev"
+                  name="previous"
+                  type="button"
+                  aria-label="{{ 'general.slider.previous_slide' | t }}"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M12.5 5L7.5 10L12.5 15" stroke="currentColor" stroke-linecap="square"/>
+                  </svg>
+                </button>
+                <button
+                  class="swiper-button-next"
+                  name="next"
+                  type="button"
+                  aria-label="{{ 'general.slider.next_slide' | t }}"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-linecap="square"/>
+                  </svg>
+                </button>
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+        <we-related-products-slider class="related-products-inline__slider block relative">
+          <div class="swiper we-main-product-related__swiper">
+            <div class="swiper-wrapper" role="list">
+              {%- for recommendation in recommendations.products limit: rel_limit -%}
+                <div class="swiper-slide" role="listitem" tabindex="-1">
+                  {% render 'we-card-product',
+                    product: recommendation,
+                    image_sizes: rel_image_sizes,
+                    image_ratio: rel_img_ratio,
+                    section_index: section.index,
+                    index: forloop.index,
+                    show_reviews: rel_show_reviews
+                  %}
+                </div>
+              {%- endfor -%}
+            </div>
+          </div>
+        </we-related-products-slider>
+      </aside>
+    {%- endif -%}
+  </div>
+</we-main-product-related>

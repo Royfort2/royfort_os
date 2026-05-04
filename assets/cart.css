@@ -198,3 +198,45 @@
 .free-shipping-goal--done .free-shipping-goal__label--default {
   display: none;
 }
+
+/* Inline complementary / related strip (same markup as main product [we] Complementary) */
+.cart-drawer .related-products-inline__heading {
+  margin: 0 0 1.2rem;
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 120%;
+  text-transform: uppercase;
+}
+.cart-drawer .related-products-inline__header {
+  margin-bottom: 1.2rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1.2rem;
+}
+.cart-drawer .related-products-inline__header .slider-controls {
+  display: flex;
+  align-items: center;
+}
+.cart-drawer .related-products-inline__header button {
+  border: none;
+  padding: 0;
+  background: transparent;
+  width: 2rem;
+  display: flex;
+  align-items: center;
+}
+.cart-drawer .related-products-inline__header button::after,
+.cart-drawer .related-products-inline__header button::before {
+  content: none;
+}
+.cart-drawer .related-products-inline__header .related-products-inline__heading {
+  margin-bottom: 0;
+}
+.cart-drawer .related-products-inline__slider .swiper-slide {
+  height: auto;
+}
+@media (max-width: 767.98px) {
+  .cart-drawer .related-products-inline__header .slider-controls {
+    display: none;
+  }
+}

@@ -1327,88 +1327,24 @@
           {%- liquid
             assign rel_limit = block.settings.product_list_limit | default: 4
             assign rel_root_id = 'we-main-product-related-' | append: section.id | append: '-' | append: block.id
+            assign rel_heading_element_id = 'RelatedProductsHeading-' | append: block.id | append: '-' | append: section.id
           -%}
-          {%- capture rel_image_sizes -%}
-            (max-width: 767px) calc((100vw - 3rem) / 1.7), {{ settings.page_width | divided_by: 2 }}px
-          {%- endcapture -%}
           <div
             class="product__block product__block--{{ block.type }}"
             {{ block.shopify_attributes }}
           >
-            <we-main-product-related
-              data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ rel_limit }}&intent=related"
-              data-root-id="{{ rel_root_id }}"
-            >
-              <div id="{{ rel_root_id }}" class="we-main-product-related__root">
-                {%- if recommendations.performed and recommendations.products_count > 0 -%}
-                  <aside
-                    class="related-products-inline__aside"
-                    {% if block.settings.heading != blank %}
-                      aria-labelledby="RelatedProductsHeading-{{ block.id }}-{{ section.id }}"
-                    {% else %}
-                      aria-label="Related products"
-                    {% endif %}
-                  >
-                    {%- if block.settings.heading != blank or recommendations.products_count > 1 -%}
-                      <div
-                        class="related-products-inline__header flex items-center gap-4{% if block.settings.heading == blank %} justify-end{% else %} justify-between{% endif %}"
-                      >
-                        {%- if block.settings.heading != blank -%}
-                          <span
-                            id="RelatedProductsHeading-{{ block.id }}-{{ section.id }}"
-                            class="related-products-inline__heading"
-                          >
-                            {{ block.settings.heading }}
-                          </span>
-                        {%- endif -%}
-                        {%- if recommendations.products_count > 1 -%}
-                          <div class="related-products-inline__nav slider-controls flex items-center">
-                            <button
-                              class="swiper-button-prev"
-                              name="previous"
-                              type="button"
-                              aria-label="{{ 'general.slider.previous_slide' | t }}"
-                            >
-                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                <path d="M12.5 5L7.5 10L12.5 15" stroke="currentColor" stroke-linecap="square"/>
-                              </svg>
-                            </button>
-                            <button
-                              class="swiper-button-next"
-                              name="next"
-                              type="button"
-                              aria-label="{{ 'general.slider.next_slide' | t }}"
-                            >
-                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-linecap="square"/>
-                              </svg>
-                            </button>
-                          </div>
-                        {%- endif -%}
-                      </div>
-                    {%- endif -%}
-                    <we-related-products-slider class="related-products-inline__slider block relative">
-                      <div class="swiper we-main-product-related__swiper">
-                        <div class="swiper-wrapper" role="list">
-                          {%- for recommendation in recommendations.products limit: rel_limit -%}
-                            <div class="swiper-slide" role="listitem" tabindex="-1">
-                              {% render 'we-card-product',
-                                product: recommendation,
-                                image_sizes: rel_image_sizes,
-                                image_ratio: block.settings.image_ratio,
-                                section_index: section.index,
-                                index: forloop.index,
-                                show_reviews: block.settings.show_reviews
-                              %}
-                            </div>
-                          {%- endfor -%}
-                        </div>
-                      </div>
-                    </we-related-products-slider>
-                  </aside>
-                {%- endif -%}
-              </div>
-            </we-main-product-related>
+            {% render 'we-complementary-inline',
+              section: section,
+              seed_product: product,
+              rel_root_id: rel_root_id,
+              rel_limit: rel_limit,
+              heading: block.settings.heading,
+              heading_element_id: rel_heading_element_id,
+              image_ratio: block.settings.image_ratio,
+              show_reviews: block.settings.show_reviews,
+              intent: 'related',
+              start_hidden: false
+            %}
           </div>
         {%- when 'icon-with-text' -%}
           <div
