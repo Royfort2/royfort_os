@@ -395,7 +395,7 @@
         "text_xCpwex": {
           "type": "text",
           "settings": {
-            "text": "<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore.</p>",
+            "text": "<p>Senden Sie uns gerene eine Mail an service@royfort.de oder rufen Sie uns zwischen 9 und 14 Uhr unter +49 / (0) 30 2332 7430 an.</p>",
             "text_size": "text-base",
             "truncate_on_mobile": false,
             "truncate_on_mobile_lines": 3,
@@ -407,7 +407,7 @@
           "type": "button",
           "settings": {
             "button_label": "Jetzt kontaktieren",
-            "button_link": "#",
+            "button_link": "shopify://pages/contact",
             "button_style": "btn--primary"
           }
         }
