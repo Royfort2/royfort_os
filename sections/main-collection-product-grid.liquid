@@ -29,6 +29,121 @@
   if section.settings.grid_layout == 'metro'
     assign is_metro = true
   endif
+
+  assign variant_color_allowlist = ''
+  assign restrict_variant_cards_by_color = false
+  if section.settings.render_variants
+    assign facet_swatch_t = settings.color_swatch_trigger | downcase
+    for vcf in collection.filters
+      if vcf.active_values.size == 0
+        continue
+      endif
+      assign vcf_pn = vcf.param_name | default: '' | downcase
+      unless vcf_pn contains 'filter.v.option.'
+        continue
+      endunless
+      assign vcf_opt_key = vcf_pn | split: '.' | last
+      assign vcf_label = vcf.label | downcase
+      assign vcf_is_color = false
+      if vcf_opt_key == 'farbe' or vcf_opt_key == 'colour' or vcf_opt_key == 'color'
+        assign vcf_is_color = true
+      elsif facet_swatch_t != blank
+        if facet_swatch_t contains vcf_label
+          assign vcf_is_color = true
+        elsif facet_swatch_t contains 'color' and vcf_label contains 'colour'
+          assign vcf_is_color = true
+        endif
+      endif
+      if vcf_is_color
+        assign restrict_variant_cards_by_color = true
+        for vcf_val in vcf.active_values
+          assign vcf_piece = vcf_val.label | strip | downcase
+          assign vcf_tok = '|' | append: vcf_piece | append: '|'
+          unless variant_color_allowlist contains vcf_tok
+            assign variant_color_allowlist = variant_color_allowlist | append: vcf_tok
+          endunless
+          assign vcf_piece = vcf_val.value | strip | downcase
+          assign vcf_tok = '|' | append: vcf_piece | append: '|'
+          unless variant_color_allowlist contains vcf_tok
+            assign variant_color_allowlist = variant_color_allowlist | append: vcf_tok
+          endunless
+        endfor
+      endif
+    endfor
+
+    assign variant_count_color_facets_suffixes = ''
+    for vfs in collection.filters
+        assign vfs_pn = vfs.param_name | default: '' | downcase
+        unless vfs_pn contains 'filter.v.option.'
+          continue
+        endunless
+        assign vfs_opt_key = vfs_pn | split: '.' | last
+        assign vfs_label = vfs.label | downcase
+        assign vfs_color_facet = false
+        if vfs_opt_key == 'farbe' or vfs_opt_key == 'colour' or vfs_opt_key == 'color'
+          assign vfs_color_facet = true
+        elsif facet_swatch_t != blank
+          if facet_swatch_t contains vfs_label
+            assign vfs_color_facet = true
+          elsif facet_swatch_t contains 'color' and vfs_label contains 'colour'
+            assign vfs_color_facet = true
+          endif
+        endif
+        if vfs_color_facet
+          assign vfs_token = vfs_opt_key | prepend: '"' | append: '"'
+          unless variant_count_color_facets_suffixes contains vfs_token
+            if variant_count_color_facets_suffixes != blank
+              assign variant_count_color_facets_suffixes = variant_count_color_facets_suffixes | append: ','
+            endif
+            assign variant_count_color_facets_suffixes = variant_count_color_facets_suffixes | append: vfs_token
+          endunless
+        endif
+      endfor
+      if variant_count_color_facets_suffixes == blank
+        assign variant_count_color_facets_suffixes = '"farbe","colour","color"'
+      endif
+
+    assign ssr_variant_card_total = nil
+    if is_metro == false and collection.products_count <= 50
+      assign ssr_acc = 0
+      assign ssr_sw = settings.color_swatch_trigger | downcase
+      for srp in collection.products
+        assign srp_coi = nil
+        for srp_opt in srp.options_with_values
+          assign srp_on = srp_opt.name | downcase
+          assign srp_ic = false
+          if ssr_sw contains srp_on
+            assign srp_ic = true
+          elsif ssr_sw contains 'color' and srp_on contains 'colour'
+            assign srp_ic = true
+          endif
+          if srp_ic
+            assign srp_coi = forloop.index0
+            break
+          endif
+        endfor
+        if srp_coi == nil
+          assign ssr_acc = ssr_acc | plus: 1
+        else
+          assign srp_uc = ''
+          for srp_v in srp.variants
+            assign srp_cv = srp_v.options[srp_coi]
+            if restrict_variant_cards_by_color and variant_color_allowlist != blank
+              assign srp_tok = '|' | append: srp_cv | strip | downcase | append: '|'
+              unless variant_color_allowlist contains srp_tok
+                continue
+              endunless
+            endif
+            unless srp_uc contains srp_cv
+              assign srp_uc = srp_uc | append: srp_cv | append: ','
+              assign ssr_acc = ssr_acc | plus: 1
+            endunless
+          endfor
+        endif
+      endfor
+      assign ssr_variant_card_total = ssr_acc
+    endif
+  endif
 -%}
 {%- if is_metro -%}
   {%- render 'product-grid-metro-style',
@@ -87,6 +202,15 @@
                           data-variant-card-count
                           data-color-trigger="{{ settings.color_swatch_trigger | escape }}"
                           data-products-json-href="{{ collection.url | append: '/products.json' }}"
+                          data-variant-count-facet-suffixes="[{{- variant_count_color_facets_suffixes -}}]"
+                          {% if variant_color_allowlist != blank %}
+                            data-variant-count-allowlist="{{ variant_color_allowlist | escape }}"
+                          {% endif %}
+                          {% unless is_metro %}
+                            {% if collection.products_count <= 50 %}
+                              data-ssr-variant-card-total="{{ ssr_variant_card_total }}"
+                            {% endif %}
+                          {% endunless %}
                         {% endif %}
                       >
                         {% if section.settings.render_variants %}
@@ -204,6 +328,12 @@
                           assign promo_unique_colors = ''
                           for variant in product.variants
                             assign color_value = variant.options[promo_color_option_index]
+                            if restrict_variant_cards_by_color and variant_color_allowlist != blank
+                              assign promo_cv_low = '|' | append: color_value | strip | downcase | append: '|'
+                              unless variant_color_allowlist contains promo_cv_low
+                                continue
+                              endunless
+                            endif
                             unless promo_unique_colors contains color_value
                               assign promo_unique_colors = promo_unique_colors | append: color_value | append: ','
                               assign cards_before = cards_before | plus: 1
@@ -311,6 +441,12 @@
                       {% assign unique_colors = '' %}
                       {% for variant in product.variants %}
                         {% assign color_value = variant.options[color_option_index] %}
+                        {% if restrict_variant_cards_by_color and variant_color_allowlist != blank %}
+                          {% assign wc_cv_tok = '|' | append: color_value | strip | downcase | append: '|' %}
+                          {% unless variant_color_allowlist contains wc_cv_tok %}
+                            {% continue %}
+                          {% endunless %}
+                        {% endif %}
                         {% unless unique_colors contains color_value %}
                           {% assign unique_colors = unique_colors | append: color_value | append: ',' %}
                         {% else %}

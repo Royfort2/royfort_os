@@ -342,10 +342,26 @@ class FacetForm extends HTMLFormElement {
 
   renderProductCount(responseText) {
     const id = 'ProductCount';
-    if (document.getElementById(id) === null) return;
+    const root = document.getElementById(id);
+    if (root === null) return;
     const parsedHTML = new DOMParser().parseFromString(responseText, 'text/html');
+    const next = parsedHTML.getElementById(id);
+    if (!next) return;
+    root.innerHTML = next.innerHTML;
 
-    document.getElementById(id).innerHTML = parsedHTML.getElementById(id) && parsedHTML.getElementById(id).innerHTML;
+    const syncAttrs = [
+      'data-variant-card-count',
+      'data-color-trigger',
+      'data-products-json-href',
+      'data-variant-count-facet-suffixes',
+      'data-variant-count-allowlist',
+      'data-ssr-variant-card-total',
+    ];
+    for (let i = 0; i < syncAttrs.length; i++) {
+      const a = syncAttrs[i];
+      if (next.hasAttribute(a)) root.setAttribute(a, next.getAttribute(a) || '');
+      else root.removeAttribute(a);
+    }
   }
 
   renderSortBy(responseText) {

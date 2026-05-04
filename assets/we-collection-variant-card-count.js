@@ -7,6 +7,8 @@
  * and counts .f-column.card in #ProductsList for “shown”.
  */
 (function () {
+  /** @constant Prefix for storefront variant-option facet query keys */
+  const FILTER_VARIANT_OPTION_PREFIX = 'filter.v.option.';
   /** @returns {string[]} option display names in order (option1 / option2 / option3) */
   function optionLabels(product) {
     const raw = product.options;
@@ -68,24 +70,157 @@
     return null;
   }
 
-  function countProductCards(product, trigger) {
+  function stripDiacritics(s) {
+    return String(s)
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .trim();
+  }
+
+  /** Keys that may appear after the variant-option facet prefix (from Liquid). */
+  function readColorFacetSuffixes() {
+    const el = document.getElementById('ProductCount');
+    const raw = el?.getAttribute('data-variant-count-facet-suffixes');
+    if (!raw) return new Set(['farbe', 'colour', 'color']);
+    try {
+      const arr = JSON.parse(raw);
+      if (Array.isArray(arr) && arr.length)
+        return new Set(arr.map((x) => String(x).toLowerCase().trim()).filter(Boolean));
+    } catch (_) {}
+    return new Set(['farbe', 'colour', 'color']);
+  }
+
+  /** Pipe-wrapped allowlist from Liquid (`|red||blue|`) when a color facet is active. */
+  function readDomColorAllowlist() {
+    const el = document.getElementById('ProductCount');
+    const raw = el?.getAttribute('data-variant-count-allowlist');
+    if (!raw) return null;
+    const out = new Set();
+    const parts = raw.split('|');
+    for (const p of parts) {
+      const t = p.trim().toLowerCase();
+      if (t) {
+        out.add(t);
+        out.add(stripDiacritics(t));
+      }
+    }
+    return out.size ? out : null;
+  }
+
+  /**
+   * Reads filter.v.option query params only for keys that match color facets on this store.
+   * Avoids substring-matching arbitrary option keys against the trigger (could zero totals).
+   */
+  function parseVariantColorFilterValues(searchParams, allowedSuffixes) {
+    const vals = new Set();
+
+    searchParams.forEach((value, keyRaw) => {
+      if (!keyRaw.startsWith(FILTER_VARIANT_OPTION_PREFIX)) return;
+      let optSlug;
+      try {
+        optSlug = decodeURIComponent(
+          keyRaw.slice(FILTER_VARIANT_OPTION_PREFIX.length)
+        )
+          .toLowerCase()
+          .trim();
+      } catch (_) {
+        optSlug = keyRaw.slice(FILTER_VARIANT_OPTION_PREFIX.length).toLowerCase().trim();
+      }
+      if (!optSlug || !allowedSuffixes.has(optSlug)) return;
+      let v;
+      try {
+        v = decodeURIComponent(String(value)).toLowerCase().trim();
+      } catch (_) {
+        v = String(value).toLowerCase().trim();
+      }
+      if (v) {
+        vals.add(v);
+        vals.add(stripDiacritics(v));
+      }
+    });
+
+    return vals;
+  }
+
+  function variantMatchesColorRestriction(val, restrict) {
+    if (!restrict || restrict.size === 0) return true;
+    if (val == null || val === '') return false;
+    const raw = String(val).toLowerCase().trim();
+    if (restrict.has(raw)) return true;
+    return restrict.has(stripDiacritics(raw));
+  }
+
+  function countProductCards(product, trigger, restrictedColorVals) {
     const idx = colorOptionIndex(product, trigger);
     if (idx < 0) return 1;
     const seen = new Set();
+    const restrict =
+      restrictedColorVals && restrictedColorVals.size > 0 ? restrictedColorVals : null;
     for (const v of product.variants || []) {
       const val = optionValue(v, idx);
-      if (val != null && val !== '') seen.add(String(val));
+      if (val == null || val === '') continue;
+      if (restrict && !variantMatchesColorRestriction(val, restrict)) continue;
+      seen.add(String(val));
     }
+    if (restrict) return seen.size;
     return seen.size > 0 ? seen.size : 1;
   }
 
-  async function loadTotal(trigger, productsJsonHref) {
-    const endpoint = new URL(productsJsonHref, window.location.origin);
-    const incoming = new URLSearchParams(window.location.search);
-    incoming.delete('page');
-    incoming.forEach((value, key) => {
-      endpoint.searchParams.set(key, value);
+  function buildColorRestrictions(searchParams) {
+    const fromDom = readDomColorAllowlist();
+    if (fromDom) return fromDom;
+    const suffixes = readColorFacetSuffixes();
+    return parseVariantColorFilterValues(searchParams, suffixes);
+  }
+
+  /**
+   * Localized collection path from the current URL, e.g. /de/collections/bedding.
+   * Used so /collections/.../products.json matches the storefront path (filters + markets).
+   */
+  function collectionBasePathFromLocation(pathname) {
+    const marker = '/collections/';
+    const ix = pathname.indexOf(marker);
+    if (ix < 0) return null;
+    const after = pathname.slice(ix + marker.length);
+    const end = after.indexOf('/');
+    const handle = end < 0 ? after : after.slice(0, end);
+    if (!handle) return null;
+    return pathname.slice(0, ix + marker.length + handle.length);
+  }
+
+  /** Build /…/collections/{handle}/products.json from the live URL; falls back to theme href. */
+  function resolveProductsJsonUrl(hrefFromTheme) {
+    const base = collectionBasePathFromLocation(window.location.pathname);
+    if (base)
+      return new URL(
+        (base.endsWith('/') ? base.slice(0, -1) : base) + '/products.json',
+        window.location.origin
+      );
+    return new URL(hrefFromTheme, window.location.origin);
+  }
+
+  /**
+   * Copy storefront query params for the JSON request. Use append (not set) so repeated
+   * filter.v.option.* keys (OR values) are preserved — set() drops duplicates and widens results.
+   */
+  function applyStorefrontParamsToEndpoint(endpoint, searchParams) {
+    const skip = new Set(['page', 'section_id', 'limit']);
+    endpoint.search = '';
+    searchParams.forEach((value, key) => {
+      if (skip.has(key)) return;
+      endpoint.searchParams.append(key, value);
     });
+  }
+
+  async function loadTotal(trigger, productsJsonHref) {
+    const ssrTotal = readSsrVariantCardTotal();
+    if (ssrTotal != null) return ssrTotal;
+
+    const endpoint = resolveProductsJsonUrl(productsJsonHref);
+    const incoming = new URLSearchParams(window.location.search);
+    const colorRestrictions = buildColorRestrictions(incoming);
+    applyStorefrontParamsToEndpoint(endpoint, incoming);
 
     let page = 1;
     let total = 0;
@@ -100,7 +235,7 @@
       const products = data.products || [];
       if (products.length === 0) break;
       for (const product of products) {
-        total += countProductCards(product, trigger);
+        total += countProductCards(product, trigger, colorRestrictions);
       }
       if (products.length < maxPerPage) break;
       page += 1;
@@ -139,6 +274,14 @@
       trigger: el.getAttribute('data-color-trigger') || '',
       href,
     };
+  }
+
+  function readSsrVariantCardTotal() {
+    const pc = document.getElementById('ProductCount');
+    const raw = pc?.getAttribute('data-ssr-variant-card-total');
+    if (raw === null || raw === '') return null;
+    const n = parseInt(String(raw).trim(), 10);
+    return Number.isNaN(n) ? null : n;
   }
 
   function syncVariantPaginationProgress() {
