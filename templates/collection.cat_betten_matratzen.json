@@ -35,7 +35,7 @@
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
-        "image": "shopify://shop_images/Betten_Matratzen_Kategorie_Desktop.jpg",
+        "image": "shopify://shop_images/Betten_Matratzen_Kategorie_Desktop_bd4c3b77-c03f-4ef3-a7df-6f0725dd5aa6.jpg",
         "desktop_height": "small",
         "overlay_opacity": 75,
         "use_custom_overlay": true,
@@ -45,7 +45,7 @@
         "color_scheme": "",
         "content_position": "bottom-left",
         "content_alignment": "left",
-        "image_mobile": "shopify://shop_images/Betten_Matratzen_Kategorie_Mobil.jpg",
+        "image_mobile": "shopify://shop_images/Betten_Matratzen_Kategorie_Mobil_cc106459-3fdf-4ace-82af-4e0d57856c20.jpg",
         "mobile_height": "auto",
         "padding_top": 0,
         "padding_bottom": 0,
@@ -116,6 +116,7 @@
             "image_mobile": "shopify://shop_images/3_5c534a26-39c6-4a05-9953-26bbccdf9817.jpg",
             "title": "Titel für Promo",
             "description": "<p>Morbi purus iaculis eget egestas platea mauris sed donec. Ultrices egestas tellus condimentum nam.</p>",
+            "description_mobile": "",
             "button_label": "BUTTON",
             "button_url": "#",
             "order_after": 2,
@@ -135,6 +136,7 @@
             "video_url_mobile": "",
             "title": "Video Promo",
             "description": "<p>Description</p>",
+            "description_mobile": "",
             "button_label": "Button",
             "button_url": "#",
             "order_after": 22,
@@ -149,6 +151,7 @@
         "we_promo_NieM3F",
         "we_promo_4nLeiw"
       ],
+      "disabled": true,
       "custom_css": [],
       "settings": {
         "color_scheme": "scheme-1",
@@ -214,19 +217,22 @@
         "collection_AkcG9Y": {
           "type": "collection",
           "settings": {
-            "collection": "all-bedsheets"
+            "collection": "daunendecken-kissen",
+            "image": "shopify://shop_images/Decken_Kissen_Kollektion_Featured.jpg"
           }
         },
         "collection_gghYUc": {
           "type": "collection",
           "settings": {
-            "collection": "hotelbettwaesche"
+            "collection": "ws-trends",
+            "image": "shopify://shop_images/Trends_Kollektion_Featured.jpg"
           }
         },
         "collection_cniUQH": {
           "type": "collection",
           "settings": {
-            "collection": "spannbettlaken"
+            "collection": "hotelbettwaesche",
+            "image": "shopify://shop_images/Bettwasche_Sets_Kollektion_Featured.jpg"
           }
         }
       },
