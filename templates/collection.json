@@ -209,19 +209,21 @@
         "collection_AkcG9Y": {
           "type": "collection",
           "settings": {
-            "collection": "all-bedsheets"
+            "collection": "all-bedsheets",
+            "image": "shopify://shop_images/Bettwasche_Kollektion_Featured.jpg"
           }
         },
         "collection_gghYUc": {
           "type": "collection",
           "settings": {
-            "collection": "hotelbettwaesche"
+            "collection": "hotelbettwaesche",
+            "image": "shopify://shop_images/Bettwasche_Sets_Kollektion_Featured.jpg"
           }
         },
         "collection_cniUQH": {
           "type": "collection",
           "settings": {
-            "collection": "spannbettlaken"
+            "collection": "ws-neuheiten"
           }
         }
       },
