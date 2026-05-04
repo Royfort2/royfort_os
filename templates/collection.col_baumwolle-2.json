@@ -213,6 +213,13 @@
     "we_featured_collections_yka3Qn": {
       "type": "we-featured-collections",
       "blocks": {
+        "collection_cniUQH": {
+          "type": "collection",
+          "settings": {
+            "collection": "leinen-kollektion",
+            "image": "shopify://shop_images/Leinen_Kollektion_Featured.jpg"
+          }
+        },
         "collection_AkcG9Y": {
           "type": "collection",
           "settings": {
@@ -226,19 +233,12 @@
             "collection": "ws-bestseller",
             "image": "shopify://shop_images/Bestseller_Kollektion_Featured.jpg"
           }
-        },
-        "collection_cniUQH": {
-          "type": "collection",
-          "settings": {
-            "collection": "leinen-kollektion",
-            "image": "shopify://shop_images/Leinen_Kollektion_Featured.jpg"
-          }
         }
       },
       "block_order": [
+        "collection_cniUQH",
         "collection_AkcG9Y",
-        "collection_gghYUc",
-        "collection_cniUQH"
+        "collection_gghYUc"
       ],
       "name": "[we] Featured collections",
       "settings": {

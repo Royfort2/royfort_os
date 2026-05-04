@@ -215,28 +215,31 @@
     "we_featured_collections_yka3Qn": {
       "type": "we-featured-collections",
       "blocks": {
-        "collection_AkcG9Y": {
-          "type": "collection",
-          "settings": {
-            "collection": "all-bedsheets"
-          }
-        },
         "collection_gghYUc": {
           "type": "collection",
           "settings": {
-            "collection": "hotelbettwaesche"
+            "collection": "hotelbettwaesche",
+            "image": "shopify://shop_images/Bettwasche_Sets_Kollektion_Featured.jpg"
+          }
+        },
+        "collection_AkcG9Y": {
+          "type": "collection",
+          "settings": {
+            "collection": "ws-neuheiten",
+            "image": "shopify://shop_images/Neuheitten_Kategorie_Promo_1_1.jpg"
           }
         },
         "collection_cniUQH": {
           "type": "collection",
           "settings": {
-            "collection": "spannbettlaken"
+            "collection": "daunendecken-kissen",
+            "image": "shopify://shop_images/Decken_Kissen_Kollektion_Featured.jpg"
           }
         }
       },
       "block_order": [
-        "collection_AkcG9Y",
         "collection_gghYUc",
+        "collection_AkcG9Y",
         "collection_cniUQH"
       ],
       "name": "[we] Featured collections",
