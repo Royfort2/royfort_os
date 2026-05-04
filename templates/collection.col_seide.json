@@ -114,7 +114,7 @@
             "image_desktop": "shopify://shop_images/Seiden_Kollektion_Promo_2_1.jpg",
             "video_url_mobile": "",
             "image_mobile": "shopify://shop_images/Seiden_Kollektion_Promo_2_1.jpg",
-            "title": "Anti-Aging Effekt im Schlaf",
+            "title": "Anti-Aging-Effekt im Schlaf",
             "description": "<p>Die Seiden Kollektion: hypoallergen, atmungsaktiv und feuchtigkeitsregulierend wirkt sie sich positiv auf die Hautalterung und Faltenbildung aus. Seiden Bettwäsche ist der ultimative Luxus.</p>",
             "description_mobile": "",
             "button_label": "",
@@ -128,6 +128,7 @@
         },
         "we_promo_4nLeiw": {
           "type": "we_promo",
+          "disabled": true,
           "settings": {
             "color_scheme": "scheme-1",
             "video_desktop": "shopify://files/videos/ROYFORT_LEFKADA_08_FINAL.mp4",
