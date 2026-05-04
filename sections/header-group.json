@@ -123,7 +123,7 @@
         "menu_mobile": "",
         "drawer_bottom_menu": "we-drawer-bottom-menu",
         "header_layout": "left-center",
-        "sticky_header": "always",
+        "sticky_header": "on-scroll-up",
         "menu_trigger": "hover",
         "show_sperator_line": false,
         "hide_sperator_on_pages": "",
