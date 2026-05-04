@@ -225,7 +225,7 @@
           "settings": {
             "icon": "none",
             "heading": "Wie kann ich einen Artikel zurücksenden?",
-            "content": "<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>",
+            "content": "<p>Gerne übernehmen wir die Kosten für Ihre Retoure. Unter \"Kontakt & Retouren\" können Sie ein Rücksendelabel generieren. Dieses kleben Sie dann auf Ihr Paket und schicken es kostenfrei an uns zurück. Sollten Sie Fragen zum Prozess haben, schreiben Sie uns gerne: service@royfort.de.</p>",
             "custom_liquid": "",
             "page": "",
             "open": false
@@ -258,7 +258,7 @@
           "settings": {
             "icon": "none",
             "heading": "Kann ich einen Artikel umtauschen?",
-            "content": "<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>",
+            "content": "<p>Gerne tauschen wir Ihre Bestellung kostenlos um. Unter \"Kontakt & Retouren\" können Sie ein Rücksendelabel generieren. Dieses kleben Sie dann auf Ihr Paket und schicken es kostenfrei an uns zurück. Sollten Sie Fragen zum Prozess haben, schreiben Sie uns gerne: service@royfort.de.</p>",
             "custom_liquid": "",
             "page": "",
             "open": false
@@ -328,8 +328,8 @@
           "type": "collapsible_item",
           "settings": {
             "icon": "none",
-            "heading": "Wie lange dauert die Bearbeitung meiner Rücksendung?",
-            "content": "<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>",
+            "heading": "Wo werden die Produkte hergestellt?",
+            "content": "<p>Unsere Produkte sind von höchster Qualität. All unsere Produkte werden in Handarbeit in Europa von absoluten Experten gefertigt. Unsere Bettwäsche und Handtücher werden in Portugal hergestellt, unsere Daunenprodukte kommen aus Dänemark und unsere PrimaLoft Produkte werden direkt in Deutschland gefertigt.</p>",
             "custom_liquid": "",
             "page": "",
             "open": false
@@ -339,8 +339,8 @@
           "type": "collapsible_item",
           "settings": {
             "icon": "none",
-            "heading": "Kann ich einen Artikel umtauschen?",
-            "content": "<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>",
+            "heading": "Was bedeutet 30 Tage Probeschlafen?",
+            "content": "<p>Wir sind davon überzeugt, dass Sie Ihre neue Royfort Produkte lieben werden. Daher bieten wir 30 Tage Probeschlafen an. Sollten Sie nicht zufrieden sein, können Sie Ihre Bestellung kostenlos an uns zurücksenden. Retouren spenden wir an wohltätige Organisationen. Waschen Sie Ihre Bettwäsche und Handtücher vor erster Verwendung, um das beste Erlebnis zu garantieren. Die Produkte werden nach mehrmaligem Waschen immer weicher.</p>",
             "custom_liquid": "",
             "page": "",
             "open": false
@@ -396,7 +396,11 @@
           "type": "text",
           "settings": {
             "text": "<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore.</p>",
-            "text_size": "text-base"
+            "text_size": "text-base",
+            "truncate_on_mobile": false,
+            "truncate_on_mobile_lines": 3,
+            "truncate_trigger_text": "Mehr lesen",
+            "truncate_collapse_text": "Weniger"
           }
         },
         "button_DdKTrq": {
@@ -415,6 +419,7 @@
       ],
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
+        "is_full_width": false,
         "section_color_scheme": "scheme-1",
         "color_scheme": "scheme-6",
         "image": "shopify://shop_images/25-03-Royfort-12-Cotton-Weiss-1518.jpg",
@@ -427,6 +432,9 @@
         "mobile_content_alignment": "left",
         "padding_top": 64,
         "padding_bottom": 100,
+        "different_mobile_padding": false,
+        "padding_top_mobile": 30,
+        "padding_bottom_mobile": 30,
         "show_section_divider": false,
         "divider_width": "fixed",
         "custom_class": ""
