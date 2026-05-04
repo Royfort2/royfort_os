@@ -407,6 +407,81 @@
         "custom_class": ""
       }
     },
+    "multicolumn_Ta3eFy": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_U8eizC": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image_width": "medium",
+            "title": "Weiche Stützkraft",
+            "heading_size": "h4",
+            "text": "<p>Das Kissen hat weniger Füllung und man sinkt darin besonders ein. Es ist optimal für Bauchschläfer, weil der Nacken beim Schlaf in einer natürlichen Position ruht.</p>",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_GkMF3a": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image_width": "medium",
+            "title": "Mittlere Stützkraft",
+            "heading_size": "h4",
+            "text": "<p>Das Kissen passt für die meisten Liegepositionen. Es ist zu empfehlen wenn man nicht immer in der gleichen Position schläft.</p>",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_Y6Ptaj": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image_width": "medium",
+            "title": "Feste Stützkraft",
+            "heading_size": "h4",
+            "text": "<p>Das Kissen hat mehr Füllung und stützt daher besonders. Zu empfehlen ist es insbesondere für Seitenschläfer.</p>",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        }
+      },
+      "block_order": [
+        "column_U8eizC",
+        "column_GkMF3a",
+        "column_Y6Ptaj"
+      ],
+      "name": "t:sections.multicolumn.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "heading": "Multicolumn",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "column_alignment": "left",
+        "columns_desktop": 3,
+        "column_gap": "large",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
     "breadcrumbs": {
       "type": "breadcrumbs",
       "settings": {
@@ -420,6 +495,7 @@
     "image_with_text_dQDdte",
     "featured_collection_JQULLF",
     "we_featured_collections_Hgagwm",
+    "multicolumn_Ta3eFy",
     "breadcrumbs"
   ]
 }
