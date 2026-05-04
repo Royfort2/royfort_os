@@ -72,7 +72,7 @@
           "settings": {
             "icon": "none",
             "heading": "Welche Zahlungsmethoden akzeptieren Sie?",
-            "content": "<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>",
+            "content": "<p>Wir akzeptieren alle gängigen Kreditkarten, PayPal, Klarna, Kauf auf Rechnung, Google Pay  und Apple Pay.</p>",
             "custom_liquid": "",
             "page": "",
             "open": false
@@ -83,7 +83,7 @@
           "settings": {
             "icon": "none",
             "heading": "Kann ich meine Bestellung nach dem Absenden noch ändern oder stornieren?",
-            "content": "<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>",
+            "content": "<p>Sie können Ihre Bestellung in Ihrem Kundenaccount einsehen und bearbeiten, soweit der Versand noch nicht vorbereitet wurde. Gerne können Sie uns auch kontaktieren und wir unterstützen Sie bei Änderungswünschen oder Stornierungen.</p>",
             "custom_liquid": "",
             "page": "",
             "open": false
@@ -94,7 +94,7 @@
           "settings": {
             "icon": "none",
             "heading": "Wo gebe ich einen Rabattcode ein?",
-            "content": "<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>",
+            "content": "<p>Rabattcodes können Sie bei Bestellabschluss im zweiten Schritt \"Informationen\" unter \"Rabattcode oder Gutschein\" eingeben.</p>",
             "custom_liquid": "",
             "page": "",
             "open": false
