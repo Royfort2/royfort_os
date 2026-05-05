@@ -225,7 +225,7 @@
           "settings": {
             "icon": "none",
             "heading": "Wie kann ich einen Artikel zurücksenden?",
-            "content": "<p>Wir übernehmen die Kosten für Ihre Retoure. Unter „Kontakt & Retouren“ können Sie ganz einfach ein Rücksendeetikett erstellen. Drucken Sie dieses aus, kleben Sie es auf Ihr Paket und senden Sie die Ware kostenfrei an uns zurück.</p><p>Bei Fragen zum Ablauf hilft Ihnen unser Kundenservice gerne weiter: service@royfort.de</p>",
+            "content": "<p>Wir übernehmen die Kosten für Ihre Retoure. Unter „Umtausch & Retouren“ können Sie ganz einfach ein Rücksendeetikett erstellen. Drucken Sie dieses aus, kleben Sie es auf Ihr Paket und senden Sie die Ware kostenfrei an uns zurück.</p><p>Bei Fragen zum Ablauf hilft Ihnen unser Kundenservice gerne weiter: service@royfort.de</p>",
             "custom_liquid": "",
             "page": "",
             "open": false
@@ -258,7 +258,7 @@
           "settings": {
             "icon": "none",
             "heading": "Kann ich einen Artikel umtauschen?",
-            "content": "<p>Ja, ein Umtausch ist möglich. Bitte wählen Sie dafür unter „Kontakt & Retouren“ im Rücksendeportal die Option „Umtausch“ aus.</p><p>Dort können Sie ein Rücksendeetikett erstellen, dieses auf Ihr Paket kleben und die Artikel kostenfrei an uns zurücksenden. Sobald die Ware in unserem Lager eingegangen ist, bearbeiten wir Ihren Umtausch.</p><p>Bei Fragen hilft Ihnen unser Kundenservice gerne weiter: service@royfort.de</p>",
+            "content": "<p>Ja, ein Umtausch ist bei Lieferungen nach Deutschland möglich. Bitte wählen Sie dafür unter „Umtausch & Retouren“ im Rücksendeportal die Option „Umtausch“ aus.</p><p>Dort können Sie ein Rücksendeetikett erstellen, dieses auf Ihr Paket kleben und die Artikel kostenfrei an uns zurücksenden. Sobald die Ware in unserem Lager eingegangen ist, bearbeiten wir Ihren Umtausch.</p><p>Bei Fragen hilft Ihnen unser Kundenservice gerne weiter: service@royfort.de</p>",
             "custom_liquid": "",
             "page": "",
             "open": false
