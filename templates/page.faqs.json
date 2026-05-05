@@ -143,7 +143,7 @@
           "settings": {
             "icon": "none",
             "heading": "Wie hoch sind die Versandkosten?",
-            "content": "<p>Es fallen keine Versandkosten an, eine Bestellung bei Royfort ist kostenlos.</p>",
+            "content": "<p>Der Versand ist für Sie kostenlos – es fallen keine Versandkosten an.</p>",
             "custom_liquid": "",
             "page": "",
             "open": false
@@ -154,7 +154,7 @@
           "settings": {
             "icon": "none",
             "heading": "Wie lange dauert der Versand?",
-            "content": "",
+            "content": "<p>Die Lieferzeit variiert je nach Produkt. In der Regel beträgt sie 1–2 Werktage.</p><p>Die genaue Lieferzeit finden Sie direkt auf der Produktseite unterhalb des Buttons „In den Warenkorb“.</p>",
             "custom_liquid": "",
             "page": "",
             "open": false
@@ -165,7 +165,7 @@
           "settings": {
             "icon": "none",
             "heading": "Kann ich meine Lieferung verfolgen?",
-            "content": "<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>",
+            "content": "<p>Ja, sobald Ihre Bestellung versendet wurde, erhalten Sie eine E-Mail mit Ihrer Sendungsnummer. Damit können Sie den Status Ihrer Lieferung jederzeit nachverfolgen.</p>",
             "custom_liquid": "",
             "page": "",
             "open": false
@@ -176,7 +176,7 @@
           "settings": {
             "icon": "none",
             "heading": "Was passiert, wenn ich bei der Zustellung nicht zu Hause bin?",
-            "content": "<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>",
+            "content": "<p>Sollten Sie bei der Zustellung nicht zu Hause sein, unternimmt der Versanddienstleister in der Regel einen weiteren Zustellversuch oder hinterlegt Ihre Sendung bei einem Nachbarn bzw. in einer nahegelegenen Abholstation.</p><p>In der Sendungsverfolgung finden Sie alle Informationen zum aktuellen Status und zum weiteren Vorgehen.</p>",
             "custom_liquid": "",
             "page": "",
             "open": false
@@ -225,7 +225,7 @@
           "settings": {
             "icon": "none",
             "heading": "Wie kann ich einen Artikel zurücksenden?",
-            "content": "<p>Gerne übernehmen wir die Kosten für Ihre Retoure. Unter \"Kontakt & Retouren\" können Sie ein Rücksendelabel generieren. Dieses kleben Sie dann auf Ihr Paket und schicken es kostenfrei an uns zurück. Sollten Sie Fragen zum Prozess haben, schreiben Sie uns gerne: service@royfort.de.</p>",
+            "content": "<p>Wir übernehmen die Kosten für Ihre Retoure. Unter „Kontakt & Retouren“ können Sie ganz einfach ein Rücksendeetikett erstellen. Drucken Sie dieses aus, kleben Sie es auf Ihr Paket und senden Sie die Ware kostenfrei an uns zurück.</p><p>Bei Fragen zum Ablauf hilft Ihnen unser Kundenservice gerne weiter: service@royfort.de</p>",
             "custom_liquid": "",
             "page": "",
             "open": false
@@ -236,7 +236,7 @@
           "settings": {
             "icon": "none",
             "heading": "Was sind die Bedingungen für eine Rücksendung?",
-            "content": "<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>",
+            "content": "<p>Wir sind davon überzeugt, dass Sie Ihre neuen Royfort Produkte lieben werden. Daher bieten wir Ihnen 30 Tage Probeschlafen.</p><p>Sollten Sie dennoch nicht zufrieden sein, können Sie Ihre Bestellung innerhalb dieses Zeitraums kostenfrei an uns zurücksenden.</p><p>Bitte beachten Sie, dass sich die Artikel in einem einwandfreien Zustand befinden sollten. Wir empfehlen, Bettwäsche und Handtücher vor der ersten Verwendung zu waschen, um das beste Nutzungserlebnis zu gewährleisten – die Produkte werden mit jeder Wäsche spürbar weicher.</p><p>Retouren spenden wir an wohltätige Organisationen.</p>",
             "custom_liquid": "",
             "page": "",
             "open": false
@@ -247,7 +247,7 @@
           "settings": {
             "icon": "none",
             "heading": "Wie lange dauert die Bearbeitung meiner Rücksendung?",
-            "content": "<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>",
+            "content": "<p>Sobald Ihre Rücksendung in unserem Lager eingegangen ist, erfolgt die Bearbeitung in der Regel innerhalb weniger Werktage.</p>",
             "custom_liquid": "",
             "page": "",
             "open": false
@@ -258,7 +258,7 @@
           "settings": {
             "icon": "none",
             "heading": "Kann ich einen Artikel umtauschen?",
-            "content": "<p>Gerne tauschen wir Ihre Bestellung kostenlos um. Unter \"Kontakt & Retouren\" können Sie ein Rücksendelabel generieren. Dieses kleben Sie dann auf Ihr Paket und schicken es kostenfrei an uns zurück. Sollten Sie Fragen zum Prozess haben, schreiben Sie uns gerne: service@royfort.de.</p>",
+            "content": "<p>Ja, ein Umtausch ist möglich. Bitte wählen Sie dafür unter „Kontakt & Retouren“ im Rücksendeportal die Option „Umtausch“ aus.</p><p>Dort können Sie ein Rücksendeetikett erstellen, dieses auf Ihr Paket kleben und die Artikel kostenfrei an uns zurücksenden. Sobald die Ware in unserem Lager eingegangen ist, bearbeiten wir Ihren Umtausch.</p><p>Bei Fragen hilft Ihnen unser Kundenservice gerne weiter: service@royfort.de</p>",
             "custom_liquid": "",
             "page": "",
             "open": false
@@ -307,7 +307,7 @@
           "settings": {
             "icon": "none",
             "heading": "Wo finde ich Pflegehinweise für meine Produkte?",
-            "content": "<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>",
+            "content": "<p>Die Pflegehinweise finden Sie auf dem eingenähten Pflegeetikett in Ihrem Produkt.</p><p>Zusätzlich haben wir alle Informationen und Tipps für Sie in unserem Pflegeartikel zusammengestellt:<br/><br/>https://royfort.de/blogs/royfort/pflegetipps-fur-ihre-royfort-produkte</p>",
             "custom_liquid": "",
             "page": "",
             "open": false
@@ -318,7 +318,7 @@
           "settings": {
             "icon": "none",
             "heading": "Bieten Sie eine Garantie auf Ihre Produkte?",
-            "content": "<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>",
+            "content": "<p>Es gilt die gesetzliche Gewährleistung.</p>",
             "custom_liquid": "",
             "page": "",
             "open": false
@@ -329,7 +329,7 @@
           "settings": {
             "icon": "none",
             "heading": "Wo werden die Produkte hergestellt?",
-            "content": "<p>Unsere Produkte sind von höchster Qualität. All unsere Produkte werden in Handarbeit in Europa von absoluten Experten gefertigt. Unsere Bettwäsche und Handtücher werden in Portugal hergestellt, unsere Daunenprodukte kommen aus Dänemark und unsere PrimaLoft Produkte werden direkt in Deutschland gefertigt.</p>",
+            "content": "<p>Unsere Produkte stehen für höchste Qualität und werden in Handarbeit in Europa von erfahrenen Spezialisten gefertigt.</p><p>Unsere Bettwäsche und Handtücher werden in Portugal hergestellt, unsere Daunenprodukte stammen aus Dänemark und unsere PrimaLoft® Produkte werden in Deutschland gefertigt.</p>",
             "custom_liquid": "",
             "page": "",
             "open": false
