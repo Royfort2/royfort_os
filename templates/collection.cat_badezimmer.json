@@ -180,7 +180,7 @@
       "settings": {
         "color_scheme": "",
         "header_layout": "vertical",
-        "heading": "ähnliche Produkte",
+        "heading": "WEITERE PRODUKTE",
         "heading_size": "h3",
         "heading_styling": "body",
         "heading_highlight_style": "none",
@@ -214,29 +214,32 @@
     "we_featured_collections_yka3Qn": {
       "type": "we-featured-collections",
       "blocks": {
+        "collection_Eqi3rz": {
+          "type": "collection",
+          "settings": {
+            "collection": "daunendecken-kissen",
+            "image": "shopify://shop_images/Decken_Kissen_Kollektion_Featured.jpg"
+          }
+        },
         "collection_AkcG9Y": {
           "type": "collection",
           "settings": {
-            "collection": "all-bedsheets"
+            "collection": "ws-bestseller",
+            "image": "shopify://shop_images/Bestseller_Kollektion_Featured.jpg"
           }
         },
         "collection_gghYUc": {
           "type": "collection",
           "settings": {
-            "collection": "hotelbettwaesche"
-          }
-        },
-        "collection_cniUQH": {
-          "type": "collection",
-          "settings": {
-            "collection": "spannbettlaken"
+            "collection": "hotelbettwaesche",
+            "image": "shopify://shop_images/Bettwasche_Sets_Kollektion_Featured.jpg"
           }
         }
       },
       "block_order": [
+        "collection_Eqi3rz",
         "collection_AkcG9Y",
-        "collection_gghYUc",
-        "collection_cniUQH"
+        "collection_gghYUc"
       ],
       "name": "[we] Featured collections",
       "settings": {
