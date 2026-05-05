@@ -181,7 +181,7 @@
       "settings": {
         "color_scheme": "",
         "header_layout": "vertical",
-        "heading": "ähnliche Produkte",
+        "heading": "Beliebte produkte",
         "heading_size": "h3",
         "heading_styling": "body",
         "heading_highlight_style": "none",
@@ -189,7 +189,7 @@
         "description": "",
         "text_size": "text-base",
         "show_collection_description": false,
-        "collection": "all",
+        "collection": "ws-bestseller",
         "limit": 8,
         "columns": 4,
         "column_gap": "extra-small",
