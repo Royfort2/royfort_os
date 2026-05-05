@@ -41,7 +41,7 @@
         "text_mdcnUe": {
           "type": "text",
           "settings": {
-            "text": "{{ page.content }}",
+            "text": "",
             "text_size": "text-base"
           }
         }
@@ -60,11 +60,121 @@
         "divider_width": "fixed",
         "custom_class": ""
       }
+    },
+    "card_images_GqJpLq": {
+      "type": "card-images",
+      "blocks": {
+        "image_card_eF4ExT": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "",
+            "image": "shopify://shop_images/Baumwolle-Kaschmir_Kollektion_Featured.jpg",
+            "image_overlay_opacity": 0,
+            "heading": "Serviceportal Deutschland",
+            "heading_size": "hd2",
+            "subheading": "",
+            "description": "",
+            "description_size": "text-lg",
+            "button_label": "Umtausch/Retoure ANMELDEN",
+            "button_style": "btn--primary",
+            "content_position": "middle-left",
+            "content_alignment": "left",
+            "content_spacing": "large",
+            "card_link": "https://admin.shopify.com/store/bw2016/themes/195174695176/editor?customCss=true&previewPath=%2Fa%2Fservice",
+            "content_position_mobile": "top-center",
+            "content_alignment_mobile": "center"
+          }
+        },
+        "image_card_NpNmeW": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "",
+            "image": "shopify://shop_images/Seiden_Kollektion_Featured.jpg",
+            "image_overlay_opacity": 0,
+            "heading": "Serviceportal Österreich",
+            "heading_size": "hd2",
+            "subheading": "",
+            "description": "",
+            "description_size": "text-lg",
+            "button_label": "RETOURE ANMELDEN",
+            "button_style": "btn--primary",
+            "content_position": "middle-left",
+            "content_alignment": "left",
+            "content_spacing": "large",
+            "card_link": "https://www.dhl.de/dhl-rpi/rosy-gui-anon/?hash=a166c7181f9667ad74562775ae817e573e00315785658e041475a23d42c107b1",
+            "content_position_mobile": "top-center",
+            "content_alignment_mobile": "center"
+          }
+        }
+      },
+      "block_order": [
+        "image_card_eF4ExT",
+        "image_card_NpNmeW"
+      ],
+      "name": "t:sections.card-images.name",
+      "settings": {
+        "color_scheme": "",
+        "subheading": "Im Serviceportal können Sie Ihre Bestellung kostenlos zurücksenden oder umtauschen. Bitte wählen sie das Land in das die Bestellung geliefert wurde, um diese zu retournieren oder umzutauschen.",
+        "heading": "Produkte umtauschen oder retournieren im Serviceportal",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "description": "",
+        "description_size": "text-base",
+        "image_ratio": "adapt",
+        "enable_equal_height": false,
+        "columns_desktop": 2,
+        "column_gap": "extra-small",
+        "enable_slider": true,
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "featured_collection_jFnkhp": {
+      "type": "featured-collection",
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "header_layout": "vertical",
+        "heading": "",
+        "heading_size": "h1",
+        "heading_styling": "body",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "show_collection_description": false,
+        "collection": "ws-bestseller",
+        "limit": 8,
+        "columns": 4,
+        "column_gap": "medium",
+        "row_gap": "inherit",
+        "grid_layout": "standard",
+        "enable_slider": true,
+        "controls_position": "inside",
+        "pcard_use_swiper": false,
+        "show_reviews": true,
+        "pcard_image_ratio": "",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "show_all_button_on_top": false,
+        "button_label": "",
+        "button_style": "btn--primary",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
     }
   },
   "order": [
     "main",
     "breadcrumbs_zf9HBa",
-    "rich_text_BqT8nB"
+    "rich_text_BqT8nB",
+    "card_images_GqJpLq",
+    "featured_collection_jFnkhp"
   ]
 }
