@@ -179,7 +179,7 @@
       "settings": {
         "color_scheme": "",
         "header_layout": "vertical",
-        "heading": "ähnliche Produkte",
+        "heading": "weitere Produkte",
         "heading_size": "h3",
         "heading_styling": "body",
         "heading_highlight_style": "none",
@@ -213,28 +213,31 @@
     "we_featured_collections_yka3Qn": {
       "type": "we-featured-collections",
       "blocks": {
-        "collection_AkcG9Y": {
-          "type": "collection",
-          "settings": {
-            "collection": "all-bedsheets"
-          }
-        },
         "collection_gghYUc": {
           "type": "collection",
           "settings": {
-            "collection": "hotelbettwaesche"
+            "collection": "ws-bestseller",
+            "image": "shopify://shop_images/Bestseller_Kollektion_Featured.jpg"
+          }
+        },
+        "collection_AkcG9Y": {
+          "type": "collection",
+          "settings": {
+            "collection": "kaschmir-kollektion",
+            "image": "shopify://shop_images/Baumwolle-Kaschmir_Kollektion_Featured.jpg"
           }
         },
         "collection_cniUQH": {
           "type": "collection",
           "settings": {
-            "collection": "spannbettlaken"
+            "collection": "ws-neuheiten",
+            "image": "shopify://shop_images/Neuheiten_Kollektion_Featured.jpg"
           }
         }
       },
       "block_order": [
-        "collection_AkcG9Y",
         "collection_gghYUc",
+        "collection_AkcG9Y",
         "collection_cniUQH"
       ],
       "name": "[we] Featured collections",
