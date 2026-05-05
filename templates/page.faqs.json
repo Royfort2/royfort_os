@@ -61,7 +61,7 @@
           "settings": {
             "icon": "none",
             "heading": "Wie kann ich eine Bestellung aufgeben?",
-            "content": "<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>",
+            "content": "<p>Wählen Sie zunächst Ihr gewünschtes Produkt sowie die passende Größe und Variante aus und legen Sie es in den Warenkorb. Über den Warenkorb gelangen Sie zur Kasse, wo Sie Ihre Versandadresse eingeben und eine Zahlungsmethode auswählen.</p><p>Nach Abschluss der Bestellung erhalten Sie eine Bestellbestätigung per E-Mail. Sobald Ihre Bestellung versendet wurde, informieren wir Sie mit einer Versandbestätigung inklusive Sendungsverfolgung.</p>",
             "custom_liquid": "",
             "page": "",
             "open": false
@@ -72,7 +72,7 @@
           "settings": {
             "icon": "none",
             "heading": "Welche Zahlungsmethoden akzeptieren Sie?",
-            "content": "<p>Wir akzeptieren alle gängigen Kreditkarten, PayPal, Klarna, Kauf auf Rechnung, Google Pay  und Apple Pay.</p>",
+            "content": "<p>Wir akzeptieren alle gängigen Kreditkarten sowie PayPal, Klarna, Kauf auf Rechnung, Google Pay und Apple Pay.</p><p>Je nach Land und Verfügbarkeit können einzelne Zahlungsarten variieren.</p>",
             "custom_liquid": "",
             "page": "",
             "open": false
@@ -83,7 +83,7 @@
           "settings": {
             "icon": "none",
             "heading": "Kann ich meine Bestellung nach dem Absenden noch ändern oder stornieren?",
-            "content": "<p>Sie können Ihre Bestellung in Ihrem Kundenaccount einsehen und bearbeiten, soweit der Versand noch nicht vorbereitet wurde. Gerne können Sie uns auch kontaktieren und wir unterstützen Sie bei Änderungswünschen oder Stornierungen.</p>",
+            "content": "<p>Solange Ihre Bestellung noch nicht für den Versand vorbereitet wurde, können Änderungen oder eine Stornierung in der Regel noch vorgenommen werden.</p><p>Bitte kontaktieren Sie uns in diesem Fall möglichst zeitnah – wir prüfen umgehend, was noch möglich ist, und unterstützen Sie bei Ihrem Anliegen.</p>",
             "custom_liquid": "",
             "page": "",
             "open": false
@@ -94,7 +94,7 @@
           "settings": {
             "icon": "none",
             "heading": "Wo gebe ich einen Rabattcode ein?",
-            "content": "<p>Rabattcodes können Sie bei Bestellabschluss im zweiten Schritt \"Informationen\" unter \"Rabattcode oder Gutschein\" eingeben.</p>",
+            "content": "<p>Ihren Rabattcode können Sie im Bestellprozess eingeben. Im zweiten Schritt „Informationen“ finden Sie das Feld „Rabattcode oder Gutschein“, in das Sie Ihren Code eintragen und anwenden können.</p>",
             "custom_liquid": "",
             "page": "",
             "open": false
