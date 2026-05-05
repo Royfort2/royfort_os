@@ -113,7 +113,7 @@
             "video_url_desktop": "",
             "image_desktop": "shopify://shop_images/Badezimmer_Kategorie_Promo_2_1.jpg",
             "video_url_mobile": "",
-            "image_mobile": "shopify://shop_images/3_5c534a26-39c6-4a05-9953-26bbccdf9817.jpg",
+            "image_mobile": "shopify://shop_images/Badezimmer_Kategorie_Promo_2_1.jpg",
             "title": "",
             "description": "",
             "description_mobile": "",
@@ -122,7 +122,7 @@
             "order_after": 2,
             "col_span_desktop": 2,
             "row_span_desktop": 1,
-            "col_span_mobile": "1",
+            "col_span_mobile": "2",
             "row_span_mobile": 1
           }
         },
