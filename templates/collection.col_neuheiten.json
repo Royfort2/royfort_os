@@ -23,7 +23,7 @@
         "text_XafVaJ": {
           "type": "text",
           "settings": {
-            "text": "<p></p>{{ collection.description }}",
+            "text": "<p></p><p></p>",
             "text_size": "text-base"
           }
         }
@@ -59,9 +59,9 @@
         "subcollections": [
           "all",
           "hotelbettwaesche",
-          "deckenbezuege",
-          "kissenbezuge",
-          "spannbettlaken"
+          "bestseller",
+          "trends",
+          "leinen-kollektion"
         ],
         "background": "#ffffff",
         "opacity": 1,
@@ -178,7 +178,7 @@
         "color_scheme": "scheme-1",
         "products_per_page": 12,
         "columns_desktop": 4,
-        "render_variants": true,
+        "render_variants": false,
         "grid_layout": "standard",
         "pagination": "load_more",
         "enable_color_swatch": false,
@@ -201,7 +201,7 @@
       "settings": {
         "color_scheme": "",
         "header_layout": "vertical",
-        "heading": "ähnliche Produkte",
+        "heading": "beliebte Produkte",
         "heading_size": "h3",
         "heading_styling": "body",
         "heading_highlight_style": "none",
@@ -209,7 +209,7 @@
         "description": "",
         "text_size": "text-base",
         "show_collection_description": false,
-        "collection": "all",
+        "collection": "bestseller",
         "limit": 8,
         "columns": 4,
         "column_gap": "extra-small",
@@ -238,19 +238,22 @@
         "collection_AkcG9Y": {
           "type": "collection",
           "settings": {
-            "collection": "all-bedsheets"
+            "collection": "decken-und-kissen",
+            "image": "shopify://shop_images/Decken_Kissen_Kollektion_Featured.jpg"
           }
         },
         "collection_gghYUc": {
           "type": "collection",
           "settings": {
-            "collection": "hotelbettwaesche"
+            "collection": "hotelbettwaesche",
+            "image": "shopify://shop_images/Baumwolle_Kollektion_Featured1.jpg"
           }
         },
         "collection_cniUQH": {
           "type": "collection",
           "settings": {
-            "collection": "spannbettlaken"
+            "collection": "musselin-kollektion",
+            "image": "shopify://shop_images/Musselin_Kollektion_Featured.jpg"
           }
         }
       },
