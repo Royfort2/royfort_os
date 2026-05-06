@@ -35,7 +35,7 @@
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
-        "image": "shopify://shop_images/Website_Images_Template_19_b6f39a77-620e-4f8a-9a40-eb959402de70.jpg",
+        "image": "shopify://shop_images/Geschenke_Kollektion_Desktop.jpg",
         "desktop_height": "small",
         "overlay_opacity": 75,
         "use_custom_overlay": true,
@@ -45,6 +45,7 @@
         "color_scheme": "",
         "content_position": "bottom-left",
         "content_alignment": "left",
+        "image_mobile": "shopify://shop_images/Geschenke_Kollektion_Mobil.jpg",
         "mobile_height": "auto",
         "padding_top": 0,
         "padding_bottom": 0,
@@ -58,9 +59,9 @@
         "subcollections": [
           "all",
           "hotelbettwaesche",
-          "deckenbezuege",
-          "kissenbezuge",
-          "spannbettlaken"
+          "bestseller",
+          "tagesdecken-kollektion",
+          "leinen-kollektion"
         ],
         "background": "#ffffff",
         "opacity": 1,
@@ -110,17 +111,18 @@
           "settings": {
             "color_scheme": "scheme-1",
             "video_url_desktop": "",
-            "image_desktop": "shopify://shop_images/Sleep_Guide_LP_Hero_Banner_1568_x_738.jpg",
+            "image_desktop": "shopify://shop_images/Geschenke_Kollektion_Promo_2_1_2.jpg",
             "video_url_mobile": "",
-            "image_mobile": "shopify://shop_images/3_5c534a26-39c6-4a05-9953-26bbccdf9817.jpg",
-            "title": "Titel für Promo",
-            "description": "<p>Morbi purus iaculis eget egestas platea mauris sed donec. Ultrices egestas tellus condimentum nam.</p>",
-            "button_label": "BUTTON",
-            "button_url": "#",
+            "image_mobile": "shopify://shop_images/Geschenke_Kollektion_Promo_2_1_2.jpg",
+            "title": "Seidenkissenbezug",
+            "description": "<p>Seide gilt als Material mit besonders schonenden Eigenschaften für Haut & Haar – ein besonders luxuriöses Geschenk.</p>",
+            "description_mobile": "",
+            "button_label": "jetzt entdecken",
+            "button_url": "shopify://products/seide-kissenbezug",
             "order_after": 2,
             "col_span_desktop": 2,
             "row_span_desktop": 1,
-            "col_span_mobile": "1",
+            "col_span_mobile": "2",
             "row_span_mobile": 1
           }
         },
@@ -134,6 +136,7 @@
             "video_url_mobile": "",
             "title": "Video Promo",
             "description": "<p>Description</p>",
+            "description_mobile": "",
             "button_label": "Button",
             "button_url": "#",
             "order_after": 22,
@@ -153,7 +156,7 @@
         "color_scheme": "scheme-1",
         "products_per_page": 12,
         "columns_desktop": 4,
-        "render_variants": true,
+        "render_variants": false,
         "grid_layout": "standard",
         "pagination": "load_more",
         "enable_color_swatch": false,
@@ -176,7 +179,7 @@
       "settings": {
         "color_scheme": "",
         "header_layout": "vertical",
-        "heading": "ähnliche Produkte",
+        "heading": "beliebte Produkte",
         "heading_size": "h3",
         "heading_styling": "body",
         "heading_highlight_style": "none",
@@ -184,7 +187,7 @@
         "description": "",
         "text_size": "text-base",
         "show_collection_description": false,
-        "collection": "all",
+        "collection": "bestseller",
         "limit": 8,
         "columns": 4,
         "column_gap": "extra-small",
@@ -213,19 +216,22 @@
         "collection_AkcG9Y": {
           "type": "collection",
           "settings": {
-            "collection": "all-bedsheets"
+            "collection": "trends",
+            "image": "shopify://shop_images/Trends_Kollektion_Featured.jpg"
           }
         },
         "collection_gghYUc": {
           "type": "collection",
           "settings": {
-            "collection": "hotelbettwaesche"
+            "collection": "hotelbettwaesche",
+            "image": "shopify://shop_images/Bettwasche_Sets_Kollektion_Featured.jpg"
           }
         },
         "collection_cniUQH": {
           "type": "collection",
           "settings": {
-            "collection": "spannbettlaken"
+            "collection": "bestseller",
+            "image": "shopify://shop_images/Bestseller_Kollektion_Featured.jpg"
           }
         }
       },
