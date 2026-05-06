@@ -23,7 +23,7 @@
         "text_XafVaJ": {
           "type": "text",
           "settings": {
-            "text": "<p></p>{{ collection.description }}",
+            "text": "<p></p><p></p>",
             "text_size": "text-base"
           }
         }
@@ -180,7 +180,7 @@
       "settings": {
         "color_scheme": "",
         "header_layout": "vertical",
-        "heading": "ähnliche Produkte",
+        "heading": "beliebte Produkte",
         "heading_size": "h3",
         "heading_styling": "body",
         "heading_highlight_style": "none",
@@ -188,7 +188,7 @@
         "description": "",
         "text_size": "text-base",
         "show_collection_description": false,
-        "collection": "all",
+        "collection": "bestseller",
         "limit": 8,
         "columns": 4,
         "column_gap": "extra-small",
@@ -217,19 +217,22 @@
         "collection_AkcG9Y": {
           "type": "collection",
           "settings": {
-            "collection": "all-bedsheets"
+            "collection": "trends",
+            "image": "shopify://shop_images/Trends_Kollektion_Featured.jpg"
           }
         },
         "collection_gghYUc": {
           "type": "collection",
           "settings": {
-            "collection": "hotelbettwaesche"
+            "collection": "hotelbettwaesche",
+            "image": "shopify://shop_images/Bettwasche_Sets_Kollektion_Featured.jpg"
           }
         },
         "collection_cniUQH": {
           "type": "collection",
           "settings": {
-            "collection": "spannbettlaken"
+            "collection": "neuheiten",
+            "image": "shopify://shop_images/Neuheiten_Kollektion_Featured.jpg"
           }
         }
       },
