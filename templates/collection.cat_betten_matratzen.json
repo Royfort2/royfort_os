@@ -106,6 +106,26 @@
     "product-grid": {
       "type": "main-collection-product-grid",
       "blocks": {
+        "we_promo_NieM3F": {
+          "type": "we_promo",
+          "settings": {
+            "color_scheme": "scheme-1",
+            "video_url_desktop": "",
+            "image_desktop": "shopify://shop_images/Betten_Matratzen_Kategorie_Promo_2_1_2.jpg",
+            "video_url_mobile": "",
+            "image_mobile": "shopify://shop_images/Betten_Matratzen_Kategorie_Promo_2_1_2.jpg",
+            "title": "",
+            "description": "",
+            "description_mobile": "",
+            "button_label": "",
+            "button_url": "#",
+            "order_after": 2,
+            "col_span_desktop": 2,
+            "row_span_desktop": 1,
+            "col_span_mobile": "2",
+            "row_span_mobile": 1
+          }
+        },
         "we_promo_hGVCXG": {
           "type": "we_promo",
           "settings": {
@@ -126,20 +146,21 @@
             "row_span_mobile": 1
           }
         },
-        "we_promo_NieM3F": {
+        "we_promo_tHY7W9": {
           "type": "we_promo",
+          "disabled": true,
           "settings": {
             "color_scheme": "scheme-1",
             "video_url_desktop": "",
-            "image_desktop": "shopify://shop_images/Betten_Matratzen_Kategorie_Promo_2_1_2.jpg",
+            "image_desktop": "shopify://shop_images/Betten_Matratzen_Kategorie_Promo_2_1.jpg",
             "video_url_mobile": "",
-            "image_mobile": "shopify://shop_images/Betten_Matratzen_Kategorie_Promo_2_1_2.jpg",
+            "image_mobile": "shopify://shop_images/Betten_Matratzen_Kategorie_Promo_2_1.jpg",
             "title": "",
             "description": "",
             "description_mobile": "",
             "button_label": "",
-            "button_url": "#",
-            "order_after": 2,
+            "button_url": "",
+            "order_after": 12,
             "col_span_desktop": 2,
             "row_span_desktop": 1,
             "col_span_mobile": "2",
@@ -169,8 +190,9 @@
         }
       },
       "block_order": [
-        "we_promo_hGVCXG",
         "we_promo_NieM3F",
+        "we_promo_hGVCXG",
+        "we_promo_tHY7W9",
         "we_promo_4nLeiw"
       ],
       "disabled": true,
