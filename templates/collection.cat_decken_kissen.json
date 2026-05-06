@@ -23,7 +23,7 @@
         "text_XafVaJ": {
           "type": "text",
           "settings": {
-            "text": "<p></p>{{ collection.description }}",
+            "text": "<p></p><p></p>",
             "text_size": "text-base"
           }
         }
@@ -111,7 +111,7 @@
           "settings": {
             "color_scheme": "scheme-1",
             "video_url_desktop": "",
-            "image_desktop": "shopify://shop_images/Decken_Kissen_Kategorie_Promo_2_1.jpg",
+            "image_desktop": "shopify://shop_images/Decken_Kissen_Kategorie_Promo_2_1_cda34385-7aa0-4b88-9714-3163bc9e6780.jpg",
             "video_url_mobile": "",
             "image_mobile": "shopify://shop_images/Decken_Kissen_Kategorie_Promo_2_1.jpg",
             "title": "Natürlich weich, verantwortungsvoll gefertigt.",
@@ -179,7 +179,7 @@
       "settings": {
         "color_scheme": "",
         "header_layout": "vertical",
-        "heading": "weitere Produkte",
+        "heading": "passende Produkte",
         "heading_size": "h3",
         "heading_styling": "body",
         "heading_highlight_style": "none",
@@ -187,7 +187,7 @@
         "description": "",
         "text_size": "text-base",
         "show_collection_description": false,
-        "collection": "all",
+        "collection": "hotelbettwaesche",
         "limit": 8,
         "columns": 4,
         "column_gap": "extra-small",
