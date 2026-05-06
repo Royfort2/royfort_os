@@ -17,7 +17,7 @@
           "settings": {
             "show_date": true,
             "show_author": true,
-            "show_blog": true,
+            "show_blog": false,
             "heading_size": "hd2"
           }
         },
@@ -27,6 +27,7 @@
         },
         "share": {
           "type": "share",
+          "disabled": true,
           "settings": {
             "show_tags": true,
             "show_share": true
