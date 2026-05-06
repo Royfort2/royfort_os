@@ -92,7 +92,7 @@
             "collections": [
               "ws-neuheiten",
               "ws-bestseller",
-              "ws-trends",
+              "trends",
               "ws-geschenke"
             ],
             "menu_columns": 3,

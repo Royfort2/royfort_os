@@ -217,7 +217,7 @@
         "collection_AkcG9Y": {
           "type": "collection",
           "settings": {
-            "collection": "ws-trends",
+            "collection": "trends",
             "image": "shopify://shop_images/Trends_Kollektion_Featured.jpg"
           }
         },
