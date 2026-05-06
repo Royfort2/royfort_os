@@ -187,7 +187,7 @@
         "description": "",
         "text_size": "text-base",
         "show_collection_description": false,
-        "collection": "ws-bestseller",
+        "collection": "bestseller",
         "limit": 8,
         "columns": 4,
         "column_gap": "extra-small",
@@ -216,7 +216,7 @@
         "collection_gghYUc": {
           "type": "collection",
           "settings": {
-            "collection": "ws-bestseller",
+            "collection": "bestseller",
             "image": "shopify://shop_images/Bestseller_Kollektion_Featured.jpg"
           }
         },

@@ -231,7 +231,7 @@
         "collection_cniUQH": {
           "type": "collection",
           "settings": {
-            "collection": "ws-bestseller",
+            "collection": "bestseller",
             "image": "shopify://shop_images/Bestseller_Kollektion_Featured.jpg"
           }
         }
