@@ -86,14 +86,14 @@
         "heading": {
           "type": "heading",
           "settings": {
-            "heading": "Jetzt exklusive Vorteile sichern",
+            "heading": "Zum Newsletter anmelden",
             "text_size": "h1"
           }
         },
         "text": {
           "type": "text",
           "settings": {
-            "text": "<p>Melden Sie sich zu unserem Newsletter an und erhalten Sie Inspiration für Ihr Schlafzimmer.</p>",
+            "text": "<p>Melden Sie sich zu unserem Newsletter an und erhalten Sie Expert:innen-Wissen und Inspiration für Ihr Schlafzimmer.</p>",
             "text_size": "text-base"
           }
         },
@@ -121,7 +121,7 @@
         "show_for_homepage_only": true,
         "show_for_visitors_only": true,
         "trigger_open": "delay",
-        "repeat_open": "every_day",
+        "repeat_open": "every_3_days",
         "alignment": "center",
         "width": 880,
         "show_teaser": false,
