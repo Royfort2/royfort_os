@@ -35,7 +35,7 @@
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
-        "image": "shopify://shop_images/Decken_Kissen_Kategorie_Desktop.jpg",
+        "image": "shopify://shop_images/Kissen_Kollektion_Desktop.jpg",
         "desktop_height": "small",
         "overlay_opacity": 75,
         "use_custom_overlay": true,
@@ -45,7 +45,7 @@
         "color_scheme": "",
         "content_position": "bottom-left",
         "content_alignment": "left",
-        "image_mobile": "shopify://shop_images/Decken_Kissen_Kategorie_Mobil.jpg",
+        "image_mobile": "shopify://shop_images/Kissen_Kollektion_Kissen.jpg",
         "mobile_height": "auto",
         "padding_top": 0,
         "padding_bottom": 0,
@@ -57,11 +57,10 @@
       "name": "[we] Subcollections",
       "settings": {
         "subcollections": [
-          "all",
           "hotelbettwaesche",
           "deckenbezuege",
           "kissenbezuge",
-          "spannbettlaken"
+          "matratzen"
         ],
         "background": "#ffffff",
         "opacity": 1,
@@ -111,9 +110,9 @@
           "settings": {
             "color_scheme": "scheme-1",
             "video_url_desktop": "",
-            "image_desktop": "shopify://shop_images/Decken_Kissen_Kategorie_Promo_2_1_cda34385-7aa0-4b88-9714-3163bc9e6780.jpg",
+            "image_desktop": "shopify://shop_images/Kissen_Kollektion_Promo_2_1.jpg",
             "video_url_mobile": "",
-            "image_mobile": "shopify://shop_images/Decken_Kissen_Kategorie_Promo_2_1.jpg",
+            "image_mobile": "shopify://shop_images/Kissen_Kollektion_Promo_2_1.jpg",
             "title": "Natürlich weich, verantwortungsvoll gefertigt.",
             "description": "<p></p><p>Feine Gänsedaunen, edles Alpaka, kostbare Eiderdaunen oder innovative Primaloft®-Fasern – jedes Stück ist so gefertigt, dass es sich perfekt an Ihre Bedürfnisse anpasst. Für kompromisslos erholsamem Schlaf.</p>",
             "description_mobile": "",
@@ -128,6 +127,7 @@
         },
         "we_promo_4nLeiw": {
           "type": "we_promo",
+          "disabled": true,
           "settings": {
             "color_scheme": "scheme-1",
             "video_desktop": "shopify://files/videos/ROYFORT_LEFKADA_08_FINAL.mp4",
