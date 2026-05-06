@@ -857,7 +857,7 @@
           "type": "column",
           "settings": {
             "show_image": true,
-            "image": "shopify://shop_images/Website_Images_Template_7.png",
+            "image": "shopify://shop_images/falstaff_logo.jpg",
             "image_width": "full",
             "title": "",
             "heading_size": "h4",
@@ -873,7 +873,7 @@
           "type": "column",
           "settings": {
             "show_image": true,
-            "image": "shopify://shop_images/2000px-Die_Zeit-Logo-Bremen.svg_9abe320f-2fad-4614-9630-846c8c8f4122.png",
+            "image": "shopify://shop_images/zeit_logo.jpg",
             "image_width": "full",
             "title": "",
             "heading_size": "h4",
@@ -889,7 +889,7 @@
           "type": "column",
           "settings": {
             "show_image": true,
-            "image": "shopify://shop_images/SZ2_2.png",
+            "image": "shopify://shop_images/suddeutschzeitung_logo.jpg",
             "image_width": "full",
             "title": "",
             "heading_size": "h4",
@@ -918,11 +918,11 @@
         "text_size": "text-base",
         "column_alignment": "left",
         "columns_desktop": 3,
-        "column_gap": "large",
+        "column_gap": "none",
         "columns_mobile": "1",
         "swipe_on_mobile": true,
-        "padding_top": 50,
-        "padding_bottom": 50,
+        "padding_top": 0,
+        "padding_bottom": 0,
         "show_section_divider": false,
         "divider_width": "fixed",
         "custom_class": ""
