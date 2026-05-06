@@ -35,7 +35,7 @@
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
-        "image": "shopify://shop_images/Flanell_Kollektion_Desktop.jpg",
+        "image": "shopify://shop_images/Flanell_Kollektion_Desktop_cef9f9c3-d559-469b-8fa8-5254f1d834a8.jpg",
         "desktop_height": "small",
         "overlay_opacity": 75,
         "use_custom_overlay": true,
@@ -180,7 +180,7 @@
       "settings": {
         "color_scheme": "",
         "header_layout": "vertical",
-        "heading": "ähnliche Produkte",
+        "heading": "beliebte Produkte",
         "heading_size": "h3",
         "heading_styling": "body",
         "heading_highlight_style": "none",
@@ -188,7 +188,7 @@
         "description": "",
         "text_size": "text-base",
         "show_collection_description": false,
-        "collection": "all",
+        "collection": "ws-bestseller",
         "limit": 8,
         "columns": 4,
         "column_gap": "extra-small",
@@ -217,19 +217,22 @@
         "collection_AkcG9Y": {
           "type": "collection",
           "settings": {
-            "collection": "all-bedsheets"
+            "collection": "ws-trends",
+            "image": "shopify://shop_images/Trends_Kollektion_Featured.jpg"
           }
         },
         "collection_gghYUc": {
           "type": "collection",
           "settings": {
-            "collection": "hotelbettwaesche"
+            "collection": "daunendecken-kissen",
+            "image": "shopify://shop_images/Decken_Kissen_Kollektion_Featured.jpg"
           }
         },
         "collection_cniUQH": {
           "type": "collection",
           "settings": {
-            "collection": "spannbettlaken"
+            "collection": "ws-neuheiten",
+            "image": "shopify://shop_images/Neuheitten_Kategorie_Promo_1_1.jpg"
           }
         }
       },
