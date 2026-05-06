@@ -35,7 +35,7 @@
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
-        "image": "shopify://shop_images/TENCEL_Kollektion_Desktop.jpg",
+        "image": "shopify://shop_images/TENCEL_Kollektion_Desktop_39922bb2-3613-470f-9c5d-4600bc2cea70.jpg",
         "desktop_height": "small",
         "overlay_opacity": 75,
         "use_custom_overlay": true,
@@ -180,7 +180,7 @@
       "settings": {
         "color_scheme": "",
         "header_layout": "vertical",
-        "heading": "ähnliche Produkte",
+        "heading": "beliebte Produkte",
         "heading_size": "h3",
         "heading_styling": "body",
         "heading_highlight_style": "none",
@@ -188,7 +188,7 @@
         "description": "",
         "text_size": "text-base",
         "show_collection_description": false,
-        "collection": "all",
+        "collection": "ws-bestseller",
         "limit": 8,
         "columns": 4,
         "column_gap": "extra-small",
@@ -217,19 +217,22 @@
         "collection_AkcG9Y": {
           "type": "collection",
           "settings": {
-            "collection": "all-bedsheets"
+            "collection": "ws-neuheiten",
+            "image": "shopify://shop_images/Neuheiten_Kollektion_Featured.jpg"
           }
         },
         "collection_gghYUc": {
           "type": "collection",
           "settings": {
-            "collection": "hotelbettwaesche"
+            "collection": "hotelbettwaesche",
+            "image": "shopify://shop_images/Bettwasche_Sets_Kollektion_Featured.jpg"
           }
         },
         "collection_cniUQH": {
           "type": "collection",
           "settings": {
-            "collection": "spannbettlaken"
+            "collection": "daunendecken-kissen",
+            "image": "shopify://shop_images/Decken_Kissen_Kollektion_Featured.jpg"
           }
         }
       },
