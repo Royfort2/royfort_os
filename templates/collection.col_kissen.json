@@ -57,9 +57,9 @@
       "name": "[we] Subcollections",
       "settings": {
         "subcollections": [
+          "kissenbezuge",
           "hotelbettwaesche",
           "deckenbezuege",
-          "kissenbezuge",
           "matratzen"
         ],
         "background": "#ffffff",
