@@ -35,7 +35,7 @@
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
-        "image": "shopify://shop_images/Bestseller_Kategorie_Desktop_57c4c027-4a3c-45a8-b553-ea8522a15d59.jpg",
+        "image": "shopify://shop_images/Deckenbezuge_Kollektion_Desktop.jpg",
         "desktop_height": "small",
         "overlay_opacity": 75,
         "use_custom_overlay": true,
@@ -45,7 +45,7 @@
         "color_scheme": "",
         "content_position": "bottom-left",
         "content_alignment": "left",
-        "image_mobile": "shopify://shop_images/Bestseller_Kategorie_Mobil_aaf2b04b-9230-458c-a1e5-68cd4cefea34.jpg",
+        "image_mobile": "shopify://shop_images/Deckenbezuge_Kollektion_Mobil.jpg",
         "mobile_height": "auto",
         "padding_top": 0,
         "padding_bottom": 0,
@@ -105,13 +105,13 @@
           "settings": {
             "color_scheme": "scheme-1",
             "video_url_desktop": "",
-            "image_desktop": "shopify://shop_images/Sleep_Guide_LP_Hero_Banner_1568_x_738.jpg",
+            "image_desktop": "shopify://shop_images/Deckenbezuge_Kollektion_Promo_2_1.jpg",
             "video_url_mobile": "",
-            "image_mobile": "shopify://shop_images/3_5c534a26-39c6-4a05-9953-26bbccdf9817.jpg",
-            "title": "Titel für Promo",
-            "description": "<p>Morbi purus iaculis eget egestas platea mauris sed donec. Ultrices egestas tellus condimentum nam.</p>",
-            "description_mobile": "<p>Mobile text</p>",
-            "button_label": "BUTTON",
+            "image_mobile": "shopify://shop_images/Deckenbezuge_Kollektion_Promo_2_1.jpg",
+            "title": "Luxuriöse Deckenbezüge",
+            "description": "<p>Baumwollsatin, Musselin, Leinen, Baumwolle-Kaschmir, Flanell, TENCEL in vielen Farben – für alle Wünsche und Bedürfnisse das passende dabei.</p>",
+            "description_mobile": "",
+            "button_label": "",
             "button_url": "#",
             "order_after": 2,
             "col_span_desktop": 2,
@@ -128,10 +128,10 @@
             "video_url_desktop": "",
             "video_mobile": "shopify://files/videos/600x600 (1).mp4",
             "video_url_mobile": "",
-            "title": "Video Promo",
-            "description": "<p>Description</p>",
+            "title": "",
+            "description": "",
             "description_mobile": "",
-            "button_label": "Button",
+            "button_label": "",
             "button_url": "#",
             "order_after": 22,
             "col_span_desktop": 2,
@@ -173,7 +173,7 @@
       "settings": {
         "color_scheme": "",
         "header_layout": "vertical",
-        "heading": "ähnliche Produkte",
+        "heading": "beliebte Produkte",
         "heading_size": "h3",
         "heading_styling": "body",
         "heading_highlight_style": "none",
@@ -224,7 +224,8 @@
         "collection_cniUQH": {
           "type": "collection",
           "settings": {
-            "collection": "neuheiten"
+            "collection": "neuheiten",
+            "image": "shopify://shop_images/Neuheiten_Kollektion_Featured.jpg"
           }
         }
       },
