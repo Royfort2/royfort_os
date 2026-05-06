@@ -35,7 +35,7 @@
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
-        "image": "shopify://shop_images/Deckenbezuge_Kollektion_Desktop.jpg",
+        "image": "shopify://shop_images/Kissenbezuge_Kollektion_Desktop.jpg",
         "desktop_height": "small",
         "overlay_opacity": 75,
         "use_custom_overlay": true,
@@ -45,7 +45,7 @@
         "color_scheme": "",
         "content_position": "bottom-left",
         "content_alignment": "left",
-        "image_mobile": "shopify://shop_images/Deckenbezuge_Kollektion_Mobil.jpg",
+        "image_mobile": "shopify://shop_images/Kissenbezuge_Kollektion_Mobil.jpg",
         "mobile_height": "auto",
         "padding_top": 0,
         "padding_bottom": 0,
@@ -56,7 +56,11 @@
       "type": "we-subcollections",
       "name": "[we] Subcollections",
       "settings": {
-        "subcollections": "{{ collection.metafields.custom.plp_subcollections.value }}",
+        "subcollections": [
+          "kissen",
+          "decken",
+          "hotelbettwaesche"
+        ],
         "background": "#ffffff",
         "opacity": 1,
         "padding_top": 0,
@@ -105,10 +109,10 @@
           "settings": {
             "color_scheme": "scheme-1",
             "video_url_desktop": "",
-            "image_desktop": "shopify://shop_images/Deckenbezuge_Kollektion_Promo_2_1.jpg",
+            "image_desktop": "shopify://shop_images/Kissen_Kollektion_Promo_2_1.jpg",
             "video_url_mobile": "",
-            "image_mobile": "shopify://shop_images/Deckenbezuge_Kollektion_Promo_2_1.jpg",
-            "title": "Luxuriöse Deckenbezüge",
+            "image_mobile": "shopify://shop_images/Kissen_Kollektion_Promo_2_1.jpg",
+            "title": "Luxuriöse Kissenbezüge",
             "description": "<p>Baumwollsatin, Musselin, Leinen, Baumwolle-Kaschmir, Flanell, TENCEL in vielen Farben – für alle Wünsche und Bedürfnisse das passende dabei.</p>",
             "description_mobile": "",
             "button_label": "",
