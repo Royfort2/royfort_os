@@ -230,7 +230,7 @@
         "collection_cniUQH": {
           "type": "collection",
           "settings": {
-            "collection": "ws-neuheiten",
+            "collection": "neuheiten",
             "image": "shopify://shop_images/Neuheiten_Kollektion_Featured.jpg"
           }
         }

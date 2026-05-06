@@ -225,7 +225,7 @@
         "collection_AkcG9Y": {
           "type": "collection",
           "settings": {
-            "collection": "ws-neuheiten",
+            "collection": "neuheiten",
             "image": "shopify://shop_images/Neuheitten_Kategorie_Promo_1_1.jpg"
           }
         },
