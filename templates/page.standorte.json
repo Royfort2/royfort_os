@@ -116,12 +116,28 @@
             "button_link": "#muenchen",
             "mobile_layout": "inherit"
           }
+        },
+        "column_JWKYUE": {
+          "type": "column",
+          "settings": {
+            "show_image": false,
+            "image_width": "medium",
+            "title": "",
+            "heading_size": "h4",
+            "text": "",
+            "text_size": "text-base",
+            "button_label": "Stuttgart",
+            "button_style": "btn--secondary",
+            "button_link": "#stuttgart",
+            "mobile_layout": "inherit"
+          }
         }
       },
       "block_order": [
         "column_Ut7Bqg",
         "column_TeCLjw",
-        "column_PK3x9D"
+        "column_PK3x9D",
+        "column_JWKYUE"
       ],
       "name": "t:sections.multicolumn.presets.name",
       "settings": {
@@ -133,9 +149,9 @@
         "description": "",
         "text_size": "text-base",
         "column_alignment": "center",
-        "columns_desktop": 3,
+        "columns_desktop": 4,
         "column_gap": "extra-small",
-        "columns_mobile": "1",
+        "columns_mobile": "2",
         "swipe_on_mobile": false,
         "padding_top": 50,
         "padding_bottom": 50,
