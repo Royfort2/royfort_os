@@ -314,8 +314,8 @@
         "item_heading_font": "heading",
         "item_heading_size": "h4",
         "item_icon_size": "extra-large",
-        "padding_top": 0,
-        "padding_bottom": 0,
+        "padding_top": 50,
+        "padding_bottom": 50,
         "show_section_divider": false,
         "divider_width": "fixed",
         "custom_class": ""
