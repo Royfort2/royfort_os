@@ -23,7 +23,7 @@
         "text_XafVaJ": {
           "type": "text",
           "settings": {
-            "text": "<p></p>{{ collection.description }}",
+            "text": "<p></p><p></p>",
             "text_size": "text-base"
           }
         }
@@ -180,7 +180,7 @@
       "settings": {
         "color_scheme": "",
         "header_layout": "vertical",
-        "heading": "WEITERE PRODUKTE",
+        "heading": "BELIEBTE PRODUKTE",
         "heading_size": "h3",
         "heading_styling": "body",
         "heading_highlight_style": "none",
@@ -188,7 +188,7 @@
         "description": "",
         "text_size": "text-base",
         "show_collection_description": false,
-        "collection": "all",
+        "collection": "ws-bestseller",
         "limit": 8,
         "columns": 4,
         "column_gap": "extra-small",
