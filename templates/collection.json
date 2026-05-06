@@ -172,7 +172,7 @@
       "settings": {
         "color_scheme": "",
         "header_layout": "vertical",
-        "heading": "ähnliche Produkte",
+        "heading": "beliebte Produkte",
         "heading_size": "h3",
         "heading_styling": "body",
         "heading_highlight_style": "none",
@@ -180,7 +180,7 @@
         "description": "",
         "text_size": "text-base",
         "show_collection_description": false,
-        "collection": "all",
+        "collection": "ws-bestseller",
         "limit": 8,
         "columns": 4,
         "column_gap": "extra-small",
@@ -209,8 +209,8 @@
         "collection_AkcG9Y": {
           "type": "collection",
           "settings": {
-            "collection": "all-bedsheets",
-            "image": "shopify://shop_images/Bettwasche_Kollektion_Featured.jpg"
+            "collection": "leinen-kollektion",
+            "image": "shopify://shop_images/Leinen_Kollektion_Featured.jpg"
           }
         },
         "collection_gghYUc": {
