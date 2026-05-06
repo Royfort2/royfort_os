@@ -693,7 +693,7 @@
         "heading_bWYBiw": {
           "type": "heading",
           "settings": {
-            "heading": "Image with text overlay",
+            "heading": "Besser schlafen. Besser leben.",
             "heading_size": "h1",
             "heading_highlight_style": "none"
           }
@@ -701,14 +701,14 @@
         "text_xEdiD6": {
           "type": "text",
           "settings": {
-            "text": "<p>Use this text to share information about your brand with your customers. <br>Describe a product, share announcements, or welcome customers to your store.</p>",
+            "text": "<p>Entdecken Sie unsere beliebtesten Produkte und genießen Sie den besten Schlaf Ihres Lebens.</p>",
             "text_size": "text-base"
           }
         },
         "button_GigK6L": {
           "type": "button",
           "settings": {
-            "button_label": "Button label",
+            "button_label": "BESTSELLER ENTDECKEN",
             "button_link": "",
             "button_style": "btn--underline"
           }
