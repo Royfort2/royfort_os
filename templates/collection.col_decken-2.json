@@ -35,7 +35,7 @@
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
-        "image": "shopify://shop_images/Decken_Kissen_Kategorie_Desktop.jpg",
+        "image": "shopify://shop_images/Decken_Kollektion_Desktop.jpg",
         "desktop_height": "small",
         "overlay_opacity": 75,
         "use_custom_overlay": true,
@@ -57,11 +57,8 @@
       "name": "[we] Subcollections",
       "settings": {
         "subcollections": [
-          "all",
           "hotelbettwaesche",
-          "deckenbezuege",
-          "kissenbezuge",
-          "spannbettlaken"
+          "deckenbezuege"
         ],
         "background": "#ffffff",
         "opacity": 1,
@@ -130,19 +127,18 @@
           "type": "we_promo",
           "settings": {
             "color_scheme": "scheme-1",
-            "video_desktop": "shopify://files/videos/ROYFORT_LEFKADA_08_FINAL.mp4",
             "video_url_desktop": "",
-            "video_mobile": "shopify://files/videos/600x600 (1).mp4",
+            "image_desktop": "shopify://shop_images/Decken_Kollektion_Promo_2_1.jpg",
             "video_url_mobile": "",
-            "title": "Video Promo",
-            "description": "<p>Description</p>",
+            "title": "",
+            "description": "",
             "description_mobile": "",
-            "button_label": "Button",
+            "button_label": "",
             "button_url": "#",
-            "order_after": 22,
+            "order_after": 10,
             "col_span_desktop": 2,
             "row_span_desktop": 2,
-            "col_span_mobile": "2",
+            "col_span_mobile": "1",
             "row_span_mobile": 1
           }
         }
