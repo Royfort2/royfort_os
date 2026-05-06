@@ -458,9 +458,8 @@
       "blocks": {
         "heading_J8LeX3": {
           "type": "heading",
-          "disabled": true,
           "settings": {
-            "heading": "Der beste Schlaf Ihres Lebens",
+            "heading": "Der beste Schlaf Ihres Lebens.",
             "heading_size": "h1",
             "heading_highlight_style": "none"
           }
