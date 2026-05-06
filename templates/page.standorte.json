@@ -269,9 +269,9 @@
             "heading": "",
             "heading_size": "h1",
             "text": "<h3>ROC.D Frankfurt</h3><p><strong>Adresse: </strong><br/>Europa-Allee 55, 60327 Frankfurt am Main</p><p><strong>Öffnungszeiten: </strong><br/>Montag bis Freitag, 10.00 bis 17.00 Uhr</p><p><strong>E-Mail: </strong><br/>greetings@roc-d.com</p><p><strong>Telefon: </strong><br/>+ 49 (0) 69 76 80 74 0 | +49 179 220 7188</p>",
-            "button_label": "Jetzt Termin buchen",
+            "button_label": "Jetzt Termin anfragen",
             "button_style": "btn--secondary",
-            "button_link": "https://calendar.google.com/calendar/appointments/schedules/AcZssZ0GyUjWt6rkbYG06FBg1GgdgcbJMlm3qpQabD_Ief4c06Z2vIRPiXQKF80adk5yPwe51OaNj_er"
+            "button_link": "mailto:greetings@roc-d.com"
           }
         },
         "location_DzXM67": {
@@ -289,9 +289,9 @@
             "heading": "",
             "heading_size": "h1",
             "text": "<h3>Düsseldorfer Bettenhaus</h3><p><strong>Adresse: </strong><br/>Bahnstraße 16, 40212 Düsseldorf</p><p><strong>Öffnungszeiten: </strong><br/>Mo - Fr | 10:00 - 19:00 Uhr<br/>Sa | 10:00 - 18:00 Uhr </p><p><strong>E-Mail: </strong><br/>info@duesseldorfer-bettenhaus.com</p><p><strong>Telefon: </strong><br/>+49 (0)211 300 40 395</p>",
-            "button_label": "Jetzt Termin buchen",
+            "button_label": "Jetzt Termin anfragen",
             "button_style": "btn--secondary",
-            "button_link": "https://calendar.google.com/calendar/appointments/schedules/AcZssZ0GyUjWt6rkbYG06FBg1GgdgcbJMlm3qpQabD_Ief4c06Z2vIRPiXQKF80adk5yPwe51OaNj_er"
+            "button_link": "mailto:info@duesseldorfer-bettenhaus.com"
           }
         }
       },
