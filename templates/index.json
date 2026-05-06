@@ -458,8 +458,9 @@
       "blocks": {
         "heading_J8LeX3": {
           "type": "heading",
+          "disabled": true,
           "settings": {
-            "heading": "Video hero",
+            "heading": "Der beste Schlaf Ihres Lebens",
             "heading_size": "h1",
             "heading_highlight_style": "none"
           }
@@ -467,12 +468,13 @@
         "text_n7jNze": {
           "type": "text",
           "settings": {
-            "text": "<p>Use this text to share information about your brand with your customers. <br/>Describe a product, share announcements, or welcome customers to your store.</p>",
+            "text": "<h4>In einer Welt, die sich immer schneller dreht und voller Lärm ist, wird Schlaf zum wahren Luxus. Royfort hilft Menschen, diesen Luxus zu erleben. <br/>Mit hochwertigen Produkten, die dafür geschaffen sind, den besten Schlaf Ihres Lebens zu ermöglichen.<br/></h4>",
             "text_size": "text-base"
           }
         },
         "button_GeAQbk": {
           "type": "button",
+          "disabled": true,
           "settings": {
             "button_label": "Button label",
             "button_link": "",
