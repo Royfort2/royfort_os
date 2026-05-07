@@ -720,6 +720,81 @@
         "custom_class": ""
       }
     },
+    "image_width_text_columns_fVphkA": {
+      "type": "image-width-text-columns",
+      "blocks": {
+        "column_jMAfye": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "Material",
+            "heading_size": "h4",
+            "text": "<p>Hochwertige Bio-Baumwolle sorgt für eine besonders weiche Haptik, hohe Saugkraft und angenehmen Komfort auf der Haut.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "column_WF4g7r": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "Verarbeitung",
+            "heading_size": "h4",
+            "text": "<p>Sorgfältige Verarbeitung und dichte Baumwollqualitäten schaffen langlebige Handtücher mit dauerhaft voluminösem Gefühl.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "column_PAb8qH": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "Schlafgefühl",
+            "heading_size": "h4",
+            "text": "<p>Die weichen Fasern umschmeicheln die Haut sanft und sorgen für ein angenehm warmes, komfortables Gefühl nach jedem Bad oder jeder Dusche.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "column_MJWfhC": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "Komfort",
+            "heading_size": "h4",
+            "text": "<p>Die atmungsaktive Baumwolle nimmt Feuchtigkeit zuverlässig auf und schafft ein angenehm trockenes Wohlfühlerlebnis im Alltag.</p>",
+            "text_size": "text-base"
+          }
+        }
+      },
+      "block_order": [
+        "column_jMAfye",
+        "column_WF4g7r",
+        "column_PAb8qH",
+        "column_MJWfhC"
+      ],
+      "name": "t:sections.image-with-text-columns.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "layout_gap": "medium",
+        "content_alignment": "center",
+        "image": "shopify://shop_images/Badezimmer_Kategorie_Promo_1_1_2.jpg",
+        "image_position": "image_first",
+        "heading": "Hantücher",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "weich, voluminös, hochwertig.",
+        "description": "",
+        "text_size": "text-base",
+        "column_alignment": "left",
+        "columns_desktop": 2,
+        "column_gap": "large",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
     "custom_content_rYKMqP": {
       "type": "custom-content",
       "blocks": {
@@ -861,6 +936,7 @@
     "image_width_text_columns_pYdjj3",
     "image_width_text_columns_CTXgew",
     "video_hero_nJwNwM",
+    "image_width_text_columns_fVphkA",
     "custom_content_rYKMqP",
     "main",
     "breadcrumbs_zf9HBa"
