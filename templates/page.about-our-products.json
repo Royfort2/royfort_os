@@ -406,7 +406,7 @@
         "heading_LmUYpc": {
           "type": "heading",
           "settings": {
-            "heading": "Image with text overlay",
+            "heading": "Höchste Qualität für maximalen Komfort",
             "heading_size": "h1",
             "heading_highlight_style": "none"
           }
@@ -414,7 +414,7 @@
         "text_fyYkah": {
           "type": "text",
           "settings": {
-            "text": "<p>Use this text to share information about your brand with your customers. <br>Describe a product, share announcements, or welcome customers to your store.</p>",
+            "text": "<p>Ausgewählte Naturmaterialien, präzise Verarbeitung und zeitloses Design schaffen Produkte, die Komfort auf höchstem Niveau spürbar machen.</p>",
             "text_size": "text-base"
           }
         }
@@ -882,6 +882,7 @@
         "image_card_HLArBN",
         "image_card_dYWACE"
       ],
+      "disabled": true,
       "custom_css": [
         ".f-grid--row-gap-extra-small {--row-gap: 1rem; --row-gap-mobile: 0rem;}",
         "@media (max-width: 767px) {.card-media--small .content-overlay {--padding-y: 1.5rem; --padding-x: 1.5rem; } .h5 {font-size: 1.5rem; text-transform: uppercase; } .section--padding {padding-block-end: 0rem; }}"
