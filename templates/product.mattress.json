@@ -15,6 +15,7 @@
         "image_tooltip_iznpVX": {
           "type": "image_tooltip",
           "settings": {
+            "render_from_metafield": true,
             "image_index": 2,
             "title": "Nachhaltige Materialien",
             "description": "<p>Das Material passt sich Ihrer Körpertemperatur an und sorgt so vor allem bei wechselnden Temperaturen für Wohlbefinden.</p>",
@@ -24,6 +25,7 @@
         "image_tooltip_XNgW9P": {
           "type": "image_tooltip",
           "settings": {
+            "render_from_metafield": true,
             "image_index": 3,
             "title": "Temperaturausgleichend",
             "description": "<p>Das Material passt sich Ihrer Körpertemperatur an und sorgt so vor allem bei wechselnden Temperaturen für Wohlbefinden.</p>",
@@ -114,6 +116,7 @@
           "type": "usp_list",
           "settings": {
             "title": "In sapien eget fringilla magna libero consectetur adipiscing nulla felis. Maecenas suspendisse cras et.",
+            "use_usp_metafield": true,
             "item_title_1": "The Feel",
             "item_description_1": "Felis mi massa lectus elit morbi imperdiet ac.",
             "item_title_2": "The look",
@@ -129,6 +132,18 @@
             "heading_styling": "body",
             "icon": "none",
             "content": "{{ product.description }}",
+            "custom_liquid": "",
+            "page": "",
+            "default_open": false
+          }
+        },
+        "collapsible_tab_Y9thBz": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Produktdetails",
+            "heading_styling": "body",
+            "icon": "none",
+            "content": "",
             "custom_liquid": "",
             "page": "",
             "default_open": false
@@ -196,6 +211,7 @@
         "icon_info_text_4ErYdG",
         "usp_list_yWyYmX",
         "collapsible-row-1",
+        "collapsible_tab_Y9thBz",
         "collapsible-row-2",
         "collapsible-row-3",
         "usp_swiper_ffaRkg",
@@ -220,8 +236,8 @@
       "type": "mattress-shared",
       "name": "Mattress Shared",
       "settings": {
-        "header_color": "#000",
-        "text_color": "#888"
+        "header_color": "#000000",
+        "text_color": "#888888"
       }
     },
     "image_with_text_zQ9iit": {
