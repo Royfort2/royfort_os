@@ -592,6 +592,59 @@
         "custom_class": ""
       }
     },
+    "video_hero_nJwNwM": {
+      "type": "video-hero",
+      "blocks": {
+        "heading_WC4NEK": {
+          "type": "heading",
+          "settings": {
+            "heading": "Besser schlafen. Besser leben.",
+            "heading_size": "h1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_LHnbwC": {
+          "type": "text",
+          "settings": {
+            "text": "<h4>In einer Welt, die sich immer schneller dreht und voller Lärm ist, wird Schlaf zum wahren Luxus. Royfort hilft Menschen, diesen Luxus zu erleben.<br/>Mit hochwertigen Produkten, die dafür geschaffen sind, den besten Schlaf Ihres Lebens zu ermöglichen.</h4>",
+            "text_size": "text-base"
+          }
+        },
+        "button_y8JmmQ": {
+          "type": "button",
+          "settings": {
+            "button_label": "Bestseller entdecken",
+            "button_link": "shopify://collections/bestseller",
+            "button_style": "btn--underline"
+          }
+        }
+      },
+      "block_order": [
+        "heading_WC4NEK",
+        "text_LHnbwC",
+        "button_y8JmmQ"
+      ],
+      "name": "t:sections.video-hero.name",
+      "settings": {
+        "container": "full",
+        "video": "shopify://files/videos/NewHomepageVideo3_a1b10b31-7110-4239-a9e8-e6a038ed73da.mp4",
+        "video_url": "",
+        "description": "",
+        "video_height": "adapt",
+        "overlay_opacity": 0,
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "color_scheme": "scheme-inverse",
+        "content_position": "bottom-left",
+        "content_alignment": "left",
+        "video_mobile_height": "large",
+        "padding_top": 0,
+        "padding_bottom": 16,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
     "image_width_text_columns_CTXgew": {
       "type": "image-width-text-columns",
       "blocks": {
@@ -662,59 +715,6 @@
         "swipe_on_mobile": false,
         "padding_top": 64,
         "padding_bottom": 64,
-        "show_section_divider": false,
-        "divider_width": "fixed",
-        "custom_class": ""
-      }
-    },
-    "video_hero_nJwNwM": {
-      "type": "video-hero",
-      "blocks": {
-        "heading_WC4NEK": {
-          "type": "heading",
-          "settings": {
-            "heading": "Besser schlafen. Besser leben.",
-            "heading_size": "h1",
-            "heading_highlight_style": "none"
-          }
-        },
-        "text_LHnbwC": {
-          "type": "text",
-          "settings": {
-            "text": "<h4>In einer Welt, die sich immer schneller dreht und voller Lärm ist, wird Schlaf zum wahren Luxus. Royfort hilft Menschen, diesen Luxus zu erleben.<br/>Mit hochwertigen Produkten, die dafür geschaffen sind, den besten Schlaf Ihres Lebens zu ermöglichen.</h4>",
-            "text_size": "text-base"
-          }
-        },
-        "button_y8JmmQ": {
-          "type": "button",
-          "settings": {
-            "button_label": "Bestseller entdecken",
-            "button_link": "shopify://collections/bestseller",
-            "button_style": "btn--underline"
-          }
-        }
-      },
-      "block_order": [
-        "heading_WC4NEK",
-        "text_LHnbwC",
-        "button_y8JmmQ"
-      ],
-      "name": "t:sections.video-hero.name",
-      "settings": {
-        "container": "full",
-        "video": "shopify://files/videos/NewHomepageVideo3_a1b10b31-7110-4239-a9e8-e6a038ed73da.mp4",
-        "video_url": "",
-        "description": "",
-        "video_height": "adapt",
-        "overlay_opacity": 0,
-        "enable_parallax": false,
-        "parallax_direction": "vertical",
-        "color_scheme": "scheme-inverse",
-        "content_position": "bottom-left",
-        "content_alignment": "left",
-        "video_mobile_height": "large",
-        "padding_top": 0,
-        "padding_bottom": 16,
         "show_section_divider": false,
         "divider_width": "fixed",
         "custom_class": ""
@@ -935,8 +935,8 @@
     "image_with_text_overlay_hqPP7X",
     "image_width_text_columns_CCnMqV",
     "image_width_text_columns_pYdjj3",
-    "image_width_text_columns_CTXgew",
     "video_hero_nJwNwM",
+    "image_width_text_columns_CTXgew",
     "image_width_text_columns_fVphkA",
     "custom_content_rYKMqP",
     "main",
