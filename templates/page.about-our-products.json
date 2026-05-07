@@ -524,9 +524,9 @@
           "type": "column",
           "settings": {
             "image_width": "medium",
-            "title": "Column",
+            "title": "Material",
             "heading_size": "h4",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post.<br/> Add details on availability, style.</p>",
+            "text": "<p>Die edle Kombination aus hochwertiger Baumwolle und feinem Kaschmir verbindet außergewöhnliche Weichheit mit natürlichem Komfort.</p>",
             "text_size": "text-base"
           }
         },
@@ -534,9 +534,9 @@
           "type": "column",
           "settings": {
             "image_width": "medium",
-            "title": "Column",
+            "title": "Verarbeitung",
             "heading_size": "h4",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post.<br> Add details on availability, style.</p>",
+            "text": "<p>Fein verarbeitete Garne und eine hochwertige Webart sorgen für eine besonders weiche Haptik und langlebige Qualität.</p>",
             "text_size": "text-base"
           }
         },
@@ -544,9 +544,9 @@
           "type": "column",
           "settings": {
             "image_width": "medium",
-            "title": "Column",
+            "title": "Schlafgefühl",
             "heading_size": "h4",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post.<br> Add details on availability, style.</p>",
+            "text": "<p>Die Baumwolle-Kaschmir Mischung wirkt angenehm temperaturausgleichend und schafft ein warmes, anschmiegsames Schlafgefühl.</p>",
             "text_size": "text-base"
           }
         },
@@ -554,9 +554,9 @@
           "type": "column",
           "settings": {
             "image_width": "medium",
-            "title": "Column",
+            "title": "Ästhetik",
             "heading_size": "h4",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post.<br> Add details on availability, style.</p>",
+            "text": "<p>Die weiche Oberfläche und die elegante Struktur verleihen dem Schlafzimmer eine ruhige, luxuriöse Atmosphäre.</p>",
             "text_size": "text-base"
           }
         }
@@ -574,10 +574,10 @@
         "content_alignment": "center",
         "image": "shopify://shop_images/Baumwolle_2.jpg",
         "image_position": "image_first",
-        "heading": "Titel für Kollektion",
+        "heading": "Baumwolle-Kaschmir Bettwäsche",
         "heading_size": "h1",
         "heading_highlight_style": "none",
-        "subheading": "Subheading",
+        "subheading": "warm, weich, elegant.",
         "description": "",
         "text_size": "text-base",
         "column_alignment": "left",
