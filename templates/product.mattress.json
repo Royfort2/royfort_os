@@ -267,6 +267,7 @@
         "heading_9Y3zkK",
         "text_UWkrNW"
       ],
+      "disabled": true,
       "custom_css": [
         "/* @media (max-width: 767.98px) {.image-with-text .image-with-text__inner {padding-top: 4.8rem; }}@media (min-width: 768px) {.image-with-text__wrapper {--gap-x: 3rem; }}@media (min-width: 1280px) {.image-with-text__inner {--padding-x: 9rem; }} */"
       ],
@@ -319,6 +320,7 @@
         "heading_4Ni4ix",
         "text_FXjj84"
       ],
+      "disabled": true,
       "custom_css": [
         "/* @media (max-width: 767.98px) {.image-with-text .image-with-text__inner {padding-top: 4.8rem; }}@media (min-width: 768px) {.image-with-text__wrapper {--gap-x: 3rem; }}@media (min-width: 1280px) {.image-with-text__inner {--padding-x: 9rem; }} */"
       ],
