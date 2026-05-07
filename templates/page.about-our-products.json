@@ -257,9 +257,9 @@
           "type": "column",
           "settings": {
             "image_width": "medium",
-            "title": "Column",
+            "title": "Material",
             "heading_size": "h4",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post.<br/> Add details on availability, style.</p>",
+            "text": "<p>Die feine Baumwollqualität überzeugt mit einer glatten Oberfläche, einem dezenten Glanz und einem besonders ruhigen, luxuriösen Hautgefühl.</p>",
             "text_size": "text-base"
           }
         },
@@ -267,9 +267,9 @@
           "type": "column",
           "settings": {
             "image_width": "medium",
-            "title": "Column",
+            "title": "Verarbeitung",
             "heading_size": "h4",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post.<br> Add details on availability, style.</p>",
+            "text": "<p>Feine Garne, eine präzise Webart und sorgfältige Verarbeitung sorgen für langlebige Qualität und dauerhaften Komfort.</p>",
             "text_size": "text-base"
           }
         },
@@ -277,9 +277,9 @@
           "type": "column",
           "settings": {
             "image_width": "medium",
-            "title": "Column",
+            "title": "Schlafgefühl",
             "heading_size": "h4",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post.<br> Add details on availability, style.</p>",
+            "text": "<p>Die hochwertige Baumwolle unterstützt ein angenehm trockenes und ausgeglichenes Schlafklima – das ganze Jahr über.</p>",
             "text_size": "text-base"
           }
         },
@@ -287,9 +287,9 @@
           "type": "column",
           "settings": {
             "image_width": "medium",
-            "title": "Column",
+            "title": "Ästhetik",
             "heading_size": "h4",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post.<br> Add details on availability, style.</p>",
+            "text": "<p>Die elegante Oberfläche und die ruhige Struktur verleihen dem Schlafzimmer eine moderne, hochwertige Atmosphäre.</p>",
             "text_size": "text-base"
           }
         }
