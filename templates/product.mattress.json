@@ -143,7 +143,7 @@
             "heading": "Produktdetails",
             "heading_styling": "body",
             "icon": "none",
-            "content": "",
+            "content": "{{ product.metafields.custom.sophie_produktdetails | metafield_tag }}",
             "custom_liquid": "",
             "page": "",
             "default_open": false
