@@ -115,7 +115,7 @@
         "usp_list_yWyYmX": {
           "type": "usp_list",
           "settings": {
-            "title": "In sapien eget fringilla magna libero consectetur adipiscing nulla felis. Maecenas suspendisse cras et.",
+            "title": "{{ product.metafields.custom.we_pdp_usp_list_title.value }}",
             "use_usp_metafield": true,
             "item_title_1": "The Feel",
             "item_description_1": "Felis mi massa lectus elit morbi imperdiet ac.",
