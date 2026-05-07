@@ -87,7 +87,7 @@
           "settings": {
             "icon": "shopify://shop_images/local_shipping_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
             "title": "Geschätzte Lieferung: {{ product.metafields.custom.we_pdp_estimated_delivery_time.value }}",
-            "short_description": "Kostenloser Versand ab €150",
+            "short_description": "Kostenloser Versand",
             "description": "<p>Delivery info</p>",
             "page": ""
           }
