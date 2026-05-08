@@ -1008,6 +1008,79 @@
         "divider_width": "fixed",
         "custom_class": ""
       }
+    },
+    "custom_content_eLwKYA": {
+      "type": "custom-content",
+      "blocks": {
+        "promotion_card_3iq7fa": {
+          "type": "promotion_card",
+          "settings": {
+            "color_scheme": "scheme-1",
+            "image": "shopify://shop_images/Rectangle_211.jpg",
+            "image_ratio": "1/1",
+            "image_overlay_opacity": 0,
+            "card_layout": "space-between",
+            "heading": "Seidenkissenbezug",
+            "heading_highlight_style": "none",
+            "heading_size": "h1",
+            "subheading": "Schönheit im Schlaf",
+            "description": "",
+            "button_label": "jetzt seide entdecken",
+            "button_style": "btn--underline",
+            "card_link": "shopify://collections/seiden-kollektion",
+            "content_alignment": "center",
+            "width": "50%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "promotion_card_rFYfHK": {
+          "type": "promotion_card",
+          "settings": {
+            "color_scheme": "scheme-1",
+            "image": "shopify://shop_images/Rectangle_87.jpg",
+            "image_ratio": "1/1",
+            "image_overlay_opacity": 0,
+            "card_layout": "space-between",
+            "heading": "Trendfarben",
+            "heading_highlight_style": "none",
+            "heading_size": "h1",
+            "subheading": "Sommer im Schlafzimmer",
+            "description": "",
+            "button_label": "Jetzt Trends entdecken",
+            "button_style": "btn--underline",
+            "card_link": "shopify://collections/trends",
+            "content_alignment": "center",
+            "width": "50%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        }
+      },
+      "block_order": [
+        "promotion_card_3iq7fa",
+        "promotion_card_rFYfHK"
+      ],
+      "name": "t:sections.custom-content.name",
+      "settings": {
+        "container": "fixed",
+        "color_scheme": "",
+        "enable_sticky_column": false,
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "column_gap": "medium",
+        "row_gap": "large",
+        "swipe_on_mobile": false,
+        "columns_mobile": "1",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
     }
   },
   "order": [
@@ -1024,6 +1097,7 @@
     "image_with_text_overlay_HEUATk",
     "image_with_text_GMFb4h",
     "custom_content_XLeH4V",
-    "multicolumn_dGdzNX"
+    "multicolumn_dGdzNX",
+    "custom_content_eLwKYA"
   ]
 }
