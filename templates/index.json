@@ -567,7 +567,7 @@
       "name": "[we] Stamped Carousel",
       "settings": {
         "title": "Das sagen unsere Kund:innen",
-        "take": 10,
+        "take": 30,
         "background": "#ffffff",
         "opacity": 1,
         "padding_top": 40,
