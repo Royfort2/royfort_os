@@ -414,6 +414,11 @@
           "type": "column",
           "settings": {
             "show_image": true,
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
             "image_width": "medium",
             "title": "Weiche Stützkraft",
             "heading_size": "h4",
@@ -429,6 +434,11 @@
           "type": "column",
           "settings": {
             "show_image": true,
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
             "image_width": "medium",
             "title": "Mittlere Stützkraft",
             "heading_size": "h4",
@@ -444,6 +454,11 @@
           "type": "column",
           "settings": {
             "show_image": true,
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
             "image_width": "medium",
             "title": "Feste Stützkraft",
             "heading_size": "h4",
@@ -461,7 +476,6 @@
         "column_GkMF3a",
         "column_Y6Ptaj"
       ],
-      "disabled": true,
       "name": "t:sections.multicolumn.presets.name",
       "settings": {
         "color_scheme": "",
