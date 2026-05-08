@@ -740,10 +740,16 @@
     "image_with_text_GMFb4h": {
       "type": "image-with-text",
       "blocks": {
+        "subheading_PhNeGN": {
+          "type": "subheading",
+          "settings": {
+            "subheading": "KaDeWe | Alsterhaus | Breuninger"
+          }
+        },
         "heading_qXTYeM": {
           "type": "heading",
           "settings": {
-            "heading": "Unsere Standorte",
+            "heading": "KaDeWe x Royfort",
             "heading_size": "hd1",
             "heading_highlight_style": "none"
           }
@@ -769,6 +775,7 @@
         }
       },
       "block_order": [
+        "subheading_PhNeGN",
         "heading_qXTYeM",
         "text_pCVkBM",
         "button_mhNxMY"
@@ -917,6 +924,11 @@
           "settings": {
             "show_image": true,
             "image": "shopify://shop_images/falstaff_logo.jpg",
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
             "image_width": "full",
             "title": "",
             "heading_size": "h4",
@@ -933,6 +945,11 @@
           "settings": {
             "show_image": true,
             "image": "shopify://shop_images/zeit_logo.jpg",
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
             "image_width": "full",
             "title": "",
             "heading_size": "h4",
@@ -949,6 +966,11 @@
           "settings": {
             "show_image": true,
             "image": "shopify://shop_images/suddeutschzeitung_logo.jpg",
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
             "image_width": "full",
             "title": "",
             "heading_size": "h4",
