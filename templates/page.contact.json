@@ -94,12 +94,57 @@
         "divider_width": "fixed",
         "custom_class": ""
       }
+    },
+    "rich_text_QHbd7w": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_9cHhcH": {
+          "type": "heading",
+          "disabled": true,
+          "settings": {
+            "heading": "Retouren & Umtausch",
+            "heading_size": "h1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_JGiK3r": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Sie wollen ein Produkt umtauschen oder retournieren?</p>",
+            "text_size": "text-base"
+          }
+        },
+        "button_JQK9wU": {
+          "type": "button",
+          "settings": {
+            "button_label": "Retouren & Umtausch",
+            "button_link": "",
+            "button_style": "btn--underline"
+          }
+        }
+      },
+      "block_order": [
+        "heading_9cHhcH",
+        "text_JGiK3r",
+        "button_JQK9wU"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "content_alignment": "center",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
     }
   },
   "order": [
     "main",
     "breadcrumbs_zf9HBa",
     "rich_text_BqT8nB",
-    "contact_form_md6Rbf"
+    "contact_form_md6Rbf",
+    "rich_text_QHbd7w"
   ]
 }
