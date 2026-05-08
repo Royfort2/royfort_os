@@ -168,7 +168,7 @@
             "text_size": "text-base",
             "button_label": "Düsseldorf",
             "button_style": "btn--secondary",
-            "button_link": "#Düsseldorf",
+            "button_link": "#düsseldorf",
             "mobile_layout": "inherit"
           }
         },
@@ -188,7 +188,7 @@
             "text_size": "text-base",
             "button_label": "Frankfurt",
             "button_style": "btn--secondary",
-            "button_link": "#Frankfurt",
+            "button_link": "#frankfurt",
             "mobile_layout": "inherit"
           }
         }
