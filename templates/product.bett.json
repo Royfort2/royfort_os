@@ -88,7 +88,7 @@
             "icon": "shopify://shop_images/local_shipping_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
             "title": "Geschätzte Lieferung: {{ product.metafields.custom.we_pdp_estimated_delivery_time.value }}",
             "short_description": "Kostenloser Versand",
-            "description": "<p>Delivery info</p>",
+            "description": "<p>Von der sorgfältigen Vorbereitung bis zum sicheren Versand begleiten wir jede Bestellung mit besonderer Aufmerksamkeit und Liebe zum Detail.</p>",
             "page": ""
           }
         },
@@ -98,7 +98,7 @@
             "icon": "shopify://shop_images/undo_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
             "title": "30-Tage Rückgaberecht",
             "short_description": "Kostenlose und einfache Rücksendungen",
-            "description": "",
+            "description": "<p>Schlafen Sie 30 Tage lang sorglos in unseren Produkten und erleben Sie das Royfort-Gefühl. Wenn Sie nicht zufrieden sind, können Sie die Produkte einfach und kostenlos an uns zurückschicken.</p>",
             "page": "allgemeine_geschaeftsbediungungen"
           }
         },
@@ -117,12 +117,12 @@
           "settings": {
             "title": "{{ product.metafields.custom.we_pdp_usp_list_title.value }}",
             "use_usp_metafield": true,
-            "item_title_1": "The Feel",
-            "item_description_1": "Felis mi massa lectus elit morbi imperdiet ac.",
-            "item_title_2": "The look",
-            "item_description_2": "Felis mi massa lectus elit morbi imperdiet ac.",
-            "item_title_3": "best for",
-            "item_description_3": "Felis mi massa lectus elit morbi imperdiet ac."
+            "item_title_1": "",
+            "item_description_1": "",
+            "item_title_2": "",
+            "item_description_2": "",
+            "item_title_3": "",
+            "item_description_3": ""
           }
         },
         "collapsible-row-1": {

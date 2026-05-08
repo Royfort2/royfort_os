@@ -78,7 +78,7 @@
             "icon": "shopify://shop_images/local_shipping_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
             "title": "Geschätzte Lieferung: {{ product.metafields.custom.we_pdp_estimated_delivery_time.value }}",
             "short_description": "Kostenloser Versand",
-            "description": "<ul><li>Kostenlose Lieferung in 2-3 Werktagen</li><li>Schlafen Sie 30 Tage lang sorglos in unseren Bettwaren und erleben Sie das Royfort-Gefühl. Wenn Sie nicht zufrieden sind, können Sie die Bettwaren einfach und kostenlos an uns zurückschicken.</li><li>Plastikfreie Lieferung in exklusiver Box für einen umweltbewussten Versand.</li></ul>",
+            "description": "<p>Von der sorgfältigen Vorbereitung bis zum sicheren Versand begleiten wir jede Bestellung mit besonderer Aufmerksamkeit und Liebe zum Detail.</p>",
             "page": ""
           }
         },
@@ -88,8 +88,8 @@
             "icon": "shopify://shop_images/undo_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
             "title": "30-Tage Rückgaberecht",
             "short_description": "Kostenlose und einfache Rücksendungen",
-            "description": "",
-            "page": "allgemeine_geschaeftsbediungungen"
+            "description": "<p>Schlafen Sie 30 Tage lang sorglos in unseren Produkten und erleben Sie das Royfort-Gefühl. Wenn Sie nicht zufrieden sind, können Sie die Produkte einfach und kostenlos an uns zurückschicken.</p>",
+            "page": ""
           }
         },
         "icon_info_text_4ErYdG": {
