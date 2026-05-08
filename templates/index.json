@@ -824,6 +824,7 @@
         "image_card_aq8LeV",
         "image_card_ACHazG"
       ],
+      "disabled": true,
       "custom_css": [
         ".f-grid--row-gap-extra-small {--row-gap: 1rem; --row-gap-mobile: 0rem;}",
         "@media (max-width: 767px) {.card-media--small .content-overlay {--padding-y: 1.5rem; --padding-x: 1.5rem; } .h5 {font-size: 1.5rem; text-transform: uppercase; } .section--padding {padding-block-end: 0rem; }}"
@@ -999,8 +1000,8 @@
     "we_stamped_carousel_JX6Df9",
     "custom_content_UpLfPE",
     "image_with_text_overlay_HEUATk",
+    "image_with_text_GMFb4h",
     "custom_content_XLeH4V",
-    "multicolumn_dGdzNX",
-    "image_with_text_GMFb4h"
+    "multicolumn_dGdzNX"
   ]
 }
