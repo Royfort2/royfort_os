@@ -60,11 +60,38 @@
         "divider_width": "fixed",
         "custom_class": ""
       }
+    },
+    "17782337273725eeb9": {
+      "type": "apps",
+      "blocks": {
+        "stamped_reviews_main_widget_PK7eYn": {
+          "type": "shopify://apps/stamped-reviews/blocks/main-widget/a103faaf-2125-4b0e-89fa-de5149736723",
+          "settings": {
+            "animation": true,
+            "tags_exclude": "",
+            "tags_include": "",
+            "search": "",
+            "linkify": true,
+            "use_metafields": false,
+            "sku_tagtype": "sku"
+          }
+        }
+      },
+      "block_order": [
+        "stamped_reviews_main_widget_PK7eYn"
+      ],
+      "settings": {
+        "include_margins": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "custom_class": ""
+      }
     }
   },
   "order": [
     "main",
     "breadcrumbs_zf9HBa",
-    "rich_text_BqT8nB"
+    "rich_text_BqT8nB",
+    "17782337273725eeb9"
   ]
 }
