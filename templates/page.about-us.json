@@ -58,15 +58,15 @@
         "text_YDJbGh": {
           "type": "text",
           "settings": {
-            "text": "<p>Use this text to share information about your brand with your customers. <br>Describe a product, share announcements, or welcome customers to your store.</p>",
+            "text": "<p>Wir entwickeln hochwertige Produkte für besseren Schlaf und mehr Wohlbefinden im Alltag — gefertigt aus ausgewählten Materialien, mit zeitlosem Design und einem kompromisslosen Anspruch an Qualität.</p>",
             "text_size": "text-base"
           }
         },
         "button_xpEm6k": {
           "type": "button",
           "settings": {
-            "button_label": "Button label",
-            "button_link": "",
+            "button_label": "Unsere Produkte entdecken",
+            "button_link": "shopify://collections",
             "button_style": "btn--underline"
           }
         }
@@ -79,8 +79,8 @@
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
-        "image": "shopify://shop_images/shipping-email-image.jpg",
-        "desktop_height": "extra-large",
+        "image": "shopify://shop_images/Deckenbezuge_Kollektion_Mobil.jpg",
+        "desktop_height": "extra-medium",
         "overlay_opacity": 10,
         "use_custom_overlay": false,
         "custom_overlay": "linear-gradient(201deg, rgba(23, 23, 23, 0.00) 0.08%, rgba(23, 23, 23, 0.75) 100.09%)",
@@ -89,7 +89,8 @@
         "color_scheme": "",
         "content_position": "bottom-left",
         "content_alignment": "left",
-        "mobile_height": "extra-large",
+        "image_mobile": "shopify://shop_images/Featured_Category_Decken_Kissen_small_eac569dd-12a7-4007-a5f7-d06b6965800b.jpg",
+        "mobile_height": "medium",
         "padding_top": 0,
         "padding_bottom": 0,
         "custom_class": ""
@@ -101,14 +102,14 @@
         "image_with_text_jPyYng": {
           "type": "image_with_text",
           "settings": {
-            "image": "shopify://shop_images/Kaschmir_Weiss_2.jpg",
+            "image": "shopify://shop_images/Baumwolle-Kaschmir_Kollektion_Featured_2.jpg",
             "image_badge_color_scheme": "scheme-6",
             "image_badge_text": "",
-            "heading": "Talk about your brand",
+            "heading": "Schlaf neu gedacht. Qualität neu definiert.",
             "heading_size": "h1",
             "heading_highlight_style": "none",
             "subheading": "",
-            "description": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>",
+            "description": "<p>Wir glauben, dass guter Schlaf die Grundlage für mehr Wohlbefinden, Ruhe und Lebensqualität ist. Deshalb entwickelt Royfort hochwertige Produkte für das Schlafzimmer und Zuhause, die Komfort, zeitloses Design und ausgewählte Naturmaterialien vereinen.</p><p><br/></p><p>Von Bettwäsche und Handtüchern bis hin zu Matratzen und Betten entsteht jedes Produkt mit dem Anspruch, Menschen dabei zu unterstützen, besser zu schlafen und sich zuhause rundum wohlzufühlen. Dabei stehen langlebige Qualität, ehrliche Materialien und eine reduzierte, moderne Ästhetik im Mittelpunkt.</p><p><br/></p><p>Gemeinsam mit erfahrenen Manufakturen in Europa schaffen wir Produkte, die durch ihre Verarbeitung, Haptik und Alltagstauglichkeit überzeugen — und Schlaf zu einem bewussten Teil eines besseren Lebens machen.</p>",
             "text_size": "text-base",
             "button_label": "",
             "button_link": "",
