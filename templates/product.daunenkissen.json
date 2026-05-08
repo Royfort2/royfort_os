@@ -461,6 +461,7 @@
         "column_GkMF3a",
         "column_Y6Ptaj"
       ],
+      "disabled": true,
       "name": "t:sections.multicolumn.presets.name",
       "settings": {
         "color_scheme": "",
