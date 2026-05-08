@@ -118,7 +118,7 @@
           "type": "button",
           "settings": {
             "button_label": "Retouren & Umtausch",
-            "button_link": "",
+            "button_link": "shopify://pages/retouren-umtausch",
             "button_style": "btn--underline"
           }
         }
