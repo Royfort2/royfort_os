@@ -82,6 +82,8 @@
         "image": "shopify://shop_images/shipping-email-image.jpg",
         "desktop_height": "extra-large",
         "overlay_opacity": 10,
+        "use_custom_overlay": false,
+        "custom_overlay": "linear-gradient(201deg, rgba(23, 23, 23, 0.00) 0.08%, rgba(23, 23, 23, 0.75) 100.09%)",
         "enable_parallax": false,
         "parallax_direction": "vertical",
         "color_scheme": "",
@@ -150,6 +152,11 @@
           "settings": {
             "show_image": true,
             "image": "shopify://shop_images/Website_Images_Template.jpg",
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
             "image_width": "full",
             "title": "Column",
             "heading_size": "h4",
@@ -166,6 +173,11 @@
           "settings": {
             "show_image": true,
             "image": "shopify://shop_images/Website_Images_Template_14.jpg",
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
             "image_width": "full",
             "title": "Column",
             "heading_size": "h4",
@@ -182,6 +194,11 @@
           "settings": {
             "show_image": true,
             "image": "shopify://shop_images/Website_Images_Template_6.jpg",
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
             "image_width": "full",
             "title": "Column",
             "heading_size": "h4",
@@ -232,7 +249,7 @@
             "heading": "Kundenservice",
             "heading_size": "h2",
             "subheading": "",
-            "description": "<p><strong>E-Mail:<br/></strong>service@royfort.de</p><p><strong>Telefon:<br/></strong>+49 / (0) 30 2332 7430*</p><p><strong>Öffnungszeiten:</strong><br/>Mo. - Fr.: 09:00 - 13:00 Uhr</p>",
+            "description": "<p><strong>E-Mail:<br/></strong>service@royfort.de</p><p><strong>Telefon:<br/></strong>+49 / (0) 30 2332 7430*</p><p><strong>Öffnungszeiten:</strong><br/>Mo. - Fr.: 09:00 - 14:00 Uhr</p>",
             "button_label": "",
             "button_style": "btn--underline",
             "content_position": "bottom-left",
@@ -402,6 +419,7 @@
         "image_card_TXeG7e",
         "image_card_b73myN"
       ],
+      "disabled": true,
       "custom_css": [
         ".f-grid--row-gap-extra-small {--row-gap: 1rem; --row-gap-mobile: 0rem;}",
         "@media (max-width: 767px) {.card-media--small .content-overlay {--padding-y: 1.5rem; --padding-x: 1.5rem; } .h5 {font-size: 1.5rem; text-transform: uppercase; } .section--padding {padding-block-end: 0rem; }}"
