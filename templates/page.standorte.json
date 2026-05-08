@@ -76,6 +76,11 @@
           "type": "column",
           "settings": {
             "show_image": false,
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
             "image_width": "medium",
             "title": "",
             "heading_size": "h4",
@@ -91,6 +96,11 @@
           "type": "column",
           "settings": {
             "show_image": false,
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
             "image_width": "medium",
             "title": "",
             "heading_size": "h4",
@@ -106,6 +116,11 @@
           "type": "column",
           "settings": {
             "show_image": false,
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
             "image_width": "medium",
             "title": "",
             "heading_size": "h4",
@@ -121,6 +136,11 @@
           "type": "column",
           "settings": {
             "show_image": false,
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
             "image_width": "medium",
             "title": "",
             "heading_size": "h4",
@@ -131,13 +151,55 @@
             "button_link": "#stuttgart",
             "mobile_layout": "inherit"
           }
+        },
+        "column_jgN7nH": {
+          "type": "column",
+          "settings": {
+            "show_image": false,
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
+            "image_width": "medium",
+            "title": "",
+            "heading_size": "h4",
+            "text": "",
+            "text_size": "text-base",
+            "button_label": "Düsseldorf",
+            "button_style": "btn--secondary",
+            "button_link": "#Düsseldorf",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_MJzziw": {
+          "type": "column",
+          "settings": {
+            "show_image": false,
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
+            "image_width": "medium",
+            "title": "",
+            "heading_size": "h4",
+            "text": "",
+            "text_size": "text-base",
+            "button_label": "Frankfurt",
+            "button_style": "btn--secondary",
+            "button_link": "#Frankfurt",
+            "mobile_layout": "inherit"
+          }
         }
       },
       "block_order": [
         "column_Ut7Bqg",
         "column_TeCLjw",
         "column_PK3x9D",
-        "column_JWKYUE"
+        "column_JWKYUE",
+        "column_jgN7nH",
+        "column_MJzziw"
       ],
       "name": "t:sections.multicolumn.presets.name",
       "settings": {
@@ -149,10 +211,10 @@
         "description": "",
         "text_size": "text-base",
         "column_alignment": "center",
-        "columns_desktop": 4,
+        "columns_desktop": 6,
         "column_gap": "extra-small",
-        "columns_mobile": "2",
-        "swipe_on_mobile": false,
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
         "padding_top": 50,
         "padding_bottom": 50,
         "show_section_divider": false,
@@ -337,6 +399,11 @@
           "settings": {
             "show_image": true,
             "image": "shopify://shop_images/royfort-kadewe-10.jpg",
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
             "image_width": "full",
             "title": "",
             "heading_size": "h4",
@@ -353,6 +420,11 @@
           "settings": {
             "show_image": true,
             "image": "shopify://shop_images/royfort-kadewe-2_1.jpg",
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
             "image_width": "full",
             "title": "",
             "heading_size": "h4",
@@ -369,6 +441,11 @@
           "settings": {
             "show_image": true,
             "image": "shopify://shop_images/2024.10.24_Royfort_x_KaDeWe_Motiv_01_0098.jpg",
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
             "image_width": "full",
             "title": "",
             "heading_size": "h4",
@@ -385,6 +462,11 @@
           "settings": {
             "show_image": true,
             "image": "shopify://shop_images/2024.10.24_Royfort_x_KaDeWe_Motiv_01_0112.jpg",
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
             "image_width": "full",
             "title": "",
             "heading_size": "h4",
@@ -401,6 +483,11 @@
           "settings": {
             "show_image": true,
             "image": "shopify://shop_images/2024.10.24_Royfort_x_KaDeWe_Motiv_01_0058.jpg",
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
             "image_width": "full",
             "title": "",
             "heading_size": "h4",
