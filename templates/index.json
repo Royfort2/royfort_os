@@ -207,7 +207,7 @@
           "type": "collections",
           "settings": {
             "collection_list": [
-              "all"
+              "bestseller"
             ],
             "hide_collection_name": true,
             "button_label": "",
@@ -514,7 +514,7 @@
           "type": "collections",
           "settings": {
             "collection_list": [
-              "all"
+              "neuheiten"
             ],
             "hide_collection_name": true,
             "button_label": "",
