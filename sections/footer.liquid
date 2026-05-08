@@ -302,12 +302,6 @@
             {%- endif -%}
           </div>
         {% endif %}
-        <div class="footer__bottom-row flex justify-between items-center">
-          <div class="footer__copyright">
-            <p class="footer__copyright-content">
-              &copy; {{ 'now' | date: '%Y' }}
-              <a class="link-underline" href="{{ routes.root_url }}">{{ shop.name }}</a>.
-              <span>{{ powered_by_link }}</span>
             </p>
 
             {%- if shop.features.follow_on_shop? and section.settings.enable_follow_on_shop -%}
