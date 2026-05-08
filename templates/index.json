@@ -926,6 +926,65 @@
         "divider_width": "fixed",
         "custom_class": ""
       }
+    },
+    "image_with_text_GMFb4h": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_qXTYeM": {
+          "type": "heading",
+          "settings": {
+            "heading": "Unsere Standorte",
+            "heading_size": "hd1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_pCVkBM": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Erleben Sie Royfort persönlich an unseren Standorten in Berlin, Hamburg und München – entdecken Sie ausgewählte Bettwäsche, Matratzen und Betten und lassen Sie sich individuell zu Ihrem perfekten Schlafkomfort beraten.</p>",
+            "text_size": "text-base",
+            "truncate_on_mobile": false,
+            "truncate_on_mobile_lines": 3,
+            "truncate_trigger_text": "Mehr lesen",
+            "truncate_collapse_text": "Weniger"
+          }
+        },
+        "button_mhNxMY": {
+          "type": "button",
+          "settings": {
+            "button_label": "Alle Standorte entdecken",
+            "button_link": "shopify://pages/unsere-standorte",
+            "button_style": "btn--primary"
+          }
+        }
+      },
+      "block_order": [
+        "heading_qXTYeM",
+        "text_pCVkBM",
+        "button_mhNxMY"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "is_full_width": false,
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "image": "shopify://shop_images/royfort-kadewe-12.jpg",
+        "image_height": "adapt",
+        "layout": "image_first",
+        "desktop_content_position": "center",
+        "desktop_content_alignment": "left",
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "mobile_content_alignment": "left",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "different_mobile_padding": false,
+        "padding_top_mobile": 30,
+        "padding_bottom_mobile": 30,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
     }
   },
   "order": [
@@ -941,6 +1000,7 @@
     "custom_content_UpLfPE",
     "image_with_text_overlay_HEUATk",
     "custom_content_XLeH4V",
-    "multicolumn_dGdzNX"
+    "multicolumn_dGdzNX",
+    "image_with_text_GMFb4h"
   ]
 }
