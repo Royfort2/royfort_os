@@ -159,9 +159,9 @@
             "video_muted": true,
             "video_controls": true,
             "image_width": "full",
-            "title": "Column",
+            "title": "Qualität",
             "heading_size": "h4",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "text": "<p>Ausgewählte Naturmaterialien, präzise Verarbeitung und zeitloses Design bilden die Grundlage jedes Royfort Produkts.</p>",
             "text_size": "text-base",
             "button_label": "",
             "button_style": "btn--underline",
@@ -180,9 +180,9 @@
             "video_muted": true,
             "video_controls": true,
             "image_width": "full",
-            "title": "Column",
+            "title": "Komfort",
             "heading_size": "h4",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "text": "<p>Unsere Produkte sind dafür entwickelt, Ruhe, Geborgenheit und echten Komfort im Alltag spürbar zu machen.</p>",
             "text_size": "text-base",
             "button_label": "",
             "button_style": "btn--underline",
@@ -201,9 +201,9 @@
             "video_muted": true,
             "video_controls": true,
             "image_width": "full",
-            "title": "Column",
+            "title": "Schlafkultur",
             "heading_size": "h4",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "text": "<p>Wir glauben, dass besserer Schlaf das Wohlbefinden nachhaltig beeinflusst – und Zuhause zu einem Ort echter Erholung macht.</p>",
             "text_size": "text-base",
             "button_label": "",
             "button_style": "btn--underline",
@@ -285,6 +285,7 @@
       "blocks": {
         "heading_HEPBeX": {
           "type": "heading",
+          "disabled": true,
           "settings": {
             "heading": "Video hero",
             "heading_size": "h1",
@@ -293,6 +294,7 @@
         },
         "text_xK4cxy": {
           "type": "text",
+          "disabled": true,
           "settings": {
             "text": "<p>Use this text to share information about your brand with your customers. <br/>Describe a product, share announcements, or welcome customers to your store.</p>",
             "text_size": "text-base"
@@ -300,6 +302,7 @@
         },
         "button_BLNVhF": {
           "type": "button",
+          "disabled": true,
           "settings": {
             "button_label": "Button label",
             "button_link": "",
