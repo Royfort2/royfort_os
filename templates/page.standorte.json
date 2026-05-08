@@ -335,7 +335,7 @@
         "location_pgbn4z": {
           "type": "location",
           "settings": {
-            "location_id": "stuttgart",
+            "location_id": "frankfurt",
             "show_image": true,
             "image": "shopify://shop_images/4_6b186b55-eda7-451c-a063-216d7ec35057.jpg",
             "image_width": 480,
@@ -355,7 +355,7 @@
         "location_DzXM67": {
           "type": "location",
           "settings": {
-            "location_id": "stuttgart",
+            "location_id": "düsseldorf",
             "show_image": true,
             "image": "shopify://shop_images/New_Website_Images.jpg",
             "image_width": 480,
