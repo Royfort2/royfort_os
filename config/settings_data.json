@@ -322,7 +322,33 @@
           "product_price_sale": "#d63a2f"
         }
       }
-    }
+    },
+    "blocks": {
+      "17785061580284261147": {
+        "type": "shopify://apps/swym-relay/blocks/wishlist-app-embed/80c3b1fc-3a8f-407e-8367-ffdeebb8b612",
+        "disabled": false,
+        "settings": {
+          "show_ui": true,
+          "storefront_layout_enabled": false,
+          "storefront_layout_primary_bg_color": "#000000",
+          "storefront_layout_primary_text_color": "#ffffff",
+          "storefront_layout_secondary_bg_color": "#F4F8FE",
+          "storefront_layout_secondary_text_color": "#333333",
+          "storefront_layout_ui_border_radius": 6,
+          "storefront_layout_notification_position": "left",
+          "storefront_layout_action_popup_position": "left",
+          "storefront_layout_drawer_position": "left",
+          "storefront_layout_as_section_page": ""
+        }
+      },
+      "17785061580295267099": {
+        "type": "shopify://apps/swym-relay/blocks/storefront-ui-elements/80c3b1fc-3a8f-407e-8367-ffdeebb8b612",
+        "disabled": false,
+        "settings": {}
+      }
+    },
+    "swym_advanced_collections_wishlist_enabled": true,
+    "swym_header_icon_enabled": false
   },
   "installed_preset_name": "Modiva",
   "presets": {
