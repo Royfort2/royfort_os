@@ -35,6 +35,7 @@
         },
         "navigation_dyfBRC": {
           "type": "navigation",
+          "disabled": true,
           "settings": {}
         }
       },
@@ -57,9 +58,47 @@
         "show_button": true,
         "comments_heading_size": "h1"
       }
+    },
+    "featured_collection_TFA7GD": {
+      "type": "featured-collection",
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "header_layout": "vertical",
+        "heading": "Beliebte Produkte",
+        "heading_size": "h1",
+        "heading_styling": "body",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "show_collection_description": false,
+        "collection": "bestseller",
+        "limit": 8,
+        "columns": 4,
+        "column_gap": "medium",
+        "row_gap": "inherit",
+        "grid_layout": "standard",
+        "enable_slider": true,
+        "controls_position": "inside",
+        "pcard_use_swiper": true,
+        "show_reviews": true,
+        "pcard_image_ratio": "",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "show_all_button_on_top": false,
+        "button_label": "",
+        "button_style": "btn--primary",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "featured_collection_TFA7GD"
   ]
 }
