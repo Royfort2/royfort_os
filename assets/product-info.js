@@ -476,37 +476,51 @@ if (!customElements.get('product-info')) {
         const productMedia = this.querySelector(`[id^="MediaGallery-${this.dataset.section}"]`);
         if (!productMedia) return;
 
-        const colorIdx = parseInt(productMedia.dataset?.colorOptionIndex, 10) || 0;
-        if (colorIdx < 1) return;
+        const mainBundleColorIdx = parseInt(productMedia.dataset?.colorOptionIndex, 10) || 0;
+        if (mainBundleColorIdx < 1) return;
 
         const lineColorPos = parseInt(variantSelectsEl.dataset?.lineColorOptionPosition, 10) || 0;
+        const selected = this._getSelectedOptionValuesFromVariantSelects(variantSelectsEl);
+
+        /** Color from first set picker: indices follow line product option order (Liquid `option.position` is 1-based). */
         let colorValue = '';
-        const rawSv = variantSelectsEl.querySelector('[data-selected-variant]')?.textContent?.trim();
-        let lineVariant = null;
-        if (rawSv) {
-          try {
-            lineVariant = JSON.parse(rawSv);
-          } catch {
-            lineVariant = null;
+        if (lineColorPos > 0) {
+          const fromDom = selected[lineColorPos - 1];
+          if (fromDom != null && String(fromDom).trim() !== '') {
+            colorValue = String(fromDom).trim();
           }
         }
-        if (lineVariant && lineColorPos > 0) {
-          const lv = lineVariant[`option${lineColorPos}`];
-          if (lv != null && String(lv).trim() !== '') {
-            colorValue = String(lv).trim();
-          }
-        }
+
+        /** `data-selected-variant` can lag behind checked radios until the section response swaps HTML. */
         if (!colorValue) {
-          const selected = this._getSelectedOptionValuesFromVariantSelects(variantSelectsEl);
-          const cv = selected[colorIdx - 1];
-          if (cv == null || String(cv).trim() === '') return;
-          colorValue = String(cv).trim();
+          const rawSv = variantSelectsEl.querySelector('[data-selected-variant]')?.textContent?.trim();
+          if (rawSv && lineColorPos > 0) {
+            try {
+              const lineVariant = JSON.parse(rawSv);
+              const lv = lineVariant?.[`option${lineColorPos}`];
+              if (lv != null && String(lv).trim() !== '') {
+                colorValue = String(lv).trim();
+              }
+            } catch {
+              /* ignore */
+            }
+          }
         }
+
+        /** No swatch trigger match on the line picker: fragile fallback if option order mirrors the bundle product. */
+        if (!colorValue && mainBundleColorIdx > 0) {
+          const cv = selected[mainBundleColorIdx - 1];
+          if (cv != null && String(cv).trim() !== '') {
+            colorValue = String(cv).trim();
+          }
+        }
+
+        if (!colorValue) return;
 
         const variants = this._getMainProductVariantsFromDom();
         if (!variants?.length) return;
 
-        const key = `option${colorIdx}`;
+        const key = `option${mainBundleColorIdx}`;
         const norm = (s) => this.normOptionValue(s);
         const want = norm(colorValue);
         const match = (v) => norm(v[key]) === want;
@@ -751,6 +765,16 @@ if (!customElements.get('product-info')) {
               }
               if (typeof window.syncProductSetPickerCards === 'function') {
                 window.syncProductSetPickerCards();
+              }
+              if (this._isPdpSetBundleForm()) {
+                const fid = this._getPdpSetFirstSetProductId();
+                if (fid) {
+                  const sid = this.dataset?.section || this.sectionId;
+                  const vsFirst = sid
+                    ? document.getElementById(`variant-selects-${sid}-${fid}`)
+                    : null;
+                  if (vsFirst) this.syncMainMediaGalleryFromFirstSetPicker(vsFirst);
+                }
               }
               const revealAfterInit =
                 shouldRevealQty ||

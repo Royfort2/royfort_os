@@ -86,12 +86,8 @@
         endif
         assign alt_key_fc = preview_mf.alt | default: '' | downcase | strip
         assign alt_matches_fc = false
-        if alt_key_fc != blank and color_key_fc != blank
-          if alt_key_fc == color_key_fc
-            assign alt_matches_fc = true
-          elsif alt_key_fc contains color_key_fc or color_key_fc contains alt_key_fc
-            assign alt_matches_fc = true
-          endif
+        if alt_key_fc != blank and color_key_fc != blank and alt_key_fc == color_key_fc
+          assign alt_matches_fc = true
         endif
         if alt_matches_fc
           if mf_pick_count == 0

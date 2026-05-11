@@ -29,12 +29,8 @@
         endif
         assign alt_key = preview.alt | default: '' | downcase | strip
         assign alt_matches = false
-        if alt_key != blank and color_key != blank
-          if alt_key == color_key
-            assign alt_matches = true
-          elsif alt_key contains color_key or color_key contains alt_key
-            assign alt_matches = true
-          endif
+        if alt_key != blank and color_key != blank and alt_key == color_key
+          assign alt_matches = true
         endif
       -%}
       {%- if alt_matches -%}
