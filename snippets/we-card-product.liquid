@@ -104,22 +104,29 @@
       endfor
     endif
     if mf_pick_count == 0
-      assign mf_fb0 = we_mf_temp_media[0]
-      if mf_fb0.preview_image != blank
-        assign mf_fb0 = mf_fb0.preview_image
-      endif
-      assign mf_pick_0 = mf_fb0
-      if we_mf_temp_media.size > 1
-        assign mf_fb1 = we_mf_temp_media[1]
-        if mf_fb1.preview_image != blank
-          assign mf_fb1 = mf_fb1.preview_image
+      for media_item in we_mf_temp_media
+        assign preview_fb = media_item
+        if media_item.preview_image != blank
+          assign preview_fb = media_item.preview_image
         endif
-        assign mf_pick_1 = mf_fb1
-      endif
+        if mf_pick_0 == blank
+          assign mf_pick_0 = preview_fb
+        elsif mf_pick_1 == blank and preview_fb != mf_pick_0
+          assign mf_pick_1 = preview_fb
+          break
+        endif
+      endfor
     endif
     assign featured_media = mf_pick_0
     assign first_media_type = 'image'
   else
+    assign first_media_type = product.featured_media.media_type
+    assign featured_media = product.featured_media
+    if first_media_type == 'model' or first_media_type == 'video'
+      assign featured_media = product.featured_media.preview_image
+    endif
+  endif
+  if we_use_mf_pcard and featured_media == blank
     assign first_media_type = product.featured_media.media_type
     assign featured_media = product.featured_media
     if first_media_type == 'model' or first_media_type == 'video'
@@ -450,14 +457,15 @@
           <motion-element data-motion="zoom-out-sm" class="block">
             {%- if featured_media -%}
               {%- unless first_media_type == 'video' or first_media_type == 'external_video' -%}
+                {%- assign fm_w = featured_media.width | default: 2000 -%}
                 <div
                   class="media-wrapper product-card__image product-card__image--main"
                   style="--aspect-ratio: {{ image_ratio }}"
                 >
-                  {%- assign first_image_widths = image_widths | append: ', ' | append: featured_media.width -%}
+                  {%- assign first_image_widths = image_widths | append: ', ' | append: fm_w -%}
                   {{
                     featured_media
-                    | image_url: width: featured_media.width
+                    | image_url: width: fm_w
                     | image_tag:
                       loading: loading,
                       fetchpriority: fetchpriority,
@@ -468,14 +476,15 @@
                   }}
                 </div>
                 {%- unless second_image == blank -%}
+                  {%- assign second_w = second_image.width | default: 2000 -%}
                   <div
                     class="media-wrapper product-card__image product-card__image--second inset-full hidden md:block"
                     style="--aspect-ratio: {{ image_ratio }}"
                   >
-                    {%- assign second_image_widths = image_widths | append: ', ' | append: second_image.width -%}
+                    {%- assign second_image_widths = image_widths | append: ', ' | append: second_w -%}
                     {{
                       second_image
-                      | image_url: width: second_image.width
+                      | image_url: width: second_w
                       | image_tag:
                         loading: 'lazy',
                         class: 'motion-reduce',

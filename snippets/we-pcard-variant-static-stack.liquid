@@ -16,12 +16,12 @@
   if settings.use_metafield_media and we_mf_temp_media != blank and we_mf_temp_media.size > 0
     assign we_mf_static_stack = true
   endif
+  assign mf_main = blank
+  assign mf_second = blank
 -%}
 {%- if we_mf_static_stack -%}
   {%- liquid
     assign color_key = variant_color_name | default: '' | downcase | strip
-    assign mf_main = blank
-    assign mf_second = blank
   -%}
   {%- if color_key != blank -%}
     {%- for media_item in we_mf_temp_media -%}
@@ -53,47 +53,51 @@
     {%- endfor -%}
   {%- endif -%}
   {%- if mf_main == blank -%}
-    {%- assign mf_fb0 = we_mf_temp_media[0] -%}
-    {%- if mf_fb0.preview_image != blank -%}
-      {%- assign mf_fb0 = mf_fb0.preview_image -%}
-    {%- endif -%}
-    {%- assign mf_main = mf_fb0 -%}
-    {%- if we_mf_temp_media.size > 1 -%}
-      {%- assign mf_fb1 = we_mf_temp_media[1] -%}
-      {%- if mf_fb1.preview_image != blank -%}
-        {%- assign mf_fb1 = mf_fb1.preview_image -%}
+    {%- for media_item in we_mf_temp_media -%}
+      {%- liquid
+        assign preview_fb = media_item
+        if media_item.preview_image != blank
+          assign preview_fb = media_item.preview_image
+        endif
+      -%}
+      {%- if mf_main == blank -%}
+        {%- assign mf_main = preview_fb -%}
+      {%- elsif mf_second == blank and preview_fb != mf_main -%}
+        {%- assign mf_second = preview_fb -%}
+        {%- break -%}
       {%- endif -%}
-      {%- assign mf_second = mf_fb1 -%}
-    {%- endif -%}
+    {%- endfor -%}
   {%- endif -%}
-  {%- if mf_main != blank -%}
-    {%- assign slide_widths = image_widths | append: ', ' | append: mf_main.width -%}
-    <div
-      class="media-wrapper product-card__image product-card__image--main"
-      style="--aspect-ratio: {{ image_ratio }}"
-    >
-      {{
-        mf_main
-        | image_url: width: mf_main.width
-        | image_tag:
-          loading: loading,
-          fetchpriority: fetchpriority,
-          class: 'motion-reduce',
-          widths: slide_widths,
-          sizes: image_sizes,
-          is: 'image-lazy'
-      }}
-    </div>
-  {%- endif -%}
+{%- endif -%}
+{%- if we_mf_static_stack and mf_main != blank -%}
+  {%- assign mf_w_main = mf_main.width | default: 2000 -%}
+  {%- assign slide_widths = image_widths | append: ', ' | append: mf_w_main -%}
+  <div
+    class="media-wrapper product-card__image product-card__image--main"
+    style="--aspect-ratio: {{ image_ratio }}"
+  >
+    {{
+      mf_main
+      | image_url: width: mf_w_main
+      | image_tag:
+        loading: loading,
+        fetchpriority: fetchpriority,
+        class: 'motion-reduce',
+        widths: slide_widths,
+        sizes: image_sizes,
+        is: 'image-lazy'
+    }}
+  </div>
   {%- if we_pcard_append_second and mf_second != blank -%}
-    {%- assign slide_widths2 = image_widths | append: ', ' | append: mf_second.width -%}
+    {%- assign mf_w_second = mf_second.width | default: 2000 -%}
+    {%- assign slide_widths2 = image_widths | append: ', ' | append: mf_w_second -%}
     <div
       class="media-wrapper product-card__image product-card__image--second inset-full hidden md:block"
       style="--aspect-ratio: {{ image_ratio }}"
     >
       {{
         mf_second
-        | image_url: width: mf_second.width
+        | image_url: width: mf_w_second
         | image_tag:
           loading: loading,
           fetchpriority: fetchpriority,
