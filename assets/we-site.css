@@ -180,6 +180,23 @@
     media-gallery[data-we-gallery-overflow]:not(.we-media-gallery--expanded) .product__media-zoom:after {
         z-index: 1;
     }
+
+    /*
+     * Clicks hit the thumbnail beneath the nearly-transparent backdrop (img / motion-element), so
+     * closest(.overflow-hit) never matches and expand does nothing — disable siblings’ hit-testing
+     * when the collapsed +N overlay is present.
+     */
+    media-gallery[data-we-gallery-overflow]:not(.we-media-gallery--expanded)
+        .product__media-item:has(.we-media-gallery__overflow-stack)
+        .product__media-container > :not(.we-media-gallery__overflow-stack) {
+        pointer-events: none;
+    }
+
+    media-gallery[data-we-gallery-overflow]:not(.we-media-gallery--expanded)
+        .product__media-item:has(.we-media-gallery__overflow-stack)
+        .we-media-gallery__overflow-stack {
+        pointer-events: auto;
+    }
 }
 
 @keyframes we-media-gallery-overflow-reveal {

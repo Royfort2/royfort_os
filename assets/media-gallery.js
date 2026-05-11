@@ -1099,7 +1099,11 @@ if (!customElements.get('media-gallery')) {
           return a.dataset.mediaIndex - b.dataset.mediaIndex;
         });
 
-        let target = newMedias.find((m) => String(m.dataset.mediaId) === String(variant.featured_media.id));
+        const featuredId = variant?.featured_media?.id;
+        let target =
+          featuredId != null
+            ? newMedias.find((m) => String(m.dataset.mediaId) === String(featuredId))
+            : null;
         if (target?.classList.contains('product__media-item--color-hidden')) {
           target = newMedias.find((m) => !m.classList.contains('product__media-item--color-hidden'));
         }
