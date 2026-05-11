@@ -31,7 +31,7 @@
           "type": "button",
           "settings": {
             "button_label": "Jetzt entdecken",
-            "button_link": "shopify://collections",
+            "button_link": "shopify://collections/all",
             "button_style": "btn--underline"
           }
         }
@@ -810,72 +810,6 @@
         "custom_class": ""
       }
     },
-    "image_with_text_GMFb4h": {
-      "type": "image-with-text",
-      "blocks": {
-        "subheading_PhNeGN": {
-          "type": "subheading",
-          "settings": {
-            "subheading": "KaDeWe | Alsterhaus | Breuninger"
-          }
-        },
-        "heading_qXTYeM": {
-          "type": "heading",
-          "settings": {
-            "heading": "Standorte",
-            "heading_size": "hd1",
-            "heading_highlight_style": "none"
-          }
-        },
-        "text_pCVkBM": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Erleben Sie Royfort persönlich an unseren Standorten in Berlin, Hamburg, München, Stuttgart, Frankfurt und Düsseldorf – entdecken Sie ausgewählte Bettwäsche, Matratzen und Betten und lassen Sie sich individuell zu Ihrem perfekten Schlafkomfort beraten.</p>",
-            "text_size": "text-base",
-            "truncate_on_mobile": false,
-            "truncate_on_mobile_lines": 3,
-            "truncate_trigger_text": "Mehr lesen",
-            "truncate_collapse_text": "Weniger"
-          }
-        },
-        "button_mhNxMY": {
-          "type": "button",
-          "settings": {
-            "button_label": "Alle Standorte entdecken",
-            "button_link": "shopify://pages/unsere-standorte",
-            "button_style": "btn--primary"
-          }
-        }
-      },
-      "block_order": [
-        "subheading_PhNeGN",
-        "heading_qXTYeM",
-        "text_pCVkBM",
-        "button_mhNxMY"
-      ],
-      "name": "t:sections.image-with-text.presets.name",
-      "settings": {
-        "is_full_width": false,
-        "section_color_scheme": "",
-        "color_scheme": "",
-        "image": "shopify://shop_images/royfort-kadewe-12.jpg",
-        "image_height": "adapt",
-        "layout": "image_first",
-        "desktop_content_position": "center",
-        "desktop_content_alignment": "left",
-        "enable_parallax": false,
-        "parallax_direction": "vertical",
-        "mobile_content_alignment": "left",
-        "padding_top": 50,
-        "padding_bottom": 50,
-        "different_mobile_padding": false,
-        "padding_top_mobile": 30,
-        "padding_bottom_mobile": 30,
-        "show_section_divider": false,
-        "divider_width": "fixed",
-        "custom_class": ""
-      }
-    },
     "custom_content_XLeH4V": {
       "type": "custom-content",
       "blocks": {
@@ -1077,6 +1011,72 @@
         "swipe_on_mobile": true,
         "padding_top": 0,
         "padding_bottom": 0,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "image_with_text_GMFb4h": {
+      "type": "image-with-text",
+      "blocks": {
+        "subheading_PhNeGN": {
+          "type": "subheading",
+          "settings": {
+            "subheading": "KaDeWe | Alsterhaus | Breuninger"
+          }
+        },
+        "heading_qXTYeM": {
+          "type": "heading",
+          "settings": {
+            "heading": "Standorte",
+            "heading_size": "hd1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_pCVkBM": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Erleben Sie Royfort persönlich an unseren Standorten in Berlin, Hamburg, München, Stuttgart, Frankfurt und Düsseldorf – entdecken Sie ausgewählte Bettwäsche, Matratzen und Betten und lassen Sie sich individuell zu Ihrem perfekten Schlafkomfort beraten.</p>",
+            "text_size": "text-base",
+            "truncate_on_mobile": false,
+            "truncate_on_mobile_lines": 3,
+            "truncate_trigger_text": "Mehr lesen",
+            "truncate_collapse_text": "Weniger"
+          }
+        },
+        "button_mhNxMY": {
+          "type": "button",
+          "settings": {
+            "button_label": "Alle Standorte entdecken",
+            "button_link": "shopify://pages/unsere-standorte",
+            "button_style": "btn--primary"
+          }
+        }
+      },
+      "block_order": [
+        "subheading_PhNeGN",
+        "heading_qXTYeM",
+        "text_pCVkBM",
+        "button_mhNxMY"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "is_full_width": false,
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "image": "shopify://shop_images/royfort-kadewe-12.jpg",
+        "image_height": "adapt",
+        "layout": "image_first",
+        "desktop_content_position": "center",
+        "desktop_content_alignment": "left",
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "mobile_content_alignment": "left",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "different_mobile_padding": false,
+        "padding_top_mobile": 30,
+        "padding_bottom_mobile": 30,
         "show_section_divider": false,
         "divider_width": "fixed",
         "custom_class": ""
