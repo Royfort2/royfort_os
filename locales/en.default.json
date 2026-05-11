@@ -210,7 +210,8 @@
         "image_available": "Image {{ index }} is now available in gallery view",
         "open_media": "Open media {{ index }} in modal",
         "play_model": "Play 3D Viewer",
-        "play_video": "Play video"
+        "play_video": "Play video",
+        "expand_remaining_gallery": "Show {{ count }} more gallery images"
       },
       "quantity": {
         "label": "Quantity",

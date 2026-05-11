@@ -30,6 +30,7 @@ if (!customElements.get('media-gallery')) {
         this.lightbox = null;
         this._lightboxZoomUnsub = null;
         this._onImageTooltipClick = this._onImageTooltipClick.bind(this);
+        this._onOverflowExpandClick = this._onOverflowExpandClick.bind(this);
         /** Set once — product-info calls init() on every variant change; re-running breaks Swiper + listeners. */
         this._galleryInitDone = false;
       }
@@ -63,6 +64,160 @@ if (!customElements.get('media-gallery')) {
         }
 
         this.addEventListener('click', this._onImageTooltipClick);
+        if (this.dataset.weGalleryOverflow === 'true') {
+          this.addEventListener('click', this._onOverflowExpandClick);
+        }
+      }
+
+      _removeOverflowStacks() {
+        this.querySelectorAll('.we-media-gallery__overflow-stack').forEach((stack) => stack.remove());
+      }
+
+      _clearOverflowCollapseClasses() {
+        this.querySelectorAll('.product__media-item.we-media-gallery__overflow-hidden').forEach((el) => {
+          el.classList.remove('we-media-gallery__overflow-hidden');
+        });
+        this.querySelectorAll('.product__thumbs-item.we-media-gallery__thumb-overflow-hidden').forEach((el) => {
+          el.classList.remove('we-media-gallery__thumb-overflow-hidden');
+        });
+      }
+
+      _overflowExpandAria(remainder) {
+        const tpl = (this.dataset.overflowExpandAria || '').trim();
+        if (!tpl) return `Show ${remainder} more gallery images`;
+        return tpl.replace(/\b__N__\b/g, String(remainder));
+      }
+
+      /** Mount/update the sixth-tile (+N) control (desktop grid collapse). */
+      _mountOverflowStack(container, { sliderGalleryId = '', remainder = 2 } = {}) {
+        let stack = container.querySelector('.we-media-gallery__overflow-stack');
+        const aria = this._overflowExpandAria(remainder);
+        if (!stack) {
+          stack = document.createElement('div');
+          stack.className = 'we-media-gallery__overflow-stack';
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'btn--inherit we-media-gallery__overflow-hit focus-inset';
+          btn.setAttribute('aria-expanded', 'false');
+          if (sliderGalleryId) btn.setAttribute('aria-controls', sliderGalleryId);
+          btn.setAttribute('aria-label', aria);
+          const label = document.createElement('span');
+          label.className = 'we-media-gallery__overflow-hit-label';
+          label.setAttribute('aria-hidden', 'true');
+          label.textContent = `+${remainder}`;
+          btn.appendChild(label);
+          stack.appendChild(btn);
+          container.appendChild(stack);
+          return;
+        }
+        const btn = stack.querySelector('.we-media-gallery__overflow-hit');
+        const lbl = stack.querySelector('.we-media-gallery__overflow-hit-label');
+        if (btn) {
+          btn.setAttribute('aria-expanded', 'false');
+          if (sliderGalleryId) btn.setAttribute('aria-controls', sliderGalleryId);
+          btn.setAttribute('aria-label', aria);
+        }
+        if (lbl) lbl.textContent = `+${remainder}`;
+      }
+
+      /**
+       * Desktop grid (+N overlay and folded tail) tracks slides visible after color alt filtering,
+       * ordered as in the DOM (`getVisibleMediaSlides`), not full product.media count.
+       */
+      syncGalleryOverflowState() {
+        if (this.dataset.weGalleryOverflow !== 'true') return;
+
+        if (FoxTheme.config.mqlMobile) {
+          this._removeOverflowStacks();
+          this._clearOverflowCollapseClasses();
+          this.classList.remove('we-media-gallery--expanded');
+          return;
+        }
+
+        const visibleSlides = this.getVisibleMediaSlides();
+        const v = visibleSlides.length;
+        const expanded = this.classList.contains('we-media-gallery--expanded');
+        const sliderGalleryId = this.querySelector('[id^="Slider-Gallery"]')?.id || '';
+
+        if (v <= 6) {
+          this._removeOverflowStacks();
+          this._clearOverflowCollapseClasses();
+          this.classList.remove('we-media-gallery--expanded');
+          this.syncGridMixLayout();
+          return;
+        }
+
+        if (expanded) {
+          /* Full gallery revealed; thumbs must ignore collapse-only hiding rules */
+          this._clearOverflowCollapseClasses();
+          this.syncGridMixLayout();
+          return;
+        }
+
+        const remainder = v - 5;
+        this._clearOverflowCollapseClasses();
+        this._removeOverflowStacks();
+
+        visibleSlides.forEach((slide, idx) => {
+          if (idx >= 6) slide.classList.add('we-media-gallery__overflow-hidden');
+          if (idx === 5) {
+            const container = slide.querySelector('.product__media-container');
+            if (container) {
+              this._mountOverflowStack(container, { sliderGalleryId, remainder });
+            }
+          }
+        });
+
+        const orderIds = visibleSlides.map((s) => String(s.dataset.mediaId));
+        [...this.querySelectorAll('.product__thumbs-item:not(.swiper-slide-duplicate)')].forEach((thumb) => {
+          const ti = orderIds.indexOf(String(thumb.dataset.target));
+          if (ti >= 6) thumb.classList.add('we-media-gallery__thumb-overflow-hidden');
+        });
+
+        this.syncGridMixLayout();
+      }
+
+      /**
+       * Desktop grid: reveal media hidden behind the sixth-tile (+N) overlay (see snippets/product-media-gallery.liquid).
+       */
+      _onOverflowExpandClick(event) {
+        if (this.classList.contains('we-media-gallery--expanded')) return;
+
+        const hit = event.target.closest('.we-media-gallery__overflow-hit');
+        if (!hit || !this.contains(hit)) return;
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        this.classList.add('we-media-gallery--expanded');
+
+        const mainHidden = [
+          ...this.querySelectorAll(
+            '.we-media-gallery__overflow-hidden:not(.swiper-slide-duplicate)'
+          ),
+        ];
+        const thumbHidden = [...this.querySelectorAll('.we-media-gallery__thumb-overflow-hidden')];
+
+        mainHidden.forEach((el, idx) => {
+          el.style.setProperty('--we-overflow-reveal-delay', `${Math.min(idx, 20) * 45}ms`);
+        });
+
+        thumbHidden.forEach((el, idx) => {
+          el.style.setProperty('--we-overflow-reveal-delay', `${Math.min(mainHidden.length + idx, 24) * 45}ms`);
+        });
+
+        this.querySelectorAll('.product__thumbs-item.we-media-gallery__thumb-overflow-hidden').forEach((thumb) =>
+          thumb.classList.remove('we-media-gallery__thumb-overflow-hidden')
+        );
+
+        this.querySelectorAll('.we-media-gallery__overflow-hit').forEach((btn) => {
+          btn.setAttribute('aria-expanded', 'true');
+        });
+
+        this.refreshSwipersAfterFilter();
+        this.syncGridMixLayout();
+
+        window.requestAnimationFrame(() => this._syncSwiperHeightAndImages());
       }
 
       _onImageTooltipClick(event) {
@@ -165,6 +320,7 @@ if (!customElements.get('media-gallery')) {
           }
         }
         this.syncGridMixLayout();
+        this.syncGalleryOverflowState();
       }
 
       initSlider() {
@@ -849,6 +1005,7 @@ if (!customElements.get('media-gallery')) {
       }
 
       clearColorFilter() {
+        this.classList.remove('we-media-gallery--expanded');
         this.querySelectorAll('.product__media-item--color-hidden').forEach((el) => {
           el.classList.remove('product__media-item--color-hidden');
         });
@@ -856,6 +1013,7 @@ if (!customElements.get('media-gallery')) {
           el.classList.remove('product__thumbs-item--color-hidden');
         });
         this.syncGridMixLayout();
+        this.syncGalleryOverflowState();
         requestAnimationFrame(() => this.syncImageTooltips());
       }
 
@@ -896,6 +1054,8 @@ if (!customElements.get('media-gallery')) {
           return;
         }
 
+        this.classList.remove('we-media-gallery--expanded');
+
         const optionKey = `option${colorIdx}`;
         const colorValue = (variant[optionKey] || '').trim();
         if (!colorValue) {
@@ -929,6 +1089,7 @@ if (!customElements.get('media-gallery')) {
         this._ensureMainSwiperNotOnHiddenSlide();
         this.refreshSwipersAfterFilter();
         this.syncGridMixLayout();
+        this.syncGalleryOverflowState();
       }
 
       sortMediaItems(variant) {
@@ -960,6 +1121,7 @@ if (!customElements.get('media-gallery')) {
          */
 
         this.syncGridMixLayout();
+        this.syncGalleryOverflowState();
         requestAnimationFrame(() => this.syncImageTooltips());
       }
     }

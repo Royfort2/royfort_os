@@ -210,7 +210,8 @@
         "image_available": "Bild {{ index }} ist jetzt in der Galerieansicht verfügbar",
         "open_media": "Öffnen Sie das Medium {{ index }} im Modalmodus",
         "play_model": "Spielen Sie 3D Viewer",
-        "play_video": "Video abspielen"
+        "play_video": "Video abspielen",
+        "expand_remaining_gallery": "{{ count }} weitere Galeriebilder anzeigen"
       },
       "quantity": {
         "label": "Menge",

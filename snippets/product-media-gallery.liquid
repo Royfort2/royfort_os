@@ -69,7 +69,22 @@
       assign enable_desktop_slider = true
     endif
   endif
+
+  assign we_gallery_overflow_enabled = false
+  if media_count > 6 and enable_desktop_slider == false and has_only_once_media == false
+    case media_layout
+      when 'grid-mix'
+        assign we_gallery_overflow_enabled = true
+      when 'stacked'
+        assign we_gallery_overflow_enabled = true
+      when 'columns'
+        assign we_gallery_overflow_enabled = true
+    endcase
+  endif
 -%}
+{%- capture we_overflow_expand_aria_tpl -%}
+  {{- 'products.product.media.expand_remaining_gallery' | t: count: '__N__' -}}
+{%- endcapture %}
 <media-gallery
   id="MediaGallery-{{ section.id }}"
   role="region"
@@ -84,6 +99,10 @@
   data-color-option-index="{{ color_option_index }}"
   {% if vertical_thumbs_always %}data-vertical-thumbs-always="true"{% endif %}
   {% if we_use_metafield_gallery %}data-we-metafield-media="true"{% endif %}
+  {% if we_gallery_overflow_enabled %}
+    data-we-gallery-overflow="true"
+    data-overflow-expand-aria="{{ we_overflow_expand_aria_tpl | strip | escape }}"
+  {% endif %}
   style="--media-item-gap: {{ media_item_gap }}px"
 >
   <div id="GalleryStatus-{{ section.id }}" class="visually-hidden" role="status"></div>

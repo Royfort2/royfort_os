@@ -96,6 +96,115 @@
     text-transform: uppercase;
 }
 
+/* PDP gallery: collapse long galleries on desktop (grid layouts only; see snippets/product-media-gallery.liquid data-we-gallery-overflow) */
+.we-media-gallery__overflow-stack {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    display: flex;
+    align-items: stretch;
+}
+
+/* Override .btn--inherit (background-color: inherit) so backdrop-filter can blur the media beneath */
+.we-media-gallery__overflow-hit.we-media-gallery__overflow-hit {
+    cursor: pointer;
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    min-width: 0;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+    border: none;
+    color: rgb(255, 255, 255);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.01);
+    background: rgba(255, 255, 255, 0.01);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    /* Promote composite layer — improves backdrop-filter compositing behind overflow:hidden clipping */
+    transform: translateZ(0);
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.we-media-gallery__overflow-hit-label {
+    position: relative;
+    z-index: 1;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    color: rgb(255, 255, 255);
+    text-shadow: 0 0.06em 0.2em rgba(0, 0, 0, 0.35);
+}
+
+@media (max-width: 767.98px) {
+
+    .we-media-gallery__overflow-stack {
+        display: none;
+    }
+}
+
+@media (min-width: 768px) {
+
+    media-gallery[data-we-gallery-overflow]:not(.we-media-gallery--expanded) .we-media-gallery__thumb-overflow-hidden {
+        display: none !important;
+    }
+
+    media-gallery[data-we-gallery-overflow]:not(.we-media-gallery--expanded) .product__media-item.we-media-gallery__overflow-hidden {
+        display: none !important;
+    }
+
+    media-gallery[data-we-gallery-overflow].we-media-gallery--expanded .product__media-item.we-media-gallery__overflow-hidden {
+        animation-name: we-media-gallery-overflow-reveal;
+        animation-duration: 0.46s;
+        animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
+        animation-delay: var(--we-overflow-reveal-delay, 0ms);
+        animation-fill-mode: backwards;
+    }
+
+    media-gallery[data-we-gallery-overflow].we-media-gallery--expanded .we-media-gallery__thumb-overflow-hidden {
+        animation-name: we-media-gallery-overflow-reveal;
+        animation-duration: 0.46s;
+        animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
+        animation-delay: var(--we-overflow-reveal-delay, 0ms);
+        animation-fill-mode: backwards;
+    }
+
+    media-gallery.we-media-gallery--expanded .we-media-gallery__overflow-stack {
+        display: none;
+    }
+
+    media-gallery[data-we-gallery-overflow]:not(.we-media-gallery--expanded) .product__media-zoom:after {
+        z-index: 1;
+    }
+}
+
+@keyframes we-media-gallery-overflow-reveal {
+
+    from {
+        opacity: 0;
+        transform: translate3d(0, 14px, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    media-gallery[data-we-gallery-overflow].we-media-gallery--expanded .product__media-item.we-media-gallery__overflow-hidden,
+    media-gallery[data-we-gallery-overflow].we-media-gallery--expanded .we-media-gallery__thumb-overflow-hidden {
+        animation-duration: 0.01ms !important;
+        animation-delay: 0ms !important;
+    }
+}
+
 /* PDP gallery: hide media whose alt is not exactly the selected color (case-insensitive); empty alt = all colors */
 .product__media-item--color-hidden,
 .product__thumbs-item--color-hidden {
