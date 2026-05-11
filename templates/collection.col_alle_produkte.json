@@ -156,7 +156,7 @@
       "custom_css": [],
       "settings": {
         "color_scheme": "scheme-1",
-        "products_per_page": 12,
+        "products_per_page": 22,
         "columns_desktop": 4,
         "render_variants": false,
         "grid_layout": "standard",
