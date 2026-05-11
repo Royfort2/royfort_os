@@ -1049,7 +1049,7 @@
           "settings": {
             "button_label": "Alle Standorte entdecken",
             "button_link": "shopify://pages/unsere-standorte",
-            "button_style": "btn--primary"
+            "button_style": "btn--underline"
           }
         }
       },
