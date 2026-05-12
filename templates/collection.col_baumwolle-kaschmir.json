@@ -57,6 +57,7 @@
       "name": "[we] Subcollections",
       "settings": {
         "subcollections": [
+          "kaschmir-kollektion",
           "all",
           "hotelbettwaesche",
           "deckenbezuege",
