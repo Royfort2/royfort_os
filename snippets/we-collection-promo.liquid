@@ -1,5 +1,23 @@
 {%- liquid
   assign s = block.settings
+  assign promo_cs_m = s.col_span_mobile | plus: 0
+  assign promo_cs_d = s.col_span_desktop | plus: 0
+  assign grid_cm = columns_mobile | default: 2
+  assign grid_ctl = columns_tablet_large | default: 4
+  assign grid_cd = columns_desktop | default: 4
+  assign grid_cd_sidebar = grid_cd | plus: 1
+  assign enable_filtering = enable_filtering | default: false
+
+  assign promo_mobile_sm = 'calc((100vw - 38px) / ' | append: grid_cm | append: ' * ' | append: promo_cs_m | append: ')'
+  assign promo_mobile_md = 'calc((100vw - 90px) / ' | append: grid_cm | append: ' * ' | append: promo_cs_m | append: ')'
+  assign promo_sizes_mobile = '(max-width: 767px) ' | append: promo_mobile_sm | append: ', (max-width: 1023px) ' | append: promo_mobile_md | append: ', 1px'
+  if enable_filtering
+    assign promo_desktop_xl = 'calc(' | append: settings.page_width | append: 'px / ' | append: grid_cd_sidebar | append: ' * ' | append: promo_cs_d | append: ')'
+  else
+    assign promo_desktop_xl = 'calc(' | append: settings.page_width | append: 'px / ' | append: grid_cd | append: ' * ' | append: promo_cs_d | append: ')'
+  endif
+  assign promo_desktop_lg = 'calc((100vw - 90px) / ' | append: grid_ctl | append: ' * ' | append: promo_cs_d | append: ')'
+  assign promo_sizes_desktop = '(min-width: 1280px) ' | append: promo_desktop_xl | append: ', (min-width: 1024px) ' | append: promo_desktop_lg | append: ', 1px'
 
   assign m_video = s.video_mobile
   assign m_video_url = s.video_url_mobile
@@ -80,7 +98,7 @@
             {%- if m_video != blank or m_video_url != blank -%}
               <div class="we-collection-promo__media-fill">
                 {%- render 'video',
-                  sizes: image_sizes,
+                  sizes: promo_sizes_mobile,
                   video: m_video,
                   video_url: m_video_url,
                   cover_image: m_image,
@@ -96,12 +114,11 @@
               <div class="we-collection-promo__media-fill">
                 {{
                   m_image
-                  | image_url: width: 2000
+                  | image_url: width: m_image.width
                   | image_tag:
                     loading: 'lazy',
                     class: 'we-collection-promo__cover',
-                    sizes: image_sizes,
-                    widths: '300,400,500,600,700,800,1000,1200,1400,1600,1800,2000',
+                    sizes: promo_sizes_mobile,
                     is: 'image-lazy',
                     alt: m_image.alt
                   | default: s.title
@@ -120,7 +137,7 @@
             {%- if d_video != blank or d_video_url != blank -%}
               <div class="we-collection-promo__media-fill">
                 {%- render 'video',
-                  sizes: image_sizes,
+                  sizes: promo_sizes_desktop,
                   video: d_video,
                   video_url: d_video_url,
                   cover_image: d_image,
@@ -136,12 +153,11 @@
               <div class="we-collection-promo__media-fill">
                 {{
                   d_image
-                  | image_url: width: 2000
+                  | image_url: width: d_image.width
                   | image_tag:
                     loading: 'lazy',
                     class: 'we-collection-promo__cover',
-                    sizes: image_sizes,
-                    widths: '300,400,500,600,700,800,1000,1200,1400,1600,1800,2000',
+                    sizes: promo_sizes_desktop,
                     is: 'image-lazy',
                     alt: d_image.alt
                   | default: s.title

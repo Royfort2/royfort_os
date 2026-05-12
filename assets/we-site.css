@@ -833,15 +833,21 @@ grid-list#ProductsList.products-list {
     gap: 0.8rem;
 }
 
+.we-collection-promo {
+    min-width: 0;
+}
+
 .we-collection-promo__card,
 .we-collection-promo__frame,
 .we-collection-promo__media-layer,
-.we-collection-promo__media-fill,
-.we-collection-promo__media-fill>* {
+.we-collection-promo__media-fill {
     height: 100%;
 }
 
 .we-collection-promo__media-fill>* {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
     object-fit: cover;
 }
 

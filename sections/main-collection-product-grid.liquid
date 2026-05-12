@@ -378,9 +378,12 @@
                   {%- unless is_metro -%}
                     {%- render 'we-collection-promo-grid-slot',
                       section: section,
-                      image_sizes: image_sizes,
                       grid_card_position: grid_card_position,
-                      product_offset: paginate.current_offset
+                      product_offset: paginate.current_offset,
+                      columns_mobile: columns_mobile,
+                      columns_tablet_large: columns_tablet_large,
+                      columns_desktop: columns_desktop,
+                      enable_filtering: enable_filtering
                     -%}
                   {%- endunless -%}
                 {% else %}
@@ -433,9 +436,12 @@
                       {%- assign grid_card_position = grid_card_position | plus: 1 -%}
                       {%- render 'we-collection-promo-grid-slot',
                         section: section,
-                        image_sizes: image_sizes,
                         grid_card_position: grid_card_position,
-                        product_offset: paginate.current_offset
+                        product_offset: paginate.current_offset,
+                        columns_mobile: columns_mobile,
+                        columns_tablet_large: columns_tablet_large,
+                        columns_desktop: columns_desktop,
+                        enable_filtering: enable_filtering
                       -%}
                     {%- else -%}
                       {% assign unique_colors = '' %}
@@ -468,9 +474,12 @@
                         {%- assign grid_card_position = grid_card_position | plus: 1 -%}
                         {%- render 'we-collection-promo-grid-slot',
                           section: section,
-                          image_sizes: image_sizes,
                           grid_card_position: grid_card_position,
-                          product_offset: paginate.current_offset
+                          product_offset: paginate.current_offset,
+                          columns_mobile: columns_mobile,
+                          columns_tablet_large: columns_tablet_large,
+                          columns_desktop: columns_desktop,
+                          enable_filtering: enable_filtering
                         -%}
                       {% endfor %}
                     {%- endif -%}

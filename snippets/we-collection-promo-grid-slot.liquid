@@ -14,7 +14,13 @@
 {%- for block in section.blocks -%}
   {%- if block.type == 'we_promo' and block.settings.order_after == grid_card_position -%}
     {%- if block.settings.order_after > promo_product_offset -%}
-      {%- render 'we-collection-promo', block: block, image_sizes: image_sizes -%}
+      {%- render 'we-collection-promo',
+        block: block,
+        columns_mobile: columns_mobile,
+        columns_tablet_large: columns_tablet_large,
+        columns_desktop: columns_desktop,
+        enable_filtering: enable_filtering
+      -%}
     {%- endif -%}
   {%- endif -%}
 {%- endfor -%}
