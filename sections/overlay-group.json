@@ -15,9 +15,9 @@
       "type": "cart-drawer",
       "settings": {
         "show_cart_note": false,
-        "show_cart_discount": false,
+        "show_cart_discount": true,
         "show_shipping_rates_calculator": false,
-        "show_free_shipping_goal": true,
+        "show_free_shipping_goal": false,
         "enable_cart_recommendations": false,
         "cart_recommendations_heading": "Das könnte Ihnen gefallen",
         "cart_recommendations_limit": 3

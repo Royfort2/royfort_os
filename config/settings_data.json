@@ -74,9 +74,9 @@
     "free_shipping_minimum_amount": "150",
     "cart_empty_message": "<p>Sie wissen nicht, wo Sie anfangen sollen? Probieren Sie diese Kollektionen:</p>",
     "collection_list": [
-      "all-baumwolle",
-      "all-kaschmir",
-      "hotelbettwaesche"
+      "baumwolle-kollektion",
+      "kaschmir-kollektion",
+      "daunendecken-kissen"
     ],
     "share_twitter": false,
     "social_facebook_link": "https://www.facebook.com/DieBesteBettwaesche/",
