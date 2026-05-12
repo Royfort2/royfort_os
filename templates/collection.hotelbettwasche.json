@@ -58,9 +58,11 @@
       "settings": {
         "subcollections": [
           "hotelbettwaesche",
-          "deckenbezuege",
-          "kissenbezuge",
-          "spannbettlaken"
+          "baumwolle-kollektion",
+          "kaschmir-kollektion",
+          "musselin-kollektion",
+          "all-leine",
+          "seiden-kollektion"
         ],
         "background": "#ffffff",
         "opacity": 1,
