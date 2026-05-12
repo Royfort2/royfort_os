@@ -25,12 +25,20 @@
 
   assign motion_delay = 50
 -%}
+
+{% style %}
+  .section--{{ section.id }} .multicolumn-card__image.hover-wrapper video {
+    width: 100%;
+    object-fit: cover;
+  }
+{% endstyle %}
+
 {% render 'divider',
   show_divider: section.settings.show_section_divider,
   divider_width: section.settings.divider_width
 %}
 <div
-  class="section section--padding multicolumn color-{{ section.settings.color_scheme }}{% if section.settings.custom_class != blank %} {{ section.settings.custom_class }}{% endif %}"
+  class="section section--{{ section.id }} section--padding multicolumn color-{{ section.settings.color_scheme }}{% if section.settings.custom_class != blank %} {{ section.settings.custom_class }}{% endif %}"
   style="--section-padding-top: {{ section.settings.padding_top }}px;--section-padding-bottom: {{ section.settings.padding_bottom }}px;"
 >
   <div class="page-width">
