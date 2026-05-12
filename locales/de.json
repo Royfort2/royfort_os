@@ -505,7 +505,7 @@
       "title": "Ihr Warenkorb",
       "caption": "Artikel im Warenkorb",
       "remove_title": "{{ title }} entfernen",
-      "estimated_total": "Geschätzter Gesamtwert",
+      "estimated_total": "Gesamtwert",
       "new_estimated_total": "Neue geschätzte Gesamtsumme",
       "note": "Bestellen Sie spezielle Anweisungen",
       "checkout": "Kasse",
