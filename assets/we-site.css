@@ -15,6 +15,44 @@
     position: relative;
 }
 
+/* Swym Wishlist Plus — hide auto-injected duplicate; cards use `we-card-wishlist-button` + `we-swym-card-wishlist.js`. */
+.product-card .swym-advanced-wishlist-collections-container,
+.product-card--overlay .pcard__media .swym-advanced-wishlist-collections-container {
+    display: none !important;
+}
+
+.we-card-wishlist-wrap {
+    position: absolute;
+    top: 1.2rem;
+    inset-inline-end: 1.2rem;
+    z-index: 6;
+    pointer-events: none;
+}
+
+.we-card-wishlist-wrap .we-card-wishlist-btn {
+    pointer-events: auto;
+}
+
+.we-card-wishlist-btn.we-card-wishlist-btn {
+    color: rgb(var(--color-foreground));
+    border-color: transparent;
+    padding: 0;
+    width: auto;
+    height: auto;
+    border-radius: 0;
+}
+
+.we-card-wishlist-btn svg .we-card-wishlist-heart {
+    fill: transparent;
+    stroke: currentColor;
+    transition: fill 0.15s ease;
+}
+
+.we-card-wishlist-btn[aria-pressed='true'] svg .we-card-wishlist-heart,
+.we-card-wishlist-btn.we-card-wishlist-btn--active svg .we-card-wishlist-heart {
+    fill: currentColor;
+}
+
 /* Opacity fade only while swapping variant slides — do NOT set transition on
    .swiper-wrapper by default or Swiper’s transform-based slide motion is lost. */
 .we-product-card__swiper .swiper-wrapper.we-product-card__slides-fade-out,

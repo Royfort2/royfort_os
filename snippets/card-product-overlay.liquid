@@ -85,24 +85,35 @@
   {%- assign we_plp_nf_badge = we_plp_nf_badge | strip -%}
   <div class="product-card--overlay relative{{ card_wrapper_class }}">
     <div
-      class="pcard__media blocks-radius media-wrapper"
+      class="pcard__media blocks-radius media-wrapper relative"
       style="--aspect-ratio: {{ image_ratio | default: 1 }}"
     >
+      {%- render 'we-card-wishlist-button', product: product, variant: variant -%}
       {%- if product_showcase_video != blank -%}
-        {% render 'video',
-          video: product_showcase_video,
-          muted: true,
-          autoplay: video_autoplay,
-          controls: false,
-          loop: true,
-          cover_image: product_showcase_image,
-          show_play_button: true
-        %}
+        <a
+          href="{{ product_url }}"
+          class="pcard__link focus-inset blocks-radius hover-wrapper we-product-card__media-link block"
+          style="--aspect-ratio: {{ image_ratio | default: 1 }}"
+          aria-label="{{ product.title | escape }}"
+          tabindex="-1"
+        >
+          {% render 'video',
+            video: product_showcase_video,
+            muted: true,
+            autoplay: video_autoplay,
+            controls: false,
+            loop: true,
+            cover_image: product_showcase_image,
+            show_play_button: true
+          %}
+        </a>
       {%- elsif product_showcase_image != blank -%}
         <a
           href="{{ product_url }}"
-          class="pcard__link focus-inset blocks-radius hover-wrapper"
+          class="pcard__link focus-inset blocks-radius hover-wrapper we-product-card__media-link"
           style="--aspect-ratio: {{ image_ratio | default: 1 }}"
+          aria-label="{{ product.title | escape }}"
+          tabindex="-1"
         >
           {{
             product_showcase_image

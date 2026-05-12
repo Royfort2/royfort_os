@@ -25,6 +25,7 @@ if (!customElements.get('we-product-card')) {
 
       connectedCallback() {
         this.mediaLink = this.querySelector('.we-product-card__media-link');
+        this.initialMediaHref = this.mediaLink?.getAttribute('href') || '';
         this.initialVariantId = this.dataset.initialVariantId;
         this.staticMode = this.dataset.static === 'true';
         this.staticInnerEl = this.querySelector('.we-product-card__static-inner');
@@ -126,13 +127,47 @@ if (!customElements.get('we-product-card')) {
         const id = link.dataset.variantId;
         if (!id || id === this.lastPreviewVariantId) return;
         this.lastPreviewVariantId = id;
+        const variantHref = link.href || link.dataset.variantUrl;
+        if (variantHref && this.mediaLink) {
+          this.mediaLink.setAttribute('href', variantHref);
+        }
+        this.syncWishlistButtonFromHref(variantHref);
         this.previewVariant(id);
       }
 
       handleSwatchListLeave() {
         this.lastPreviewVariantId = null;
         this.card?.classList.remove('we-product-card--swatch-preview');
+        if (this.mediaLink && this.initialMediaHref) {
+          this.mediaLink.setAttribute('href', this.initialMediaHref);
+        }
+        this.resetWishlistButtonVariant();
         this.resetToInitialVariant();
+      }
+
+      syncWishlistButtonFromHref(variantHref) {
+        const btn = this.card?.querySelector('[data-we-card-wishlist]');
+        if (!btn || !variantHref) return;
+        try {
+          const u = new URL(variantHref, window.location.origin);
+          const v = u.searchParams.get('variant');
+          if (v) btn.dataset.variantId = v;
+          const qs = v ? `?variant=${encodeURIComponent(v)}` : u.search || '';
+          btn.dataset.du = `${u.pathname}${qs}`;
+        } catch (_) {
+          /* ignore */
+        }
+        window.weRoyfortSwymSyncWishlistButtons?.();
+      }
+
+      resetWishlistButtonVariant() {
+        const btn = this.card?.querySelector('[data-we-card-wishlist]');
+        if (!btn) return;
+        const iv = btn.dataset.initialVariantId;
+        const idu = btn.dataset.initialDu;
+        if (iv) btn.dataset.variantId = iv;
+        if (idu !== undefined) btn.dataset.du = idu;
+        window.weRoyfortSwymSyncWishlistButtons?.();
       }
 
       /**

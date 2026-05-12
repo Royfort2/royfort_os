@@ -90,7 +90,13 @@
 >
   <div class="product-card__wrapper">
     <div class="product-card__image-wrapper product-card__image-wrapper--main-only">
-      <a href="{{ product.url }}" aria-label="{{ product.title | escape }}" tabindex="-1">
+      {%- render 'we-card-wishlist-button', product: product, variant: variant -%}
+      <a
+        href="{{ product_url }}"
+        class="we-product-card__media-link"
+        aria-label="{{ product.title | escape }}"
+        tabindex="-1"
+      >
         {%- if featured_media -%}
           {%- unless featured_media.media_type == 'video' or featured_media.media_type == 'external_video' -%}
             <div

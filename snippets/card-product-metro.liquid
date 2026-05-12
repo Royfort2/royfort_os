@@ -183,7 +183,13 @@
 >
   <div class="product-card__wrapper h-full">
     <div class="product-card__image-wrapper{% if second_image == blank %} product-card__image-wrapper--main-only{% endif %} color-{{ settings.pcard_overlay_color_scheme }} bg-none">
-      <a href="{{ product.url }}" aria-label="{{ product.title | escape }}" tabindex="-1">
+      {%- render 'we-card-wishlist-button', product: product, variant: variant -%}
+      <a
+        href="{{ product_url }}"
+        class="we-product-card__media-link"
+        aria-label="{{ product.title | escape }}"
+        tabindex="-1"
+      >
         <motion-element data-motion="zoom-out-sm" class="block">
           {%- if featured_media -%}
             {%- unless first_media_type == 'video' or first_media_type == 'external_video' -%}

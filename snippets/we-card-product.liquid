@@ -271,6 +271,7 @@
 >
   <div class="product-card__wrapper h-full">
     <div class="product-card__image-wrapper{% if second_image == blank %} product-card__image-wrapper--main-only{% endif %}{% if use_swiper_effective %} we-product-card__image-wrapper--swiper{% endif %} {% if list_on_mobile %}desktop-{% endif %}color-{{ settings.pcard_overlay_color_scheme }} bg-none">
+      {%- render 'we-card-wishlist-button', product: product, variant: swiper_variant -%}
       {%- if use_swiper_effective -%}
         <we-product-card
           class="block w-full we-product-card__host"
@@ -464,7 +465,12 @@
           {%- endfor -%}
         </we-product-card>
       {%- else -%}
-        <a href="{{ product_url }}" aria-label="{{ product_title | escape }}" tabindex="-1">
+        <a
+          href="{{ product_url }}"
+          class="we-product-card__media-link block"
+          aria-label="{{ product_title | escape }}"
+          tabindex="-1"
+        >
           <motion-element data-motion="zoom-out-sm" class="block">
             {%- if featured_media -%}
               {%- unless first_media_type == 'video' or first_media_type == 'external_video' -%}

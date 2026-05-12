@@ -38,6 +38,10 @@
       }
     },
     "continue_shopping": "Continue shopping",
+    "wishlist": {
+      "add_to_wishlist": "Add to wishlist",
+      "remove_from_wishlist": "Remove from wishlist"
+    },
     "pagination": {
       "label": "Pagination",
       "page": "Page {{ number }}",

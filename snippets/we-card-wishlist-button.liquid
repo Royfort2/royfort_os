@@ -1,0 +1,44 @@
+{%- comment -%}
+  Swym Wishlist Plus — heart button on product cards. Loads `we-swym-card-wishlist.js`.
+  @param product {Object}
+  @param variant {Object} optional — defaults to selected_or_first_available_variant
+{%- endcomment -%}
+{%- if product != blank -%}
+  {%- liquid
+    assign wl_variant = variant | default: product.selected_or_first_available_variant
+  -%}
+  {%- if wl_variant != blank -%}
+    {%- liquid
+      assign wl_img = wl_variant.featured_image | default: product.featured_image
+    -%}
+    <div class="we-card-wishlist-wrap">
+      <button
+        type="button"
+        class="we-card-wishlist-btn product-card__wishlist"
+        data-we-card-wishlist
+        data-product-id="{{ product.id }}"
+        data-variant-id="{{ wl_variant.id }}"
+        data-initial-variant-id="{{ wl_variant.id }}"
+        data-du="{{ wl_variant.url }}"
+        data-initial-du="{{ wl_variant.url }}"
+        data-product-title="{{ product.title | escape }}"
+        {% if wl_img != blank %}
+          data-image-url="{{ wl_img | image_url: width: 720 }}"
+        {% else %}
+          data-image-url=""
+        {% endif %}
+        data-price="{{ wl_variant.price }}"
+        data-available="{% if wl_variant.available %}true{% else %}false{% endif %}"
+        data-stk="{% if wl_variant.available %}1{% else %}0{% endif %}"
+        data-label-add="{{ 'general.wishlist.add_to_wishlist' | t | escape }}"
+        data-label-remove="{{ 'general.wishlist.remove_from_wishlist' | t | escape }}"
+        aria-label="{{ 'general.wishlist.add_to_wishlist' | t }}"
+        aria-pressed="false"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="17" viewBox="0 0 19 17" fill="none" aria-hidden="true" focusable="false">
+          <path class="we-card-wishlist-heart" d="M13.4248 0.625C14.5989 0.625 15.5685 1.02388 16.3721 1.82715C17.1756 2.63085 17.5752 3.60111 17.5752 4.77539C17.5752 5.2938 17.4977 5.7986 17.3428 6.29199L17.2715 6.50293C17.0749 7.04748 16.6986 7.69584 16.1123 8.45117C15.5267 9.2057 14.707 10.1044 13.6455 11.1494C12.8476 11.9349 11.8771 12.8526 10.7344 13.9023L9.53418 14.9961L9.10156 15.3848L8.61523 14.9463L8.61328 14.9443L7.43945 13.8848C6.32017 12.8663 5.36358 11.9704 4.56934 11.1973C3.51446 10.1702 2.6994 9.27721 2.11523 8.5166C1.52912 7.75356 1.1463 7.09089 0.94043 6.52637C0.729394 5.94811 0.625046 5.36518 0.625 4.77539C0.625 3.60113 1.02362 2.63084 1.82715 1.82715C2.63084 1.02362 3.60113 0.625 4.77539 0.625C5.49472 0.625062 6.18897 0.795698 6.86426 1.14355C7.5339 1.48861 8.11161 1.98365 8.59766 2.64062L9.09961 3.32031L9.60254 2.64062C10.0886 1.98364 10.6663 1.4886 11.3359 1.14355C12.0113 0.795667 12.7054 0.625031 13.4248 0.625Z" stroke="currentColor" stroke-width="1.25"/>
+        </svg>
+      </button>
+    </div>
+  {%- endif -%}
+{%- endif -%}
