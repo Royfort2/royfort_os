@@ -31,7 +31,7 @@
           "type": "button",
           "settings": {
             "button_label": "Jetzt entdecken",
-            "button_link": "shopify://collections/all",
+            "button_link": "shopify://collections/royfort-all-products-collection",
             "button_style": "btn--underline"
           }
         }

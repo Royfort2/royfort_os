@@ -177,14 +177,14 @@
       },
       "12510727292439481604": {
         "type": "shopify://apps/eu-widerruf-button/blocks/embed/019b2ca9-9838-7858-9694-3a8051afa76e",
-        "disabled": false,
+        "disabled": true,
         "settings": {
           "show_heading": true,
           "heading": "-",
           "description": "-",
           "show_fixed_button": true,
           "color_bg": "#000000",
-          "color_text": "#FFFFFF",
+          "color_text": "#ffffff",
           "position": "bottom-right",
           "label_text": "-",
           "require_order_number": true
