@@ -217,19 +217,22 @@
         "collection_AkcG9Y": {
           "type": "collection",
           "settings": {
-            "collection": "all-bedsheets"
+            "collection": "bestseller",
+            "image": "shopify://shop_images/Bestseller_Kollektion_Featured.jpg"
           }
         },
         "collection_gghYUc": {
           "type": "collection",
           "settings": {
-            "collection": "hotelbettwaesche"
+            "collection": "daunendecken-kissen",
+            "image": "shopify://shop_images/Decken_Kissen_Kollektion_Featured.jpg"
           }
         },
         "collection_cniUQH": {
           "type": "collection",
           "settings": {
-            "collection": "spannbettlaken"
+            "collection": "neuheiten",
+            "image": "shopify://shop_images/Neuheiten_Kollektion_Featured.jpg"
           }
         }
       },
