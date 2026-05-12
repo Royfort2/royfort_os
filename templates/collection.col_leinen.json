@@ -58,7 +58,11 @@
       "settings": {
         "subcollections": [
           "leinen-kollektion",
-          "hotelbettwaesche"
+          "all",
+          "hotelbettwaesche",
+          "deckenbezuege",
+          "kissenbezuge",
+          "spannbettlaken"
         ],
         "background": "#ffffff",
         "opacity": 1,
