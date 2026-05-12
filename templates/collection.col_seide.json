@@ -57,6 +57,7 @@
       "name": "[we] Subcollections",
       "settings": {
         "subcollections": [
+          "seiden-kollektion",
           "all",
           "hotelbettwaesche",
           "deckenbezuege",
