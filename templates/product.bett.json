@@ -389,19 +389,22 @@
         "collection_WYgrn4": {
           "type": "collection",
           "settings": {
-            "collection": "all-bedsheets"
+            "collection": "decken-und-kissen",
+            "image": "shopify://shop_images/Decken_Kissen_Kollektion_Featured.jpg"
           }
         },
         "collection_rxB9DV": {
           "type": "collection",
           "settings": {
-            "collection": "hotelbettwaesche"
+            "collection": "neuheiten",
+            "image": "shopify://shop_images/Neuheiten_Kollektion_Featured.jpg"
           }
         },
         "collection_3zkKVK": {
           "type": "collection",
           "settings": {
-            "collection": "spannbettlaken"
+            "collection": "hotelbettwaesche",
+            "image": "shopify://shop_images/Bettwasche_Sets_Kollektion_Featured.jpg"
           }
         }
       },
