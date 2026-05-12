@@ -57,11 +57,10 @@
       "name": "[we] Subcollections",
       "settings": {
         "subcollections": [
-          "all",
+          "trends",
+          "bestseller",
           "hotelbettwaesche",
-          "deckenbezuege",
-          "kissenbezuge",
-          "spannbettlaken"
+          "neuheiten"
         ],
         "background": "#ffffff",
         "opacity": 1,
