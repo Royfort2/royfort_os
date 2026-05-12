@@ -414,6 +414,7 @@
           "type": "column",
           "settings": {
             "show_image": true,
+            "video": "shopify://files/videos/Royfort soft zoomed.mp4",
             "video_url": "",
             "video_autoplay": false,
             "video_loop": false,
