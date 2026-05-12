@@ -57,11 +57,13 @@
       "name": "[we] Subcollections",
       "settings": {
         "subcollections": [
+          "bestseller",
           "all",
           "hotelbettwaesche",
-          "deckenbezuege",
-          "kissenbezuge",
-          "spannbettlaken"
+          "daunendecken-kissen",
+          "matratzen",
+          "badezimmer",
+          "tagesdecken-kollektion"
         ],
         "background": "#ffffff",
         "opacity": 1,
