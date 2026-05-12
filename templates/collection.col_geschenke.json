@@ -57,11 +57,11 @@
       "name": "[we] Subcollections",
       "settings": {
         "subcollections": [
+          "geschenke",
           "all",
-          "hotelbettwaesche",
           "bestseller",
-          "tagesdecken-kollektion",
-          "leinen-kollektion"
+          "hotelbettwaesche",
+          "tagesdecken-kollektion"
         ],
         "background": "#ffffff",
         "opacity": 1,
