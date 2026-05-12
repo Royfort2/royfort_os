@@ -33,7 +33,7 @@
         "heading_G9wWUy": {
           "type": "heading",
           "settings": {
-            "heading": "{{ page.title }}",
+            "heading": "Barrierefreiheitserklärung",
             "heading_size": "hd2",
             "heading_highlight_style": "none"
           }
