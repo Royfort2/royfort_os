@@ -138,7 +138,7 @@
             "description_mobile": "",
             "button_label": "",
             "button_url": "#",
-            "order_after": 22,
+            "order_after": 10,
             "col_span_desktop": 2,
             "row_span_desktop": 2,
             "col_span_mobile": "2",
