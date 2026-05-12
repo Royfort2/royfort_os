@@ -57,6 +57,7 @@
       "name": "[we] Subcollections",
       "settings": {
         "subcollections": [
+          "musselin-kollektion",
           "all",
           "hotelbettwaesche",
           "deckenbezuege",
