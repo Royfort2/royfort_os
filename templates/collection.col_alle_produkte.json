@@ -59,9 +59,9 @@
         "subcollections": [
           "all",
           "hotelbettwaesche",
-          "deckenbezuege",
-          "kissenbezuge",
-          "spannbettlaken"
+          "daunendecken-kissen",
+          "matratzen",
+          "tagesdecken-kollektion"
         ],
         "background": "#ffffff",
         "opacity": 1,
