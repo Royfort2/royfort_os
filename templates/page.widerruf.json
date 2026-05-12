@@ -68,7 +68,7 @@
           "type": "shopify://apps/eu-widerruf-button/blocks/form-inline/019b2ca9-9838-7858-9694-3a8051afa76e",
           "settings": {
             "show_heading": true,
-            "heading": "-",
+            "heading": "",
             "description": "-",
             "iframe_height": 500,
             "primary_color": "#000000",

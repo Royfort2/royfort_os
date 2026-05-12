@@ -174,6 +174,21 @@
         "type": "shopify://apps/swym-relay/blocks/storefront-ui-elements/80c3b1fc-3a8f-407e-8367-ffdeebb8b612",
         "disabled": false,
         "settings": {}
+      },
+      "12510727292439481604": {
+        "type": "shopify://apps/eu-widerruf-button/blocks/embed/019b2ca9-9838-7858-9694-3a8051afa76e",
+        "disabled": false,
+        "settings": {
+          "show_heading": true,
+          "heading": "-",
+          "description": "-",
+          "show_fixed_button": true,
+          "color_bg": "#000000",
+          "color_text": "#FFFFFF",
+          "position": "bottom-right",
+          "label_text": "-",
+          "require_order_number": true
+        }
       }
     },
     "color_schemes": {
@@ -1849,7 +1864,7 @@
   },
   "platform_customizations": {
     "custom_css": [
-      ".swym-popup-nudge-zindex {display: none}"
+      ".swym-popup-nudge-zindex {display: none;}"
     ]
   }
 }
