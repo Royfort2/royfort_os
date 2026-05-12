@@ -58,6 +58,7 @@
       "settings": {
         "subcollections": [
           "trends",
+          "all",
           "bestseller",
           "hotelbettwaesche",
           "neuheiten"
