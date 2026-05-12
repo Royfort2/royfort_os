@@ -54,6 +54,7 @@
     },
     "we_subcollections_N4HKQf": {
       "type": "we-subcollections",
+      "disabled": true,
       "name": "[we] Subcollections",
       "settings": {
         "subcollections": [
@@ -195,7 +196,6 @@
         "we_promo_tHY7W9",
         "we_promo_4nLeiw"
       ],
-      "disabled": true,
       "custom_css": [],
       "settings": {
         "color_scheme": "scheme-1",
