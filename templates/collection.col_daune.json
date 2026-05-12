@@ -57,11 +57,8 @@
       "name": "[we] Subcollections",
       "settings": {
         "subcollections": [
-          "all",
-          "hotelbettwaesche",
-          "deckenbezuege",
-          "kissenbezuge",
-          "spannbettlaken"
+          "daunen",
+          "daunendecken-kissen"
         ],
         "background": "#ffffff",
         "opacity": 1,
