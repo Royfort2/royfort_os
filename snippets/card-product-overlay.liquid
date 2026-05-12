@@ -79,6 +79,10 @@
       assign fetchpriority = 'high'
     endif
   %}
+  {%- capture we_plp_nf_badge -%}
+    {%- render 'we-plp-neue-farbe-badge', product: product -%}
+  {%- endcapture -%}
+  {%- assign we_plp_nf_badge = we_plp_nf_badge | strip -%}
   <div class="product-card--overlay relative{{ card_wrapper_class }}">
     <div
       class="pcard__media blocks-radius media-wrapper"
@@ -113,6 +117,9 @@
         </a>
       {%- else -%}
         {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- endif -%}
+      {%- if we_plp_nf_badge != blank -%}
+        <div class="product-card__badge">{{ we_plp_nf_badge }}</div>
       {%- endif -%}
     </div>
     <div class="pcard__overlay-card flex items-center gap-3 color-{{ section.settings.color_scheme }}">

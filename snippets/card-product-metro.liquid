@@ -165,6 +165,10 @@
     endif
   endif
 -%}
+{%- capture we_plp_nf_badge -%}
+{%- render 'we-plp-neue-farbe-badge', product: product -%}
+{%- endcapture -%}
+{%- assign we_plp_nf_badge = we_plp_nf_badge | strip -%}
 {% comment %}
   {%- if is_metro_item -%}
     {%- capture current_image_sizes -%}
@@ -284,7 +288,7 @@
           {%- endif -%}
         </motion-element>
       </a>
-      {%- if product.available == false or on_sale or custom_tags.size > 0 -%}
+      {%- if product.available == false or on_sale or custom_tags.size > 0 or we_plp_nf_badge != blank -%}
         <div class="product-card__badge">
           {%- if product.available == false and show_soldout -%}
             <span class="f-badge f-badge--soldout" aria-hidden="true">
@@ -320,6 +324,7 @@
             -%}
             <span class="f-badge f-badge--{{ type }}">{{ tag_name }}</span>
           {%- endfor -%}
+          {{- we_plp_nf_badge -}}
         </div>
       {%- endif -%}
       {%- if enable_quick_view -%}

@@ -1,0 +1,71 @@
+{% comment %}
+  “Neue Farbe” badge from variant metafields (namespace key: custom.plp_neue_farbe_badge).
+
+  Variant card (color_variant set): shows text if any variant sharing the same color option value has the metafield.
+  Product card (no color_variant): shows at most one badge if any variant has the metafield.
+
+  Accepts:
+  - product {Product}
+  - color_variant {Variant} Optional — variant tile (e.g. collection color split).
+{% endcomment %}
+{%- liquid
+  assign plp_nf_txt = blank
+  assign plp_nf_ci = ''
+  assign plp_nf_has_col = false
+  assign sw_plp = settings.color_swatch_trigger | downcase | strip
+  if sw_plp != blank
+    for option in product.options_with_values
+      assign on_plp = option.name | downcase
+      assign nf_is_col = false
+      if sw_plp contains on_plp
+        assign nf_is_col = true
+      elsif sw_plp contains 'color' and on_plp contains 'colour'
+        assign nf_is_col = true
+      endif
+      if nf_is_col
+        assign plp_nf_has_col = true
+        assign plp_nf_ci = forloop.index0
+        break
+      endif
+    endfor
+  endif
+
+  if color_variant != blank and plp_nf_has_col
+    assign plp_nf_tgt = color_variant.options[plp_nf_ci] | default: '' | strip
+    assign plp_nf_tgt_d = plp_nf_tgt | downcase
+    if plp_nf_tgt_d != blank
+      for v_plp in product.variants
+        assign v_plp_c = v_plp.options[plp_nf_ci] | default: '' | strip | downcase
+        if v_plp_c == plp_nf_tgt_d
+          assign plp_nf_m = v_plp.metafields.custom.plp_neue_farbe_badge.value
+          if plp_nf_m != blank
+            assign plp_nf_txt = plp_nf_m
+            break
+          endif
+        endif
+      endfor
+    endif
+    if plp_nf_txt == blank
+      assign plp_nf_fb = color_variant.metafields.custom.plp_neue_farbe_badge.value
+      if plp_nf_fb != blank
+        assign plp_nf_txt = plp_nf_fb
+      endif
+    endif
+  elsif color_variant != blank
+    assign plp_nf_one = color_variant.metafields.custom.plp_neue_farbe_badge.value
+    if plp_nf_one != blank
+      assign plp_nf_txt = plp_nf_one
+    endif
+  else
+    for v_plp in product.variants
+      assign plp_nf_m = v_plp.metafields.custom.plp_neue_farbe_badge.value
+      if plp_nf_m != blank
+        assign plp_nf_txt = plp_nf_m
+        break
+      endif
+    endfor
+  endif
+-%}
+{%- if plp_nf_txt != blank -%}
+  <span class="f-badge f-badge--custom">{{ plp_nf_txt | escape }}</span>
+{%- endif -%}

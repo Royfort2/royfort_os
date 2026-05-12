@@ -525,7 +525,11 @@
           </motion-element>
         </a>
       {%- endif -%}
-      {%- if product.available == false or on_sale or custom_tags.size > 0 or custom_tags_left.size > 0 -%}
+      {%- capture we_plp_nf_badge -%}
+        {%- render 'we-plp-neue-farbe-badge', product: product, color_variant: color_variant -%}
+      {%- endcapture -%}
+      {%- assign we_plp_nf_badge = we_plp_nf_badge | strip -%}
+      {%- if product.available == false or on_sale or custom_tags.size > 0 or custom_tags_left.size > 0 or we_plp_nf_badge != blank -%}
         <div class="product-card__badge">
           {%- if product.available == false and show_soldout -%}
             <span class="f-badge f-badge--soldout" aria-hidden="true">
@@ -566,6 +570,7 @@
             {% assign tag_name = tag | split: 'label_left_' | last %}
             <span class="f-badge f-badge--custom">{{ tag_name }}</span>
           {%- endfor -%}
+          {{- we_plp_nf_badge -}}
         </div>
       {%- endif -%}
       {%- if product.metafields.custom.is_excluded_from_sale -%}

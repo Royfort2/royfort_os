@@ -81,6 +81,10 @@
 
   assign image_sizes = image_sizes | default: '(max-width: 767px) 66px, 100px'
 -%}
+{%- capture we_plp_nf_badge -%}
+{%- render 'we-plp-neue-farbe-badge', product: product -%}
+{%- endcapture -%}
+{%- assign we_plp_nf_badge = we_plp_nf_badge | strip -%}
 <div
   class="product-card product-card--list blocks-radius background-2{{ card_wrapper_class }}"
 >
@@ -123,6 +127,11 @@
           </div>
         {%- endif -%}
       </a>
+      {%- if we_plp_nf_badge != blank -%}
+        <div class="product-card__badge">
+          {{- we_plp_nf_badge -}}
+        </div>
+      {%- endif -%}
     </div>
     <div class="product-card__info text-left">
       {%- if show_vendor -%}
