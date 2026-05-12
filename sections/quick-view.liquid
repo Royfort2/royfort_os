@@ -15,6 +15,9 @@
     assign we_qv_media_count = product.media.size
     if settings.use_metafield_media and we_qv_mf != blank and we_qv_mf.size > 0
       assign we_qv_media_count = we_qv_mf.size
+      if we_qv_media_count > 180
+        assign we_qv_media_count = 180
+      endif
     endif
 
     assign product_class = 'product--' | append: section.settings.media_size

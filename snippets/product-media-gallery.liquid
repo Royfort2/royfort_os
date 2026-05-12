@@ -19,6 +19,9 @@
   endif
   if we_use_metafield_gallery
     assign media_count = we_mf_media_list.size
+    if media_count > 180
+      assign media_count = 180
+    endif
   else
     assign media_count = product.media.size
   endif
@@ -120,20 +123,22 @@
         role="list"
       >
         {%- if we_use_metafield_gallery -%}
-          {%- for media_item in we_mf_media_list -%}
-            {%- assign we_mf_syn_id = 'we-mf-' | append: forloop.index0 -%}
-            {% render 'we-metafield-media-item',
-              product: product,
-              media_item: media_item,
-              synthetic_id: we_mf_syn_id,
-              position: forloop.index0,
-              media_count: media_count,
-              desktop_layout: media_layout,
-              mobile_layout: mobile_thumbnails,
-              enable_image_zoom: enable_image_zoom,
-              media_width: media_width
-            %}
-          {%- endfor -%}
+          {% paginate we_mf_media_list by 180 %}
+            {%- for media_item in we_mf_media_list -%}
+              {%- assign we_mf_syn_id = 'we-mf-' | append: forloop.index0 -%}
+              {% render 'we-metafield-media-item',
+                product: product,
+                media_item: media_item,
+                synthetic_id: we_mf_syn_id,
+                position: forloop.index0,
+                media_count: media_count,
+                desktop_layout: media_layout,
+                mobile_layout: mobile_thumbnails,
+                enable_image_zoom: enable_image_zoom,
+                media_width: media_width
+              %}
+            {%- endfor -%}
+          {% endpaginate %}
         {%- else -%}
           {%- for media in product.media -%}
             {% render 'product-thumbnail',
@@ -174,39 +179,41 @@
         class="thumbnail-list swiper-wrapper"
       >
         {%- if we_use_metafield_gallery -%}
-          {%- for media_item in we_mf_media_list -%}
-            {%- liquid
-              assign we_thumb_preview = media_item
-              if media_item.preview_image != blank
-                assign we_thumb_preview = media_item.preview_image
-              endif
-              assign we_thumb_w = we_thumb_preview.width | default: 400
-              assign we_syn = 'we-mf-' | append: forloop.index0
-            -%}
-            <div
-              class="product__thumbs-item swiper-slide"
-              data-target="{{ we_syn }}"
-              data-media-position="{{ forloop.index }}"
-            >
-              <div class="product__thumbs-container medium-blocks-radius media-wrapper">
-                <div
-                  class="product__thumbs-inner"
-                  style="--aspect-ratio: {% if vertical_thumbs_always %}4 / 5{% else %}1{% endif %}"
-                >
-                  {{
-                    we_thumb_preview
-                    | image_url: width: we_thumb_w
-                    | image_tag:
-                      loading: 'lazy',
-                      widths: '70, 100, 140, 150, 200, 300, 400',
-                      sizes: '(max-width: 767px) calc((100vw - 30px) / 4), (max-width: 1023px) 70px, 150px',
-                      is: 'image-lazy',
-                      alt: we_thumb_preview.alt
-                  }}
+          {% paginate we_mf_media_list by 180 %}
+            {%- for media_item in we_mf_media_list -%}
+              {%- liquid
+                assign we_thumb_preview = media_item
+                if media_item.preview_image != blank
+                  assign we_thumb_preview = media_item.preview_image
+                endif
+                assign we_thumb_w = we_thumb_preview.width | default: 400
+                assign we_syn = 'we-mf-' | append: forloop.index0
+              -%}
+              <div
+                class="product__thumbs-item swiper-slide"
+                data-target="{{ we_syn }}"
+                data-media-position="{{ forloop.index }}"
+              >
+                <div class="product__thumbs-container medium-blocks-radius media-wrapper">
+                  <div
+                    class="product__thumbs-inner"
+                    style="--aspect-ratio: {% if vertical_thumbs_always %}4 / 5{% else %}1{% endif %}"
+                  >
+                    {{
+                      we_thumb_preview
+                      | image_url: width: we_thumb_w
+                      | image_tag:
+                        loading: 'lazy',
+                        widths: '70, 100, 140, 150, 200, 300, 400',
+                        sizes: '(max-width: 767px) calc((100vw - 30px) / 4), (max-width: 1023px) 70px, 150px',
+                        is: 'image-lazy',
+                        alt: we_thumb_preview.alt
+                    }}
+                  </div>
                 </div>
               </div>
-            </div>
-          {%- endfor -%}
+            {%- endfor -%}
+          {% endpaginate %}
         {%- else -%}
           {%- for media in product.media -%}
             {%- liquid

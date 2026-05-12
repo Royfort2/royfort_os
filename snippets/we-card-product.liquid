@@ -69,59 +69,74 @@
   if settings.use_metafield_media and we_mf_temp_media != blank and we_mf_temp_media.size > 0
     assign we_use_mf_pcard = true
   endif
-
-  if we_use_mf_pcard
+-%}
+{%- if we_use_mf_pcard -%}
+  {%- liquid
     assign color_key_fc = we_pcard_color_for_media | default: '' | downcase | strip
     assign mf_pick_count = 0
     assign mf_pick_0 = blank
     assign mf_pick_1 = blank
-    if color_key_fc != blank
-      for media_item in we_mf_temp_media
-        if mf_pick_count >= 2
-          break
-        endif
-        assign preview_mf = media_item
-        if media_item.preview_image != blank
-          assign preview_mf = media_item.preview_image
-        endif
-        assign alt_key_fc = preview_mf.alt | default: '' | downcase | strip
-        assign alt_matches_fc = false
-        if alt_key_fc != blank and color_key_fc != blank and alt_key_fc == color_key_fc
-          assign alt_matches_fc = true
-        endif
-        if alt_matches_fc
-          if mf_pick_count == 0
-            assign mf_pick_0 = preview_mf
-          elsif mf_pick_count == 1
-            assign mf_pick_1 = preview_mf
+  -%}
+  {%- if color_key_fc != blank -%}
+    {% paginate we_mf_temp_media by 180 %}
+      {%- for media_item in we_mf_temp_media -%}
+        {%- liquid
+          if mf_pick_count >= 2
+            break
           endif
-          assign mf_pick_count = mf_pick_count | plus: 1
-        endif
-      endfor
-    endif
-    if mf_pick_count == 0
-      for media_item in we_mf_temp_media
-        assign preview_fb = media_item
-        if media_item.preview_image != blank
-          assign preview_fb = media_item.preview_image
-        endif
-        if mf_pick_0 == blank
-          assign mf_pick_0 = preview_fb
-        elsif mf_pick_1 == blank and preview_fb != mf_pick_0
-          assign mf_pick_1 = preview_fb
-          break
-        endif
-      endfor
-    endif
+          assign preview_mf = media_item
+          if media_item.preview_image != blank
+            assign preview_mf = media_item.preview_image
+          endif
+          assign alt_key_fc = preview_mf.alt | default: '' | downcase | strip
+          assign alt_matches_fc = false
+          if alt_key_fc != blank and color_key_fc != blank and alt_key_fc == color_key_fc
+            assign alt_matches_fc = true
+          endif
+          if alt_matches_fc
+            if mf_pick_count == 0
+              assign mf_pick_0 = preview_mf
+            elsif mf_pick_count == 1
+              assign mf_pick_1 = preview_mf
+            endif
+            assign mf_pick_count = mf_pick_count | plus: 1
+          endif
+        -%}
+      {%- endfor -%}
+    {% endpaginate %}
+  {%- endif -%}
+  {%- if mf_pick_count == 0 -%}
+    {% paginate we_mf_temp_media by 180 %}
+      {%- for media_item in we_mf_temp_media -%}
+        {%- liquid
+          assign preview_fb = media_item
+          if media_item.preview_image != blank
+            assign preview_fb = media_item.preview_image
+          endif
+          if mf_pick_0 == blank
+            assign mf_pick_0 = preview_fb
+          elsif mf_pick_1 == blank and preview_fb != mf_pick_0
+            assign mf_pick_1 = preview_fb
+            break
+          endif
+        -%}
+      {%- endfor -%}
+    {% endpaginate %}
+  {%- endif -%}
+  {%- liquid
     assign featured_media = mf_pick_0
     assign first_media_type = 'image'
-  else
+  -%}
+{%- else -%}
+  {%- liquid
     assign first_media_type = product.featured_media.media_type
     assign featured_media = product.featured_media
     if first_media_type == 'model' or first_media_type == 'video'
       assign featured_media = product.featured_media.preview_image
     endif
-  endif
+  -%}
+{%- endif -%}
+{%- liquid
   if we_use_mf_pcard and featured_media == blank
     assign first_media_type = product.featured_media.media_type
     assign featured_media = product.featured_media

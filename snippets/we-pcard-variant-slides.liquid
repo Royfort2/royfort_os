@@ -18,23 +18,60 @@
     assign slide_count = 0
   -%}
   {%- if color_key != blank -%}
-    {%- for media_item in we_mf_temp_media -%}
-      {%- if slide_count >= 2 -%}
-        {%- break -%}
-      {%- endif -%}
-      {%- liquid
-        assign preview = media_item
-        if media_item.preview_image != blank
-          assign preview = media_item.preview_image
-        endif
-        assign alt_key = preview.alt | default: '' | downcase | strip
-        assign alt_matches = false
-        if alt_key != blank and color_key != blank and alt_key == color_key
-          assign alt_matches = true
-        endif
-      -%}
-      {%- if alt_matches -%}
-        {%- assign slide_widths = image_widths | append: ', ' | append: preview.width -%}
+    {% paginate we_mf_temp_media by 180 %}
+      {%- for media_item in we_mf_temp_media -%}
+        {%- if slide_count >= 2 -%}
+          {%- break -%}
+        {%- endif -%}
+        {%- liquid
+          assign preview = media_item
+          if media_item.preview_image != blank
+            assign preview = media_item.preview_image
+          endif
+          assign alt_key = preview.alt | default: '' | downcase | strip
+          assign alt_matches = false
+          if alt_key != blank and color_key != blank and alt_key == color_key
+            assign alt_matches = true
+          endif
+        -%}
+        {%- if alt_matches -%}
+          {%- assign slide_widths = image_widths | append: ', ' | append: preview.width -%}
+          <div class="swiper-slide" data-media-id="we-mf-{{ slide_count }}">
+            <div
+              class="media-wrapper product-card__image"
+              style="--aspect-ratio: {{ image_ratio }}"
+            >
+              {{
+                preview
+                | image_url: width: preview.width
+                | image_tag:
+                  loading: loading,
+                  fetchpriority: fetchpriority,
+                  class: 'motion-reduce',
+                  widths: slide_widths,
+                  sizes: image_sizes,
+                  is: 'image-lazy'
+              }}
+            </div>
+          </div>
+          {%- assign slide_count = slide_count | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {% endpaginate %}
+  {%- endif -%}
+  {%- if slide_count == 0 -%}
+    {% paginate we_mf_temp_media by 180 %}
+      {%- for media_item in we_mf_temp_media -%}
+        {%- if slide_count >= 2 -%}
+          {%- break -%}
+        {%- endif -%}
+        {%- liquid
+          assign preview = media_item
+          if media_item.preview_image != blank
+            assign preview = media_item.preview_image
+          endif
+          assign slide_widths = image_widths | append: ', ' | append: preview.width
+        -%}
         <div class="swiper-slide" data-media-id="we-mf-{{ slide_count }}">
           <div
             class="media-wrapper product-card__image"
@@ -54,41 +91,8 @@
           </div>
         </div>
         {%- assign slide_count = slide_count | plus: 1 -%}
-      {%- endif -%}
-    {%- endfor -%}
-  {%- endif -%}
-  {%- if slide_count == 0 -%}
-    {%- for media_item in we_mf_temp_media -%}
-      {%- if slide_count >= 2 -%}
-        {%- break -%}
-      {%- endif -%}
-      {%- liquid
-        assign preview = media_item
-        if media_item.preview_image != blank
-          assign preview = media_item.preview_image
-        endif
-        assign slide_widths = image_widths | append: ', ' | append: preview.width
-      -%}
-      <div class="swiper-slide" data-media-id="we-mf-{{ slide_count }}">
-        <div
-          class="media-wrapper product-card__image"
-          style="--aspect-ratio: {{ image_ratio }}"
-        >
-          {{
-            preview
-            | image_url: width: preview.width
-            | image_tag:
-              loading: loading,
-              fetchpriority: fetchpriority,
-              class: 'motion-reduce',
-              widths: slide_widths,
-              sizes: image_sizes,
-              is: 'image-lazy'
-          }}
-        </div>
-      </div>
-      {%- assign slide_count = slide_count | plus: 1 -%}
-    {%- endfor -%}
+      {%- endfor -%}
+    {% endpaginate %}
   {%- endif -%}
 {%- else -%}
 {%- liquid

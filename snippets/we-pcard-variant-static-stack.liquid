@@ -24,45 +24,49 @@
     assign color_key = variant_color_name | default: '' | downcase | strip
   -%}
   {%- if color_key != blank -%}
-    {%- for media_item in we_mf_temp_media -%}
-      {%- if mf_main != blank and mf_second != blank -%}
-        {%- break -%}
-      {%- endif -%}
-      {%- liquid
-        assign preview = media_item
-        if media_item.preview_image != blank
-          assign preview = media_item.preview_image
-        endif
-        assign alt_key = preview.alt | default: '' | downcase | strip
-        assign alt_matches = false
-        if alt_key != blank and color_key != blank and alt_key == color_key
-          assign alt_matches = true
-        endif
-      -%}
-      {%- if alt_matches -%}
-        {%- if mf_main == blank -%}
-          {%- assign mf_main = preview -%}
-        {%- elsif mf_second == blank -%}
-          {%- assign mf_second = preview -%}
+    {% paginate we_mf_temp_media by 180 %}
+      {%- for media_item in we_mf_temp_media -%}
+        {%- if mf_main != blank and mf_second != blank -%}
+          {%- break -%}
         {%- endif -%}
-      {%- endif -%}
-    {%- endfor -%}
+        {%- liquid
+          assign preview = media_item
+          if media_item.preview_image != blank
+            assign preview = media_item.preview_image
+          endif
+          assign alt_key = preview.alt | default: '' | downcase | strip
+          assign alt_matches = false
+          if alt_key != blank and color_key != blank and alt_key == color_key
+            assign alt_matches = true
+          endif
+        -%}
+        {%- if alt_matches -%}
+          {%- if mf_main == blank -%}
+            {%- assign mf_main = preview -%}
+          {%- elsif mf_second == blank -%}
+            {%- assign mf_second = preview -%}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {% endpaginate %}
   {%- endif -%}
   {%- if mf_main == blank -%}
-    {%- for media_item in we_mf_temp_media -%}
-      {%- liquid
-        assign preview_fb = media_item
-        if media_item.preview_image != blank
-          assign preview_fb = media_item.preview_image
-        endif
-      -%}
-      {%- if mf_main == blank -%}
-        {%- assign mf_main = preview_fb -%}
-      {%- elsif mf_second == blank and preview_fb != mf_main -%}
-        {%- assign mf_second = preview_fb -%}
-        {%- break -%}
-      {%- endif -%}
-    {%- endfor -%}
+    {% paginate we_mf_temp_media by 180 %}
+      {%- for media_item in we_mf_temp_media -%}
+        {%- liquid
+          assign preview_fb = media_item
+          if media_item.preview_image != blank
+            assign preview_fb = media_item.preview_image
+          endif
+        -%}
+        {%- if mf_main == blank -%}
+          {%- assign mf_main = preview_fb -%}
+        {%- elsif mf_second == blank and preview_fb != mf_main -%}
+          {%- assign mf_second = preview_fb -%}
+          {%- break -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {% endpaginate %}
   {%- endif -%}
 {%- endif -%}
 {%- if we_mf_static_stack and mf_main != blank -%}

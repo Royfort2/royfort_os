@@ -10,6 +10,9 @@
   assign we_effective_media_count = product.media.size
   if settings.use_metafield_media and we_mf_list_top != blank and we_mf_list_top.size > 0
     assign we_effective_media_count = we_mf_list_top.size
+    if we_effective_media_count > 180
+      assign we_effective_media_count = 180
+    endif
   endif
 
   assign product_class = 'product--' | append: section.settings.media_size

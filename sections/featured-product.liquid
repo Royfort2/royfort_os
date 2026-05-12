@@ -14,6 +14,9 @@
     assign we_fp_media_count = featured_product.media.size
     if settings.use_metafield_media and we_fp_mf != blank and we_fp_mf.size > 0
       assign we_fp_media_count = we_fp_mf.size
+      if we_fp_media_count > 180
+        assign we_fp_media_count = 180
+      endif
     endif
     assign product_class = product_class | append: ' product--media-has-' | append: we_fp_media_count
     if we_fp_media_count > 1
