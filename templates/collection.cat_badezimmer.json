@@ -54,7 +54,6 @@
     },
     "we_subcollections_N4HKQf": {
       "type": "we-subcollections",
-      "disabled": true,
       "name": "[we] Subcollections",
       "settings": {
         "subcollections": [
