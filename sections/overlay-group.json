@@ -116,11 +116,12 @@
         "form",
         "socials"
       ],
+      "disabled": true,
       "settings": {
-        "enable": true,
+        "enable": false,
         "show_for_homepage_only": true,
         "show_for_visitors_only": true,
-        "trigger_open": "delay",
+        "trigger_open": "scroll_down",
         "repeat_open": "every_3_days",
         "alignment": "center",
         "width": 880,
