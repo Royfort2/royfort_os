@@ -50,7 +50,7 @@
       ],
       "settings": {
         "image_height": "medium",
-        "show_related_posts": true,
+        "show_related_posts": false,
         "related_heading_size": "h1",
         "column_gap": "extra-large",
         "show_date": true,
