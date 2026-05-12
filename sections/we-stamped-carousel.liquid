@@ -33,6 +33,37 @@
     font-family: 'ABCArizonaMix-Light', Arial, sans-serif !important;
     margin-bottom: 4rem !important;
   }
+  #stamped-reviews-widget[data-widget-type=carousel] .stamped-ratings-wrapper {
+    padding-right: 3.2rem !important;
+  }
+  #stamped-reviews-widget[data-widget-type=carousel] .stamped-reviews-date {
+    margin-right: 3.2rem !important;
+  }
+  #stamped-reviews-widget[data-widget-type=carousel] .stamped-carousel-scroll .stamped-reviews-title {
+    font-size: 1.6rem !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    line-height: 150% !important;
+    letter-spacing: -0.14px !important;
+    text-transform: uppercase !important;
+  }
+  #stamped-reviews-widget[data-widget-type=carousel] .stamped-carousel-scroll .stamped-reviews-message-block {
+    font-weight: var(--font-body-weight) !important;
+    font-size: var(--font-body-size) !important;
+    line-height: var(--font-body-line-height) !important;
+  }
+  #stamped-reviews-widget[data-widget-type=carousel] .stamped-reviews-date,
+  #stamped-reviews-widget[data-widget-type=carousel] .stamped-carousel-scroll .stamped-reviews-message {
+    color: #525252 !important;
+  }
+  #stamped-reviews-widget[data-widget-type=carousel] .stamped-carousel-scroll .stamped-reviews-author {
+    font-weight: var(--font-body-weight) !important;
+    font-size: 1.4rem !important;
+    color: #525252 !important;
+  }
+  #stamped-reviews-widget[data-widget-type=carousel] .stamped-carousel-scroll .stamped-reviews-image a {
+    color: rgb(var(--color-button)) !important;
+  }
   #stamped-reviews-widget[data-widget-type=carousel] .stamped-carousel-scroll .stamped-reviews-rating {
     font-size: unset !important;
   }
@@ -40,8 +71,8 @@
     font-style: normal !important;
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 8;
-    line-clamp: 8;
+    -webkit-line-clamp: 6;
+    line-clamp: 6;
     overflow: hidden;
     word-break: break-word;
   }
@@ -89,6 +120,7 @@
     data-style-color-text="#171717"
     data-style-color-link="#171717"
     data-random="? string:{{ section.settings.title }} ?"
+    data-min-rating="5"
   ></div>
 </div>
 
