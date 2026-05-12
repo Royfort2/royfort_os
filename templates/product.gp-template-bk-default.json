@@ -1,0 +1,425 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "order": [
+    "main",
+    "image_with_text_zQ9iit",
+    "image_with_text_dQDdte",
+    "featured_collection_JQULLF",
+    "we_featured_collections_Hgagwm",
+    "breadcrumbs"
+  ],
+  "sections": {
+    "breadcrumbs": {
+      "settings": {
+        "text_alignment": "center"
+      },
+      "type": "breadcrumbs"
+    },
+    "featured_collection_JQULLF": {
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "button_label": "",
+        "button_style": "btn--primary",
+        "collection": "all",
+        "color_scheme": "",
+        "column_gap": "extra-small",
+        "columns": 4,
+        "columns_mobile": "2",
+        "controls_position": "inside",
+        "custom_class": "",
+        "description": "",
+        "divider_width": "full",
+        "enable_slider": true,
+        "grid_layout": "standard",
+        "header_layout": "vertical",
+        "heading": "ähnliche Produkte",
+        "heading_highlight_style": "none",
+        "heading_size": "h3",
+        "heading_styling": "body",
+        "limit": 8,
+        "padding_bottom": 32,
+        "padding_top": 32,
+        "pcard_image_ratio": "",
+        "pcard_use_swiper": false,
+        "row_gap": "inherit",
+        "show_all_button_on_top": false,
+        "show_collection_description": false,
+        "show_reviews": true,
+        "show_section_divider": true,
+        "subheading": "",
+        "swipe_on_mobile": true,
+        "text_size": "text-base"
+      },
+      "type": "featured-collection"
+    },
+    "image_with_text_dQDdte": {
+      "block_order": [
+        "heading_4Ni4ix",
+        "text_FXjj84"
+      ],
+      "blocks": {
+        "heading_4Ni4ix": {
+          "settings": {
+            "heading": "{{ product.metafields.custom.we_pdp_image_with_text_2_title.value }}",
+            "heading_highlight_style": "none",
+            "heading_size": "h3"
+          },
+          "type": "heading"
+        },
+        "text_FXjj84": {
+          "settings": {
+            "text": "{{ product.metafields.custom.we_pdp_image_with_text_2_text | metafield_tag }}",
+            "text_size": "text-base",
+            "truncate_collapse_text": "Weniger",
+            "truncate_on_mobile": true,
+            "truncate_on_mobile_lines": 3,
+            "truncate_trigger_text": "Mehr lesen"
+          },
+          "type": "text"
+        }
+      },
+      "custom_css": [
+        "/* @media (max-width: 767.98px) {.image-with-text .image-with-text__inner {padding-top: 4.8rem; }}@media (min-width: 768px) {.image-with-text__wrapper {--gap-x: 3rem; }}@media (min-width: 1280px) {.image-with-text__inner {--padding-x: 9rem; }} */"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "custom_class": "",
+        "desktop_content_alignment": "left",
+        "desktop_content_position": "center",
+        "different_mobile_padding": true,
+        "divider_width": "fixed",
+        "enable_parallax": false,
+        "image": "{{ product.metafields.custom.we_pdp_image_with_text_2_image.value }}",
+        "image_height": "adapt",
+        "is_full_width": true,
+        "layout": "image_first",
+        "mobile_content_alignment": "left",
+        "padding_bottom": 0,
+        "padding_bottom_mobile": 16,
+        "padding_top": 0,
+        "padding_top_mobile": 0,
+        "parallax_direction": "vertical",
+        "section_color_scheme": "",
+        "show_section_divider": false
+      },
+      "type": "image-with-text"
+    },
+    "image_with_text_zQ9iit": {
+      "block_order": [
+        "heading_9Y3zkK",
+        "text_UWkrNW"
+      ],
+      "blocks": {
+        "heading_9Y3zkK": {
+          "settings": {
+            "heading": "{{ product.metafields.custom.we_pdp_image_with_text_1_title.value }}",
+            "heading_highlight_style": "none",
+            "heading_size": "h3"
+          },
+          "type": "heading"
+        },
+        "text_UWkrNW": {
+          "settings": {
+            "text": "{{ product.metafields.custom.we_pdp_image_with_text_1_text | metafield_tag }}",
+            "text_size": "text-base",
+            "truncate_collapse_text": "Weniger",
+            "truncate_on_mobile": true,
+            "truncate_on_mobile_lines": 3,
+            "truncate_trigger_text": "Mehr lesen"
+          },
+          "type": "text"
+        }
+      },
+      "custom_css": [
+        "/* @media (max-width: 767.98px) {.image-with-text .image-with-text__inner {padding-top: 4.8rem; }}@media (min-width: 768px) {.image-with-text__wrapper {--gap-x: 3rem; }}@media (min-width: 1280px) {.image-with-text__inner {--padding-x: 9rem; }} */"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "custom_class": "",
+        "desktop_content_alignment": "left",
+        "desktop_content_position": "center",
+        "different_mobile_padding": true,
+        "divider_width": "fixed",
+        "enable_parallax": false,
+        "image": "{{ product.metafields.custom.we_pdp_image_with_text_1_image.value }}",
+        "image_height": "adapt",
+        "is_full_width": true,
+        "layout": "text_first",
+        "mobile_content_alignment": "left",
+        "padding_bottom": 0,
+        "padding_bottom_mobile": 16,
+        "padding_top": 0,
+        "padding_top_mobile": 0,
+        "parallax_direction": "vertical",
+        "section_color_scheme": "",
+        "show_section_divider": false
+      },
+      "type": "image-with-text"
+    },
+    "main": {
+      "block_order": [
+        "image_tooltip_iznpVX",
+        "badges",
+        "stamped_reviews_Kmb8np",
+        "title",
+        "price",
+        "we_variant_picker_jJ7CqM",
+        "buy_buttons",
+        "icon_info_text_8ayhQN",
+        "icon_info_text_pzJbNn",
+        "icon_info_text_4ErYdG",
+        "usp_list_yWyYmX",
+        "collapsible-row-1",
+        "collapsible-row-2",
+        "collapsible-row-3",
+        "usp_swiper_ffaRkg",
+        "complementary_custom_y6bBfH"
+      ],
+      "blocks": {
+        "badges": {
+          "settings": {
+            "sale_badge_type": "percentage",
+            "show_sale_badge": false,
+            "show_soldout_badge": true
+          },
+          "type": "badges"
+        },
+        "buy_buttons": {
+          "settings": {
+            "secondary_button_text": "zweiter-cta",
+            "secondary_button_url": "",
+            "show_dynamic_checkout": false,
+            "show_gift_card_recipient": false,
+            "show_quantity_selector": false,
+            "show_secondary_button": true
+          },
+          "type": "buy_buttons"
+        },
+        "collapsible-row-1": {
+          "settings": {
+            "content": "{{ product.description }}",
+            "custom_liquid": "",
+            "default_open": false,
+            "heading": "Produktbeschreibung",
+            "heading_styling": "body",
+            "icon": "none",
+            "page": ""
+          },
+          "type": "collapsible_tab"
+        },
+        "collapsible-row-2": {
+          "settings": {
+            "content": "{{ product.metafields.custom.we_pdp_material | metafield_tag }}",
+            "custom_liquid": "",
+            "default_open": false,
+            "heading": "Material",
+            "heading_styling": "body",
+            "icon": "none",
+            "page": ""
+          },
+          "type": "collapsible_tab"
+        },
+        "collapsible-row-3": {
+          "settings": {
+            "content": "{{ product.metafields.custom.we_pdp_pflegehinweise | metafield_tag }}",
+            "custom_liquid": "",
+            "default_open": false,
+            "heading": "Pflegehinweise",
+            "heading_styling": "body",
+            "icon": "none",
+            "page": ""
+          },
+          "type": "collapsible_tab"
+        },
+        "complementary_custom_y6bBfH": {
+          "settings": {
+            "heading": "Das könnte Ihnen auch gefallen",
+            "image_ratio": "4/5",
+            "product_list_limit": 4,
+            "show_reviews": true
+          },
+          "type": "complementary_custom"
+        },
+        "icon_info_text_4ErYdG": {
+          "settings": {
+            "description": "<p>Wir wissen, dass die richtige Entscheidung Zeit braucht.<br/>Ob Sie sich zwischen Materialien entscheiden oder Fragen zur Passform haben – wir unterstützen Sie gerne mit einer persönlichen Empfehlung.<br/><br/>Wir beraten Sie telefonisch oder per E-Mail und nehmen uns Zeit für Ihr Anliegen.<br/><br/><br/>+49 (0) 30 2332 7430<br/>service@royfort.com</p>",
+            "icon": "shopify://shop_images/chat_bubble_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
+            "page": "",
+            "short_description": "Unser Team steht Ihnen gerne zur Seite",
+            "title": "Persönliche Beratung"
+          },
+          "type": "icon_info_text"
+        },
+        "icon_info_text_8ayhQN": {
+          "settings": {
+            "description": "<p>Von der sorgfältigen Vorbereitung bis zum sicheren Versand begleiten wir jede Bestellung mit besonderer Aufmerksamkeit und Liebe zum Detail.</p>",
+            "icon": "shopify://shop_images/local_shipping_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
+            "page": "",
+            "short_description": "Kostenloser Versand",
+            "title": "Geschätzte Lieferung: {{ product.metafields.custom.we_pdp_estimated_delivery_time.value }}"
+          },
+          "type": "icon_info_text"
+        },
+        "icon_info_text_pzJbNn": {
+          "settings": {
+            "description": "<p>Schlafen Sie 30 Tage lang sorglos in unseren Produkten und erleben Sie das Royfort-Gefühl. Wenn Sie nicht zufrieden sind, können Sie die Produkte einfach und kostenlos an uns zurückschicken.</p>",
+            "icon": "shopify://shop_images/undo_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
+            "page": "",
+            "short_description": "Kostenlose und einfache Rücksendungen",
+            "title": "30-Tage Rückgaberecht"
+          },
+          "type": "icon_info_text"
+        },
+        "image_tooltip_iznpVX": {
+          "settings": {
+            "button_text": "Mehr Infos",
+            "description": "<p>Das Material passt sich Ihrer Körpertemperatur an und sorgt so vor allem bei wechselnden Temperaturen für Wohlbefinden.</p>",
+            "image_index": 2,
+            "render_from_metafield": true,
+            "title": "Nachhaltige Materialien"
+          },
+          "type": "image_tooltip"
+        },
+        "price": {
+          "settings": {
+            "show_tax_and_shipping": false
+          },
+          "type": "price"
+        },
+        "stamped_reviews_Kmb8np": {
+          "settings": {},
+          "type": "stamped_reviews"
+        },
+        "title": {
+          "settings": {
+            "heading_size": "h1"
+          },
+          "type": "title"
+        },
+        "usp_list_yWyYmX": {
+          "settings": {
+            "item_description_1": "",
+            "item_description_2": "",
+            "item_description_3": "",
+            "item_title_1": "",
+            "item_title_2": "",
+            "item_title_3": "",
+            "title": "{{ product.metafields.custom.we_pdp_usp_list_title.value }}",
+            "use_usp_metafield": true
+          },
+          "type": "usp_list"
+        },
+        "usp_swiper_ffaRkg": {
+          "settings": {
+            "hide_on_desktop": true,
+            "icon_1": "shopify://shop_images/globe.svg",
+            "icon_2": "shopify://shop_images/local_shipping_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
+            "icon_3": "shopify://shop_images/chat_bubble_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
+            "usp_1": "Handgefertigt in Portugal",
+            "usp_2": "Traditionelle Fertigung",
+            "usp_3": "USP 3",
+            "usp_4": "",
+            "usp_5": ""
+          },
+          "type": "usp_swiper"
+        },
+        "we_variant_picker_jJ7CqM": {
+          "settings": {
+            "button_size": 40,
+            "button_style": "standard",
+            "dropdown_low_inventory_threshold": 5,
+            "picker_type": "custom_dropdown",
+            "select_variant_text": "Größe auswählen",
+            "set_picker_title": "Vervollständigen Sie Ihr Set",
+            "set_zwischensumme_title": "ZWISCHENSUMME",
+            "size_chart_from_page": "",
+            "size_title": "Size",
+            "swatch_type": "color_swatch"
+          },
+          "type": "we_variant_picker"
+        }
+      },
+      "custom_css": [
+        "/* .loox-rating {margin-top: -1rem;}.complementary-products__container .product-card__wrapper .btn--secondary {background-color: transparent;} */"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "enable_image_zoom": true,
+        "enable_sticky_info": true,
+        "enable_video_looping": true,
+        "gallery_layout": "grid-mix",
+        "media_size": "medium",
+        "mobile_thumbnails": "hide",
+        "padding_bottom": 0,
+        "padding_top": 0
+      },
+      "type": "main-product"
+    },
+    "we_featured_collections_Hgagwm": {
+      "block_order": [
+        "collection_WYgrn4",
+        "collection_rxB9DV",
+        "collection_3zkKVK"
+      ],
+      "blocks": {
+        "collection_3zkKVK": {
+          "settings": {
+            "collection": "daunendecken-kissen",
+            "image": "shopify://shop_images/Featured_Category_Decken_Kissen_small_eac569dd-12a7-4007-a5f7-d06b6965800b.jpg"
+          },
+          "type": "collection"
+        },
+        "collection_WYgrn4": {
+          "settings": {
+            "collection": "kaschmir-kollektion",
+            "image": "shopify://shop_images/Featured_Category_Bettwasche_small_746baeff-f64d-4458-9038-cb914b6e5acf.jpg"
+          },
+          "type": "collection"
+        },
+        "collection_rxB9DV": {
+          "settings": {
+            "collection": "matratzen",
+            "image": "shopify://shop_images/Featured_Category_Betten_Matratzen_small_e453b342-76fb-4d8b-a375-a37b02a98c11.jpg"
+          },
+          "type": "collection"
+        }
+      },
+      "name": "[we] Featured collections",
+      "settings": {
+        "button_label": "",
+        "button_link": "",
+        "button_style": "btn--primary",
+        "color_scheme": "",
+        "column_gap": "extra-small",
+        "columns": 3,
+        "columns_mobile": "1",
+        "custom_class": "",
+        "description": "",
+        "divider_width": "fixed",
+        "header_layout": "vertical",
+        "heading": "",
+        "heading_highlight_style": "none",
+        "heading_size": "h1",
+        "image_ratio": "1/1",
+        "padding_bottom": 0,
+        "padding_top": 32,
+        "row_gap": "inherit",
+        "section_width": "full",
+        "show_section_divider": false,
+        "social_media": "none",
+        "subheading": "",
+        "swipe_on_mobile": false,
+        "text_size": "text-base"
+      },
+      "type": "we-featured-collections"
+    }
+  }
+}
