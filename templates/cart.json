@@ -14,14 +14,17 @@
       "blocks": {
         "free_shipping_goal_W8bXKE": {
           "type": "free_shipping_goal",
+          "disabled": true,
           "settings": {}
         },
         "cart_note_qpALBg": {
           "type": "cart_note",
+          "disabled": true,
           "settings": {}
         },
         "cart_shipping_rate_bnhQBk": {
           "type": "cart_shipping_rate",
+          "disabled": true,
           "settings": {}
         },
         "subtotal_LeUiVY": {
@@ -52,6 +55,7 @@
         "header_layout": "vertical",
         "heading": "Weitere Empfehlungen",
         "heading_size": "h1",
+        "heading_styling": "body",
         "heading_highlight_style": "none",
         "subheading": "",
         "description": "",
@@ -65,6 +69,8 @@
         "grid_layout": "standard",
         "enable_slider": true,
         "controls_position": "inside",
+        "pcard_use_swiper": false,
+        "show_reviews": true,
         "pcard_image_ratio": "",
         "columns_mobile": "2",
         "swipe_on_mobile": true,
