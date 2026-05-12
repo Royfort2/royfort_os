@@ -54,15 +54,12 @@
     },
     "we_subcollections_N4HKQf": {
       "type": "we-subcollections",
-      "disabled": true,
       "name": "[we] Subcollections",
       "settings": {
         "subcollections": [
           "all",
-          "hotelbettwaesche",
-          "deckenbezuege",
-          "kissenbezuge",
-          "spannbettlaken"
+          "matratzentopper",
+          "matratzenschoner"
         ],
         "background": "#ffffff",
         "opacity": 1,
