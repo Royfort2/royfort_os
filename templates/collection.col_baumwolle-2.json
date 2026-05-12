@@ -57,6 +57,7 @@
       "name": "[we] Subcollections",
       "settings": {
         "subcollections": [
+          "baumwolle-kollektion",
           "all",
           "hotelbettwaesche",
           "deckenbezuege",
