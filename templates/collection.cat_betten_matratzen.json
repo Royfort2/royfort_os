@@ -57,6 +57,7 @@
       "name": "[we] Subcollections",
       "settings": {
         "subcollections": [
+          "matratzen",
           "all",
           "matratzentopper",
           "matratzenschoner"
