@@ -277,6 +277,7 @@
 -%}
 <div
   class="product-card we-product-card product-card-style-{{ settings.pcard_style }}{% if settings.pcard_style == 'card' %} color-{{ settings.pcard_color_scheme }}{% endif %}{{ card_wrapper_class }}{% if list_on_mobile %} product-card-list-on-mobile{% endif %}{% if use_swiper_effective %} we-product-card--swiper{% endif %}"
+  data-we-product-id="{{ product.id }}"
 >
   <div class="product-card__wrapper h-full">
     <div class="product-card__image-wrapper{% if second_image == blank %} product-card__image-wrapper--main-only{% endif %}{% if use_swiper_effective %} we-product-card__image-wrapper--swiper{% endif %} {% if list_on_mobile %}desktop-{% endif %}color-{{ settings.pcard_overlay_color_scheme }} bg-none">
