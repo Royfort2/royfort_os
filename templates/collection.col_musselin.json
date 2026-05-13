@@ -14,17 +14,17 @@
       "blocks": {
         "heading_NVB9zb": {
           "type": "heading",
-          "disabled": true,
           "settings": {
-            "heading": "",
+            "heading": "{{ collection.title }}",
             "heading_size": "h2",
             "heading_highlight_style": "none"
           }
         },
         "text_XafVaJ": {
           "type": "text",
+          "disabled": true,
           "settings": {
-            "text": "<p></p>{{ collection.description }}",
+            "text": "",
             "text_size": "text-base"
           }
         }
