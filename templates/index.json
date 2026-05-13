@@ -44,7 +44,7 @@
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
-        "image": "shopify://shop_images/Homepage_Hero_2c98def4-5e8f-4b0b-a542-2aceead73ce1.jpg",
+        "image": "shopify://shop_images/Homepage_Hero_4.jpg",
         "desktop_height": "extra-large",
         "overlay_opacity": 10,
         "use_custom_overlay": false,
