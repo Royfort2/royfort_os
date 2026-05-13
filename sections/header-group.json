@@ -132,7 +132,7 @@
         "logo_mobile_position": "left",
         "show_social_media_icons": true,
         "enable_language_selector": true,
-        "enable_country_selector": true,
+        "enable_country_selector": false,
         "padding_top": 16,
         "padding_bottom": 16
       }
