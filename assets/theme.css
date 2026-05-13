@@ -6498,6 +6498,40 @@ body:not(.header-pinned) .header-scrolled .header {
 .menu-drawer details.open > .menu-drawer__submenu {
   z-index: 3;
 }
+.menu-drawer__accordion.accordion-details {
+  border-block-end: none;
+}
+.menu-drawer__accordion > summary.menu-drawer__accordion-summary .icon-arrow {
+  flex-shrink: 0;
+  transition: transform 0.25s cubic-bezier(0.3, 1, 0.3, 1);
+}
+.menu-drawer__accordion[aria-expanded='true']
+  > summary.menu-drawer__accordion-summary
+  .icon-arrow {
+  transform: rotate(90deg);
+}
+.menu-drawer__accordion-content {
+  overflow: unset;
+}
+.menu-drawer__accordion-content.accordion-details__content {
+  padding-block: 0 0;
+  padding-inline: 0;
+}
+.menu-drawer__accordion-list {
+  list-style: none;
+  margin: 0;
+  padding-inline-start: 1.2rem;
+  padding-block-start: 0.25rem;
+  padding-block-end: 0.25rem;
+  border-inline-start: 0.1rem solid rgb(var(--color-border));
+  margin-inline-start: 0.4rem;
+}
+.menu-drawer__item--grandchild {
+  padding-block: 0.45rem;
+}
+.menu-drawer__item-link--grandchild {
+  font-size: calc(var(--font-h4-size) * 0.92);
+}
 .menu-drawer .v-scrollable.active {
   overflow: unset;
 }

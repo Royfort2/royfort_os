@@ -74,6 +74,7 @@
               -%}
               {%- if link.links != blank or enable_mega_menu -%}
                 {%- render 'menu-drawer-details',
+                  section_id: section.id,
                   link: link,
                   enable_mega_menu: enable_mega_menu,
                   block: mega_menu_block

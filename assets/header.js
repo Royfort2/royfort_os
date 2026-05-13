@@ -458,6 +458,7 @@ class MenuDrawer extends DrawerComponent {
   constructor() {
     super();
   }
+
   get menuItems() {
     if (!this._menuItems) {
       this._menuItems = this.querySelectorAll(
@@ -497,6 +498,11 @@ class MenuDrawer extends DrawerComponent {
       this.querySelectorAll('details[is=menu-drawer-details]').forEach((menu) => {
         menu.onCloseButtonClick();
       });
+      this.querySelectorAll('details[is="accordion-details"].menu-drawer__accordion').forEach(
+        (accordion) => {
+          if (accordion.open) accordion.open = false;
+        }
+      );
     });
   }
 }

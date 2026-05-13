@@ -46,25 +46,30 @@
       {%- for childlink in link.links -%}
         <li class="menu-drawer__item" level="child">
           {%- if childlink.links != blank -%}
-            <details is="menu-drawer-details">
-              <summary class="menu-drawer__item-link flex items-center justify-between">
+            {%- liquid
+              assign accordion_suffix = section_id | append: '-' | append: link.handle | append: '-' | append: forloop.index
+              assign accordion_body_id = 'MenuDrawer-acc-body-' | append: accordion_suffix
+            -%}
+            <details class="accordion-details menu-drawer__accordion" is="accordion-details">
+              <summary
+                id="MenuDrawer-acc-sum-{{ accordion_suffix }}"
+                class="menu-drawer__item-link menu-drawer__accordion-summary flex items-center justify-between"
+              >
                 <span>{{ childlink.title | escape }}</span>
                 {%- render 'icon-caret', size: 'medium' -%}
               </summary>
-              <div class="menu-drawer__submenu absolute z-1 flex flex-col w-full h-full" data-parent>
-                <button
-                  type="button"
-                  class="menu-drawer__item-back-link font-navigation flex items-center gap-2 w-full"
-                >
-                  {%- render 'icon-caret', size: 'small' -%}
-                  {{ childlink.title | escape }}
-                </button>
-                <ul class="v-scrollable h-full w-full ss">
+              <div
+                id="{{ accordion_body_id }}"
+                class="accordion-details__content menu-drawer__accordion-content"
+                role="region"
+                aria-labelledby="MenuDrawer-acc-sum-{{ accordion_suffix }}"
+              >
+                <ul class="menu-drawer__accordion-list flex flex-col w-full" role="list">
                   {%- for grandchildlink in childlink.links -%}
-                    <li class="menu-drawer__item">
+                    <li class="menu-drawer__item menu-drawer__item--grandchild">
                       <a
                         href="{{ grandchildlink.url }}"
-                        class="menu-drawer__item-link flex items-center justify-between"
+                        class="menu-drawer__item-link menu-drawer__item-link--grandchild flex items-center justify-between"
                       >
                         {{- grandchildlink.title | escape -}}
                       </a>
