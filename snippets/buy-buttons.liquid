@@ -58,9 +58,18 @@
       endif
     endif
 
-    assign pdp_qty_opt = product.metafields.custom.pdp_option_for_quantity_selector.value | default: product.metafields.custom.pdp_option_for_quantity_selector | strip
+    assign variant_picker_custom_dropdown = false
+    for sb in section.blocks
+      if sb.settings.picker_type == 'custom_dropdown'
+        if sb.type == 'variant_picker' or sb.type == 'we_variant_picker'
+          assign variant_picker_custom_dropdown = true
+          break
+        endif
+      endif
+    endfor
+
     assign pdp_qty_selector_pending = false
-    if pdp_qty_opt != blank and product.has_only_default_variant == false
+    if variant_picker_custom_dropdown and product.has_only_default_variant == false
       assign pdp_qty_selector_pending = true
       assign ov_bb = ''
       if request.query_string contains 'option_values='
@@ -72,18 +81,9 @@
         assign pdp_qty_selector_pending = false
       endif
     endif
-    assign variant_picker_custom_dropdown = false
-    for sb in section.blocks
-      if sb.settings.picker_type == 'custom_dropdown'
-        if sb.type == 'variant_picker' or sb.type == 'we_variant_picker'
-          assign variant_picker_custom_dropdown = true
-          break
-        endif
-      endif
-    endfor
     assign hide_qty_in_buy_buttons = false
-    if pdp_qty_opt != blank
-      if variant_picker_custom_dropdown and block.settings.show_quantity_selector and product.quantity_price_breaks_configured? != true and product.has_only_default_variant == false
+    if variant_picker_custom_dropdown
+      if block.settings.show_quantity_selector and product.quantity_price_breaks_configured? != true and product.has_only_default_variant == false
         assign hide_qty_in_buy_buttons = true
       endif
     endif

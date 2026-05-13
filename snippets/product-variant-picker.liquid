@@ -8,7 +8,6 @@
   - update_url: {Boolean} whether or not to update url when changing variants. If false, the url isn't updated. Default: true (optional).
   - picker_id_suffix: {String} optional suffix for DOM ids when multiple pickers share a section (e.g. set products).
   - option_name_suffix: {String} optional suffix for option input names (e.g. product id) to avoid collisions in one form.
-  - pdp_qty_metafield_source: {Object} optional product used to read pdp_option_for_quantity_selector (bundle product on set PDPs).
   - pdp_set_bundle_context: {Boolean} when true, inline quantity is non-submitting (embedded set pickers; avoids duplicate name="quantity").
   - pdp_qty_embedded_picker: {Boolean} when true, placeholder clears only when product.selected_variant is set or a section fetch includes option_values (set child pickers).
   - pdp_set_line_variant_from_bundle: {Object} optional — first set line variant matching bundle ?variant= (set PDP / quick view).
@@ -31,13 +30,37 @@
       assign we_use_bundle_line_variant = true
     endif
 
-    assign pdp_qty_metafield_source = pdp_qty_metafield_source | default: product
     assign pdp_set_bundle_context = pdp_set_bundle_context | default: false
     assign pdp_qty_embedded_picker = pdp_qty_embedded_picker | default: false
-    assign pdp_qty_option_raw = pdp_qty_metafield_source.metafields.custom.pdp_option_for_quantity_selector.value | default: pdp_qty_metafield_source.metafields.custom.pdp_option_for_quantity_selector
-    assign pdp_qty_option_name = pdp_qty_option_raw | strip
+
+    assign pdp_qty_anchor_position = blank
+    for opt in product.options_with_values
+      assign od = opt.name | downcase | strip
+      assign is_color_by_trigger = false
+      if settings.color_swatch_trigger != blank
+        assign tr = settings.color_swatch_trigger | downcase | split: ','
+        assign hit = tr | where: od | first
+        if hit != blank
+          assign is_color_by_trigger = true
+        elsif od contains 'colour'
+          assign tr2 = settings.color_swatch_trigger | replace: 'color', 'colour' | downcase | split: ','
+          assign hit2 = tr2 | where: od | first
+          if hit2 != blank
+            assign is_color_by_trigger = true
+          endif
+        endif
+      endif
+      unless is_color_by_trigger
+        assign pdp_qty_anchor_position = opt.position
+        break
+      endunless
+    endfor
+    if pdp_qty_anchor_position == blank
+      assign pdp_qty_anchor_position = product.options_with_values.first.position
+    endif
+
     assign pdp_qty_selector_pending = false
-    if pdp_qty_option_name != blank
+    if block.settings.picker_type == 'custom_dropdown' and product.has_only_default_variant == false
       assign pdp_qty_selector_pending = true
       assign ov_part = ''
       if request.query_string contains 'option_values='
@@ -118,8 +141,8 @@
     data-line-color-option-position="{{ line_color_option_index }}"
     data-selected-variant-id="{% if we_active_variant %}{{ we_active_variant.id }}{% endif %}"
     data-update-url="{% if update_url == false %}false{% else %}true{% endif %}"
-    {% if pdp_qty_option_name != blank %}
-      data-pdp-qty-option="{{ pdp_qty_option_name | escape }}"
+    {% if block.settings.picker_type == 'custom_dropdown' %}
+      data-pdp-qty-anchor-position="{{ pdp_qty_anchor_position }}"
       data-pdp-qty-pending="{% if pdp_qty_selector_pending %}true{% else %}false{% endif %}"
     {% endif %}
     {% if pdp_qty_embedded_picker %}
@@ -232,23 +255,8 @@
         endunless
 
         assign is_pdp_qty_option = false
-        if pdp_qty_option_name != blank
-          assign opt_cmp = option.name | strip | downcase
-          assign pdp_cmp = pdp_qty_option_name | strip | downcase
-          assign opt_h = option.name | handleize
-          assign pdp_h = pdp_qty_option_name | handleize
-          if opt_cmp == pdp_cmp or opt_h == pdp_h
-            assign is_pdp_qty_option = true
-          endif
-        endif
-        if pdp_qty_embedded_picker and pdp_qty_option_name != blank and is_pdp_qty_option == false
-          assign opt_l = option.name | strip | downcase
-          assign pdp_l = pdp_qty_option_name | strip | downcase
-          if pdp_l != blank and opt_l != blank
-            if opt_l contains pdp_l or pdp_l contains opt_l
-              assign is_pdp_qty_option = true
-            endif
-          endif
+        if option.position == pdp_qty_anchor_position
+          assign is_pdp_qty_option = true
         endif
         assign is_color_swatch_picker = false
         if picker_type == 'swatch' or picker_type == 'color'
@@ -281,7 +289,7 @@
           assign pdp_skip_value_selected = true
         endif
         assign pdp_qty_row_active = false
-        if is_pdp_qty_option and pdp_qty_option_name != blank
+        if is_pdp_qty_option
           assign pdp_qty_row_active = true
         endif
       -%}

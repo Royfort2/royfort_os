@@ -36,14 +36,38 @@
     assign qty_unit_short = settings.qty_selector_unit_short | default: 'St.'
     assign qty_unit_long = settings.qty_selector_unit_long | default: 'Stück'
 
-    assign pdp_qty_option_raw = product.metafields.custom.pdp_option_for_quantity_selector.value | default: product.metafields.custom.pdp_option_for_quantity_selector
-    assign pdp_qty_option_name = pdp_qty_option_raw | strip
+    assign pdp_qty_anchor_position = blank
+    for opt in product.options_with_values
+      assign od = opt.name | downcase | strip
+      assign is_color_by_trigger = false
+      if settings.color_swatch_trigger != blank
+        assign tr = settings.color_swatch_trigger | downcase | split: ','
+        assign hit = tr | where: od | first
+        if hit != blank
+          assign is_color_by_trigger = true
+        elsif od contains 'colour'
+          assign tr2 = settings.color_swatch_trigger | replace: 'color', 'colour' | downcase | split: ','
+          assign hit2 = tr2 | where: od | first
+          if hit2 != blank
+            assign is_color_by_trigger = true
+          endif
+        endif
+      endif
+      unless is_color_by_trigger
+        assign pdp_qty_anchor_position = opt.position
+        break
+      endunless
+    endfor
+    if pdp_qty_anchor_position == blank
+      assign pdp_qty_anchor_position = product.options_with_values.first.position
+    endif
+
     assign pdp_ov_for_url = ''
     if request.query_string contains 'option_values='
       assign pdp_ov_for_url = request.query_string | split: 'option_values=' | last | split: '&' | first | strip
     endif
     assign pdp_qty_selector_pending = false
-    if pdp_qty_option_name != blank
+    if block.settings.picker_type == 'custom_dropdown' and product.has_only_default_variant == false
       assign pdp_qty_selector_pending = true
       if pdp_ov_for_url != blank
         assign pdp_qty_selector_pending = false
@@ -180,14 +204,8 @@
         endif
 
         assign is_pdp_qty_option = false
-        if pdp_qty_option_name != blank
-          assign opt_cmp = option.name | strip | downcase
-          assign pdp_cmp = pdp_qty_option_name | strip | downcase
-          assign opt_h = option.name | handleize
-          assign pdp_h = pdp_qty_option_name | handleize
-          if opt_cmp == pdp_cmp or opt_h == pdp_h
-            assign is_pdp_qty_option = true
-          endif
+        if option.position == pdp_qty_anchor_position
+          assign is_pdp_qty_option = true
         endif
 
         assign we_option_skip_selected = false
@@ -425,7 +443,7 @@
                   </div>
                 </div>
               </details>
-              {% if product.metafields.custom.pdp_option_for_quantity_selector == option.name %}
+              {% if is_pdp_qty_option %}
                 <div
                   class="we-quantity-selector"
                   data-qty-unit-short="{{ qty_unit_short | escape }}"
