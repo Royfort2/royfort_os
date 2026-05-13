@@ -125,7 +125,7 @@
             .pdp-variant-qty-row {
               display: flex;
               flex-direction: row;
-              align-items: flex-start;
+              align-items: stretch;
               gap: 0.6rem;
               width: 100%;
             }
@@ -133,48 +133,18 @@
               flex: 1;
               min-width: 0;
             }
-            .pdp-variant-qty-row--has-variant {
-              align-items: stretch;
-            }
             .pdp-inline-quantity {
-              flex: 0 0 auto;
-              align-self: flex-start;
-              box-sizing: border-box;
-              width: 0;
-              min-width: 0;
-              max-width: 0;
-              max-height: 0;
-              min-height: 0;
-              opacity: 0;
-              overflow: hidden;
-              pointer-events: none;
-              transition:
-                width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-                min-width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-                max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-                max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-                opacity 0.25s ease;
-            }
-            .pdp-variant-qty-row--has-variant .pdp-inline-quantity {
+              flex: 0 0 8rem;
               align-self: stretch;
+              box-sizing: border-box;
               width: 8rem;
               min-width: 8rem;
               max-width: 8rem;
-              max-height: none;
-              min-height: 0;
-              flex: 0 0 8rem;
-              opacity: 1;
               overflow: visible;
-              pointer-events: auto;
             }
             .pdp-inline-quantity:has(details.we-select-container[open]) {
               overflow: visible;
               z-index: 26;
-            }
-            @media (prefers-reduced-motion: reduce) {
-              .pdp-inline-quantity {
-                transition: none;
-              }
             }
             .product-set-picker__expand-inner .pdp-inline-quantity,
             .product-set-picker__card .pdp-inline-quantity {

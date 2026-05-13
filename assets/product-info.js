@@ -11,62 +11,9 @@ if (!customElements.get('product-info')) {
       preProcessHtmlCallbacks = [];
       postProcessHtmlCallbacks = [];
       cartUpdateUnsubscriber = undefined;
-      /** When true, next embedded variant-selects swap should replay the inline quantity width/opacity transition. */
-      pendingEmbeddedQtyReveal = false;
 
       constructor() {
         super();
-      }
-
-      /**
-       * Embedded set pickers: section HTML arrives with the quantity column already “open”, so CSS transition
-       * never runs. After initWeDetailsSelects, force a max-width Web Animations API tween (same easing/duration
-       * as theme CSS). Does not rely on class-toggle timing.
-       */
-      animateEmbeddedInlineQtyReveal(vsRoot) {
-        if (!vsRoot) return;
-        if (window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches) return;
-
-        const inlineQty =
-          vsRoot.querySelector('.pdp-variant-qty-row--has-variant .pdp-inline-quantity') ||
-          vsRoot.querySelector('.pdp-inline-quantity');
-        if (!inlineQty || typeof inlineQty.animate !== 'function') return;
-
-        inlineQty.getAnimations?.().forEach((a) => a.cancel());
-
-        inlineQty.style.width = '0px';
-        inlineQty.style.minWidth = '0px';
-        inlineQty.style.maxWidth = '0px';
-        inlineQty.style.opacity = '0';
-        void inlineQty.offsetWidth;
-
-        requestAnimationFrame(() => {
-          const anim = inlineQty.animate(
-            [
-              {
-                width: '0px',
-                minWidth: '0px',
-                maxWidth: '0px',
-                opacity: 0,
-              },
-              {
-                width: '8rem',
-                minWidth: '8rem',
-                maxWidth: '8rem',
-                opacity: 1,
-              },
-            ],
-            { duration: 400, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: 'forwards' }
-          );
-          anim.finished
-            .then(() => {
-              inlineQty.style.removeProperty('width');
-              inlineQty.style.removeProperty('min-width');
-              inlineQty.style.removeProperty('max-width');
-              inlineQty.style.removeProperty('opacity');
-            })
-            .catch(() => {});
-        });
       }
 
       get variantSelectors() {
@@ -621,8 +568,6 @@ if (!customElements.get('product-info')) {
         const shouldFetchFullPage = this.dataset.updateUrl === 'true' && shouldSwapProduct;
         const viewMode = this.dataset.viewMode || 'main-product';
 
-        this.pendingEmbeddedQtyReveal = variantSelectsEl?.dataset?.pdpEmbeddedPending === 'true';
-
         const variantIdForFetch = this.resolveVariantIdFromSelectedOptions(this, variantSelectsEl);
         this._pendingSectionVariantId = variantIdForFetch;
 
@@ -721,30 +666,9 @@ if (!customElements.get('product-info')) {
             }
           }
 
-          let hadQtyRowExpandedBefore = false;
-          let incomingQtyRowExpanded = false;
-          if (variantSelectsId && !isMainPicker) {
-            const destBefore = document.getElementById(variantSelectsId);
-            hadQtyRowExpandedBefore = !!destBefore?.querySelector('.pdp-variant-qty-row--has-variant');
-            let sourceVs = null;
-            if (destBefore?.dataset?.productId) {
-              sourceVs = html.querySelector(
-                `variant-selects[data-product-id="${destBefore.dataset.productId}"]`
-              );
-            }
-            if (!sourceVs) {
-              sourceVs = html.getElementById(variantSelectsId);
-            }
-            incomingQtyRowExpanded = !!sourceVs?.querySelector('.pdp-variant-qty-row--has-variant');
-          }
-
           this.updateOptionValues(html, variantSelectsId);
 
           if (!isMainPicker) {
-            const shouldRevealQty =
-              this.pendingEmbeddedQtyReveal ||
-              (!hadQtyRowExpandedBefore && incomingQtyRowExpanded);
-            this.pendingEmbeddedQtyReveal = false;
             this.enableButtons();
             requestAnimationFrame(() => {
               const sourcePrice = html.getElementById(`price-${this.sectionId}`);
@@ -775,13 +699,6 @@ if (!customElements.get('product-info')) {
                     : null;
                   if (vsFirst) this.syncMainMediaGalleryFromFirstSetPicker(vsFirst);
                 }
-              }
-              const revealAfterInit =
-                shouldRevealQty ||
-                (!hadQtyRowExpandedBefore &&
-                  !!vsRoot?.querySelector('.pdp-variant-qty-row--has-variant .pdp-inline-quantity'));
-              if (revealAfterInit && vsRoot) {
-                this.animateEmbeddedInlineQtyReveal(vsRoot);
               }
               document.dispatchEvent(new CustomEvent('pdp-set:refresh-submit', { bubbles: true }));
               this._syncFormLineItems();

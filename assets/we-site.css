@@ -1284,10 +1284,6 @@ layout-switcher .btn::after {
     gap: 0.4rem;
 }
 
-.we-variant-picker__dropdown-container:has(.we-select-container--placeholder) {
-    gap: 0;
-}
-
 .we-variant-picker__dropdown-container .we-select-container {
     flex: 1;
 }
@@ -1296,11 +1292,6 @@ layout-switcher .btn::after {
     width: 8rem;
     opacity: 1;
     transition: all 0.3s ease-in-out;
-}
-
-.we-select-container--placeholder+.we-quantity-selector {
-    opacity: 0;
-    width: 0;
 }
 
 .quick-view__product-heading .product__title {

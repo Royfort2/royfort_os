@@ -399,9 +399,7 @@
               assign opt_radio_name = 'vs-' | append: id_ns | append: '-o' | append: option.position
             -%}
             {%- if pdp_qty_row_active -%}
-              <div
-                class="pdp-variant-qty-row{% unless pdp_qty_selector_pending or pdp_embedded_variant_pending %} pdp-variant-qty-row--has-variant{% endunless %}"
-              >
+              <div class="pdp-variant-qty-row">
                 <div class="pdp-variant-qty-row__picker">
             {%- endif -%}
             <details
@@ -551,10 +549,7 @@
                     assign pdp_q_inc = 1
                   endif
                 -%}
-                <div
-                  class="pdp-inline-quantity"
-                  aria-hidden="{% if pdp_qty_selector_pending or pdp_embedded_variant_pending %}true{% else %}false{% endif %}"
-                >
+                <div class="pdp-inline-quantity">
                   {% render 'pdp-inline-quantity-we-select',
                     id_ns: id_ns,
                     product_form_id: product_form_id,
