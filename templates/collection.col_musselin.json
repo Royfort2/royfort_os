@@ -22,8 +22,9 @@
         },
         "text_XafVaJ": {
           "type": "text",
+          "disabled": true,
           "settings": {
-            "text": "<p></p>{{ collection.description }}",
+            "text": "",
             "text_size": "text-base"
           }
         }
