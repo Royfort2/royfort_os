@@ -22,10 +22,11 @@
   }
   .menu-drawer__footer-menu-list {
     display: flex;
-    flex-direction: column;
+    gap: 0.5rem;
   }
   .menu-drawer__footer-menu-list > * {
     flex: 1;
+    text-align: center;
   }
 {% endstyle %}
 <menu-drawer id="MenuDrawer" class="menu-drawer drawer drawer--left" hidden>
@@ -96,6 +97,24 @@
                     <a href="{{ link.url }}" class="menu-drawer__item-link menu-drawer__footer-menu-link">{{ link.title }}</a>
                   </li>
                 {% endfor %}
+                {%- if shop.customer_accounts_enabled -%}
+                  <li class="menu-drawer__item menu-drawer__footer-menu-item">
+                    <a
+                      href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+                      class="menu-drawer__item-link menu-drawer__footer-menu-link"
+                    >
+                      <span>
+                        {%- liquid
+                          if customer
+                            echo 'customer.account_fallback' | t
+                          else
+                            echo 'customer.log_in' | t
+                          endif
+                        -%}
+                      </span>
+                    </a>
+                  </li>
+                {%- endif -%}
               </ul>
             </div>
           {% endif %}
@@ -111,7 +130,7 @@
               -%}
             </div>
           {%- endif -%}
-          {%- if shop.customer_accounts_enabled -%}
+          {% comment %} {%- if shop.customer_accounts_enabled -%}
             <a
               href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
               class="account-button btn btn--primary"
@@ -126,7 +145,7 @@
                 -%}
               </span>
             </a>
-          {%- endif -%}
+          {%- endif -%} {% endcomment %}
         </div>
         {%- if section.settings.show_social_media_icons -%}
           <div class="menu-drawer__social-icons">
