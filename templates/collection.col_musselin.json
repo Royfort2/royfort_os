@@ -14,8 +14,9 @@
       "blocks": {
         "heading_NVB9zb": {
           "type": "heading",
+          "disabled": true,
           "settings": {
-            "heading": "{{ collection.title }}",
+            "heading": "",
             "heading_size": "h2",
             "heading_highlight_style": "none"
           }
