@@ -312,6 +312,99 @@
         "custom_class": ""
       }
     },
+    "multicolumn_Ta3eFy": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_U8eizC": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "video": "shopify://files/videos/Royfort soft zoomed.mp4",
+            "video_url": "",
+            "video_autoplay": true,
+            "video_loop": true,
+            "video_muted": true,
+            "video_controls": false,
+            "image_width": "full",
+            "title": "Weiche Stützkraft",
+            "heading_size": "h4",
+            "text": "<p>Das Kissen hat weniger Füllung und man sinkt darin besonders ein. Es ist optimal für Bauchschläfer, weil der Nacken beim Schlaf in einer natürlichen Position ruht.</p>",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_GkMF3a": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "video": "shopify://files/videos/mittel.mp4",
+            "video_url": "",
+            "video_autoplay": true,
+            "video_loop": true,
+            "video_muted": true,
+            "video_controls": false,
+            "image_width": "full",
+            "title": "Mittlere Stützkraft",
+            "heading_size": "h4",
+            "text": "<p>Das Kissen passt für die meisten Liegepositionen. Es ist zu empfehlen wenn man nicht immer in der gleichen Position schläft.</p>",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_Y6Ptaj": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "video": "shopify://files/videos/fest.mp4",
+            "video_url": "",
+            "video_autoplay": true,
+            "video_loop": true,
+            "video_muted": true,
+            "video_controls": false,
+            "image_width": "full",
+            "title": "Feste Stützkraft",
+            "heading_size": "h4",
+            "text": "<p>Das Kissen hat mehr Füllung und stützt daher besonders. Zu empfehlen ist es insbesondere für Seitenschläfer.</p>",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        }
+      },
+      "block_order": [
+        "column_U8eizC",
+        "column_GkMF3a",
+        "column_Y6Ptaj"
+      ],
+      "name": "t:sections.multicolumn.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "heading": "Stützkraft des Kissens: Weich, Medium oder Fest",
+        "heading_size": "h2",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "column_alignment": "center",
+        "columns_desktop": 3,
+        "column_gap": "large",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
     "featured_collection_JQULLF": {
       "type": "featured-collection",
       "name": "t:sections.featured-collection.presets.name",
@@ -407,99 +500,6 @@
         "custom_class": ""
       }
     },
-    "multicolumn_Ta3eFy": {
-      "type": "multicolumn",
-      "blocks": {
-        "column_U8eizC": {
-          "type": "column",
-          "settings": {
-            "show_image": true,
-            "video": "shopify://files/videos/Royfort soft zoomed.mp4",
-            "video_url": "",
-            "video_autoplay": true,
-            "video_loop": true,
-            "video_muted": true,
-            "video_controls": false,
-            "image_width": "full",
-            "title": "Weiche Stützkraft",
-            "heading_size": "h4",
-            "text": "<p>Das Kissen hat weniger Füllung und man sinkt darin besonders ein. Es ist optimal für Bauchschläfer, weil der Nacken beim Schlaf in einer natürlichen Position ruht.</p>",
-            "text_size": "text-base",
-            "button_label": "",
-            "button_style": "btn--underline",
-            "button_link": "",
-            "mobile_layout": "inherit"
-          }
-        },
-        "column_GkMF3a": {
-          "type": "column",
-          "settings": {
-            "show_image": true,
-            "video": "shopify://files/videos/mittel.mp4",
-            "video_url": "",
-            "video_autoplay": true,
-            "video_loop": true,
-            "video_muted": true,
-            "video_controls": false,
-            "image_width": "full",
-            "title": "Mittlere Stützkraft",
-            "heading_size": "h4",
-            "text": "<p>Das Kissen passt für die meisten Liegepositionen. Es ist zu empfehlen wenn man nicht immer in der gleichen Position schläft.</p>",
-            "text_size": "text-base",
-            "button_label": "",
-            "button_style": "btn--underline",
-            "button_link": "",
-            "mobile_layout": "inherit"
-          }
-        },
-        "column_Y6Ptaj": {
-          "type": "column",
-          "settings": {
-            "show_image": true,
-            "video": "shopify://files/videos/fest.mp4",
-            "video_url": "",
-            "video_autoplay": true,
-            "video_loop": true,
-            "video_muted": true,
-            "video_controls": false,
-            "image_width": "full",
-            "title": "Feste Stützkraft",
-            "heading_size": "h4",
-            "text": "<p>Das Kissen hat mehr Füllung und stützt daher besonders. Zu empfehlen ist es insbesondere für Seitenschläfer.</p>",
-            "text_size": "text-base",
-            "button_label": "",
-            "button_style": "btn--underline",
-            "button_link": "",
-            "mobile_layout": "inherit"
-          }
-        }
-      },
-      "block_order": [
-        "column_U8eizC",
-        "column_GkMF3a",
-        "column_Y6Ptaj"
-      ],
-      "name": "t:sections.multicolumn.presets.name",
-      "settings": {
-        "color_scheme": "",
-        "heading": "Stützkraft des Kissens: Weich, Medium oder Fest",
-        "heading_size": "h2",
-        "heading_highlight_style": "none",
-        "subheading": "",
-        "description": "",
-        "text_size": "text-base",
-        "column_alignment": "center",
-        "columns_desktop": 3,
-        "column_gap": "large",
-        "columns_mobile": "1",
-        "swipe_on_mobile": true,
-        "padding_top": 50,
-        "padding_bottom": 50,
-        "show_section_divider": false,
-        "divider_width": "fixed",
-        "custom_class": ""
-      }
-    },
     "breadcrumbs": {
       "type": "breadcrumbs",
       "settings": {
@@ -511,9 +511,9 @@
     "main",
     "image_with_text_zQ9iit",
     "image_with_text_dQDdte",
+    "multicolumn_Ta3eFy",
     "featured_collection_JQULLF",
     "we_featured_collections_Hgagwm",
-    "multicolumn_Ta3eFy",
     "breadcrumbs"
   ]
 }
