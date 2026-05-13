@@ -337,7 +337,7 @@
             "button_style": "standard",
             "dropdown_low_inventory_threshold": 5,
             "picker_type": "custom_dropdown",
-            "select_variant_text": "Größe auswählen",
+            "select_variant_text": "auswählen",
             "set_picker_title": "Vervollständigen Sie Ihr Set",
             "set_zwischensumme_title": "ZWISCHENSUMME",
             "size_chart_from_page": "",

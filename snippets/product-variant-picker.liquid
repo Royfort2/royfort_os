@@ -292,6 +292,13 @@
         if is_pdp_qty_option
           assign pdp_qty_row_active = true
         endif
+
+        assign we_select_variant_suffix = block.settings.select_variant_text | strip
+        if we_select_variant_suffix != blank
+          assign we_placeholder_select_variant_label = option.name | append: ' ' | append: we_select_variant_suffix
+        else
+          assign we_placeholder_select_variant_label = option.name
+        endif
       -%}
       <{{ tag_fieldset }}
         class="{{ wrap_class }}"
@@ -310,11 +317,11 @@
             <span class="option-name">{{ option.name }}:</span>
             <span data-selected-swatch-value="{{ option.name }}">
               {%- if is_pdp_qty_option and pdp_qty_selector_pending -%}
-                {{- block.settings.select_variant_text -}}
+                {{- we_placeholder_select_variant_label -}}
               {%- elsif pdp_qty_selector_pending and is_color_swatch_picker == false -%}
-                {{- block.settings.select_variant_text -}}
+                {{- we_placeholder_select_variant_label -}}
               {%- elsif pdp_embedded_variant_pending and is_color_swatch_picker == false -%}
-                {{- block.settings.select_variant_text -}}
+                {{- we_placeholder_select_variant_label -}}
               {%- elsif we_use_bundle_line_variant -%}
                 {%- liquid
                   case option.position
@@ -416,11 +423,11 @@
             >
               <summary class="we-select-container__summary">
                 {%- if is_pdp_qty_option and pdp_qty_selector_pending -%}
-                  <span class="we-select-placeholder-label">{{ block.settings.select_variant_text }}</span>
+                  <span class="we-select-placeholder-label">{{ we_placeholder_select_variant_label }}</span>
                 {%- elsif pdp_qty_selector_pending and is_color_swatch_picker == false -%}
-                  <span class="we-select-placeholder-label">{{ block.settings.select_variant_text }}</span>
+                  <span class="we-select-placeholder-label">{{ we_placeholder_select_variant_label }}</span>
                 {%- elsif pdp_embedded_variant_pending and is_color_swatch_picker == false -%}
-                  <span class="we-select-placeholder-label">{{ block.settings.select_variant_text }}</span>
+                  <span class="we-select-placeholder-label">{{ we_placeholder_select_variant_label }}</span>
                 {%- else -%}
                   {%- liquid
                     assign we_dd_label = option.selected_value
