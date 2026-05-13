@@ -1,0 +1,84 @@
+{% comment %}
+  [we] PLP / product card badges from list metafields (when theme setting use_metafields_for_badges_display is on).
+
+  - product.metafields.custom.we_global_badges: shown on product and variant cards
+  - product.metafields.custom.we_product_card_badges: product card only (color_variant blank)
+  - variant.metafields.custom.we_variant_card_badges: variant cards; same color group as we-plp-neue-farbe-badge
+
+  Accepts:
+  - product {Product}
+  - color_variant {Variant} optional — set for variant tiles
+{% endcomment %}
+{%- if settings.use_metafields_for_badges_display -%}
+  {%- liquid
+    assign we_plp_ci = ''
+    assign we_plp_has_col = false
+    assign sw_we = settings.color_swatch_trigger | downcase | strip
+    if sw_we != blank
+      for option in product.options_with_values
+        assign on_we = option.name | downcase
+        assign we_is_col = false
+        if sw_we contains on_we
+          assign we_is_col = true
+        elsif sw_we contains 'color' and on_we contains 'colour'
+          assign we_is_col = true
+        endif
+        if we_is_col
+          assign we_plp_has_col = true
+          assign we_plp_ci = forloop.index0
+          break
+        endif
+      endfor
+    endif
+
+    assign we_v_badges_list = blank
+
+    if color_variant != blank
+      if we_plp_has_col
+        assign we_tgt = color_variant.options[we_plp_ci] | default: '' | strip
+        assign we_tgt_d = we_tgt | downcase
+        if we_tgt_d != blank
+          for v_we in product.variants
+            assign v_we_c = v_we.options[we_plp_ci] | default: '' | strip | downcase
+            if v_we_c == we_tgt_d
+              assign cand = v_we.metafields.custom.we_variant_card_badges.value
+              if cand != blank and cand.size > 0
+                assign we_v_badges_list = cand
+                break
+              endif
+            endif
+          endfor
+        endif
+        if we_v_badges_list == blank
+          assign we_v_badges_list = color_variant.metafields.custom.we_variant_card_badges.value
+        endif
+      else
+        assign we_v_badges_list = color_variant.metafields.custom.we_variant_card_badges.value
+      endif
+    endif
+
+    assign we_glob = product.metafields.custom.we_global_badges.value
+    assign we_pcard_only = product.metafields.custom.we_product_card_badges.value
+  -%}
+  {%- if we_glob != blank -%}
+    {%- for line in we_glob -%}
+      {%- if line != blank -%}
+        <span class="f-badge f-badge--custom">{{ line | escape }}</span>
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+  {%- if color_variant == blank and we_pcard_only != blank -%}
+    {%- for line in we_pcard_only -%}
+      {%- if line != blank -%}
+        <span class="f-badge f-badge--custom">{{ line | escape }}</span>
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+  {%- if color_variant != blank and we_v_badges_list != blank -%}
+    {%- for line in we_v_badges_list -%}
+      {%- if line != blank -%}
+        <span class="f-badge f-badge--custom">{{ line | escape }}</span>
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endif -%}

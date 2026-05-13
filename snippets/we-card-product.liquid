@@ -188,7 +188,16 @@
 
   assign custom_tags = product.tags | where: 'label_right_'
   assign custom_tags_left = product.tags | where: 'label_left_'
-
+-%}
+{%- capture we_mf_card_badges_html -%}
+  {%- render 'we-card-product-metafield-badges', product: product, color_variant: color_variant -%}
+{%- endcapture -%}
+{%- liquid
+  assign we_mf_card_badges_html = we_mf_card_badges_html | strip
+  assign we_mf_has_mf_badges = false
+  if settings.use_metafields_for_badges_display and we_mf_card_badges_html != blank
+    assign we_mf_has_mf_badges = true
+  endif
 
   assign atc_button_tag = 'a'
   unless settings.pcard_choose_options_actions == 'product_page'
@@ -532,10 +541,12 @@
         </a>
       {%- endif -%}
       {%- capture we_plp_nf_badge -%}
-        {%- render 'we-plp-neue-farbe-badge', product: product, color_variant: color_variant -%}
+        {%- unless settings.use_metafields_for_badges_display -%}
+          {%- render 'we-plp-neue-farbe-badge', product: product, color_variant: color_variant -%}
+        {%- endunless -%}
       {%- endcapture -%}
       {%- assign we_plp_nf_badge = we_plp_nf_badge | strip -%}
-      {%- if product.available == false or on_sale or custom_tags.size > 0 or custom_tags_left.size > 0 or we_plp_nf_badge != blank -%}
+      {%- if product.available == false or on_sale or custom_tags.size > 0 or custom_tags_left.size > 0 or we_plp_nf_badge != blank or we_mf_has_mf_badges -%}
         <div class="product-card__badge">
           {%- if product.available == false and show_soldout -%}
             <span class="f-badge f-badge--soldout" aria-hidden="true">
@@ -563,20 +574,26 @@
             -%}
             <span class="f-badge f-badge--sale" aria-hidden="true">{{- sale_badge -}}</span>
           {%- endif -%}
-          {%- for tag in custom_tags -%}
-            {% comment %} {%- liquid
-              assign tag_content = tag | split: '__' | last
-              assign type = tag_content | split: '_' | first
-              assign tag_name = tag_content | split: '_' | last
-            -%} {% endcomment %}
-             {% assign tag_name = tag | split: 'label_right_' | last %}
-            <span class="f-badge f-badge--custom">{{ tag_name }}</span>
-          {%- endfor -%}
-          {%- for tag in custom_tags_left -%}
-            {% assign tag_name = tag | split: 'label_left_' | last %}
-            <span class="f-badge f-badge--custom">{{ tag_name }}</span>
-          {%- endfor -%}
-          {{- we_plp_nf_badge -}}
+          {%- if settings.use_metafields_for_badges_display -%}
+            {{- we_mf_card_badges_html -}}
+          {%- else -%}
+            {%- for tag in custom_tags -%}
+              {% comment %} {%- liquid
+                assign tag_content = tag | split: '__' | last
+                assign type = tag_content | split: '_' | first
+                assign tag_name = tag_content | split: '_' | last
+              -%} {% endcomment %}
+              {% assign tag_name = tag | split: 'label_right_' | last %}
+              <span class="f-badge f-badge--custom">{{ tag_name }}</span>
+            {%- endfor -%}
+            {%- for tag in custom_tags_left -%}
+              {% assign tag_name = tag | split: 'label_left_' | last %}
+              <span class="f-badge f-badge--custom">{{ tag_name }}</span>
+            {%- endfor -%}
+          {%- endif -%}
+          {%- unless settings.use_metafields_for_badges_display -%}
+            {{- we_plp_nf_badge -}}
+          {%- endunless -%}
         </div>
       {%- endif -%}
       {%- if product.metafields.custom.is_excluded_from_sale -%}

@@ -1610,6 +1610,13 @@
         "info": "If enabled, the media will be loaded from the metafield custom.we_temp_product_media instead of the product.media"
       },
       {
+        "type": "checkbox",
+        "id": "use_metafields_for_badges_display",
+        "label": "Use metafields for badges display",
+        "default": false,
+        "info": "Uses product metafields custom.we_global_badges and custom.we_product_card_badges, and variant metafield custom.we_variant_card_badges (list: single line text), instead of product tags label_right_ / label_left_."
+      },
+      {
         "type": "text",
         "id": "main_colors",
         "label": "Main colors",
