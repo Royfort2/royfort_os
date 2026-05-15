@@ -1355,8 +1355,13 @@ swym-storefront-layout .swym-storefront-layout-backdrop {
     opacity: 0;
     visibility: hidden;
 }
+/* Swym CTAs: shared .btn shell, then primary vs secondary (theme gloss — single definition). */
 swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-login-btn,
-swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn {
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn,
+.swym-storefront-layout-grid-item-add-to-cart-button,
+.swym-storefront-layout-empty-state-login-cta,
+.swym-storefront-layout-empty-state-browse-cta,
+.swym-storefront-layout-notification-action {
     all: unset !important;
     --buttons-transform-default: capitalize !important;
     --buttons-padding: 4rem !important;
@@ -1384,7 +1389,10 @@ swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn 
     text-transform: var(--buttons-transform, var(--buttons-transform-default)) !important;
     box-sizing: border-box !important;
 }
-swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-login-btn {
+
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-login-btn,
+.swym-storefront-layout-empty-state-login-cta,
+.swym-storefront-layout-notification-action {
     --color-border: var(--color-button) !important;
     background: rgb(var(--color-button)) !important;
     color: rgb(var(--color-button-text)) !important;
@@ -1393,109 +1401,51 @@ swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-login-btn 
     --color-button-hover-text: 255, 255, 255;
     --color-button-before: #32329a;
 }
-swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-login-btn:hover {
-    --color-border: var(--color-button-hover-background) !important;
-    color: rgb(var(--color-button-hover-text)) !important;
-    border-color: rgb(var(--color-border)) !important;
-    background-color: rgb(var(--color-button-hover-background)) !important;
-}
-swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-login-btn::before,
-swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-login-btn::after {
-    content: "";
-    z-index: -1;
-    transition: transform 0.3s cubic-bezier(0.75, 0, 0.125, 1);
-    position: absolute;
-    top: -5px;
-    bottom: -5px;
-    left: -5px;
-    right: -5px;
-    transform: translateX(-100%);
-    font-size: 0;
-    background-color: var(--color-button-before);
-}
-swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-login-btn:hover::before,
-swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-login-btn:hover::after {
-    transform: translate(0);
-}
-swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-login-btn:hover::after {
-    transition-delay: 0.175s;
-}
-swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-login-btn::after {
-    background-color: rgb(var(--color-button-hover-background));
+
+.swym-storefront-layout-empty-state-login-cta {
+    white-space: normal !important;
+    text-align: center !important;
+    height: auto !important;
+    min-height: var(--buttons-height) !important;
+    line-height: 1.35 !important;
+    padding: 1rem var(--buttons-padding) !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    min-width: 0 !important;
 }
 
-swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn {
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn,
+.swym-storefront-layout-grid-item-add-to-cart-button,
+.swym-storefront-layout-empty-state-browse-cta {
     background: rgb(var(--color-secondary-button)) !important;
     color: rgb(var(--color-secondary-button-text)) !important;
     border-color: rgb(var(--color-secondary-button-border)) !important;
 }
-swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn:hover {
+
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-login-btn:hover,
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn:hover,
+.swym-storefront-layout-grid-item-add-to-cart-button:hover,
+.swym-storefront-layout-empty-state-login-cta:hover,
+.swym-storefront-layout-empty-state-browse-cta:hover,
+.swym-storefront-layout-notification-action:hover {
     --color-border: var(--color-button-hover-background) !important;
     color: rgb(var(--color-button-hover-text)) !important;
     border-color: rgb(var(--color-border)) !important;
     background-color: rgb(var(--color-button-hover-background)) !important;
-}
-swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn::before,
-swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn::after {
-    content: "";
-    z-index: -1;
-    transition: transform 0.3s cubic-bezier(0.75, 0, 0.125, 1);
-    position: absolute;
-    top: -5px;
-    bottom: -5px;
-    left: -5px;
-    right: -5px;
-    transform: translateX(-100%);
-    font-size: 0;
-    background-color: var(--color-button-before);
-}
-swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn:hover::before,
-swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn:hover::after {
-    transform: translate(0);
-}
-swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn:hover::after {
-    transition-delay: 0.175s;
-}
-swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn::after {
-    background-color: rgb(var(--color-button-hover-background));
 }
 
-.swym-storefront-layout-grid-item-add-to-cart-button {
-    all: unset !important;
-    --buttons-transform-default: capitalize !important;
-    --buttons-padding: 4rem !important;
-    font-size: 100% !important;
-    position: relative !important;
-    z-index: 1 !important;
-    overflow: hidden !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 0 var(--buttons-gap, 0.6rem) !important;
-    cursor: pointer !important;
-    transition: 0.3s all !important;
-    white-space: nowrap !important;
-    border-radius: var(--buttons-radius, 0) !important;
-    padding: 0 var(--buttons-padding) !important;
-    height: var(--buttons-height) !important;
-    line-height: 30px !important;
-    font-family: var(--font-button-family) !important;
-    font-weight: var(--font-button-weight) !important;
-    letter-spacing: var(--buttons-letter-spacing, 0) !important;
-    text-transform: var(--buttons-transform, var(--buttons-transform-default)) !important;
-    box-sizing: border-box !important;
-    background: rgb(var(--color-secondary-button)) !important;
-    color: rgb(var(--color-secondary-button-text)) !important;
-    border: var(--buttons-border-width) solid rgb(var(--color-secondary-button-border)) !important;
-}
-.swym-storefront-layout-grid-item-add-to-cart-button:hover {
-    --color-border: var(--color-button-hover-background) !important;
-    color: rgb(var(--color-button-hover-text)) !important;
-    border-color: rgb(var(--color-border)) !important;
-    background-color: rgb(var(--color-button-hover-background)) !important;
-}
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-login-btn::before,
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-login-btn::after,
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn::before,
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn::after,
 .swym-storefront-layout-grid-item-add-to-cart-button::before,
-.swym-storefront-layout-grid-item-add-to-cart-button::after {
+.swym-storefront-layout-grid-item-add-to-cart-button::after,
+.swym-storefront-layout-empty-state-login-cta::before,
+.swym-storefront-layout-empty-state-login-cta::after,
+.swym-storefront-layout-empty-state-browse-cta::before,
+.swym-storefront-layout-empty-state-browse-cta::after,
+.swym-storefront-layout-notification-action::before,
+.swym-storefront-layout-notification-action::after {
     content: "";
     z-index: -1;
     transition: transform 0.3s cubic-bezier(0.75, 0, 0.125, 1);
@@ -1508,14 +1458,37 @@ swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn:
     font-size: 0;
     background-color: var(--color-button-before);
 }
+
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-login-btn:hover::before,
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-login-btn:hover::after,
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn:hover::before,
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn:hover::after,
 .swym-storefront-layout-grid-item-add-to-cart-button:hover::before,
-.swym-storefront-layout-grid-item-add-to-cart-button:hover::after {
+.swym-storefront-layout-grid-item-add-to-cart-button:hover::after,
+.swym-storefront-layout-empty-state-login-cta:hover::before,
+.swym-storefront-layout-empty-state-login-cta:hover::after,
+.swym-storefront-layout-empty-state-browse-cta:hover::before,
+.swym-storefront-layout-empty-state-browse-cta:hover::after,
+.swym-storefront-layout-notification-action:hover::before,
+.swym-storefront-layout-notification-action:hover::after {
     transform: translate(0);
 }
-.swym-storefront-layout-grid-item-add-to-cart-button:hover::after {
+
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-login-btn:hover::after,
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn:hover::after,
+.swym-storefront-layout-grid-item-add-to-cart-button:hover::after,
+.swym-storefront-layout-empty-state-login-cta:hover::after,
+.swym-storefront-layout-empty-state-browse-cta:hover::after,
+.swym-storefront-layout-notification-action:hover::after {
     transition-delay: 0.175s;
 }
-.swym-storefront-layout-grid-item-add-to-cart-button::after {
+
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-login-btn::after,
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn::after,
+.swym-storefront-layout-grid-item-add-to-cart-button::after,
+.swym-storefront-layout-empty-state-login-cta::after,
+.swym-storefront-layout-empty-state-browse-cta::after,
+.swym-storefront-layout-notification-action::after {
     background-color: rgb(var(--color-button-hover-background));
 }
 .swym-storefront-layout-title {
@@ -1530,4 +1503,13 @@ swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn:
 }
 .swym-storefront-layout-title svg {
     display: none !important;
+}
+.swym-storefront-layout-empty-state-notice {
+    border-radius: 0 !important;
+}
+.swym-storefront-layout-empty-state-browse-cta {
+    margin-top: 1.6rem !important;
+}
+swym-storefront-layout-notification {
+    border-radius: 0 !important;
 }
