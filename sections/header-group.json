@@ -82,7 +82,9 @@
               "daunendecke",
               "alpaca-kissen"
             ],
-            "heading": "Unsere Bestseller"
+            "heading": "Unsere Bestseller",
+            "render_badges": true,
+            "badges_global_only": true
           }
         },
         "product_list_w4QhxH": {
@@ -93,8 +95,7 @@
               "neuheiten",
               "bestseller",
               "trends",
-              "geschenke",
-              "hotelbettwaesche"
+              "geschenke"
             ],
             "menu_columns": 3,
             "show_menu_column_divider": false,
@@ -108,7 +109,9 @@
               "seide-kissenbezug",
               "kaschmir-bettwaesche"
             ],
-            "heading": "Unsere Bestseller"
+            "heading": "Unsere Bestseller",
+            "render_badges": true,
+            "badges_global_only": true
           }
         }
       },
