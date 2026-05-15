@@ -69,7 +69,8 @@
     if (!variant || variant.available === false) return 'out';
     const q = variant.inventory_quantity;
     if (typeof q !== 'number') return 'ok';
-    if (q <= 0) return 'out';
+    // When policy is "continue", Shopify keeps available: true with qty 0 — do not show sold-out.
+    if (q <= 0) return 'ok';
     if (q <= threshold) return 'low';
     return 'ok';
   }
@@ -127,7 +128,7 @@
         marker.dataset.stockLevel = 'out';
         return;
       }
-
+      
       const price = variant.price;
       const compare = variant.compare_at_price;
       const onSale = compare != null && Number(compare) > Number(price);
