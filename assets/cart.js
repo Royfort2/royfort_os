@@ -198,9 +198,19 @@ class CartItems extends HTMLElement {
 
   validateQuantity(event) {
     const target = event.target;
-    const inputValue = parseInt(target.value);
+    const inputValue = parseInt(target.value, 10);
     const index = target.getAttribute('data-index');
     let message = '';
+
+    // Cart inputs use min="0" so shoppers can clear the line; data-min is the variant rule (often 1).
+    if (inputValue === 0) {
+      target.setCustomValidity('');
+      target.reportValidity();
+      const name =
+        (document.activeElement && document.activeElement.getAttribute('name')) || target.getAttribute('name');
+      this.updateQuantity(index, 0, name, target);
+      return;
+    }
 
     if (inputValue < parseInt(target.getAttribute('data-min'))) {
       message = FoxTheme.quickOrderListStrings.min_error.replace('[min]', target.getAttribute('data-min'));
