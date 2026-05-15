@@ -1513,6 +1513,14 @@ swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn:
 swym-storefront-layout-notification {
     border-radius: 0 !important;
 }
+.swym-atw-btn-wrapper.add_to_cart_button_right-position {
+    width: 100% !important;
+}
+@media (max-width: 767.98px) {
+    .swym-atw-btn-wrapper.add_to_cart_button_right-position #swym-atw-pdp-button {
+        padding: 0 !important;
+    }
+}
 
 /* Klaviyo popup */
 .klaviyo-form-richtext h3 * {
@@ -1552,4 +1560,14 @@ swym-storefront-layout-notification {
 }
 .klaviyo-form div[data-testid="form-row"] > div:has(button) {
     padding: 0 !important;
+}
+#klaviyo-bis-button-container {
+    margin: 0 !important;
+    flex: 1 !important;
+}
+#klaviyo-bis-button-container > div {
+    width: 100% !important;
+}
+#klaviyo-bis-button-container button {
+    width: stretch !important;
 }
