@@ -1,5 +1,7 @@
 /**
- * [we] Custom variant dropdown: per-option price + inventory marker (respects other selected options).
+ * [we] Custom variant dropdown: per-option price + inventory marker.
+ * When other options are already chosen, rows resolve to a single variant; when they are not,
+ * stock is aggregated across all variants that include that row’s option value.
  */
 (function () {
   function normOptionValue(s) {
@@ -44,22 +46,22 @@
     return selected;
   }
 
-  function findVariantForRow(variants, selectedValues, optionPosition1Based, rowValue) {
+  /**
+   * Variants that match this row's option value; other option slots only constrain when a
+   * selection exists (so with two unchosen dropdowns, each row aggregates across the other option).
+   */
+  function findVariantsForRow(variants, selectedValues, optionPosition1Based, rowValue) {
     const n = selectedValues.length;
-    if (!n) return null;
+    if (!n) return [];
     const pIdx = optionPosition1Based - 1;
-    const hyp = [];
-    for (let i = 0; i < n; i++) {
-      hyp[i] = i === pIdx ? rowValue : selectedValues[i];
-    }
-    for (let i = 0; i < n; i++) {
-      if (i === pIdx) continue;
-      if (!hyp[i]) return null;
-    }
-    return variants.find((v) => {
+    const rowNorm = normOptionValue(rowValue);
+    return variants.filter((v) => {
+      if (normOptionValue(v[`option${pIdx + 1}`]) !== rowNorm) return false;
       for (let i = 0; i < n; i++) {
-        const key = `option${i + 1}`;
-        if (normOptionValue(v[key]) !== normOptionValue(hyp[i])) return false;
+        if (i === pIdx) continue;
+        const sel = normOptionValue(selectedValues[i]);
+        if (!sel) continue;
+        if (normOptionValue(v[`option${i + 1}`]) !== sel) return false;
       }
       return true;
     });
@@ -72,6 +74,13 @@
     // When policy is "continue", Shopify keeps available: true with qty 0 — do not show sold-out.
     if (q <= 0) return 'ok';
     if (q <= threshold) return 'low';
+    return 'ok';
+  }
+
+  function aggregateStockLevel(matches, threshold) {
+    const available = matches.filter((v) => v.available !== false);
+    if (!available.length) return 'out';
+    if (available.some((v) => stockLevel(v, threshold) === 'low')) return 'low';
     return 'ok';
   }
 
@@ -91,6 +100,10 @@
     const soldOutLabel = vs.dataset.soldOutLabel || 'Sold out';
 
     const selectedValues = getSelectedOptionValues(vs, productInfo);
+    const rowIdx0 = optionPosition - 1;
+    const constrainedByOtherOptions = selectedValues.some(
+      (sv, i) => i !== rowIdx0 && normOptionValue(sv)
+    );
 
     detailsEl.querySelectorAll('.we-select__item').forEach((item) => {
       const input = item.querySelector('input[type="radio"]');
@@ -103,43 +116,70 @@
       const marker = label.querySelector('.we-select__stock-marker');
       const valueText = label.querySelector('.we-select__value-text');
 
-      const variant = findVariantForRow(variants, selectedValues, optionPosition, rowValue);
+      const matches = findVariantsForRow(variants, selectedValues, optionPosition, rowValue);
 
-      item.classList.toggle('we-select__item--unavailable', !!(variant && variant.available === false));
-      if (valueText) {
-        valueText.classList.toggle('we-select__value-text--unavailable', !!(variant && variant.available === false));
-      }
-
-      if (!meta || !priceBlock || !marker) return;
-
-      if (!variant) {
+      if (matches.length === 0) {
+        if (constrainedByOtherOptions) {
+          item.classList.toggle('we-select__item--unavailable', true);
+          if (valueText) valueText.classList.toggle('we-select__value-text--unavailable', true);
+          if (!meta || !priceBlock || !marker) return;
+          meta.hidden = false;
+          priceBlock.innerHTML = `<span class="we-select__soldout">${soldOutLabel}</span>`;
+          marker.dataset.stockLevel = 'out';
+          marker.hidden = false;
+          return;
+        }
+        item.classList.toggle('we-select__item--unavailable', false);
+        if (valueText) valueText.classList.toggle('we-select__value-text--unavailable', false);
+        if (!meta || !priceBlock || !marker) return;
         meta.hidden = false;
-        priceBlock.innerHTML = `<span class="we-select__price-placeholder">—</span>`;
+        priceBlock.innerHTML = `<span class="we-select__price-placeholder"></span>`;
         marker.dataset.stockLevel = '';
         marker.hidden = true;
         return;
       }
 
+      const anyAvailable = matches.some((v) => v.available !== false);
+      item.classList.toggle('we-select__item--unavailable', !anyAvailable);
+      if (valueText) {
+        valueText.classList.toggle('we-select__value-text--unavailable', !anyAvailable);
+      }
+
+      if (!meta || !priceBlock || !marker) return;
+
       meta.hidden = false;
       marker.hidden = false;
 
-      if (variant.available === false) {
+      if (matches.length === 1) {
+        const variant = matches[0];
+        if (variant.available === false) {
+          priceBlock.innerHTML = `<span class="we-select__soldout">${soldOutLabel}</span>`;
+          marker.dataset.stockLevel = 'out';
+          return;
+        }
+
+        const price = variant.price;
+        const compare = variant.compare_at_price;
+        const onSale = compare != null && Number(compare) > Number(price);
+
+        if (onSale) {
+          priceBlock.innerHTML = `<span class="we-select__compare-at"><s>${formatMoney(compare)}</s></span><span class="we-select__current-price we-select__current-price--sale">${formatMoney(price)}</span>`;
+        } else {
+          priceBlock.innerHTML = `<span class="we-select__current-price">${formatMoney(price)}</span>`;
+        }
+
+        marker.dataset.stockLevel = stockLevel(variant, threshold);
+        return;
+      }
+
+      if (!anyAvailable) {
         priceBlock.innerHTML = `<span class="we-select__soldout">${soldOutLabel}</span>`;
         marker.dataset.stockLevel = 'out';
         return;
       }
-      
-      const price = variant.price;
-      const compare = variant.compare_at_price;
-      const onSale = compare != null && Number(compare) > Number(price);
 
-      if (onSale) {
-        priceBlock.innerHTML = `<span class="we-select__compare-at"><s>${formatMoney(compare)}</s></span><span class="we-select__current-price we-select__current-price--sale">${formatMoney(price)}</span>`;
-      } else {
-        priceBlock.innerHTML = `<span class="we-select__current-price">${formatMoney(price)}</span>`;
-      }
-
-      marker.dataset.stockLevel = stockLevel(variant, threshold);
+      priceBlock.innerHTML = `<span class="we-select__price-placeholder"></span>`;
+      marker.dataset.stockLevel = aggregateStockLevel(matches, threshold);
     });
   }
 

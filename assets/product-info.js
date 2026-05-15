@@ -415,6 +415,16 @@ if (!customElements.get('product-info')) {
         return selected;
       }
 
+      /**
+       * True when at least one product option row has no value yet (e.g. we-select placeholder, no radio checked).
+       * Distinguished from “all options chosen but no Shopify variant”.
+       */
+      _isVariantSelectionIncomplete(vs) {
+        const vals = this._getSelectedOptionValuesFromVariantSelects(vs);
+        if (!vals.length) return false;
+        return vals.some((v) => !this.normOptionValue(v));
+      }
+
       syncMainMediaGalleryFromFirstSetPicker(variantSelectsEl) {
         if (!variantSelectsEl || !this._isPdpSetBundleForm()) return;
         const firstSetId = this._getPdpSetFirstSetProductId();
@@ -616,7 +626,17 @@ if (!customElements.get('product-info')) {
             );
 
             if (!variant) {
-              this.setUnavailable();
+              const pi = html.querySelector(selector);
+              const vs = pi?.querySelector('variant-selects');
+              if (
+                vs &&
+                !this._isPdpSetBundleForm() &&
+                this._isVariantSelectionIncomplete(vs)
+              ) {
+                this.setIncompleteVariantPrompt();
+              } else {
+                this.setUnavailable();
+              }
               return;
             }
           } else {
@@ -717,7 +737,18 @@ if (!customElements.get('product-info')) {
               const vs = document.getElementById(variantSelectsId);
               this.syncMainMediaGalleryFromColorOnly(vs);
             }
-            this.setUnavailable();
+            const vsIncomplete =
+              (variantSelectsId && document.getElementById(variantSelectsId)) ||
+              (!variantSelectsId && this.variantSelectors);
+            if (
+              vsIncomplete &&
+              !this._isPdpSetBundleForm() &&
+              this._isVariantSelectionIncomplete(vsIncomplete)
+            ) {
+              this.setIncompleteVariantPrompt();
+            } else {
+              this.setUnavailable();
+            }
             return;
           }
 
@@ -1044,6 +1075,10 @@ if (!customElements.get('product-info')) {
           buttons.forEach((button) => {
             if (disabled) {
               button.setAttribute('disabled', 'disabled');
+              if (updateText && text) {
+                const stickySpan = button.querySelector(':scope > span');
+                if (stickySpan) stickySpan.textContent = this.decoded(text);
+              }
               if (updateStyles) {
                 button.style.pointerEvents = 'none';
                 button.style.opacity = '0.6';
@@ -1086,6 +1121,22 @@ if (!customElements.get('product-info')) {
         if (sku) sku.classList.add('hidden');
         if (volumePricing) volumePricing.classList.add('hidden');
         if (stickyAtcBar) stickyAtcBar.classList.add('hidden');
+      }
+
+      /** Partial variant selection — keep PDP chrome visible (unlike unavailable). */
+      setIncompleteVariantPrompt() {
+        if (this._isPdpSetBundleForm()) {
+          document.dispatchEvent(new CustomEvent('pdp-set:refresh-submit', { bubbles: true }));
+          return;
+        }
+        const hint =
+          (typeof FoxTheme !== 'undefined' && FoxTheme.variantStrings?.select_variant_text) || '';
+        this.updateButtonsState(true, {
+          updateText: Boolean(hint),
+          text: hint,
+        });
+        const stickyAtcBar = document.getElementById(`shopify-section-sticky-atc-bar`);
+        if (stickyAtcBar) stickyAtcBar.classList.remove('hidden');
       }
 
       initQuantityHandlers() {
