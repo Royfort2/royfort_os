@@ -3,6 +3,8 @@ if (!customElements.get('product-info')) {
     'product-info',
     class ProductInfo extends HTMLElement {
       abortController = undefined;
+      /** Cleared whenever gallery updates so stale retries cannot re-apply an older variant. */
+      timer = undefined;
       /** Mobile PDP: restore window scroll after variant section fetch (gallery reflow can jump the viewport). */
       _pendingScrollRestoreY = null;
       /** Last variant used for gallery color filtering (quick view: detect color-only changes). */
@@ -965,6 +967,11 @@ if (!customElements.get('product-info')) {
       }
 
       updateMedia(variant) {
+        if (this.timer != null) {
+          clearInterval(this.timer);
+          this.timer = undefined;
+        }
+
         const productMedia = this.querySelector(`[id^="MediaGallery-${this.dataset.section}"]`);
         if (!productMedia) return; // Early return if productMedia is not found
 
@@ -998,6 +1005,7 @@ if (!customElements.get('product-info')) {
           this.timer = setInterval(() => {
             if (setActiveMedia()) {
               clearInterval(this.timer);
+              this.timer = undefined;
             }
           }, 100);
         }
