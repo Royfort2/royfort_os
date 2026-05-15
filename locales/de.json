@@ -270,7 +270,7 @@
       "load_more_progress_variant_aria": "Sie haben {{ shown }} von {{ total }} Produkten angesehen"
     },
     "breadcrumbs": {
-      "home": "Home",
+      "home": "Startseite",
       "collections": "Kollektion"
     },
     "search": {
