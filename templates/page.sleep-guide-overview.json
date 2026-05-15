@@ -17,6 +17,77 @@
         "padding_bottom": 28
       }
     },
+    "image_with_text_overlay_HtkgPe": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "subheading_wEMVxe": {
+          "type": "subheading",
+          "disabled": true,
+          "settings": {
+            "subheading": "Besser schlafen"
+          }
+        },
+        "heading_mmmEzg": {
+          "type": "heading",
+          "settings": {
+            "heading": "Schlaf verstehen – Der Expertenleitfaden",
+            "heading_size": "hd1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_nCEtQc": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Melden Sie sich an und erhalten Sie fundiertes Expert:innen-Wissen rund um gesunden Schlaf – verständlich, differenziert und direkt in Ihr Postfach.</p>",
+            "text_size": "text-base"
+          }
+        }
+      },
+      "block_order": [
+        "subheading_wEMVxe",
+        "heading_mmmEzg",
+        "text_nCEtQc"
+      ],
+      "name": "t:sections.image-with-text-overlay.name",
+      "settings": {
+        "container": "full",
+        "image": "shopify://shop_images/jetztentdecken_desktop_e8d2267d-68b4-4890-b490-e8c27275387f.jpg",
+        "desktop_height": "extra-medium",
+        "overlay_opacity": 0,
+        "use_custom_overlay": false,
+        "custom_overlay": "linear-gradient(201deg, rgba(23, 23, 23, 0.00) 0.08%, rgba(23, 23, 23, 0.75) 100.09%)",
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "color_scheme": "",
+        "content_position": "bottom-left",
+        "content_alignment": "left",
+        "image_mobile": "shopify://shop_images/jetztentdecken_desktop_e8d2267d-68b4-4890-b490-e8c27275387f.jpg",
+        "mobile_height": "extra-large",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "custom_class": ""
+      }
+    },
+    "17788308003a955b48": {
+      "type": "apps",
+      "blocks": {
+        "klaviyo_email_marketing_sms_form_embed_block_3LLAhL": {
+          "type": "shopify://apps/klaviyo-email-marketing-sms/blocks/form-embed-block/2632fe16-c075-4321-a88b-50b567f42507",
+          "settings": {
+            "formId": "VkQFxK"
+          }
+        }
+      },
+      "block_order": [
+        "klaviyo_email_marketing_sms_form_embed_block_3LLAhL"
+      ],
+      "settings": {
+        "include_margins": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "custom_class": ""
+      }
+    },
     "breadcrumbs_zf9HBa": {
       "type": "breadcrumbs",
       "custom_css": [
@@ -27,35 +98,132 @@
         "text_alignment": "start"
       }
     },
-    "rich_text_BqT8nB": {
+    "rich_text_ntFYxW": {
       "type": "rich-text",
       "blocks": {
-        "heading_G9wWUy": {
+        "heading_tWMkh3": {
           "type": "heading",
           "settings": {
-            "heading": "{{ page.title }}",
-            "heading_size": "hd2",
+            "heading": "Talk about your brand",
+            "heading_size": "hd1",
             "heading_highlight_style": "none"
           }
         },
-        "text_mdcnUe": {
+        "text_Jfbmqc": {
           "type": "text",
           "settings": {
-            "text": "{{ page.content }}",
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
             "text_size": "text-base"
+          }
+        },
+        "button_9UzT3N": {
+          "type": "button",
+          "disabled": true,
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style": "btn--primary"
           }
         }
       },
       "block_order": [
-        "heading_G9wWUy",
-        "text_mdcnUe"
+        "heading_tWMkh3",
+        "text_Jfbmqc",
+        "button_9UzT3N"
       ],
       "name": "t:sections.rich-text.presets.name",
       "settings": {
         "color_scheme": "",
-        "content_alignment": "left",
-        "padding_top": 0,
-        "padding_bottom": 40,
+        "content_alignment": "center",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "multicolumn_htN4W6": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_LcFwWG": {
+          "type": "column",
+          "settings": {
+            "show_image": false,
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
+            "image_width": "medium",
+            "title": "Column",
+            "heading_size": "h4",
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_giEzK8": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
+            "image_width": "medium",
+            "title": "Column",
+            "heading_size": "h4",
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "text_size": "text-base",
+            "button_label": "Button label",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_zUnXR4": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
+            "image_width": "medium",
+            "title": "Column",
+            "heading_size": "h4",
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "text_size": "text-base",
+            "button_label": "Button label",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        }
+      },
+      "block_order": [
+        "column_LcFwWG",
+        "column_giEzK8",
+        "column_zUnXR4"
+      ],
+      "name": "t:sections.multicolumn.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "heading": "Multicolumn",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "column_alignment": "left",
+        "columns_desktop": 4,
+        "column_gap": "large",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 50,
+        "padding_bottom": 50,
         "show_section_divider": false,
         "divider_width": "fixed",
         "custom_class": ""
@@ -64,7 +232,10 @@
   },
   "order": [
     "main",
-    "breadcrumbs_zf9HBa",
-    "rich_text_BqT8nB"
+    "image_with_text_overlay_HtkgPe",
+    "17788308003a955b48",
+    "rich_text_ntFYxW",
+    "multicolumn_htN4W6",
+    "breadcrumbs_zf9HBa"
   ]
 }
