@@ -50,7 +50,7 @@
               assign accordion_suffix = section_id | append: '-' | append: link.handle | append: '-' | append: forloop.index
               assign accordion_body_id = 'MenuDrawer-acc-body-' | append: accordion_suffix
             -%}
-            <details class="accordion-details menu-drawer__accordion" is="accordion-details">
+            <details class="accordion-details menu-drawer__accordion" is="accordion-details" open>
               <summary
                 id="MenuDrawer-acc-sum-{{ accordion_suffix }}"
                 class="menu-drawer__item-link menu-drawer__accordion-summary flex items-center justify-between"
