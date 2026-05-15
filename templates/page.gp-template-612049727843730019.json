@@ -1,0 +1,124 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "gp_section_612049732189028963": {
+      "type": "gp-section-612049732189028963",
+      "settings": {
+        "section_preload": "true",
+        "checksum": "b7efacad887d4d1f7b04a72039712d952d1e3f4e4e0af9ec168ec5d846c5a083_1_1_0_0__1",
+        "ggQui2eCJdW_background_desktop_image_src": "https://cdn.shopify.com/s/files/1/1610/3585/files/Sleep_Guide_LP_Hero_Banner_1568_x_738.jpg",
+        "ggQui2eCJdW_background_desktop_videoHtml5": "https://media.w3.org/2010/05/sintel/trailer.mp4",
+        "ggQui2eCJdW_background_tablet_image_src": "https://cdn.shopify.com/s/files/1/1610/3585/files/Gift_Guide_LP_Header_Mobile_1.jpg",
+        "ggQui2eCJdW_background_tablet_videoHtml5": "https://media.w3.org/2010/05/sintel/trailer.mp4",
+        "ggQui2eCJdW_background_mobile_image_src": "https://cdn.shopify.com/s/files/1/1610/3585/files/Gift_Guide_LP_Header_Mobile_1.jpg",
+        "ggQui2eCJdW_background_mobile_videoHtml5": "https://media.w3.org/2010/05/sintel/trailer.mp4",
+        "ggEalMEtaga_text": "Schlaf verstehen – <br>Der Expertenleitfaden",
+        "ggUz3p95OqW_text": "<p><span style=\"font-size:18px;\">Melden Sie sich an und erhalten Sie fundiertes Expert:innen-Wissen rund um gesunden Schlaf – verständlich, differenziert und direkt in Ihr Postfach.</span></p>",
+        "gg5SB8s8HUN_text": "Schlaf verstehen. Besser schlafen."
+      }
+    },
+    "gp_section_612095440472507179": {
+      "type": "gp-section-612095440472507179",
+      "settings": {
+        "section_preload": "false",
+        "checksum": "699bcb811367fe06d8cca0c30f530bdfb7157fb99231b363730723334689c3f2_1_1_0_0__1",
+        "gg1tSuMNZlx_text": "<p>Guter Schlaf ist kein Zufall – sondern das Ergebnis vieler Faktoren. Der Royfort Expertenleitfaden bündelt wissenschaftlich fundiertes Wissen und macht es verständlich zugänglich – durch Tipps ausgewiesener Exptert:innen. Für alle, die ihren Schlaf wirklich verbessern wollen.</p>"
+      }
+    },
+    "gp_section_613447173903745691": {
+      "type": "gp-section-613447173903745691",
+      "settings": {
+        "section_preload": "false",
+        "checksum": "e6be614553aa8b27c0a13a2c07534ce525dc94d489d260b937ed42a50e324e8b_1_1_0_0__1",
+        "ggeV5Y1X8VR_text": "Schlafforschung",
+        "gg1CP3zEHoZ_text": "<p>Verstehen Sie, wie Schlaf wirklich funktioniert</p><p>und welche Faktoren ihn messbar beeinflussen.</p>",
+        "ggCzoqswLtt_text": "Atemarbeit",
+        "ggDLNY7WkAw_text": "<p>Lernen Sie, wie bewusste Atmung Ihr Nervensystem reguliert und zu mehr Ruhe und Tiefe im Schlaf beiträgt.</p>",
+        "ggao0JSVqn9_text": "Feng Shui",
+        "ggGp-1YxC4r_text": "<p>Erfahren Sie, wie Ihre Umgebung wirkt – und wie kleine Veränderungen im Schlafzimmer Ihr Wohlbefinden spürbar verbessern.</p>"
+      }
+    },
+    "gp_section_612092282916569899": {
+      "type": "gp-section-612092282916569899",
+      "settings": {
+        "section_preload": "false",
+        "checksum": "695dc782505ea6e07cdb23f90f7801e9e2b00781db3bd5a1b15ec70ca23473b5_1_1_0_0__1",
+        "ggcJZ919gPh_text": "Schlafwissen von ausgewiesenen Expert:innen"
+      }
+    },
+    "gp_section_612191643126202979": {
+      "type": "gp-section-612191643126202979",
+      "settings": {
+        "section_preload": "false",
+        "checksum": "48cc3baefaf02c6a4c9411e3b1e7459b9b9a67ded07555d957303ca8a37cf191_1_1_0_0__1",
+        "gglPHgUowSh_srcSet_desktop_src": "https://cdn.shopify.com/s/files/1/1610/3585/files/1_77298a17-b89b-4464-89c4-014ccadd27de.jpg",
+        "ggHzb37R1PR_text": "Dr. Christine Blume | Schlafforschung",
+        "ggPp5VUAXKM_text": "<p><span style=\"color:rgb(0,0,0);font-size:18px;\">Dr. Christine Blume ist Psychologin und Schlafforscherin an der Universität Basel und arbeitet zusätzlich als Schlaftherapeutin an den Universitären Psychiatrischen Kliniken Basel. Im Fokus ihrer Forschung stehen die Auswirkungen moderner Lebensbedingungen – wie Licht, Bewegung oder Temperatur – auf unseren Schlaf und den Rhythmus der inneren Uhr. Ihre Arbeit verbindet wissenschaftliche Präzision mit praktischer Relevanz. Als Wissenschaftskommunikatorin und Podcast-Host („Über Schlafen“) macht sie komplexe Zusammenhänge verständlich – und hilft dabei, Schlaf ganzheitlich zu begreifen und gezielt zu verbessern. </span><a href=\"https://royfort.de/pages/sleep-guide-expert-blume\"><span style=\"color:rgb(0,0,0);font-size:18px;\"><u>Mehr erfahren</u></span></a></p>"
+      }
+    },
+    "gp_section_612192544180142891": {
+      "type": "gp-section-612192544180142891",
+      "settings": {
+        "section_preload": "false",
+        "checksum": "2958cb277a0752142d1a05d57fc1962cf82e7b11073cf446bf1f1a828549d5f8_1_1_0_0__1",
+        "ggnr9iPQpDe_srcSet_desktop_src": "https://cdn.shopify.com/s/files/1/1610/3585/files/2_a5775723-dc87-43a6-9a82-1c63c3d65233.jpg",
+        "ggCsdEcCDQO_text": "Dr. Ralph Skuban | Atemarbeit",
+        "gg8tKgkywBm_text": "<p><span style=\"color:rgb(0,0,0);font-size:18px;\">Dr. Ralph Skuban ist Atemexperte, Autor und Ausbilder mit einem interdisziplinären Zugang zur Atmung. Seine Arbeit verbindet wissenschaftliche Erkenntnisse mit jahrzehntelanger praktischer Erfahrung in Atemarbeit, Meditation und Bewusstseinsforschung. Als Autor mehrerer international veröffentlichter Bücher gilt er als fundierte Stimme im Bereich der Atemmethoden. Sein Ansatz zeigt, wie bewusste Atmung gezielt das Nervensystem beeinflusst – und damit eine zentrale Grundlage für Regeneration und erholsamen Schlaf schafft. </span><a href=\"https://royfort.de/pages/sleep-guide-expert-skuban\" target=\"_blank\"><span style=\"color:rgb(0,0,0);font-size:18px;\"><u>Mehr erfahren</u></span></a></p>"
+      }
+    },
+    "gp_section_612192543978816099": {
+      "type": "gp-section-612192543978816099",
+      "settings": {
+        "section_preload": "false",
+        "checksum": "1466227c9619f9f632a08b6973b63e03b8c745d56df83b326b29918479f0d6ff_1_1_0_0__1",
+        "ggMAgW8UfGF_srcSet_desktop_src": "https://cdn.shopify.com/s/files/1/1610/3585/files/Sleep_Guide_Expertenportraits_388x270_3.jpg",
+        "ggi-regkIOp_text": "Eva Titze | Feng Shui ",
+        "gg5hdXGtFze_text": "<p><span style=\"color:rgb(0,0,0);font-size:18px;\">Eva Titze ist Feng Shui Expertin und Autorin. Über Social Media, ihren Podcast und ihr Buch zeigt sie, wie sich Räume mit einfachen Mitteln so gestalten lassen, dass sie Ruhe, Balance und Wohlbefinden fördern. Ihr Ansatz reduziert Komplexität und macht die Wirkung von Umgebung direkt erfahrbar. Gerade im Schlafzimmer können gezielte Veränderungen helfen, äußere Reize zu minimieren und eine Atmosphäre zu schaffen, die echten, tiefen Schlaf unterstützt. </span><a href=\"https://royfort.de/pages/sleep-guide-expert-titze\"><span style=\"color:rgb(0,0,0);font-size:18px;\"><u>Mehr erfahren</u></span></a></p>"
+      }
+    },
+    "gp_section_612049732742677091": {
+      "type": "gp-section-612049732742677091",
+      "settings": {
+        "section_preload": "false",
+        "checksum": "f57ea9edf5f1a1e8cb12dc4622847e2859983f53918e9109be9fa19df583e133_1_1_0_0__1",
+        "ggbAiD0uTnl_text": "Jetzt anmelden",
+        "ggu8oD4cSCo_text": "<p> </p><p><span style=\"color:rgb(0,0,0);font-size:18px;\">Fundiertes Wissen statt vereinfachter Schlaftipps</span>.</p><p>Einordnungen von echten Expert:innen.</p><p>Verständlich aufbereitet und direkt anwendbar.</p><p>Neue Perspektiven auf Ihren eigenen Schlaf.</p><p>Exklusiv als E-Mail-Serie erhältlich.</p>"
+      }
+    },
+    "gp_section_612198971766473235": {
+      "type": "gp-section-612198971766473235",
+      "settings": {
+        "section_preload": "false",
+        "checksum": "5272ff6194aee8cee8bb969f7c140c15a38bd93b0e63ce4724ae96256f4b5991_1_1_0_0__1",
+        "gg02hSk0X45_text": "Produkte, die guten Schlaf unterstützen",
+        "ggdKaF3mPav_srcSet_desktop_src": "https://cdn.shopify.com/s/files/1/1610/3585/files/3_5c534a26-39c6-4a05-9953-26bbccdf9817.jpg",
+        "ggTxTcvQ1KV_srcSet_desktop_src": "https://cdn.shopify.com/s/files/1/1610/3585/files/1_43f7af41-aa2c-4985-8a53-2bbb56292db6.jpg",
+        "ggGwxggOdY9_srcSet_desktop_src": "https://cdn.shopify.com/s/files/1/1610/3585/files/4_b8f573c2-b56e-42b3-be75-54a7742922df.jpg",
+        "ggIX7hq7M6V_srcSet_desktop_src": "https://cdn.shopify.com/s/files/1/1610/3585/files/2_b1154159-69b9-407a-ac09-859ab68a7955.jpg",
+        "gg9AVn6CHQb_text": "BETTWÄSCHE",
+        "gg5Nr0vj3Ek_text": "DECKEN &amp; KISSEN",
+        "ggzMLb9StpZ_text": "MATRATZEN",
+        "gg244bI92cj_text": "BADEZIMMER"
+      }
+    }
+  },
+  "order": [
+    "gp_section_612049732189028963",
+    "gp_section_612095440472507179",
+    "gp_section_613447173903745691",
+    "gp_section_612092282916569899",
+    "gp_section_612191643126202979",
+    "gp_section_612192544180142891",
+    "gp_section_612192543978816099",
+    "gp_section_612049732742677091",
+    "gp_section_612198971766473235"
+  ]
+}
