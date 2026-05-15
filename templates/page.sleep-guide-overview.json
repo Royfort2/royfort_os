@@ -88,23 +88,13 @@
         "custom_class": ""
       }
     },
-    "breadcrumbs_zf9HBa": {
-      "type": "breadcrumbs",
-      "custom_css": [
-        ".justify-center {justify-content: left;}"
-      ],
-      "name": "t:sections.breadcrumbs.name",
-      "settings": {
-        "text_alignment": "start"
-      }
-    },
     "rich_text_ntFYxW": {
       "type": "rich-text",
       "blocks": {
         "heading_tWMkh3": {
           "type": "heading",
           "settings": {
-            "heading": "Talk about your brand",
+            "heading": "Schlaf verstehen. Besser schlafen.",
             "heading_size": "hd1",
             "heading_highlight_style": "none"
           }
@@ -112,7 +102,7 @@
         "text_Jfbmqc": {
           "type": "text",
           "settings": {
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "text": "<p>Guter Schlaf ist kein Zufall – sondern das Ergebnis vieler Faktoren. Der Royfort Expertenleitfaden bündelt wissenschaftlich fundiertes Wissen und macht es verständlich zugänglich – durch Tipps ausgewiesener Exptert:innen. Für alle, die ihren Schlaf wirklich verbessern wollen.</p>",
             "text_size": "text-base"
           }
         },
@@ -149,14 +139,15 @@
           "type": "column",
           "settings": {
             "show_image": false,
+            "video_url": "",
             "video_autoplay": false,
             "video_loop": false,
             "video_muted": true,
             "video_controls": true,
             "image_width": "medium",
-            "title": "Column",
+            "title": "Schlafforschung",
             "heading_size": "h4",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "text": "<p>Verstehen Sie, wie Schlaf wirklich funktioniert und welche Faktoren ihn messbar beeinflussen.</p>",
             "text_size": "text-base",
             "button_label": "",
             "button_style": "btn--underline",
@@ -167,17 +158,18 @@
         "column_giEzK8": {
           "type": "column",
           "settings": {
-            "show_image": true,
+            "show_image": false,
+            "video_url": "",
             "video_autoplay": false,
             "video_loop": false,
             "video_muted": true,
             "video_controls": true,
             "image_width": "medium",
-            "title": "Column",
+            "title": "Atemarbeit",
             "heading_size": "h4",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "text": "<p>Lernen Sie, wie bewusste Atmung Ihr Nervensystem reguliert und zu mehr Ruhe und Tiefe im Schlaf beiträgt.</p>",
             "text_size": "text-base",
-            "button_label": "Button label",
+            "button_label": "",
             "button_style": "btn--underline",
             "button_link": "",
             "mobile_layout": "inherit"
@@ -186,17 +178,18 @@
         "column_zUnXR4": {
           "type": "column",
           "settings": {
-            "show_image": true,
+            "show_image": false,
+            "video_url": "",
             "video_autoplay": false,
             "video_loop": false,
             "video_muted": true,
             "video_controls": true,
             "image_width": "medium",
-            "title": "Column",
+            "title": "Feng Shui",
             "heading_size": "h4",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "text": "<p>Erfahren Sie, wie Ihre Umgebung wirkt – und wie kleine Veränderungen im Schlafzimmer Ihr Wohlbefinden spürbar verbessern.</p>",
             "text_size": "text-base",
-            "button_label": "Button label",
+            "button_label": "",
             "button_style": "btn--underline",
             "button_link": "",
             "mobile_layout": "inherit"
@@ -211,14 +204,14 @@
       "name": "t:sections.multicolumn.presets.name",
       "settings": {
         "color_scheme": "",
-        "heading": "Multicolumn",
+        "heading": "",
         "heading_size": "h1",
         "heading_highlight_style": "none",
         "subheading": "",
         "description": "",
         "text_size": "text-base",
         "column_alignment": "left",
-        "columns_desktop": 4,
+        "columns_desktop": 3,
         "column_gap": "large",
         "columns_mobile": "1",
         "swipe_on_mobile": true,
@@ -228,6 +221,66 @@
         "divider_width": "fixed",
         "custom_class": ""
       }
+    },
+    "image_with_text_3qCeia": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_9zwbd8": {
+          "type": "heading",
+          "settings": {
+            "heading": "Dr. Christine Blume | Schlafforschung",
+            "heading_size": "hd1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_zLa8jg": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Dr. Christine Blume ist Psychologin und Schlafforscherin an der Universität Basel und arbeitet zusätzlich als Schlaftherapeutin an den Universitären Psychiatrischen Kliniken Basel. Im Fokus ihrer Forschung stehen die Auswirkungen moderner Lebensbedingungen – wie Licht, Bewegung oder Temperatur – auf unseren Schlaf und den Rhythmus der inneren Uhr. Ihre Arbeit verbindet wissenschaftliche Präzision mit praktischer Relevanz. Als Wissenschaftskommunikatorin und Podcast-Host („Über Schlafen“) macht sie komplexe Zusammenhänge verständlich – und hilft dabei, Schlaf ganzheitlich zu begreifen und gezielt zu verbessern. <a href=\"https://royfort.de/pages/sleep-guide-expert-blume\"><span style=\"text-decoration:underline\">Mehr erfahren</span></a></p>",
+            "text_size": "text-base",
+            "truncate_on_mobile": false,
+            "truncate_on_mobile_lines": 3,
+            "truncate_trigger_text": "Mehr lesen",
+            "truncate_collapse_text": "Weniger"
+          }
+        }
+      },
+      "block_order": [
+        "heading_9zwbd8",
+        "text_zLa8jg"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "is_full_width": false,
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "image": "shopify://shop_images/christine-blume-2025_Credits_NaWik_Sebastian_Heck_1_Medium_d7e9139f-2e16-4204-bf68-baf5bb5630e2.jpg",
+        "image_height": "adapt",
+        "layout": "image_first",
+        "desktop_content_position": "center",
+        "desktop_content_alignment": "left",
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "mobile_content_alignment": "left",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "different_mobile_padding": false,
+        "padding_top_mobile": 30,
+        "padding_bottom_mobile": 30,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "breadcrumbs_zf9HBa": {
+      "type": "breadcrumbs",
+      "custom_css": [
+        ".justify-center {justify-content: left;}"
+      ],
+      "name": "t:sections.breadcrumbs.name",
+      "settings": {
+        "text_alignment": "start"
+      }
     }
   },
   "order": [
@@ -236,6 +289,7 @@
     "17788308003a955b48",
     "rich_text_ntFYxW",
     "multicolumn_htN4W6",
+    "image_with_text_3qCeia",
     "breadcrumbs_zf9HBa"
   ]
 }
