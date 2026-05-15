@@ -271,7 +271,7 @@
     },
     "breadcrumbs": {
       "home": "Home",
-      "collections": "Sammlung"
+      "collections": "Kollektion"
     },
     "search": {
       "search": "Suche",
@@ -371,7 +371,7 @@
   "onboarding": {
     "product_title": "Beispiel für einen Produkttitel",
     "product_description": "In diesem Bereich werden die Details Ihres Produkts beschrieben. Informieren Sie Ihre Kunden über das Aussehen, die Haptik und den Stil Ihres Produkts. Fügen Sie Details zu Farbe, verwendeten Materialien, Größe und Herstellungsort hinzu.",
-    "collection_title": "Name der Sammlung",
+    "collection_title": "Name der Kollektion",
     "collection_description": "Hier finden Sie eine Beschreibung der Sammlung, die Einzelheiten zur Sammlung enthält.",
     "no_script_alert": "Bitte aktivieren Sie JavaScript, um diese Funktion zu verwenden."
   },
@@ -593,7 +593,7 @@
     },
     "collection_template": {
       "empty": "Keine Produkte gefunden",
-      "title": "Sammlung",
+      "title": "Kollektion",
       "use_fewer_filters_html": "Verwenden Sie weniger Filter oder <a class=\"{{ class }}\" href=\"{{ link }}\">alle entfernen</a>"
     },
     "video": {
@@ -688,7 +688,7 @@
       "search_for": "Alle Ergebnisse für „{{ terms }}“ anzeigen",
       "suggestions": "Vorschläge",
       "articles_pages": "Artikel und Seiten",
-      "collections": "Sammlungen",
+      "collections": "Kollektionen",
       "clear": "Klar",
       "most_searched_keywords": "Am häufigsten gesuchte Schlüsselwörter",
       "most_searched_products": "Am häufigsten gesuchte Produkte"
