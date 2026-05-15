@@ -1319,3 +1319,215 @@ layout-switcher .btn::after {
     text-decoration-line: line-through;
     text-transform: uppercase;
 }
+
+
+/* Wishlist Plus SWYM */
+swym-storefront-layout-as-drawer .swym-storefront-layout-layout {
+    border-radius: 0 !important;
+}
+swym-storefront-layout-as-drawer .swym-storefront-layout-login-actions {
+    flex-direction: column !important;
+}
+.swym-storefront-layout-grid-item-image-container {
+    border-radius: 0 !important;
+}
+.swym-storefront-layout-layout {
+    width: 100% !important;
+    max-width: var(--modal-width, 46rem) !important;
+}
+swym-storefront-layout .swym-storefront-layout-backdrop {
+    display: block !important;
+    position: fixed;
+    transition: 0.8s cubic-bezier(0.7, 0, 0.2, 1);
+    transition-property: opacity, visibility, background-color;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background-color: rgba(var(--color-foreground), 0.5);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    cursor: zoom-out;
+}
+.swym-storefront-layout-hide-view .swym-storefront-layout-backdrop {
+    opacity: 0;
+    visibility: hidden;
+}
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-login-btn,
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn {
+    all: unset !important;
+    --buttons-transform-default: capitalize !important;
+    --buttons-padding: 4rem !important;
+    font-size: 100% !important;
+    position: relative !important;
+    z-index: 1 !important;
+    overflow: hidden !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0 var(--buttons-gap, 0.6rem) !important;
+    cursor: pointer !important;
+    transition: 0.3s all !important;
+    white-space: nowrap !important;
+    background: none !important;
+    color: rgb(var(--color-foreground)) !important;
+    border: var(--buttons-border-width) solid rgb(var(--color-border)) !important;
+    border-radius: var(--buttons-radius, 0) !important;
+    padding: 0 var(--buttons-padding) !important;
+    height: var(--buttons-height) !important;
+    line-height: 30px !important;
+    font-family: var(--font-button-family) !important;
+    font-weight: var(--font-button-weight) !important;
+    letter-spacing: var(--buttons-letter-spacing, 0) !important;
+    text-transform: var(--buttons-transform, var(--buttons-transform-default)) !important;
+    box-sizing: border-box !important;
+}
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-login-btn {
+    --color-border: var(--color-button) !important;
+    background: rgb(var(--color-button)) !important;
+    color: rgb(var(--color-button-text)) !important;
+    border: 0 !important;
+    --color-button-hover-background: 25, 25, 77;
+    --color-button-hover-text: 255, 255, 255;
+    --color-button-before: #32329a;
+}
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-login-btn:hover {
+    --color-border: var(--color-button-hover-background) !important;
+    color: rgb(var(--color-button-hover-text)) !important;
+    border-color: rgb(var(--color-border)) !important;
+    background-color: rgb(var(--color-button-hover-background)) !important;
+}
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-login-btn::before,
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-login-btn::after {
+    content: "";
+    z-index: -1;
+    transition: transform 0.3s cubic-bezier(0.75, 0, 0.125, 1);
+    position: absolute;
+    top: -5px;
+    bottom: -5px;
+    left: -5px;
+    right: -5px;
+    transform: translateX(-100%);
+    font-size: 0;
+    background-color: var(--color-button-before);
+}
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-login-btn:hover::before,
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-login-btn:hover::after {
+    transform: translate(0);
+}
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-login-btn:hover::after {
+    transition-delay: 0.175s;
+}
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-login-btn::after {
+    background-color: rgb(var(--color-button-hover-background));
+}
+
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn {
+    background: rgb(var(--color-secondary-button)) !important;
+    color: rgb(var(--color-secondary-button-text)) !important;
+    border-color: rgb(var(--color-secondary-button-border)) !important;
+}
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn:hover {
+    --color-border: var(--color-button-hover-background) !important;
+    color: rgb(var(--color-button-hover-text)) !important;
+    border-color: rgb(var(--color-border)) !important;
+    background-color: rgb(var(--color-button-hover-background)) !important;
+}
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn::before,
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn::after {
+    content: "";
+    z-index: -1;
+    transition: transform 0.3s cubic-bezier(0.75, 0, 0.125, 1);
+    position: absolute;
+    top: -5px;
+    bottom: -5px;
+    left: -5px;
+    right: -5px;
+    transform: translateX(-100%);
+    font-size: 0;
+    background-color: var(--color-button-before);
+}
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn:hover::before,
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn:hover::after {
+    transform: translate(0);
+}
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn:hover::after {
+    transition-delay: 0.175s;
+}
+swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn::after {
+    background-color: rgb(var(--color-button-hover-background));
+}
+
+.swym-storefront-layout-grid-item-add-to-cart-button {
+    all: unset !important;
+    --buttons-transform-default: capitalize !important;
+    --buttons-padding: 4rem !important;
+    font-size: 100% !important;
+    position: relative !important;
+    z-index: 1 !important;
+    overflow: hidden !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0 var(--buttons-gap, 0.6rem) !important;
+    cursor: pointer !important;
+    transition: 0.3s all !important;
+    white-space: nowrap !important;
+    border-radius: var(--buttons-radius, 0) !important;
+    padding: 0 var(--buttons-padding) !important;
+    height: var(--buttons-height) !important;
+    line-height: 30px !important;
+    font-family: var(--font-button-family) !important;
+    font-weight: var(--font-button-weight) !important;
+    letter-spacing: var(--buttons-letter-spacing, 0) !important;
+    text-transform: var(--buttons-transform, var(--buttons-transform-default)) !important;
+    box-sizing: border-box !important;
+    background: rgb(var(--color-secondary-button)) !important;
+    color: rgb(var(--color-secondary-button-text)) !important;
+    border: var(--buttons-border-width) solid rgb(var(--color-secondary-button-border)) !important;
+}
+.swym-storefront-layout-grid-item-add-to-cart-button:hover {
+    --color-border: var(--color-button-hover-background) !important;
+    color: rgb(var(--color-button-hover-text)) !important;
+    border-color: rgb(var(--color-border)) !important;
+    background-color: rgb(var(--color-button-hover-background)) !important;
+}
+.swym-storefront-layout-grid-item-add-to-cart-button::before,
+.swym-storefront-layout-grid-item-add-to-cart-button::after {
+    content: "";
+    z-index: -1;
+    transition: transform 0.3s cubic-bezier(0.75, 0, 0.125, 1);
+    position: absolute;
+    top: -5px;
+    bottom: -5px;
+    left: -5px;
+    right: -5px;
+    transform: translateX(-100%);
+    font-size: 0;
+    background-color: var(--color-button-before);
+}
+.swym-storefront-layout-grid-item-add-to-cart-button:hover::before,
+.swym-storefront-layout-grid-item-add-to-cart-button:hover::after {
+    transform: translate(0);
+}
+.swym-storefront-layout-grid-item-add-to-cart-button:hover::after {
+    transition-delay: 0.175s;
+}
+.swym-storefront-layout-grid-item-add-to-cart-button::after {
+    background-color: rgb(var(--color-button-hover-background));
+}
+.swym-storefront-layout-title {
+    font-size: 2.4rem !important;
+    font-style: normal !important;
+    font-weight: 300 !important;
+    line-height: 120% !important;
+    letter-spacing: var(--font-heading-letter-spacing) !important;
+    text-transform: var(--font-heading-transform) !important;
+    color: rgb(var(--color-foreground)) !important;
+    font-family: 'ABCArizonaMix-Light', Arial, sans-serif !important;
+}
+.swym-storefront-layout-title svg {
+    display: none !important;
+}
