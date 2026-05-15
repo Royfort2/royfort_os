@@ -116,7 +116,7 @@
     "swym_advanced_collections_wishlist_attach_button_selector": ".product-card__image-wrapper, .product-card--overlay .pcard__media",
     "swym_advanced_collections_wishlist_icon_position": "top-right",
     "swym_advanced_collections_wishlist_icon_color": "#171717",
-    "swym_advanced_collections_wishlist_icon_width": 1.6,
+    "swym_advanced_collections_wishlist_icon_width": 2,
     "swym_header_icon_enabled": true,
     "swym_header_icon_show_count": true,
     "swym_header_icon_custom_html": "",
