@@ -8,6 +8,7 @@
   Accepts:
   - product {Product}
   - color_variant {Variant} optional — set for variant tiles
+  - global_only {Boolean} optional — only output custom.we_global_badges (omit product + variant metafield lists)
 {% endcomment %}
 {%- if settings.use_metafields_for_badges_display -%}
   {%- liquid
@@ -63,22 +64,24 @@
   {%- if we_glob != blank -%}
     {%- for line in we_glob -%}
       {%- if line != blank -%}
-        <span class="f-badge f-badge--custom">{{ line | escape }}</span>
+        <span class="f-badge f-badge--custom we-mf-badge we-mf-badge--global">{{ line | escape }}</span>
       {%- endif -%}
     {%- endfor -%}
   {%- endif -%}
-  {%- if color_variant == blank and we_pcard_only != blank -%}
-    {%- for line in we_pcard_only -%}
-      {%- if line != blank -%}
-        <span class="f-badge f-badge--custom">{{ line | escape }}</span>
-      {%- endif -%}
-    {%- endfor -%}
-  {%- endif -%}
-  {%- if color_variant != blank and we_v_badges_list != blank -%}
-    {%- for line in we_v_badges_list -%}
-      {%- if line != blank -%}
-        <span class="f-badge f-badge--custom">{{ line | escape }}</span>
-      {%- endif -%}
-    {%- endfor -%}
-  {%- endif -%}
+  {%- unless global_only -%}
+    {%- if color_variant == blank and we_pcard_only != blank -%}
+      {%- for line in we_pcard_only -%}
+        {%- if line != blank -%}
+          <span class="f-badge f-badge--custom we-mf-badge we-mf-badge--product">{{ line | escape }}</span>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+    {%- if color_variant != blank and we_v_badges_list != blank -%}
+      {%- for line in we_v_badges_list -%}
+        {%- if line != blank -%}
+          <span class="f-badge f-badge--custom we-mf-badge we-mf-badge--variant">{{ line | escape }}</span>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+  {%- endunless -%}
 {%- endif -%}

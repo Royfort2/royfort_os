@@ -229,7 +229,9 @@
                         {%- render 'we-card-product',
                           product: product,
                           enable_quick_view: false,
-                          enable_quick_add: false
+                          enable_quick_add: false,
+                          pcard_render_badges: block.settings.render_badges,
+                          pcard_badges_global_only: block.settings.badges_global_only
                         -%}
                       </div>
                     {%- endfor -%}

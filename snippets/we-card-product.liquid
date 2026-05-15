@@ -188,10 +188,24 @@
 
   assign custom_tags = product.tags | where: 'label_right_'
   assign custom_tags_left = product.tags | where: 'label_left_'
+
+  unless pcard_render_badges == false
+    assign we_show_pcard_badges = true
+  else
+    assign we_show_pcard_badges = false
+  endunless
 -%}
-{%- capture we_mf_card_badges_html -%}
-  {%- render 'we-card-product-metafield-badges', product: product, color_variant: color_variant -%}
-{%- endcapture -%}
+{%- if we_show_pcard_badges -%}
+  {%- capture we_mf_card_badges_html -%}
+    {%- render 'we-card-product-metafield-badges',
+      product: product,
+      color_variant: color_variant,
+      global_only: pcard_badges_global_only
+    -%}
+  {%- endcapture -%}
+{%- else -%}
+  {%- assign we_mf_card_badges_html = '' -%}
+{%- endif -%}
 {%- liquid
   assign we_mf_card_badges_html = we_mf_card_badges_html | strip
   assign we_mf_has_mf_badges = false
@@ -541,13 +555,19 @@
           </motion-element>
         </a>
       {%- endif -%}
-      {%- capture we_plp_nf_badge -%}
-        {%- unless settings.use_metafields_for_badges_display -%}
-          {%- render 'we-plp-neue-farbe-badge', product: product, color_variant: color_variant -%}
-        {%- endunless -%}
-      {%- endcapture -%}
-      {%- assign we_plp_nf_badge = we_plp_nf_badge | strip -%}
-      {%- if product.available == false or on_sale or custom_tags.size > 0 or custom_tags_left.size > 0 or we_plp_nf_badge != blank or we_mf_has_mf_badges -%}
+      {%- liquid
+        assign we_plp_nf_badge = ''
+        if we_show_pcard_badges
+          capture we_plp_nf_badge
+            unless settings.use_metafields_for_badges_display
+              render 'we-plp-neue-farbe-badge', product: product, color_variant: color_variant
+            endunless
+          endcapture
+          assign we_plp_nf_badge = we_plp_nf_badge | strip
+        endif
+      -%}
+      {%- if we_show_pcard_badges -%}
+        {%- if product.available == false or on_sale or custom_tags.size > 0 or custom_tags_left.size > 0 or we_plp_nf_badge != blank or we_mf_has_mf_badges -%}
         <div class="product-card__badge">
           {%- if product.available == false and show_soldout -%}
             <span class="f-badge f-badge--soldout" aria-hidden="true">
@@ -596,6 +616,7 @@
             {{- we_plp_nf_badge -}}
           {%- endunless -%}
         </div>
+        {%- endif -%}
       {%- endif -%}
       {%- if product.metafields.custom.is_excluded_from_sale -%}
         <span class="product-card__footnote">{{ settings.pcard_excluded_from_sale_text }}</span>

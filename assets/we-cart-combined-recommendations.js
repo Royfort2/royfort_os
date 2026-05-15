@@ -126,7 +126,29 @@ if (!customElements.get('we-cart-combined-recommendations')) {
           if (!progress) break;
         }
 
-        return merged.slice(0, totalCap).map((el) => el.cloneNode(true));
+        return merged.slice(0, totalCap).map((el) => {
+          const c = el.cloneNode(true);
+          this.adjustFetchedSlideBadges(c);
+          return c;
+        });
+      }
+
+      /**
+       * Cart drawer badge prefs apply client-side (fragment HTML cannot read drawer settings).
+       */
+      adjustFetchedSlideBadges(slideRoot) {
+        const hideBadges = this.dataset.renderBadges === 'false';
+        const globalOnly = this.dataset.badgesGlobalOnly === 'true';
+        slideRoot.querySelectorAll('.product-card__badge').forEach((badge) => {
+          if (hideBadges) {
+            badge.remove();
+            return;
+          }
+          if (globalOnly) {
+            badge.querySelectorAll('.we-mf-badge--product, .we-mf-badge--variant').forEach((node) => node.remove());
+            if (badge.childElementCount === 0) badge.remove();
+          }
+        });
       }
 
       renderSlider(slideEls) {

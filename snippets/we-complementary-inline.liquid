@@ -6,6 +6,8 @@
   else
     assign rel_show_reviews = true
   endif
+  assign rel_pcard_render_badges = pcard_render_badges
+  assign rel_pcard_badges_global_only = pcard_badges_global_only
 -%}
 {%- capture rel_image_sizes -%}
   (max-width: 767px) calc((100vw - 3rem) / 1.7), {{ settings.page_width | divided_by: 2 }}px
@@ -71,7 +73,9 @@
                     image_ratio: rel_img_ratio,
                     section_index: section.index,
                     index: forloop.index,
-                    show_reviews: rel_show_reviews
+                    show_reviews: rel_show_reviews,
+                    pcard_render_badges: rel_pcard_render_badges,
+                    pcard_badges_global_only: rel_pcard_badges_global_only
                   %}
                 </div>
               {%- endfor -%}
