@@ -270,7 +270,7 @@
       "load_more_progress_variant_aria": "Sie haben {{ shown }} von {{ total }} Produkten angesehen"
     },
     "breadcrumbs": {
-      "home": "Heim",
+      "home": "Home",
       "collections": "Sammlung"
     },
     "search": {
@@ -616,7 +616,7 @@
       "all_posts": "Alle Artikel"
     },
     "mobile-sticky-bar": {
-      "home": "Heim",
+      "home": "Home",
       "products": "Produkte",
       "search": "Suche",
       "cart": "Wagen"
