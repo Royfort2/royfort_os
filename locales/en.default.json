@@ -662,5 +662,19 @@
       "send_on": "YYYY-MM-DD",
       "send_on_label": "Send on (optional)"
     }
+  },
+  "gempages": {
+    "Newsletter": {
+      "err_msg_default": "Can't send email. Please try again later."
+    },
+    "Product": {
+      "product_not_found": "Produkt nicht gefunden"
+    },
+    "ProductVariants": {
+      "please_select": "Bitte wählen Sie eine Option"
+    },
+    "StockCounter": {
+      "let_buy_now": "<mark>HURRY!</mark> BUY NOW"
+    }
   }
 }
