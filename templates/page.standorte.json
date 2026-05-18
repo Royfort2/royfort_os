@@ -307,9 +307,9 @@
             "heading": "",
             "heading_size": "h1",
             "text": "<h3>Michel Bäder München</h3><p><strong>Adresse: </strong><br/>Von-der-Tann-Str. 4 + 6 80539 München</p><p><strong>Öffnungszeiten: </strong><br/>Montag bis Freitag, 10.00 bis 18.00 Uhr</p><p><strong>E-Mail: </strong><br/>info@michel-baeder.de | fini@royfort.de</p><p><strong>Telefon: </strong><br/>+49 (0) 89 540 42 47 0</p><p><strong>Sortiment: </strong><br/>Atelier Bett, Atelier Matratze No.2, Matratzentopper – Produkte auf Bestellung.</p>",
-            "button_label": "Jetzt Termin buchen",
+            "button_label": "Jetzt Termin anfragen",
             "button_style": "btn--secondary",
-            "button_link": "https://calendar.google.com/calendar/appointments/schedules/AcZssZ0GyUjWt6rkbYG06FBg1GgdgcbJMlm3qpQabD_Ief4c06Z2vIRPiXQKF80adk5yPwe51OaNj_er"
+            "button_link": "mailto:info@michel-baeder.de"
           }
         },
         "location_iHmFyT": {
