@@ -86,9 +86,19 @@
           "type": "icon_info_text",
           "settings": {
             "icon": "shopify://shop_images/local_shipping_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
-            "title": "Geschätzte Lieferung: {{ product.metafields.custom.we_pdp_estimated_delivery_time.value }}",
+            "title": "Handgefertigt · Lieferung in: {{ product.metafields.custom.we_pdp_estimated_delivery_time.value }}",
             "short_description": "Persönliche Lieferung & Aufbau",
-            "description": "<p>Ihre Bestellung wird per 2-Mann-Spedition geliefert und sorgfältig in Ihrem Wunschzimmer aufgebaut.<br/><br/>Den Liefertermin stimmen wir vorab persönlich telefonisch mit Ihnen ab, sodass die Anlieferung optimal in Ihren Alltag passt.<br/><br/>Bei Fragen zur Lieferung, Zugänglichkeit oder besonderen Wohnsituationen unterstützen wir Sie selbstverständlich persönlich.<br/></p>",
+            "description": "<p>Ihr Bett wird per 2-Mann-Spedition geliefert und sorgfältig in Ihrem Wunschzimmer aufgebaut.<br/><br/>Den Liefertermin stimmen wir vorab persönlich telefonisch mit Ihnen ab, sodass die Anlieferung passend zu Ihrem Alltag erfolgt.<br/><br/>Durch die sorgfältige Vorbereitung und die persönliche Abstimmung entsteht eine ruhige und verlässliche Lieferung — von der Fertigung bis zum Aufbau bei Ihnen vor Ort.</p>",
+            "page": ""
+          }
+        },
+        "icon_info_text_4ErYdG": {
+          "type": "icon_info_text",
+          "settings": {
+            "icon": "shopify://shop_images/chat_bubble_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
+            "title": "Persönliche Beratung",
+            "short_description": "Individuelle Unterstützung bei der Auswahl",
+            "description": "<p>Wir begleiten Sie persönlich bei Fragen zu Komfort, Materialien, Größen und passenden Kombinationen.<br/><br/>Gemeinsam finden wir eine Lösung, die zu Ihren Schlafgewohnheiten, Ihrem Wohnstil und Ihren individuellen Vorstellungen passt.<br/><br/>+49 (0) 30 2332 7430<br/>service@royfort.com</p>",
             "page": ""
           }
         },
@@ -99,16 +109,6 @@
             "title": "VOR ORT ERLEBEN",
             "short_description": "Betten & Matratzen persönlich testen",
             "description": "<p>Erleben Sie unsere Betten und Matratzen persönlich in ausgewählten Standorten.<br/><br/>Vor Ort können Sie Materialien fühlen, Stoffe vergleichen und unterschiedliche Liegegefühle direkt testen. Gemeinsam finden wir die passende Kombination für Ihren Schlafkomfort.</p><p>Unsere Teams vor Ort beraten Sie gerne individuell und unterstützen Sie bei der Auswahl des passenden Bettes und der richtigen Matratze.</p><p><a href=\"/pages/unsere-standorte\" title=\"Standorte\">Standorte entdecken</a><br/></p>",
-            "page": ""
-          }
-        },
-        "icon_info_text_4ErYdG": {
-          "type": "icon_info_text",
-          "settings": {
-            "icon": "shopify://shop_images/chat_bubble_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
-            "title": "Persönliche Beratung",
-            "short_description": "Individuelle Unterstützung bei der Auswahl",
-            "description": "<p>Ein Bett ist eine langfristige Entscheidung – deshalb begleiten wir Sie persönlich bei der Auswahl.<br/><br/>Wir beraten Sie persönlich zu Materialien, Komfort, Stoffen, Größen und passenden Matratzenkombinationen. Gemeinsam finden wir die Konfiguration, die optimal zu Ihren Bedürfnissen und Ihrem Schlafgefühl passt.<br/><br/><br/>+49 (0) 30 2332 7430<br/>service@royfort.com</p>",
             "page": ""
           }
         },
@@ -209,8 +209,8 @@
         "we_variant_picker_jJ7CqM",
         "buy_buttons",
         "icon_info_text_8ayhQN",
-        "icon_info_text_pzJbNn",
         "icon_info_text_4ErYdG",
+        "icon_info_text_pzJbNn",
         "usp_list_yWyYmX",
         "collapsible-row-1",
         "collapsible_tab_Y9thBz",
@@ -270,7 +270,6 @@
         "heading_9Y3zkK",
         "text_UWkrNW"
       ],
-      "disabled": true,
       "custom_css": [
         "/* @media (max-width: 767.98px) {.image-with-text .image-with-text__inner {padding-top: 4.8rem; }}@media (min-width: 768px) {.image-with-text__wrapper {--gap-x: 3rem; }}@media (min-width: 1280px) {.image-with-text__inner {--padding-x: 9rem; }} */"
       ],
@@ -323,7 +322,6 @@
         "heading_4Ni4ix",
         "text_FXjj84"
       ],
-      "disabled": true,
       "custom_css": [
         "/* @media (max-width: 767.98px) {.image-with-text .image-with-text__inner {padding-top: 4.8rem; }}@media (min-width: 768px) {.image-with-text__wrapper {--gap-x: 3rem; }}@media (min-width: 1280px) {.image-with-text__inner {--padding-x: 9rem; }} */"
       ],
