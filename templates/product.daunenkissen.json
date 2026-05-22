@@ -155,12 +155,12 @@
           "type": "usp_swiper",
           "settings": {
             "hide_on_desktop": true,
-            "icon_1": "shopify://shop_images/globe.svg",
-            "usp_1": "Handgefertigt in Portugal",
-            "icon_2": "shopify://shop_images/local_shipping_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
-            "usp_2": "Traditionelle Fertigung",
-            "icon_3": "shopify://shop_images/chat_bubble_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
-            "usp_3": "USP 3",
+            "icon_1": "shopify://shop_images/diamond_100dp_1F1F1F_FILL0_wght400_GRAD0_opsz48_359711e6-d49d-46fc-a50c-169b725b2eb1.png",
+            "usp_1": "Höchste Qualität & Verarbeitung",
+            "icon_2": "shopify://shop_images/eco_100dp_1F1F1F_FILL0_wght400_GRAD0_opsz48.png",
+            "usp_2": "Nachhaltig & Langlebig",
+            "icon_3": "shopify://shop_images/delivery_truck_speed_100dp_1F1F1F_FILL0_wght400_GRAD0_opsz48.png",
+            "usp_3": "Schnelle Lieferung",
             "usp_4": "",
             "usp_5": ""
           }
@@ -171,7 +171,9 @@
             "heading": "Das könnte Ihnen auch gefallen",
             "product_list_limit": 4,
             "image_ratio": "4/5",
-            "show_reviews": true
+            "show_reviews": true,
+            "render_badges": true,
+            "badges_global_only": false
           }
         }
       },
