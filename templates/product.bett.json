@@ -175,6 +175,7 @@
         },
         "usp_swiper_ffaRkg": {
           "type": "usp_swiper",
+          "disabled": true,
           "settings": {
             "hide_on_desktop": true,
             "icon_1": "shopify://shop_images/globe.svg",
