@@ -234,22 +234,13 @@
         "padding_bottom": 0
       }
     },
-    "mattress_shared_h6EK7R": {
-      "type": "mattress-shared",
-      "disabled": true,
-      "name": "Mattress Shared",
-      "settings": {
-        "header_color": "#000000",
-        "text_color": "#888888"
-      }
-    },
     "image_with_text_zQ9iit": {
       "type": "image-with-text",
       "blocks": {
         "heading_9Y3zkK": {
           "type": "heading",
           "settings": {
-            "heading": "Unsere außergewöhnliche Baumwolle",
+            "heading": "Boxspringbett – Das Schlafsystem für hohen Komfort",
             "heading_size": "h3",
             "heading_highlight_style": "none"
           }
@@ -257,7 +248,7 @@
         "text_UWkrNW": {
           "type": "text",
           "settings": {
-            "text": "<p>Baumwolle zählt zu den edelsten Naturfasern der Welt – sie ist von Natur aus temperaturregulierend, feuchtigkeitsabsorbierend und langlebig. Unsere langstapelige Bio-Baumwolle wird besonders fein versponnen, um Reibung zu minimieren und einen ruhigen, erholsamen Schlaf zu fördern.</p><p>Ihre feinen Fasern sorgen für eine unglaubliche weiche Stofftextur. Weniger als 1% der weltweit produzierten Baumwolle erreicht diese außergewöhnliche Qualität.</p>",
+            "text": "<p>Boxspringbetten bieten durch ihren mehrschichtigen Aufbau eine natürliche Federung, die sich flexibel an jede Körperkontur anpasst und damit auch an jedes Bedürfnis. Im Vergleich zu klassischen Lattenrost-Betten liegen sie spürbar stabiler, verteilen den Druck gleichmäßiger und lassen die Luft besser zirkulieren – für ein angenehm temperiertes Schlafklima. Bewegungen werden sanft abgefedert, sodass das Liegen deutlich ruhiger wirkt und der Schlaf ungestört bleibt. Gleichzeitig sind Boxspringbetten besonders langlebig, da ihre Konstruktion auch nach vielen Jahren ihre Form und Elastizität bewahrt.<br/>Und das Beste: Der Komfort entsteht über die gesamte Liegefläche hinweg – ein durchgehendes, harmonisches Schlafgefühl, das jede Nacht zu etwas Besonderem macht.</p>",
             "text_size": "text-base",
             "truncate_on_mobile": true,
             "truncate_on_mobile_lines": 3,
@@ -277,7 +268,7 @@
         "is_full_width": true,
         "section_color_scheme": "",
         "color_scheme": "scheme-1",
-        "image": "shopify://shop_images/Musselin_d1ac143e-90e4-4825-bd62-e13f3ec94d0b.jpg",
+        "image": "shopify://shop_images/Content_Block_9.jpg",
         "image_height": "medium",
         "layout": "text_first",
         "desktop_content_position": "center",
@@ -301,7 +292,7 @@
         "heading_4Ni4ix": {
           "type": "heading",
           "settings": {
-            "heading": "Spürbare Qualität in jeder Berührung",
+            "heading": "Schlafgefühl & Ergonomie – Ein Ort der Erholung",
             "heading_size": "h3",
             "heading_highlight_style": "none"
           }
@@ -309,7 +300,7 @@
         "text_FXjj84": {
           "type": "text",
           "settings": {
-            "text": "<p>Wir verweben nur die hochwertigsten Garne mit einer Fadendichte von 300. Jede Garnfaser wird mit größter Sorgfalt verarbeitet, um ein ruhiges, gleichmäßiges Gewebe und ein sanftes Hautgefühl zu schaffen. Das Ergebnis: ein Stoff, der weich, atmungsaktiv und dauerhaft formschön bleibt - auch nach Jahren der Nutzung.</p><p>GOTS-zertifiziert und frei von aggressiven Chemikalien - für kompromisslose Qualität mit Verantwortung.</p>",
+            "text": "<p>Das fein abgestimmte Boxspringsystem sorgt für ein ruhiges, fließendes Liegegefühl – unabhängig von Körperform oder bevorzugter Schlafposition.<br/>Die Kombination aus Latex, Taschenfedern und Bonellfedern verteilt Druckpunkte gleichmäßig und unterstützt die Wirbelsäule natürlich. Bewegungen werden sanft abgefedert, sodass Sie und Ihr/e Partner/in ruhig schlafen – selbst wenn einer sich nachts öfter dreht.</p><p>Gemeinsam mit unseren Atelier-Matratzen entsteht eine Schlafqualität, die den Körper trägt, entlastet und zugleich angenehm einbettet.</p>",
             "text_size": "text-base",
             "truncate_on_mobile": true,
             "truncate_on_mobile_lines": 3,
@@ -329,7 +320,7 @@
         "is_full_width": true,
         "section_color_scheme": "",
         "color_scheme": "scheme-1",
-        "image": "shopify://shop_images/25-03-Royfort-12-Cotton-Weiss-1518_1012152f-d606-4709-a037-96dcc39adc84.jpg",
+        "image": "shopify://shop_images/Content_Block_6.jpg",
         "image_height": "adapt",
         "layout": "image_first",
         "desktop_content_position": "center",
@@ -447,15 +438,71 @@
       "settings": {
         "text_alignment": "center"
       }
+    },
+    "video_with_text_xX8gnW": {
+      "type": "video-with-text",
+      "blocks": {
+        "heading_VKRLDB": {
+          "type": "heading",
+          "settings": {
+            "heading": "Talk about your brand",
+            "heading_size": "h3",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_ghbcnr": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "text_size": "text-base"
+          }
+        }
+      },
+      "block_order": [
+        "heading_VKRLDB",
+        "text_ghbcnr"
+      ],
+      "disabled": true,
+      "custom_css": [
+        "@media (min-width: 768px) {.video-with-text .image-with-text__media {aspect-ratio: 1 / 1; min-height: 650px; } .video-with-text video, .video-with-text iframe, .video-with-text .deferred-media, .video-with-text .media {width: 100%; height: 100%; object-fit: cover; }}"
+      ],
+      "name": "t:sections.video-with-text.name",
+      "settings": {
+        "color_scheme": "scheme-8",
+        "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+        "video_ratio": "4/3",
+        "description": "",
+        "enable_video_autoplay": false,
+        "enable_video_looping": false,
+        "video_placement": "second",
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "text_alignment": "left",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "mattress_shared_h6EK7R": {
+      "type": "mattress-shared",
+      "disabled": true,
+      "name": "Mattress Shared",
+      "settings": {
+        "header_color": "#000000",
+        "text_color": "#888888"
+      }
     }
   },
   "order": [
     "main",
-    "mattress_shared_h6EK7R",
     "image_with_text_zQ9iit",
     "image_with_text_dQDdte",
     "featured_collection_JQULLF",
     "we_featured_collections_Hgagwm",
-    "breadcrumbs"
+    "breadcrumbs",
+    "video_with_text_xX8gnW",
+    "mattress_shared_h6EK7R"
   ]
 }
