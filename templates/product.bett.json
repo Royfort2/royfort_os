@@ -86,9 +86,9 @@
           "type": "icon_info_text",
           "settings": {
             "icon": "shopify://shop_images/local_shipping_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
-            "title": "Handgefertigt · Lieferung in: {{ product.metafields.custom.we_pdp_estimated_delivery_time.value }}",
-            "short_description": "Persönliche Lieferung & Aufbau",
-            "description": "<p>Ihr Bett wird per 2-Mann-Spedition geliefert und sorgfältig in Ihrem Wunschzimmer aufgebaut.<br/><br/>Den Liefertermin stimmen wir vorab persönlich telefonisch mit Ihnen ab, sodass die Anlieferung passend zu Ihrem Alltag erfolgt.<br/><br/>Durch die sorgfältige Vorbereitung und die persönliche Abstimmung entsteht eine ruhige und verlässliche Lieferung — von der Fertigung bis zum Aufbau bei Ihnen vor Ort.</p>",
+            "title": "Lieferung in: {{ product.metafields.custom.we_pdp_estimated_delivery_time.value }}",
+            "short_description": "Exklusive Lieferung & Aufbau",
+            "description": "<p>Ihr Bett wird per Spedition geliefert und sorgfältig in Ihrem Wunschzimmer aufgebaut. Den Liefertermin stimmen wir vorab persönlich telefonisch mit Ihnen ab, um eine reibungslose und verlässliche Anlieferung sicherzustellen. Von der Fertigung bis zum Aufbau bei Ihnen vor Ort entsteht so ein durchdachter Service, der höchsten Ansprüchen gerecht wird.</p><p>Selbstverständlich nehmen wir das gesamte Verpackungsmaterial direkt wieder mit und kümmern uns um eine fachgerechte Entsorgung.<br/></p>",
             "page": ""
           }
         },
@@ -338,6 +338,52 @@
         "custom_class": ""
       }
     },
+    "video_with_text_xX8gnW": {
+      "type": "video-with-text",
+      "blocks": {
+        "heading_VKRLDB": {
+          "type": "heading",
+          "settings": {
+            "heading": "Talk about your brand",
+            "heading_size": "h3",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_ghbcnr": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "text_size": "text-base"
+          }
+        }
+      },
+      "block_order": [
+        "heading_VKRLDB",
+        "text_ghbcnr"
+      ],
+      "disabled": true,
+      "custom_css": [
+        "@media (min-width: 768px) {.video-with-text .image-with-text__media {aspect-ratio: 1 / 1; min-height: 650px; } .video-with-text video, .video-with-text iframe, .video-with-text .deferred-media, .video-with-text .media {width: 100%; height: 100%; object-fit: cover; }}"
+      ],
+      "name": "t:sections.video-with-text.name",
+      "settings": {
+        "color_scheme": "scheme-8",
+        "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+        "video_ratio": "4/3",
+        "description": "",
+        "enable_video_autoplay": false,
+        "enable_video_looping": false,
+        "video_placement": "second",
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "text_alignment": "left",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
     "featured_collection_JQULLF": {
       "type": "featured-collection",
       "name": "t:sections.featured-collection.presets.name",
@@ -439,52 +485,6 @@
         "text_alignment": "center"
       }
     },
-    "video_with_text_xX8gnW": {
-      "type": "video-with-text",
-      "blocks": {
-        "heading_VKRLDB": {
-          "type": "heading",
-          "settings": {
-            "heading": "Talk about your brand",
-            "heading_size": "h3",
-            "heading_highlight_style": "none"
-          }
-        },
-        "text_ghbcnr": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
-            "text_size": "text-base"
-          }
-        }
-      },
-      "block_order": [
-        "heading_VKRLDB",
-        "text_ghbcnr"
-      ],
-      "disabled": true,
-      "custom_css": [
-        "@media (min-width: 768px) {.video-with-text .image-with-text__media {aspect-ratio: 1 / 1; min-height: 650px; } .video-with-text video, .video-with-text iframe, .video-with-text .deferred-media, .video-with-text .media {width: 100%; height: 100%; object-fit: cover; }}"
-      ],
-      "name": "t:sections.video-with-text.name",
-      "settings": {
-        "color_scheme": "scheme-8",
-        "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
-        "video_ratio": "4/3",
-        "description": "",
-        "enable_video_autoplay": false,
-        "enable_video_looping": false,
-        "video_placement": "second",
-        "enable_parallax": false,
-        "parallax_direction": "vertical",
-        "text_alignment": "left",
-        "padding_top": 50,
-        "padding_bottom": 50,
-        "show_section_divider": false,
-        "divider_width": "fixed",
-        "custom_class": ""
-      }
-    },
     "mattress_shared_h6EK7R": {
       "type": "mattress-shared",
       "disabled": true,
@@ -499,10 +499,10 @@
     "main",
     "image_with_text_zQ9iit",
     "image_with_text_dQDdte",
+    "video_with_text_xX8gnW",
     "featured_collection_JQULLF",
     "we_featured_collections_Hgagwm",
     "breadcrumbs",
-    "video_with_text_xX8gnW",
     "mattress_shared_h6EK7R"
   ]
 }
