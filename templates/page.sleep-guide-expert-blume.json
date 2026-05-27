@@ -1,0 +1,493 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "image_with_text_overlay_HtkgPe": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "subheading_wEMVxe": {
+          "type": "subheading",
+          "disabled": true,
+          "settings": {
+            "subheading": "Besser schlafen"
+          }
+        },
+        "heading_mmmEzg": {
+          "type": "heading",
+          "settings": {
+            "heading": "Schlaf verstehen – Der Expertenleitfaden",
+            "heading_size": "hd1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_nCEtQc": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Melden Sie sich an und erhalten Sie fundiertes Expert:innen-Wissen rund um gesunden Schlaf – verständlich, differenziert und direkt in Ihr Postfach.</p>",
+            "text_size": "text-base"
+          }
+        }
+      },
+      "block_order": [
+        "subheading_wEMVxe",
+        "heading_mmmEzg",
+        "text_nCEtQc"
+      ],
+      "name": "t:sections.image-with-text-overlay.name",
+      "settings": {
+        "container": "full",
+        "image": "shopify://shop_images/jetztentdecken_desktop_e8d2267d-68b4-4890-b490-e8c27275387f.jpg",
+        "desktop_height": "extra-medium",
+        "overlay_opacity": 0,
+        "use_custom_overlay": false,
+        "custom_overlay": "linear-gradient(201deg, rgba(23, 23, 23, 0.00) 0.08%, rgba(23, 23, 23, 0.75) 100.09%)",
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "color_scheme": "",
+        "content_position": "bottom-left",
+        "content_alignment": "left",
+        "image_mobile": "shopify://shop_images/jetztentdecken_desktop_e8d2267d-68b4-4890-b490-e8c27275387f.jpg",
+        "mobile_height": "extra-large",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "custom_class": ""
+      }
+    },
+    "17788308003a955b48": {
+      "type": "apps",
+      "blocks": {
+        "klaviyo_email_marketing_sms_form_embed_block_3LLAhL": {
+          "type": "shopify://apps/klaviyo-email-marketing-sms/blocks/form-embed-block/2632fe16-c075-4321-a88b-50b567f42507",
+          "settings": {
+            "formId": "VkQFxK"
+          }
+        }
+      },
+      "block_order": [
+        "klaviyo_email_marketing_sms_form_embed_block_3LLAhL"
+      ],
+      "settings": {
+        "include_margins": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "custom_class": ""
+      }
+    },
+    "rich_text_ntFYxW": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_tWMkh3": {
+          "type": "heading",
+          "settings": {
+            "heading": "Schlaf verstehen. Besser schlafen.",
+            "heading_size": "hd1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_Jfbmqc": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Guter Schlaf ist kein Zufall – sondern das Ergebnis vieler Faktoren. Der Royfort Expertenleitfaden bündelt wissenschaftlich fundiertes Wissen und macht es verständlich zugänglich – durch Tipps ausgewiesener Exptert:innen. Für alle, die ihren Schlaf wirklich verbessern wollen.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "button_9UzT3N": {
+          "type": "button",
+          "disabled": true,
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style": "btn--primary"
+          }
+        }
+      },
+      "block_order": [
+        "heading_tWMkh3",
+        "text_Jfbmqc",
+        "button_9UzT3N"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "content_alignment": "center",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "multicolumn_htN4W6": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_LcFwWG": {
+          "type": "column",
+          "settings": {
+            "show_image": false,
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
+            "image_width": "medium",
+            "title": "Schlafforschung",
+            "heading_size": "h4",
+            "text": "<p>Verstehen Sie, wie Schlaf wirklich funktioniert und welche Faktoren ihn messbar beeinflussen.</p>",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_giEzK8": {
+          "type": "column",
+          "settings": {
+            "show_image": false,
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
+            "image_width": "medium",
+            "title": "Atemarbeit",
+            "heading_size": "h4",
+            "text": "<p>Lernen Sie, wie bewusste Atmung Ihr Nervensystem reguliert und zu mehr Ruhe und Tiefe im Schlaf beiträgt.</p>",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_zUnXR4": {
+          "type": "column",
+          "settings": {
+            "show_image": false,
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
+            "image_width": "medium",
+            "title": "Feng Shui",
+            "heading_size": "h4",
+            "text": "<p>Erfahren Sie, wie Ihre Umgebung wirkt – und wie kleine Veränderungen im Schlafzimmer Ihr Wohlbefinden spürbar verbessern.</p>",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        }
+      },
+      "block_order": [
+        "column_LcFwWG",
+        "column_giEzK8",
+        "column_zUnXR4"
+      ],
+      "name": "t:sections.multicolumn.presets.name",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "column_alignment": "left",
+        "columns_desktop": 3,
+        "column_gap": "large",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "image_with_text_3qCeia": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_9zwbd8": {
+          "type": "heading",
+          "settings": {
+            "heading": "Dr. Christine Blume | Schlafforschung",
+            "heading_size": "hd1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_zLa8jg": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Dr. Christine Blume ist Psychologin und Schlafforscherin an der Universität Basel und arbeitet zusätzlich als Schlaftherapeutin an den Universitären Psychiatrischen Kliniken Basel. Im Fokus ihrer Forschung stehen die Auswirkungen moderner Lebensbedingungen – wie Licht, Bewegung oder Temperatur – auf unseren Schlaf und den Rhythmus der inneren Uhr. Ihre Arbeit verbindet wissenschaftliche Präzision mit praktischer Relevanz. Als Wissenschaftskommunikatorin und Podcast-Host („Über Schlafen“) macht sie komplexe Zusammenhänge verständlich – und hilft dabei, Schlaf ganzheitlich zu begreifen und gezielt zu verbessern.</p>",
+            "text_size": "text-base",
+            "truncate_on_mobile": false,
+            "truncate_on_mobile_lines": 3,
+            "truncate_trigger_text": "Mehr lesen",
+            "truncate_collapse_text": "Weniger"
+          }
+        }
+      },
+      "block_order": [
+        "heading_9zwbd8",
+        "text_zLa8jg"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "is_full_width": false,
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "image": "shopify://shop_images/1_65247657-c028-4248-af81-3886c2e4a6d5.jpg",
+        "image_height": "extra-small",
+        "layout": "image_first",
+        "desktop_content_position": "center",
+        "desktop_content_alignment": "left",
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "mobile_content_alignment": "left",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "different_mobile_padding": false,
+        "padding_top_mobile": 30,
+        "padding_bottom_mobile": 30,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "image_with_text_cPNcaN": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_dVBhwD": {
+          "type": "heading",
+          "settings": {
+            "heading": "Dr. Ralph Skuban | Atemarbeit",
+            "heading_size": "hd1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_346xMw": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Dr. Ralph Skuban ist Atemexperte, Autor und Ausbilder mit einem interdisziplinären Zugang zur Atmung. Seine Arbeit verbindet wissenschaftliche Erkenntnisse mit jahrzehntelanger praktischer Erfahrung in Atemarbeit, Meditation und Bewusstseinsforschung. Als Autor mehrerer international veröffentlichter Bücher gilt er als fundierte Stimme im Bereich der Atemmethoden. Sein Ansatz zeigt, wie bewusste Atmung gezielt das Nervensystem beeinflusst – und damit eine zentrale Grundlage für Regeneration und erholsamen Schlaf schafft.</p>",
+            "text_size": "text-base",
+            "truncate_on_mobile": false,
+            "truncate_on_mobile_lines": 3,
+            "truncate_trigger_text": "Mehr lesen",
+            "truncate_collapse_text": "Weniger"
+          }
+        }
+      },
+      "block_order": [
+        "heading_dVBhwD",
+        "text_346xMw"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "is_full_width": false,
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "image": "shopify://shop_images/2_a6c981ac-cc06-43fd-a09c-b8a66f12597a.jpg",
+        "image_height": "extra-small",
+        "layout": "image_first",
+        "desktop_content_position": "center",
+        "desktop_content_alignment": "left",
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "mobile_content_alignment": "left",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "different_mobile_padding": false,
+        "padding_top_mobile": 30,
+        "padding_bottom_mobile": 30,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "image_with_text_KFUmRf": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_fiLefr": {
+          "type": "heading",
+          "settings": {
+            "heading": "Eva Titze | Feng Shui ",
+            "heading_size": "hd1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_YhWxhi": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Eva Titze ist Feng Shui Expertin und Autorin. Über Social Media, ihren Podcast und ihr Buch zeigt sie, wie sich Räume mit einfachen Mitteln so gestalten lassen, dass sie Ruhe, Balance und Wohlbefinden fördern. Ihr Ansatz reduziert Komplexität und macht die Wirkung von Umgebung direkt erfahrbar. Gerade im Schlafzimmer können gezielte Veränderungen helfen, äußere Reize zu minimieren und eine Atmosphäre zu schaffen, die echten, tiefen Schlaf unterstützt.</p>",
+            "text_size": "text-base",
+            "truncate_on_mobile": false,
+            "truncate_on_mobile_lines": 3,
+            "truncate_trigger_text": "Mehr lesen",
+            "truncate_collapse_text": "Weniger"
+          }
+        }
+      },
+      "block_order": [
+        "heading_fiLefr",
+        "text_YhWxhi"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "is_full_width": false,
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "image": "shopify://shop_images/3_b4276ac0-1408-4d67-8f8e-ef21efc9136e.jpg",
+        "image_height": "extra-small",
+        "layout": "image_first",
+        "desktop_content_position": "center",
+        "desktop_content_alignment": "left",
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "mobile_content_alignment": "left",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "different_mobile_padding": false,
+        "padding_top_mobile": 30,
+        "padding_bottom_mobile": 30,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "rich_text_tf63AQ": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_nLWUBA": {
+          "type": "heading",
+          "settings": {
+            "heading": "Jetzt zum Expertenleitfaden anmelden",
+            "heading_size": "hd1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_AzzpBk": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Fundiertes Wissen statt vereinfachter Schlaftipps, eingeordnet von echten Expert:innen. Verständlich aufbereitet und direkt anwendbar für neue Perspektiven auf Ihren eigenen Schlaf.</p><p>Exklusiv als E-Mail-Serie erhältlich.</p>",
+            "text_size": "text-base"
+          }
+        }
+      },
+      "block_order": [
+        "heading_nLWUBA",
+        "text_AzzpBk"
+      ],
+      "custom_css": [],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "content_alignment": "center",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "apps_i6exVc": {
+      "type": "apps",
+      "blocks": {
+        "klaviyo_email_marketing_sms_form_embed_block_NWj3BT": {
+          "type": "shopify://apps/klaviyo-email-marketing-sms/blocks/form-embed-block/2632fe16-c075-4321-a88b-50b567f42507",
+          "settings": {
+            "formId": "VkQFxK"
+          }
+        }
+      },
+      "block_order": [
+        "klaviyo_email_marketing_sms_form_embed_block_NWj3BT"
+      ],
+      "custom_css": [],
+      "settings": {
+        "include_margins": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "custom_class": "{background-color: #d4d4d4}"
+      }
+    },
+    "featured_collection_NepVE9": {
+      "type": "featured-collection",
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "header_layout": "vertical",
+        "heading": "Produkte, die guten Schlaf unterstützen",
+        "heading_size": "h1",
+        "heading_styling": "body",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "show_collection_description": false,
+        "collection": "bestseller",
+        "limit": 8,
+        "columns": 4,
+        "column_gap": "medium",
+        "row_gap": "inherit",
+        "grid_layout": "standard",
+        "enable_slider": true,
+        "controls_position": "inside",
+        "pcard_use_swiper": false,
+        "show_reviews": true,
+        "pcard_image_ratio": "",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "show_all_button_on_top": false,
+        "button_label": "",
+        "button_style": "btn--primary",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "breadcrumbs_zf9HBa": {
+      "type": "breadcrumbs",
+      "custom_css": [
+        ".justify-center {justify-content: left;}"
+      ],
+      "name": "t:sections.breadcrumbs.name",
+      "settings": {
+        "text_alignment": "start"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "image_with_text_overlay_HtkgPe",
+    "17788308003a955b48",
+    "rich_text_ntFYxW",
+    "multicolumn_htN4W6",
+    "image_with_text_3qCeia",
+    "image_with_text_cPNcaN",
+    "image_with_text_KFUmRf",
+    "rich_text_tf63AQ",
+    "apps_i6exVc",
+    "featured_collection_NepVE9",
+    "breadcrumbs_zf9HBa"
+  ]
+}
