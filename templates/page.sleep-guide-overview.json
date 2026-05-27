@@ -372,6 +372,60 @@
         "custom_class": ""
       }
     },
+    "rich_text_tf63AQ": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_nLWUBA": {
+          "type": "heading",
+          "settings": {
+            "heading": "Jetzt zum Expertenleitfaden anmelden",
+            "heading_size": "hd1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_AzzpBk": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Fundiertes Wissen statt vereinfachter Schlaftipps, eingeordnet von echten Expert:innen. Verständlich aufbereitet und direkt anwendbar für neue Perspektiven auf Ihren eigenen Schlaf.</p><p>Exklusiv als E-Mail-Serie erhältlich.</p>",
+            "text_size": "text-base"
+          }
+        }
+      },
+      "block_order": [
+        "heading_nLWUBA",
+        "text_AzzpBk"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "content_alignment": "center",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "apps_i6exVc": {
+      "type": "apps",
+      "blocks": {
+        "klaviyo_email_marketing_sms_form_embed_block_NWj3BT": {
+          "type": "shopify://apps/klaviyo-email-marketing-sms/blocks/form-embed-block/2632fe16-c075-4321-a88b-50b567f42507",
+          "settings": {
+            "formId": "VkQFxK"
+          }
+        }
+      },
+      "block_order": [
+        "klaviyo_email_marketing_sms_form_embed_block_NWj3BT"
+      ],
+      "settings": {
+        "include_margins": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "custom_class": ""
+      }
+    },
     "breadcrumbs_zf9HBa": {
       "type": "breadcrumbs",
       "custom_css": [
@@ -392,6 +446,8 @@
     "image_with_text_3qCeia",
     "image_with_text_cPNcaN",
     "image_with_text_KFUmRf",
+    "rich_text_tf63AQ",
+    "apps_i6exVc",
     "breadcrumbs_zf9HBa"
   ]
 }
