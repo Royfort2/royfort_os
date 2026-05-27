@@ -474,6 +474,31 @@
       "settings": {
         "text_alignment": "start"
       }
+    },
+    "newsletter_rwV9Jj": {
+      "type": "newsletter",
+      "name": "t:sections.newsletter.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "layout": "vertical",
+        "heading": "Signup form",
+        "heading_size": "h2",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "<p>Be the first to know about new collections and exclusive offers.</p>",
+        "text_size": "text-base",
+        "alignment": "center",
+        "design": "design-1",
+        "form_width": 500,
+        "newsletter_term": "<p>By subscribing you agree to the <a href='#'>Terms of Use</a> & <a href='#'>Privacy Policy.</a></p>",
+        "newsletter_term_size": "text-base",
+        "button_style": "btn--primary",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
     }
   },
   "order": [
@@ -488,6 +513,7 @@
     "rich_text_tf63AQ",
     "apps_i6exVc",
     "featured_collection_NepVE9",
-    "breadcrumbs_zf9HBa"
+    "breadcrumbs_zf9HBa",
+    "newsletter_rwV9Jj"
   ]
 }
