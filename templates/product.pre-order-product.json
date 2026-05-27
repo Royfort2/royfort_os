@@ -77,8 +77,8 @@
           "settings": {
             "icon": "shopify://shop_images/local_shipping_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
             "title": "Geschätzte Lieferung: {{ product.metafields.custom.we_pdp_estimated_delivery_time.value }}",
-            "short_description": "Kostenloser Versand",
-            "description": "<p>Von der sorgfältigen Vorbereitung bis zum sicheren Versand begleiten wir jede Bestellung mit besonderer Aufmerksamkeit und Liebe zum Detail.</p>",
+            "short_description": "Einzelne Varianten ab 08.06. versandbereit",
+            "description": "<p>Von der sorgfältigen Vorbereitung bis zum sicheren Versand begleiten wir jede Bestellung mit besonderer Aufmerksamkeit und Liebe zum Detail.</p><p><strong>Hinweis zur Verfügbarkeit einzelner Varianten</strong><br/>Folgende Größen und Farben werden aktuell mit verlängerter Lieferzeit ab dem 08.06.2026 versendet:<br/><br/>• Weiß: 50 x 70 cm & 80 x 80 cm<br/>• Sanftgrau: 50 x 70 cm<br/>• Taupe: 40 x 80 cm</p>",
             "page": ""
           }
         },
@@ -171,7 +171,9 @@
             "heading": "Das könnte Ihnen auch gefallen",
             "product_list_limit": 4,
             "image_ratio": "4/5",
-            "show_reviews": true
+            "show_reviews": true,
+            "render_badges": true,
+            "badges_global_only": false
           }
         }
       },
