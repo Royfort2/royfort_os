@@ -17,57 +17,6 @@
         "padding_bottom": 28
       }
     },
-    "image_with_text_overlay_HtkgPe": {
-      "type": "image-with-text-overlay",
-      "blocks": {
-        "subheading_wEMVxe": {
-          "type": "subheading",
-          "disabled": true,
-          "settings": {
-            "subheading": "Besser schlafen"
-          }
-        },
-        "heading_mmmEzg": {
-          "type": "heading",
-          "settings": {
-            "heading": "Schlaf verstehen – Der Expertenleitfaden",
-            "heading_size": "hd1",
-            "heading_highlight_style": "none"
-          }
-        },
-        "text_nCEtQc": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Melden Sie sich an und erhalten Sie fundiertes Expert:innen-Wissen rund um gesunden Schlaf – verständlich, differenziert und direkt in Ihr Postfach.</p>",
-            "text_size": "text-base"
-          }
-        }
-      },
-      "block_order": [
-        "subheading_wEMVxe",
-        "heading_mmmEzg",
-        "text_nCEtQc"
-      ],
-      "name": "t:sections.image-with-text-overlay.name",
-      "settings": {
-        "container": "full",
-        "image": "shopify://shop_images/jetztentdecken_desktop_e8d2267d-68b4-4890-b490-e8c27275387f.jpg",
-        "desktop_height": "extra-medium",
-        "overlay_opacity": 0,
-        "use_custom_overlay": false,
-        "custom_overlay": "linear-gradient(201deg, rgba(23, 23, 23, 0.00) 0.08%, rgba(23, 23, 23, 0.75) 100.09%)",
-        "enable_parallax": false,
-        "parallax_direction": "vertical",
-        "color_scheme": "",
-        "content_position": "bottom-left",
-        "content_alignment": "left",
-        "image_mobile": "shopify://shop_images/jetztentdecken_desktop_e8d2267d-68b4-4890-b490-e8c27275387f.jpg",
-        "mobile_height": "extra-large",
-        "padding_top": 50,
-        "padding_bottom": 50,
-        "custom_class": ""
-      }
-    },
     "image_with_text_XKh4Ur": {
       "type": "image-with-text",
       "blocks": {
@@ -315,6 +264,40 @@
         "custom_class": ""
       }
     },
+    "rich_text_bTY7Xt": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_EFK93R": {
+          "type": "heading",
+          "settings": {
+            "heading": "Antworten aus der Schlafforschung",
+            "heading_size": "h2",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_7HFWkL": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Vertiefen Sie Ihr Wissen rund um gesunden Schlaf. Fundiert, verständlich, wissenschaftlich präzise. Erfahren Sie mehr über Dr. Christine Blumes Arbeit und Forschung auf Ihrer <a href=\"https://www.christine-blume.com/\"><span style=\"text-decoration:underline\">Webseite</span></a>. Sie wollen noch tiefer in das Thema Schlaf und Träume einsteigen? In Ihrem <a href=\"https://www.deutschlandfunknova.de/podcasts/download/ueber-schlafen\"><span style=\"text-decoration:underline\">Podcast Über Schlafen </span></a>klären Schlafforscherin Dr. Christine Blume und Wissenschaftsjournalistin Ilka Knigge jeden Dienstag eine Frage und räumen ganz nebenbei mit Schlafmythen auf.</p>",
+            "text_size": "text-base"
+          }
+        }
+      },
+      "block_order": [
+        "heading_EFK93R",
+        "text_7HFWkL"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "content_alignment": "center",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
     "featured_collection_NepVE9": {
       "type": "featured-collection",
       "name": "t:sections.featured-collection.presets.name",
@@ -365,12 +348,12 @@
   },
   "order": [
     "main",
-    "image_with_text_overlay_HtkgPe",
     "image_with_text_XKh4Ur",
     "rich_text_ntFYxW",
     "multicolumn_htN4W6",
     "rich_text_AC7DJA",
     "17788308003a955b48",
+    "rich_text_bTY7Xt",
     "featured_collection_NepVE9",
     "breadcrumbs_zf9HBa"
   ]
