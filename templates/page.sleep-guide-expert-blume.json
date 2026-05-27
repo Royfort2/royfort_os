@@ -298,6 +298,74 @@
         "custom_class": ""
       }
     },
+    "multicolumn_wWG4DC": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_pkjQQD": {
+          "type": "column",
+          "settings": {
+            "show_image": false,
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
+            "image_width": "medium",
+            "title": "Column",
+            "heading_size": "h4",
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "text_size": "text-base",
+            "button_label": "Button label",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_NdCARA": {
+          "type": "column",
+          "settings": {
+            "show_image": false,
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
+            "image_width": "medium",
+            "title": "Column",
+            "heading_size": "h4",
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "text_size": "text-base",
+            "button_label": "Button label",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        }
+      },
+      "block_order": [
+        "column_pkjQQD",
+        "column_NdCARA"
+      ],
+      "disabled": true,
+      "name": "t:sections.multicolumn.presets.name",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "heading": "Erste Antworten von Dr. Christine Blume, die Ihren Schlaf wirklich verbessern. Tiefergehende Antworten auf noch mehr Fragen aus der Schlafforschung erhalten Sie per Mail.",
+        "heading_size": "h4",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "column_alignment": "left",
+        "columns_desktop": 4,
+        "column_gap": "large",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
     "featured_collection_NepVE9": {
       "type": "featured-collection",
       "name": "t:sections.featured-collection.presets.name",
@@ -354,6 +422,7 @@
     "rich_text_AC7DJA",
     "17788308003a955b48",
     "rich_text_bTY7Xt",
+    "multicolumn_wWG4DC",
     "featured_collection_NepVE9",
     "breadcrumbs_zf9HBa"
   ]
