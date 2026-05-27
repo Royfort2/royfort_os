@@ -395,9 +395,10 @@
         "heading_nLWUBA",
         "text_AzzpBk"
       ],
+      "custom_css": [],
       "name": "t:sections.rich-text.presets.name",
       "settings": {
-        "color_scheme": "",
+        "color_scheme": "scheme-1",
         "content_alignment": "center",
         "padding_top": 50,
         "padding_bottom": 50,
@@ -419,10 +420,48 @@
       "block_order": [
         "klaviyo_email_marketing_sms_form_embed_block_NWj3BT"
       ],
+      "custom_css": [],
       "settings": {
         "include_margins": true,
         "padding_top": 0,
         "padding_bottom": 0,
+        "custom_class": "{background-color: #d4d4d4}"
+      }
+    },
+    "featured_collection_NepVE9": {
+      "type": "featured-collection",
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "header_layout": "vertical",
+        "heading": "Produkte, die guten Schlaf unterstützen",
+        "heading_size": "h1",
+        "heading_styling": "body",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "show_collection_description": false,
+        "collection": "bestseller",
+        "limit": 8,
+        "columns": 4,
+        "column_gap": "medium",
+        "row_gap": "inherit",
+        "grid_layout": "standard",
+        "enable_slider": true,
+        "controls_position": "inside",
+        "pcard_use_swiper": false,
+        "show_reviews": true,
+        "pcard_image_ratio": "",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "show_all_button_on_top": false,
+        "button_label": "",
+        "button_style": "btn--primary",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
         "custom_class": ""
       }
     },
@@ -448,6 +487,7 @@
     "image_with_text_KFUmRf",
     "rich_text_tf63AQ",
     "apps_i6exVc",
+    "featured_collection_NepVE9",
     "breadcrumbs_zf9HBa"
   ]
 }
