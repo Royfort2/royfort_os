@@ -17,6 +17,10 @@
 
   assign enable_sorting = section.settings.enable_sorting
   assign enable_filtering = section.settings.enable_filtering
+  assign enable_sorting_desktop = enable_sorting
+  if section.settings.enable_sorting_only_on_mobile
+    assign enable_sorting_desktop = false
+  endif
   assign filter_type = section.settings.filter_type
   assign show_toolbar = false
   if enable_filtering or enable_sorting
@@ -189,8 +193,8 @@
         <div class="flex flex-col flex-grow{% if show_toolbar %} show-toolbar{% endif %}" id="ProductGridWrapper">
           <div class="sticky-element grid gap-5 z-10" style="--sticky-offset: 0px;">
             {%- if enable_filtering or enable_sorting -%}
-              <div class="collection__toolbar flex items-center justify-between">
-                <div class="gap-10 flex items-center justify-between{% if filter_type == 'vertical' or enable_filtering == false %} xl:flex-grow{% endif %}">
+              <div class="collection__toolbar flex items-center justify-between gap-3">
+                <div class="gap-3 flex items-center justify-between{% if filter_type == 'vertical' or enable_filtering == false %} xl:flex-grow{% endif %}">
                   {%- if collection.all_products_count > 0 -%}
                     <div data-facet-loading>
                       {%- render 'loading-spinner' -%}
@@ -230,7 +234,10 @@
                     </div>
                   {%- endif -%}
                   {%- if enable_sorting and collection.all_products_count > 0 -%}
-                    <div class="flex items-center gap-3" id="SortByContainer">
+                    <div
+                      class="flex items-center gap-3{% unless enable_sorting_desktop %} md:hidden{% endunless %}"
+                      id="SortByContainer"
+                    >
                       {%- render 'facet-short',
                         results: collection,
                         icon_size: 'extra-small',
@@ -631,6 +638,12 @@
       "id": "enable_sorting",
       "default": true,
       "label": "t:sections.main-collection-product-grid.settings.enable_sorting.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sorting_only_on_mobile",
+      "default": false,
+      "label": "Enable sorting only on mobile"
     },
     {
       "type": "text",

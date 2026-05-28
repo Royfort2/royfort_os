@@ -517,6 +517,15 @@
 .collection__toolbar {
     margin: 0 !important;
 }
+.collection__toolbar .form-control--select {
+    line-height: 150% !important;
+    padding: 0.8rem 1.2rem !important;
+    font-size: 1.4rem !important;
+}
+.collection__toolbar .form-control--select ~ .icon {
+    top: 50%;
+    transform: translateY(-50%);
+}
 
 .collection__toolbar .facet-drawer-button,
 .collection__toolbar #ProductCount {

@@ -20,6 +20,10 @@
 
   assign enable_sorting = section.settings.enable_sorting
   assign enable_filtering = section.settings.enable_filtering
+  assign enable_sorting_desktop = enable_sorting
+  if section.settings.enable_sorting_only_on_mobile
+    assign enable_sorting_desktop = false
+  endif
   assign filter_type = section.settings.filter_type
   assign show_toolbar = false
   if enable_filtering or enable_sorting
@@ -84,7 +88,7 @@
           {%- if search.results_count > 0 -%}
             <div class="sticky-element grid gap-5 z-10" style="--sticky-offset: 0px;">
               {%- if enable_filtering or enable_sorting -%}
-                <div class="collection__toolbar flex items-center justify-between">
+                <div class="collection__toolbar flex items-center justify-between gap-3">
                   {%- if filter_type == 'drawer' and search.results_count > 0 and enable_filtering -%}
                     {%- render 'facets-drawer', results: search, enable_sorting: enable_sorting, classes: 'we-facet-drawer--mobile-fab' -%}
                   {%- endif -%}
@@ -95,7 +99,7 @@
                     </div>
                   {%- endif -%}
 
-                  <div class="gap-10 hidden md:flex items-center justify-between{% if filter_type == 'vertical' or enable_filtering == false %} xl:flex-grow{% endif %}">
+                  <div class="gap-3 hidden md:flex items-center justify-between{% if filter_type == 'vertical' or enable_filtering == false %} xl:flex-grow{% endif %}">
                     <div data-facet-loading>
                       {%- render 'loading-spinner' -%}
                       <p id="ProductCount" class="m-0" role="status">
@@ -110,7 +114,7 @@
                         -%}
                       </p>
                     </div>
-                    {%- if enable_sorting -%}
+                    {%- if enable_sorting_desktop -%}
                       <div class="flex items-center gap-3" id="SortByContainer">
                         {%- render 'facet-short',
                           results: search,
@@ -295,6 +299,12 @@
       "id": "enable_sorting",
       "default": true,
       "label": "t:sections.main-collection-product-grid.settings.enable_sorting.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sorting_only_on_mobile",
+      "default": false,
+      "label": "Enable sorting only on mobile"
     },
     {
       "type": "text",
