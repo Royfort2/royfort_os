@@ -143,7 +143,7 @@
 }
 
 @media (min-width: 768px) {
-  .facet-short {
+  /* .facet-short {
     --icon-size: 0.7rem;
   }
   .facet-short select {
@@ -156,7 +156,7 @@
   }
   .facet-short select ~ .icon {
     inset-inline-end: 0;
-  }
+  } */
 }
 
 .facet-drawer-button {
