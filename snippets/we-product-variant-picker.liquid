@@ -226,9 +226,9 @@
 
         assign we_select_variant_suffix = block.settings.select_variant_text | strip
         if we_select_variant_suffix != blank
-          assign we_placeholder_select_variant_label = option.name | append: ' ' | append: we_select_variant_suffix
+          assign we_placeholder_select_variant_label = we_select_variant_suffix
         else
-          assign we_placeholder_select_variant_label = option.name
+          assign we_placeholder_select_variant_label = 'Auswählen'
         endif
       -%}
       <{{ tag_fieldset }}

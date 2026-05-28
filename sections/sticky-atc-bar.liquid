@@ -1,4 +1,10 @@
-{%- if section.settings.visibility != 'hide' -%}
+{%- liquid
+  assign we_is_set_product = false
+  if product.metafields.custom.pdp_set_products != blank
+    assign we_is_set_product = true
+  endif
+-%}
+{%- if section.settings.visibility != 'hide' and we_is_set_product == false -%}
   <link rel="stylesheet" href="{{ 'section-sticky-atc-bar.css' | asset_url }}">
   <script src="{{ 'sticky-atc-bar.js' | asset_url }}" defer="defer"></script>
   {%- liquid
@@ -52,6 +58,14 @@
           {%- render 'price', product: product, use_variant: sticky_price_use_variant -%}
         </div>
       </div>
+      {%- liquid
+        assign sticky_variant_label = product.variants.first.title
+        for variant in product.variants
+          if variant.title.size > sticky_variant_label.size
+            assign sticky_variant_label = variant.title
+          endif
+        endfor
+      -%}
       {%- assign product_form_id = 'product-form-' | append: section.id -%}
       {%- form 'product',
         product,
@@ -60,7 +74,8 @@
         data-type: 'add-to-cart-form',
         is: 'product-form'
       -%}
-        <div class="select{% if product.has_only_default_variant %} hidden{% endif %}">
+        <div class="select sticky-atc-bar__variant-select-wrap{% if product.has_only_default_variant %} hidden{% endif %}">
+          <span class="sticky-atc-bar__variant-width" aria-hidden="true">{{ sticky_variant_label | escape }}</span>
           <select
             name="id"
             class="sticky-atc-bar__variant-select form-control form-control--select"

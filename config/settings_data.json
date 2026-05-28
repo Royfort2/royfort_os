@@ -145,7 +145,7 @@
         "type": "sticky-atc-bar",
         "settings": {
           "container": "full",
-          "visibility": "hide",
+          "visibility": "all",
           "show_atc_button": true,
           "show_dynamic_checkout_buttons": false,
           "show_quantity": true

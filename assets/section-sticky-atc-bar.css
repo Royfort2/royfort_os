@@ -36,11 +36,38 @@ body.sticky-atc-bar-enabled {
 .sticky-atc-bar .form-control {
   background: none;
 }
-.sticky-atc-bar .select {
-  max-width: 25rem;
+/* Variant select width follows longest option label (mirror span) */
+.sticky-atc-bar__variant-select-wrap {
+  display: inline-grid;
+  width: max-content;
+  max-width: min(32rem, 100%);
+  flex-shrink: 0;
 }
-.sticky-atc-bar .select select {
-  min-width: 8rem;
+.sticky-atc-bar__variant-select-wrap select,
+.sticky-atc-bar__variant-width {
+  grid-area: 1 / 1;
+}
+.sticky-atc-bar__variant-width {
+  visibility: hidden;
+  white-space: nowrap;
+  pointer-events: none;
+  font-family: var(--font-body-family);
+  font-size: var(--font-body-size);
+  font-weight: var(--font-body-weight);
+  padding: 0 1.6rem;
+  padding-inline-end: 4.8rem;
+  line-height: calc(var(--buttons-height) - var(--inputs-border-width) * 2);
+  min-height: var(--buttons-height);
+  border: 1px solid transparent;
+  box-sizing: border-box;
+}
+.sticky-atc-bar__variant-select-wrap select {
+  width: 100%;
+  min-width: 0;
+  text-overflow: clip;
+}
+.sticky-atc-bar__variant-select-wrap {
+  position: relative;
 }
 .sticky-atc-bar .quantity {
   flex-shrink: 0;
@@ -76,11 +103,41 @@ body.sticky-atc-bar-enabled {
   }
 }
 @media (max-width: 767.98px) {
+  .sticky-atc-bar__inner {
+    padding: 0.5rem 0;
+    gap: 0;
+  }
   .sticky-atc-bar__form {
     width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+  .sticky-atc-bar__variant-select-wrap {
+    width: 100%;
+    max-width: 100%;
+  }
+  .sticky-atc-bar__variant-select-wrap select,
+  .sticky-atc-bar__variant-width {
+    min-height: 4.4rem;
+    line-height: 4.2rem;
+    font-size: max(1.3rem, calc(var(--font-body-size) * 0.9375));
   }
   .sticky-atc-bar .product-form__buttons {
-    flex-grow: 1;
+    width: 100%;
+    flex-grow: 0;
+    gap: 0;
+  }
+  .sticky-atc-bar .product-form__submit {
+    width: 100%;
+    min-height: 4.4rem;
+    height: 4.4rem;
+    padding: 0 1.2rem;
+    font-size: max(1.3rem, calc(var(--font-body-size) * 0.9375));
+  }
+  .sticky-atc-bar .quantity {
+    width: 100%;
+    justify-content: center;
   }
 }
 @media (min-width: 1280px) {
