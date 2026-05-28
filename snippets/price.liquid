@@ -64,17 +64,6 @@
     assign money_price = 'products.product.price.from_price_html' | t: price: money_price
   endif
 -%}
-<script>
-  console.log('product', '{{ product.title }}');
-  console.log('we_set_two_min_sum', '{{ we_set_two_min_sum }}');
-  console.log('we_set_disc_pct', '{{ we_set_disc_pct }}');
-  console.log('we_set_price_factor', '{{ we_set_price_factor }}');
-  console.log('price', '{{ price }}');
-  console.log('money_price', '{{ money_price }}');
-  console.log('money_price_min', '{{ money_price_min }}');
-  console.log('money_price_max', '{{ money_price_max }}');
-  console.log('money_price_from', '{{ money_price_from }}');
-</script>
 <div
   class="
     f-price

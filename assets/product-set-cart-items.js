@@ -1,5 +1,5 @@
 /**
- * PDP set bundles: submits cart line items as items[n][id] / items[n][quantity].
+ * PDP set bundles: submits cart line items as items[n][id] / items[n][quantity] / items[n][properties][_set].
  *
  * ATC: the first two set-product `variant-selects` (excluding the bundle PDP picker) must
  * have a full variant selection; then the add button is enabled if those variants are available.
@@ -733,6 +733,11 @@
       qInput.name = `items[${n}][quantity]`;
       qInput.value = String(line.quantity);
       root.appendChild(qInput);
+      const setPropInput = document.createElement('input');
+      setPropInput.type = 'hidden';
+      setPropInput.name = `items[${n}][properties][_set]`;
+      setPropInput.value = 'true';
+      root.appendChild(setPropInput);
     });
   }
 
