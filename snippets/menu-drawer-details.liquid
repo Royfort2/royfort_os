@@ -1,4 +1,6 @@
 {%- liquid
+  assign parent_link_handle = link.title | handle
+
   case block.type
     when 'promotion_banner'
       assign promo_images = block.settings.promo_image_1 | append: ',' | append: block.settings.promo_image_2 | append: ',' | append: block.settings.promo_image_3 | append: ',' | append: block.settings.promo_image_4 | append: ',' | append: block.settings.promo_image_5
@@ -30,6 +32,19 @@
       {{ link.title | escape }}
     </button>
     <ul class="flex flex-col h-full v-scrollable" data-parent role="list">
+      {%- if parent_link_handle == 'bettwasche' or link.handle == 'bettwasche' -%}
+        {%- if link.url != blank -%}
+          <li class="menu-drawer__item menu-drawer__item--view-all">
+            <a
+              href="{{ link.url }}"
+              class="menu-drawer__item-link menu-drawer__item-link--view-all flex items-center justify-between"
+              aria-label="{{ 'sections.featured_collection.view_all_label' | t: collection_name: link.title }}"
+            >
+              {{- 'sections.collection_list.view_all' | t -}}
+            </a>
+          </li>
+        {%- endif -%}
+      {%- endif -%}
       {%- if collections != blank and block.type == 'product_list' and enable_mega_menu -%}
         <div class="menu-drawer__item" level="child">
           <ul role="list" class="grid gap-3">

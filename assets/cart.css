@@ -144,6 +144,103 @@
   line-height: 1.25;
 }
 
+.cart-drawer__totals .totals__subtotal,
+.cart-drawer__totals .totals__subtotal-value {
+  font-size: var(--font-h4-size);
+  line-height: 1.3;
+}
+
+.cart-drawer__totals-amount {
+  flex-shrink: 0;
+  align-items: flex-end;
+  text-align: end;
+  gap: 0.15rem;
+}
+
+.cart-drawer__totals .totals__subtotal-value,
+.cart-drawer .tax-note--after-total {
+  text-align: end;
+}
+
+.cart-drawer .tax-note--after-total {
+  font-size: 1.1rem;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.cart-drawer .tax-note--after-total .btn--link {
+  display: inline;
+  font-size: inherit;
+  line-height: inherit;
+  padding: 0;
+  white-space: nowrap;
+  vertical-align: baseline;
+}
+
+.cart-drawer__view-cart-link {
+  display: block;
+  text-align: center;
+  font-size: 1.1rem;
+  line-height: 1.3;
+  padding: 0.2rem 0;
+  color: rgba(var(--color-foreground), 0.69);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.cart-drawer__view-cart-link:hover {
+  color: rgb(var(--color-foreground));
+}
+
+@media (max-width: 767.98px) {
+  .cart-drawer__header {
+    padding: 1.2rem 1.2rem 0;
+    gap: 0.8rem;
+  }
+
+  .cart-drawer .drawer__heading {
+    font-size: calc(var(--font-h4-size) * 0.92);
+    line-height: 1.25;
+  }
+
+  .cart-drawer .drawer__footer {
+    padding-inline: 1.2rem;
+    padding-block: 1.2rem;
+  }
+
+  .cart-drawer__footer {
+    padding-block-start: 1rem;
+    gap: 0.8rem;
+  }
+
+  .cart-drawer .drawer__footer-body > .grid {
+    gap: 0.8rem;
+  }
+
+  .cart-drawer .drawer__footer-body > .grid > .grid {
+    gap: 0.6rem;
+  }
+
+  .cart-drawer__totals .totals__subtotal,
+  .cart-drawer__totals .totals__subtotal-value {
+    font-size: calc(var(--font-h5-size) * var(--font-heading-scale, 1));
+  }
+
+  .cart-drawer .tax-note--after-total {
+    font-size: 0.95rem;
+  }
+
+  .cart-drawer .drawer__footer-buttons .btn--primary {
+    --buttons-padding: 1.2rem;
+    min-height: 4.4rem;
+  }
+
+  .cart-drawer__view-cart-link {
+    font-size: 1rem;
+    padding: 0;
+  }
+}
+
 .cart-item__media {
   flex: 0 0 10rem;
 }

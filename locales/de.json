@@ -562,6 +562,11 @@
       "taxes_included_but_shipping_at_checkout": "Inklusive Mehrwertsteuer und kostenfreiem Versand.",
       "taxes_included_and_shipping_policy_html": "Steuern inklusive. <a href=\"{{ link }}\" class=\"btn--link\">Versand</a> und Rabatte werden an der Kasse berechnet.",
       "taxes_and_shipping_at_checkout": "Steuern und Versand werden an der Kasse berechnet",
+      "tax_note_shipping_label": "Versand",
+      "tax_note_compact_included_shipping_policy_html": "(Inkl. MwSt. & <a href=\"{{ link }}\" class=\"btn--link\">{{ shipping_label }}</a>)",
+      "tax_note_compact_included_free_shipping": "(Inkl. MwSt. & kostenl. Versand)",
+      "tax_note_compact_at_checkout_policy_html": "(zzgl. MwSt. & <a href=\"{{ link }}\" class=\"btn--link\">Versand</a> an der Kasse)",
+      "tax_note_compact_at_checkout": "(MwSt. & Versand an der Kasse)",
       "headings": {
         "product": "Produkt",
         "price": "Preis",

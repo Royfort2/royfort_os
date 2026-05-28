@@ -889,40 +889,47 @@
                     {%- endif -%}
                   </ul>
                 {%- endif -%}
-                <div class="totals flex justify-between items-center">
-                  <span class="totals__subtotal h4">
+                <div class="totals cart-drawer__totals flex justify-between items-start gap-2">
+                  <span class="totals__subtotal">
                     {{- 'sections.cart.estimated_total' | t -}}
                   </span>
-                  <span class="totals__subtotal-value h4 font-body-bolder">
-                    {{- cart.total_price | money_with_currency -}}
-                  </span>
-                </div>
-                <div class="tax-note">
-                  {%- liquid
-                    if cart.taxes_included and shop.shipping_policy.body != blank
-                      echo 'sections.cart.taxes_included_and_shipping_policy_html' | t: link: shop.shipping_policy.url
-                    elsif cart.taxes_included
-                      echo 'sections.cart.taxes_included_but_shipping_at_checkout' | t
-                    elsif shop.shipping_policy.body != blank
-                      echo 'sections.cart.taxes_and_shipping_policy_at_checkout_html' | t: link: shop.shipping_policy.url
-                    else
-                      echo 'sections.cart.taxes_and_shipping_at_checkout' | t
-                    endif
-                  -%}
+                  <div class="cart-drawer__totals-amount flex flex-col items-end">
+                    <span class="totals__subtotal-value font-body-bolder">
+                      {{- cart.total_price | money_with_currency -}}
+                    </span>
+                    <span class="tax-note tax-note--after-total text-subtext">
+                      {%- liquid
+                        assign cart_shipping_label = 'sections.cart.tax_note_shipping_label' | t
+                        if shop.shipping_policy.title != blank
+                          assign cart_shipping_label = shop.shipping_policy.title
+                        endif
+
+                        if cart.taxes_included and shop.shipping_policy.body != blank
+                          echo 'sections.cart.tax_note_compact_included_shipping_policy_html' | t: link: shop.shipping_policy.url, shipping_label: cart_shipping_label
+                        elsif cart.taxes_included
+                          echo 'sections.cart.tax_note_compact_included_free_shipping' | t
+                        elsif shop.shipping_policy.body != blank
+                          echo 'sections.cart.tax_note_compact_at_checkout_policy_html' | t: link: shop.shipping_policy.url
+                        else
+                          echo 'sections.cart.tax_note_compact_at_checkout' | t
+                        endif
+                      -%}
+                    </span>
+                  </div>
                 </div>
               </div>
               <form
                 action="{{ routes.cart_url }}"
                 method="POST"
                 novalidate
-                class="drawer__footer-buttons flex flex-wrap flex-col gap-2"
+                class="drawer__footer-buttons drawer__footer-buttons--stacked flex flex-col items-stretch gap-1"
               >
-                <a href="{{ routes.cart_url }}" class="btn btn--secondary flex-3">
-                  {{ 'general.cart.view_empty_cart' | t }}
-                </a>
-                <button class="btn btn--primary flex-5" type="submit" name="checkout">
+                <button class="btn btn--primary w-full" type="submit" name="checkout">
                   {{ 'sections.cart.checkout' | t }}
                 </button>
+                <a href="{{ routes.cart_url }}" class="cart-drawer__view-cart-link">
+                  {{ 'general.cart.view_empty_cart' | t }}
+                </a>
               </form>
             </div>
           </div>
