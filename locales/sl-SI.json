@@ -197,6 +197,8 @@
       "on_sale": "Prodaja",
       "product_variants": "Različice izdelkov",
       "open_size_chart": "Tabela velikosti",
+      "select_variant_placeholder": "Izberi",
+      "select_variant_cta": "Izberite različico",
       "media": {
         "gallery_viewer": "Pregledovalnik galerij",
         "load_image": "Naloži sliko {{ index }} v pogledu galerije",

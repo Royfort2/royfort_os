@@ -197,6 +197,8 @@
       "on_sale": "Satış",
       "product_variants": "Ürün çeşitleri",
       "open_size_chart": "Beden tablosu",
+      "select_variant_placeholder": "Seç",
+      "select_variant_cta": "Varyant seçin",
       "media": {
         "gallery_viewer": "Galeri Görüntüleyici",
         "load_image": "{{ index }} adlı resmi galeri görünümüne yükle",

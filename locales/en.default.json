@@ -206,6 +206,8 @@
       "product_variants": "Product variants",
       "open_size_chart": "Size chart",
       "we_select_sheet_title": "Choose {{ option_name }}",
+      "select_variant_placeholder": "Select",
+      "select_variant_cta": "Select variant",
       "media": {
         "gallery_viewer": "Gallery Viewer",
         "load_image": "Load image {{ index }} in gallery view",

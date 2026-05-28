@@ -224,12 +224,7 @@
           assign show_selected_value_in_label = true
         endif
 
-        assign we_select_variant_suffix = block.settings.select_variant_text | strip
-        if we_select_variant_suffix != blank
-          assign we_placeholder_select_variant_label = we_select_variant_suffix
-        else
-          assign we_placeholder_select_variant_label = 'Auswählen'
-        endif
+        assign we_placeholder_select_variant_label = 'products.product.select_variant_placeholder' | t
       -%}
       <{{ tag_fieldset }}
         class="{{ wrap_class }}"

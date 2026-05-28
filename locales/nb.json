@@ -197,6 +197,8 @@
       "on_sale": "Salg",
       "product_variants": "Produktvarianter",
       "open_size_chart": "Størrelsesoversikt",
+      "select_variant_placeholder": "Velg",
+      "select_variant_cta": "Velg variant",
       "media": {
         "gallery_viewer": "Gallerivisning",
         "load_image": "Last inn bilde {{ index }} i gallerivisning",

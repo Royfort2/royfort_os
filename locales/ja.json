@@ -197,6 +197,8 @@
       "on_sale": "セール",
       "product_variants": "製品バリエーション",
       "open_size_chart": "サイズチャート",
+      "select_variant_placeholder": "選択",
+      "select_variant_cta": "バリエーションを選択",
       "media": {
         "gallery_viewer": "ギャラリービューア",
         "load_image": "画像 {{ index }} をギャラリー ビューに読み込みます",

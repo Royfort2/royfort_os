@@ -398,6 +398,8 @@
       "product_variants": "Produktvarianten",
       "open_size_chart": "Größentabelle",
       "we_select_sheet_title": "{{ option_name }} wählen",
+      "select_variant_placeholder": "Auswählen",
+      "select_variant_cta": "Variante auswählen",
       "media": {
         "gallery_viewer": "Galerie-Viewer",
         "load_image": "Bild {{ index }} in der Galerieansicht laden",

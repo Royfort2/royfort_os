@@ -197,6 +197,8 @@
       "on_sale": "Πώληση",
       "product_variants": "Παραλλαγές προϊόντων",
       "open_size_chart": "Διάγραμμα μεγέθους",
+      "select_variant_placeholder": "Επιλέξτε",
+      "select_variant_cta": "Επιλέξτε παραλλαγή",
       "media": {
         "gallery_viewer": "Πρόγραμμα προβολής γκαλερί",
         "load_image": "Φόρτωση εικόνας {{ index }} σε προβολή συλλογής",

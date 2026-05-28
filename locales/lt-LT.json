@@ -197,6 +197,8 @@
       "on_sale": "Išpardavimas",
       "product_variants": "Prekių variantai",
       "open_size_chart": "Dydžių lentelė",
+      "select_variant_placeholder": "Pasirinkti",
+      "select_variant_cta": "Pasirinkite variantą",
       "media": {
         "gallery_viewer": "Galerijos peržiūros priemonė",
         "load_image": "Įkelti vaizdą {{ index }} galerijos rodinyje",

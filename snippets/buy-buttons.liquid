@@ -461,7 +461,7 @@
         >
           <span>
             {%- if pdp_qty_selector_pending -%}
-              {{ settings.select_variant_text }}
+              {{ 'products.product.select_variant_cta' | t }}
             {%- elsif pdp_current_variant.available == false -%}
               {{ 'products.product.sold_out' | t }}
             {%- else -%}

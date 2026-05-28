@@ -197,6 +197,8 @@
       "on_sale": "Vânzare",
       "product_variants": "Variante de produs",
       "open_size_chart": "Tabel cu marimi",
+      "select_variant_placeholder": "Selectați",
+      "select_variant_cta": "Selectați varianta",
       "media": {
         "gallery_viewer": "Vizualizator galerie",
         "load_image": "Încărcați imaginea {{ index }} în vizualizarea galeriei",

@@ -197,6 +197,8 @@
       "on_sale": "Penjualan",
       "product_variants": "Varian produk",
       "open_size_chart": "Ukuran grafik",
+      "select_variant_placeholder": "Pilih",
+      "select_variant_cta": "Pilih varian",
       "media": {
         "gallery_viewer": "Penampil Galeri",
         "load_image": "Muat gambar {{ index }} dalam tampilan galeri",

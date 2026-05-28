@@ -197,6 +197,8 @@
       "on_sale": "Myynti",
       "product_variants": "Tuotevariaatiot",
       "open_size_chart": "Kokotaulukko",
+      "select_variant_placeholder": "Valitse",
+      "select_variant_cta": "Valitse versio",
       "media": {
         "gallery_viewer": "Gallerian katseluohjelma",
         "load_image": "Lataa kuva {{ index }} gallerianäkymässä",

@@ -197,6 +197,8 @@
       "on_sale": "zľava",
       "product_variants": "Varianty produktu",
       "open_size_chart": "Tabuľka veľkostí",
+      "select_variant_placeholder": "Vybrať",
+      "select_variant_cta": "Vyberte variant",
       "media": {
         "gallery_viewer": "Prehliadač galérie",
         "load_image": "Načítať obrázok {{ index }} v zobrazení galérie",

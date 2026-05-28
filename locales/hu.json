@@ -197,6 +197,8 @@
       "on_sale": "Eladás",
       "product_variants": "Termékváltozatok",
       "open_size_chart": "Mérettáblázat",
+      "select_variant_placeholder": "Válasszon",
+      "select_variant_cta": "Válasszon változatot",
       "media": {
         "gallery_viewer": "Galérianézegető",
         "load_image": "A(z) {{ index }} kép betöltése galérianézetben",

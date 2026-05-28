@@ -197,6 +197,8 @@
       "on_sale": "Verkoop",
       "product_variants": "Productvarianten",
       "open_size_chart": "Maattabel",
+      "select_variant_placeholder": "Selecteren",
+      "select_variant_cta": "Variant selecteren",
       "media": {
         "gallery_viewer": "Galerijviewer",
         "load_image": "Laad afbeelding {{ index }} in galerijweergave",

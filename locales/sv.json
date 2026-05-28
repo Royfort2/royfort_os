@@ -197,6 +197,8 @@
       "on_sale": "Försäljning",
       "product_variants": "Produktvarianter",
       "open_size_chart": "Storleksdiagram",
+      "select_variant_placeholder": "Välj",
+      "select_variant_cta": "Välj variant",
       "media": {
         "gallery_viewer": "Galleri Viewer",
         "load_image": "Ladda bild {{ index }} i gallerivy",

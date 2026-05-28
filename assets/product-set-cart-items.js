@@ -656,7 +656,7 @@
       FoxTheme.variantStrings &&
       String(FoxTheme.variantStrings.select_variant_text || '').trim()
         ? String(FoxTheme.variantStrings.select_variant_text).trim()
-        : 'Variante auswählen';
+        : 'Select variant';
 
     const span = submitBtn.querySelector('span');
 

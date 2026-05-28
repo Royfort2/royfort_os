@@ -197,6 +197,8 @@
       "on_sale": "ขาย",
       "product_variants": "ตัวเลือกสินค้า",
       "open_size_chart": "ตารางขนาด",
+      "select_variant_placeholder": "เลือก",
+      "select_variant_cta": "เลือกตัวเลือกสินค้า",
       "media": {
         "gallery_viewer": "โปรแกรมดูแกลเลอรี",
         "load_image": "โหลดรูปภาพ {{ index }} ในมุมมองแกลเลอรี",

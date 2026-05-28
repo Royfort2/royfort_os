@@ -197,6 +197,8 @@
       "on_sale": "Doanh thu",
       "product_variants": "Các biến thể sản phẩm",
       "open_size_chart": "Biểu đồ kích thước",
+      "select_variant_placeholder": "Chọn",
+      "select_variant_cta": "Chọn biến thể",
       "media": {
         "gallery_viewer": "Trình xem thư viện",
         "load_image": "Tải hình ảnh {{ index }} trong chế độ xem thư viện",

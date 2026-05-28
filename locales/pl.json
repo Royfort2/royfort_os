@@ -197,6 +197,8 @@
       "on_sale": "Sprzedaż",
       "product_variants": "Warianty produktu",
       "open_size_chart": "Tabela rozmiarów",
+      "select_variant_placeholder": "Wybierz",
+      "select_variant_cta": "Wybierz wariant",
       "media": {
         "gallery_viewer": "Przeglądarka galerii",
         "load_image": "Załaduj obraz {{ index }} w widoku galerii",

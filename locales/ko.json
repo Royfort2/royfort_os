@@ -197,6 +197,8 @@
       "on_sale": "판매",
       "product_variants": "제품 변형",
       "open_size_chart": "사이즈 차트",
+      "select_variant_placeholder": "선택",
+      "select_variant_cta": "옵션 선택",
       "media": {
         "gallery_viewer": "갤러리 뷰어",
         "load_image": "갤러리 보기에 이미지 {{ index }} 로드",

@@ -197,6 +197,8 @@
       "on_sale": "Разпродажба",
       "product_variants": "Варианти на продукта",
       "open_size_chart": "Размери",
+      "select_variant_placeholder": "Изберете",
+      "select_variant_cta": "Изберете вариант",
       "media": {
         "gallery_viewer": "Преглед на галерия",
         "load_image": "Заредете изображение {{ index }} в изглед на галерия",

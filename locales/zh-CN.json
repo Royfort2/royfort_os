@@ -197,6 +197,8 @@
       "on_sale": "销售",
       "product_variants": "产品型号",
       "open_size_chart": "尺码表",
+      "select_variant_placeholder": "选择",
+      "select_variant_cta": "选择款式",
       "media": {
         "gallery_viewer": "画廊查看器",
         "load_image": "在图库视图中加载图片 {{ index }}",

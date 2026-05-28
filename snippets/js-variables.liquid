@@ -36,7 +36,8 @@
     soldOut: `{{ 'products.product.sold_out' | t }}`,
     unavailable: `{{ 'products.product.unavailable' | t }}`,
     unavailable_with_option: `{{ 'products.product.value_unavailable' | t: option_value: '[value]' }}`,
-    select_variant_text: {{ settings.select_variant_text | json }}
+    select_variant_placeholder: {{ 'products.product.select_variant_placeholder' | t | json }},
+    select_variant_text: {{ 'products.product.select_variant_cta' | t | json }}
   };
 
   FoxTheme.quickOrderListStrings = {
