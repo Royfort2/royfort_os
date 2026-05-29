@@ -24,6 +24,8 @@
     assign we_pas_ov = request.query_string | split: 'option_values=' | last | split: '&' | first | strip
   endif
 
+  assign we_pas_ov_ids = we_pas_ov | split: ','
+
   if product.metafields.custom.we_pdp_preis_nach_grose == true and product.metafields.custom.pdp_set_products == blank
     assign we_pas_active = true
 
@@ -59,51 +61,72 @@
     endfor
 
     comment
-      Selection is detected via the option_values IDs in the request (set by the custom dropdown
-      section fetch), matched against each value.id. This is deterministic and does NOT rely on
-      Shopify's value.selected / product.selected_variant, which are only set for a fully resolved variant.
+      Size selection only from option_values in the URL (when query_string is available).
+      Do not use value.selected — Shopify may pre-mark values on first paint (hides "ab").
     endcomment
-    assign we_pas_ov_ids = we_pas_ov | split: ','
-
     if we_pas_size_option != blank and we_pas_ov != blank
       for value in we_pas_size_option.values
-        assign we_pas_vid = value.id | append: ''
-        if we_pas_ov_ids contains we_pas_vid
-          assign we_pas_size_selected = true
+        assign we_pas_vid = value.id | append: '' | strip
+        for ov_id in we_pas_ov_ids
+          assign ov_id_clean = ov_id | strip
+          if ov_id_clean == we_pas_vid
+            assign we_pas_size_selected = true
+            break
+          endif
+        endfor
+        if we_pas_size_selected
           break
         endif
       endfor
     endif
 
     assign we_has_variant_param = false
+    assign we_variant_qs_id = ''
     if request.query_string contains 'variant='
       assign we_has_variant_param = true
+      assign we_variant_qs_id = request.query_string | split: 'variant=' | last | split: '&' | first | strip
     endif
 
-    if we_has_variant_param and product.selected_variant != blank
+    if we_variant_qs_id != blank
       assign we_pas_show_fixed = true
     elsif we_pas_size_selected
       assign we_pas_show_fixed = true
     endif
 
     if we_pas_show_fixed
-      if we_has_variant_param and product.selected_variant != blank
-        assign we_pas_variant = product.selected_variant
-      else
+      if we_variant_qs_id != blank
+        for variant in product.variants
+          assign we_vid_check = variant.id | append: '' | strip
+          if we_vid_check == we_variant_qs_id
+            assign we_pas_variant = variant
+            break
+          endif
+        endfor
+      endif
+      if we_pas_variant == blank and we_pas_ov != blank
         for variant in product.variants
           assign we_pas_match = true
           for option in product.options_with_values
             assign we_pas_opt_title = blank
-            for value in option.values
-              assign we_pas_vid2 = value.id | append: ''
-              if we_pas_ov_ids contains we_pas_vid2
-                assign we_pas_opt_title = value
-                break
-              endif
-            endfor
+            if we_pas_ov != blank
+              for value in option.values
+                assign we_pas_vid2 = value.id | append: '' | strip
+                for ov_id in we_pas_ov_ids
+                  assign ov_id_clean = ov_id | strip
+                  if ov_id_clean == we_pas_vid2
+                    assign we_pas_opt_title = value
+                    break
+                  endif
+                endfor
+                if we_pas_opt_title != blank
+                  break
+                endif
+              endfor
+            endif
             if we_pas_opt_title != blank
               assign we_pas_opt_idx = option.position | minus: 1
-              if variant.options[we_pas_opt_idx] != we_pas_opt_title
+              assign we_pas_opt_str = we_pas_opt_title | append: ''
+              if variant.options[we_pas_opt_idx] != we_pas_opt_str
                 assign we_pas_match = false
                 break
               endif
@@ -160,6 +183,9 @@
   endif
   if target == product and product.price_varies
     assign money_price = 'products.product.price.from_price_html' | t: price: money_price
+  endif
+  if we_pas_active and we_pas_show_fixed == false
+    assign money_price = 'products.product.price.from_price_html' | t: price: money_price_min
   endif
 
   if product.metafields.custom.pdp_set_products != blank

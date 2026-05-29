@@ -427,13 +427,157 @@ if (!customElements.get('product-info')) {
         return vals.some((v) => !this.normOptionValue(v));
       }
 
+      _isPasPriceMode(vs) {
+        const root = vs || this.variantSelectors;
+        return root?.dataset?.wePdpPreisNachGrose === 'true';
+      }
+
+      _getPasSizeOptionGroup(vs) {
+        if (!vs?.querySelectorAll) return null;
+        const sizePos = parseInt(vs.dataset.weSizeOptionPosition, 10) || 0;
+        if (sizePos < 1) return null;
+
+        for (const wrap of vs.querySelectorAll(':scope > .product-form__input')) {
+          const probe =
+            wrap.querySelector('input[type="radio"][data-option-value-id]') ||
+            wrap.querySelector('select[name^="options"] option[data-option-value-id]');
+          if (!probe) continue;
+
+          const radioId = probe.id || '';
+          const idMatch = radioId.match(/-(\d+)-\d+$/);
+          if (idMatch && parseInt(idMatch[1], 10) === sizePos) return wrap;
+
+          const selectEl = wrap.querySelector('select[name^="options"]');
+          if (selectEl) {
+            const opt = selectEl.selectedOptions?.[0];
+            const optId = opt?.id || '';
+            const optMatch = optId.match(/-(\d+)-\d+$/);
+            if (optMatch && parseInt(optMatch[1], 10) === sizePos) return wrap;
+          }
+        }
+        return null;
+      }
+
+      _getPasSizeSelectedValue(vs) {
+        const wrap = this._getPasSizeOptionGroup(vs);
+        if (!wrap) return '';
+        const selectEl = wrap.querySelector('select[name^="options"]');
+        if (selectEl) {
+          const opt = selectEl.selectedOptions?.[0];
+          return opt?.value ?? '';
+        }
+        const checked = this.findCheckedOptionRadio(wrap);
+        return checked?.value ?? '';
+      }
+
+      _isPasSizeSelected(vs) {
+        return Boolean(this.normOptionValue(this._getPasSizeSelectedValue(vs)));
+      }
+
+      _resolvePasPriceVariant(resolvedVariant, vs, variants) {
+        if (resolvedVariant?.price != null) return resolvedVariant;
+        if (!vs || !variants?.length) return null;
+
+        const sizeVal = this._getPasSizeSelectedValue(vs);
+        if (!this.normOptionValue(sizeVal)) return null;
+
+        const sizePos = parseInt(vs.dataset.weSizeOptionPosition, 10) || 0;
+        if (sizePos < 1) return null;
+
+        const want = this.normOptionValue(sizeVal);
+        const key = `option${sizePos}`;
+        const matchesSize = (v) =>
+          this.normOptionValue(v[key] ?? v.options?.[sizePos - 1] ?? '') === want;
+
+        return (
+          variants.find((v) => matchesSize(v) && v.available !== false) ||
+          variants.find((v) => matchesSize(v)) ||
+          null
+        );
+      }
+
+      _formatPasPriceHtml(priceCents, useFromPrefix) {
+        const moneyFormat = FoxTheme.settings.moneyFormat;
+        const formatted = FoxTheme.Currency.formatMoney(priceCents, moneyFormat);
+        if (!useFromPrefix) return formatted;
+        const tpl = FoxTheme.variantStrings?.fromPriceHtml || 'ab [price]';
+        return tpl.replace('[price]', formatted).replace(/\{\{\s*price\s*\}\}/g, formatted);
+      }
+
+      /**
+       * PDP “Preis nach Größe”: Section Rendering API does not expose option_values in Liquid
+       * (request.query_string is empty). Apply ab vs. fixed price from picker state + variant JSON.
+       */
+      _applyPasPriceDisplay(resolvedVariant) {
+        const vs = this.variantSelectors;
+        if (!this._isPasPriceMode(vs)) return;
+
+        const variants = this._getMainProductVariantsFromDom();
+        if (!variants?.length) return;
+
+        const priceRoot = this.querySelector(`#price-${this.dataset.section} .f-price`);
+        if (!priceRoot) return;
+
+        const sizeSelected = this._isPasSizeSelected(vs);
+
+        let variant = null;
+        if (sizeSelected) {
+          variant = this._resolvePasPriceVariant(resolvedVariant, vs, variants);
+        }
+
+        let priceCents;
+        let compareCents = 0;
+        const useFrom = !sizeSelected || !variant;
+
+        if (useFrom) {
+          priceCents = variants.reduce(
+            (min, v) => (v.price < min ? v.price : min),
+            variants[0].price
+          );
+        } else {
+          priceCents = variant.price;
+          compareCents = variant.compare_at_price || 0;
+        }
+
+        const displayHtml = this._formatPasPriceHtml(priceCents, useFrom);
+        const onSale = !useFrom && compareCents > priceCents;
+
+        priceRoot.classList.toggle('f-price--on-sale', onSale);
+        if (!useFrom && variant) {
+          priceRoot.classList.toggle('f-price--sold-out', variant.available === false);
+        }
+
+        const setPrimaryPrice = (selector) => {
+          priceRoot.querySelectorAll(selector).forEach((el) => {
+            if (el.closest('s')) return;
+            el.innerHTML = displayHtml;
+          });
+        };
+
+        setPrimaryPrice('.f-price__regular .f-price-item--regular');
+        setPrimaryPrice('.f-price__sale .f-price-item--sale');
+
+        if (onSale) {
+          const compareHtml = FoxTheme.Currency.formatMoney(compareCents, FoxTheme.settings.moneyFormat);
+          priceRoot
+            .querySelectorAll(
+              '.f-price__sale .f-price-item--regular s, .f-price__regular .f-price-item--regular s'
+            )
+            .forEach((s) => {
+              s.innerHTML = compareHtml;
+            });
+        }
+
+        this._syncStickyAtcPriceFromMain();
+      }
+
       _updatePriceFromSectionHtml(html) {
         const source = html.getElementById(`price-${this.sectionId}`);
         const destination = this.querySelector(`#price-${this.dataset.section}`);
         if (!source || !destination) return;
         destination.innerHTML = source.innerHTML;
         destination.classList.toggle('hidden', source.classList.contains('hidden'));
-        this._syncStickyAtcPriceFromMain();
+        this._applyPasPriceDisplay(null);
       }
 
       _syncStickyAtcPriceFromMain() {
@@ -441,7 +585,8 @@ if (!customElements.get('product-info')) {
         const stickyPrice = document.querySelector('sticky-atc-bar .f-price');
         if (!mainPrice || !stickyPrice) return;
 
-        stickyPrice.className = mainPrice.className;
+        stickyPrice.classList.toggle('f-price--on-sale', mainPrice.classList.contains('f-price--on-sale'));
+        stickyPrice.classList.toggle('f-price--sold-out', mainPrice.classList.contains('f-price--sold-out'));
         const mainRegular = mainPrice.querySelector('.f-price__regular .f-price-item--regular');
         const stickyRegular = stickyPrice.querySelector('.f-price__regular .f-price-item--regular');
         if (mainRegular && stickyRegular) {
@@ -804,7 +949,7 @@ if (!customElements.get('product-info')) {
           updateSourceFromDestination('Badges');
           updateSourceFromDestination('PricePerItem');
           updateSourceFromDestination('Volume');
-          this._syncStickyAtcPriceFromMain();
+          this._applyPasPriceDisplay(variant);
 
           this.updateQuantityRules(this.sectionId, this.productId, html);
           updateSourceFromDestination('QuantityRules');

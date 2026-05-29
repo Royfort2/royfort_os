@@ -250,7 +250,12 @@ if (!customElements.get('sticky-atc-bar')) {
 
           this.currentVariant = variant;
           variantInput.value = variant.id;
-          this.updatePrice();
+
+          const pasMode = this.mainVariantSelects?.dataset?.wePdpPreisNachGrose === 'true';
+          if (!pasMode) {
+            this.updatePrice();
+          }
+
           this.updateButton(true, '', false);
           if (!variant) {
             this.updateButton(true, '', true);
