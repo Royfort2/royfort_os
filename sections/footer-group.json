@@ -34,6 +34,7 @@
     },
     "hp_insta_rBXWtX": {
       "type": "hp-insta",
+      "disabled": true,
       "name": "Insta Gallery Section",
       "settings": {
         "feed_title": "Inspiration auf Instagram",
