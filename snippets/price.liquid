@@ -58,36 +58,21 @@
       endif
     endfor
 
-    assign we_pas_option_count = product.options_with_values.size
-    assign we_pas_selected_option_count = 0
+    comment
+      Selection is detected via the option_values IDs in the request (set by the custom dropdown
+      section fetch), matched against each value.id. This is deterministic and does NOT rely on
+      Shopify's value.selected / product.selected_variant, which are only set for a fully resolved variant.
+    endcomment
+    assign we_pas_ov_ids = we_pas_ov | split: ','
 
-    if we_pas_ov != blank
-      for option in product.options_with_values
-        assign we_pas_option_selected = false
-        for value in option.values
-          if value.selected
-            assign we_pas_option_selected = true
-            break
-          endif
-        endfor
-        if we_pas_option_selected
-          assign we_pas_selected_option_count = we_pas_selected_option_count | plus: 1
+    if we_pas_size_option != blank and we_pas_ov != blank
+      for value in we_pas_size_option.values
+        assign we_pas_vid = value.id | append: ''
+        if we_pas_ov_ids contains we_pas_vid
+          assign we_pas_size_selected = true
+          break
         endif
       endfor
-
-      if we_pas_size_option != blank
-        for value in we_pas_size_option.values
-          if value.selected
-            assign we_pas_size_selected = true
-            break
-          endif
-        endfor
-      endif
-    endif
-
-    assign we_pas_all_options_selected = false
-    if we_pas_selected_option_count == we_pas_option_count and we_pas_option_count > 0
-      assign we_pas_all_options_selected = true
     endif
 
     assign we_has_variant_param = false
@@ -97,33 +82,43 @@
 
     if we_has_variant_param and product.selected_variant != blank
       assign we_pas_show_fixed = true
-    elsif we_pas_all_options_selected and product.selected_variant != blank
-      assign we_pas_show_fixed = true
     elsif we_pas_size_selected
       assign we_pas_show_fixed = true
     endif
 
-    if we_pas_show_fixed and we_pas_ov != blank
-      for variant in product.variants
-        assign we_pas_match = true
-        for option in product.options_with_values
-          if option.selected_value != blank
-            assign we_pas_opt_idx = option.position | minus: 1
-            if variant.options[we_pas_opt_idx] != option.selected_value
-              assign we_pas_match = false
+    if we_pas_show_fixed
+      if we_has_variant_param and product.selected_variant != blank
+        assign we_pas_variant = product.selected_variant
+      else
+        for variant in product.variants
+          assign we_pas_match = true
+          for option in product.options_with_values
+            assign we_pas_opt_title = blank
+            for value in option.values
+              assign we_pas_vid2 = value.id | append: ''
+              if we_pas_ov_ids contains we_pas_vid2
+                assign we_pas_opt_title = value
+                break
+              endif
+            endfor
+            if we_pas_opt_title != blank
+              assign we_pas_opt_idx = option.position | minus: 1
+              if variant.options[we_pas_opt_idx] != we_pas_opt_title
+                assign we_pas_match = false
+                break
+              endif
+            endif
+          endfor
+          if we_pas_match
+            if variant.available
+              assign we_pas_variant = variant
               break
+            elsif we_pas_variant == blank
+              assign we_pas_variant = variant
             endif
           endif
         endfor
-        if we_pas_match
-          if variant.available
-            assign we_pas_variant = variant
-            break
-          elsif we_pas_variant == blank
-            assign we_pas_variant = variant
-          endif
-        endif
-      endfor
+      endif
     endif
   endif
 
