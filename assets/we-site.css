@@ -1593,3 +1593,62 @@ swym-storefront-layout-notification {
 #klaviyo-bis-button-container button {
     width: stretch !important;
 }
+
+/* Desktop nav: switch to mobile menu before items wrap to a second line */
+@media (min-width: 1024px) {
+    .header-section:not(.header-section--nav-overflow) .header__navigation .header__menu > ul {
+        flex-wrap: nowrap !important;
+    }
+
+    .header-section:not(.header-section--nav-overflow) .header__navigation .header__menu > ul > li {
+        flex-shrink: 0;
+    }
+
+    .header-section:not(.header-section--nav-overflow) .header__navigation .menu__item,
+    .header-section:not(.header-section--nav-overflow) .header__navigation .font-navigation,
+    .header-section:not(.header-section--nav-overflow) .header__navigation summary .reversed-link {
+        white-space: nowrap;
+    }
+
+    .header-section:not(.header-section--nav-overflow) .header__navigation {
+        min-width: 0;
+        overflow: hidden;
+    }
+
+    .header-section--nav-overflow .header__navigation {
+        display: none !important;
+    }
+
+    .header-section--nav-overflow .header__icons--left.lg\:hidden:not(.hidden),
+    .header-section--nav-overflow .menu-drawer-button.lg\:hidden:not(.hidden) {
+        display: flex !important;
+    }
+
+    .header-section--nav-overflow .account-button {
+        display: none !important;
+    }
+
+    .header-section--nav-overflow .header.header-mobile--left,
+    .header-section--nav-overflow .header--center-left:not(.header-mobile--center),
+    .header-section--nav-overflow .header--left-center:not(.header-mobile--center) {
+        --header-grid-template: "logo icons" / minmax(0, 1fr) auto;
+    }
+
+    .header-section--nav-overflow .header.header-mobile--center,
+    .header-section--nav-overflow .header--center-split {
+        --header-grid-template: "icons-left logo icons" / minmax(4rem, 1fr) auto minmax(6rem, 1fr);
+        column-gap: 1.5rem;
+    }
+
+    .header-section--nav-overflow .header--center-split .search-drawer-button.lg\:hidden {
+        display: flex !important;
+    }
+
+    .header-section--nav-overflow .header--center-split .header__icons--left.lg\:flex {
+        display: none !important;
+    }
+
+    .header-section--nav-overflow .header--center-split .header__icons--left.lg\:hidden:not(.hidden) {
+        display: flex !important;
+    }
+}

@@ -1,5 +1,6 @@
 {%- liquid
   assign parent_link_handle = link.title | handle
+  assign mobile_view_all_menu = linklists['ws-mobile-alle-ansehen']
 
   case block.type
     when 'promotion_banner'
@@ -33,28 +34,17 @@
     </button>
     <ul class="flex flex-col h-full v-scrollable" data-parent role="list">
       {%- if link.handle == 'bettwaesche' or link.handle == 'bettwasche' or parent_link_handle == 'bettwaesche' or parent_link_handle == 'bettwasche' -%}
-        {%- liquid
-          assign bettwasche_view_all_url = link.url
-          if bettwasche_view_all_url == blank and link.type == 'collection_link' and link.object != blank
-            assign bettwasche_view_all_url = link.object.url
-          endif
-          if bettwasche_view_all_url == blank
-            assign bettwasche_collection = collections['hotelbettwaesche']
-            if bettwasche_collection != blank
-              assign bettwasche_view_all_url = bettwasche_collection.url
-            endif
-          endif
-        -%}
-        {%- if bettwasche_view_all_url != blank -%}
-          <li class="menu-drawer__item menu-drawer__item--view-all">
-            <a
-              href="{{ bettwasche_view_all_url }}"
-              class="menu-drawer__item-link menu-drawer__item-link--view-all flex items-center justify-between"
-              aria-label="{{ 'sections.featured_collection.view_all_label' | t: collection_name: link.title }}"
-            >
-              {{- 'sections.collection_list.view_all' | t -}}
-            </a>
-          </li>
+        {%- if mobile_view_all_menu != blank and mobile_view_all_menu.links.size > 0 -%}
+          {%- for view_all_link in mobile_view_all_menu.links -%}
+            <li class="menu-drawer__item menu-drawer__item--view-all">
+              <a
+                href="{{ view_all_link.url }}"
+                class="menu-drawer__item-link menu-drawer__item-link--view-all flex items-center justify-between"
+              >
+                {{- view_all_link.title | escape -}}
+              </a>
+            </li>
+          {%- endfor -%}
         {%- endif -%}
       {%- endif -%}
       {%- if collections != blank and block.type == 'product_list' and enable_mega_menu -%}

@@ -427,6 +427,86 @@ if (!customElements.get('product-info')) {
         return vals.some((v) => !this.normOptionValue(v));
       }
 
+      _getMainProductVariantSelectsForPas() {
+        const mainProductId = String(this.productId);
+        for (const vs of this.querySelectorAll('variant-selects')) {
+          const pickerProductId = vs.dataset?.productId;
+          if (pickerProductId == null || String(pickerProductId) === mainProductId) {
+            return vs;
+          }
+        }
+        return this.variantSelectors;
+      }
+
+      _isPasSizeSelectedInDom(vs) {
+        if (!vs?.dataset?.wePdpPreisNachGrose) return null;
+        const sizePos = parseInt(vs.dataset.weSizeOptionPosition, 10) || 0;
+        if (sizePos < 1) return false;
+        const selected = this._getSelectedOptionValuesFromVariantSelects(vs);
+        const sizeVal = selected[sizePos - 1];
+        return Boolean(sizeVal && this.normOptionValue(sizeVal));
+      }
+
+      _areAllPasOptionsSelectedInDom(vs) {
+        if (!vs?.dataset?.wePdpPreisNachGrose) return null;
+        const selected = this._getSelectedOptionValuesFromVariantSelects(vs);
+        if (!selected.length) return false;
+        return selected.every((v) => this.normOptionValue(v));
+      }
+
+      _shouldShowPasFixedPrice(vs) {
+        const sizeSelected = this._isPasSizeSelectedInDom(vs);
+        if (sizeSelected === null) return null;
+        if (this._areAllPasOptionsSelectedInDom(vs)) return true;
+        return sizeSelected;
+      }
+
+      _enforcePasFromPriceIfNeeded(vs) {
+        const showFixed = this._shouldShowPasFixedPrice(vs);
+        if (showFixed === null || showFixed) return;
+
+        const variants = this._getMainProductVariantsFromDom();
+        const fmt = window.FoxTheme?.Currency?.formatMoney;
+        const mf = window.FoxTheme?.settings?.moneyFormat;
+        if (!variants?.length || typeof fmt !== 'function' || !mf) return;
+
+        const priceMin = variants.reduce((min, v) => Math.min(min, Number(v.price) || 0), Infinity);
+        const priceStr = fmt(priceMin, mf);
+        const tpl =
+          (typeof FoxTheme !== 'undefined' && FoxTheme.variantStrings?.fromPriceHtml) ||
+          'ab {{ price }}';
+        const fromHtml = String(tpl).split('[price]').join(priceStr).split('{{ price }}').join(priceStr);
+
+        const priceRoot = this.querySelector(`#price-${this.dataset.section} .f-price`);
+        if (!priceRoot) return;
+
+        priceRoot.classList.remove('f-price--on-sale', 'f-price--sold-out');
+        const regular = priceRoot.querySelector('.f-price__regular .f-price-item--regular');
+        if (regular) regular.innerHTML = fromHtml;
+
+        this._syncStickyAtcPriceFromMain();
+      }
+
+      _updatePriceFromSectionHtml(html, variantSelectsEl) {
+        const source = html.getElementById(`price-${this.sectionId}`);
+        const destination = this.querySelector(`#price-${this.dataset.section}`);
+        if (!source || !destination) return;
+        destination.innerHTML = source.innerHTML;
+        destination.classList.toggle('hidden', source.classList.contains('hidden'));
+
+        const vs = variantSelectsEl || this._getMainProductVariantSelectsForPas();
+        this._enforcePasFromPriceIfNeeded(vs);
+        this._syncStickyAtcPriceFromMain();
+      }
+
+      _syncStickyAtcPriceFromMain() {
+        const mainPrice = this.querySelector(`#price-${this.dataset.section} .f-price`);
+        const stickyPrice = document.querySelector('sticky-atc-bar .f-price');
+        if (!mainPrice || !stickyPrice) return;
+        stickyPrice.className = mainPrice.className;
+        stickyPrice.innerHTML = mainPrice.innerHTML;
+      }
+
       syncMainMediaGalleryFromFirstSetPicker(variantSelectsEl) {
         if (!variantSelectsEl || !this._isPdpSetBundleForm()) return;
         const firstSetId = this._getPdpSetFirstSetProductId();
@@ -742,6 +822,7 @@ if (!customElements.get('product-info')) {
             const vsIncomplete =
               (variantSelectsId && document.getElementById(variantSelectsId)) ||
               (!variantSelectsId && this.variantSelectors);
+            this._updatePriceFromSectionHtml(html, vsIncomplete);
             if (
               vsIncomplete &&
               !this._isPdpSetBundleForm() &&
@@ -771,6 +852,10 @@ if (!customElements.get('product-info')) {
           updateSourceFromDestination('Badges');
           updateSourceFromDestination('PricePerItem');
           updateSourceFromDestination('Volume');
+          this._enforcePasFromPriceIfNeeded(
+            variantSelectsId ? document.getElementById(variantSelectsId) : this._getMainProductVariantSelectsForPas()
+          );
+          this._syncStickyAtcPriceFromMain();
 
           this.updateQuantityRules(this.sectionId, this.productId, html);
           updateSourceFromDestination('QuantityRules');

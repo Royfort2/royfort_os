@@ -104,6 +104,27 @@
         endif
       endfor
     endif
+
+    assign we_pas_size_option_position = 0
+    if product.metafields.custom.we_pdp_preis_nach_grose == true
+      for option in product.options_with_values
+        assign we_pas_opt_name = option.name | downcase | strip
+        assign we_pas_is_size = false
+        if we_pas_opt_name == size_option_name
+          assign we_pas_is_size = true
+        elsif we_pas_opt_name contains size_option_name
+          assign we_pas_is_size = true
+        elsif size_option_name contains we_pas_opt_name and we_pas_opt_name != blank
+          assign we_pas_is_size = true
+        elsif we_pas_opt_name == 'größe' or we_pas_opt_name == 'grose' or we_pas_opt_name == 'size'
+          assign we_pas_is_size = true
+        endif
+        if we_pas_is_size
+          assign we_pas_size_option_position = option.position
+          break
+        endif
+      endfor
+    endif
   %}
   <script src="{{ 'variant-selects.js' | asset_url }}" defer="defer"></script>
   <variant-selects
@@ -112,6 +133,10 @@
     data-url="{{ product.url }}"
     data-product-id="{{ product.id }}"
     data-line-color-option-position="{{ line_color_option_index }}"
+    {% if we_pas_size_option_position > 0 %}
+      data-we-pdp-preis-nach-grose="true"
+      data-we-size-option-position="{{ we_pas_size_option_position }}"
+    {% endif %}
     data-selected-variant-id="{% if we_active_variant %}{{ we_active_variant.id }}{% endif %}"
     data-update-url="{% if update_url == false %}false{% else %}true{% endif %}"
     data-we-dropdown-meta="true"
