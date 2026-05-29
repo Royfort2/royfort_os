@@ -81,9 +81,9 @@
                       assign collection_image = first_product_in_collection.featured_image
                     endif
                   -%}
-                  <li class="recommendation-collection-item blocks-radius flex-grow flex items-center">
-                    <a href="{{ collection.url }}" class="w-full flex items-center gap-3">
-                      <div class="recommendation-collection-item__image blocks-radius-sm media-wrapper">
+                  <li class="recommendation-collection-item blocks-radius overflow-hidden">
+                    <a href="{{ collection.url }}" class="recommendation-collection-item__link w-full flex items-stretch">
+                      <div class="recommendation-collection-item__image media-wrapper shrink-0">
                         {%- if collection_image != blank -%}
                           {{-
                             collection_image
@@ -91,13 +91,13 @@
                             | image_tag: loading: 'lazy', widths: '180,360,540', is: 'image-lazy', alt: ''
                           -}}
                         {%- else -%}
-                          <div style="--aspect-ratio: 1;">
+                          <div class="recommendation-collection-item__placeholder">
                             {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
                           </div>
                         {%- endif -%}
                       </div>
                       <div class="recommendation-collection-item__content flex items-center justify-between flex-grow">
-                        <h3 class="recommendation-collection-item__title h5 font-body-bolder">
+                        <h3 class="recommendation-collection-item__title font-body-bolder">
                           {{ collection.title | escape }}
                         </h3>
                         <button
