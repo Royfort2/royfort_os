@@ -17,7 +17,7 @@
   assign we_pas_active = false
   assign we_pas_size_selected = false
   assign we_pas_variant = blank
-  assign we_pas_ready = false
+  assign we_pas_show_fixed = false
   assign we_pas_ov = ''
 
   if request.query_string contains 'option_values='
@@ -58,58 +58,52 @@
       endif
     endfor
 
-    if we_pas_size_option != blank and we_pas_ov != blank
-      assign we_pas_ov_ids = we_pas_ov | split: ','
-      for value in we_pas_size_option.values
-        assign we_pas_value_id = value.id | append: ''
-        for we_pas_ov_id in we_pas_ov_ids
-          assign we_pas_ov_id_clean = we_pas_ov_id | strip
-          if we_pas_ov_id_clean == we_pas_value_id
+    assign we_pas_option_count = product.options_with_values.size
+    assign we_pas_selected_option_count = 0
+
+    if we_pas_ov != blank
+      for option in product.options_with_values
+        assign we_pas_option_selected = false
+        for value in option.values
+          if value.selected
+            assign we_pas_option_selected = true
+            break
+          endif
+        endfor
+        if we_pas_option_selected
+          assign we_pas_selected_option_count = we_pas_selected_option_count | plus: 1
+        endif
+      endfor
+
+      if we_pas_size_option != blank
+        for value in we_pas_size_option.values
+          if value.selected
             assign we_pas_size_selected = true
             break
           endif
         endfor
-        if we_pas_size_selected
-          break
-        endif
-      endfor
+      endif
     endif
 
-    assign we_pas_option_count = product.options_with_values.size
-    assign we_pas_selected_option_count = 0
-    if we_pas_ov != blank and we_pas_option_count > 0
-      assign we_pas_ov_ids = we_pas_ov | split: ','
-      for option in product.options_with_values
-        assign we_pas_option_has_ov = false
-        for value in option.values
-          assign we_pas_value_id = value.id | append: ''
-          for we_pas_ov_id in we_pas_ov_ids
-            assign we_pas_ov_id_clean = we_pas_ov_id | strip
-            if we_pas_ov_id_clean == we_pas_value_id
-              assign we_pas_option_has_ov = true
-              break
-            endif
-          endfor
-          if we_pas_option_has_ov
-            break
-          endif
-        endfor
-        if we_pas_option_has_ov
-          assign we_pas_selected_option_count = we_pas_selected_option_count | plus: 1
-        endif
-      endfor
-    endif
-    assign we_pas_all_options_in_url = false
+    assign we_pas_all_options_selected = false
     if we_pas_selected_option_count == we_pas_option_count and we_pas_option_count > 0
-      assign we_pas_all_options_in_url = true
+      assign we_pas_all_options_selected = true
     endif
 
-    assign we_pas_show_fixed = false
-    if we_pas_all_options_in_url and product.selected_variant != blank
+    assign we_has_variant_param = false
+    if request.query_string contains 'variant='
+      assign we_has_variant_param = true
+    endif
+
+    if we_has_variant_param and product.selected_variant != blank
+      assign we_pas_show_fixed = true
+    elsif we_pas_all_options_selected and product.selected_variant != blank
+      assign we_pas_show_fixed = true
+    elsif we_pas_size_selected
       assign we_pas_show_fixed = true
     endif
 
-    if we_pas_size_selected
+    if we_pas_show_fixed and we_pas_ov != blank
       for variant in product.variants
         assign we_pas_match = true
         for option in product.options_with_values
@@ -130,10 +124,6 @@
           endif
         endif
       endfor
-      if we_pas_variant != blank
-        assign we_pas_ready = true
-        assign we_pas_show_fixed = true
-      endif
     endif
   endif
 
@@ -144,16 +134,18 @@
     assign target = product
   endif
 
-  if we_pas_active and we_pas_show_fixed and we_pas_ready
-    assign target = we_pas_variant
-    assign selected_variant = we_pas_variant
-  elsif we_pas_active and we_pas_show_fixed and we_pas_all_options_in_url and product.selected_variant != blank
-    assign target = product.selected_variant
-    assign selected_variant = product.selected_variant
-  endif
-
-  if we_pas_active and we_pas_show_fixed == false
-    assign target = product
+  if we_pas_active
+    if we_pas_show_fixed
+      if we_pas_variant != blank
+        assign target = we_pas_variant
+        assign selected_variant = we_pas_variant
+      elsif product.selected_variant != blank
+        assign target = product.selected_variant
+        assign selected_variant = product.selected_variant
+      endif
+    else
+      assign target = product
+    endif
   endif
 
   assign compare_at_price = target.compare_at_price

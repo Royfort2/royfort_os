@@ -192,39 +192,7 @@
           {%- liquid
             assign pdp_main_price_use_variant = true
             if product.metafields.custom.we_pdp_preis_nach_grose == true
-              assign pdp_pas_ov = ''
-              if request.query_string contains 'option_values='
-                assign pdp_pas_ov = request.query_string | split: 'option_values=' | last | split: '&' | first | strip
-              endif
-              assign pdp_pas_option_count = product.options_with_values.size
-              assign pdp_pas_selected_count = 0
-              if pdp_pas_ov != blank and pdp_pas_option_count > 0
-                assign pdp_pas_ov_ids = pdp_pas_ov | split: ','
-                for option in product.options_with_values
-                  assign pdp_pas_opt_hit = false
-                  for value in option.values
-                    assign pdp_pas_vid = value.id | append: ''
-                    for pdp_pas_oid in pdp_pas_ov_ids
-                      assign pdp_pas_oid_clean = pdp_pas_oid | strip
-                      if pdp_pas_oid_clean == pdp_pas_vid
-                        assign pdp_pas_opt_hit = true
-                        break
-                      endif
-                    endfor
-                    if pdp_pas_opt_hit
-                      break
-                    endif
-                  endfor
-                  if pdp_pas_opt_hit
-                    assign pdp_pas_selected_count = pdp_pas_selected_count | plus: 1
-                  endif
-                endfor
-              endif
-              if pdp_pas_selected_count == pdp_pas_option_count and pdp_pas_option_count > 0 and product.selected_variant != blank
-                assign pdp_main_price_use_variant = true
-              else
-                assign pdp_main_price_use_variant = false
-              endif
+              assign pdp_main_price_use_variant = false
             elsif product.selected_variant == blank and product.price_varies
               assign pdp_main_price_use_variant = false
             endif

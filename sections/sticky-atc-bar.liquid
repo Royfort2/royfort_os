@@ -52,39 +52,7 @@
           {%- liquid
             assign sticky_price_use_variant = true
             if product.metafields.custom.we_pdp_preis_nach_grose == true
-              assign sticky_pas_ov = ''
-              if request.query_string contains 'option_values='
-                assign sticky_pas_ov = request.query_string | split: 'option_values=' | last | split: '&' | first | strip
-              endif
-              assign sticky_pas_option_count = product.options_with_values.size
-              assign sticky_pas_selected_count = 0
-              if sticky_pas_ov != blank and sticky_pas_option_count > 0
-                assign sticky_pas_ov_ids = sticky_pas_ov | split: ','
-                for option in product.options_with_values
-                  assign sticky_pas_opt_hit = false
-                  for value in option.values
-                    assign sticky_pas_vid = value.id | append: ''
-                    for sticky_pas_oid in sticky_pas_ov_ids
-                      assign sticky_pas_oid_clean = sticky_pas_oid | strip
-                      if sticky_pas_oid_clean == sticky_pas_vid
-                        assign sticky_pas_opt_hit = true
-                        break
-                      endif
-                    endfor
-                    if sticky_pas_opt_hit
-                      break
-                    endif
-                  endfor
-                  if sticky_pas_opt_hit
-                    assign sticky_pas_selected_count = sticky_pas_selected_count | plus: 1
-                  endif
-                endfor
-              endif
-              if sticky_pas_selected_count == sticky_pas_option_count and sticky_pas_option_count > 0 and product.selected_variant != blank
-                assign sticky_price_use_variant = true
-              else
-                assign sticky_price_use_variant = false
-              endif
+              assign sticky_price_use_variant = false
             elsif product.selected_variant == blank and product.price_varies
               assign sticky_price_use_variant = false
             endif
