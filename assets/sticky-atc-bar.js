@@ -38,56 +38,65 @@ if (!customElements.get('sticky-atc-bar')) {
         this.selectedVariantId = this.querySelector(this.selectors.variantIdSelect).value;
 
         this.variantData = this.getVariantData();
+        this.mainVariantSelects =
+          this.mainProductInfo && this.mainProductInfo.querySelector('variant-selects');
 
         this.init();
-        this.select.addEventListener('change', (e) => {
+        this.syncWithMainProductForm();
+
+        const pasMode = this.mainVariantSelects?.dataset?.wePdpPreisNachGrose === 'true';
+        if (pasMode && typeof this.mainProductInfo?.syncStickyPriceFromMain === 'function') {
+          requestAnimationFrame(() => this.mainProductInfo.syncStickyPriceFromMain());
+        }
+
+        this.select.addEventListener('change', () => {
           if (this.isUpdating) return;
           this.isUpdating = true;
 
-          this.updateQuantityInput();
-
-          this.mainVariantSelects = this.mainProductInfo && this.mainProductInfo.querySelector('variant-selects');
           const selectedVariantId = this.querySelector(this.selectors.variantIdSelect).value;
-          this.currentVariant = this.variantData.find((variant) => variant.id === Number(selectedVariantId));
+          this.selectedVariantId = selectedVariantId;
+          const pasMode = this.mainVariantSelects?.dataset?.wePdpPreisNachGrose === 'true';
 
-          if (this.mainVariantSelects) {
-            Array.from(this.mainVariantSelects.querySelectorAll('select, fieldset'), (element, index) => {
-              const variantOptionVal = this.currentVariant.options[index];
-              switch (element.tagName) {
-                case 'SELECT':
-                  element.value = variantOptionVal;
-                  const options = element.querySelectorAll('option');
-                  options.forEach((option) => option.removeAttribute('selected'));
-
-                  element.value = variantOptionVal;
-                  const selectedOption = element.querySelector(`option[value="${variantOptionVal}"]`);
-                  if (selectedOption) {
-                    selectedOption.setAttribute('selected', 'selected');
-                  }
-                  break;
-                case 'FIELDSET':
-                  Array.from(element.querySelectorAll('input')).forEach((radio) => {
-                    if (radio.value === variantOptionVal) {
-                      radio.checked = true;
-                    }
-                  });
-                  break;
-              }
-            });
-            setTimeout(() => {
-              this.mainVariantSelects.dispatchEvent(new Event('change', { detail: { formStickty: true } }));
-              this.isUpdating = false;
-            }, 0);
-          } else {
+          if (!selectedVariantId) {
+            if (pasMode && typeof this.mainProductInfo?.syncStickyPriceFromMain === 'function') {
+              this.mainProductInfo.syncStickyPriceFromMain();
+            }
             this.isUpdating = false;
+            this.updateButton(true, '', true);
+            return;
           }
 
-          this.updatePrice();
+          this.currentVariant = this.variantData.find((variant) => variant.id === Number(selectedVariantId));
+
+          const synced =
+            this.mainProductInfo &&
+            typeof this.mainProductInfo.syncMainPickerFromVariant === 'function' &&
+            this.currentVariant &&
+            this.mainProductInfo.syncMainPickerFromVariant(this.currentVariant);
+
+          if (!synced) {
+            this.isUpdating = false;
+          } else {
+            setTimeout(() => {
+              this.isUpdating = false;
+            }, 5000);
+          }
+
+          if (this.currentVariant) {
+            this.updatePrice();
+          }
+
           this.updateButton(true, '', false);
           if (!this.currentVariant) {
             this.updateButton(true, '', true);
           } else {
             this.updateButton(!this.currentVariant.available, FoxTheme.variantStrings.soldOut);
+          }
+
+          if (this.currentVariant) {
+            this.updateQuantityInput();
+          } else if (!synced) {
+            this.isUpdating = false;
           }
         });
 
@@ -156,7 +165,6 @@ if (!customElements.get('sticky-atc-bar')) {
           { threshold: 1, rootMargin }
         );
         this.setObserveTarget();
-        this.syncWithMainProductForm();
       }
 
       setObserveTarget() {
@@ -204,6 +212,7 @@ if (!customElements.get('sticky-atc-bar')) {
         const unitPrice = unitPriceWrapper.querySelector('.f-price__unit');
 
         const { compare_at_price, price, unit_price_measurement } = this.currentVariant;
+        const formattedPrice = FoxTheme.Currency.formatMoney(price, moneyFormat);
 
         // On sale.
         if (compare_at_price && compare_at_price > price) {
@@ -219,14 +228,15 @@ if (!customElements.get('sticky-atc-bar')) {
           priceWrapper.classList.remove(classes.soldOut);
         }
 
-        if (salePrice) salePrice.innerHTML = FoxTheme.Currency.formatMoney(price, moneyFormat);
+        const regularPrice = priceWrapper.querySelector('.f-price__regular > .f-price-item--regular');
+        if (regularPrice) regularPrice.innerHTML = formattedPrice;
+        if (salePrice) salePrice.innerHTML = formattedPrice;
 
         if (compareAtPrice && compareAtPrice.length && compare_at_price > price) {
-          compareAtPrice.forEach(
-            (item) => (item.innerHTML = FoxTheme.Currency.formatMoney(compare_at_price, moneyFormat))
-          );
-        } else {
-          compareAtPrice.forEach((item) => (item.innerHTML = FoxTheme.Currency.formatMoney(price, moneyFormat)));
+          const formattedCompare = FoxTheme.Currency.formatMoney(compare_at_price, moneyFormat);
+          compareAtPrice.forEach((item) => {
+            if (item.closest('s')) item.innerHTML = formattedCompare;
+          });
         }
 
         if (unit_price_measurement && unitPrice) {
@@ -243,16 +253,33 @@ if (!customElements.get('sticky-atc-bar')) {
 
       syncWithMainProductForm() {
         FoxTheme.pubsub.subscribe(FoxTheme.pubsub.PUB_SUB_EVENTS.variantChange, (event) => {
-          const isMainProduct = event.data.sectionId === this.mainProductInfo.dataset.section;
+          const mainSectionId =
+            this.mainProductInfo?.dataset?.originalSection || this.mainProductInfo?.dataset?.section;
+          const isMainProduct = event.data.sectionId === mainSectionId;
           if (!isMainProduct) return;
+
+          if (this.isUpdating) {
+            this.isUpdating = false;
+          }
+
           const variant = event.data.variant;
           const variantInput = this.querySelector('[name="id"]');
 
           this.currentVariant = variant;
-          variantInput.value = variant.id;
+          if (variant?.id != null) {
+            variantInput.value = String(variant.id);
+            this.selectedVariantId = String(variant.id);
+          }
 
           const pasMode = this.mainVariantSelects?.dataset?.wePdpPreisNachGrose === 'true';
-          if (!pasMode) {
+          if (pasMode && typeof this.mainProductInfo?.syncStickyPriceFromMain === 'function') {
+            this.mainProductInfo.syncStickyPriceFromMain();
+            const stickyRegular = this.querySelector('.f-price__regular .f-price-item--regular');
+            const stickyText = stickyRegular?.innerText?.trim().toLowerCase() || '';
+            if (variant && (stickyText.startsWith('ab') || !stickyText)) {
+              this.updatePrice();
+            }
+          } else if (variant) {
             this.updatePrice();
           }
 
@@ -263,7 +290,9 @@ if (!customElements.get('sticky-atc-bar')) {
             this.updateButton(!variant.available, FoxTheme.variantStrings.soldOut);
           }
 
-          this.updateQuantityInput();
+          if (variant) {
+            this.updateQuantityInput();
+          }
         });
       }
     }

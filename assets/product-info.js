@@ -270,13 +270,115 @@ if (!customElements.get('product-info')) {
       _applyRadioNameValue(name, value) {
         const esc = this._escapeAttrSelector(name);
         const inputs = document.querySelectorAll(`input[type="radio"][name="${esc}"]`);
+        const want = this.normOptionValue(value);
         for (const input of inputs) {
-          if (input.value !== value) continue;
+          if (this.normOptionValue(input.value) !== want) continue;
           if (input.disabled || input.classList.contains('disabled')) return false;
           input.checked = true;
           return true;
         }
         return false;
+      }
+
+      _getMainOptionInputGroups(vs) {
+        if (!vs) return [];
+        const groups = [];
+        vs.querySelectorAll(':scope > .product-form__input').forEach((wrap) => {
+          const hasOption =
+            wrap.querySelector('select[name^="options"]') ||
+            wrap.querySelector('input[type="radio"][data-option-value-id]') ||
+            wrap.querySelector(
+              'details.we-select-container[data-radio-group-name]:not([data-radio-group-name^="quantity-"])'
+            );
+          if (hasOption) groups.push(wrap);
+        });
+        return groups;
+      }
+
+      _getOptionGroupPosition(wrap) {
+        if (!wrap) return 0;
+        const probe =
+          wrap.querySelector('input[type="radio"][data-option-value-id]') ||
+          wrap.querySelector('select[name^="options"] option[data-option-value-id]');
+        const radioId = probe?.id || '';
+        const oMatch = radioId.match(/-o(\d+)-/i);
+        if (oMatch) return parseInt(oMatch[1], 10);
+        const posMatch = radioId.match(/-(\d+)-\d+$/);
+        if (posMatch) return parseInt(posMatch[1], 10);
+        const selectEl = wrap.querySelector('select[name^="options"]');
+        if (selectEl?.id) {
+          const selMatch = selectEl.id.match(/-(\d+)$/);
+          if (selMatch) return parseInt(selMatch[1], 10) + 1;
+        }
+        return 0;
+      }
+
+      _applyVariantOptionsToMainPicker(variant, vs) {
+        if (!variant || !vs) return;
+
+        const optionValues = Array.isArray(variant.options)
+          ? variant.options.filter((x) => x != null && String(x).length)
+          : [variant.option1, variant.option2, variant.option3].filter((x) => x != null && String(x).length);
+
+        for (const wrap of this._getMainOptionInputGroups(vs)) {
+          const pos = this._getOptionGroupPosition(wrap);
+          const val = pos > 0 ? optionValues[pos - 1] : optionValues[0];
+          if (val == null || !String(val).length) continue;
+
+          const selectEl = wrap.querySelector('select[name^="options"]');
+          if (selectEl) {
+            const opt = Array.from(selectEl.options).find(
+              (o) => this.normOptionValue(o.value) === this.normOptionValue(val)
+            );
+            if (opt) selectEl.value = opt.value;
+            continue;
+          }
+
+          const details = wrap.querySelector(
+            'details.we-select-container[data-radio-group-name]:not([data-radio-group-name^="quantity-"])'
+          );
+          const groupName = details?.dataset?.radioGroupName;
+          if (groupName) this._applyRadioNameValue(groupName, val);
+        }
+      }
+
+      /**
+       * Sticky ATC (native variant select) → main we-select / variant-selects.
+       */
+      syncMainPickerFromVariant(variant) {
+        if (!variant?.id) return false;
+        const vs = this.variantSelectors;
+        if (!vs) return false;
+
+        this._applyVariantOptionsToMainPicker(variant, vs);
+
+        this._forceSectionVariantId = String(variant.id);
+
+        if (typeof window.initWeDetailsSelects === 'function') {
+          window.initWeDetailsSelects(vs);
+        }
+
+        let changeTarget = null;
+        for (const wrap of this._getMainOptionInputGroups(vs)) {
+          const checked = this.findCheckedOptionRadio(wrap);
+          if (checked) changeTarget = checked;
+        }
+
+        if (!changeTarget) return false;
+
+        const target =
+          changeTarget.tagName === 'SELECT' && changeTarget.selectedOptions?.length
+            ? changeTarget.selectedOptions[0]
+            : changeTarget;
+
+        this.handleOptionValueChange({
+          data: {
+            event: { target: changeTarget },
+            target,
+            selectedOptionValues: vs.selectedOptionValues,
+          },
+        });
+        return true;
       }
 
       _restoreWePickerUiState(variantSelectsEl, state) {
@@ -325,15 +427,7 @@ if (!customElements.get('product-info')) {
         }
         if (!Array.isArray(variants) || !variants.length) return null;
 
-        let groups = Array.from(variantSelectsEl.children).filter(
-          (node) =>
-            node.nodeType === 1 &&
-            node.classList &&
-            node.classList.contains('product-form__input')
-        );
-        if (!groups.length) {
-          groups = Array.from(variantSelectsEl.querySelectorAll(':scope > .product-form__input'));
-        }
+        let groups = this._getMainOptionInputGroups(variantSelectsEl);
         if (!groups.length) return null;
 
         const selected = [];
@@ -404,16 +498,16 @@ if (!customElements.get('product-info')) {
       _getSelectedOptionValuesFromVariantSelects(vs) {
         if (!vs?.querySelectorAll) return [];
         const selected = [];
-        vs.querySelectorAll(':scope > .product-form__input').forEach((wrap) => {
+        for (const wrap of this._getMainOptionInputGroups(vs)) {
           const selectEl = wrap.querySelector('select[name^="options"]');
           if (selectEl) {
             const opt = selectEl.selectedOptions?.[0];
             selected.push(opt?.value ?? '');
-            return;
+            continue;
           }
           const checked = this.findCheckedOptionRadio(wrap);
           selected.push(checked?.value ?? '');
-        });
+        }
         return selected;
       }
 
@@ -475,7 +569,14 @@ if (!customElements.get('product-info')) {
       }
 
       _resolvePasPriceVariant(resolvedVariant, vs, variants) {
-        if (resolvedVariant?.price != null) return resolvedVariant;
+        if (resolvedVariant != null) {
+          const cents = resolvedVariant.price;
+          if (cents != null && !Number.isNaN(Number(cents))) {
+            return resolvedVariant;
+          }
+          const fromList = variants?.find((v) => String(v.id) === String(resolvedVariant.id));
+          if (fromList) return fromList;
+        }
         if (!vs || !variants?.length) return null;
 
         const sizeVal = this._getPasSizeSelectedValue(vs);
@@ -494,6 +595,27 @@ if (!customElements.get('product-info')) {
           variants.find((v) => matchesSize(v)) ||
           null
         );
+      }
+
+      _writePasPriceHtml(priceRoot, displayHtml) {
+        if (!priceRoot || displayHtml == null || !String(displayHtml).trim()) return;
+
+        const write = (el) => {
+          if (!el || el.closest('s')) return;
+          el.innerHTML = displayHtml;
+        };
+
+        write(priceRoot.querySelector('.f-price__regular > .f-price-item--regular'));
+        write(priceRoot.querySelector('.f-price__sale > .f-price-item--sale'));
+
+        priceRoot.querySelectorAll('.f-price-item--regular, .f-price-item--sale').forEach((el) => {
+          if (!el.closest('s')) write(el);
+        });
+      }
+
+      _getMinVariantPriceCents(variants) {
+        if (!variants?.length) return null;
+        return variants.reduce((min, v) => (v.price < min ? v.price : min), variants[0].price);
       }
 
       _formatPasPriceHtml(priceCents, useFromPrefix) {
@@ -527,35 +649,30 @@ if (!customElements.get('product-info')) {
 
         let priceCents;
         let compareCents = 0;
-        const useFrom = !sizeSelected || !variant;
+        let useFrom = !sizeSelected || !variant;
 
         if (useFrom) {
-          priceCents = variants.reduce(
-            (min, v) => (v.price < min ? v.price : min),
-            variants[0].price
-          );
+          priceCents = this._getMinVariantPriceCents(variants);
         } else {
           priceCents = variant.price;
           compareCents = variant.compare_at_price || 0;
         }
 
+        if (priceCents == null || Number.isNaN(Number(priceCents))) return;
+
         const displayHtml = this._formatPasPriceHtml(priceCents, useFrom);
+        if (!displayHtml.trim()) return;
+
         const onSale = !useFrom && compareCents > priceCents;
 
         priceRoot.classList.toggle('f-price--on-sale', onSale);
         if (!useFrom && variant) {
           priceRoot.classList.toggle('f-price--sold-out', variant.available === false);
+        } else {
+          priceRoot.classList.remove('f-price--sold-out');
         }
 
-        const setPrimaryPrice = (selector) => {
-          priceRoot.querySelectorAll(selector).forEach((el) => {
-            if (el.closest('s')) return;
-            el.innerHTML = displayHtml;
-          });
-        };
-
-        setPrimaryPrice('.f-price__regular .f-price-item--regular');
-        setPrimaryPrice('.f-price__sale .f-price-item--sale');
+        this._writePasPriceHtml(priceRoot, displayHtml);
 
         if (onSale) {
           const compareHtml = FoxTheme.Currency.formatMoney(compareCents, FoxTheme.settings.moneyFormat);
@@ -568,7 +685,13 @@ if (!customElements.get('product-info')) {
             });
         }
 
+        this._ensurePriceVisible();
         this._syncStickyAtcPriceFromMain();
+      }
+
+      _ensurePriceVisible() {
+        const price = document.getElementById(`price-${this.dataset.section}`);
+        if (price) price.classList.remove('hidden');
       }
 
       _updatePriceFromSectionHtml(html) {
@@ -580,6 +703,10 @@ if (!customElements.get('product-info')) {
         this._applyPasPriceDisplay(null);
       }
 
+      syncStickyPriceFromMain() {
+        this._syncStickyAtcPriceFromMain();
+      }
+
       _syncStickyAtcPriceFromMain() {
         const mainPrice = this.querySelector(`#price-${this.dataset.section} .f-price`);
         const stickyPrice = document.querySelector('sticky-atc-bar .f-price');
@@ -589,12 +716,14 @@ if (!customElements.get('product-info')) {
         stickyPrice.classList.toggle('f-price--sold-out', mainPrice.classList.contains('f-price--sold-out'));
         const mainRegular = mainPrice.querySelector('.f-price__regular .f-price-item--regular');
         const stickyRegular = stickyPrice.querySelector('.f-price__regular .f-price-item--regular');
-        if (mainRegular && stickyRegular) {
+        const mainRegularText = mainRegular?.innerHTML?.trim() || '';
+        if (mainRegular && stickyRegular && mainRegularText) {
           stickyRegular.innerHTML = mainRegular.innerHTML;
         }
         const mainSale = mainPrice.querySelector('.f-price__sale .f-price-item--sale');
         const stickySale = stickyPrice.querySelector('.f-price__sale .f-price-item--sale');
-        if (mainSale && stickySale) {
+        const mainSaleText = mainSale?.innerHTML?.trim() || '';
+        if (mainSale && stickySale && mainSaleText) {
           stickySale.innerHTML = mainSale.innerHTML;
         }
         const mainCompare = mainPrice.querySelector('.f-price__sale .f-price-item--regular s, .f-price__regular .f-price-item--regular s');
@@ -757,7 +886,9 @@ if (!customElements.get('product-info')) {
         const shouldFetchFullPage = this.dataset.updateUrl === 'true' && shouldSwapProduct;
         const viewMode = this.dataset.viewMode || 'main-product';
 
-        const variantIdForFetch = this.resolveVariantIdFromSelectedOptions(this, variantSelectsEl);
+        const variantIdForFetch =
+          this._forceSectionVariantId || this.resolveVariantIdFromSelectedOptions(this, variantSelectsEl);
+        this._forceSectionVariantId = null;
         this._pendingSectionVariantId = variantIdForFetch;
 
         if (!isEmbeddedPicker && variantIdForFetch == null) {
@@ -920,11 +1051,13 @@ if (!customElements.get('product-info')) {
               (variantSelectsId && document.getElementById(variantSelectsId)) ||
               (!variantSelectsId && this.variantSelectors);
             this._updatePriceFromSectionHtml(html);
-            if (
+            this._ensurePriceVisible();
+            const pasMode = vsIncomplete && this._isPasPriceMode(vsIncomplete);
+            const incomplete =
               vsIncomplete &&
               !this._isPdpSetBundleForm() &&
-              this._isVariantSelectionIncomplete(vsIncomplete)
-            ) {
+              this._isVariantSelectionIncomplete(vsIncomplete);
+            if (pasMode || incomplete) {
               this.setIncompleteVariantPrompt();
             } else {
               this.setUnavailable();
@@ -950,6 +1083,7 @@ if (!customElements.get('product-info')) {
           updateSourceFromDestination('PricePerItem');
           updateSourceFromDestination('Volume');
           this._applyPasPriceDisplay(variant);
+          this._ensurePriceVisible();
 
           this.updateQuantityRules(this.sectionId, this.productId, html);
           updateSourceFromDestination('QuantityRules');
@@ -1322,6 +1456,7 @@ if (!customElements.get('product-info')) {
           updateText: Boolean(hint),
           text: hint,
         });
+        this._ensurePriceVisible();
         const stickyAtcBar = document.getElementById(`shopify-section-sticky-atc-bar`);
         if (stickyAtcBar) stickyAtcBar.classList.remove('hidden');
       }

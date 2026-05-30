@@ -243,6 +243,13 @@
         if pdp_set_line_ui_pending and is_color_swatch_picker == false
           assign we_option_skip_selected = true
         endif
+        if we_pas_size_option_position > 0
+          unless request.query_string contains 'variant=' or pdp_ov_for_url != blank
+            if option.position != we_pas_size_option_position
+              assign we_option_skip_selected = true
+            endif
+          endunless
+        endif
 
         assign show_selected_value_in_label = false
         if picker_type == 'swatch' or picker_type == 'color' or picker_type == 'button'

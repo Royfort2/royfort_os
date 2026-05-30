@@ -79,16 +79,29 @@
         <div class="sticky-atc-bar__actions">
           <div class="select sticky-atc-bar__variant-select-wrap{% if product.has_only_default_variant %} hidden{% endif %}">
           <span class="sticky-atc-bar__variant-width" aria-hidden="true">{{ sticky_variant_label | escape }}</span>
+      {%- liquid
+        assign we_sticky_pas_mode = false
+        if product.metafields.custom.we_pdp_preis_nach_grose == true
+          assign we_sticky_pas_mode = true
+        endif
+      -%}
           <select
             name="id"
             class="sticky-atc-bar__variant-select form-control form-control--select"
           >
+            {%- if we_sticky_pas_mode -%}
+              <option value="" selected disabled>
+                {{- 'products.product.select_variant_placeholder' | t -}}
+              </option>
+            {%- endif -%}
             {%- for variant in product.variants -%}
               {%- liquid
                 assign selected = false
-                if variant.id == product.selected_or_first_available_variant.id
-                  assign selected = true
-                endif
+                unless we_sticky_pas_mode
+                  if variant.id == product.selected_or_first_available_variant.id
+                    assign selected = true
+                  endif
+                endunless
               -%}
               <option
                 value="{{ variant.id }}"
