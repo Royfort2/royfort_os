@@ -72,7 +72,6 @@ body.sticky-atc-bar-enabled {
   align-items: center;
   justify-content: flex-end;
   min-width: 0;
-  overflow: hidden;
 }
 
 .sticky-atc-bar__actions {
@@ -84,7 +83,6 @@ body.sticky-atc-bar-enabled {
   flex: 1 1 0;
   min-width: 0;
   max-width: 100%;
-  overflow: hidden;
 }
 
 .sticky-atc-bar .form-control {
@@ -114,6 +112,19 @@ body.sticky-atc-bar-enabled {
 .sticky-atc-bar .quantity {
   flex: 0 0 auto;
   width: 12.5rem;
+  height: var(--buttons-height);
+  min-height: var(--buttons-height);
+}
+
+.sticky-atc-bar .quantity__input {
+  min-height: 100%;
+  line-height: calc(var(--buttons-height) - 2px);
+}
+
+.sticky-atc-bar .quantity__button {
+  top: 0;
+  bottom: 0;
+  height: auto;
 }
 
 .sticky-atc-bar__submit-wrap {
