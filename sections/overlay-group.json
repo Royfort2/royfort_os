@@ -20,7 +20,9 @@
         "show_free_shipping_goal": false,
         "enable_cart_recommendations": true,
         "cart_recommendations_heading": "Das könnte Ihnen gefallen",
-        "cart_recommendations_limit": 8
+        "cart_recommendations_limit": 8,
+        "cart_combined_render_badges": true,
+        "cart_combined_badges_global_only": false
       }
     },
     "search-drawer": {
@@ -44,7 +46,6 @@
           "type": "we_variant_picker",
           "settings": {
             "set_picker_title": "Im selben Set",
-            "select_variant_text": "auswählen",
             "picker_type": "custom_dropdown",
             "swatch_type": "color_swatch",
             "button_style": "standard",

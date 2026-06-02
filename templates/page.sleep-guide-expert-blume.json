@@ -305,6 +305,7 @@
           "type": "column",
           "settings": {
             "show_image": false,
+            "video_url": "",
             "video_autoplay": false,
             "video_loop": false,
             "video_muted": true,
@@ -324,6 +325,7 @@
           "type": "column",
           "settings": {
             "show_image": false,
+            "video_url": "",
             "video_autoplay": false,
             "video_loop": false,
             "video_muted": true,
