@@ -16,7 +16,6 @@
       "blocks": {
         "gsc_instagram_feed_instafeed_fmJBXn": {
           "type": "shopify://apps/gsc-instagram-feed/blocks/instafeed/96970b1b-b770-454f-b16b-51f47e1aa4ed",
-          "disabled": true,
           "settings": {
             "widget_id": "GSC-oNuncEGpZFKvKBt"
           }
@@ -25,9 +24,8 @@
       "block_order": [
         "gsc_instagram_feed_instafeed_fmJBXn"
       ],
-      "disabled": true,
       "settings": {
-        "include_margins": true,
+        "include_margins": false,
         "padding_top": 0,
         "padding_bottom": 0,
         "custom_class": ""
