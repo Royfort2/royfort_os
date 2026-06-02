@@ -25,6 +25,7 @@
       "block_order": [
         "gsc_instagram_feed_instafeed_fmJBXn"
       ],
+      "disabled": true,
       "settings": {
         "include_margins": true,
         "padding_top": 0,
@@ -34,7 +35,6 @@
     },
     "hp_insta_rBXWtX": {
       "type": "hp-insta",
-      "disabled": true,
       "name": "Insta Gallery Section",
       "settings": {
         "feed_title": "Inspiration auf Instagram",
