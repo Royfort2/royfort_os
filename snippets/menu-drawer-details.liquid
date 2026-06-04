@@ -1,12 +1,4 @@
 {%- liquid
-  assign parent_link_handle = link.title | handle
-  assign mobile_view_all_menu = linklists['ws-mobile-alle-ansehen']
-  assign desktop_alle_bettwaesche_menu = linklists['ws-desktop-alle-bettwaesche']
-  assign is_bettwaesche_menu = false
-  if link.handle == 'bettwaesche' or link.handle == 'bettwasche' or parent_link_handle == 'bettwaesche' or parent_link_handle == 'bettwasche'
-    assign is_bettwaesche_menu = true
-  endif
-
   case block.type
     when 'promotion_banner'
       assign promo_images = block.settings.promo_image_1 | append: ',' | append: block.settings.promo_image_2 | append: ',' | append: block.settings.promo_image_3 | append: ',' | append: block.settings.promo_image_4 | append: ',' | append: block.settings.promo_image_5
@@ -38,20 +30,6 @@
       {{ link.title | escape }}
     </button>
     <ul class="flex flex-col h-full v-scrollable" data-parent role="list">
-      {%- if is_bettwaesche_menu -%}
-        {%- if mobile_view_all_menu != blank and mobile_view_all_menu.links.size > 0 -%}
-          {%- for view_all_link in mobile_view_all_menu.links -%}
-            <li class="menu-drawer__item menu-drawer__item--view-all lg:hidden">
-              <a
-                href="{{ view_all_link.url }}"
-                class="menu-drawer__item-link menu-drawer__item-link--view-all flex items-center justify-between"
-              >
-                {{- view_all_link.title | escape -}}
-              </a>
-            </li>
-          {%- endfor -%}
-        {%- endif -%}
-      {%- endif -%}
       {%- if collections != blank and block.type == 'product_list' and enable_mega_menu -%}
         <div class="menu-drawer__item" level="child">
           <ul role="list" class="grid gap-3">
@@ -88,36 +66,14 @@
               >
                 <ul class="menu-drawer__accordion-list flex flex-col w-full" role="list">
                   {%- for grandchildlink in childlink.links -%}
-                    {%- liquid
-                      assign grandchild_handle = grandchildlink.title | handle
-                      assign is_alle_bettwaesche_link = false
-                      if grandchild_handle == 'alle-bettwaesche' or grandchild_handle == 'alle-bettwasche'
-                        assign is_alle_bettwaesche_link = true
-                      endif
-                    -%}
-                    {%- if is_bettwaesche_menu and is_alle_bettwaesche_link -%}
-                      {%- if desktop_alle_bettwaesche_menu != blank and desktop_alle_bettwaesche_menu.links.size > 0 -%}
-                        {%- for desktop_link in desktop_alle_bettwaesche_menu.links -%}
-                          <li class="menu-drawer__item menu-drawer__item--grandchild menu-drawer__item--grandchild-desktop hidden lg:block">
-                            <a
-                              href="{{ desktop_link.url }}"
-                              class="menu-drawer__item-link menu-drawer__item-link--grandchild flex items-center justify-between"
-                            >
-                              {{- desktop_link.title | escape -}}
-                            </a>
-                          </li>
-                        {%- endfor -%}
-                      {%- endif -%}
-                    {%- else -%}
-                      <li class="menu-drawer__item menu-drawer__item--grandchild">
-                        <a
-                          href="{{ grandchildlink.url }}"
-                          class="menu-drawer__item-link menu-drawer__item-link--grandchild flex items-center justify-between"
-                        >
-                          {{- grandchildlink.title | escape -}}
-                        </a>
-                      </li>
-                    {%- endif -%}
+                    <li class="menu-drawer__item menu-drawer__item--grandchild">
+                      <a
+                        href="{{ grandchildlink.url }}"
+                        class="menu-drawer__item-link menu-drawer__item-link--grandchild flex items-center justify-between"
+                      >
+                        {{- grandchildlink.title | escape -}}
+                      </a>
+                    </li>
                   {%- endfor -%}
                 </ul>
               </div>

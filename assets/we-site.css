@@ -1652,9 +1652,3 @@ swym-storefront-layout-notification {
         display: flex !important;
     }
 }
-
-@media (max-width: 1023.98px) {
-    .menu-drawer__item--grandchild-desktop {
-        display: none !important;
-    }
-}
