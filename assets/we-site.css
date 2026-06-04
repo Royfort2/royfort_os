@@ -1335,6 +1335,35 @@ layout-switcher .btn::after {
 }
 
 
+/* Swym header icon — anchor in right icon group (locale-safe; avoids left overflow slot). */
+.header__icons--left .swym-advanced-header-icon,
+.header__icons--left .swym-header-icon-wrapper {
+    display: none !important;
+}
+
+.header__icons--right .swym-advanced-header-icon {
+    width: var(--header-icon-size);
+    height: var(--header-icon-size);
+    flex-shrink: 0;
+}
+
+.header__icons--right .swym-header-icon-count-bubble {
+    position: absolute;
+    top: 0.8rem;
+    inset-inline-end: 0.6rem;
+    min-width: 1.8rem;
+    height: 1.8rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgb(var(--color-button));
+    color: rgb(var(--color-button-text));
+    font-size: 1rem;
+    line-height: 1;
+    pointer-events: none;
+}
+
 /* Wishlist Plus SWYM */
 swym-storefront-layout-as-drawer .swym-storefront-layout-layout {
     border-radius: 0 !important;
