@@ -124,7 +124,7 @@
         "container": "full",
         "color_scheme": "scheme-1",
         "menu": "ws-navigation",
-        "menu_mobile": "",
+        "menu_mobile": "ws-navigation-mobile",
         "drawer_bottom_menu": "we-drawer-bottom-menu",
         "header_layout": "left-center",
         "sticky_header": "on-scroll-up",
