@@ -67,21 +67,22 @@
           "type": "image_card",
           "settings": {
             "color_scheme": "scheme-3",
-            "image": "shopify://shop_images/Website_Images_Template_5.png",
+            "image": "shopify://shop_images/Homepage_Hero_AB3.jpg",
             "image_ratio": "4/3",
             "image_overlay_opacity": 10,
-            "heading": "Bettwäsche für besten Schlaf",
+            "heading": "ATELIER Betten",
             "heading_size": "h3",
             "heading_highlight_style": "none",
-            "subheading": "",
-            "description": "<p>Traumhafte Bettwäsche für den Sommer – Leinen, Musselin und Baumwolle. Höchste Qualität und beste Verarbeitung Made in Portugal.</p>",
+            "subheading": "NEU",
+            "description": "<p>Zeitloses Design, feinste Materialien und echte Handwerkskunst machen jedes Bett zu einem Ort außergewöhnlichen Schlafkomforts. Für ein Schlafgefühl, das man nicht nur spürt, sondern erlebt.</p>",
             "button_label": "Jetzt Entdecken",
             "button_style": "btn--underline",
             "content_position": "bottom-left",
             "content_alignment": "left",
             "content_spacing": "small",
-            "card_link": "",
+            "card_link": "shopify://collections/matratzen",
             "color_scheme_mobile": "scheme-6",
+            "image_mobile": "shopify://shop_images/Homepage_Hero_AB3.jpg",
             "show_text_below": true,
             "content_alignment_mobile": "left",
             "width": "50%",
@@ -93,20 +94,20 @@
           "type": "image_card",
           "settings": {
             "color_scheme": "scheme-3",
-            "image": "shopify://shop_images/blog_image3.jpg",
+            "image": "shopify://shop_images/Homepage_Hero_AB4.jpg",
             "image_ratio": "4/3",
             "image_overlay_opacity": 10,
-            "heading": "Die Atelier Kollektion",
+            "heading": "Ägyptische Baumwolle Bettwäsche",
             "heading_size": "h3",
             "heading_highlight_style": "none",
-            "subheading": "",
-            "description": "<p>Betten & Matratzen gefertigt aus feinsten Materialien und geprägt von klarem Design – für ein Schlafgefühl, das man nicht nur spürt, sondern erlebt.</p>",
+            "subheading": "NEU",
+            "description": "<p>Gefertigt aus zertifizierter ägyptischer Baumwolle vereint diese Bettwäsche außergewöhnliche Weichheit mit einem spürbar hochwertigen Griff. Die langen Fasern sorgen für besondere Langlebigkeit und ein luxuriöses Schlafgefühl – Nacht für Nacht.</p>",
             "button_label": "Jetzt entdecken",
             "button_style": "btn--underline",
             "content_position": "bottom-left",
             "content_alignment": "left",
             "content_spacing": "small",
-            "card_link": "",
+            "card_link": "shopify://collections/aegyptische-baumwolle",
             "color_scheme_mobile": "scheme-6",
             "show_text_below": true,
             "content_alignment_mobile": "left",
@@ -143,6 +144,59 @@
         "padding_bottom": 16,
         "show_section_divider": false,
         "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "image_with_text_overlay_CBrdFi": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading_wMDqdc": {
+          "type": "heading",
+          "settings": {
+            "heading": "NEU: ATELIER Betten",
+            "heading_size": "h1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_CqrcgY": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Zeitloses Design, feinste Materialien und echte Handwerkskunst machen jedes Bett zu einem Ort außergewöhnlichen Schlafkomforts. Für ein Schlafgefühl, das man nicht nur spürt, sondern erlebt.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "button_YCg7kN": {
+          "type": "button",
+          "settings": {
+            "button_label": "Jetzt entdecken",
+            "button_link": "shopify://collections/royfort-all-products-collection",
+            "button_style": "btn--underline"
+          }
+        }
+      },
+      "block_order": [
+        "heading_wMDqdc",
+        "text_CqrcgY",
+        "button_YCg7kN"
+      ],
+      "disabled": true,
+      "name": "t:sections.image-with-text-overlay.name",
+      "settings": {
+        "container": "full",
+        "image": "shopify://shop_images/Homepage_Hero_AB.jpg",
+        "desktop_height": "extra-large",
+        "overlay_opacity": 10,
+        "use_custom_overlay": false,
+        "custom_overlay": "linear-gradient(201deg, rgba(23, 23, 23, 0.00) 0.08%, rgba(23, 23, 23, 0.75) 100.09%)",
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "color_scheme": "scheme-inverse",
+        "content_position": "bottom-left",
+        "content_alignment": "left",
+        "image_mobile": "shopify://shop_images/Homepage_Hero_AB2_mobil.jpg",
+        "mobile_height": "large",
+        "padding_top": 0,
+        "padding_bottom": 16,
         "custom_class": ""
       }
     },
@@ -1108,6 +1162,7 @@
   "order": [
     "image_with_text_overlay_nrqpPE",
     "custom_content_kJfyKb",
+    "image_with_text_overlay_CBrdFi",
     "video_hero_qjxhUU",
     "custom_content_ArQKiM",
     "custom_content_Bx7iBY",
