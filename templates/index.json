@@ -41,6 +41,7 @@
         "text_DGYfwe",
         "button_HHyGXk"
       ],
+      "disabled": true,
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
@@ -54,6 +55,58 @@
         "color_scheme": "",
         "content_position": "bottom-left",
         "content_alignment": "left",
+        "mobile_height": "large",
+        "padding_top": 0,
+        "padding_bottom": 16,
+        "custom_class": ""
+      }
+    },
+    "image_with_text_overlay_CBrdFi": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading_wMDqdc": {
+          "type": "heading",
+          "settings": {
+            "heading": "NEU: ATELIER Betten",
+            "heading_size": "h1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_CqrcgY": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Zeitloses Design, feinste Materialien und echte Handwerkskunst machen jedes Bett zu einem Ort außergewöhnlichen Schlafkomforts. Für ein Schlafgefühl, das man nicht nur spürt, sondern erlebt.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "button_YCg7kN": {
+          "type": "button",
+          "settings": {
+            "button_label": "Jetzt entdecken",
+            "button_link": "shopify://collections/royfort-all-products-collection",
+            "button_style": "btn--underline"
+          }
+        }
+      },
+      "block_order": [
+        "heading_wMDqdc",
+        "text_CqrcgY",
+        "button_YCg7kN"
+      ],
+      "name": "t:sections.image-with-text-overlay.name",
+      "settings": {
+        "container": "full",
+        "image": "shopify://shop_images/Homepage_Hero_AB.jpg",
+        "desktop_height": "extra-large",
+        "overlay_opacity": 10,
+        "use_custom_overlay": false,
+        "custom_overlay": "linear-gradient(201deg, rgba(23, 23, 23, 0.00) 0.08%, rgba(23, 23, 23, 0.75) 100.09%)",
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "color_scheme": "scheme-inverse",
+        "content_position": "bottom-left",
+        "content_alignment": "left",
+        "image_mobile": "shopify://shop_images/Homepage_Hero_AB2_mobil.jpg",
         "mobile_height": "large",
         "padding_top": 0,
         "padding_bottom": 16,
@@ -121,6 +174,7 @@
         "image_card_mQPzQP",
         "image_card_CkWQ4E"
       ],
+      "disabled": true,
       "custom_css": [
         ".f-grid--row-gap-extra-small {--row-gap: 1rem; --row-gap-mobile: 0rem;}",
         "@media (max-width: 767px) {.card-media--small .content-overlay {--padding-y: 1.5rem; --padding-x: 1.5rem; } .section--padding {padding-block-end: 0rem; }}"
@@ -143,147 +197,6 @@
         "padding_bottom": 16,
         "show_section_divider": false,
         "divider_width": "fixed",
-        "custom_class": ""
-      }
-    },
-    "custom_content_nrncxp": {
-      "type": "custom-content",
-      "blocks": {
-        "image_card_XatwHF": {
-          "type": "image_card",
-          "settings": {
-            "color_scheme": "scheme-3",
-            "image": "shopify://shop_images/Homepage_Hero_AB3.jpg",
-            "image_ratio": "4/3",
-            "image_overlay_opacity": 10,
-            "heading": "ATELIER Betten",
-            "heading_size": "h3",
-            "heading_highlight_style": "none",
-            "subheading": "NEU",
-            "description": "<p>Zeitloses Design, feinste Materialien und echte Handwerkskunst machen jedes Bett zu einem Ort außergewöhnlichen Schlafkomforts. Für ein Schlafgefühl, das man nicht nur spürt, sondern erlebt.</p>",
-            "button_label": "Jetzt Entdecken",
-            "button_style": "btn--underline",
-            "content_position": "bottom-left",
-            "content_alignment": "left",
-            "content_spacing": "small",
-            "card_link": "shopify://collections/matratzen",
-            "color_scheme_mobile": "scheme-6",
-            "image_mobile": "shopify://shop_images/Homepage_Hero_AB3.jpg",
-            "show_text_below": true,
-            "content_alignment_mobile": "left",
-            "width": "50%",
-            "alignment": "center",
-            "block_custom_class": ""
-          }
-        },
-        "image_card_EyPf8N": {
-          "type": "image_card",
-          "disabled": true,
-          "settings": {
-            "color_scheme": "scheme-3",
-            "image": "shopify://shop_images/Homepage_Hero_AB4.jpg",
-            "image_ratio": "4/3",
-            "image_overlay_opacity": 10,
-            "heading": "Ägyptische Baumwolle Bettwäsche",
-            "heading_size": "h3",
-            "heading_highlight_style": "none",
-            "subheading": "NEU",
-            "description": "<p>Gefertigt aus zertifizierter ägyptischer Baumwolle vereint diese Bettwäsche außergewöhnliche Weichheit mit einem spürbar hochwertigen Griff. Die langen Fasern sorgen für besondere Langlebigkeit und ein luxuriöses Schlafgefühl – Nacht für Nacht.</p>",
-            "button_label": "Jetzt entdecken",
-            "button_style": "btn--underline",
-            "content_position": "bottom-left",
-            "content_alignment": "left",
-            "content_spacing": "small",
-            "card_link": "shopify://collections/aegyptische-baumwolle",
-            "color_scheme_mobile": "scheme-6",
-            "show_text_below": true,
-            "content_alignment_mobile": "left",
-            "width": "50%",
-            "alignment": "center",
-            "block_custom_class": ""
-          }
-        }
-      },
-      "block_order": [
-        "image_card_XatwHF",
-        "image_card_EyPf8N"
-      ],
-      "disabled": true,
-      "custom_css": [
-        ".f-grid--row-gap-extra-small {--row-gap: 1rem; --row-gap-mobile: 0rem;}",
-        "@media (max-width: 767px) {.card-media--small .content-overlay {--padding-y: 1.5rem; --padding-x: 1.5rem; } .section--padding {padding-block-end: 0rem; }}"
-      ],
-      "name": "Atelier / ",
-      "settings": {
-        "container": "full",
-        "color_scheme": "",
-        "enable_sticky_column": false,
-        "heading": "",
-        "heading_size": "h1",
-        "heading_highlight_style": "none",
-        "subheading": "",
-        "description": "",
-        "column_gap": "none",
-        "row_gap": "extra-small",
-        "swipe_on_mobile": false,
-        "columns_mobile": "1",
-        "padding_top": 0,
-        "padding_bottom": 16,
-        "show_section_divider": false,
-        "divider_width": "fixed",
-        "custom_class": ""
-      }
-    },
-    "image_with_text_overlay_CBrdFi": {
-      "type": "image-with-text-overlay",
-      "blocks": {
-        "heading_wMDqdc": {
-          "type": "heading",
-          "settings": {
-            "heading": "NEU: ATELIER Betten",
-            "heading_size": "h1",
-            "heading_highlight_style": "none"
-          }
-        },
-        "text_CqrcgY": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Zeitloses Design, feinste Materialien und echte Handwerkskunst machen jedes Bett zu einem Ort außergewöhnlichen Schlafkomforts. Für ein Schlafgefühl, das man nicht nur spürt, sondern erlebt.</p>",
-            "text_size": "text-base"
-          }
-        },
-        "button_YCg7kN": {
-          "type": "button",
-          "settings": {
-            "button_label": "Jetzt entdecken",
-            "button_link": "shopify://collections/royfort-all-products-collection",
-            "button_style": "btn--underline"
-          }
-        }
-      },
-      "block_order": [
-        "heading_wMDqdc",
-        "text_CqrcgY",
-        "button_YCg7kN"
-      ],
-      "disabled": true,
-      "name": "t:sections.image-with-text-overlay.name",
-      "settings": {
-        "container": "full",
-        "image": "shopify://shop_images/Homepage_Hero_AB.jpg",
-        "desktop_height": "extra-large",
-        "overlay_opacity": 10,
-        "use_custom_overlay": false,
-        "custom_overlay": "linear-gradient(201deg, rgba(23, 23, 23, 0.00) 0.08%, rgba(23, 23, 23, 0.75) 100.09%)",
-        "enable_parallax": false,
-        "parallax_direction": "vertical",
-        "color_scheme": "scheme-inverse",
-        "content_position": "bottom-left",
-        "content_alignment": "left",
-        "image_mobile": "shopify://shop_images/Homepage_Hero_AB2_mobil.jpg",
-        "mobile_height": "large",
-        "padding_top": 0,
-        "padding_bottom": 16,
         "custom_class": ""
       }
     },
@@ -1248,9 +1161,8 @@
   },
   "order": [
     "image_with_text_overlay_nrqpPE",
-    "custom_content_kJfyKb",
-    "custom_content_nrncxp",
     "image_with_text_overlay_CBrdFi",
+    "custom_content_kJfyKb",
     "video_hero_qjxhUU",
     "custom_content_ArQKiM",
     "custom_content_Bx7iBY",
