@@ -96,7 +96,7 @@
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
-        "image": "shopify://shop_images/Homepage_Hero_AB.jpg",
+        "image": "shopify://shop_images/Agyptische_Baumwolle_Kollektion_Mobil.jpg",
         "desktop_height": "extra-large",
         "overlay_opacity": 10,
         "use_custom_overlay": false,
