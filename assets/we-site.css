@@ -1347,23 +1347,32 @@ layout-switcher .btn::after {
     flex-shrink: 0;
 }
 
+.header__icons--right .swym-header-icon-html {
+    position: unset !important;
+}
 .header__icons--right .swym-header-icon-count-bubble {
     position: absolute;
-    top: 0.8rem;
-    inset-inline-end: 0.6rem;
-    min-width: 1.8rem;
-    height: 1.8rem;
+    position: absolute;
+    top: -.2rem;
+    inset-inline-end: -1rem;
+    min-width: 2rem;
+    height: 2rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: rgb(var(--color-button));
+    background: #000;
     color: rgb(var(--color-button-text));
     font-size: 1rem;
     line-height: 1;
     pointer-events: none;
 }
-
+.header__icons--right .swym-header-icon-count {
+    font-size: 1.4rem !important;
+    font-weight: var(--font-body-weight-bolder) !important;
+    font-family: var(--font-body-family) !important;
+}
+ 
 /* Wishlist Plus SWYM */
 swym-storefront-layout-as-drawer .swym-storefront-layout-layout {
     border-radius: 0 !important;
