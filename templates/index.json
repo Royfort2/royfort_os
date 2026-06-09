@@ -83,7 +83,7 @@
           "type": "button",
           "settings": {
             "button_label": "Jetzt entdecken",
-            "button_link": "shopify://collections/royfort-all-products-collection",
+            "button_link": "shopify://collections/matratzen",
             "button_style": "btn--underline"
           }
         }
