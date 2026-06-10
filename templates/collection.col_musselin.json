@@ -55,6 +55,7 @@
     },
     "we_subcollections_N4HKQf": {
       "type": "we-subcollections",
+      "disabled": true,
       "name": "[we] Subcollections",
       "settings": {
         "subcollections": [
@@ -167,6 +168,7 @@
         "enable_filtering": true,
         "filter_type": "drawer",
         "enable_sorting": false,
+        "enable_sorting_only_on_mobile": false,
         "expand_filter_groups": "Availability, Price, Color, Size, Product type",
         "columns_mobile": "2",
         "padding_top": 16,
