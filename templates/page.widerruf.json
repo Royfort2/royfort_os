@@ -67,7 +67,7 @@
         "eu_widerruf_button_form_inline_gVHzGG": {
           "type": "shopify://apps/eu-widerruf-button/blocks/form-inline/019b2ca9-9838-7858-9694-3a8051afa76e",
           "settings": {
-            "show_heading": true,
+            "show_heading": false,
             "heading": "",
             "description": "-",
             "iframe_height": 500,
@@ -77,7 +77,9 @@
             "border_radius": "8px",
             "max_width": "700px",
             "show_order_lookup": true,
-            "require_order_number": true
+            "require_order_number": true,
+            "hide_order_notes": false,
+            "require_items": false
           }
         }
       },
