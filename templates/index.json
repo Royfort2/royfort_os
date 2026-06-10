@@ -41,7 +41,6 @@
         "text_DGYfwe",
         "button_HHyGXk"
       ],
-      "disabled": true,
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
@@ -93,6 +92,7 @@
         "text_CqrcgY",
         "button_YCg7kN"
       ],
+      "disabled": true,
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
@@ -174,7 +174,6 @@
         "image_card_mQPzQP",
         "image_card_CkWQ4E"
       ],
-      "disabled": true,
       "custom_css": [
         ".f-grid--row-gap-extra-small {--row-gap: 1rem; --row-gap-mobile: 0rem;}",
         "@media (max-width: 767px) {.card-media--small .content-overlay {--padding-y: 1.5rem; --padding-x: 1.5rem; } .section--padding {padding-block-end: 0rem; }}"
