@@ -60,7 +60,6 @@
           "type": "we_variant_picker",
           "settings": {
             "set_picker_title": "Im selben Set",
-            "select_variant_text": "auswählen",
             "set_zwischensumme_title": "ZWISCHENSUMME",
             "picker_type": "custom_dropdown",
             "swatch_type": "color_swatch",
@@ -370,7 +369,7 @@
       "settings": {
         "color_scheme": "scheme-8",
         "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
-        "video_ratio": "4/3",
+        "video_ratio": "16/9",
         "description": "",
         "enable_video_autoplay": false,
         "enable_video_looping": false,
@@ -378,8 +377,8 @@
         "enable_parallax": false,
         "parallax_direction": "vertical",
         "text_alignment": "left",
-        "padding_top": 50,
-        "padding_bottom": 50,
+        "padding_top": 0,
+        "padding_bottom": 0,
         "show_section_divider": false,
         "divider_width": "fixed",
         "custom_class": ""
