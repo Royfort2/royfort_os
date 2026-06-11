@@ -104,7 +104,8 @@
         "we_promo_NieM3F": {
           "type": "we_promo",
           "settings": {
-            "color_scheme": "scheme-1",
+            "color_scheme": "scheme-inverse",
+            "text_color": "",
             "video_url_desktop": "",
             "image_desktop": "shopify://shop_images/Sleep_Guide_LP_Hero_Banner_1568_x_738.jpg",
             "video_url_mobile": "",
@@ -124,7 +125,8 @@
         "we_promo_4nLeiw": {
           "type": "we_promo",
           "settings": {
-            "color_scheme": "scheme-1",
+            "color_scheme": "scheme-inverse",
+            "text_color": "",
             "video_desktop": "shopify://files/videos/ROYFORT_LEFKADA_08_FINAL.mp4",
             "video_url_desktop": "",
             "video_mobile": "shopify://files/videos/600x600 (1).mp4",
