@@ -110,7 +110,8 @@
         "we_promo_NieM3F": {
           "type": "we_promo",
           "settings": {
-            "color_scheme": "scheme-1",
+            "color_scheme": "scheme-inverse",
+            "text_color": "",
             "video_url_desktop": "",
             "image_desktop": "shopify://shop_images/Bettwasche_Set_Kollektion_Promo_2_1.jpg",
             "video_url_mobile": "",
@@ -132,6 +133,7 @@
           "disabled": true,
           "settings": {
             "color_scheme": "scheme-1",
+            "text_color": "",
             "video_desktop": "shopify://files/videos/ROYFORT_LEFKADA_08_FINAL.mp4",
             "video_url_desktop": "",
             "video_mobile": "shopify://files/videos/600x600 (1).mp4",
