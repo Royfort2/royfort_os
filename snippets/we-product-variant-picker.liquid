@@ -62,25 +62,28 @@
       assign pdp_qty_anchor_position = product.options_with_values.first.position
     endif
 
-    assign pdp_ov_for_url = ''
-    if request.query_string contains 'option_values='
-      assign pdp_ov_for_url = request.query_string | split: 'option_values=' | last | split: '&' | first | strip
+    capture we_pdp_ov_count_str
+      render 'we-pdp-url-option-value-count'
+    endcapture
+    assign we_pdp_ov_count = we_pdp_ov_count_str | strip | plus: 0
+    assign we_pdp_option_count = product.options_with_values.size
+    assign we_pdp_all_options_in_url = false
+    if request.query_string contains 'variant='
+      assign we_pdp_all_options_in_url = true
+    elsif we_pdp_ov_count >= we_pdp_option_count and we_pdp_option_count > 0
+      assign we_pdp_all_options_in_url = true
     endif
     assign pdp_qty_selector_pending = false
     if block.settings.picker_type == 'custom_dropdown' and product.has_only_default_variant == false
       assign pdp_qty_selector_pending = true
-      if pdp_ov_for_url != blank
-        assign pdp_qty_selector_pending = false
-      elsif request.query_string contains 'variant='
+      if we_pdp_all_options_in_url
         assign pdp_qty_selector_pending = false
       endif
     endif
     assign pdp_set_line_ui_pending = false
     if pdp_set_line_variant_from_bundle != blank
       assign pdp_set_line_ui_pending = true
-      if pdp_ov_for_url != blank
-        assign pdp_set_line_ui_pending = false
-      elsif request.query_string contains 'variant='
+      if we_pdp_all_options_in_url
         assign pdp_set_line_ui_pending = false
       endif
     endif
@@ -244,7 +247,7 @@
           assign we_option_skip_selected = true
         endif
         if we_pas_size_option_position > 0
-          unless request.query_string contains 'variant=' or pdp_ov_for_url != blank
+          unless request.query_string contains 'variant=' or we_pdp_all_options_in_url
             if option.position != we_pas_size_option_position
               assign we_option_skip_selected = true
             endif

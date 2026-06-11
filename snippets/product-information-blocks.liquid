@@ -190,10 +190,23 @@
           </div>
         {%- when 'price' -%}
           {%- liquid
+            capture we_pdp_ov_count_str
+              render 'we-pdp-url-option-value-count'
+            endcapture
+            assign we_pdp_ov_count = we_pdp_ov_count_str | strip | plus: 0
+            assign we_pdp_option_count = product.options_with_values.size
+            assign we_pdp_all_options_in_url = false
+            if request.query_string contains 'variant='
+              assign we_pdp_all_options_in_url = true
+            elsif we_pdp_ov_count >= we_pdp_option_count and we_pdp_option_count > 0
+              assign we_pdp_all_options_in_url = true
+            endif
             assign pdp_main_price_use_variant = true
             if product.metafields.custom.we_pdp_preis_nach_grose == true
               assign pdp_main_price_use_variant = false
             elsif product.selected_variant == blank and product.price_varies
+              assign pdp_main_price_use_variant = false
+            elsif we_pdp_all_options_in_url == false and product.price_varies
               assign pdp_main_price_use_variant = false
             endif
           -%}

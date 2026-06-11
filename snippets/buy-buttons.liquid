@@ -71,13 +71,14 @@
     assign pdp_qty_selector_pending = false
     if variant_picker_custom_dropdown and product.has_only_default_variant == false
       assign pdp_qty_selector_pending = true
-      assign ov_bb = ''
-      if request.query_string contains 'option_values='
-        assign ov_bb = request.query_string | split: 'option_values=' | last | split: '&' | first
-      endif
+      capture we_pdp_ov_count_str
+        render 'we-pdp-url-option-value-count'
+      endcapture
+      assign we_pdp_ov_count = we_pdp_ov_count_str | strip | plus: 0
+      assign we_pdp_option_count = product.options_with_values.size
       if request.query_string contains 'variant='
         assign pdp_qty_selector_pending = false
-      elsif ov_bb != blank
+      elsif we_pdp_ov_count >= we_pdp_option_count and we_pdp_option_count > 0
         assign pdp_qty_selector_pending = false
       endif
     endif

@@ -90,7 +90,14 @@
     if we_variant_qs_id != blank
       assign we_pas_show_fixed = true
     elsif we_pas_size_selected
-      assign we_pas_show_fixed = true
+      capture we_pdp_ov_count_str
+        render 'we-pdp-url-option-value-count'
+      endcapture
+      assign we_pdp_ov_count = we_pdp_ov_count_str | strip | plus: 0
+      assign we_pdp_option_count = product.options_with_values.size
+      if we_pdp_ov_count >= we_pdp_option_count and we_pdp_option_count > 0
+        assign we_pas_show_fixed = true
+      endif
     endif
 
     if we_pas_show_fixed

@@ -90,6 +90,7 @@ if (!customElements.get('product-info')) {
          * do not bubble through variant-selects.
          */
         document.addEventListener('change', this._onDocumentOptionChange, true);
+        document.addEventListener('change', this._onMainPdpQtyChange, true);
 
         this.initQuantityHandlers();
 
@@ -106,11 +107,15 @@ if (!customElements.get('product-info')) {
             }
           }
           this._syncFormLineItems();
+          if (!this._isPdpSetBundleForm()) {
+            this._syncMainPdpPriceDisplay(this.currentVariant);
+          }
         });
       }
 
       disconnectedCallback() {
         document.removeEventListener('change', this._onDocumentOptionChange, true);
+        document.removeEventListener('change', this._onMainPdpQtyChange, true);
         this.cartUpdateUnsubscriber?.();
       }
 
@@ -626,48 +631,162 @@ if (!customElements.get('product-info')) {
         return tpl.replace('[price]', formatted).replace(/\{\{\s*price\s*\}\}/g, formatted);
       }
 
+      _getMinPriceForPartialSelection(vs, variants) {
+        if (!variants?.length) return null;
+        if (!vs) return this._getMinVariantPriceCents(variants);
+
+        const selected = this._getSelectedOptionValuesFromVariantSelects(vs);
+        const hasAny = selected.some((v) => this.normOptionValue(v));
+        if (!hasAny) return this._getMinVariantPriceCents(variants);
+
+        const matching = variants.filter((v) => {
+          for (let i = 0; i < selected.length; i++) {
+            const sel = this.normOptionValue(selected[i]);
+            if (!sel) continue;
+            const opt = v[`option${i + 1}`] ?? v.options?.[i] ?? '';
+            if (this.normOptionValue(opt) !== sel) return false;
+          }
+          return true;
+        });
+
+        if (!matching.length) return this._getMinVariantPriceCents(variants);
+        return this._getMinVariantPriceCents(matching);
+      }
+
+      _resolveVariantFromDom(vs, variants) {
+        const id = this.resolveVariantIdFromSelectedOptions(this, vs);
+        if (!id) return null;
+        return variants.find((v) => String(v.id) === String(id)) || null;
+      }
+
+      _getMainInlineQuantity() {
+        const vs = this.variantSelectors;
+        if (!vs) return 1;
+        const qtyRoot = vs.querySelector('.we-quantity-selector');
+        if (!qtyRoot) return 1;
+
+        const pid = vs.getAttribute('data-product-id') || this.productId;
+        let checked = qtyRoot.querySelector('input[type="radio"][data-we-qty-selector]:checked');
+        if (!checked && pid) {
+          const esc =
+            typeof CSS !== 'undefined' && CSS.escape
+              ? CSS.escape(`quantity-${pid}`)
+              : `quantity-${pid}`;
+          checked = document.querySelector(
+            `input[type="radio"][name="${esc}"]:checked[data-we-qty-selector]`
+          );
+        }
+        if (checked) {
+          const n = parseInt(checked.value, 10);
+          return Number.isFinite(n) && n > 0 ? n : 1;
+        }
+
+        const summary = qtyRoot.querySelector('.we-select-container__summary');
+        const t = summary?.textContent?.trim();
+        if (t) {
+          const m = t.match(/^(\d+)/);
+          if (m) {
+            const n = parseInt(m[1], 10);
+            if (Number.isFinite(n) && n > 0) return n;
+          }
+        }
+        return 1;
+      }
+
+      _onMainPdpQtyChange = (e) => {
+        if (this._isPdpSetBundleForm()) return;
+        const t = e.target;
+        if (!t) return;
+
+        let isQty = t.hasAttribute?.('data-we-qty-selector');
+        if (!isQty && !t.closest?.('.we-quantity-selector')) return;
+
+        const vs = this.variantSelectors;
+        if (!vs) return;
+        const pickerPid = vs.dataset?.productId || this.productId;
+        if (String(pickerPid) !== String(this.productId)) return;
+
+        if (t.type === 'radio' && t.hasAttribute('data-we-qty-selector')) {
+          const nm = t.getAttribute('name') || '';
+          const m = /^quantity-(\d+)$/.exec(nm);
+          if (m && String(m[1]) !== String(this.productId)) return;
+        }
+
+        this._syncMainPdpPriceDisplay(this.currentVariant);
+      };
+
       /**
        * PDP “Preis nach Größe”: Section Rendering API does not expose option_values in Liquid
        * (request.query_string is empty). Apply ab vs. fixed price from picker state + variant JSON.
        */
       _applyPasPriceDisplay(resolvedVariant) {
-        const vs = this.variantSelectors;
-        if (!this._isPasPriceMode(vs)) return;
+        this._syncMainPdpPriceDisplay(resolvedVariant);
+      }
 
+      /**
+       * Non-set PDP: keep #price in sync with resolved variant, partial selection (“from”), and inline qty.
+       */
+      _syncMainPdpPriceDisplay(resolvedVariant) {
+        if (this._isPdpSetBundleForm()) return;
+
+        const vs = this.variantSelectors;
         const variants = this._getMainProductVariantsFromDom();
         if (!variants?.length) return;
 
         const priceRoot = this.querySelector(`#price-${this.dataset.section} .f-price`);
         if (!priceRoot) return;
 
-        const sizeSelected = this._isPasSizeSelected(vs);
+        const qty = this._getMainInlineQuantity();
+        const incomplete = vs && this._isVariantSelectionIncomplete(vs);
+        const pasMode = vs && this._isPasPriceMode(vs);
 
-        let variant = null;
-        if (sizeSelected) {
-          variant = this._resolvePasPriceVariant(resolvedVariant, vs, variants);
-        }
+        let unitPriceCents;
+        let unitCompareCents = 0;
+        let useFrom = false;
+        let resolvedForAvailability = null;
 
-        let priceCents;
-        let compareCents = 0;
-        let useFrom = !sizeSelected || !variant;
-
-        if (useFrom) {
-          priceCents = this._getMinVariantPriceCents(variants);
+        if (pasMode) {
+          const sizeSelected = this._isPasSizeSelected(vs);
+          let variant = null;
+          if (sizeSelected && !incomplete) {
+            variant = this._resolvePasPriceVariant(resolvedVariant, vs, variants);
+          }
+          useFrom = incomplete || !sizeSelected || !variant;
+          if (useFrom) {
+            unitPriceCents = incomplete
+              ? this._getMinPriceForPartialSelection(vs, variants)
+              : this._getMinVariantPriceCents(variants);
+          } else {
+            unitPriceCents = variant.price;
+            unitCompareCents = variant.compare_at_price || 0;
+            resolvedForAvailability = variant;
+          }
+        } else if (incomplete) {
+          useFrom = true;
+          unitPriceCents = this._getMinPriceForPartialSelection(vs, variants);
         } else {
-          priceCents = variant.price;
-          compareCents = variant.compare_at_price || 0;
+          let variant = resolvedVariant;
+          if (!variant?.price) {
+            variant = this._resolveVariantFromDom(vs, variants);
+          }
+          if (!variant) return;
+          unitPriceCents = variant.price;
+          unitCompareCents = variant.compare_at_price || 0;
+          resolvedForAvailability = variant;
         }
 
-        if (priceCents == null || Number.isNaN(Number(priceCents))) return;
+        if (unitPriceCents == null || Number.isNaN(Number(unitPriceCents))) return;
 
+        const priceCents = unitPriceCents * qty;
+        const compareCents = unitCompareCents * qty;
         const displayHtml = this._formatPasPriceHtml(priceCents, useFrom);
         if (!displayHtml.trim()) return;
 
         const onSale = !useFrom && compareCents > priceCents;
 
         priceRoot.classList.toggle('f-price--on-sale', onSale);
-        if (!useFrom && variant) {
-          priceRoot.classList.toggle('f-price--sold-out', variant.available === false);
+        if (!useFrom && resolvedForAvailability) {
+          priceRoot.classList.toggle('f-price--sold-out', resolvedForAvailability.available === false);
         } else {
           priceRoot.classList.remove('f-price--sold-out');
         }
@@ -700,7 +819,7 @@ if (!customElements.get('product-info')) {
         if (!source || !destination) return;
         destination.innerHTML = source.innerHTML;
         destination.classList.toggle('hidden', source.classList.contains('hidden'));
-        this._applyPasPriceDisplay(null);
+        this._syncMainPdpPriceDisplay(null);
       }
 
       syncStickyPriceFromMain() {
@@ -998,6 +1117,18 @@ if (!customElements.get('product-info')) {
 
           this.updateOptionValues(html, variantSelectsId);
 
+          const vsLive =
+            (variantSelectsId && document.getElementById(variantSelectsId)) ||
+            this.variantSelectors;
+          if (
+            variant &&
+            vsLive &&
+            !this._isPdpSetBundleForm() &&
+            this._isVariantSelectionIncomplete(vsLive)
+          ) {
+            variant = null;
+          }
+
           if (!isMainPicker) {
             this.enableButtons();
             requestAnimationFrame(() => {
@@ -1062,9 +1193,11 @@ if (!customElements.get('product-info')) {
             } else {
               this.setUnavailable();
             }
+            this.currentVariant = null;
             return;
           }
 
+          this.currentVariant = variant;
           this.updateMedia(variant);
 
           const updateSourceFromDestination = (id, shouldHide = (source) => false) => {
@@ -1082,7 +1215,7 @@ if (!customElements.get('product-info')) {
           updateSourceFromDestination('Badges');
           updateSourceFromDestination('PricePerItem');
           updateSourceFromDestination('Volume');
-          this._applyPasPriceDisplay(variant);
+          this._syncMainPdpPriceDisplay(variant);
           this._ensurePriceVisible();
 
           this.updateQuantityRules(this.sectionId, this.productId, html);

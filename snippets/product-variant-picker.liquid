@@ -62,26 +62,15 @@
     assign pdp_qty_selector_pending = false
     if block.settings.picker_type == 'custom_dropdown' and product.has_only_default_variant == false
       assign pdp_qty_selector_pending = true
-      assign ov_part = ''
-      if request.query_string contains 'option_values='
-        assign ov_part = request.query_string | split: 'option_values=' | last | split: '&' | first | strip
-      endif
-      assign is_section_fetch = false
-      if request.query_string contains 'section_id='
-        assign is_section_fetch = true
-      endif
-      if pdp_qty_embedded_picker
-        if request.query_string contains 'variant='
-          assign pdp_qty_selector_pending = false
-        elsif is_section_fetch and ov_part != blank
-          assign pdp_qty_selector_pending = false
-        endif
-      else
-        if request.query_string contains 'variant='
-          assign pdp_qty_selector_pending = false
-        elsif ov_part != blank
-          assign pdp_qty_selector_pending = false
-        endif
+      capture we_pdp_ov_count_str
+        render 'we-pdp-url-option-value-count'
+      endcapture
+      assign we_pdp_ov_count = we_pdp_ov_count_str | strip | plus: 0
+      assign we_pdp_option_count = product.options_with_values.size
+      if request.query_string contains 'variant='
+        assign pdp_qty_selector_pending = false
+      elsif we_pdp_ov_count >= we_pdp_option_count and we_pdp_option_count > 0
+        assign pdp_qty_selector_pending = false
       endif
     endif
 
@@ -93,19 +82,12 @@
       assign size_chart_content = pages[block.settings.size_chart_from_page].content
     endif
 
-    assign ov_part_global = ''
-    if request.query_string contains 'option_values='
-      assign ov_part_global = request.query_string | split: 'option_values=' | last | split: '&' | first | strip
-    endif
-    assign is_section_fetch_global = false
-    if request.query_string contains 'section_id='
-      assign is_section_fetch_global = true
-    endif
+    assign size_option_name = block.settings.size_title | downcase
     assign pdp_embedded_variant_pending = false
     if pdp_qty_embedded_picker
       if request.query_string contains 'variant='
         assign pdp_embedded_variant_pending = false
-      elsif is_section_fetch_global and ov_part_global != blank
+      elsif we_pdp_ov_count >= we_pdp_option_count and we_pdp_option_count > 0
         assign pdp_embedded_variant_pending = false
       else
         assign pdp_embedded_variant_pending = true

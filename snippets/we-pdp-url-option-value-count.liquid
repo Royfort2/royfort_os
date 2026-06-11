@@ -1,0 +1,20 @@
+{% comment %}
+  Outputs the number of non-empty Shopify option value ids in the current request's option_values query param.
+{% endcomment %}
+{%- liquid
+  assign we_pdp_ov_count = 0
+  assign we_pdp_ov_part = ''
+  if request.query_string contains 'option_values='
+    assign we_pdp_ov_part = request.query_string | split: 'option_values=' | last | split: '&' | first | strip
+  endif
+  if we_pdp_ov_part != blank
+    assign we_pdp_ov_ids = we_pdp_ov_part | split: ','
+    for we_pdp_ov_id in we_pdp_ov_ids
+      assign we_pdp_ov_id_clean = we_pdp_ov_id | strip
+      if we_pdp_ov_id_clean != blank
+        assign we_pdp_ov_count = we_pdp_ov_count | plus: 1
+      endif
+    endfor
+  endif
+-%}
+{{- we_pdp_ov_count -}}
