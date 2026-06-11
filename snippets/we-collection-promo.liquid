@@ -91,7 +91,12 @@
     "
     {{ block.shopify_attributes }}
   >
-    <div class="we-collection-promo__card blocks-radius color-{{ s.color_scheme | default: 'scheme-1' }}">
+    <div
+      class="we-collection-promo__card blocks-radius color-{{ s.color_scheme | default: 'scheme-1' }}"
+      {% if s.text_color != blank %}
+        style="--we-promo-text: {{ s.text_color }};"
+      {% endif %}
+    >
       <div class="we-collection-promo__frame">
         {%- if show_mobile_slot -%}
           <div class="we-collection-promo__media-layer we-collection-promo__media--mobile lg:hidden" aria-hidden="true">
