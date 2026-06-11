@@ -104,7 +104,8 @@
         "we_promo_NieM3F": {
           "type": "we_promo",
           "settings": {
-            "color_scheme": "scheme-1",
+            "color_scheme": "scheme-inverse",
+            "text_color": "",
             "video_url_desktop": "",
             "image_desktop": "shopify://shop_images/Matratzenschoner_Kollektion_Featured.jpg",
             "video_url_mobile": "",
@@ -124,7 +125,8 @@
         "we_promo_4nLeiw": {
           "type": "we_promo",
           "settings": {
-            "color_scheme": "scheme-1",
+            "color_scheme": "scheme-inverse",
+            "text_color": "",
             "video_desktop": "shopify://files/videos/ROYFORT_LEFKADA_08_FINAL.mp4",
             "video_url_desktop": "",
             "video_mobile": "shopify://files/videos/600x600 (1).mp4",
@@ -160,6 +162,7 @@
         "enable_filtering": true,
         "filter_type": "drawer",
         "enable_sorting": false,
+        "enable_sorting_only_on_mobile": false,
         "expand_filter_groups": "Availability, Price, Color, Size, Product type",
         "columns_mobile": "2",
         "padding_top": 16,
