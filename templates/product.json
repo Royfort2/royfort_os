@@ -50,7 +50,6 @@
           "type": "we_variant_picker",
           "settings": {
             "set_picker_title": "Vervollständigen Sie Ihr Set",
-            "select_variant_text": "auswählen",
             "set_zwischensumme_title": "ZWISCHENSUMME",
             "picker_type": "custom_dropdown",
             "swatch_type": "color_swatch",
@@ -171,7 +170,9 @@
             "heading": "Das könnte Ihnen auch gefallen",
             "product_list_limit": 4,
             "image_ratio": "4/5",
-            "show_reviews": true
+            "show_reviews": true,
+            "render_badges": true,
+            "badges_global_only": false
           }
         }
       },
@@ -243,6 +244,7 @@
         "section_color_scheme": "",
         "color_scheme": "scheme-1",
         "image": "{{ product.metafields.custom.we_pdp_image_with_text_1_image.value }}",
+        "video": "{{ product.metafields.custom.we_pdp_image_with_text_1_image.value }}",
         "image_height": "adapt",
         "layout": "text_first",
         "desktop_content_position": "center",
@@ -295,6 +297,7 @@
         "section_color_scheme": "",
         "color_scheme": "scheme-1",
         "image": "{{ product.metafields.custom.we_pdp_image_with_text_2_image.value }}",
+        "video": "{{ product.metafields.custom.we_pdp_image_with_text_2_image.value }}",
         "image_height": "adapt",
         "layout": "image_first",
         "desktop_content_position": "center",
