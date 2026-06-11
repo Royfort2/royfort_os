@@ -8,8 +8,13 @@
     assign fetchpriority = 'high'
   endif
 
-  assign image = section.settings.image
-  assign alt_image = image.alt | default: shop.name | escape
+  assign media = blank
+  if section.settings.video != blank
+    assign media = section.settings.video
+  elsif section.settings.image != blank
+    assign media = section.settings.image
+  endif
+  assign alt_image = media.alt | default: shop.name | escape
 
   assign color_inherit = false
   if section.settings.color_scheme == section.settings.section_color_scheme
@@ -49,7 +54,7 @@
 
 {% assign is_render = true %}
 {% if template.name == 'product' %}
-  {% if section.settings.image == blank %}
+  {% if section.settings.image == blank and section.settings.video == blank %}
     {% assign is_render = false %}
   {% endif %}
   {% assign is_heading_empty = false %}
@@ -86,22 +91,43 @@
           <motion-element data-motion="zoom-out" class="block w-full h-full">
             <div
               class="image-with-text__media hero__media media-wrapper hover-wrapper"
-              style="{% if section.settings.image_height == 'adapt' %}--aspect-ratio: {{ section.settings.image.aspect_ratio | default: '16/9' }};{% endif %}"
+              style="{% if section.settings.image_height == 'adapt' %}--aspect-ratio: {{ media.aspect_ratio | default: '16/9' }};{% endif %}"
             >
-              {% if section.settings.image != blank %}
-                {{-
-                  image
-                  | image_url: width: image.width
-                  | image_tag:
-                    loading: loading,
-                    fetchpriority: fetchpriority,
-                    sizes: sizes,
-                    width: image.width,
-                    height: image.height,
-                    widths: '300,400,500,600,700,800,900,1000,1200,1400,1600,1800,2000,2200,2400,2600,2800,3000,3200',
-                    alt: alt_image,
-                    class: 'hover-scale-up'
-                -}}
+              {% if media != blank %}
+                {%- if media.media_type == 'video' -%}
+                  {%- liquid
+                    assign video_preload = 'none'
+                    if loading == 'eager'
+                      assign video_preload = 'metadata'
+                    endif
+                  -%}
+                  {{-
+                    media
+                    | video_tag:
+                      autoplay: true,
+                      loop: true,
+                      muted: true,
+                      playsinline: true,
+                      controls: false,
+                      preload: video_preload,
+                      class: 'hover-scale-up',
+                      image_size: '1600x'
+                  -}}
+                {%- else -%}
+                  {{-
+                    media
+                    | image_url: width: media.width
+                    | image_tag:
+                      loading: loading,
+                      fetchpriority: fetchpriority,
+                      sizes: sizes,
+                      width: media.width,
+                      height: media.height,
+                      widths: '300,400,500,600,700,800,900,1000,1200,1400,1600,1800,2000,2200,2400,2600,2800,3000,3200',
+                      alt: alt_image,
+                      class: 'hover-scale-up'
+                  -}}
+                {%- endif -%}
               {% else %}
                 {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg w-full h-full hover-scale-up' }}
               {% endif %}
@@ -241,7 +267,14 @@
     {
       "type": "image_picker",
       "id": "image",
-      "label": "t:sections.all.image.label"
+      "label": "t:sections.all.image.label",
+      "info": "Connect your media metafield here for images."
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "t:sections.video.settings.video.label",
+      "info": "Connect the same media metafield here for videos."
     },
     {
       "type": "select",
