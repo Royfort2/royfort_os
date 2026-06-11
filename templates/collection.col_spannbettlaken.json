@@ -107,7 +107,8 @@
         "we_promo_NieM3F": {
           "type": "we_promo",
           "settings": {
-            "color_scheme": "scheme-1",
+            "color_scheme": "scheme-inverse",
+            "text_color": "",
             "video_url_desktop": "",
             "image_desktop": "shopify://shop_images/Bettlaken_Kategorie_Promo_2_1.jpg",
             "video_url_mobile": "",
