@@ -107,7 +107,8 @@
         "we_promo_4nLeiw": {
           "type": "we_promo",
           "settings": {
-            "color_scheme": "scheme-1",
+            "color_scheme": "scheme-inverse",
+            "text_color": "",
             "video_url_desktop": "",
             "image_desktop": "shopify://shop_images/Decken_Kollektion_Promo_2_1.jpg",
             "video_url_mobile": "",
@@ -128,6 +129,7 @@
           "disabled": true,
           "settings": {
             "color_scheme": "scheme-1",
+            "text_color": "",
             "video_url_desktop": "",
             "image_desktop": "shopify://shop_images/Decken_Kissen_Kategorie_Promo_2_1_cda34385-7aa0-4b88-9714-3163bc9e6780.jpg",
             "video_url_mobile": "",
