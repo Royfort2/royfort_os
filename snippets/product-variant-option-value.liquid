@@ -5,7 +5,7 @@
   - section, block, option, value, picker_type, product_form_id, image_size, value_index (index in option.values)
   - id_namespace: optional, defaults to section.id; used for unique input ids when multiple pickers share a section.
   - option_name_suffix: legacy param; radio names use id_namespace (sectionId-productId) so groups stay isolated.
-  - skip_value_selected: when true, no value is pre-selected (embedded set PDP with no variant in URL)
+  - skip_value_selected: legacy param; ignored — selection follows pdp_line_variant_for_selection / value.selected
   - pdp_line_variant_for_selection: optional variant object when overriding selection (bundle URL → first set line).
   - we_override_option_selection: when true, use pdp_line_variant_for_selection instead of value.selected
 {% endcomment %}

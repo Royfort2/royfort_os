@@ -9,7 +9,6 @@
   - picker_id_suffix: {String} optional suffix for DOM ids when multiple pickers share a section (e.g. set products).
   - option_name_suffix: {String} optional suffix for option input names (e.g. product id) to avoid collisions in one form.
   - pdp_set_bundle_context: {Boolean} when true, inline quantity is non-submitting (embedded set pickers; avoids duplicate name="quantity").
-  - pdp_qty_embedded_picker: {Boolean} when true, placeholder clears only when product.selected_variant is set or a section fetch includes option_values (set child pickers).
   - pdp_set_line_variant_from_bundle: {Object} optional — first set line variant matching bundle ?variant= (set PDP / quick view).
   Usage:
   {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
@@ -41,7 +40,6 @@
     endif
 
     assign pdp_set_bundle_context = pdp_set_bundle_context | default: false
-    assign pdp_qty_embedded_picker = pdp_qty_embedded_picker | default: false
 
     assign pdp_qty_anchor_position = blank
     for opt in product.options_with_values
@@ -69,39 +67,12 @@
       assign pdp_qty_anchor_position = product.options_with_values.first.position
     endif
 
-    assign pdp_qty_selector_pending = false
-    if block.settings.picker_type == 'custom_dropdown' and product.has_only_default_variant == false
-      assign pdp_qty_selector_pending = true
-      capture we_pdp_ov_count_str
-        render 'we-pdp-url-option-value-count'
-      endcapture
-      assign we_pdp_ov_count = we_pdp_ov_count_str | strip | plus: 0
-      assign we_pdp_option_count = product.options_with_values.size
-      if request.query_string contains 'variant='
-        assign pdp_qty_selector_pending = false
-      elsif we_pdp_ov_count >= we_pdp_option_count and we_pdp_option_count > 0
-        assign pdp_qty_selector_pending = false
-      endif
-    endif
-
     assign size_option_name = block.settings.size_title | downcase
     assign size_chart_content = product.metafields.foxtheme.size_chart.value.content
     assign size_chart_modal_id = 'SizeChartModal-' | append: block.id | append: '-' | append: picker_id_suffix
 
     if size_chart_content == blank and block.settings.size_chart_from_page != blank
       assign size_chart_content = pages[block.settings.size_chart_from_page].content
-    endif
-
-    assign size_option_name = block.settings.size_title | downcase
-    assign pdp_embedded_variant_pending = false
-    if pdp_qty_embedded_picker
-      if request.query_string contains 'variant='
-        assign pdp_embedded_variant_pending = false
-      elsif we_pdp_ov_count >= we_pdp_option_count and we_pdp_option_count > 0
-        assign pdp_embedded_variant_pending = false
-      else
-        assign pdp_embedded_variant_pending = true
-      endif
     endif
 
     assign line_color_option_index = 0
@@ -160,10 +131,6 @@
     data-update-url="{% if update_url == false %}false{% else %}true{% endif %}"
     {% if block.settings.picker_type == 'custom_dropdown' %}
       data-pdp-qty-anchor-position="{{ pdp_qty_anchor_position }}"
-      data-pdp-qty-pending="{% if pdp_qty_selector_pending %}true{% else %}false{% endif %}"
-    {% endif %}
-    {% if pdp_qty_embedded_picker %}
-      data-pdp-embedded-pending="{% if pdp_embedded_variant_pending %}true{% else %}false{% endif %}"
     {% endif %}
   >
     {%- for option in product.options_with_values -%}
@@ -292,25 +259,10 @@
           endif
         endif
 
-        assign pdp_skip_value_selected = false
-        if is_pdp_qty_option and pdp_qty_selector_pending
-          assign pdp_skip_value_selected = true
-        endif
-        if pdp_embedded_variant_pending
-          assign pdp_skip_value_selected = true
-          if is_color_swatch_picker
-            assign pdp_skip_value_selected = false
-          endif
-        endif
-        if pdp_qty_selector_pending and is_color_swatch_picker == false
-          assign pdp_skip_value_selected = true
-        endif
         assign pdp_qty_row_active = false
         if is_pdp_qty_option
           assign pdp_qty_row_active = true
         endif
-
-        assign we_placeholder_select_variant_label = 'products.product.select_variant_placeholder' | t
       -%}
       <{{ tag_fieldset }}
         class="{{ wrap_class }}"
@@ -328,37 +280,17 @@
           <div class="flex flex-wrap gap-2">
             <span class="option-name">{{ option.name }}:</span>
             <span data-selected-swatch-value="{{ option.name }}">
-              {%- if is_pdp_qty_option and pdp_qty_selector_pending -%}
-                {{- we_placeholder_select_variant_label -}}
-              {%- elsif pdp_qty_selector_pending and is_color_swatch_picker == false -%}
-                {{- we_placeholder_select_variant_label -}}
-              {%- elsif pdp_embedded_variant_pending and is_color_swatch_picker == false -%}
-                {{- we_placeholder_select_variant_label -}}
-              {%- elsif we_use_bundle_line_variant -%}
-                {%- liquid
-                  case option.position
-                    when 1
-                      echo we_active_variant.option1
-                    when 2
-                      echo we_active_variant.option2
-                    when 3
-                      echo we_active_variant.option3
-                  endcase
-                -%}
-              {%- else -%}
-                {%- liquid
-                  assign we_legend_val = option.selected_value
-                  case option.position
-                    when 1
-                      assign we_legend_val = we_active_variant.option1
-                    when 2
-                      assign we_legend_val = we_active_variant.option2
-                    when 3
-                      assign we_legend_val = we_active_variant.option3
-                  endcase
-                -%}
-                {{- we_legend_val -}}
-              {%- endif -%}
+              {%- liquid
+                case option.position
+                  when 1
+                    assign we_legend_val = we_active_variant.option1
+                  when 2
+                    assign we_legend_val = we_active_variant.option2
+                  when 3
+                    assign we_legend_val = we_active_variant.option3
+                endcase
+              -%}
+              {{- we_legend_val -}}
             </span>
           </div>
           {%- if size_chart_content != blank and attach_size_chart -%}
@@ -383,9 +315,8 @@
               picker_type: picker_type,
               option_id_namespace: id_ns,
               option_name_suffix: option_name_suffix,
-              skip_value_selected: pdp_skip_value_selected,
               pdp_line_variant_for_selection: we_active_variant,
-              we_override_option_selection: we_use_bundle_line_variant
+              we_override_option_selection: true
             %}
             {% if picker_type == 'color' or picker_type == 'swatch' %}
               </div>
@@ -430,30 +361,20 @@
                 <div class="pdp-variant-qty-row__picker">
             {%- endif -%}
             <details
-              class="we-select-container{%- if is_pdp_qty_option and pdp_qty_selector_pending %} we-select-container--placeholder{%- elsif pdp_qty_selector_pending and is_color_swatch_picker == false %} we-select-container--placeholder{%- elsif pdp_embedded_variant_pending and is_color_swatch_picker == false %} we-select-container--placeholder{%- endif -%}"
+              class="we-select-container"
               data-radio-group-name="{{ opt_radio_name | escape }}"
             >
               <summary class="we-select-container__summary">
-                {%- if is_pdp_qty_option and pdp_qty_selector_pending -%}
-                  <span class="we-select-placeholder-label">{{ we_placeholder_select_variant_label }}</span>
-                {%- elsif pdp_qty_selector_pending and is_color_swatch_picker == false -%}
-                  <span class="we-select-placeholder-label">{{ we_placeholder_select_variant_label }}</span>
-                {%- elsif pdp_embedded_variant_pending and is_color_swatch_picker == false -%}
-                  <span class="we-select-placeholder-label">{{ we_placeholder_select_variant_label }}</span>
-                {%- else -%}
-                  {%- liquid
-                    assign we_dd_label = option.selected_value
-                    if we_use_bundle_line_variant
-                      case option.position
-                        when 1
-                          assign we_dd_label = we_active_variant.option1
-                        when 2
-                          assign we_dd_label = we_active_variant.option2
-                        when 3
-                          assign we_dd_label = we_active_variant.option3
-                      endcase
-                    endif
-                  -%}
+                {%- liquid
+                  case option.position
+                    when 1
+                      assign we_dd_label = we_active_variant.option1
+                    when 2
+                      assign we_dd_label = we_active_variant.option2
+                    when 3
+                      assign we_dd_label = we_active_variant.option3
+                  endcase
+                -%}
                   {% assign handle = we_dd_label | handleize %}
                   {% if metaobjects.logo[handle] %}
                     {% if metaobjects.logo[handle].bild != blank %}
@@ -469,7 +390,6 @@
                     {% endif %}
                   {% endif %}
                   {{ we_dd_label }}
-                {%- endif -%}
               </summary>
               <div class="we-select-mobile-portal">
                 <div class="we-select-mobile-backdrop" aria-hidden="true"></div>
@@ -493,34 +413,20 @@
                 {% for value in option.values %}
                   {%- liquid
                     assign we_dd_checked = false
-                    if pdp_skip_value_selected == false
-                      assign we_use_active_variant_for_check = false
-                      if we_use_bundle_line_variant
-                        assign we_use_active_variant_for_check = true
-                      elsif product.selected_variant != blank
-                        assign we_use_active_variant_for_check = true
-                      elsif request.query_string contains 'variant='
-                        assign we_use_active_variant_for_check = true
-                      endif
-                      if we_use_active_variant_for_check
-                        case option.position
-                          when 1
-                            if value == we_active_variant.option1
-                              assign we_dd_checked = true
-                            endif
-                          when 2
-                            if value == we_active_variant.option2
-                              assign we_dd_checked = true
-                            endif
-                          when 3
-                            if value == we_active_variant.option3
-                              assign we_dd_checked = true
-                            endif
-                        endcase
-                      elsif value.selected
-                        assign we_dd_checked = true
-                      endif
-                    endif
+                    case option.position
+                      when 1
+                        if value == we_active_variant.option1
+                          assign we_dd_checked = true
+                        endif
+                      when 2
+                        if value == we_active_variant.option2
+                          assign we_dd_checked = true
+                        endif
+                      when 3
+                        if value == we_active_variant.option3
+                          assign we_dd_checked = true
+                        endif
+                    endcase
                   -%}
                   <div class="we-select__item">
                     <input
@@ -592,9 +498,7 @@
                     pdp_q_min: pdp_q_min,
                     pdp_q_max: pdp_q_max,
                     pdp_q_inc: pdp_q_inc,
-                    pdp_set_bundle_context: pdp_set_bundle_context,
-                    pdp_qty_selector_pending: pdp_qty_selector_pending,
-                    pdp_embedded_variant_pending: pdp_embedded_variant_pending
+                    pdp_set_bundle_context: pdp_set_bundle_context
                   %}
                 </div>
               </div>
@@ -603,26 +507,8 @@
       </{{ tag_fieldset }}>
     {%- endfor -%}
     <script type="application/json" data-selected-variant>
-      {%- if pdp_qty_selector_pending or pdp_embedded_variant_pending -%}
-        null
-      {%- else -%}
-        {{- we_active_variant | json -}}
-      {%- endif -%}
+      {{- we_active_variant | json -}}
     </script>
-    {%- comment -%}
-      Gallery fallback when SSR exposes no committed variant (see product-info getInitialVariantForGallery).
-    {%- endcomment -%}
-    {%- if pdp_qty_embedded_picker -%}
-      {%- if pdp_qty_selector_pending or pdp_embedded_variant_pending -%}
-        <script type="application/json" data-pdp-bootstrap-variant>
-          {{- product.selected_or_first_available_variant | json -}}
-        </script>
-      {%- endif -%}
-    {%- elsif pdp_set_line_variant_from_bundle == blank and pdp_qty_selector_pending -%}
-      <script type="application/json" data-pdp-bootstrap-variant>
-        {{- product.selected_or_first_available_variant | json -}}
-      </script>
-    {%- endif -%}
   </variant-selects>
   {%- if size_chart_content != blank -%}
     <div id="SizeChart-{{ id_ns }}">

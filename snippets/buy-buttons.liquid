@@ -68,20 +68,6 @@
       endif
     endfor
 
-    assign pdp_qty_selector_pending = false
-    if variant_picker_custom_dropdown and product.has_only_default_variant == false
-      assign pdp_qty_selector_pending = true
-      capture we_pdp_ov_count_str
-        render 'we-pdp-url-option-value-count'
-      endcapture
-      assign we_pdp_ov_count = we_pdp_ov_count_str | strip | plus: 0
-      assign we_pdp_option_count = product.options_with_values.size
-      if request.query_string contains 'variant='
-        assign pdp_qty_selector_pending = false
-      elsif we_pdp_ov_count >= we_pdp_option_count and we_pdp_option_count > 0
-        assign pdp_qty_selector_pending = false
-      endif
-    endif
     assign hide_qty_in_buy_buttons = false
     if variant_picker_custom_dropdown
       if block.settings.show_quantity_selector and product.quantity_price_breaks_configured? != true and product.has_only_default_variant == false
@@ -130,16 +116,9 @@
       <input
         type="hidden"
         name="id"
-        {% if pdp_set_bundle %}
-          value="{{ pdp_current_variant.id }}"
-        {% elsif pdp_qty_selector_pending %}
-          value=""
-        {% else %}
-          value="{{ pdp_current_variant.id }}"
-        {% endif %}
+        value="{{ pdp_current_variant.id }}"
         {% if pdp_current_variant.available == false
           or pdp_set_bundle
-          or pdp_qty_selector_pending
         %}
           disabled
         {% endif %}
@@ -454,16 +433,12 @@
           type="submit"
           name="add"
           class="product-form__submit btn{% if show_dynamic_checkout %} btn--secondary{% else %} btn--primary{% endif %}"
-          {% if pdp_qty_selector_pending
-            or pdp_current_variant.available == false
-          %}
+          {% if pdp_current_variant.available == false %}
             disabled
           {% endif %}
         >
           <span>
-            {%- if pdp_qty_selector_pending -%}
-              {{ 'products.product.select_variant_cta' | t }}
-            {%- elsif pdp_current_variant.available == false -%}
+            {%- if pdp_current_variant.available == false -%}
               {{ 'products.product.sold_out' | t }}
             {%- else -%}
               {{ 'products.product.add_to_cart' | t }}

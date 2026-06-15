@@ -5,16 +5,8 @@
   - id_ns, product_form_id, option_position: for unique ids/names
   - pdp_q_min, pdp_q_max, pdp_q_inc: quantity_rule derived numbers
   - pdp_set_bundle_context: when true, radios use unique name qty-inline-* and omit form= (cart lines built in product-set-cart-items.js)
-  - pdp_qty_selector_pending: when true, no quantity option is pre-checked (variant not chosen yet)
-  - pdp_embedded_variant_pending: set pickers with no URL variant — same as pending for inline qty
 {% endcomment %}
 {%- liquid
-  assign pdp_qty_selector_pending = pdp_qty_selector_pending | default: false
-  assign pdp_embedded_variant_pending = pdp_embedded_variant_pending | default: false
-  assign pdp_qty_line_pending = pdp_qty_selector_pending
-  if pdp_embedded_variant_pending
-    assign pdp_qty_line_pending = true
-  endif
   assign qty_radio_name = 'qty-inline-' | append: id_ns
   unless pdp_set_bundle_context
     assign qty_radio_name = 'quantity'
@@ -62,7 +54,7 @@
                     form="{{ product_form_id }}"
                   {% endunless %}
                   data-pdp-inline-qty-value="{{ i }}"
-                  {% if pdp_qty_line_pending == false and i == pdp_q_min %}
+                  {% if i == pdp_q_min %}
                     checked
                   {% endif %}
                 >
