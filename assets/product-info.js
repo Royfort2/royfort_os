@@ -660,38 +660,57 @@ if (!customElements.get('product-info')) {
         return variants.find((v) => String(v.id) === String(id)) || null;
       }
 
-      _getMainInlineQuantity() {
-        const vs = this.variantSelectors;
-        if (!vs) return 1;
-        const qtyRoot = vs.querySelector('.we-quantity-selector');
-        if (!qtyRoot) return 1;
+      _readInlineQtyFromRoot(qtyRoot, attrName, portaledName) {
+        if (!qtyRoot) return null;
 
-        const pid = vs.getAttribute('data-product-id') || this.productId;
-        let checked = qtyRoot.querySelector('input[type="radio"][data-we-qty-selector]:checked');
-        if (!checked && pid) {
-          const esc =
-            typeof CSS !== 'undefined' && CSS.escape
-              ? CSS.escape(`quantity-${pid}`)
-              : `quantity-${pid}`;
+        let checked = qtyRoot.querySelector(`input[type="radio"][${attrName}]:checked`);
+        if (!checked && portaledName) {
+          const esc = this._escapeAttrSelector(portaledName);
           checked = document.querySelector(
-            `input[type="radio"][name="${esc}"]:checked[data-we-qty-selector]`
+            `input[type="radio"][name="${esc}"]:checked[${attrName}]`
           );
         }
         if (checked) {
           const n = parseInt(checked.value, 10);
-          return Number.isFinite(n) && n > 0 ? n : 1;
+          if (Number.isFinite(n) && n > 0) return n;
         }
 
-        const summary = qtyRoot.querySelector('.we-select-container__summary');
-        const t = summary?.textContent?.trim();
-        if (t) {
-          const m = t.match(/^(\d+)/);
-          if (m) {
-            const n = parseInt(m[1], 10);
-            if (Number.isFinite(n) && n > 0) return n;
-          }
+        const summaryVal = qtyRoot.querySelector('.pdp-inline-qty-we-select__value');
+        const t = (summaryVal?.textContent || qtyRoot.querySelector('.we-select-container__summary')?.textContent || '')
+          .trim();
+        const m = t.match(/^(\d+)/);
+        if (m) {
+          const n = parseInt(m[1], 10);
+          if (Number.isFinite(n) && n > 0) return n;
         }
-        return 1;
+        return null;
+      }
+
+      _getMainInlineQuantity() {
+        const vs = this.variantSelectors;
+        if (!vs) return 1;
+
+        const inlineRoot = vs.querySelector('.pdp-inline-quantity');
+        if (inlineRoot) {
+          const sample = inlineRoot.querySelector('input[data-pdp-inline-qty-value]');
+          const fromInline = this._readInlineQtyFromRoot(
+            inlineRoot,
+            'data-pdp-inline-qty-value',
+            sample?.getAttribute('name') || null
+          );
+          if (fromInline != null) return fromInline;
+        }
+
+        const qtyRoot = vs.querySelector('.we-quantity-selector');
+        if (!qtyRoot) return 1;
+
+        const pid = vs.getAttribute('data-product-id') || this.productId;
+        const fromWe = this._readInlineQtyFromRoot(
+          qtyRoot,
+          'data-we-qty-selector',
+          pid ? `quantity-${pid}` : null
+        );
+        return fromWe != null ? fromWe : 1;
       }
 
       _onMainPdpQtyChange = (e) => {

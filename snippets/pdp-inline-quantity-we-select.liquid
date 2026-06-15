@@ -14,7 +14,10 @@
   assign qty_unit_short = settings.qty_selector_unit_short | default: 'St.'
   assign qty_unit_long = settings.qty_selector_unit_long | default: 'Stück'
 -%}
-<details class="we-select-container pdp-inline-qty-we-select">
+<details
+  class="we-select-container pdp-inline-qty-we-select"
+  data-qty-unit-short="{{ qty_unit_short | escape }}"
+>
   <summary class="we-select-container__summary">
     <span class="pdp-inline-qty-we-select__value"
       >{{ pdp_q_min }}&nbsp;{{ qty_unit_short -}}

@@ -231,14 +231,36 @@
     const vs = document.getElementById(`variant-selects-${sectionId}-${productId}`);
     if (!vs) return 1;
 
-    const inlineChecked = vs.querySelector(
-      '.pdp-inline-quantity input[type="radio"][data-pdp-inline-qty-value]:checked'
-    );
-    if (inlineChecked) {
-      const raw =
-        inlineChecked.getAttribute('data-pdp-inline-qty-value') || inlineChecked.value;
-      const n = parseInt(String(raw), 10);
-      return Number.isFinite(n) && n > 0 ? n : 1;
+    const inlineRoot = vs.querySelector('.pdp-inline-quantity');
+    if (inlineRoot) {
+      let inlineChecked = inlineRoot.querySelector(
+        'input[type="radio"][data-pdp-inline-qty-value]:checked'
+      );
+      if (!inlineChecked) {
+        const sample = inlineRoot.querySelector('input[data-pdp-inline-qty-value]');
+        const nm = sample?.getAttribute('name');
+        if (nm) {
+          const esc =
+            typeof CSS !== 'undefined' && CSS.escape ? CSS.escape(nm) : nm.replace(/"/g, '\\"');
+          inlineChecked = document.querySelector(
+            `input[type="radio"][name="${esc}"]:checked[data-pdp-inline-qty-value]`
+          );
+        }
+      }
+      if (inlineChecked) {
+        const raw =
+          inlineChecked.getAttribute('data-pdp-inline-qty-value') || inlineChecked.value;
+        const n = parseInt(String(raw), 10);
+        return Number.isFinite(n) && n > 0 ? n : 1;
+      }
+
+      const summaryVal = inlineRoot.querySelector('.pdp-inline-qty-we-select__value');
+      const t = summaryVal?.textContent?.trim();
+      const m = t?.match(/^(\d+)/);
+      if (m) {
+        const n = parseInt(m[1], 10);
+        if (Number.isFinite(n) && n > 0) return n;
+      }
     }
 
     const weLocal = vs.querySelector(
@@ -262,9 +284,10 @@
 
     const summary = vs.querySelector('.we-quantity-selector .we-select-container__summary');
     const t = summary?.textContent?.trim();
-    if (t && /^\d+$/.test(t)) {
-      const n = parseInt(t, 10);
-      return Number.isFinite(n) && n > 0 ? n : 1;
+    const m = t?.match(/^(\d+)/);
+    if (m) {
+      const n = parseInt(m[1], 10);
+      if (Number.isFinite(n) && n > 0) return n;
     }
 
     return 1;

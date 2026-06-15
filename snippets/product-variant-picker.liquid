@@ -470,7 +470,7 @@
             {%- if pdp_qty_row_active -%}
                 </div>
                 {%- liquid
-                  assign pdp_qr = product.selected_or_first_available_variant.quantity_rule
+                  assign pdp_qr = we_active_variant.quantity_rule
                   assign pdp_q_min = pdp_qr.min | default: 1
                   if pdp_q_min < 1
                     assign pdp_q_min = 1

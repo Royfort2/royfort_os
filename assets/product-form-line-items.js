@@ -30,8 +30,36 @@
    * Reads we-quantity-selector value (radios may be portaled under `body` on mobile).
    * Returns `null` when this picker has no inline quantity UI.
    */
+  function resolveInlineQtyFromRoot(qtyRoot, attrName) {
+    if (!qtyRoot) return null;
+
+    let checked = qtyRoot.querySelector(`input[type="radio"][${attrName}]:checked`);
+    if (!checked) {
+      const sample = qtyRoot.querySelector(`input[type="radio"][${attrName}]`);
+      const nm = sample?.getAttribute('name');
+      if (nm) {
+        const esc = escapeAttrSelector(nm);
+        checked = document.querySelector(`input[type="radio"][name="${esc}"]:checked[${attrName}]`);
+      }
+    }
+    if (checked) return String(checked.value);
+
+    const summaryVal = qtyRoot.querySelector('.pdp-inline-qty-we-select__value');
+    const t = (summaryVal?.textContent || qtyRoot.querySelector('.we-select-container__summary')?.textContent || '')
+      .trim();
+    const m = t.match(/^(\d+)/);
+    if (m) return m[1];
+    return '1';
+  }
+
   function resolveWeQuantityFromVariantSelects(vs) {
     if (!vs?.querySelector) return null;
+
+    const inlineRoot = vs.querySelector('.pdp-inline-quantity');
+    if (inlineRoot) {
+      return resolveInlineQtyFromRoot(inlineRoot, 'data-pdp-inline-qty-value');
+    }
+
     const qtyRoot = vs.querySelector('.we-quantity-selector');
     if (!qtyRoot) return null;
 
@@ -47,10 +75,7 @@
     }
     if (checked) return String(checked.value);
 
-    const summary = qtyRoot.querySelector('.we-select-container__summary');
-    const t = summary?.textContent?.trim();
-    if (t && /^\d+$/.test(t)) return t;
-    return '1';
+    return resolveInlineQtyFromRoot(qtyRoot, 'data-we-qty-selector');
   }
 
   function getQuantityFromPicker(vs) {

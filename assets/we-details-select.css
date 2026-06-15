@@ -489,13 +489,15 @@ details.we-select-container .we-select-container__summary:hover {
 }
 
 /* No orderable quantity (OOS / unavailable): block opening the quantity dropdown */
-.we-quantity-selector.we-quantity-selector--disabled {
+.we-quantity-selector.we-quantity-selector--disabled,
+.pdp-inline-quantity.pdp-inline-quantity--disabled {
   pointer-events: none;
   cursor: not-allowed;
   opacity: 0.65;
 }
 
-.we-quantity-selector.we-quantity-selector--disabled .we-select-container__summary {
+.we-quantity-selector.we-quantity-selector--disabled .we-select-container__summary,
+.pdp-inline-quantity.pdp-inline-quantity--disabled .we-select-container__summary {
   cursor: not-allowed;
   user-select: none;
 }
