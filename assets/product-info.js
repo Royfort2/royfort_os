@@ -278,7 +278,8 @@ if (!customElements.get('product-info')) {
         const want = this.normOptionValue(value);
         for (const input of inputs) {
           if (this.normOptionValue(input.value) !== want) continue;
-          if (input.disabled || input.classList.contains('disabled')) return false;
+          // Sold-out options use class="disabled" for styling only — still a valid selection.
+          if (input.disabled) return false;
           input.checked = true;
           return true;
         }

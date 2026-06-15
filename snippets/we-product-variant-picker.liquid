@@ -16,6 +16,16 @@
     assign picker_id_suffix = picker_id_suffix | default: product.id
     assign id_ns = section.id | append: '-' | append: picker_id_suffix
     assign we_active_variant = product.selected_variant
+    if we_active_variant == blank and request.query_string contains 'variant='
+      assign we_variant_from_url = request.query_string | split: 'variant=' | last | split: '&' | first | strip
+      for v in product.variants
+        assign v_id_str = v.id | append: ''
+        if v_id_str == we_variant_from_url
+          assign we_active_variant = v
+          break
+        endif
+      endfor
+    endif
     if pdp_set_line_variant_from_bundle != blank
       assign we_active_variant = pdp_set_line_variant_from_bundle
     elsif we_active_variant == blank
@@ -422,7 +432,15 @@
                         {%- liquid
                           assign we_dd_checked = false
                           if we_option_skip_selected == false
+                            assign we_use_active_variant_for_check = false
                             if we_use_bundle_line_variant
+                              assign we_use_active_variant_for_check = true
+                            elsif product.selected_variant != blank
+                              assign we_use_active_variant_for_check = true
+                            elsif request.query_string contains 'variant='
+                              assign we_use_active_variant_for_check = true
+                            endif
+                            if we_use_active_variant_for_check
                               case option.position
                                 when 1
                                   if value == we_active_variant.option1
