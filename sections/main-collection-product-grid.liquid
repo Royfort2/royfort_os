@@ -36,7 +36,9 @@
 
   assign variant_color_allowlist = ''
   assign restrict_variant_cards_by_color = false
+  assign collection_plp_badge_filter = ''
   if section.settings.render_variants
+    assign collection_plp_badge_filter = collection.metafields.custom.plp_badge_name_to_display.value | default: '' | strip
     assign facet_swatch_t = settings.color_swatch_trigger | downcase
     for vcf in collection.filters
       if vcf.active_values.size == 0
@@ -108,7 +110,13 @@
       endif
 
     assign ssr_variant_card_total = nil
-    if is_metro == false and collection.products_count <= 50
+    assign ssr_compute_full_variant_total = false
+    if is_metro == false
+      if collection.products_count <= 50 or collection_plp_badge_filter != blank
+        assign ssr_compute_full_variant_total = true
+      endif
+    endif
+    if ssr_compute_full_variant_total
       assign ssr_acc = 0
       assign ssr_sw = settings.color_swatch_trigger | downcase
       for srp in collection.products
@@ -139,6 +147,15 @@
               endunless
             endif
             unless srp_uc contains srp_cv
+              if collection_plp_badge_filter != blank
+                capture ssr_plp_badge_pass
+                  render 'we-plp-variant-passes-badge-filter', product: srp, variant: srp_v, color_option_index: srp_coi, collection_badge_target: collection_plp_badge_filter
+                endcapture
+                assign ssr_plp_badge_pass = ssr_plp_badge_pass | strip
+                unless ssr_plp_badge_pass == 'true'
+                  continue
+                endunless
+              endif
               assign srp_uc = srp_uc | append: srp_cv | append: ','
               assign ssr_acc = ssr_acc | plus: 1
             endunless
@@ -211,7 +228,7 @@
                             data-variant-count-allowlist="{{ variant_color_allowlist | escape }}"
                           {% endif %}
                           {% unless is_metro %}
-                            {% if collection.products_count <= 50 %}
+                            {% if ssr_compute_full_variant_total %}
                               data-ssr-variant-card-total="{{ ssr_variant_card_total }}"
                             {% endif %}
                           {% endunless %}
@@ -342,6 +359,15 @@
                               endunless
                             endif
                             unless promo_unique_colors contains color_value
+                              if collection_plp_badge_filter != blank
+                                capture promo_plp_badge_pass
+                                  render 'we-plp-variant-passes-badge-filter', product: product, variant: variant, color_option_index: promo_color_option_index, collection_badge_target: collection_plp_badge_filter
+                                endcapture
+                                assign promo_plp_badge_pass = promo_plp_badge_pass | strip
+                                unless promo_plp_badge_pass == 'true'
+                                  continue
+                                endunless
+                              endif
                               assign promo_unique_colors = promo_unique_colors | append: color_value | append: ','
                               assign cards_before = cards_before | plus: 1
                             endunless
@@ -461,6 +487,20 @@
                           {% endunless %}
                         {% endif %}
                         {% unless unique_colors contains color_value %}
+                          {% if collection_plp_badge_filter != blank %}
+                            {% capture plp_badge_pass %}
+                              {% render 'we-plp-variant-passes-badge-filter',
+                                product: product,
+                                variant: variant,
+                                color_option_index: color_option_index,
+                                collection_badge_target: collection_plp_badge_filter
+                              %}
+                            {% endcapture %}
+                            {% assign plp_badge_pass = plp_badge_pass | strip %}
+                            {% unless plp_badge_pass == 'true' %}
+                              {% continue %}
+                            {% endunless %}
+                          {% endif %}
                           {% assign unique_colors = unique_colors | append: color_value | append: ',' %}
                         {% else %}
                           {% continue %}

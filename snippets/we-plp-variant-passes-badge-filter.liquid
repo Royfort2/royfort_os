@@ -1,0 +1,80 @@
+{% comment %}
+  Outputs "true" or "false" — whether a variant (or its color group) passes the collection
+  custom.plp_badge_name_to_display filter on variant-card PLPs.
+
+  When theme setting use_metafields_for_badges_display is on, matches against
+  custom.we_variant_card_badges (list). Otherwise matches custom.plp_neue_farbe_badge.
+
+  Accepts:
+  - product {Product}
+  - variant {Variant}
+  - color_option_index {Number} optional — color option index when grouping variant cards
+  - collection_badge_target {String} collection.metafields.custom.plp_badge_name_to_display
+{% endcomment %}
+{%- liquid
+  assign plp_pass = true
+  assign plp_tgt = collection_badge_target | default: '' | strip
+  if plp_tgt != blank
+    assign plp_pass = false
+    assign plp_tgt_cmp = plp_tgt | downcase
+
+    if settings.use_metafields_for_badges_display
+      if color_option_index != nil
+        assign plp_col_val = variant.options[color_option_index] | default: '' | strip | downcase
+        if plp_col_val != blank
+          for v_badge in product.variants
+            assign v_badge_col = v_badge.options[color_option_index] | default: '' | strip | downcase
+            if v_badge_col == plp_col_val
+              assign v_badges = v_badge.metafields.custom.we_variant_card_badges.value
+              if v_badges != blank
+                for badge_line in v_badges
+                  assign badge_cmp = badge_line | default: '' | strip | downcase
+                  if badge_cmp == plp_tgt_cmp
+                    assign plp_pass = true
+                    break
+                  endif
+                endfor
+              endif
+              if plp_pass
+                break
+              endif
+            endif
+          endfor
+        endif
+      else
+        assign v_badges = variant.metafields.custom.we_variant_card_badges.value
+        if v_badges != blank
+          for badge_line in v_badges
+            assign badge_cmp = badge_line | default: '' | strip | downcase
+            if badge_cmp == plp_tgt_cmp
+              assign plp_pass = true
+              break
+            endif
+          endfor
+        endif
+      endif
+    else
+      if color_option_index != nil
+        assign plp_col_val = variant.options[color_option_index] | default: '' | strip | downcase
+        if plp_col_val != blank
+          for v_nf in product.variants
+            assign v_nf_col = v_nf.options[color_option_index] | default: '' | strip | downcase
+            if v_nf_col == plp_col_val
+              assign nf_val = v_nf.metafields.custom.plp_neue_farbe_badge.value | default: '' | strip | downcase
+              if nf_val == plp_tgt_cmp
+                assign plp_pass = true
+                break
+              endif
+            endif
+          endfor
+        endif
+      endif
+      if plp_pass == false
+        assign nf_fb = variant.metafields.custom.plp_neue_farbe_badge.value | default: '' | strip | downcase
+        if nf_fb == plp_tgt_cmp
+          assign plp_pass = true
+        endif
+      endif
+    endif
+  endif
+-%}{{- plp_pass -}}
