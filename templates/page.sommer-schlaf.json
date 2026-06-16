@@ -39,7 +39,7 @@
         "heading_DAJD8G": {
           "type": "heading",
           "settings": {
-            "heading": "Kühl schlafen, wenn die Nächte warm sind",
+            "heading": "Kühl schlafen, auch wenn es warm bleibt",
             "heading_size": "hd1",
             "heading_highlight_style": "none"
           }
@@ -130,11 +130,11 @@
         "container": "fixed",
         "color_scheme": "",
         "enable_sticky_column": false,
-        "heading": "Erholsamer Schlaf beginnt bei den richtigen Materialien.",
+        "heading": "Erholsamer Schlaf beginnt im richtigen Material.",
         "heading_size": "h1",
         "heading_highlight_style": "none",
         "subheading": "",
-        "description": "<p>Naturmaterialien nehmen Wärme und Feuchtigkeit auf, statt sie zu halten. So bleibt das Bett angenehm frisch — die ganze Nacht.</p>",
+        "description": "<p>Naturmaterialien nehmen Wärme und Feuchtigkeit auf nd geben sie wieder ab. So bleibt das Bett die ganze Nacht angenehm frisch.</p>",
         "column_gap": "medium",
         "row_gap": "large",
         "swipe_on_mobile": false,
