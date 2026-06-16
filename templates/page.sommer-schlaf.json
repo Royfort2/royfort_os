@@ -250,6 +250,80 @@
         "custom_class": ""
       }
     },
+    "image_width_text_columns_9pacpz": {
+      "type": "image-width-text-columns",
+      "blocks": {
+        "column_RTqPVY": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "Leinen",
+            "heading_size": "h4",
+            "text": "<p>Die kräftige Flachsfaser hat eine offene, luftige Struktur. Sie nimmt Feuchtigkeit auf und gibt sie schnell wieder ab — das Bett bleibt trocken.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "column_cnqq9B": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "Seide",
+            "heading_size": "h4",
+            "text": "<p>Maulbeerseide ist leicht und temperaturausgleichend. Die glatte Oberfläche fühlt sich kühl an und schont zugleich Haut und Haar.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "column_J7ip9i": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "Satin Baumwolle",
+            "heading_size": "h4",
+            "text": "<p>Dicht gewebte Baumwolle mit glatter Satin-Oberfläche: atmungsaktiv, klar und frisch im Griff — unkompliziert das ganze Jahr.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "column_Lk7d7k": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "TENCEL™",
+            "heading_size": "h4",
+            "text": "<p>Lyocell aus Holzfasern fühlt sich von Natur aus kühl an und nimmt besonders viel Feuchtigkeit auf. Das Schlafklima bleibt ausgeglichen.</p>",
+            "text_size": "text-base"
+          }
+        }
+      },
+      "block_order": [
+        "column_RTqPVY",
+        "column_cnqq9B",
+        "column_J7ip9i",
+        "column_Lk7d7k"
+      ],
+      "name": "t:sections.image-with-text-columns.presets.name",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "layout_gap": "medium",
+        "content_alignment": "center",
+        "image_position": "text_first",
+        "heading": "Kühle ist eine Frage der Faser.",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "Warum diese Materialien kühlen",
+        "description": "",
+        "text_size": "text-base",
+        "column_alignment": "left",
+        "columns_desktop": 2,
+        "column_gap": "large",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
     "featured_product_RxqXGq": {
       "type": "featured-product",
       "blocks": {
@@ -363,80 +437,6 @@
         "divider_width": "fixed",
         "custom_class": ""
       }
-    },
-    "image_width_text_columns_9pacpz": {
-      "type": "image-width-text-columns",
-      "blocks": {
-        "column_RTqPVY": {
-          "type": "column",
-          "settings": {
-            "image_width": "medium",
-            "title": "Leinen",
-            "heading_size": "h4",
-            "text": "<p>Die kräftige Flachsfaser hat eine offene, luftige Struktur. Sie nimmt Feuchtigkeit auf und gibt sie schnell wieder ab — das Bett bleibt trocken.</p>",
-            "text_size": "text-base"
-          }
-        },
-        "column_cnqq9B": {
-          "type": "column",
-          "settings": {
-            "image_width": "medium",
-            "title": "Seide",
-            "heading_size": "h4",
-            "text": "<p>Maulbeerseide ist leicht und temperaturausgleichend. Die glatte Oberfläche fühlt sich kühl an und schont zugleich Haut und Haar.</p>",
-            "text_size": "text-base"
-          }
-        },
-        "column_J7ip9i": {
-          "type": "column",
-          "settings": {
-            "image_width": "medium",
-            "title": "Satin Baumwolle",
-            "heading_size": "h4",
-            "text": "<p>Dicht gewebte Baumwolle mit glatter Satin-Oberfläche: atmungsaktiv, klar und frisch im Griff — unkompliziert das ganze Jahr.</p>",
-            "text_size": "text-base"
-          }
-        },
-        "column_Lk7d7k": {
-          "type": "column",
-          "settings": {
-            "image_width": "medium",
-            "title": "TENCEL™",
-            "heading_size": "h4",
-            "text": "<p>Lyocell aus Holzfasern fühlt sich von Natur aus kühl an und nimmt besonders viel Feuchtigkeit auf. Das Schlafklima bleibt ausgeglichen.</p>",
-            "text_size": "text-base"
-          }
-        }
-      },
-      "block_order": [
-        "column_RTqPVY",
-        "column_cnqq9B",
-        "column_J7ip9i",
-        "column_Lk7d7k"
-      ],
-      "name": "t:sections.image-with-text-columns.presets.name",
-      "settings": {
-        "color_scheme": "scheme-2",
-        "layout_gap": "medium",
-        "content_alignment": "center",
-        "image_position": "text_first",
-        "heading": "Kühle ist eine Frage der Faser.",
-        "heading_size": "h1",
-        "heading_highlight_style": "none",
-        "subheading": "Warum diese Materialien kühlen",
-        "description": "",
-        "text_size": "text-base",
-        "column_alignment": "left",
-        "columns_desktop": 2,
-        "column_gap": "large",
-        "columns_mobile": "1",
-        "swipe_on_mobile": false,
-        "padding_top": 50,
-        "padding_bottom": 50,
-        "show_section_divider": false,
-        "divider_width": "fixed",
-        "custom_class": ""
-      }
     }
   },
   "order": [
@@ -447,7 +447,7 @@
     "featured_collection_P8xHEX",
     "products_showcase_qUWe7f",
     "featured_collection_3xretb",
-    "featured_product_RxqXGq",
-    "image_width_text_columns_9pacpz"
+    "image_width_text_columns_9pacpz",
+    "featured_product_RxqXGq"
   ]
 }
