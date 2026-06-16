@@ -105,14 +105,14 @@
         "text_3MHLDP": {
           "type": "text",
           "settings": {
-            "heading": "Talk about your brand",
+            "heading": "Was Feuchtigkeit aufnimmt, hält Sie trocken.",
             "heading_size": "h1",
             "heading_highlight_style": "none",
             "subheading": "",
-            "description": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>",
+            "description": "<p>Gute Daunen speichern nicht nur Wärme — sie nehmen Feuchtigkeit auf und geben sie wieder ab. Kein Hitzestau, kein feuchtes Aufwachen.</p>",
             "text_size": "text-base",
-            "button_label": "Button label",
-            "button_link": "",
+            "button_label": "Daunen entdecken",
+            "button_link": "shopify://collections/daunen",
             "button_style": "btn--primary",
             "content_alignment": "left",
             "width": "50%",
