@@ -105,13 +105,13 @@
         "text_3MHLDP": {
           "type": "text",
           "settings": {
-            "heading": "Was Feuchtigkeit aufnimmt, hält Sie trocken.",
+            "heading": "Daunen atmen. Deshalb schlafen Sie trocken.",
             "heading_size": "h1",
             "heading_highlight_style": "none",
             "subheading": "",
-            "description": "<p>Gute Daunen speichern nicht nur Wärme — sie nehmen Feuchtigkeit auf und geben sie wieder ab. Kein Hitzestau, kein feuchtes Aufwachen.</p>",
+            "description": "<p>Daunen speichern nicht nur Wärme – sie nehmen Feuchtigkeit auf und geben sie wieder ab. Kein Hitzestau, kein feuchtes Aufwachen.</p>",
             "text_size": "text-base",
-            "button_label": "Daunen entdecken",
+            "button_label": "Daunen erleben",
             "button_link": "shopify://collections/daunen",
             "button_style": "btn--primary",
             "content_alignment": "left",
@@ -152,11 +152,11 @@
       "settings": {
         "color_scheme": "",
         "header_layout": "vertical",
-        "heading": "Kühlende Bettwäsche",
+        "heading": "Bettwäsche, die atmet",
         "heading_size": "h1",
         "heading_styling": "body",
         "heading_highlight_style": "none",
-        "subheading": "Von der luftigen Naturfaser bis zur spürbar kühlen Oberfläche – Stoffe, die Wärme nicht festhalten.",
+        "subheading": "Stoffe, die Wärme nicht festhalten.",
         "description": "",
         "text_size": "text-base",
         "show_collection_description": false,
@@ -259,7 +259,7 @@
             "image_width": "medium",
             "title": "Leinen",
             "heading_size": "h4",
-            "text": "<p>Die kräftige Flachsfaser hat eine offene, luftige Struktur. Sie nimmt Feuchtigkeit auf und gibt sie schnell wieder ab — das Bett bleibt trocken.</p>",
+            "text": "<p>Flachs hat eine offene Faserstruktur. Feuchtigkeit wird aufgenommen und schnell wieder abgegeben. Das Bett bleibt trocken.</p>",
             "text_size": "text-base"
           }
         },
@@ -269,7 +269,7 @@
             "image_width": "medium",
             "title": "Seide",
             "heading_size": "h4",
-            "text": "<p>Maulbeerseide ist leicht und temperaturausgleichend. Die glatte Oberfläche fühlt sich kühl an und schont zugleich Haut und Haar.</p>",
+            "text": "<p>Maulbeerseide gleicht Temperatur aus. Die glatte Oberfläche fühlt sich kühl an – und schont Haut und Haar.</p>",
             "text_size": "text-base"
           }
         },
@@ -279,7 +279,7 @@
             "image_width": "medium",
             "title": "Satin Baumwolle",
             "heading_size": "h4",
-            "text": "<p>Dicht gewebte Baumwolle mit glatter Satin-Oberfläche: atmungsaktiv, klar und frisch im Griff — unkompliziert das ganze Jahr.</p>",
+            "text": "<p>Dicht gewebte Baumwolle mit Satin-Oberfläche. Atmungsaktiv, glatt im Griff — das ganze Jahr.</p>",
             "text_size": "text-base"
           }
         },
@@ -289,7 +289,7 @@
             "image_width": "medium",
             "title": "TENCEL™",
             "heading_size": "h4",
-            "text": "<p>Lyocell aus Holzfasern fühlt sich von Natur aus kühl an und nimmt besonders viel Feuchtigkeit auf. Das Schlafklima bleibt ausgeglichen.</p>",
+            "text": "<p>Lyocell aus Holzfasern fühlt sich von Natur aus kühl an und nimmt Feuchtigkeit auf. Das Schlafklima bleibt stabil.</p>",
             "text_size": "text-base"
           }
         }
@@ -357,7 +357,7 @@
         "text_PWJPNk": {
           "type": "text",
           "settings": {
-            "text": "Ein offener Aufbau lässt Wärme und Feuchtigkeit entweichen, statt sie zu stauen. Über 2.000 einzelne Taschenfedern bilden ein offenes, luftdurchlässiges Inneres. Zusammen mit dem feinporigen CloudForm Stiftlatex kann Luft durch die Matratze strömen – Wärme und Feuchtigkeit entweichen nach unten, statt sich zu stauen. In feinster Handarbeit gefertigt in Deutschland.",
+            "text": "Über 2.000 Taschenfedern und feinporiges CloudForm Stiftlatex bilden ein offenes Inneres: Luft kann strömen, Wärme entweicht nach unten. Handgefertigt in Deutschland.",
             "text_style": "body"
           }
         },
