@@ -27,28 +27,77 @@
         "text_alignment": "start"
       }
     },
+    "image_with_text_overlay_4kdfD7": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "subheading_WRR9nA": {
+          "type": "subheading",
+          "settings": {
+            "subheading": "Sommernächte"
+          }
+        },
+        "heading_DAJD8G": {
+          "type": "heading",
+          "settings": {
+            "heading": "Kühl schlafen, wenn die Nächte warm sind",
+            "heading_size": "hd1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_GeTeka": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Ausgewählte Naturmaterialien und durchdachte Verarbeitung für Nächte, die kühl, trocken und ruhig bleiben — auch dann, wenn Ihnen sonst schnell zu warm wird.</p>",
+            "text_size": "text-base"
+          }
+        }
+      },
+      "block_order": [
+        "subheading_WRR9nA",
+        "heading_DAJD8G",
+        "text_GeTeka"
+      ],
+      "name": "t:sections.image-with-text-overlay.name",
+      "settings": {
+        "container": "full",
+        "image": "shopify://shop_images/Rectangle_265.jpg",
+        "desktop_height": "extra-medium",
+        "overlay_opacity": 70,
+        "use_custom_overlay": false,
+        "custom_overlay": "linear-gradient(201deg, rgba(23, 23, 23, 0.00) 0.08%, rgba(23, 23, 23, 0.75) 100.09%)",
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "color_scheme": "",
+        "content_position": "middle-left",
+        "content_alignment": "left",
+        "mobile_height": "auto",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "custom_class": ""
+      }
+    },
     "rich_text_BqT8nB": {
       "type": "rich-text",
       "blocks": {
         "heading_G9wWUy": {
           "type": "heading",
           "settings": {
-            "heading": "{{ page.title }}",
+            "heading": "Erholsamer Schlaf beginnt bei den richtigen Materialien.",
             "heading_size": "hd2",
             "heading_highlight_style": "none"
           }
         },
-        "text_mdcnUe": {
+        "text_rtqmNM": {
           "type": "text",
           "settings": {
-            "text": "{{ page.content }}",
+            "text": "<p>Naturmaterialien nehmen Wärme und Feuchtigkeit auf, statt sie zu halten. So bleibt das Bett angenehm frisch — die ganze Nacht.</p>",
             "text_size": "text-base"
           }
         }
       },
       "block_order": [
         "heading_G9wWUy",
-        "text_mdcnUe"
+        "text_rtqmNM"
       ],
       "name": "t:sections.rich-text.presets.name",
       "settings": {
@@ -60,11 +109,181 @@
         "divider_width": "fixed",
         "custom_class": ""
       }
+    },
+    "featured_collection_3xretb": {
+      "type": "featured-collection",
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "header_layout": "vertical",
+        "heading": "Leinen Bettwäsche",
+        "heading_size": "h1",
+        "heading_styling": "body",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "show_collection_description": false,
+        "collection": "leinen-kollektion",
+        "limit": 8,
+        "columns": 4,
+        "column_gap": "medium",
+        "row_gap": "inherit",
+        "grid_layout": "standard",
+        "enable_slider": true,
+        "controls_position": "inside",
+        "pcard_use_swiper": false,
+        "show_reviews": true,
+        "pcard_image_ratio": "",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "show_all_button_on_top": false,
+        "button_label": "",
+        "button_style": "btn--primary",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "featured_product_RxqXGq": {
+      "type": "featured-product",
+      "blocks": {
+        "badges_dCijwA": {
+          "type": "badges",
+          "settings": {
+            "show_soldout_badge": true,
+            "show_sale_badge": true,
+            "sale_badge_type": "percentage"
+          }
+        },
+        "title_WJxPpD": {
+          "type": "title",
+          "settings": {
+            "heading_size": "h1"
+          }
+        },
+        "price_8fTAk4": {
+          "type": "price",
+          "settings": {}
+        },
+        "description_rKmVhp": {
+          "type": "description",
+          "settings": {}
+        },
+        "inventory_qknhMU": {
+          "type": "inventory",
+          "settings": {
+            "text_style": "body",
+            "inventory_threshold": 10,
+            "show_inventory_quantity": true
+          }
+        },
+        "variant_picker_BYyqCa": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_type": "color_swatch",
+            "button_style": "standard",
+            "button_size": 40,
+            "size_title": "Size",
+            "size_chart_from_page": ""
+          }
+        },
+        "buy_buttons_7Qkh3K": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_quantity_selector": true,
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
+          }
+        },
+        "icon_with_text_6R9XJp": {
+          "type": "icon-with-text",
+          "settings": {
+            "layout": "horizontal",
+            "title_font": "body",
+            "title_size": "text-base",
+            "icon_1": "package",
+            "heading_1": "Orders over $50 ship free",
+            "icon_2": "currency-circle-dollar",
+            "heading_2": "30 day returns",
+            "icon_3": "star-four",
+            "heading_3": "Heading"
+          }
+        },
+        "addons_NJrQ4K": {
+          "type": "addons",
+          "settings": {
+            "show_share": true,
+            "show_ask_question": true
+          }
+        }
+      },
+      "block_order": [
+        "badges_dCijwA",
+        "title_WJxPpD",
+        "price_8fTAk4",
+        "description_rKmVhp",
+        "inventory_qknhMU",
+        "variant_picker_BYyqCa",
+        "buy_buttons_7Qkh3K",
+        "icon_with_text_6R9XJp",
+        "addons_NJrQ4K"
+      ],
+      "name": "t:sections.featured-product.presets.name",
+      "settings": {
+        "product": "leinen-bettwaesche-set",
+        "color_scheme": "",
+        "enable_sticky_info": true,
+        "media_size": "large",
+        "mobile_thumbnails": "hide",
+        "enable_image_zoom": true,
+        "enable_video_looping": false,
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "products_showcase_qUWe7f": {
+      "type": "products-showcase",
+      "name": "t:sections.products-showcase.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "heading": "Vier Stoffe, die Wärme nicht festhalten.",
+        "heading_size": "h2",
+        "heading_highlight_style": "none",
+        "products": [
+          "leinen-bettwaesche-set",
+          "baumwolle-satin-bettwaesche-set",
+          "tencel-bettwaesche-set",
+          "seide-kissenbezug"
+        ],
+        "pcard_title_size": "h1",
+        "pcard_description_display": "3-lines",
+        "pcard_description_size": "text-lg",
+        "pcard_image_ratio": "",
+        "pcard_show_vendor": false,
+        "pcard_show_type": false,
+        "pcard_button_label": "Jetzt kaufen",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
     }
   },
   "order": [
     "main",
     "breadcrumbs_zf9HBa",
-    "rich_text_BqT8nB"
+    "image_with_text_overlay_4kdfD7",
+    "rich_text_BqT8nB",
+    "featured_collection_3xretb",
+    "featured_product_RxqXGq",
+    "products_showcase_qUWe7f"
   ]
 }
