@@ -163,7 +163,10 @@
     {% comment %} Custom metafield for head tag like GTag tracking {% endcomment %}
     {{ shop.metafields.foxtheme.code_head.value }}
     {% comment %} End custom metafield for head tag like GTag tracking {% endcomment %}
-  </head>
+  <!--Gem_Page_Header_Script-->
+{% render 'gem-app-header-scripts' %}
+<!--End_Gem_Page_Header_Script-->
+</head>
 
   <body>
 <div class="gem-container">
@@ -195,5 +198,6 @@
     {% render 'gem-app-footer-scripts', GEM_FOOTER_SCRIPT: GEM_FOOTER_SCRIPT %}
   {% endif %}
 <!--End_Gem_Page_Footer_Script-->
+
 </body>
 </html>

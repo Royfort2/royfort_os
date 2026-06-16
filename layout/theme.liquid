@@ -157,7 +157,10 @@
     {% comment %} Custom metafield for head tag like GTag tracking {% endcomment %}
     {{ shop.metafields.foxtheme.code_head.value }}
     {% comment %} End custom metafield for head tag like GTag tracking {% endcomment %}
-  </head>
+  <!--Gem_Page_Header_Script-->
+{% render 'gem-app-header-scripts' %}
+<!--End_Gem_Page_Header_Script-->
+</head>
 
   <body
     class="{{ request.page_type }}-template {{ template.suffix }} blocks-corner--{{ settings.blocks_corner_radius }}{% if request.design_mode %} shopify-design-mode{% endif %}"
@@ -231,5 +234,32 @@
       <script src="{{ 'stamped-badge-rating.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 
-  </body>
+  <!--Gem_Page_Footer_Script-->
+  {%- liquid
+    assign gpTemplateSuffix = template.suffix
+    assign arrSplitSuffix = gpTemplateSuffix | split: '-'
+    if gpTemplateSuffix contains 'gem-' and gpTemplateSuffix contains '-template' and arrSplitSuffix.size == 3
+      assign isV6GpTemplate = true
+    endif
+    assign gpShopMeta = shop.metafields.gempages
+    if gpShopMeta
+      if gpShopMeta['productV6-default'] == 'true' and request.page_type == 'product'
+        assign isProductDefault = true
+      endif
+      if gpShopMeta['collectionV6-default'] == 'true' and request.page_type == 'collection'
+        assign isCollectionDefault = true
+      endif
+      if gpShopMeta['indexV6-default'] == 'true' and request.page_type == 'index'
+        assign isIndexDefault = true
+      endif
+      if isProductDefault or isCollectionDefault or isIndexDefault or isPreviewV6
+        assign isV6GpTemplate = true
+      endif
+    endif
+  %}
+  {% if isV6GpTemplate %}
+    {% render 'gem-app-footer-scripts', GEM_FOOTER_SCRIPT: GEM_FOOTER_SCRIPT %}
+  {% endif %}
+<!--End_Gem_Page_Footer_Script-->
+</body>
 </html>
