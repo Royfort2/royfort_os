@@ -349,12 +349,13 @@
         "text_m6ghYg": {
           "type": "text",
           "settings": {
-            "text": "Text block",
+            "text": "Was unter Ihnen liegt, entscheidet, ob Luft zirkulieren kann: Ein offener Aufbau lässt Wärme und Feuchtigkeit entweichen, statt sie zu stauen. Über 2.000 einzelne Taschenfedern bilden ein offenes, luftdurchlässiges Inneres. Zusammen mit dem feinporigen CloudForm Stiftlatex kann Luft durch die Matratze strömen – Wärme und Feuchtigkeit entweichen nach unten, statt sich zu stauen. In feinster Handarbeit gefertigt in Deutschland.",
             "text_style": "body"
           }
         },
         "description_rKmVhp": {
           "type": "description",
+          "disabled": true,
           "settings": {}
         },
         "inventory_qknhMU": {
