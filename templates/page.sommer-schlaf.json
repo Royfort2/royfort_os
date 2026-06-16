@@ -146,6 +146,71 @@
         "custom_class": ""
       }
     },
+    "featured_collection_P8xHEX": {
+      "type": "featured-collection",
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "header_layout": "vertical",
+        "heading": "Kühlende Bettwäsche",
+        "heading_size": "h1",
+        "heading_styling": "body",
+        "heading_highlight_style": "none",
+        "subheading": "Von der luftigen Naturfaser bis zur spürbar kühlen Oberfläche – Stoffe, die Wärme nicht festhalten.",
+        "description": "",
+        "text_size": "text-base",
+        "show_collection_description": false,
+        "collection": "sommer-bettwasche",
+        "limit": 8,
+        "columns": 4,
+        "column_gap": "medium",
+        "row_gap": "inherit",
+        "grid_layout": "standard",
+        "enable_slider": true,
+        "controls_position": "inside",
+        "pcard_use_swiper": false,
+        "show_reviews": true,
+        "pcard_image_ratio": "",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "show_all_button_on_top": false,
+        "button_label": "",
+        "button_style": "btn--primary",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "products_showcase_qUWe7f": {
+      "type": "products-showcase",
+      "name": "t:sections.products-showcase.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "heading": "Vier Stoffe, die Wärme nicht festhalten.",
+        "heading_size": "h2",
+        "heading_highlight_style": "none",
+        "products": [
+          "leinen-bettwaesche-set",
+          "baumwolle-satin-bettwaesche-set",
+          "tencel-bettwaesche-set",
+          "seide-kissenbezug"
+        ],
+        "pcard_title_size": "h1",
+        "pcard_description_display": "3-lines",
+        "pcard_description_size": "text-lg",
+        "pcard_image_ratio": "",
+        "pcard_show_vendor": false,
+        "pcard_show_type": false,
+        "pcard_button_label": "Jetzt kaufen",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
     "featured_collection_3xretb": {
       "type": "featured-collection",
       "name": "t:sections.featured-collection.presets.name",
@@ -188,6 +253,7 @@
       "blocks": {
         "badges_dCijwA": {
           "type": "badges",
+          "disabled": true,
           "settings": {
             "show_soldout_badge": true,
             "show_sale_badge": true,
@@ -204,12 +270,20 @@
           "type": "price",
           "settings": {}
         },
+        "text_m6ghYg": {
+          "type": "text",
+          "settings": {
+            "text": "Text block",
+            "text_style": "body"
+          }
+        },
         "description_rKmVhp": {
           "type": "description",
           "settings": {}
         },
         "inventory_qknhMU": {
           "type": "inventory",
+          "disabled": true,
           "settings": {
             "text_style": "body",
             "inventory_threshold": 10,
@@ -218,6 +292,7 @@
         },
         "variant_picker_BYyqCa": {
           "type": "variant_picker",
+          "disabled": true,
           "settings": {
             "picker_type": "button",
             "swatch_type": "color_swatch",
@@ -237,6 +312,7 @@
         },
         "icon_with_text_6R9XJp": {
           "type": "icon-with-text",
+          "disabled": true,
           "settings": {
             "layout": "horizontal",
             "title_font": "body",
@@ -251,6 +327,7 @@
         },
         "addons_NJrQ4K": {
           "type": "addons",
+          "disabled": true,
           "settings": {
             "show_share": true,
             "show_ask_question": true
@@ -261,6 +338,7 @@
         "badges_dCijwA",
         "title_WJxPpD",
         "price_8fTAk4",
+        "text_m6ghYg",
         "description_rKmVhp",
         "inventory_qknhMU",
         "variant_picker_BYyqCa",
@@ -270,78 +348,13 @@
       ],
       "name": "t:sections.featured-product.presets.name",
       "settings": {
-        "product": "leinen-bettwaesche-set",
+        "product": "atelier-matratze-no-1",
         "color_scheme": "",
         "enable_sticky_info": true,
-        "media_size": "large",
+        "media_size": "small",
         "mobile_thumbnails": "hide",
         "enable_image_zoom": true,
         "enable_video_looping": false,
-        "padding_top": 50,
-        "padding_bottom": 50,
-        "show_section_divider": false,
-        "divider_width": "fixed",
-        "custom_class": ""
-      }
-    },
-    "products_showcase_qUWe7f": {
-      "type": "products-showcase",
-      "name": "t:sections.products-showcase.presets.name",
-      "settings": {
-        "color_scheme": "",
-        "heading": "Vier Stoffe, die Wärme nicht festhalten.",
-        "heading_size": "h2",
-        "heading_highlight_style": "none",
-        "products": [
-          "leinen-bettwaesche-set",
-          "baumwolle-satin-bettwaesche-set",
-          "tencel-bettwaesche-set",
-          "seide-kissenbezug"
-        ],
-        "pcard_title_size": "h1",
-        "pcard_description_display": "3-lines",
-        "pcard_description_size": "text-lg",
-        "pcard_image_ratio": "",
-        "pcard_show_vendor": false,
-        "pcard_show_type": false,
-        "pcard_button_label": "Jetzt kaufen",
-        "padding_top": 50,
-        "padding_bottom": 50,
-        "show_section_divider": false,
-        "divider_width": "fixed",
-        "custom_class": ""
-      }
-    },
-    "featured_collection_P8xHEX": {
-      "type": "featured-collection",
-      "name": "t:sections.featured-collection.presets.name",
-      "settings": {
-        "color_scheme": "",
-        "header_layout": "vertical",
-        "heading": "Kühlende Bettwäsche",
-        "heading_size": "h1",
-        "heading_styling": "body",
-        "heading_highlight_style": "none",
-        "subheading": "Von der luftigen Naturfaser bis zur spürbar kühlen Oberfläche – Stoffe, die Wärme nicht festhalten.",
-        "description": "",
-        "text_size": "text-base",
-        "show_collection_description": false,
-        "collection": "sommer-bettwasche",
-        "limit": 8,
-        "columns": 4,
-        "column_gap": "medium",
-        "row_gap": "inherit",
-        "grid_layout": "standard",
-        "enable_slider": true,
-        "controls_position": "inside",
-        "pcard_use_swiper": false,
-        "show_reviews": true,
-        "pcard_image_ratio": "",
-        "columns_mobile": "1",
-        "swipe_on_mobile": true,
-        "show_all_button_on_top": false,
-        "button_label": "",
-        "button_style": "btn--primary",
         "padding_top": 50,
         "padding_bottom": 50,
         "show_section_divider": false,
@@ -355,9 +368,9 @@
     "breadcrumbs_zf9HBa",
     "image_with_text_overlay_4kdfD7",
     "custom_content_VCzxRU",
-    "featured_collection_3xretb",
-    "featured_product_RxqXGq",
+    "featured_collection_P8xHEX",
     "products_showcase_qUWe7f",
-    "featured_collection_P8xHEX"
+    "featured_collection_3xretb",
+    "featured_product_RxqXGq"
   ]
 }
