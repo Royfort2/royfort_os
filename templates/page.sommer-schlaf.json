@@ -76,35 +76,71 @@
         "custom_class": ""
       }
     },
-    "rich_text_BqT8nB": {
-      "type": "rich-text",
+    "custom_content_VCzxRU": {
+      "type": "custom-content",
       "blocks": {
-        "heading_G9wWUy": {
-          "type": "heading",
+        "collections_bxrPcx": {
+          "type": "collections",
           "settings": {
-            "heading": "Erholsamer Schlaf beginnt bei den richtigen Materialien.",
-            "heading_size": "hd2",
-            "heading_highlight_style": "none"
+            "collection_list": [
+              "daunen"
+            ],
+            "hide_collection_name": false,
+            "button_label": "",
+            "button_style": "btn--primary",
+            "limit": 4,
+            "columns": 2,
+            "column_gap": "medium",
+            "row_gap": "inherit",
+            "enable_slider": true,
+            "show_reviews": true,
+            "pcard_image_ratio": "",
+            "columns_mobile": "1",
+            "swipe_on_mobile": true,
+            "width": "50%",
+            "alignment": "center",
+            "block_custom_class": ""
           }
         },
-        "text_rtqmNM": {
+        "text_3MHLDP": {
           "type": "text",
           "settings": {
-            "text": "<p>Naturmaterialien nehmen Wärme und Feuchtigkeit auf, statt sie zu halten. So bleibt das Bett angenehm frisch — die ganze Nacht.</p>",
-            "text_size": "text-base"
+            "heading": "Talk about your brand",
+            "heading_size": "h1",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>",
+            "text_size": "text-base",
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style": "btn--primary",
+            "content_alignment": "left",
+            "width": "50%",
+            "alignment": "center",
+            "block_custom_class": ""
           }
         }
       },
       "block_order": [
-        "heading_G9wWUy",
-        "text_rtqmNM"
+        "collections_bxrPcx",
+        "text_3MHLDP"
       ],
-      "name": "t:sections.rich-text.presets.name",
+      "name": "t:sections.custom-content.name",
       "settings": {
+        "container": "fixed",
         "color_scheme": "",
-        "content_alignment": "left",
-        "padding_top": 0,
-        "padding_bottom": 40,
+        "enable_sticky_column": false,
+        "heading": "Erholsamer Schlaf beginnt bei den richtigen Materialien.",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "<p>Naturmaterialien nehmen Wärme und Feuchtigkeit auf, statt sie zu halten. So bleibt das Bett angenehm frisch — die ganze Nacht.</p>",
+        "column_gap": "medium",
+        "row_gap": "large",
+        "swipe_on_mobile": false,
+        "columns_mobile": "1",
+        "padding_top": 50,
+        "padding_bottom": 50,
         "show_section_divider": false,
         "divider_width": "fixed",
         "custom_class": ""
@@ -318,7 +354,7 @@
     "main",
     "breadcrumbs_zf9HBa",
     "image_with_text_overlay_4kdfD7",
-    "rich_text_BqT8nB",
+    "custom_content_VCzxRU",
     "featured_collection_3xretb",
     "featured_product_RxqXGq",
     "products_showcase_qUWe7f",
