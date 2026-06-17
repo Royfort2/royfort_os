@@ -117,7 +117,6 @@
         "form",
         "socials"
       ],
-      "disabled": true,
       "settings": {
         "enable": false,
         "show_for_homepage_only": true,
@@ -128,7 +127,7 @@
         "width": 880,
         "show_teaser": false,
         "teaser_button_text": "Newsletter",
-        "teaser_popup_bg": "#d63a2f",
+        "teaser_popup_bg": "#FFFFFF",
         "teaser_popup_text": "#ffffff"
       }
     }
