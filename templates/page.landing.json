@@ -17,45 +17,151 @@
         "padding_bottom": 28
       }
     },
-    "breadcrumbs_zf9HBa": {
-      "type": "breadcrumbs",
-      "custom_css": [
-        ".justify-center {justify-content: left;}"
-      ],
-      "name": "t:sections.breadcrumbs.name",
-      "settings": {
-        "text_alignment": "start"
-      }
-    },
-    "rich_text_BqT8nB": {
-      "type": "rich-text",
+    "multicolumn_dGdzNX": {
+      "type": "multicolumn",
       "blocks": {
-        "heading_G9wWUy": {
-          "type": "heading",
+        "column_433Ff7": {
+          "type": "column",
           "settings": {
-            "heading": "{{ page.title }}",
-            "heading_size": "hd2",
-            "heading_highlight_style": "none"
+            "show_image": true,
+            "image": "shopify://shop_images/falstaff_logo.jpg",
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
+            "image_width": "full",
+            "title": "",
+            "heading_size": "h4",
+            "text": "",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
           }
         },
-        "text_mdcnUe": {
-          "type": "text",
+        "column_xexFQc": {
+          "type": "column",
           "settings": {
-            "text": "{{ page.content }}",
-            "text_size": "text-base"
+            "show_image": true,
+            "image": "shopify://shop_images/zeit_logo.jpg",
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
+            "image_width": "full",
+            "title": "",
+            "heading_size": "h4",
+            "text": "",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_mTiiwn": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image": "shopify://shop_images/suddeutschzeitung_logo.jpg",
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
+            "image_width": "full",
+            "title": "",
+            "heading_size": "h4",
+            "text": "",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
           }
         }
       },
-      "block_order": [
-        "heading_G9wWUy",
-        "text_mdcnUe"
-      ],
-      "name": "t:sections.rich-text.presets.name",
+      "block_order": ["column_433Ff7", "column_xexFQc", "column_mTiiwn"],
+      "name": "t:sections.multicolumn.presets.name",
       "settings": {
         "color_scheme": "",
-        "content_alignment": "left",
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "column_alignment": "left",
+        "columns_desktop": 3,
+        "column_gap": "none",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
         "padding_top": 0,
-        "padding_bottom": 40,
+        "padding_bottom": 0,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "image_with_text_GMFb4h": {
+      "type": "image-with-text",
+      "blocks": {
+        "subheading_PhNeGN": {
+          "type": "subheading",
+          "settings": {
+            "subheading": "KaDeWe | Alsterhaus | Breuninger"
+          }
+        },
+        "heading_qXTYeM": {
+          "type": "heading",
+          "settings": {
+            "heading": "Standorte",
+            "heading_size": "hd1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_pCVkBM": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Erleben Sie Royfort persönlich an unseren Standorten in Berlin, Hamburg, München, Stuttgart, Frankfurt und Düsseldorf – entdecken Sie ausgewählte Bettwäsche, Matratzen und Betten und lassen Sie sich individuell zu Ihrem perfekten Schlafkomfort beraten.</p>",
+            "text_size": "text-base",
+            "truncate_on_mobile": false,
+            "truncate_on_mobile_lines": 3,
+            "truncate_trigger_text": "Mehr lesen",
+            "truncate_collapse_text": "Weniger"
+          }
+        },
+        "button_mhNxMY": {
+          "type": "button",
+          "settings": {
+            "button_label": "Alle Standorte entdecken",
+            "button_link": "shopify://pages/unsere-standorte",
+            "button_style": "btn--underline"
+          }
+        }
+      },
+      "block_order": ["subheading_PhNeGN", "heading_qXTYeM", "text_pCVkBM", "button_mhNxMY"],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "is_full_width": false,
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "image": "shopify://shop_images/royfort-kadewe-12.jpg",
+        "image_height": "adapt",
+        "layout": "image_first",
+        "desktop_content_position": "center",
+        "desktop_content_alignment": "left",
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "mobile_content_alignment": "left",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "different_mobile_padding": false,
+        "padding_top_mobile": 30,
+        "padding_bottom_mobile": 30,
         "show_section_divider": false,
         "divider_width": "fixed",
         "custom_class": ""
@@ -64,7 +170,7 @@
   },
   "order": [
     "main",
-    "breadcrumbs_zf9HBa",
-    "rich_text_BqT8nB"
+    "multicolumn_dGdzNX",
+    "image_with_text_GMFb4h"
   ]
 }
