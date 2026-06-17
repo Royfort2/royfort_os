@@ -76,6 +76,152 @@
         "custom_class": ""
       }
     },
+    "rich_text_FLGWR6": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_6zBiMM": {
+          "type": "heading",
+          "settings": {
+            "heading": "Erholsamer Schlaf beginnt im richtigen Material",
+            "heading_size": "hd2",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_aqHjKK": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Naturmaterialien nehmen Wärme und Feuchtigkeit auf nd geben sie wieder ab. So bleibt das Bett die ganze Nacht angenehm frisch.</p>",
+            "text_size": "text-base"
+          }
+        }
+      },
+      "block_order": [
+        "heading_6zBiMM",
+        "text_aqHjKK"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "content_alignment": "center",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "featured_collection_P8xHEX": {
+      "type": "featured-collection",
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "header_layout": "vertical",
+        "heading": "Bettwäsche, die atmet",
+        "heading_size": "h1",
+        "heading_styling": "heading",
+        "heading_highlight_style": "none",
+        "subheading": "Stoffe, die Wärme nicht festhalten.",
+        "description": "",
+        "text_size": "text-base",
+        "show_collection_description": false,
+        "collection": "sommer-bettwasche",
+        "limit": 8,
+        "columns": 4,
+        "column_gap": "medium",
+        "row_gap": "inherit",
+        "grid_layout": "standard",
+        "enable_slider": true,
+        "controls_position": "inside",
+        "pcard_use_swiper": false,
+        "show_reviews": true,
+        "pcard_image_ratio": "",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "show_all_button_on_top": false,
+        "button_label": "",
+        "button_style": "btn--primary",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "image_width_text_columns_9pacpz": {
+      "type": "image-width-text-columns",
+      "blocks": {
+        "column_RTqPVY": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "Satin Baumwolle",
+            "heading_size": "h4",
+            "text": "<p>Dicht gewebte Baumwolle mit Satin-Oberfläche. Atmungsaktiv, glatt im Griff — das ganze Jahr.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "column_cnqq9B": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "Seide",
+            "heading_size": "h4",
+            "text": "<p>Maulbeerseide gleicht Temperatur aus. Die glatte Oberfläche fühlt sich kühl an – und schont Haut und Haar.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "column_J7ip9i": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "Leinen",
+            "heading_size": "h4",
+            "text": "<p>Flachs hat eine offene Faserstruktur. Feuchtigkeit wird aufgenommen und schnell wieder abgegeben. Das Bett bleibt trocken.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "column_Lk7d7k": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "TENCEL™",
+            "heading_size": "h4",
+            "text": "<p>Lyocell aus Holzfasern fühlt sich von Natur aus kühl an und nimmt Feuchtigkeit auf. Das Schlafklima bleibt stabil.</p>",
+            "text_size": "text-base"
+          }
+        }
+      },
+      "block_order": [
+        "column_RTqPVY",
+        "column_cnqq9B",
+        "column_J7ip9i",
+        "column_Lk7d7k"
+      ],
+      "name": "t:sections.image-with-text-columns.presets.name",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "layout_gap": "medium",
+        "content_alignment": "center",
+        "image": "shopify://shop_images/25-03-Royfort-12-Cotton-Weiss-1378_e0c6aa4a-da23-4eb2-bdf3-b730e96df660.jpg",
+        "image_position": "text_first",
+        "heading": "Kühle ist eine Frage der Faser.",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "Warum diese Materialien kühlen",
+        "description": "",
+        "text_size": "text-base",
+        "column_alignment": "left",
+        "columns_desktop": 2,
+        "column_gap": "large",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
     "custom_content_VCzxRU": {
       "type": "custom-content",
       "blocks": {
@@ -130,52 +276,15 @@
         "container": "fixed",
         "color_scheme": "",
         "enable_sticky_column": false,
-        "heading": "Erholsamer Schlaf beginnt im richtigen Material.",
+        "heading": "",
         "heading_size": "h1",
         "heading_highlight_style": "none",
         "subheading": "",
-        "description": "<p>Naturmaterialien nehmen Wärme und Feuchtigkeit auf nd geben sie wieder ab. So bleibt das Bett die ganze Nacht angenehm frisch.</p>",
+        "description": "",
         "column_gap": "medium",
         "row_gap": "large",
         "swipe_on_mobile": false,
         "columns_mobile": "1",
-        "padding_top": 50,
-        "padding_bottom": 50,
-        "show_section_divider": false,
-        "divider_width": "fixed",
-        "custom_class": ""
-      }
-    },
-    "featured_collection_P8xHEX": {
-      "type": "featured-collection",
-      "name": "t:sections.featured-collection.presets.name",
-      "settings": {
-        "color_scheme": "",
-        "header_layout": "vertical",
-        "heading": "Bettwäsche, die atmet",
-        "heading_size": "h1",
-        "heading_styling": "body",
-        "heading_highlight_style": "none",
-        "subheading": "Stoffe, die Wärme nicht festhalten.",
-        "description": "",
-        "text_size": "text-base",
-        "show_collection_description": false,
-        "collection": "sommer-bettwasche",
-        "limit": 8,
-        "columns": 4,
-        "column_gap": "medium",
-        "row_gap": "inherit",
-        "grid_layout": "standard",
-        "enable_slider": true,
-        "controls_position": "inside",
-        "pcard_use_swiper": false,
-        "show_reviews": true,
-        "pcard_image_ratio": "",
-        "columns_mobile": "1",
-        "swipe_on_mobile": true,
-        "show_all_button_on_top": false,
-        "button_label": "",
-        "button_style": "btn--primary",
         "padding_top": 50,
         "padding_bottom": 50,
         "show_section_divider": false,
@@ -243,81 +352,6 @@
         "show_all_button_on_top": false,
         "button_label": "",
         "button_style": "btn--primary",
-        "padding_top": 50,
-        "padding_bottom": 50,
-        "show_section_divider": false,
-        "divider_width": "fixed",
-        "custom_class": ""
-      }
-    },
-    "image_width_text_columns_9pacpz": {
-      "type": "image-width-text-columns",
-      "blocks": {
-        "column_RTqPVY": {
-          "type": "column",
-          "settings": {
-            "image_width": "medium",
-            "title": "Leinen",
-            "heading_size": "h4",
-            "text": "<p>Flachs hat eine offene Faserstruktur. Feuchtigkeit wird aufgenommen und schnell wieder abgegeben. Das Bett bleibt trocken.</p>",
-            "text_size": "text-base"
-          }
-        },
-        "column_cnqq9B": {
-          "type": "column",
-          "settings": {
-            "image_width": "medium",
-            "title": "Seide",
-            "heading_size": "h4",
-            "text": "<p>Maulbeerseide gleicht Temperatur aus. Die glatte Oberfläche fühlt sich kühl an – und schont Haut und Haar.</p>",
-            "text_size": "text-base"
-          }
-        },
-        "column_J7ip9i": {
-          "type": "column",
-          "settings": {
-            "image_width": "medium",
-            "title": "Satin Baumwolle",
-            "heading_size": "h4",
-            "text": "<p>Dicht gewebte Baumwolle mit Satin-Oberfläche. Atmungsaktiv, glatt im Griff — das ganze Jahr.</p>",
-            "text_size": "text-base"
-          }
-        },
-        "column_Lk7d7k": {
-          "type": "column",
-          "settings": {
-            "image_width": "medium",
-            "title": "TENCEL™",
-            "heading_size": "h4",
-            "text": "<p>Lyocell aus Holzfasern fühlt sich von Natur aus kühl an und nimmt Feuchtigkeit auf. Das Schlafklima bleibt stabil.</p>",
-            "text_size": "text-base"
-          }
-        }
-      },
-      "block_order": [
-        "column_RTqPVY",
-        "column_cnqq9B",
-        "column_J7ip9i",
-        "column_Lk7d7k"
-      ],
-      "name": "t:sections.image-with-text-columns.presets.name",
-      "settings": {
-        "color_scheme": "scheme-2",
-        "layout_gap": "medium",
-        "content_alignment": "center",
-        "image": "shopify://shop_images/25-03-Royfort-12-Cotton-Weiss-1378_e0c6aa4a-da23-4eb2-bdf3-b730e96df660.jpg",
-        "image_position": "text_first",
-        "heading": "Kühle ist eine Frage der Faser.",
-        "heading_size": "h1",
-        "heading_highlight_style": "none",
-        "subheading": "Warum diese Materialien kühlen",
-        "description": "",
-        "text_size": "text-base",
-        "column_alignment": "left",
-        "columns_desktop": 2,
-        "column_gap": "large",
-        "columns_mobile": "1",
-        "swipe_on_mobile": false,
         "padding_top": 50,
         "padding_bottom": 50,
         "show_section_divider": false,
@@ -448,6 +482,44 @@
         "custom_class": ""
       }
     },
+    "product_list_with_details_Xmqgeq": {
+      "type": "product-list-with-details",
+      "name": "t:sections.product-list-with-details.name",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "products": [
+          "baumwolle-satin-bettwaesche-set",
+          "seide-kissenbezug",
+          "leinen-bettwaesche-set",
+          "tencel-bettwaesche-set",
+          "daunendecke",
+          "atelier-matratze-no-1"
+        ],
+        "header_layout": "vertical",
+        "heading": "Die Anatomie einer kühlen Nacht",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "Schicht für Schicht optimiert für Ihre Erholung",
+        "description": "",
+        "text_size": "text-base",
+        "columns": 3,
+        "column_gap": "medium",
+        "row_gap": "inherit",
+        "pcard_image_ratio": "",
+        "show_reviews": true,
+        "product_details_color_scheme": "",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "button_label": "Button label",
+        "button_link": "",
+        "button_style": "btn--primary",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
     "featured_collection_pagRXw": {
       "type": "featured-collection",
       "name": "t:sections.featured-collection.presets.name",
@@ -490,12 +562,14 @@
     "main",
     "breadcrumbs_zf9HBa",
     "image_with_text_overlay_4kdfD7",
-    "custom_content_VCzxRU",
+    "rich_text_FLGWR6",
     "featured_collection_P8xHEX",
+    "image_width_text_columns_9pacpz",
+    "custom_content_VCzxRU",
     "products_showcase_qUWe7f",
     "featured_collection_3xretb",
-    "image_width_text_columns_9pacpz",
     "featured_product_RxqXGq",
+    "product_list_with_details_Xmqgeq",
     "featured_collection_pagRXw"
   ]
 }
