@@ -118,7 +118,7 @@
         "socials"
       ],
       "settings": {
-        "enable": false,
+        "enable": true,
         "show_for_homepage_only": true,
         "show_for_visitors_only": true,
         "trigger_open": "scroll_down",
