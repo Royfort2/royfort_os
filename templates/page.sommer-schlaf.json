@@ -48,7 +48,7 @@
           "type": "text",
           "settings": {
             "text": "<p>Ausgewählte Naturmaterialien und durchdachte Verarbeitung für Nächte, die kühl, trocken und ruhig bleiben — auch dann, wenn Ihnen sonst schnell zu warm wird.</p>",
-            "text_size": "text-base"
+            "text_size": "text-sm"
           }
         }
       },
@@ -70,6 +70,7 @@
         "color_scheme": "",
         "content_position": "middle-left",
         "content_alignment": "left",
+        "image_mobile": "shopify://shop_images/Rectangle_266.jpg",
         "mobile_height": "auto",
         "padding_top": 50,
         "padding_bottom": 50,
@@ -82,8 +83,8 @@
         "heading_6zBiMM": {
           "type": "heading",
           "settings": {
-            "heading": "Erholsamer Schlaf beginnt im richtigen Material",
-            "heading_size": "hd2",
+            "heading": "Erholsamer Schlaf beginnt im richtigen Material.",
+            "heading_size": "h1",
             "heading_highlight_style": "none"
           }
         },
@@ -91,7 +92,7 @@
           "type": "text",
           "settings": {
             "text": "<p>Naturmaterialien nehmen Wärme und Feuchtigkeit auf und geben sie wieder ab. So bleibt das Bett die ganze Nacht angenehm frisch.</p>",
-            "text_size": "text-base"
+            "text_size": "text-lg"
           }
         }
       },
@@ -213,7 +214,7 @@
         "column_alignment": "left",
         "columns_desktop": 2,
         "column_gap": "large",
-        "columns_mobile": "1",
+        "columns_mobile": "2",
         "swipe_on_mobile": false,
         "padding_top": 50,
         "padding_bottom": 50,
@@ -428,29 +429,6 @@
             "show_dynamic_checkout": true,
             "show_gift_card_recipient": true
           }
-        },
-        "icon_with_text_6R9XJp": {
-          "type": "icon-with-text",
-          "disabled": true,
-          "settings": {
-            "layout": "horizontal",
-            "title_font": "body",
-            "title_size": "text-base",
-            "icon_1": "package",
-            "heading_1": "Orders over $50 ship free",
-            "icon_2": "currency-circle-dollar",
-            "heading_2": "30 day returns",
-            "icon_3": "star-four",
-            "heading_3": "Heading"
-          }
-        },
-        "addons_NJrQ4K": {
-          "type": "addons",
-          "disabled": true,
-          "settings": {
-            "show_share": true,
-            "show_ask_question": true
-          }
         }
       },
       "block_order": [
@@ -462,9 +440,7 @@
         "description_rKmVhp",
         "inventory_qknhMU",
         "variant_picker_BYyqCa",
-        "buy_buttons_7Qkh3K",
-        "icon_with_text_6R9XJp",
-        "addons_NJrQ4K"
+        "buy_buttons_7Qkh3K"
       ],
       "name": "t:sections.featured-product.presets.name",
       "settings": {
