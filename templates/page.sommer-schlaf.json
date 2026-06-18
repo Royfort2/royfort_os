@@ -223,6 +223,99 @@
         "custom_class": ""
       }
     },
+    "multicolumn_dGdzNX": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_433Ff7": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image": "shopify://shop_images/falstaff_logo.jpg",
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
+            "image_width": "full",
+            "title": "",
+            "heading_size": "h4",
+            "text": "",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_xexFQc": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image": "shopify://shop_images/zeit_logo.jpg",
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
+            "image_width": "full",
+            "title": "",
+            "heading_size": "h4",
+            "text": "",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_mTiiwn": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image": "shopify://shop_images/suddeutschzeitung_logo.jpg",
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
+            "image_width": "full",
+            "title": "",
+            "heading_size": "h4",
+            "text": "",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        }
+      },
+      "block_order": [
+        "column_433Ff7",
+        "column_xexFQc",
+        "column_mTiiwn"
+      ],
+      "name": "t:sections.multicolumn.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "column_alignment": "left",
+        "columns_desktop": 3,
+        "column_gap": "none",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
     "custom_content_VCzxRU": {
       "type": "custom-content",
       "blocks": {
@@ -533,95 +626,6 @@
         "custom_class": ""
       }
     },
-    "multicolumn_dGdzNX": {
-      "type": "multicolumn",
-      "blocks": {
-        "column_433Ff7": {
-          "type": "column",
-          "settings": {
-            "show_image": true,
-            "image": "shopify://shop_images/falstaff_logo.jpg",
-            "video_url": "",
-            "video_autoplay": false,
-            "video_loop": false,
-            "video_muted": true,
-            "video_controls": true,
-            "image_width": "full",
-            "title": "",
-            "heading_size": "h4",
-            "text": "",
-            "text_size": "text-base",
-            "button_label": "",
-            "button_style": "btn--underline",
-            "button_link": "",
-            "mobile_layout": "inherit"
-          }
-        },
-        "column_xexFQc": {
-          "type": "column",
-          "settings": {
-            "show_image": true,
-            "image": "shopify://shop_images/zeit_logo.jpg",
-            "video_url": "",
-            "video_autoplay": false,
-            "video_loop": false,
-            "video_muted": true,
-            "video_controls": true,
-            "image_width": "full",
-            "title": "",
-            "heading_size": "h4",
-            "text": "",
-            "text_size": "text-base",
-            "button_label": "",
-            "button_style": "btn--underline",
-            "button_link": "",
-            "mobile_layout": "inherit"
-          }
-        },
-        "column_mTiiwn": {
-          "type": "column",
-          "settings": {
-            "show_image": true,
-            "image": "shopify://shop_images/suddeutschzeitung_logo.jpg",
-            "video_url": "",
-            "video_autoplay": false,
-            "video_loop": false,
-            "video_muted": true,
-            "video_controls": true,
-            "image_width": "full",
-            "title": "",
-            "heading_size": "h4",
-            "text": "",
-            "text_size": "text-base",
-            "button_label": "",
-            "button_style": "btn--underline",
-            "button_link": "",
-            "mobile_layout": "inherit"
-          }
-        }
-      },
-      "block_order": ["column_433Ff7", "column_xexFQc", "column_mTiiwn"],
-      "name": "t:sections.multicolumn.presets.name",
-      "settings": {
-        "color_scheme": "",
-        "heading": "",
-        "heading_size": "h1",
-        "heading_highlight_style": "none",
-        "subheading": "",
-        "description": "",
-        "text_size": "text-base",
-        "column_alignment": "left",
-        "columns_desktop": 3,
-        "column_gap": "none",
-        "columns_mobile": "1",
-        "swipe_on_mobile": true,
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "show_section_divider": false,
-        "divider_width": "fixed",
-        "custom_class": ""
-      }
-    },
     "image_with_text_GMFb4h": {
       "type": "image-with-text",
       "blocks": {
@@ -659,7 +663,12 @@
           }
         }
       },
-      "block_order": ["subheading_PhNeGN", "heading_qXTYeM", "text_pCVkBM", "button_mhNxMY"],
+      "block_order": [
+        "subheading_PhNeGN",
+        "heading_qXTYeM",
+        "text_pCVkBM",
+        "button_mhNxMY"
+      ],
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
         "is_full_width": false,
@@ -691,13 +700,13 @@
     "rich_text_FLGWR6",
     "featured_collection_P8xHEX",
     "image_width_text_columns_9pacpz",
+    "multicolumn_dGdzNX",
     "custom_content_VCzxRU",
     "products_showcase_qUWe7f",
     "featured_collection_3xretb",
     "featured_product_RxqXGq",
     "product_list_with_details_Xmqgeq",
-    "featured_collection_pagRXw",
-    "multicolumn_dGdzNX",
-    "image_with_text_GMFb4h"
+    "image_with_text_GMFb4h",
+    "featured_collection_pagRXw"
   ]
 }
