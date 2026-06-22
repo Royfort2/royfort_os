@@ -341,21 +341,20 @@
           "type": "collapsible_item",
           "settings": {
             "icon": "none",
-            "heading": "Warum müssen wir schlafen?",
-            "content": "<p>Schlafen und Wachsein sind zwei Seiten derselben Medaille – wir benötigen beides in ausreichender Qualität und Quantität, damit das jeweils andere funktioniert. Ein Blick ins Tierreich zeigt: im Lauf der Evolution hat die Natur faszinierende Strategien entwickelt, die den Schlaf – einen ja sehr vulnerablen Zustand – möglichst sicher machen sollen. Verschwunden ist er jedoch nie, er scheint also überlebensnotwendig zu sein. </p>",
-            "custom_liquid": "In der Tat zeigen Studien, dass das Immunsystem ganz ohne Schlaf innerhalb relativ kurzer Zeit den Dienst versagt und so zum Tod von Lebewesen führt. \nDie Folgen einer kurzen Nacht sind zum Glück weitaus weniger dramatisch. Kurzfristig führt Schlafmangel dazu, dass wir müde werden und Aufmerksamkeit sowie Reaktionsfähigkeit nachlassen. Auch emotional sind wir möglicherweise nicht in Höchstform, sind ungeduldiger oder reizbarer. Diese Defizite lassen sich jedoch in der Regel schnell ausgleichen, indem man wieder ausreichend schläft. Wer langfristig zu wenig Schlaf bekommt, hat allerdings ein höheres Risiko für weniger leicht zu behebende Folgen: Erkrankungen wie Übergewicht, Diabetes Typ 2, Herz-Kreislauf-Erkrankungen und psychische Störungen werden wahrscheinlicher. Um Angst und Sorgen bei schlechten Schläfer:innen an dieser Stelle vorzubeugen: keine Panik, Menschen mit Schlafproblemen haben oft das Gefühl, viel weniger zu schlafen als sie es tatsächlich tun. Zudem kann man aus Studien nicht auf den Einzelfall schliessen.",
+            "heading": "Welche Rolle spielt die Regulierung des Nervensystems für guten Schlaf?",
+            "content": "<p>Das Nervensystem spielt eine entscheidende Rolle bei allem in unserem Leben: Es empfängt und verarbeitet alle Eindrücke, die uns aus der Umwelt erreichen, sowie auch zahllose Zustandsmeldungen aus unserem Inneren. </p>",
+            "custom_liquid": "Es ist im Laufe eines Jahrmillionen langen Evolutionsprozesses geformt worden und eigentlich darauf eingerichtet, dass sich Zustände von Belastung, Anstrengung und Stress mit Momenten des Ausruhens, Entspannens und Schlafens abwechseln. In diesen Zeiten kann sich das System dann erholen und Heilungsprozesse in Gang setzen. Es ist dieser Wechsel unterschiedlicher - vor allem eigentlich körperlicher - Anforderungen, der uns als biologische Wesen, die wir ja sind,  ausmacht.",
             "page": "",
             "open": false
           }
         },
         "collapsible_item_GTMh9h": {
           "type": "collapsible_item",
-          "disabled": true,
           "settings": {
             "icon": "none",
-            "heading": "Collapsible tab heading",
-            "content": "<p>Fill in the text content of the collapsible item here. You can provide details and explanation for the question here.</p>",
-            "custom_liquid": "",
+            "heading": "Warum fällt das „Abschalten“ gerade Menschen ab 40 oft so schwer?",
+            "content": "<p>Das Leben vieler Menschen sieht heute aber so aus, dass Belastungen chronisch werden, dabei auch zunehmend weniger körperlich:</p>",
+            "custom_liquid": "Man sitzt viele Stunden am Tag und blickt auf einen Computerschirm oder das Handy. Was vor 100.000 Jahren der sprichwörtliche Säbelzahntiger vor der Höhle war, ist heute die E-Mail vom Chef oder schwierigen Kunden: Der Stress ist “nur” mental, aber unsere Biologie reagiert physisch: Unser Nervensystem kann zwischen einer “nur” mentalen Stresserfahrung und echter, vitaler Bedrohung nicht unterscheiden. Und wir nehmen diesen mentalen Stress dann mit in den Abend und ins Bett: Die Sorgen oder Ängste, der berufliche Druck usw.: Sie verschwinden nicht um 17 Uhr bei Arbeitsschluss. Das mentale Rad dreht sich weiter.\nKurz: Wir haben uns eine Lebenswelt geschaffen, für die unser Nervensystem eigentlich nicht gemacht ist. Das hat negative gesundheitliche Folgen.",
             "page": "",
             "open": false
           }
