@@ -210,40 +210,6 @@
         "custom_class": ""
       }
     },
-    "rich_text_AC7DJA": {
-      "type": "rich-text",
-      "blocks": {
-        "heading_4fetWE": {
-          "type": "heading",
-          "settings": {
-            "heading": "Atemwissen von Dr. Ralph Skuban direkt in Ihr Postfach",
-            "heading_size": "h2",
-            "heading_highlight_style": "none"
-          }
-        },
-        "text_pmC4VB": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Fundierte Impulse für mehr Ruhe, bessere Regeneration und bewusste Erholung – verständlich erklärt und praxisnah eingeordnet von Atemexperte Dr. Ralph Skuban und weiteren ausgewählten Expert:innen. Komprimiertes Wissen, das sich direkt in Ihren Alltag integrieren lässt – für spürbar mehr Balance und Erholung.</p>",
-            "text_size": "text-base"
-          }
-        }
-      },
-      "block_order": [
-        "heading_4fetWE",
-        "text_pmC4VB"
-      ],
-      "name": "t:sections.rich-text.presets.name",
-      "settings": {
-        "color_scheme": "",
-        "content_alignment": "center",
-        "padding_top": 50,
-        "padding_bottom": 50,
-        "show_section_divider": false,
-        "divider_width": "fixed",
-        "custom_class": ""
-      }
-    },
     "17788308003a955b48": {
       "type": "apps",
       "blocks": {
@@ -392,6 +358,40 @@
         "custom_class": ""
       }
     },
+    "rich_text_AC7DJA": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_4fetWE": {
+          "type": "heading",
+          "settings": {
+            "heading": "Atemwissen von Dr. Ralph Skuban direkt in Ihr Postfach",
+            "heading_size": "h2",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_pmC4VB": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Fundierte Impulse für mehr Ruhe, bessere Regeneration und bewusste Erholung – verständlich erklärt und praxisnah eingeordnet von Atemexperte Dr. Ralph Skuban und weiteren ausgewählten Expert:innen. Komprimiertes Wissen, das sich direkt in Ihren Alltag integrieren lässt – für spürbar mehr Balance und Erholung.</p>",
+            "text_size": "text-base"
+          }
+        }
+      },
+      "block_order": [
+        "heading_4fetWE",
+        "text_pmC4VB"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "content_alignment": "center",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
     "rich_text_bTY7Xt": {
       "type": "rich-text",
       "blocks": {
@@ -479,10 +479,10 @@
     "image_with_text_XKh4Ur",
     "rich_text_ntFYxW",
     "multicolumn_htN4W6",
-    "rich_text_AC7DJA",
-    "17788308003a955b48",
     "multicolumn_wWG4DC",
     "collapsible_tabs_KV4N8g",
+    "rich_text_AC7DJA",
+    "17788308003a955b48",
     "rich_text_bTY7Xt",
     "featured_collection_NepVE9",
     "breadcrumbs_zf9HBa"
