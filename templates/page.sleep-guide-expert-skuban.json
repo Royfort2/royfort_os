@@ -23,7 +23,7 @@
         "heading_w8pJ99": {
           "type": "heading",
           "settings": {
-            "heading": "Die Wissenschaft besseren Schlafs",
+            "heading": "Bewusster Atem für tiefe Erholung",
             "heading_size": "hd2",
             "heading_highlight_style": "none"
           }
@@ -31,7 +31,7 @@
         "text_YJqhFJ": {
           "type": "text",
           "settings": {
-            "text": "<h1><strong>Dr. Christine Blume </strong></h1><h2>Schlafforscherin</h2>",
+            "text": "<h1><strong>Dr. Ralph Skuban</strong></h1><p>Atemexperte</p>",
             "text_size": "text-lg",
             "truncate_on_mobile": false,
             "truncate_on_mobile_lines": 3,
@@ -58,7 +58,7 @@
         "is_full_width": false,
         "section_color_scheme": "scheme-2",
         "color_scheme": "scheme-2",
-        "image": "shopify://shop_images/1_65247657-c028-4248-af81-3886c2e4a6d5.jpg",
+        "image": "shopify://shop_images/2_27e0bf60-6968-4962-a811-67c79a3f92bc.jpg",
         "image_height": "adapt",
         "layout": "text_first",
         "desktop_content_position": "center",
@@ -82,7 +82,7 @@
         "heading_tWMkh3": {
           "type": "heading",
           "settings": {
-            "heading": "Die Wissenschaft des Schlafs neu denken",
+            "heading": "Der Atem als Schlüssel zu Erholung",
             "heading_size": "hd1",
             "heading_highlight_style": "none"
           }
@@ -90,7 +90,7 @@
         "text_Jfbmqc": {
           "type": "text",
           "settings": {
-            "text": "<p>Dr. Christine Blume verbindet Forschung mit Ihrem Schlafzimmer.<br/>Für Erkenntnisse, die wirken – klar, fundiert, direkt umsetzbar.</p>",
+            "text": "<p>Dr. Ralph Skuban verbindet fundiertes Atemwissen mit praxisnaher Lehre. Für Erkenntnisse, die spürbar wirken – klar, verständlich und direkt in den Alltag übertragbar.</p>",
             "text_size": "text-lg"
           }
         },
@@ -133,9 +133,9 @@
             "video_muted": true,
             "video_controls": true,
             "image_width": "medium",
-            "title": "Habitilationin Psychologie",
+            "title": "Autor & Atemexperte",
             "heading_size": "h4",
-            "text": "<p>Fundiertes Verständnis der Prozesse, die unseren Schlaf steuern.</p>",
+            "text": "<p>Veröffentlichungen und Lehrmaterialien rund um Atem, Bewusstsein und innere Stabilität</p>",
             "text_size": "text-base",
             "button_label": "",
             "button_style": "btn--underline",
@@ -153,9 +153,9 @@
             "video_muted": true,
             "video_controls": true,
             "image_width": "medium",
-            "title": "Projektleiterin Schlafforschung",
+            "title": "Ausbilder in Atemarbeit & Achtsamkeit",
             "heading_size": "h4",
-            "text": "<p>Wie Licht und Umgebung den Schlaf beeinflussen – für echte Erholung.</p>",
+            "text": "<p>Vermittelt konkrete Methoden zur Integration von Atemtechniken in Alltag und Praxis.</p>",
             "text_size": "text-base",
             "button_label": "",
             "button_style": "btn--underline",
@@ -173,9 +173,9 @@
             "video_muted": true,
             "video_controls": true,
             "image_width": "medium",
-            "title": "Schlafwissenschaftlerin& Autorin",
+            "title": "Atemarbeit, Nervensystem & Regeneration",
             "heading_size": "h4",
-            "text": "<p>Veröffentlicht in führenden wissenschaftlichen Fachjournalen weltweit.</p>",
+            "text": "<p>Fokus auf die Wirkung bewusster Atmung auf Stress, innere Balance und Erholung.</p>",
             "text_size": "text-base",
             "button_label": "",
             "button_style": "btn--underline",
