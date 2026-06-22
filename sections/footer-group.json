@@ -44,6 +44,7 @@
     },
     "newsletter_d8KF4g": {
       "type": "newsletter",
+      "disabled": true,
       "name": "t:sections.newsletter.presets.name",
       "settings": {
         "color_scheme": "scheme-6",
@@ -161,6 +162,7 @@
         "column_3F7Cr3",
         "column_aheFGK"
       ],
+      "disabled": true,
       "name": "t:sections.multicolumn.presets.name",
       "settings": {
         "color_scheme": "",

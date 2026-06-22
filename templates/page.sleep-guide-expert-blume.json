@@ -191,7 +191,7 @@
       ],
       "name": "t:sections.multicolumn.presets.name",
       "settings": {
-        "color_scheme": "scheme-1",
+        "color_scheme": "scheme-2",
         "heading": "",
         "heading_size": "h1",
         "heading_highlight_style": "none",
@@ -261,40 +261,6 @@
         "include_margins": true,
         "padding_top": 0,
         "padding_bottom": 0,
-        "custom_class": ""
-      }
-    },
-    "rich_text_bTY7Xt": {
-      "type": "rich-text",
-      "blocks": {
-        "heading_EFK93R": {
-          "type": "heading",
-          "settings": {
-            "heading": "Antworten aus der Schlafforschung",
-            "heading_size": "h2",
-            "heading_highlight_style": "none"
-          }
-        },
-        "text_7HFWkL": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Vertiefen Sie Ihr Wissen rund um gesunden Schlaf. Fundiert, verständlich, wissenschaftlich präzise. Erfahren Sie mehr über Dr. Christine Blumes Arbeit und Forschung auf Ihrer <a href=\"https://www.christine-blume.com/\"><span style=\"text-decoration:underline\">Webseite</span></a>. Sie wollen noch tiefer in das Thema Schlaf und Träume einsteigen? In Ihrem <a href=\"https://www.deutschlandfunknova.de/podcasts/download/ueber-schlafen\"><span style=\"text-decoration:underline\">Podcast Über Schlafen </span></a>klären Schlafforscherin Dr. Christine Blume und Wissenschaftsjournalistin Ilka Knigge jeden Dienstag eine Frage und räumen ganz nebenbei mit Schlafmythen auf.</p>",
-            "text_size": "text-base"
-          }
-        }
-      },
-      "block_order": [
-        "heading_EFK93R",
-        "text_7HFWkL"
-      ],
-      "name": "t:sections.rich-text.presets.name",
-      "settings": {
-        "color_scheme": "",
-        "content_alignment": "center",
-        "padding_top": 50,
-        "padding_bottom": 50,
-        "show_section_divider": false,
-        "divider_width": "fixed",
         "custom_class": ""
       }
     },
@@ -368,6 +334,99 @@
         "custom_class": ""
       }
     },
+    "collapsible_tabs_KV4N8g": {
+      "type": "collapsible-tabs",
+      "blocks": {
+        "collapsible_item_cdhxGb": {
+          "type": "collapsible_item",
+          "settings": {
+            "icon": "none",
+            "heading": "Warum müssen wir schlafen?",
+            "content": "<p>Schlafen und Wachsein sind zwei Seiten derselben Medaille – wir benötigen beides in ausreichender Qualität und Quantität, damit das jeweils andere funktioniert. Ein Blick ins Tierreich zeigt: im Lauf der Evolution hat die Natur faszinierende Strategien entwickelt, die den Schlaf – einen ja sehr vulnerablen Zustand – möglichst sicher machen sollen. Verschwunden ist er jedoch nie, er scheint also überlebensnotwendig zu sein. </p>",
+            "custom_liquid": "In der Tat zeigen Studien, dass das Immunsystem ganz ohne Schlaf innerhalb relativ kurzer Zeit den Dienst versagt und so zum Tod von Lebewesen führt. \nDie Folgen einer kurzen Nacht sind zum Glück weitaus weniger dramatisch. Kurzfristig führt Schlafmangel dazu, dass wir müde werden und Aufmerksamkeit sowie Reaktionsfähigkeit nachlassen. Auch emotional sind wir möglicherweise nicht in Höchstform, sind ungeduldiger oder reizbarer. Diese Defizite lassen sich jedoch in der Regel schnell ausgleichen, indem man wieder ausreichend schläft. Wer langfristig zu wenig Schlaf bekommt, hat allerdings ein höheres Risiko für weniger leicht zu behebende Folgen: Erkrankungen wie Übergewicht, Diabetes Typ 2, Herz-Kreislauf-Erkrankungen und psychische Störungen werden wahrscheinlicher. Um Angst und Sorgen bei schlechten Schläfer:innen an dieser Stelle vorzubeugen: keine Panik, Menschen mit Schlafproblemen haben oft das Gefühl, viel weniger zu schlafen als sie es tatsächlich tun. Zudem kann man aus Studien nicht auf den Einzelfall schliessen.",
+            "page": "",
+            "open": false
+          }
+        },
+        "collapsible_item_GTMh9h": {
+          "type": "collapsible_item",
+          "disabled": true,
+          "settings": {
+            "icon": "none",
+            "heading": "Collapsible tab heading",
+            "content": "<p>Fill in the text content of the collapsible item here. You can provide details and explanation for the question here.</p>",
+            "custom_liquid": "",
+            "page": "",
+            "open": false
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_item_cdhxGb",
+        "collapsible_item_GTMh9h"
+      ],
+      "name": "t:sections.collapsible-tabs.presets.name",
+      "settings": {
+        "container": "fixed",
+        "color_scheme": "",
+        "header_layout": "vertical",
+        "heading": "Antworten aus der Schlafforschung",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "button_label": "",
+        "button_link": "",
+        "button_style": "btn--primary",
+        "column_gap": "large",
+        "row_gap": "inherit",
+        "item_style": "standard",
+        "item_color_scheme": "",
+        "item_heading_font": "heading",
+        "item_heading_size": "h4",
+        "item_icon_size": "extra-large",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "rich_text_bTY7Xt": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_EFK93R": {
+          "type": "heading",
+          "settings": {
+            "heading": "Vertiefen Sie Ihr Wissen rund um gesunden Schlaf. Fundiert, verständlich, wissenschaftlich präzise.",
+            "heading_size": "h3",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_7HFWkL": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Vertiefen Sie Ihr Wissen rund um gesunden Schlaf. Fundiert, verständlich, wissenschaftlich präzise. Erfahren Sie mehr über Dr. Christine Blumes Arbeit und Forschung auf Ihrer <a href=\"https://www.christine-blume.com/\"><span style=\"text-decoration:underline\">Webseite</span></a>. Sie wollen noch tiefer in das Thema Schlaf und Träume einsteigen? In Ihrem <a href=\"https://www.deutschlandfunknova.de/podcasts/download/ueber-schlafen\"><span style=\"text-decoration:underline\">Podcast Über Schlafen </span></a>klären Schlafforscherin Dr. Christine Blume und Wissenschaftsjournalistin Ilka Knigge jeden Dienstag eine Frage und räumen ganz nebenbei mit Schlafmythen auf.</p>",
+            "text_size": "text-base"
+          }
+        }
+      },
+      "block_order": [
+        "heading_EFK93R",
+        "text_7HFWkL"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "content_alignment": "center",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
     "featured_collection_NepVE9": {
       "type": "featured-collection",
       "name": "t:sections.featured-collection.presets.name",
@@ -376,7 +435,7 @@
         "header_layout": "vertical",
         "heading": "Produkte für besseren Schlaf",
         "heading_size": "h1",
-        "heading_styling": "body",
+        "heading_styling": "heading",
         "heading_highlight_style": "none",
         "subheading": "",
         "description": "",
@@ -423,8 +482,9 @@
     "multicolumn_htN4W6",
     "rich_text_AC7DJA",
     "17788308003a955b48",
-    "rich_text_bTY7Xt",
     "multicolumn_wWG4DC",
+    "collapsible_tabs_KV4N8g",
+    "rich_text_bTY7Xt",
     "featured_collection_NepVE9",
     "breadcrumbs_zf9HBa"
   ]
