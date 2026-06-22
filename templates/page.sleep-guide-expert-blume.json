@@ -32,7 +32,7 @@
           "type": "text",
           "settings": {
             "text": "<h1><strong>Dr. Christine Blume </strong></h1><h2>Schlafforscherin</h2>",
-            "text_size": "text-base",
+            "text_size": "text-lg",
             "truncate_on_mobile": false,
             "truncate_on_mobile_lines": 3,
             "truncate_trigger_text": "Mehr lesen",
@@ -91,7 +91,7 @@
           "type": "text",
           "settings": {
             "text": "<p>Dr. Christine Blume verbindet Forschung mit Ihrem Schlafzimmer.<br/>Für Erkenntnisse, die wirken – klar, fundiert, direkt umsetzbar.</p>",
-            "text_size": "text-base"
+            "text_size": "text-lg"
           }
         },
         "button_9UzT3N": {
