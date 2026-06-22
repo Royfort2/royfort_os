@@ -216,7 +216,7 @@
         "heading_4fetWE": {
           "type": "heading",
           "settings": {
-            "heading": "Schlafwissen von Dr. Christine Blume direkt in Ihr Postfach",
+            "heading": "Atemwissen von Dr. Ralph Skuban direkt in Ihr Postfach",
             "heading_size": "h2",
             "heading_highlight_style": "none"
           }
@@ -224,7 +224,7 @@
         "text_pmC4VB": {
           "type": "text",
           "settings": {
-            "text": "<p>Fundierte Erkenntnisse für besseren Schlaf, klar erklärt und eingeordnet von Schlafforscherin Dr. Christine Blume und anderen ausgewiesenen Expert:innen.<br/>Verständlich aufbereitet und direkt anwendbar erhalten Sie in unserer E-Mail-Serie neue Perspektiven auf Ihren eigenen Schlaf.</p>",
+            "text": "<p>Fundierte Impulse für mehr Ruhe, bessere Regeneration und bewusste Erholung – verständlich erklärt und praxisnah eingeordnet von Atemexperte Dr. Ralph Skuban und weiteren ausgewählten Expert:innen. Komprimiertes Wissen, das sich direkt in Ihren Alltag integrieren lässt – für spürbar mehr Balance und Erholung.</p>",
             "text_size": "text-base"
           }
         }
@@ -370,7 +370,7 @@
         "container": "fixed",
         "color_scheme": "",
         "header_layout": "vertical",
-        "heading": "Antworten aus der Schlafforschung",
+        "heading": "Antworten aus der Atemarbeit",
         "heading_size": "h1",
         "heading_highlight_style": "none",
         "subheading": "",
@@ -399,7 +399,7 @@
         "heading_EFK93R": {
           "type": "heading",
           "settings": {
-            "heading": "Vertiefen Sie Ihr Wissen rund um gesunden Schlaf. Fundiert, verständlich, wissenschaftlich präzise.",
+            "heading": "Vertiefen Sie Ihr Wissen rund um bewusste Atmung und innere Balance. Klar, fundiert und direkt anwendbar.",
             "heading_size": "h3",
             "heading_highlight_style": "none"
           }
@@ -407,7 +407,7 @@
         "text_7HFWkL": {
           "type": "text",
           "settings": {
-            "text": "<p>Vertiefen Sie Ihr Wissen rund um gesunden Schlaf. Fundiert, verständlich, wissenschaftlich präzise. Erfahren Sie mehr über Dr. Christine Blumes Arbeit und Forschung auf Ihrer <a href=\"https://www.christine-blume.com/\"><span style=\"text-decoration:underline\">Webseite</span></a>. Sie wollen noch tiefer in das Thema Schlaf und Träume einsteigen? In Ihrem <a href=\"https://www.deutschlandfunknova.de/podcasts/download/ueber-schlafen\"><span style=\"text-decoration:underline\">Podcast Über Schlafen </span></a>klären Schlafforscherin Dr. Christine Blume und Wissenschaftsjournalistin Ilka Knigge jeden Dienstag eine Frage und räumen ganz nebenbei mit Schlafmythen auf.</p>",
+            "text": "<p>Erfahren Sie mehr über die Arbeit von Dr. Ralph Skuban auf seiner <a href=\"https://www.skuban-akademie.de/\"><span style=\"text-decoration:underline\">Webseite</span></a> und in seinen <a href=\"https://www.skuban-akademie.de/buecher\"><span style=\"text-decoration:underline\">Veröffentlichungen</span></a>. Wenn Sie noch tiefer einsteigen möchten, zeigen diese <a href=\"https://www.skuban-akademie.de/podcasts\"><span style=\"text-decoration:underline\">Podcast-Folgen</span></a> neue Perspektiven auf den Atem als zentrales Element für Ruhe, Regeneration und Schlafqualität.</p>",
             "text_size": "text-base"
           }
         }
