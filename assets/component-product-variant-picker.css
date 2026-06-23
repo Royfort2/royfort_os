@@ -18,6 +18,11 @@ variant-selects input:is([type=checkbox], [type=radio]):is(:disabled, .disabled)
 .product-form__input input[type=radio]:not(.disabled):not(.visually-disabled) + label > .label-unavailable {
   display: none;
 }
+.product-form__input input[type=radio].we-option-value-hidden,
+.product-form__input input[type=radio].we-option-value-hidden + label,
+.product-form__input input.swatch-input__input.we-option-value-hidden + label.swatch-input__label {
+  display: none !important;
+}
 .product-form__input--dropdown {
   --swatch-input--size: 2rem;
   margin-bottom: 1.6rem;

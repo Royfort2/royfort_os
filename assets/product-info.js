@@ -192,7 +192,7 @@ if (!customElements.get('product-info')) {
           window?.ProductModel?.loadShopifyXR();
           if (
             typeof window.initWeVariantDropdownMeta === 'function' &&
-            newNode?.matches?.('variant-selects[data-we-dropdown-meta]')
+            newNode?.matches?.('variant-selects')
           ) {
             window.initWeVariantDropdownMeta(newNode);
           }

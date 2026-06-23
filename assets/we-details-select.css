@@ -484,7 +484,8 @@ details.we-select-container .we-select-container__summary:hover {
 }
 
 /* Quantity dropdown: options above available stock are hidden by we-quantity-selector-cap.js */
-.we-select__item.we-select__item--we-qty-hidden {
+.we-select__item.we-select__item--we-qty-hidden,
+.we-select__item.we-select__item--option-hidden {
   display: none !important;
 }
 

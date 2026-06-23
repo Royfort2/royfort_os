@@ -91,6 +91,29 @@
     return fmt(cents, moneyFormat);
   }
 
+  function isConstrainedByOtherOptions(selectedValues, rowIdx0) {
+    return selectedValues.some((sv, i) => i !== rowIdx0 && normOptionValue(sv));
+  }
+
+  function setOptionValueHidden(input, hidden) {
+    const item = input.closest('.we-select__item');
+    if (item) {
+      item.classList.toggle('we-select__item--option-hidden', hidden);
+      return;
+    }
+    input.classList.toggle('we-option-value-hidden', hidden);
+  }
+
+  function getOptionPositionFromInput(input) {
+    const name = input.getAttribute('name') || '';
+    const nameMatch = name.match(/-o(\d+)$/);
+    if (nameMatch) return parseInt(nameMatch[1], 10);
+    const id = input.id || '';
+    const idMatch = id.match(/-(\d+)-\d+$/);
+    if (idMatch) return parseInt(idMatch[1], 10);
+    return 0;
+  }
+
   function updateDropdownDetails(detailsEl, vs, variants, productInfo) {
     const posStr = detailsEl.dataset.weOptionPosition;
     const optionPosition = parseInt(posStr, 10);
@@ -101,13 +124,11 @@
 
     const selectedValues = getSelectedOptionValues(vs, productInfo);
     const rowIdx0 = optionPosition - 1;
-    const constrainedByOtherOptions = selectedValues.some(
-      (sv, i) => i !== rowIdx0 && normOptionValue(sv)
-    );
+    const constrainedByOtherOptions = isConstrainedByOtherOptions(selectedValues, rowIdx0);
 
     detailsEl.querySelectorAll('.we-select__item').forEach((item) => {
       const input = item.querySelector('input[type="radio"]');
-      const label = item.querySelector('label.we-select__label--with-meta');
+      const label = item.querySelector('label.we-select__label--with-meta, label');
       if (!input || !label) return;
 
       const rowValue = input.value;
@@ -118,17 +139,16 @@
 
       const matches = findVariantsForRow(variants, selectedValues, optionPosition, rowValue);
 
+      if (matches.length === 0 && constrainedByOtherOptions) {
+        item.classList.remove('we-select__item--unavailable');
+        if (valueText) valueText.classList.remove('we-select__value-text--unavailable');
+        item.classList.add('we-select__item--option-hidden');
+        return;
+      }
+
+      item.classList.remove('we-select__item--option-hidden');
+
       if (matches.length === 0) {
-        if (constrainedByOtherOptions) {
-          item.classList.toggle('we-select__item--unavailable', true);
-          if (valueText) valueText.classList.toggle('we-select__value-text--unavailable', true);
-          if (!meta || !priceBlock || !marker) return;
-          meta.hidden = false;
-          priceBlock.innerHTML = `<span class="we-select__soldout">${soldOutLabel}</span>`;
-          marker.dataset.stockLevel = 'out';
-          marker.hidden = false;
-          return;
-        }
         item.classList.toggle('we-select__item--unavailable', false);
         if (valueText) valueText.classList.toggle('we-select__value-text--unavailable', false);
         if (!meta || !priceBlock || !marker) return;
@@ -141,6 +161,7 @@
 
       const anyAvailable = matches.some((v) => v.available !== false);
       item.classList.toggle('we-select__item--unavailable', !anyAvailable);
+      input.classList.toggle('disabled', !anyAvailable);
       if (valueText) {
         valueText.classList.toggle('we-select__value-text--unavailable', !anyAvailable);
       }
@@ -183,6 +204,48 @@
     });
   }
 
+  /** Swatches, buttons, and non-meta dropdowns: hide values with no matching variant; keep sold-out styling for existing variants. */
+  function updateRadioOptionVisibility(vs, variants, productInfo) {
+    const selectedValues = getSelectedOptionValues(vs, productInfo);
+
+    vs.querySelectorAll(':scope > .product-form__input').forEach((wrap) => {
+      const inputs = wrap.querySelectorAll(
+        'input[type="radio"][data-option-value-id]:not([data-we-qty-selector]):not([data-pdp-inline-qty-value])'
+      );
+      if (!inputs.length) return;
+
+      const optionPosition = getOptionPositionFromInput(inputs[0]);
+      if (!optionPosition) return;
+
+      const rowIdx0 = optionPosition - 1;
+      const constrainedByOtherOptions = isConstrainedByOtherOptions(selectedValues, rowIdx0);
+
+      inputs.forEach((input) => {
+        if (input.closest('details.we-select-container[data-we-option-position]')) return;
+
+        const matches = findVariantsForRow(variants, selectedValues, optionPosition, input.value);
+
+        if (matches.length === 0 && constrainedByOtherOptions) {
+          setOptionValueHidden(input, true);
+          return;
+        }
+
+        setOptionValueHidden(input, false);
+
+        if (matches.length > 0) {
+          const anyAvailable = matches.some((v) => v.available !== false);
+          input.classList.toggle('disabled', !anyAvailable);
+        }
+      });
+    });
+
+    vs.querySelectorAll('details.we-select-container[data-we-option-position]').forEach((det) => {
+      if (det.dataset.radioGroupName?.startsWith('quantity-')) return;
+      if (vs.matches('variant-selects[data-we-dropdown-meta]')) return;
+      updateDropdownDetails(det, vs, variants, productInfo);
+    });
+  }
+
   function updateVariantSelectDropdownMeta(vs) {
     if (!vs?.matches?.('variant-selects[data-we-dropdown-meta]')) return;
     const variants = getVariantsArray(vs);
@@ -195,13 +258,23 @@
     });
   }
 
+  function updateVariantSelectOptionVisibility(vs) {
+    if (!vs?.matches?.('variant-selects')) return;
+    const variants = getVariantsArray(vs);
+    if (!variants?.length) return;
+    const productInfo = vs.closest('product-info');
+
+    updateRadioOptionVisibility(vs, variants, productInfo);
+    updateVariantSelectDropdownMeta(vs);
+  }
+
   function initWeVariantDropdownMeta(root) {
     const scope = root && root.querySelectorAll ? root : document;
     const list =
-      root?.matches?.('variant-selects[data-we-dropdown-meta]') ?
+      root?.matches?.('variant-selects') ?
         [root]
-      : scope.querySelectorAll?.('variant-selects[data-we-dropdown-meta]') || [];
-    list.forEach((vs) => updateVariantSelectDropdownMeta(vs));
+      : scope.querySelectorAll?.('variant-selects') || [];
+    list.forEach((vs) => updateVariantSelectOptionVisibility(vs));
   }
 
   let scheduled = null;
@@ -217,12 +290,12 @@
       const rid = t.dataset?.vsRoot || t.getAttribute?.('data-vs-root');
       if (rid) vs = document.getElementById(rid);
     }
-    if (!vs?.matches?.('variant-selects[data-we-dropdown-meta]')) return;
+    if (!vs?.matches?.('variant-selects')) return;
 
     if (scheduled) cancelAnimationFrame(scheduled);
     scheduled = requestAnimationFrame(() => {
       scheduled = null;
-      updateVariantSelectDropdownMeta(vs);
+      updateVariantSelectOptionVisibility(vs);
     });
   }
 
@@ -232,9 +305,7 @@
   document.addEventListener(
     'variant:changed',
     () => {
-      document.querySelectorAll('variant-selects[data-we-dropdown-meta]').forEach((vs) =>
-        updateVariantSelectDropdownMeta(vs)
-      );
+      document.querySelectorAll('variant-selects').forEach((vs) => updateVariantSelectOptionVisibility(vs));
     },
     true
   );
