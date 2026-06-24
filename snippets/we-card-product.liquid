@@ -225,7 +225,10 @@
   endif
 
   if color_variant != blank
-    assign product_url = color_variant.url
+    capture product_url
+      render 'we-first-available-color-variant-url', product: product, color_variant: color_variant
+    endcapture
+    assign product_url = product_url | strip
   endif
 
   assign card_wrapper_class = ''

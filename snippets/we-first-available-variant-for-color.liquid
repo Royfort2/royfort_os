@@ -1,0 +1,51 @@
+{% comment %}
+  Outputs one variant id (digits): first available variant matching color_variant's color
+  option value, or the first variant of that color if none are available.
+
+  Parameters:
+  - product: {Object}
+  - color_variant: {Variant} Any variant representing the target color (typically the first of that color).
+{% endcomment %}
+{%- liquid
+  assign fallback_id = color_variant.id
+  assign swatch_trigger = settings.color_swatch_trigger | downcase
+  assign color_option_index = nil
+  for option in product.options_with_values
+    assign option_name = option.name | downcase
+    assign is_color = false
+    if swatch_trigger contains option_name
+      assign is_color = true
+    elsif swatch_trigger contains 'color' and option_name contains 'colour'
+      assign is_color = true
+    endif
+    if is_color
+      assign color_option_index = forloop.index0
+      break
+    endif
+  endfor
+-%}
+{%- if color_option_index == nil -%}
+  {{- fallback_id -}}
+{%- else -%}
+  {%- assign color_value = color_variant.options[color_option_index] -%}
+  {%- assign matched_id = nil -%}
+  {%- for v in product.variants -%}
+    {%- if v.options[color_option_index] == color_value and v.available -%}
+      {%- assign matched_id = v.id -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- if matched_id == nil -%}
+    {%- for v in product.variants -%}
+      {%- if v.options[color_option_index] == color_value -%}
+        {%- assign matched_id = v.id -%}
+        {%- break -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+  {%- if matched_id == nil -%}
+    {{- fallback_id -}}
+  {%- else -%}
+    {{- matched_id -}}
+  {%- endif -%}
+{%- endif -%}

@@ -57,7 +57,6 @@
                 assign values = values | join: ',' | append: ',' | append: value | split: ','
                 assign swatch_count = swatch_count | plus: 1
                 assign swatch_title = product.title | append: ' - ' | append: value
-                assign swatch_url = variant.url
 
                 assign pattern_handle = value | handle
                 assign pattern_mo = metaobjects.pattern_swatch[pattern_handle]
@@ -77,6 +76,10 @@
                   endunless
                 endif
               -%}
+              {%- capture swatch_url -%}
+                {%- render 'we-first-available-color-variant-url', product: product, color_variant: variant -%}
+              {%- endcapture -%}
+              {%- assign swatch_url = swatch_url | strip -%}
               {%- if swatch_count <= max_swatch_count -%}
                 <li data-tooltip>
                   {%- render 'swatch',
@@ -105,7 +108,6 @@
                 assign values = values | join: ',' | append: ',' | append: value | split: ','
                 assign swatch_count = swatch_count | plus: 1
                 assign swatch_title = product.title | append: ' - ' | append: value
-                assign swatch_url = variant.url
 
                 assign pattern_handle = value | handle
                 assign pattern_mo = metaobjects.pattern_swatch[pattern_handle]
@@ -125,6 +127,10 @@
                   endunless
                 endif
               -%}
+              {%- capture swatch_url -%}
+                {%- render 'we-first-available-color-variant-url', product: product, color_variant: variant -%}
+              {%- endcapture -%}
+              {%- assign swatch_url = swatch_url | strip -%}
               {%- if swatch_count <= max_swatch_count -%}
                 <li data-tooltip>
                   {%- render 'swatch',
@@ -157,7 +163,6 @@
               assign values = values | join: ',' | append: ',' | append: value | split: ','
               assign swatch_count = swatch_count | plus: 1
               assign swatch_title = product.title | append: ' - ' | append: value
-              assign swatch_url = variant.url
 
               assign pattern_handle = value | handle
               assign pattern_mo = metaobjects.pattern_swatch[pattern_handle]
@@ -182,6 +187,10 @@
                 assign swatch_selected = true
               endif
             -%}
+            {%- capture swatch_url -%}
+              {%- render 'we-first-available-color-variant-url', product: product, color_variant: variant -%}
+            {%- endcapture -%}
+            {%- assign swatch_url = swatch_url | strip -%}
             {%- if swatch_count <= max_swatch_count -%}
               <li data-tooltip>
                 {%- render 'swatch',
