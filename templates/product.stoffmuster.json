@@ -84,6 +84,7 @@
         },
         "icon_info_text_pzJbNn": {
           "type": "icon_info_text",
+          "disabled": true,
           "settings": {
             "icon": "shopify://shop_images/undo_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
             "title": "30-Tage Rückgaberecht",
@@ -94,6 +95,7 @@
         },
         "icon_info_text_4ErYdG": {
           "type": "icon_info_text",
+          "disabled": true,
           "settings": {
             "icon": "shopify://shop_images/chat_bubble_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
             "title": "Persönliche Beratung",
