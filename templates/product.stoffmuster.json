@@ -48,8 +48,9 @@
         },
         "we_variant_picker_jJ7CqM": {
           "type": "we_variant_picker",
+          "disabled": true,
           "settings": {
-            "set_picker_title": "Spannbettlaken hinzufügen",
+            "set_picker_title": "",
             "set_zwischensumme_title": "ZWISCHENSUMME",
             "picker_type": "custom_dropdown",
             "swatch_type": "color_swatch",
@@ -103,6 +104,7 @@
         },
         "usp_list_yWyYmX": {
           "type": "usp_list",
+          "disabled": true,
           "settings": {
             "title": "{{ product.metafields.custom.we_pdp_usp_list_title.value }}",
             "use_usp_metafield": true,
@@ -116,6 +118,7 @@
         },
         "collapsible-row-1": {
           "type": "collapsible_tab",
+          "disabled": true,
           "settings": {
             "heading": "Produktbeschreibung",
             "heading_styling": "body",
@@ -140,6 +143,7 @@
         },
         "collapsible-row-3": {
           "type": "collapsible_tab",
+          "disabled": true,
           "settings": {
             "heading": "Pflegehinweise",
             "heading_styling": "body",
@@ -152,6 +156,7 @@
         },
         "usp_swiper_ffaRkg": {
           "type": "usp_swiper",
+          "disabled": true,
           "settings": {
             "hide_on_desktop": true,
             "icon_1": "shopify://shop_images/diamond_100dp_1F1F1F_FILL0_wght400_GRAD0_opsz48_359711e6-d49d-46fc-a50c-169b725b2eb1.png",
@@ -166,6 +171,7 @@
         },
         "complementary_custom_y6bBfH": {
           "type": "complementary_custom",
+          "disabled": true,
           "settings": {
             "heading": "Das könnte Ihnen auch gefallen",
             "product_list_limit": 4,
@@ -317,6 +323,7 @@
     },
     "featured_collection_JQULLF": {
       "type": "featured-collection",
+      "disabled": true,
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
         "color_scheme": "",
