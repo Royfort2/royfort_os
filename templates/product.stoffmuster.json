@@ -48,7 +48,6 @@
         },
         "we_variant_picker_jJ7CqM": {
           "type": "we_variant_picker",
-          "disabled": true,
           "settings": {
             "set_picker_title": "",
             "set_zwischensumme_title": "ZWISCHENSUMME",
