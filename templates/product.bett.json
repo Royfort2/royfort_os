@@ -77,7 +77,7 @@
             "show_dynamic_checkout": false,
             "show_gift_card_recipient": false,
             "show_secondary_button": false,
-            "secondary_button_text": "Farbmuster bestellen",
+            "secondary_button_text": "Stoffmuster bestellen",
             "secondary_button_url": "https://royfort.de/products/atelier-bett-stoff-muster"
           }
         },
@@ -85,7 +85,7 @@
           "type": "icon_info_text",
           "settings": {
             "icon": "shopify://shop_images/local_shipping_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
-            "title": "Geschätzte Lieferung: {{ product.metafields.custom.we_pdp_estimated_delivery_time.value }}",
+            "title": "Lieferzeit: {{ product.metafields.custom.we_pdp_estimated_delivery_time.value }}",
             "short_description": "Exklusive Lieferung & Aufbau",
             "description": "<p>Ihr Bett wird per Spedition geliefert und sorgfältig in Ihrem Wunschzimmer aufgebaut. Den Liefertermin stimmen wir vorab persönlich telefonisch mit Ihnen ab, um eine reibungslose und verlässliche Anlieferung sicherzustellen. Von der Fertigung bis zum Aufbau bei Ihnen vor Ort entsteht so ein durchdachter Service, der höchsten Ansprüchen gerecht wird.</p><p>Selbstverständlich nehmen wir das gesamte Verpackungsmaterial direkt wieder mit und kümmern uns um eine fachgerechte Entsorgung.<br/></p>",
             "page": ""
@@ -127,7 +127,7 @@
         "collapsible-row-1": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Produktbeschreibung",
+            "heading": "Beschreibung",
             "heading_styling": "body",
             "icon": "none",
             "content": "{{ product.description }}",

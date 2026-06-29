@@ -60,7 +60,6 @@
           "type": "we_variant_picker",
           "settings": {
             "set_picker_title": "Im selben Set",
-            "select_variant_text": "auswählen",
             "set_zwischensumme_title": "ZWISCHENSUMME",
             "picker_type": "custom_dropdown",
             "swatch_type": "color_swatch",
@@ -86,7 +85,7 @@
           "type": "icon_info_text",
           "settings": {
             "icon": "shopify://shop_images/local_shipping_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
-            "title": "Geschätzte Lieferung: {{ product.metafields.custom.we_pdp_estimated_delivery_time.value }}",
+            "title": "Lieferzeit: {{ product.metafields.custom.we_pdp_estimated_delivery_time.value }}",
             "short_description": "Kostenloser Versand",
             "description": "<p>Delivery info</p>",
             "page": ""
@@ -128,7 +127,7 @@
         "collapsible-row-1": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Produktbeschreibung",
+            "heading": "Beschreibung",
             "heading_styling": "body",
             "icon": "none",
             "content": "{{ product.description }}",
@@ -193,7 +192,9 @@
             "heading": "Das könnte Ihnen auch gefallen",
             "product_list_limit": 4,
             "image_ratio": "4/5",
-            "show_reviews": true
+            "show_reviews": true,
+            "render_badges": true,
+            "badges_global_only": false
           }
         }
       },
