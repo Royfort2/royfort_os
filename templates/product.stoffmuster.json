@@ -75,15 +75,14 @@
           "type": "icon_info_text",
           "settings": {
             "icon": "shopify://shop_images/local_shipping_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
-            "title": "Lieferzeit: {{ product.metafields.custom.we_pdp_estimated_delivery_time.value }}",
-            "short_description": "Kostenloser Versand",
-            "description": "<p>Von der sorgfältigen Vorbereitung bis zum sicheren Versand begleiten wir jede Bestellung mit besonderer Aufmerksamkeit und Liebe zum Detail.</p>",
+            "title": "Lieferumfang",
+            "short_description": "6 Stoffmuster",
+            "description": "<p>6 Stoffmuster<br/>je ca. 10 × 10 cm<br/>Originalstoffe des Atelier Betts</p>",
             "page": ""
           }
         },
         "icon_info_text_pzJbNn": {
           "type": "icon_info_text",
-          "disabled": true,
           "settings": {
             "icon": "shopify://shop_images/undo_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
             "title": "30-Tage Rückgaberecht",
@@ -94,7 +93,6 @@
         },
         "icon_info_text_4ErYdG": {
           "type": "icon_info_text",
-          "disabled": true,
           "settings": {
             "icon": "shopify://shop_images/chat_bubble_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
             "title": "Persönliche Beratung",
@@ -105,7 +103,6 @@
         },
         "usp_list_yWyYmX": {
           "type": "usp_list",
-          "disabled": true,
           "settings": {
             "title": "{{ product.metafields.custom.we_pdp_usp_list_title.value }}",
             "use_usp_metafield": true,
@@ -126,7 +123,7 @@
             "content": "{{ product.description }}",
             "custom_liquid": "",
             "page": "",
-            "default_open": false
+            "default_open": true
           }
         },
         "collapsible-row-2": {
