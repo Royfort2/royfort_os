@@ -76,8 +76,8 @@
           "settings": {
             "icon": "shopify://shop_images/local_shipping_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
             "title": "Lieferzeit: {{ product.metafields.custom.we_pdp_estimated_delivery_time.value }}",
-            "short_description": "6 Stoffmuster",
-            "description": "<p>6 Stoffmuster<br/>je ca. 10 × 10 cm<br/>Originalstoffe des Atelier Betts</p>",
+            "short_description": "6 Stoffmuster (je ca. 10cm × 10 cm)",
+            "description": "",
             "page": ""
           }
         },
@@ -95,8 +95,8 @@
           "type": "icon_info_text",
           "settings": {
             "icon": "shopify://shop_images/undo_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
-            "title": "Atelier Bett entdecken",
-            "short_description": "Alle Farben und Größen entdecken",
+            "title": "Kollektion entdecken",
+            "short_description": "Entdecken Sie unsere Atelier Betten",
             "description": "<p><a href=\"/products/atelier-bett-edition\" title=\"ATELIER Bett Edition\">Atelier Bett Edition</a></p><p><a href=\"/products/atelier-bett-line\" title=\"ATELIER Bett Line\">Atelier Bett Line</a></p><p><a href=\"/products/atelier-bett-curve\" title=\"ATELIER Bett Curve\">Atelier Bett Curve</a></p>",
             "page": ""
           }
