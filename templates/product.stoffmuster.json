@@ -95,9 +95,9 @@
           "type": "icon_info_text",
           "settings": {
             "icon": "shopify://shop_images/undo_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
-            "title": "Kollektion entdecken",
-            "short_description": "Entdecken Sie unsere Atelier Betten",
-            "description": "<p><a href=\"/products/atelier-bett-edition\" title=\"ATELIER Bett Edition\">Atelier Bett Edition</a></p><p><a href=\"/products/atelier-bett-line\" title=\"ATELIER Bett Line\">Atelier Bett Line</a></p><p><a href=\"/products/atelier-bett-curve\" title=\"ATELIER Bett Curve\">Atelier Bett Curve</a></p>",
+            "title": "Atelier Kollektion",
+            "short_description": "Alle Bettmodelle im Überblick",
+            "description": "<p>Alle Atelier Bett Modelle basieren auf derselben hochwertigen Verarbeitung und unterscheiden sich in ihrer Gestaltung. Vergleichen Sie Edition, Line und Curve und finden Sie das passende Modell für Ihr Schlafzimmer.</p><p><a href=\"/products/atelier-bett-edition\" title=\"ATELIER Bett Edition\">Atelier Bett Edition</a></p><p><a href=\"/products/atelier-bett-line\" title=\"ATELIER Bett Line\">Atelier Bett Line</a></p><p><a href=\"/products/atelier-bett-curve\" title=\"ATELIER Bett Curve\">Atelier Bett Curve</a></p>",
             "page": ""
           }
         },
