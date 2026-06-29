@@ -111,10 +111,10 @@
           "settings": {
             "color_scheme": "scheme-inverse",
             "text_color": "",
+            "video_desktop": "shopify://files/videos/video_Atelier_Kolletkion.mov",
             "video_url_desktop": "",
-            "image_desktop": "shopify://shop_images/Betten_Matratzen_Kategorie_Promo_2_1_2.jpg",
+            "video_mobile": "shopify://files/videos/video_Atelier_Kolletkion.mov",
             "video_url_mobile": "",
-            "image_mobile": "shopify://shop_images/Betten_Matratzen_Kategorie_Promo_2_1_2.jpg",
             "title": "",
             "description": "",
             "description_mobile": "",
@@ -123,7 +123,7 @@
             "order_after": 2,
             "col_span_desktop": 2,
             "row_span_desktop": 1,
-            "col_span_mobile": "2",
+            "col_span_mobile": "1",
             "row_span_mobile": 1
           }
         },
