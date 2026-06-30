@@ -220,13 +220,6 @@
     "we_featured_collections_yka3Qn": {
       "type": "we-featured-collections",
       "blocks": {
-        "collection_AkcG9Y": {
-          "type": "collection",
-          "settings": {
-            "collection": "all-bedsheets",
-            "image": "shopify://shop_images/Featured_Category_Bettwasche_small_746baeff-f64d-4458-9038-cb914b6e5acf.jpg"
-          }
-        },
         "collection_gghYUc": {
           "type": "collection",
           "settings": {
@@ -238,12 +231,19 @@
           "settings": {
             "collection": "spannbettlaken"
           }
+        },
+        "collection_AkcG9Y": {
+          "type": "collection",
+          "settings": {
+            "collection": "all",
+            "image": "shopify://shop_images/Featured_Category_Bettwasche_small_746baeff-f64d-4458-9038-cb914b6e5acf.jpg"
+          }
         }
       },
       "block_order": [
-        "collection_AkcG9Y",
         "collection_gghYUc",
-        "collection_cniUQH"
+        "collection_cniUQH",
+        "collection_AkcG9Y"
       ],
       "name": "[we] Featured collections",
       "settings": {
