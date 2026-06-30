@@ -142,7 +142,7 @@
             "heading": "Produktdetails",
             "heading_styling": "body",
             "icon": "none",
-            "content": "{{ product.metafields.custom.sophie_produktdetails | metafield_tag }}",
+            "content": "{{ product.metafields.custom.sophie_produktdetails | metafield_tag }}<p></p>",
             "custom_liquid": "",
             "page": "",
             "default_open": false
@@ -170,6 +170,14 @@
             "custom_liquid": "",
             "page": "",
             "default_open": false
+          }
+        },
+        "popup_efpknh": {
+          "type": "popup",
+          "disabled": true,
+          "settings": {
+            "text": "Abmessungen",
+            "page": "unsere-standorte"
           }
         },
         "usp_swiper_ffaRkg": {
@@ -216,6 +224,7 @@
         "collapsible_tab_Y9thBz",
         "collapsible-row-2",
         "collapsible-row-3",
+        "popup_efpknh",
         "usp_swiper_ffaRkg",
         "complementary_custom_y6bBfH"
       ],
