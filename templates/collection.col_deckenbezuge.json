@@ -152,7 +152,7 @@
         "color_scheme": "scheme-1",
         "products_per_page": 12,
         "columns_desktop": 4,
-        "render_variants": true,
+        "render_variants": false,
         "grid_layout": "standard",
         "pagination": "load_more",
         "enable_color_swatch": true,
