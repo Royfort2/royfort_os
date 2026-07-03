@@ -7,6 +7,37 @@
   }
   window.__weDetailsSelectBootstrapped = true;
 
+  /**
+   * One instance per <details> container. Global listeners (document pointerdown / window resize)
+   * are bound ONCE at module scope and dispatch to live instances via this WeakMap — so instances
+   * created on every quick-view open don't leak a growing pile of global listeners.
+   */
+  const instanceByContainer = new WeakMap();
+  let globalWeSelectListenersBound = false;
+
+  function bindGlobalWeSelectListeners() {
+    if (globalWeSelectListenersBound) return;
+    globalWeSelectListenersBound = true;
+
+    document.addEventListener(
+      'pointerdown',
+      (event) => {
+        document.querySelectorAll('details.we-select-container[open]').forEach((container) => {
+          const inst = instanceByContainer.get(container);
+          if (inst) inst._onDocumentPointerDown(event);
+        });
+      },
+      true
+    );
+
+    window.addEventListener('resize', () => {
+      document.querySelectorAll('details.we-select-container').forEach((container) => {
+        const inst = instanceByContainer.get(container);
+        if (inst) inst._onResize();
+      });
+    });
+  }
+
   class detailSelect {
     constructor(container) {
       this.container = container;
@@ -22,11 +53,16 @@
       this._sheetAnimationEndHandler = null;
       this._closeSheetFallbackTimer = null;
       this._onResize = this._onResize.bind(this);
+<<<<<<< Updated upstream
+=======
+      this._onDocumentPointerDown = this._onDocumentPointerDown.bind(this);
+      instanceByContainer.set(container, this);
+>>>>>>> Stashed changes
       this._addEventListeners();
       this._setAria();
       this._syncActiveFromDom();
       this.updateValue();
-      window.addEventListener('resize', this._onResize);
+      bindGlobalWeSelectListeners();
     }
 
     /**
@@ -249,6 +285,10 @@
         const current = this._currentOptionIndex();
         switch (keycode) {
           case 27:
+            if (this.container.open) {
+              // Close only the dropdown; don't let Escape bubble to the drawer/modal handler.
+              e.stopPropagation();
+            }
             if (this._isMobileSheet()) {
               this._closeMobileSheet();
             } else {

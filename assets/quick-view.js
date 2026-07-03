@@ -52,6 +52,38 @@ if (!customElements.get('quick-view-modal')) {
         this.classList.remove(this._classes.loaded);
       }
 
+<<<<<<< Updated upstream
+=======
+      _invalidateQuickViewRequest() {
+        this._quickViewRequestId = (this._quickViewRequestId || 0) + 1;
+      }
+
+      _cleanupQuickViewUiState() {
+        const drawerContent = this.querySelector(this.selector);
+        drawerContent?.querySelectorAll('details.we-select-container[open]').forEach((details) => {
+          details.removeAttribute('open');
+          details.classList.remove('we-select-container--closing');
+        });
+
+        // Only clear body-portaled sheets when no dropdown OUTSIDE this modal is still open,
+        // so we don't tear down a background PDP's open mobile sheet.
+        const openOutside = Array.from(
+          document.querySelectorAll('details.we-select-container[open]')
+        ).some((el) => !this.contains(el));
+
+        if (!openOutside) {
+          if (typeof window.cleanupWeSelectBodyState === 'function') {
+            window.cleanupWeSelectBodyState();
+          } else {
+            document.querySelectorAll('body > .we-select-mobile-portal').forEach((portal) => {
+              portal.remove();
+            });
+            document.body.style.overflow = '';
+          }
+        }
+      }
+
+>>>>>>> Stashed changes
       getProductQuickViewSectionId() {
         let sectionId = FoxTheme.QuickViewSectionId || false;
 
@@ -84,19 +116,58 @@ if (!customElements.get('quick-view-modal')) {
         }
         const sectionUrl = `${basePath}?${params.toString()}`;
         fetch(sectionUrl)
-          .then((response) => response.text())
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`Quick view fetch failed: ${response.status}`);
+            }
+            return response.text();
+          })
           .then((responseText) => {
             const productElement = new DOMParser()
               .parseFromString(responseText, 'text/html')
               .querySelector(this.sourceSelector);
 
+<<<<<<< Updated upstream
             this.setInnerHTML(drawerContent, productElement.content.cloneNode(true));
             FoxTheme.a11y.trapFocus(this, this.focusElement);
-
-            if (window.Shopify && Shopify.PaymentButton) {
-              Shopify.PaymentButton.init();
+=======
+            if (!productElement?.content) {
+              throw new Error('Quick view: product template missing');
             }
 
+            this._cleanupQuickViewUiState();
+            this.setInnerHTML(drawerContent, productElement.content.cloneNode(true));
+            if (requestId !== this._quickViewRequestId || !this.open) return;
+
+            // Best-effort re-inits. A throwing third-party widget (e.g. Stamped's widget.min.js)
+            // or a failing theme init must NOT leave the drawer stuck on the loading spinner.
+            const safe = (fn) => {
+              try {
+                fn();
+              } catch (err) {
+                console.error('Quick view init error (continuing):', err);
+              }
+            };
+>>>>>>> Stashed changes
+
+            safe(() => FoxTheme.a11y.trapFocus(this, this.focusElement));
+            safe(() => {
+              if (window.Shopify && Shopify.PaymentButton) Shopify.PaymentButton.init();
+            });
+            safe(() => {
+              if (typeof window.initWeDetailsSelects === 'function') {
+                window.initWeDetailsSelects(drawerContent);
+              }
+            });
+            safe(() => {
+              if (typeof window.initWeVariantDropdownMeta === 'function') {
+                window.initWeVariantDropdownMeta(drawerContent);
+              }
+            });
+            safe(() => this.relocateStickyActionsForMobile(drawerContent));
+            safe(() => this.observeStickyActions(drawerContent));
+
+<<<<<<< Updated upstream
             if (typeof window.initWeDetailsSelects === 'function') {
               window.initWeDetailsSelects(drawerContent);
             }
@@ -109,11 +180,24 @@ if (!customElements.get('quick-view-modal')) {
                 window.syncPdpSetBundleForm(form);
               });
             }
+=======
+            // Reveal the product and clear the spinner NOW, before any deferred/refinement work,
+            // so nothing downstream can strand the user on an endless spinner.
+            this.classList.add(this._classes.loaded);
 
-            document.dispatchEvent(
-              new CustomEvent('quick-view:loaded', {
-                detail: { productUrl: this.dataset.productUrl },
-              })
+            requestAnimationFrame(() => {
+              if (requestId !== this._quickViewRequestId || !this.open) return;
+              safe(() => this.relocateStickyActionsForMobile(drawerContent));
+              safe(() => this.dispatchBundleSync(drawerContent));
+            });
+>>>>>>> Stashed changes
+
+            safe(() =>
+              document.dispatchEvent(
+                new CustomEvent('quick-view:loaded', {
+                  detail: { productUrl: this.dataset.productUrl },
+                })
+              )
             );
 
             this.relocateStickyActionsForMobile(drawerContent);
@@ -121,6 +205,7 @@ if (!customElements.get('quick-view-modal')) {
 
             setTimeout(() => {
               this.classList.add(this._classes.loaded);
+<<<<<<< Updated upstream
               this.relocateStickyActionsForMobile(drawerContent);
               document.dispatchEvent(new CustomEvent('pdp-set:bind-bundle-forms', { bubbles: true }));
               if (typeof window.syncPdpSetBundleForm === 'function') {
@@ -128,10 +213,18 @@ if (!customElements.get('quick-view-modal')) {
                   window.syncPdpSetBundleForm(form);
                 });
               }
+=======
+              safe(() => this.relocateStickyActionsForMobile(drawerContent));
+              safe(() => this.dispatchBundleSync(drawerContent));
+>>>>>>> Stashed changes
             }, 300);
           })
           .catch((e) => {
             console.error(e);
+            // Don't leave the user staring at an infinite spinner — fall back to the product page.
+            if (requestId === this._quickViewRequestId && this.open && this.dataset.productUrl) {
+              window.location.href = this.dataset.productUrl;
+            }
           });
       }
 

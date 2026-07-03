@@ -2526,8 +2526,17 @@ class ProductForm extends HTMLFormElement {
         window.refreshPdpSetBundleForms();
       }
 
-      const hasLineItems = this.querySelector('[data-pdp-set-line-items] input[name^="items"]');
-      if (!hasLineItems) {
+      const idInputs = Array.from(
+        this.querySelectorAll('[data-pdp-set-line-items] input[name$="[id]"]')
+      );
+      const allIdsValid =
+        idInputs.length > 0 && idInputs.every((input) => /^\d+$/.test((input.value || '').trim()));
+      const ready =
+        typeof window.isPdpSetBundleReady === 'function'
+          ? window.isPdpSetBundleReady(this) && allIdsValid
+          : allIdsValid;
+
+      if (!ready) {
         const msg =
           typeof FoxTheme !== 'undefined' &&
           FoxTheme.variantStrings &&
@@ -2537,6 +2546,9 @@ class ProductForm extends HTMLFormElement {
         this.handleCartError({ description: msg });
         this.submitButtonElement.classList.remove('btn--loading');
         this.submitButtonElement.removeAttribute('aria-disabled');
+        if (typeof window.refreshPdpSetBundleForms === 'function') {
+          window.refreshPdpSetBundleForms();
+        }
         return;
       }
     }
@@ -2657,15 +2669,19 @@ class ProductForm extends HTMLFormElement {
       if (cartOpened || !cartDrawer) return;
       cartOpened = true;
 
-      if (cartDrawer.open && !cartDrawer.hasAttribute('active')) {
-        cartDrawer.hidden = false;
-        cartDrawer.removeAttribute('inert');
-        cartDrawer.setAttribute('active', '');
-        FoxTheme.a11y.trapFocus(cartDrawer, cartDrawer.focusElement);
-        return;
-      }
-
+      // CartDrawer.show() self-repairs a stuck open-without-active state and runs a safety net,
+      // so routing through it guarantees the panel actually opens (never overlay-only).
+      cartDrawer.hidden = false;
+      cartDrawer.removeAttribute('inert');
       cartDrawer.show(this.lastSubmittedElement);
+
+      // The closing quick-view runs a deferred removeTrapFocus() that would wipe the global focus
+      // trap the cart drawer just set. Re-assert the cart drawer's trap after that runs.
+      setTimeout(() => {
+        if (cartDrawer.open) {
+          FoxTheme.a11y.trapFocus(cartDrawer, cartDrawer.focusElement);
+        }
+      }, 80);
     };
 
     if (quickViewModal?.open) {

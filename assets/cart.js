@@ -33,11 +33,50 @@ class CartDrawer extends DrawerComponent {
   }
 
   show(focusElement = null, animate = true) {
-    super.show(focusElement, animate);
+    let result;
+
+    if (this.open && !this.hasAttribute('active')) {
+      // Repair a stuck "overlay visible, panel hidden" state from an interrupted/!open show().
+      this.hidden = false;
+      this.removeAttribute('inert');
+      this.setAttribute('active', '');
+    } else {
+      result = super.show(focusElement, animate);
+    }
 
     if (this.open) {
       FoxTheme.a11y.trapFocus(this, this.focusElement);
     }
+
+    this._ensureActiveSafetyNet();
+
+    return result;
+  }
+
+  /**
+   * The overlay is shown purely by the `[open]` attribute, while the sliding panel needs `[active]`.
+   * If a race leaves `[open]` set without `[active]`, the user sees a dim overlay with no drawer.
+   * This guarantees `[open]` always resolves to `[active]` (or nothing) shortly after opening.
+   */
+  _ensureActiveSafetyNet() {
+    if (this._ensureActiveTimer) clearTimeout(this._ensureActiveTimer);
+    this._ensureActiveTimer = setTimeout(() => {
+      this._ensureActiveTimer = null;
+      if (this.open && !this.hasAttribute('active')) {
+        this.hidden = false;
+        this.removeAttribute('inert');
+        this.setAttribute('active', '');
+        FoxTheme.a11y.trapFocus(this, this.focusElement);
+      }
+    }, 200);
+  }
+
+  hide() {
+    if (this._ensureActiveTimer) {
+      clearTimeout(this._ensureActiveTimer);
+      this._ensureActiveTimer = null;
+    }
+    return super.hide();
   }
 
   async onCartRefresh(event) {

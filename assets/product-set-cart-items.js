@@ -202,6 +202,7 @@
     return variant;
   }
 
+<<<<<<< Updated upstream
   function getDefaultVariantIdFromDom(productId) {
     const el = document.querySelector(`script[data-set-default-variant-id="${productId}"]`);
     if (!el?.textContent) return '';
@@ -209,11 +210,40 @@
       return String(JSON.parse(el.textContent));
     } catch (e) {
       return '';
+=======
+  function getDefaultVariantIdFromDom(productId, scope) {
+    const roots = [];
+    if (scope) roots.push(scope);
+    const openPi = document.querySelector('quick-view-modal[open] product-info');
+    if (openPi && !roots.includes(openPi)) roots.push(openPi);
+    if (!roots.includes(document)) roots.push(document);
+
+    for (const root of roots) {
+      const el = root.querySelector?.(`script[data-set-default-variant-id="${productId}"]`);
+      if (!el?.textContent) continue;
+      try {
+        const parsed = JSON.parse(el.textContent);
+        if (parsed == null || parsed === '') return '';
+        return String(parsed);
+      } catch (e) {
+        return '';
+      }
+>>>>>>> Stashed changes
     }
   }
 
+<<<<<<< Updated upstream
   function getVariantIdForProduct(sectionId, productId, fallbackId) {
     const vs = document.getElementById(`variant-selects-${sectionId}-${productId}`);
+=======
+  /** Cart line ids must be positive integer variant ids; guards against `"null"`/empty/garbage. */
+  function isValidVariantId(value) {
+    return /^\d+$/.test(String(value == null ? '' : value).trim());
+  }
+
+  function getVariantIdForProduct(sectionId, productId, fallbackId, productInfo) {
+    const vs = getVariantSelectsEl(sectionId, productId, productInfo);
+>>>>>>> Stashed changes
     if (vs) {
       const v = resolveVariant(vs, productId) || parseDataSelectedVariant(vs);
       if (v?.id) return String(v.id);
@@ -686,7 +716,21 @@
     let incomplete = firstTwoPickers.length < 2;
     firstTwoPickers.forEach((vs) => {
       const pid = String(vs.dataset.productId);
+<<<<<<< Updated upstream
       if (!wePickerHasResolvedVariant(vs, pid)) incomplete = true;
+=======
+      if (!wePickerHasResolvedVariant(vs, pid, cfg, productInfo)) {
+        incomplete = true;
+        return;
+      }
+      // Keep the enabled state consistent with the actual cart line: a picker that "looks" resolved
+      // but cannot produce a valid numeric variant id must not enable ATC.
+      const fallback =
+        String(pid) === String(firstSetProductId) ? firstVariantFallback : getDefaultVariantIdFromDom(pid, productInfo);
+      if (!isValidVariantId(getVariantIdForProduct(sectionId, pid, fallback, productInfo))) {
+        incomplete = true;
+      }
+>>>>>>> Stashed changes
     });
 
     if (incomplete) {
@@ -720,11 +764,17 @@
 
     const pushLine = (pid) => {
       const fallback =
+<<<<<<< Updated upstream
         String(pid) === String(firstSetProductId) ? firstVariantFallback : getDefaultVariantIdFromDom(pid);
       const vid = getVariantIdForProduct(sectionId, pid, fallback);
       if (vid) {
+=======
+        String(pid) === String(firstSetProductId) ? firstVariantFallback : getDefaultVariantIdFromDom(pid, productInfo);
+      const vid = getVariantIdForProduct(sectionId, pid, fallback, productInfo);
+      if (isValidVariantId(vid)) {
+>>>>>>> Stashed changes
         lines.push({
-          id: vid,
+          id: String(vid).trim(),
           quantity: getInlineQuantityForProduct(sectionId, pid),
         });
       }
@@ -748,6 +798,44 @@
     });
 
     return lines;
+  }
+
+  /**
+   * Authoritative pre-submit gate: every required set picker (and checked optional) must resolve to a
+   * valid numeric variant id, and the built cart lines must all be valid. Prevents submitting
+   * `items[n][id]="null"`/empty (Shopify: "Required parameter missing or invalid: items").
+   */
+  function bundleFormReadyToSubmit(form) {
+    if (!form?.classList?.contains('pdp-set-bundle')) return false;
+    const cfgEl = form.querySelector('script[data-pdp-set-config]');
+    if (!cfgEl?.textContent) return false;
+
+    let cfg;
+    try {
+      cfg = JSON.parse(cfgEl.textContent);
+    } catch (e) {
+      return false;
+    }
+
+    const productInfo = getProductInfoForBundleForm(form);
+    if (!productInfo) return false;
+
+    const { sectionId, firstSetProductId, firstVariantFallback } = cfg;
+    const pickers = getSetBundlePickersToValidate(productInfo, cfg);
+    if (!pickers.length) return false;
+
+    for (const vs of pickers) {
+      const pid = String(vs.dataset?.productId || '');
+      if (!pid) return false;
+      if (!wePickerHasResolvedVariant(vs, pid, cfg, productInfo)) return false;
+      const fallback =
+        String(pid) === String(firstSetProductId) ? firstVariantFallback : getDefaultVariantIdFromDom(pid, productInfo);
+      if (!isValidVariantId(getVariantIdForProduct(sectionId, pid, fallback, productInfo))) return false;
+    }
+
+    const lines = buildSetBundleLines(productInfo, cfg);
+    if (!lines.length) return false;
+    return lines.every((line) => isValidVariantId(line.id));
   }
 
   function syncSetCartLineItems(form) {
@@ -877,6 +965,8 @@
       bindForm(form);
       refresh(form);
     };
+
+    window.isPdpSetBundleReady = bundleFormReadyToSubmit;
   }
 
   if (document.readyState === 'loading') {
