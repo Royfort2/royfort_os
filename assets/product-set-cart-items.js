@@ -77,9 +77,19 @@
     return filled >= groupCount;
   }
 
+  function getProductInfoForVariantSelects(vs) {
+    if (!vs) return null;
+    const inTree = vs.closest('product-info');
+    if (inTree) return inTree;
+    return document.querySelector('quick-view-modal[open] product-info') || null;
+  }
+
   function getWeSelectValueFromWrap(wrap) {
+    const swatchVal = wrap.querySelector('[data-selected-swatch-value]')?.textContent?.trim();
+    if (swatchVal) return swatchVal;
+
     const details = wrap.querySelector('details.we-select-container');
-    if (!details || details.classList.contains('we-select-container--placeholder')) return null;
+    if (!details) return null;
 
     const checked = findCheckedOptionRadioInWrap(wrap);
     if (checked?.value) return checked.value;
@@ -87,11 +97,15 @@
     const valueText = details.querySelector('.we-select__value-text')?.textContent?.trim();
     if (valueText) return valueText;
 
-    const summaryText = details
-      .querySelector('.we-select-container__summary')
-      ?.textContent?.replace(/\s+/g, ' ')
-      .trim();
-    return summaryText || null;
+    const summary = details.querySelector('.we-select-container__summary');
+    if (summary) {
+      const clone = summary.cloneNode(true);
+      clone.querySelectorAll('.we-variant-logo, script, style').forEach((node) => node.remove());
+      const text = clone.textContent?.replace(/\s+/g, ' ').trim();
+      if (text) return text;
+    }
+
+    return null;
   }
 
   function getSelectedOptionValues(variantSelects) {
@@ -131,9 +145,9 @@
     });
   }
 
-  function resolveVariant(variantSelects, productId) {
+  function resolveVariant(variantSelects, productId, productInfo) {
     if (!variantSelects) return null;
-    const variants = getVariantsForProduct(productId);
+    const variants = getVariantsForProduct(productId, productInfo);
     const selected = getSelectedOptionValues(variantSelects);
     let variant = findVariantByOptions(variants, selected);
     if (!variant && variantSelects) {
@@ -148,6 +162,9 @@
           } catch (e) {}
         }
       }
+    }
+    if (!variant && variantSelects.dataset?.selectedVariantId) {
+      variant = findVariantById(variants, variantSelects.dataset.selectedVariantId);
     }
     return variant;
   }
@@ -179,10 +196,12 @@
    * Does not treat SSR `[data-selected-variant]` alone as complete for multi-option pickers.
    * When no `<variant-selects>` exists (single-variant set line), only one variant in JSON counts as resolved.
    */
-  function wePickerHasResolvedVariant(vs, productId, cfg) {
+  function wePickerHasResolvedVariant(vs, productId, cfg, productInfo) {
+    productInfo = productInfo || getProductInfoForVariantSelects(vs);
+
     if (!vs) {
       if (productId == null || productId === '') return false;
-      const variants = getVariantsForProduct(productId);
+      const variants = getVariantsForProduct(productId, productInfo);
       return variants.length === 1;
     }
     if (vs.tagName !== 'VARIANT-SELECTS') {
@@ -196,16 +215,29 @@
     const fallback =
       vs.dataset?.selectedVariantId ||
       (String(pid) === String(cfg?.firstSetProductId) ? cfg?.firstVariantFallback : null) ||
-      getDefaultVariantIdFromDom(pid, vs.closest('product-info'));
-    const resolved = getResolvedVariant(sectionId, pid, fallback, vs.closest('product-info'));
-
+      getDefaultVariantIdFromDom(pid, productInfo);
+    const resolved = getResolvedVariant(sectionId, pid, fallback, productInfo);
     const values = getSelectedOptionValues(vs);
-    if (groupCount > 0 && values.length >= groupCount) return true;
+
+    if (groupCount > 0 && values.length >= groupCount) {
+      const matched = findVariantByOptions(getVariantsForProduct(pid, productInfo), values);
+      if (matched?.id) return true;
+    }
 
     if (resolved?.id && variantCoversOptionGroups(resolved, groupCount)) {
       if (values.length === 0) return true;
+      if (values.length < groupCount) return true;
       for (let i = 0; i < values.length; i++) {
         if (resolved[`option${i + 1}`] !== values[i]) return false;
+      }
+      return true;
+    }
+
+    const fromScript = parseDataSelectedVariant(vs);
+    if (fromScript?.id && variantCoversOptionGroups(fromScript, groupCount)) {
+      if (values.length === 0 || values.length < groupCount) return true;
+      for (let i = 0; i < values.length; i++) {
+        if (fromScript[`option${i + 1}`] !== values[i]) return false;
       }
       return true;
     }
@@ -297,12 +329,12 @@
    */
   function getResolvedVariant(sectionId, productId, fallbackId, productInfo) {
     const vs = getVariantSelectsEl(sectionId, productId, productInfo);
-    let variant = resolveVariant(vs, productId);
+    let variant = resolveVariant(vs, productId, productInfo);
     if (!variant && vs) {
       variant = parseDataSelectedVariant(vs);
     }
     if (!variant && fallbackId != null && fallbackId !== '') {
-      variant = findVariantById(getVariantsForProduct(productId), fallbackId);
+      variant = findVariantById(getVariantsForProduct(productId, productInfo), fallbackId);
     }
     return variant;
   }
@@ -329,7 +361,7 @@
   function getVariantIdForProduct(sectionId, productId, fallbackId, productInfo) {
     const vs = getVariantSelectsEl(sectionId, productId, productInfo);
     if (vs) {
-      const v = resolveVariant(vs, productId) || parseDataSelectedVariant(vs);
+      const v = resolveVariant(vs, productId, productInfo) || parseDataSelectedVariant(vs);
       if (v?.id) return String(v.id);
     }
     if (fallbackId != null && fallbackId !== '') return String(fallbackId);
@@ -563,7 +595,7 @@
     const bothFirstTwoResolved =
       firstTwoPickers.length >= 2 &&
       firstTwoPickers.every((vs) =>
-        wePickerHasResolvedVariant(vs, String(vs.dataset?.productId || ''), cfg)
+        wePickerHasResolvedVariant(vs, String(vs.dataset?.productId || ''), cfg, productInfo)
       );
 
     const useFromTotals = !bothFirstTwoResolved;
@@ -591,7 +623,7 @@
         const pid = String(pidRaw);
         const gated = requiredGateIds.includes(pid);
         const vs = getVariantSelectsEl(sectionId, pid, productInfo);
-        const resolved = !gated || wePickerHasResolvedVariant(vs, pid, cfg);
+        const resolved = !gated || wePickerHasResolvedVariant(vs, pid, cfg, productInfo);
         const q = getInlineQuantityForProduct(sectionId, pid);
         const priceMinCents = minPriceCentsForProduct(pid, priceMinById);
         const fallback =
@@ -625,7 +657,7 @@
       const pid = String(firstSetProductId);
       const gated = requiredGateIds.includes(pid);
       const vs = getVariantSelectsEl(sectionId, pid, productInfo);
-      const resolved = !gated || wePickerHasResolvedVariant(vs, pid, cfg);
+      const resolved = !gated || wePickerHasResolvedVariant(vs, pid, cfg, productInfo);
       const qFirst = getInlineQuantityForProduct(sectionId, firstSetProductId);
       const priceMinCents = minPriceCentsForProduct(pid, priceMinById);
       if (!resolved) {
@@ -808,7 +840,7 @@
     let incomplete = firstTwoPickers.length < requiredPickerCount;
     firstTwoPickers.forEach((vs) => {
       const pid = String(vs.dataset.productId);
-      if (!wePickerHasResolvedVariant(vs, pid, cfg)) incomplete = true;
+      if (!wePickerHasResolvedVariant(vs, pid, cfg, productInfo)) incomplete = true;
     });
 
     if (incomplete) {

@@ -17,6 +17,8 @@ if (!customElements.get('quick-view-modal')) {
           'we-details-select.js',
           'we-variant-dropdown-meta.js',
           'we-quantity-selector-cap.js',
+          'variant-selects.js',
+          'product-set-picker-price.js',
         ];
       }
 
@@ -53,20 +55,46 @@ if (!customElements.get('quick-view-modal')) {
 
       handleAfterHide() {
         super.handleAfterHide();
+        this._invalidateQuickViewRequest();
         this._stickyActionsObserver?.disconnect();
         this._stickyActionsObserver = null;
         if (this._stickyActionsRelocateTimer) {
           clearTimeout(this._stickyActionsRelocateTimer);
           this._stickyActionsRelocateTimer = null;
         }
+        if (this._quickViewLoadedTimer) {
+          clearTimeout(this._quickViewLoadedTimer);
+          this._quickViewLoadedTimer = null;
+        }
         if (this._stickyActionsResizeHandler) {
           window.removeEventListener('resize', this._stickyActionsResizeHandler);
           this._stickyActionsResizeHandler = null;
         }
+        this._cleanupQuickViewUiState();
         this.querySelector('.quick-view__footer')?.remove();
         const drawerContent = this.querySelector(this.selector);
-        drawerContent.innerHTML = '';
+        if (drawerContent) drawerContent.innerHTML = '';
         this.classList.remove(this._classes.loaded);
+      }
+
+      _invalidateQuickViewRequest() {
+        this._quickViewRequestId = (this._quickViewRequestId || 0) + 1;
+      }
+
+      _cleanupQuickViewUiState() {
+        const drawerContent = this.querySelector(this.selector);
+        drawerContent?.querySelectorAll('details.we-select-container[open]').forEach((details) => {
+          details.removeAttribute('open');
+          details.classList.remove('we-select-container--closing');
+        });
+        document.querySelectorAll('body > .we-select-mobile-portal').forEach((portal) => {
+          portal.remove();
+        });
+        if (typeof window.cleanupWeSelectBodyState === 'function') {
+          window.cleanupWeSelectBodyState();
+        } else {
+          document.body.style.overflow = '';
+        }
       }
 
       getProductQuickViewSectionId() {
@@ -116,6 +144,15 @@ if (!customElements.get('quick-view-modal')) {
 
       quickview() {
         const drawerContent = this.querySelector(this.selector);
+        if (!drawerContent) return;
+
+        const requestId = (this._quickViewRequestId = (this._quickViewRequestId || 0) + 1);
+        if (this._quickViewLoadedTimer) {
+          clearTimeout(this._quickViewLoadedTimer);
+          this._quickViewLoadedTimer = null;
+        }
+        this.classList.remove(this._classes.loaded);
+
         const sectionId = this.getProductQuickViewSectionId();
         const basePath = this.dataset.productUrl.split('?')[0];
         const params = new URLSearchParams();
@@ -131,11 +168,21 @@ if (!customElements.get('quick-view-modal')) {
         fetch(sectionUrl)
           .then((response) => response.text())
           .then((responseText) => {
+            if (requestId !== this._quickViewRequestId || !this.open) return;
+
             const productElement = new DOMParser()
               .parseFromString(responseText, 'text/html')
               .querySelector(this.sourceSelector);
 
+            if (!productElement?.content) {
+              console.error('Quick view: product template missing', sectionUrl);
+              return;
+            }
+
+            this._cleanupQuickViewUiState();
             this.setInnerHTML(drawerContent, productElement.content.cloneNode(true));
+            if (requestId !== this._quickViewRequestId || !this.open) return;
+
             FoxTheme.a11y.trapFocus(this, this.focusElement);
 
             if (window.Shopify && Shopify.PaymentButton) {
@@ -153,6 +200,7 @@ if (!customElements.get('quick-view-modal')) {
             this.observeStickyActions(drawerContent);
 
             requestAnimationFrame(() => {
+              if (requestId !== this._quickViewRequestId || !this.open) return;
               this.relocateStickyActionsForMobile(drawerContent);
               this.dispatchBundleSync(drawerContent);
             });
@@ -163,7 +211,8 @@ if (!customElements.get('quick-view-modal')) {
               })
             );
 
-            setTimeout(() => {
+            this._quickViewLoadedTimer = setTimeout(() => {
+              if (requestId !== this._quickViewRequestId || !this.open) return;
               this.classList.add(this._classes.loaded);
               this.relocateStickyActionsForMobile(drawerContent);
               this.dispatchBundleSync(drawerContent);
@@ -200,7 +249,9 @@ if (!customElements.get('quick-view-modal')) {
           drawerInner.appendChild(footer);
         }
 
-        footer.appendChild(stickyBar);
+        if (stickyBar.parentElement !== footer) {
+          footer.appendChild(stickyBar);
+        }
       }
 
       observeStickyActions(drawerContent) {
@@ -212,12 +263,21 @@ if (!customElements.get('quick-view-modal')) {
           }
           this._stickyActionsRelocateTimer = setTimeout(() => {
             this._stickyActionsRelocateTimer = null;
+            if (!this.open) return;
+            const stickyBar =
+              drawerContent.querySelector('.quick-view__sticky-actions') ||
+              this.getDrawerInner(drawerContent)?.querySelector('.quick-view__sticky-actions');
+            const parentBefore = stickyBar?.parentElement || null;
             this.relocateStickyActionsForMobile(drawerContent);
-            if (typeof window.refreshPdpSetBundleFormsInScope === 'function') {
+            const parentAfter = stickyBar?.parentElement || null;
+            if (
+              parentBefore !== parentAfter &&
+              typeof window.refreshPdpSetBundleFormsInScope === 'function'
+            ) {
               const drawerInner = this.getDrawerInner(drawerContent);
               window.refreshPdpSetBundleFormsInScope(drawerInner || drawerContent);
             }
-          }, 80);
+          }, 120);
         };
 
         this._stickyActionsObserver = new MutationObserver(scheduleRelocate);
