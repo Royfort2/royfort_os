@@ -217,14 +217,13 @@
         case picker_type
           when 'swatch', 'color', 'button'
             assign is_fieldset_tag = true
-            assign wrap_class = wrap_class | append: ' js flex flex-wrap'
             assign button_style = block.settings.button_style | default: 'standard'
 
-            if picker_type == 'button'
-              assign wrap_class = wrap_class | append: ' gap-3'
+            if picker_type == 'color' or picker_type == 'swatch'
+              assign wrap_class = wrap_class | append: ' js'
               assign wrap_class = wrap_class | append: ' product-form__input--button-' | append: button_style
             else
-              assign wrap_class = wrap_class | append: ' gap-4'
+              assign wrap_class = wrap_class | append: ' js flex flex-wrap gap-3'
               assign wrap_class = wrap_class | append: ' product-form__input--button-' | append: button_style
             endif
           else
