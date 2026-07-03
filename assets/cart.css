@@ -217,8 +217,12 @@
   margin: 0;
   font-size: 1.3rem;
   line-height: 1.45;
-  font-weight: 600;
   color: var(--cart-drawer-text);
+}
+
+.cart-drawer .cart-drawer__shipping-notice,
+.cart-drawer .cart-drawer__shipping-notice--header {
+  font-weight: var(--font-body-weight-bolder, 600) !important;
 }
 
 .cart-drawer__shipping-notice--header {
@@ -245,8 +249,12 @@
 
 .cart-drawer__summary-label--muted {
   font-size: 1.2rem;
-  font-weight: 600;
   color: var(--cart-drawer-text);
+}
+
+.cart-drawer .cart-drawer__summary-label.cart-drawer__summary-label--muted,
+.cart-drawer .cart-drawer__summary-row--shipping .cart-drawer__summary-label {
+  font-weight: var(--font-body-weight-bolder, 600) !important;
 }
 
 .cart-drawer__summary-value {
@@ -257,8 +265,12 @@
 
 .cart-drawer__summary-value--shipping {
   font-size: 1.2rem;
-  font-weight: 600;
   color: var(--cart-drawer-text);
+}
+
+.cart-drawer .cart-drawer__summary-value.cart-drawer__summary-value--shipping,
+.cart-drawer .cart-drawer__summary-row--shipping .cart-drawer__summary-value {
+  font-weight: var(--font-body-weight-bolder, 600) !important;
 }
 
 .cart-drawer__price {
@@ -500,7 +512,6 @@
     margin: 0 0 1rem;
     font-size: 1.2rem;
     line-height: 1.2rem;
-    font-weight: 600;
   }
 
   .cart-drawer__summary-row--subtotal {
@@ -571,7 +582,6 @@
     text-align: center;
     font-size: 1.2rem;
     line-height: 1.45;
-    font-weight: 600;
     padding-inline: 0.8rem;
   }
 
