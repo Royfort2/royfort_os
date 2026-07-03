@@ -297,6 +297,11 @@
     padding: 0;
 }
 
+/* Hide plus icon quick-buy trigger on product cards */
+.product-card .product-card__atc {
+    display: none !important;
+}
+
 @media (max-width: 767.98px) {
     .we-product-card .product-card__atc {
         width: 2rem !important;
