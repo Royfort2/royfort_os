@@ -18,7 +18,7 @@
         "show_cart_discount": true,
         "show_shipping_rates_calculator": false,
         "show_free_shipping_goal": false,
-        "enable_cart_recommendations": true,
+        "enable_cart_recommendations": false,
         "cart_recommendations_heading": "Das könnte Ihnen gefallen",
         "cart_recommendations_limit": 8,
         "cart_combined_render_badges": true,
@@ -127,7 +127,7 @@
         "width": 880,
         "show_teaser": false,
         "teaser_button_text": "Newsletter",
-        "teaser_popup_bg": "#FFFFFF",
+        "teaser_popup_bg": "#ffffff",
         "teaser_popup_text": "#ffffff"
       }
     }
