@@ -46,6 +46,10 @@ if (!customElements.get('quick-view-modal')) {
         super.handleAfterHide();
         this._stickyActionsObserver?.disconnect();
         this._stickyActionsObserver = null;
+        if (this._stickyActionsResizeHandler) {
+          window.removeEventListener('resize', this._stickyActionsResizeHandler);
+          this._stickyActionsResizeHandler = null;
+        }
         this.querySelector('.quick-view__footer')?.remove();
         const drawerContent = this.querySelector(this.selector);
         drawerContent.innerHTML = '';
@@ -125,11 +129,23 @@ if (!customElements.get('quick-view-modal')) {
       }
 
       relocateStickyActionsForMobile(drawerContent) {
-        if (!window.matchMedia('(max-width: 767.98px)').matches) return;
-
-        const stickyBar = drawerContent.querySelector('.quick-view__sticky-actions');
         const drawerInner = drawerContent.closest('.drawer__inner');
-        if (!stickyBar || !drawerInner) return;
+        const stickyBar =
+          drawerContent.querySelector('.quick-view__sticky-actions') ||
+          drawerInner?.querySelector('.quick-view__sticky-actions');
+        const blocks = drawerContent.querySelector('.product__info-container .product__blocks');
+
+        if (!stickyBar) return;
+
+        if (!window.matchMedia('(max-width: 767.98px)').matches) {
+          if (blocks && stickyBar.parentElement !== blocks) {
+            blocks.appendChild(stickyBar);
+          }
+          drawerInner?.querySelector('.quick-view__footer')?.remove();
+          return;
+        }
+
+        if (!drawerInner) return;
 
         let footer = drawerInner.querySelector('.quick-view__footer');
         if (!footer) {
@@ -142,17 +158,19 @@ if (!customElements.get('quick-view-modal')) {
       }
 
       observeStickyActions(drawerContent) {
-        if (!window.matchMedia('(max-width: 767.98px)').matches) return;
-
         this._stickyActionsObserver?.disconnect();
-        this._stickyActionsObserver = new MutationObserver(() => {
-          const stickyBar = drawerContent.querySelector('.quick-view__sticky-actions');
-          const footer = drawerContent.closest('.drawer__inner')?.querySelector('.quick-view__footer');
-          if (stickyBar && stickyBar.parentElement !== footer) {
-            this.relocateStickyActionsForMobile(drawerContent);
-          }
-        });
+
+        const sync = () => this.relocateStickyActionsForMobile(drawerContent);
+        this._stickyActionsObserver = new MutationObserver(sync);
         this._stickyActionsObserver.observe(drawerContent, { childList: true, subtree: true });
+
+        if (!this._stickyActionsResizeHandler) {
+          this._stickyActionsResizeHandler = () => {
+            if (!this.open) return;
+            this.relocateStickyActionsForMobile(this.querySelector(this.selector));
+          };
+          window.addEventListener('resize', this._stickyActionsResizeHandler);
+        }
       }
 
       setInnerHTML(element, innerHTML) {

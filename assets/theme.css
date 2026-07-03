@@ -3688,6 +3688,20 @@ input:is([type=radio])::after {
   opacity: 1;
 }
 
+@media (min-width: 768px) {
+  .quick-view.drawer--right .drawer__inner {
+    display: flex;
+    flex-direction: column;
+  }
+  .quick-view.drawer--right .drawer__body {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: 100%;
+    overflow-y: auto;
+    scroll-snap-type: none;
+  }
+}
+
 @media (max-width: 767.98px) {
   .quick-view {
     --quick-view-gap: 1.6rem;
