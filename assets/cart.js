@@ -244,36 +244,27 @@ class CartItems extends HTMLElement {
 
     const cartDrawer = document.querySelector(`#CartDrawer-${sectionId}`);
     const cartDrawerBody = document.querySelector(`#CartDrawerBody-${sectionId}`);
-    const cartDrawerFooter = document.querySelector(`#CartDrawerFooter-${sectionId}`);
-    const cartDrawerEmpty = document.querySelector(`#CartDrawerEmpty-${sectionId}`);
+    const cartDrawerSummary = document.querySelector(`#CartDrawerSummary-${sectionId}`);
+    const cartDrawerRecs = document.querySelector(`#CartDrawerRecs-${sectionId}`);
     if (cartDrawer) {
-      // const updatedElement = sectionToRender.querySelector(`#CartDrawer-${sectionId}`);
-      // if (updatedElement) {
-      //   cartDrawer.innerHTML = updatedElement.innerHTML;
-      // }
       const cartDrawerBodyUpdate = sectionToRender.querySelector(`#CartDrawerBody-${sectionId}`);
-      const cartDrawerFooterUpdate = sectionToRender.querySelector(`#CartDrawerFooter-${sectionId}`);
-      const cartDrawerEmptyUpdate = sectionToRender.querySelector(`#CartDrawerEmpty-${sectionId}`);
+      const cartDrawerSummaryUpdate = sectionToRender.querySelector(`#CartDrawerSummary-${sectionId}`);
+      const cartDrawerRecsUpdate = sectionToRender.querySelector(`#CartDrawerRecs-${sectionId}`);
 
-      if (cartDrawerBodyUpdate) {
+      if (cartDrawerBodyUpdate && cartDrawerBody) {
         cartDrawerBody.innerHTML = cartDrawerBodyUpdate.innerHTML;
       }
-      if (cartDrawerFooterUpdate) {
-        cartDrawerFooter.innerHTML = cartDrawerFooterUpdate.innerHTML;
+      if (cartDrawerSummaryUpdate && cartDrawerSummary) {
+        cartDrawerSummary.innerHTML = cartDrawerSummaryUpdate.innerHTML;
       }
-
-      if (cartDrawerEmptyUpdate) {
-        cartDrawerEmpty.innerHTML = cartDrawerEmptyUpdate.innerHTML;
+      if (cartDrawerRecsUpdate && cartDrawerRecs) {
+        cartDrawerRecs.innerHTML = cartDrawerRecsUpdate.innerHTML;
       }
 
       if (event.cart.item_count > 0) {
-        cartDrawerBody.classList.remove('hidden');
-        cartDrawerFooter.classList.remove('hidden');
-        cartDrawerEmpty.classList.add('hidden');
+        cartDrawerBody?.classList.remove('hidden');
       } else {
-        cartDrawerBody.classList.add('hidden');
-        cartDrawerFooter.classList.add('hidden');
-        cartDrawerEmpty.classList.remove('hidden');
+        cartDrawerBody?.classList.add('hidden');
       }
     }
 
@@ -295,7 +286,7 @@ class CartItems extends HTMLElement {
       FoxTheme.a11y.trapFocus(mainCart || cartDrawer, lineItem.querySelector(`[name="${event.name}"]`));
     } else if (event.cart.item_count === 0) {
       cartDrawer
-        ? FoxTheme.a11y.trapFocus(cartDrawer, cartDrawer.querySelector('a'))
+        ? FoxTheme.a11y.trapFocus(cartDrawer, cartDrawer.querySelector('.cart-drawer__checkout-btn'))
         : FoxTheme.a11y.trapFocus(document.querySelector('.cart__empty'), document.querySelector('a'));
     } else {
       cartDrawer

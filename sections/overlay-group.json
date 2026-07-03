@@ -18,8 +18,8 @@
         "show_cart_discount": true,
         "show_shipping_rates_calculator": false,
         "show_free_shipping_goal": false,
-        "enable_cart_recommendations": false,
-        "cart_recommendations_heading": "Das könnte Ihnen gefallen",
+        "enable_cart_recommendations": true,
+        "cart_recommendations_heading": "Andere kauften auch...",
         "cart_recommendations_limit": 8,
         "cart_combined_render_badges": true,
         "cart_combined_badges_global_only": false

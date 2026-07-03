@@ -12,13 +12,14 @@
   {%- if recommendations.performed and recommendations.products_count > 0 -%}
     {%- for recommendation in recommendations.products -%}
       <div class="swiper-slide" role="listitem" tabindex="-1">
-        {% render 'we-card-product',
+        {% render 'card-product-list',
           product: recommendation,
           image_sizes: rel_image_sizes,
           image_ratio: rel_img_ratio,
           section_index: section.index,
           index: forloop.index,
-          show_reviews: true
+          enable_quick_add: false,
+          enable_quick_view: false
         %}
       </div>
     {%- endfor -%}

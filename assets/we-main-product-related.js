@@ -29,19 +29,22 @@ if (!customElements.get('we-related-products-slider')) {
 
         const prevEl = this.closest('.related-products-inline__aside')?.querySelector('.swiper-button-prev');
         const nextEl = this.closest('.related-products-inline__aside')?.querySelector('.swiper-button-next');
+        const isCartDrawer = Boolean(this.closest('.cart-drawer__recs'));
 
         this._carousel = new FoxTheme.Carousel(container, {
-          slidesPerView: 1.7,
-          spaceBetween: 4,
+          slidesPerView: isCartDrawer ? 1 : 1.7,
+          spaceBetween: isCartDrawer ? 12 : 4,
           watchOverflow: true,
-          autoHeight: true,
-          mousewheel: true,
-          breakpoints: {
-            768: {
-              slidesPerView: 2,
-              spaceBetween: 4,
-            },
-          },
+          autoHeight: !isCartDrawer,
+          mousewheel: !isCartDrawer,
+          breakpoints: isCartDrawer
+            ? undefined
+            : {
+                768: {
+                  slidesPerView: 2,
+                  spaceBetween: 4,
+                },
+              },
           navigation: {
             prevEl,
             nextEl,
