@@ -164,6 +164,9 @@
    * lines whose checkbox is off (when a checkbox exists).
    */
   function getSetBundlePickersToValidate(productInfo, cfg) {
+    // On mobile/quick view the form can be relocated out of <product-info>, leaving it null.
+    // Guard so callers never crash on `productInfo.dataset`.
+    if (!productInfo) return [];
     const optionalIds = (cfg.optionalProductIds || []).map(String);
     const mainId = String(productInfo.dataset?.productId || '');
 
@@ -202,15 +205,6 @@
     return variant;
   }
 
-<<<<<<< Updated upstream
-  function getDefaultVariantIdFromDom(productId) {
-    const el = document.querySelector(`script[data-set-default-variant-id="${productId}"]`);
-    if (!el?.textContent) return '';
-    try {
-      return String(JSON.parse(el.textContent));
-    } catch (e) {
-      return '';
-=======
   function getDefaultVariantIdFromDom(productId, scope) {
     const roots = [];
     if (scope) roots.push(scope);
@@ -228,22 +222,77 @@
       } catch (e) {
         return '';
       }
->>>>>>> Stashed changes
     }
+    return '';
   }
 
-<<<<<<< Updated upstream
-  function getVariantIdForProduct(sectionId, productId, fallbackId) {
-    const vs = document.getElementById(`variant-selects-${sectionId}-${productId}`);
-=======
   /** Cart line ids must be positive integer variant ids; guards against `"null"`/empty/garbage. */
   function isValidVariantId(value) {
     return /^\d+$/.test(String(value == null ? '' : value).trim());
   }
 
+  /**
+   * IDs like `variant-selects-{section}-{product}` can be duplicated when the same product is
+   * open in quick view AND on the PDP behind it. Prefer the picker inside the given product-info
+   * scope (and the open quick-view) before falling back to the first match in the document.
+   */
+  function getVariantSelectsEl(sectionId, productId, productInfo) {
+    const id = `variant-selects-${sectionId}-${productId}`;
+    if (productInfo) {
+      const scoped = productInfo.querySelector(`[id="${id}"]`);
+      if (scoped) return scoped;
+    }
+    const openPi = document.querySelector('quick-view-modal[open] product-info');
+    if (openPi) {
+      const scoped = openPi.querySelector(`[id="${id}"]`);
+      if (scoped) return scoped;
+    }
+    return document.getElementById(id);
+  }
+
+  /**
+   * Robustly resolve the <product-info> for a bundle form. On mobile / quick view the form (or its
+   * sticky actions) can be relocated to a footer OUTSIDE <product-info>, so `form.closest()` returns
+   * null. Fall back to the enclosing quick view, then the open quick view, then the form's section.
+   */
+  function getProductInfoForBundleForm(form) {
+    if (!form) return null;
+
+    let pi = form.closest('product-info');
+    if (pi) return pi;
+
+    const qv = form.closest('quick-view-modal');
+    if (qv) {
+      pi = qv.querySelector('product-info');
+      if (pi) return pi;
+    }
+
+    const openQv = document.querySelector('quick-view-modal[open] product-info');
+    if (openQv) return openQv;
+
+    const cfgEl = form.querySelector('script[data-pdp-set-config]');
+    if (cfgEl?.textContent) {
+      try {
+        const cfg = JSON.parse(cfgEl.textContent);
+        const sid = cfg?.sectionId;
+        if (sid) {
+          const btn = document.getElementById(`ProductSubmitButton-${sid}`);
+          pi = btn?.closest('product-info');
+          if (pi) return pi;
+          const vs = document.querySelector(`[id^="variant-selects-${sid}-"]`);
+          pi = vs?.closest('product-info');
+          if (pi) return pi;
+        }
+      } catch (e) {
+        /* ignore */
+      }
+    }
+
+    return document.querySelector('product-info');
+  }
+
   function getVariantIdForProduct(sectionId, productId, fallbackId, productInfo) {
     const vs = getVariantSelectsEl(sectionId, productId, productInfo);
->>>>>>> Stashed changes
     if (vs) {
       const v = resolveVariant(vs, productId) || parseDataSelectedVariant(vs);
       if (v?.id) return String(v.id);
@@ -435,7 +484,7 @@
    */
   function updatePdpSetZwischensumme(form) {
     const cfgEl = form.querySelector('script[data-pdp-set-config]');
-    const productInfo = form.closest('product-info');
+    const productInfo = getProductInfoForBundleForm(form);
     const root = productInfo?.querySelector('[data-pdp-set-zwischensumme]');
     if (!cfgEl?.textContent || !root) return;
 
@@ -678,7 +727,7 @@
     }
 
     const { sectionId, firstSetProductId, firstVariantFallback } = cfg;
-    const productInfo = form.closest('product-info');
+    const productInfo = getProductInfoForBundleForm(form);
     const mainProductId = productInfo?.dataset?.productId;
     const submitBtn = document.getElementById(`ProductSubmitButton-${sectionId}`);
     if (!submitBtn || !mainProductId) return;
@@ -716,9 +765,6 @@
     let incomplete = firstTwoPickers.length < 2;
     firstTwoPickers.forEach((vs) => {
       const pid = String(vs.dataset.productId);
-<<<<<<< Updated upstream
-      if (!wePickerHasResolvedVariant(vs, pid)) incomplete = true;
-=======
       if (!wePickerHasResolvedVariant(vs, pid, cfg, productInfo)) {
         incomplete = true;
         return;
@@ -730,7 +776,6 @@
       if (!isValidVariantId(getVariantIdForProduct(sectionId, pid, fallback, productInfo))) {
         incomplete = true;
       }
->>>>>>> Stashed changes
     });
 
     if (incomplete) {
@@ -764,15 +809,9 @@
 
     const pushLine = (pid) => {
       const fallback =
-<<<<<<< Updated upstream
-        String(pid) === String(firstSetProductId) ? firstVariantFallback : getDefaultVariantIdFromDom(pid);
-      const vid = getVariantIdForProduct(sectionId, pid, fallback);
-      if (vid) {
-=======
         String(pid) === String(firstSetProductId) ? firstVariantFallback : getDefaultVariantIdFromDom(pid, productInfo);
       const vid = getVariantIdForProduct(sectionId, pid, fallback, productInfo);
       if (isValidVariantId(vid)) {
->>>>>>> Stashed changes
         lines.push({
           id: String(vid).trim(),
           quantity: getInlineQuantityForProduct(sectionId, pid),
@@ -852,7 +891,7 @@
 
     root.replaceChildren();
 
-    const productInfo = form.closest('product-info');
+    const productInfo = getProductInfoForBundleForm(form);
     if (!productInfo) return;
 
     const lines = buildSetBundleLines(productInfo, cfg);

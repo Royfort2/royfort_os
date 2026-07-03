@@ -53,11 +53,8 @@
       this._sheetAnimationEndHandler = null;
       this._closeSheetFallbackTimer = null;
       this._onResize = this._onResize.bind(this);
-<<<<<<< Updated upstream
-=======
       this._onDocumentPointerDown = this._onDocumentPointerDown.bind(this);
       instanceByContainer.set(container, this);
->>>>>>> Stashed changes
       this._addEventListeners();
       this._setAria();
       this._syncActiveFromDom();
@@ -116,6 +113,20 @@
           this.container.removeAttribute('open');
         }
       }
+    }
+
+    /**
+     * Desktop: close this dropdown when a pointerdown lands outside it. `focusout` alone misses
+     * clicks on non-focusable page chrome, so this is the reliable outside-click close.
+     * Mobile uses the backdrop/sheet close instead.
+     */
+    _onDocumentPointerDown(event) {
+      if (!this.container.open) return;
+      if (this._isMobileSheet()) return;
+      const target = event.target;
+      if (this.container.contains(target)) return;
+      if (this.portalEl && this.portalEl.contains(target)) return;
+      this.container.removeAttribute('open');
     }
 
     _cancelClosingSheetListeners() {
