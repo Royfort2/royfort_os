@@ -45,28 +45,34 @@
       <div class="cart-item__title-row">
         <a href="{{ item.url }}" class="cart-item__title reversed-link">{{- item.product.title | escape -}}</a>
         <div class="cart-item__prices">
-          <div class="price cart-drawer__price{% if item.original_price != item.final_price %} price--on-sale{% endif %}">
+          <div class="price cart-drawer__price{% if item.original_line_price != item.final_line_price %} price--on-sale{% endif %}">
             {%- liquid
-              assign money_price = item.original_price | money
+              assign money_price = item.original_line_price | money
               if settings.currency_code_enabled
-                assign money_price = item.original_price | money_with_currency
+                assign money_price = item.original_line_price | money_with_currency
               endif
             -%}
-            {%- if item.original_price != item.final_price -%}
+            {%- if item.original_line_price != item.final_line_price -%}
               <span class="visually-hidden">{{ 'products.product.price.regular_price' | t }}</span>
               <s class="price__sale">{{ money_price }}</s>
               <span class="visually-hidden">{{ 'products.product.price.sale_price' | t }}</span>
               <span class="price__regular">
                 {%- liquid
                   if settings.currency_code_enabled
-                    echo item.final_price | money_with_currency
+                    echo item.final_line_price | money_with_currency
                   else
-                    echo item.final_price | money
+                    echo item.final_line_price | money
                   endif
                 -%}
               </span>
             {%- else -%}
-              {{- money_price -}}
+              {%- liquid
+                if settings.currency_code_enabled
+                  echo item.final_line_price | money_with_currency
+                else
+                  echo item.final_line_price | money
+                endif
+              -%}
             {%- endif -%}
           </div>
         </div>
