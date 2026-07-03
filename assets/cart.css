@@ -217,7 +217,7 @@
   margin: 0;
   font-size: 1.3rem;
   line-height: 1.45;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--cart-drawer-text);
 }
 
@@ -245,7 +245,7 @@
 
 .cart-drawer__summary-label--muted {
   font-size: 1.2rem;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--cart-drawer-text);
 }
 
@@ -257,7 +257,7 @@
 
 .cart-drawer__summary-value--shipping {
   font-size: 1.2rem;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--cart-drawer-text);
 }
 
@@ -381,6 +381,7 @@
   margin-top: 0.6rem;
   font-size: 1.2rem;
   line-height: 1.45;
+  font-weight: 600;
   color: var(--cart-drawer-text);
 }
 
@@ -458,7 +459,7 @@
   padding: 0;
   box-shadow: none;
   font-size: 1.2rem;
-  font-weight: 500;
+  font-weight: 600;
   text-align: center;
   color: var(--cart-drawer-text);
   -moz-appearance: textfield;
@@ -499,7 +500,7 @@
     margin: 0 0 1rem;
     font-size: 1.2rem;
     line-height: 1.2rem;
-    font-weight: 500;
+    font-weight: 600;
   }
 
   .cart-drawer__summary-row--subtotal {
@@ -570,7 +571,7 @@
     text-align: center;
     font-size: 1.2rem;
     line-height: 1.45;
-    font-weight: 500;
+    font-weight: 600;
     padding-inline: 0.8rem;
   }
 
