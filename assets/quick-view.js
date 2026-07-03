@@ -9,6 +9,15 @@ if (!customElements.get('quick-view-modal')) {
           loaded: 'quick-view-loaded',
         };
         this.drawerBody = this.querySelector(this.selector);
+
+        this._QV_GLOBAL_SCRIPTS = [
+          'product-form-line-items.js',
+          'product-set-cart-items.js',
+          'product-info.js',
+          'we-details-select.js',
+          'we-variant-dropdown-meta.js',
+          'we-quantity-selector-cap.js',
+        ];
       }
 
       get selector() {
@@ -46,6 +55,10 @@ if (!customElements.get('quick-view-modal')) {
         super.handleAfterHide();
         this._stickyActionsObserver?.disconnect();
         this._stickyActionsObserver = null;
+        if (this._stickyActionsRelocateTimer) {
+          clearTimeout(this._stickyActionsRelocateTimer);
+          this._stickyActionsRelocateTimer = null;
+        }
         if (this._stickyActionsResizeHandler) {
           window.removeEventListener('resize', this._stickyActionsResizeHandler);
           this._stickyActionsResizeHandler = null;
@@ -71,6 +84,34 @@ if (!customElements.get('quick-view-modal')) {
         }
 
         return sectionId;
+      }
+
+      getDrawerInner(drawerContent) {
+        return drawerContent?.closest('.drawer__inner') || null;
+      }
+
+      syncBundleForms(drawerContent) {
+        const drawerInner = this.getDrawerInner(drawerContent);
+        const scope = drawerInner || drawerContent;
+        scope.querySelectorAll('form.pdp-set-bundle').forEach((form) => {
+          if (typeof window.syncPdpSetBundleForm === 'function') {
+            window.syncPdpSetBundleForm(form);
+          }
+        });
+      }
+
+      dispatchBundleSync(drawerContent) {
+        const drawerInner = this.getDrawerInner(drawerContent);
+        const root = drawerInner || drawerContent;
+        const detail = { root };
+
+        document.dispatchEvent(
+          new CustomEvent('pdp-set:bind-bundle-forms', { bubbles: true, detail })
+        );
+        document.dispatchEvent(
+          new CustomEvent('pdp-set:refresh-submit', { bubbles: true, detail })
+        );
+        this.syncBundleForms(drawerContent);
       }
 
       quickview() {
@@ -107,12 +148,14 @@ if (!customElements.get('quick-view-modal')) {
             if (typeof window.initWeVariantDropdownMeta === 'function') {
               window.initWeVariantDropdownMeta(drawerContent);
             }
-            document.dispatchEvent(new CustomEvent('pdp-set:bind-bundle-forms', { bubbles: true }));
-            if (typeof window.syncPdpSetBundleForm === 'function') {
-              drawerContent.querySelectorAll('form.pdp-set-bundle').forEach((form) => {
-                window.syncPdpSetBundleForm(form);
-              });
-            }
+
+            this.relocateStickyActionsForMobile(drawerContent);
+            this.observeStickyActions(drawerContent);
+
+            requestAnimationFrame(() => {
+              this.relocateStickyActionsForMobile(drawerContent);
+              this.dispatchBundleSync(drawerContent);
+            });
 
             document.dispatchEvent(
               new CustomEvent('quick-view:loaded', {
@@ -120,18 +163,10 @@ if (!customElements.get('quick-view-modal')) {
               })
             );
 
-            this.relocateStickyActionsForMobile(drawerContent);
-            this.observeStickyActions(drawerContent);
-
             setTimeout(() => {
               this.classList.add(this._classes.loaded);
               this.relocateStickyActionsForMobile(drawerContent);
-              document.dispatchEvent(new CustomEvent('pdp-set:bind-bundle-forms', { bubbles: true }));
-              if (typeof window.syncPdpSetBundleForm === 'function') {
-                drawerContent.querySelectorAll('form.pdp-set-bundle').forEach((form) => {
-                  window.syncPdpSetBundleForm(form);
-                });
-              }
+              this.dispatchBundleSync(drawerContent);
             }, 300);
           })
           .catch((e) => {
@@ -171,14 +206,32 @@ if (!customElements.get('quick-view-modal')) {
       observeStickyActions(drawerContent) {
         this._stickyActionsObserver?.disconnect();
 
-        const sync = () => this.relocateStickyActionsForMobile(drawerContent);
-        this._stickyActionsObserver = new MutationObserver(sync);
+        const scheduleRelocate = () => {
+          if (this._stickyActionsRelocateTimer) {
+            clearTimeout(this._stickyActionsRelocateTimer);
+          }
+          this._stickyActionsRelocateTimer = setTimeout(() => {
+            this._stickyActionsRelocateTimer = null;
+            this.relocateStickyActionsForMobile(drawerContent);
+            if (typeof window.refreshPdpSetBundleFormsInScope === 'function') {
+              const drawerInner = this.getDrawerInner(drawerContent);
+              window.refreshPdpSetBundleFormsInScope(drawerInner || drawerContent);
+            }
+          }, 80);
+        };
+
+        this._stickyActionsObserver = new MutationObserver(scheduleRelocate);
         this._stickyActionsObserver.observe(drawerContent, { childList: true, subtree: true });
 
         if (!this._stickyActionsResizeHandler) {
           this._stickyActionsResizeHandler = () => {
             if (!this.open) return;
             this.relocateStickyActionsForMobile(this.querySelector(this.selector));
+            if (typeof window.refreshPdpSetBundleFormsInScope === 'function') {
+              const drawerContent = this.querySelector(this.selector);
+              const drawerInner = this.getDrawerInner(drawerContent);
+              window.refreshPdpSetBundleFormsInScope(drawerInner || drawerContent);
+            }
           };
           window.addEventListener('resize', this._stickyActionsResizeHandler);
         }
@@ -188,6 +241,13 @@ if (!customElements.get('quick-view-modal')) {
         element.innerHTML = '';
         element.appendChild(innerHTML);
         element.querySelectorAll('script').forEach((oldScriptTag) => {
+          const src = oldScriptTag.getAttribute('src') || '';
+          const isGlobalScript = this._QV_GLOBAL_SCRIPTS.some((name) => src.includes(name));
+          if (isGlobalScript) {
+            oldScriptTag.remove();
+            return;
+          }
+
           const newScriptTag = document.createElement('script');
           Array.from(oldScriptTag.attributes).forEach((attribute) => {
             newScriptTag.setAttribute(attribute.name, attribute.value);

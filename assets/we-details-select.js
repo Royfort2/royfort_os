@@ -240,7 +240,19 @@
       (this.portalEl || this.container).querySelectorAll('.we-select > .we-select__item input[type="radio"]').forEach((input) => {
         if (vsRoot?.id) input.dataset.vsRoot = vsRoot.id;
         input.addEventListener('change', () => {
-          if (input.checked) this.setValue(input);
+          if (input.checked) {
+            this.setValue(input);
+            const productInfo = vsRoot?.closest?.('product-info');
+            document.dispatchEvent(
+              new CustomEvent('pdp-set:refresh-submit', {
+                bubbles: true,
+                detail: {
+                  productInfo,
+                  sectionId: productInfo?.dataset?.section,
+                },
+              })
+            );
+          }
         });
       });
 

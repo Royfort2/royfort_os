@@ -5,16 +5,27 @@
  * have a full variant selection; then the add button is enabled if those variants are available.
  */
 (function () {
-  let pdpSetBundleChangeDelegationBound = false;
+  const LISTENERS_KEY = '__pdpSetBundleListenersBound';
+  const DELEGATION_KEY = '__pdpSetBundleDelegationBound';
+  const PUBSUB_KEY = '__pdpSetBundlePubsubBound';
 
-  function getVariantsForProduct(productId) {
-    const el = document.querySelector(`script[data-set-product-variants="${productId}"]`);
-    if (!el?.textContent) return [];
-    try {
-      return JSON.parse(el.textContent) || [];
-    } catch (e) {
-      return [];
+  function getVariantsForProduct(productId, scope) {
+    const roots = [];
+    if (scope) roots.push(scope);
+    const openPi = document.querySelector('quick-view-modal[open] product-info');
+    if (openPi && !roots.includes(openPi)) roots.push(openPi);
+    if (!roots.includes(document)) roots.push(document);
+
+    for (const root of roots) {
+      const el = root.querySelector?.(`script[data-set-product-variants="${productId}"]`);
+      if (!el?.textContent) continue;
+      try {
+        return JSON.parse(el.textContent) || [];
+      } catch (e) {
+        return [];
+      }
     }
+    return [];
   }
 
   /**
@@ -40,6 +51,49 @@
     );
   }
 
+  function getVariantSelectsEl(sectionId, productId, productInfo) {
+    const id = `variant-selects-${sectionId}-${productId}`;
+    const escId =
+      typeof CSS !== 'undefined' && CSS.escape ? CSS.escape(id) : id.replace(/"/g, '\\"');
+    return (
+      productInfo?.querySelector?.(`#${escId}`) ||
+      productInfo?.querySelector?.(`variant-selects[data-product-id="${productId}"]`) ||
+      document.getElementById(id)
+    );
+  }
+
+  function getOptionGroupCount(vs) {
+    if (!vs || vs.tagName !== 'VARIANT-SELECTS') return 0;
+    return vs.querySelectorAll(':scope > .product-form__input').length;
+  }
+
+  function variantCoversOptionGroups(variant, groupCount) {
+    if (!variant?.id) return false;
+    if (groupCount <= 0) return true;
+    let filled = 0;
+    for (let i = 1; i <= 3; i++) {
+      if (variant[`option${i}`]) filled++;
+    }
+    return filled >= groupCount;
+  }
+
+  function getWeSelectValueFromWrap(wrap) {
+    const details = wrap.querySelector('details.we-select-container');
+    if (!details || details.classList.contains('we-select-container--placeholder')) return null;
+
+    const checked = findCheckedOptionRadioInWrap(wrap);
+    if (checked?.value) return checked.value;
+
+    const valueText = details.querySelector('.we-select__value-text')?.textContent?.trim();
+    if (valueText) return valueText;
+
+    const summaryText = details
+      .querySelector('.we-select-container__summary')
+      ?.textContent?.replace(/\s+/g, ' ')
+      .trim();
+    return summaryText || null;
+  }
+
   function getSelectedOptionValues(variantSelects) {
     const values = [];
     if (!variantSelects) return values;
@@ -51,7 +105,17 @@
         return;
       }
       const checked = findCheckedOptionRadioInWrap(wrap);
-      if (checked) values.push(checked.value);
+      if (checked?.value) {
+        values.push(checked.value);
+        return;
+      }
+      const weSelectVal = getWeSelectValueFromWrap(wrap);
+      if (weSelectVal) {
+        values.push(weSelectVal);
+        return;
+      }
+      const swatchLabel = wrap.querySelector('[data-selected-swatch-value]')?.textContent?.trim();
+      if (swatchLabel) values.push(swatchLabel);
     });
     return values;
   }
@@ -115,37 +179,76 @@
    * Does not treat SSR `[data-selected-variant]` alone as complete for multi-option pickers.
    * When no `<variant-selects>` exists (single-variant set line), only one variant in JSON counts as resolved.
    */
-  function wePickerHasResolvedVariant(vs, productId) {
+  function wePickerHasResolvedVariant(vs, productId, cfg) {
     if (!vs) {
       if (productId == null || productId === '') return false;
       const variants = getVariantsForProduct(productId);
       return variants.length === 1;
     }
-    if (vs.tagName === 'VARIANT-SELECTS') {
-      const groups = vs.querySelectorAll(':scope > .product-form__input');
-      if (groups.length === 0) {
-        const fromScript = parseDataSelectedVariant(vs);
-        return fromScript?.id != null && fromScript.id !== '';
-      }
-      const values = getSelectedOptionValues(vs);
-      if (values.length >= groups.length) return true;
-      /** Alternate path: `<variant-selects>.selectedOptionValues` uses option value ids (swatches, etc.). */
-      try {
-        const sel = vs.selectedOptionValues;
-        if (Array.isArray(sel) && sel.length >= groups.length) return true;
-      } catch (e) {
-        /* ignore */
-      }
-      return false;
+    if (vs.tagName !== 'VARIANT-SELECTS') {
+      const fromScript = parseDataSelectedVariant(vs);
+      return fromScript?.id != null && fromScript.id !== '';
     }
-    const fromScript = parseDataSelectedVariant(vs);
-    return fromScript?.id != null && fromScript.id !== '';
+
+    const groupCount = getOptionGroupCount(vs);
+    const pid = String(productId || vs.dataset?.productId || '');
+    const sectionId = vs.dataset?.section || cfg?.sectionId || '';
+    const fallback =
+      vs.dataset?.selectedVariantId ||
+      (String(pid) === String(cfg?.firstSetProductId) ? cfg?.firstVariantFallback : null) ||
+      getDefaultVariantIdFromDom(pid, vs.closest('product-info'));
+    const resolved = getResolvedVariant(sectionId, pid, fallback, vs.closest('product-info'));
+
+    const values = getSelectedOptionValues(vs);
+    if (groupCount > 0 && values.length >= groupCount) return true;
+
+    if (resolved?.id && variantCoversOptionGroups(resolved, groupCount)) {
+      if (values.length === 0) return true;
+      for (let i = 0; i < values.length; i++) {
+        if (resolved[`option${i + 1}`] !== values[i]) return false;
+      }
+      return true;
+    }
+
+    try {
+      const sel = vs.selectedOptionValues;
+      if (Array.isArray(sel) && groupCount > 0 && sel.length >= groupCount) return true;
+    } catch (e) {
+      /* ignore */
+    }
+
+    return false;
   }
 
   /**
    * One `<variant-selects>` per product id (responsive duplicates share the same `data-product-id`).
    */
+  function getProductInfoForBundleForm(form) {
+    if (!form) return null;
+
+    const inTree = form.closest('product-info');
+    if (inTree) return inTree;
+
+    const modal =
+      form.closest('quick-view-modal') ||
+      form.closest('.drawer__inner')?.closest('quick-view-modal');
+    if (modal) {
+      const pi = modal.querySelector('product-info');
+      if (pi) return pi;
+    }
+
+    const drawerContent = form.closest('.quick-view__content, .drawer__body');
+    if (drawerContent) {
+      const pi = drawerContent.querySelector('product-info');
+      if (pi) return pi;
+    }
+
+    const openModal = document.querySelector('quick-view-modal[open]');
+    return openModal?.querySelector('product-info') || null;
+  }
+
   function getUniqueVariantSelects(productInfo) {
+    if (!productInfo) return [];
     const seen = new Set();
     const out = [];
     productInfo.querySelectorAll('variant-selects').forEach((vs) => {
@@ -164,7 +267,9 @@
    * lines whose checkbox is off (when a checkbox exists).
    */
   function getSetBundlePickersToValidate(productInfo, cfg) {
-    const optionalIds = (cfg.optionalProductIds || []).map(String);
+    if (!productInfo) return [];
+
+    const optionalIds = (cfg?.optionalProductIds || []).map(String);
     const mainId = String(productInfo.dataset?.productId || '');
 
     return getUniqueVariantSelects(productInfo).filter((vs) => {
@@ -190,36 +295,45 @@
   /**
    * Full variant object for availability checks (includes `available` from Shopify JSON).
    */
-  function getResolvedVariant(sectionId, productId, fallbackId) {
-    const vs = document.getElementById(`variant-selects-${sectionId}-${productId}`);
+  function getResolvedVariant(sectionId, productId, fallbackId, productInfo) {
+    const vs = getVariantSelectsEl(sectionId, productId, productInfo);
     let variant = resolveVariant(vs, productId);
-    if (!variant && fallbackId != null && fallbackId !== '') {
-      variant = findVariantById(getVariantsForProduct(productId), fallbackId);
-    }
     if (!variant && vs) {
       variant = parseDataSelectedVariant(vs);
+    }
+    if (!variant && fallbackId != null && fallbackId !== '') {
+      variant = findVariantById(getVariantsForProduct(productId), fallbackId);
     }
     return variant;
   }
 
-  function getDefaultVariantIdFromDom(productId) {
-    const el = document.querySelector(`script[data-set-default-variant-id="${productId}"]`);
-    if (!el?.textContent) return '';
-    try {
-      return String(JSON.parse(el.textContent));
-    } catch (e) {
-      return '';
+  function getDefaultVariantIdFromDom(productId, scope) {
+    const roots = [];
+    if (scope) roots.push(scope);
+    const openPi = document.querySelector('quick-view-modal[open] product-info');
+    if (openPi && !roots.includes(openPi)) roots.push(openPi);
+    if (!roots.includes(document)) roots.push(document);
+
+    for (const root of roots) {
+      const el = root.querySelector?.(`script[data-set-default-variant-id="${productId}"]`);
+      if (!el?.textContent) continue;
+      try {
+        return String(JSON.parse(el.textContent));
+      } catch (e) {
+        return '';
+      }
     }
+    return '';
   }
 
-  function getVariantIdForProduct(sectionId, productId, fallbackId) {
-    const vs = document.getElementById(`variant-selects-${sectionId}-${productId}`);
+  function getVariantIdForProduct(sectionId, productId, fallbackId, productInfo) {
+    const vs = getVariantSelectsEl(sectionId, productId, productInfo);
     if (vs) {
       const v = resolveVariant(vs, productId) || parseDataSelectedVariant(vs);
       if (v?.id) return String(v.id);
     }
     if (fallbackId != null && fallbackId !== '') return String(fallbackId);
-    return getDefaultVariantIdFromDom(productId);
+    return getDefaultVariantIdFromDom(productId, productInfo);
   }
 
   /**
@@ -405,7 +519,7 @@
    */
   function updatePdpSetZwischensumme(form) {
     const cfgEl = form.querySelector('script[data-pdp-set-config]');
-    const productInfo = form.closest('product-info');
+    const productInfo = getProductInfoForBundleForm(form);
     const root = productInfo?.querySelector('[data-pdp-set-zwischensumme]');
     if (!cfgEl?.textContent || !root) return;
 
@@ -448,14 +562,16 @@
     const requiredGateIds = (requiredSetProductIds || []).map(String).slice(0, 2);
     const bothFirstTwoResolved =
       firstTwoPickers.length >= 2 &&
-      firstTwoPickers.every((vs) => wePickerHasResolvedVariant(vs, String(vs.dataset?.productId || '')));
+      firstTwoPickers.every((vs) =>
+        wePickerHasResolvedVariant(vs, String(vs.dataset?.productId || ''), cfg)
+      );
 
     const useFromTotals = !bothFirstTwoResolved;
 
     const lines = [];
 
     if (!omitMainProductFromZwischensumme && mainProductId) {
-      const vMain = getResolvedVariant(sectionId, mainProductId, null);
+      const vMain = getResolvedVariant(sectionId, mainProductId, null, productInfo);
       const qMain = getInlineQuantityForProduct(sectionId, mainProductId);
       if (vMain) {
         lines.push({
@@ -474,12 +590,12 @@
       requiredSetProductIds.forEach((pidRaw) => {
         const pid = String(pidRaw);
         const gated = requiredGateIds.includes(pid);
-        const vs = document.getElementById(`variant-selects-${sectionId}-${pid}`);
-        const resolved = !gated || wePickerHasResolvedVariant(vs, pid);
+        const vs = getVariantSelectsEl(sectionId, pid, productInfo);
+        const resolved = !gated || wePickerHasResolvedVariant(vs, pid, cfg);
         const q = getInlineQuantityForProduct(sectionId, pid);
         const priceMinCents = minPriceCentsForProduct(pid, priceMinById);
         const fallback =
-          String(pid) === String(firstSetProductId) ? firstVariantFallback : getDefaultVariantIdFromDom(pid);
+          String(pid) === String(firstSetProductId) ? firstVariantFallback : getDefaultVariantIdFromDom(pid, productInfo);
         if (!resolved) {
           if (priceMinCents <= 0) return;
           lines.push({
@@ -492,7 +608,7 @@
             priceMinCents,
           });
         } else {
-          const v = getResolvedVariant(sectionId, pid, fallback);
+          const v = getResolvedVariant(sectionId, pid, fallback, productInfo);
           if (!v) return;
           lines.push({
             productId: pid,
@@ -508,8 +624,8 @@
     } else {
       const pid = String(firstSetProductId);
       const gated = requiredGateIds.includes(pid);
-      const vs = document.getElementById(`variant-selects-${sectionId}-${pid}`);
-      const resolved = !gated || wePickerHasResolvedVariant(vs, pid);
+      const vs = getVariantSelectsEl(sectionId, pid, productInfo);
+      const resolved = !gated || wePickerHasResolvedVariant(vs, pid, cfg);
       const qFirst = getInlineQuantityForProduct(sectionId, firstSetProductId);
       const priceMinCents = minPriceCentsForProduct(pid, priceMinById);
       if (!resolved) {
@@ -525,7 +641,7 @@
           });
         }
       } else {
-        const vFirst = getResolvedVariant(sectionId, firstSetProductId, firstVariantFallback);
+        const vFirst = getResolvedVariant(sectionId, firstSetProductId, firstVariantFallback, productInfo);
         if (vFirst) {
           lines.push({
             productId: pid,
@@ -546,7 +662,7 @@
         `input.product-set-picker__toggle[data-set-optional-product-id="${pid}"]`
       );
       if (!cb?.checked) return;
-      const v = getResolvedVariant(sectionId, pid, getDefaultVariantIdFromDom(pid));
+      const v = getResolvedVariant(sectionId, pid, getDefaultVariantIdFromDom(pid, productInfo), productInfo);
       const q = getInlineQuantityForProduct(sectionId, pid);
       if (v) {
         lines.push({
@@ -648,23 +764,29 @@
     }
 
     const { sectionId, firstSetProductId, firstVariantFallback } = cfg;
-    const productInfo = form.closest('product-info');
-    const mainProductId = productInfo?.dataset?.productId;
-    const submitBtn = document.getElementById(`ProductSubmitButton-${sectionId}`);
-    if (!submitBtn || !mainProductId) return;
+    const productInfo = getProductInfoForBundleForm(form);
+    const submitBtn =
+      form.querySelector(`#ProductSubmitButton-${sectionId}`) ||
+      form.querySelector('.product-form__submit[type="submit"]');
+    if (!submitBtn) return;
+
+    if (!productInfo) return;
 
     /** Only the first two set pickers gate the add-to-cart button. */
     const firstTwoPickers = getFirstTwoSetPickers(productInfo, cfg);
+    const requiredPickerCount = Math.min(2, (cfg.requiredSetProductIds || []).length || 2);
 
     const toCheck = firstTwoPickers.map((vs) => {
       const pid = String(vs.dataset.productId);
       const fallback =
-        String(pid) === String(firstSetProductId) ? firstVariantFallback : getDefaultVariantIdFromDom(pid);
-      return getResolvedVariant(sectionId, pid, fallback);
+        String(pid) === String(firstSetProductId) ? firstVariantFallback : getDefaultVariantIdFromDom(pid, productInfo);
+      return getResolvedVariant(sectionId, pid, fallback, productInfo);
     });
 
     const allPurchasable =
-      firstTwoPickers.length >= 2 && toCheck.length === 2 && toCheck.every(isVariantPurchasable);
+      firstTwoPickers.length >= requiredPickerCount &&
+      toCheck.length >= requiredPickerCount &&
+      toCheck.every(isVariantPurchasable);
 
     const soldOut =
       typeof FoxTheme !== 'undefined' && FoxTheme.variantStrings && FoxTheme.variantStrings.soldOut
@@ -683,10 +805,10 @@
 
     const span = submitBtn.querySelector('span');
 
-    let incomplete = firstTwoPickers.length < 2;
+    let incomplete = firstTwoPickers.length < requiredPickerCount;
     firstTwoPickers.forEach((vs) => {
       const pid = String(vs.dataset.productId);
-      if (!wePickerHasResolvedVariant(vs, pid)) incomplete = true;
+      if (!wePickerHasResolvedVariant(vs, pid, cfg)) incomplete = true;
     });
 
     if (incomplete) {
@@ -710,6 +832,13 @@
       if (span) span.textContent = addToCart;
       submitBtn.style.pointerEvents = '';
       submitBtn.style.opacity = '';
+      const errWrap = form.querySelector('.product-form__error-message-wrapper');
+      const errMsg = form.querySelector('.product-form__error-message');
+      if (errWrap) errWrap.hidden = true;
+      if (errMsg) {
+        errMsg.hidden = true;
+        errMsg.textContent = '';
+      }
     }
   }
 
@@ -720,8 +849,8 @@
 
     const pushLine = (pid) => {
       const fallback =
-        String(pid) === String(firstSetProductId) ? firstVariantFallback : getDefaultVariantIdFromDom(pid);
-      const vid = getVariantIdForProduct(sectionId, pid, fallback);
+        String(pid) === String(firstSetProductId) ? firstVariantFallback : getDefaultVariantIdFromDom(pid, productInfo);
+      const vid = getVariantIdForProduct(sectionId, pid, fallback, productInfo);
       if (vid) {
         lines.push({
           id: vid,
@@ -764,7 +893,7 @@
 
     root.replaceChildren();
 
-    const productInfo = form.closest('product-info');
+    const productInfo = getProductInfoForBundleForm(form);
     if (!productInfo) return;
 
     const lines = buildSetBundleLines(productInfo, cfg);
@@ -799,6 +928,13 @@
     if (!target) return null;
     let pi = target.closest?.('product-info');
     if (pi) return pi;
+
+    const bundleForm = target.closest?.('form.pdp-set-bundle');
+    if (bundleForm) {
+      pi = getProductInfoForBundleForm(bundleForm);
+      if (pi) return pi;
+    }
+
     const vid = target.dataset?.vsRoot || target.getAttribute?.('data-vs-root');
     if (vid) {
       const vs = document.getElementById(vid);
@@ -820,10 +956,97 @@
     return null;
   }
 
+  function collectBundleFormsForProductInfo(productInfo) {
+    const forms = new Set();
+    if (!productInfo) return forms;
+
+    productInfo.querySelectorAll('form.pdp-set-bundle').forEach((form) => forms.add(form));
+
+    const modal = productInfo.closest('quick-view-modal');
+    if (modal) {
+      modal.querySelectorAll('form.pdp-set-bundle').forEach((form) => forms.add(form));
+    }
+
+    return forms;
+  }
+
+  function collectBundleFormsFromScope(scope) {
+    const forms = new Set();
+    if (!scope) return forms;
+
+    if (scope.matches?.('form.pdp-set-bundle')) {
+      forms.add(scope);
+      return forms;
+    }
+
+    if (scope.matches?.('product-info')) {
+      collectBundleFormsForProductInfo(scope).forEach((form) => forms.add(form));
+      return forms;
+    }
+
+    const drawerInner = scope.closest?.('.drawer__inner') || scope;
+    drawerInner.querySelectorAll?.('form.pdp-set-bundle')?.forEach((form) => forms.add(form));
+
+    const productInfo =
+      scope.querySelector?.('product-info') || scope.closest?.('product-info');
+    if (productInfo) {
+      collectBundleFormsForProductInfo(productInfo).forEach((form) => forms.add(form));
+    }
+
+    return forms;
+  }
+
+  function refreshActiveBundleForms() {
+    const forms = new Set();
+    document
+      .querySelectorAll('quick-view-modal[open] form.pdp-set-bundle')
+      .forEach((form) => forms.add(form));
+    document.querySelectorAll('form.pdp-set-bundle').forEach((form) => {
+      if (!form.closest('quick-view-modal')) forms.add(form);
+    });
+    forms.forEach((form) => refresh(form));
+  }
+
+  function refreshBundleFormsFromEvent(event) {
+    const detail = event?.detail || {};
+
+    if (detail.form?.classList?.contains('pdp-set-bundle')) {
+      refresh(detail.form);
+      return;
+    }
+
+    if (detail.sectionId) {
+      const matches = document.querySelectorAll(
+        `product-info[data-section="${detail.sectionId}"]`
+      );
+      const forms = new Set();
+      matches.forEach((pi) => {
+        collectBundleFormsForProductInfo(pi).forEach((form) => forms.add(form));
+      });
+      if (forms.size > 0) {
+        forms.forEach((form) => refresh(form));
+        return;
+      }
+    }
+
+    const scope = detail.root || detail.productInfo;
+    if (scope) {
+      const forms = collectBundleFormsFromScope(scope);
+      if (forms.size > 0) {
+        forms.forEach((form) => refresh(form));
+        return;
+      }
+    }
+
+    refreshActiveBundleForms();
+  }
+
   function refreshPdpSetBundleFormsForTarget(target) {
     const pi = getProductInfoForBundleEventTarget(target);
     if (!pi) return;
-    pi.querySelectorAll('form.pdp-set-bundle').forEach((form) => refresh(form));
+
+    const forms = collectBundleFormsForProductInfo(pi);
+    forms.forEach((form) => refresh(form));
   }
 
   function bindForm(form) {
@@ -836,9 +1059,14 @@
     form.addEventListener('submit', () => refresh(form), { capture: true });
   }
 
+  function bindAllBundleForms(root) {
+    const scope = root || document;
+    scope.querySelectorAll('form.pdp-set-bundle').forEach(bindForm);
+  }
+
   function bindPdpSetBundleChangeDelegation() {
-    if (pdpSetBundleChangeDelegationBound) return;
-    pdpSetBundleChangeDelegationBound = true;
+    if (window[DELEGATION_KEY]) return;
+    window[DELEGATION_KEY] = true;
     const onInteraction = (e) => {
       refreshPdpSetBundleFormsForTarget(e.target);
     };
@@ -846,30 +1074,47 @@
     document.addEventListener('input', onInteraction, true);
   }
 
-  function init() {
-    bindPdpSetBundleChangeDelegation();
-    document.querySelectorAll('form.pdp-set-bundle').forEach(bindForm);
+  function bindGlobalListenersOnce() {
+    if (window[LISTENERS_KEY]) return;
+    window[LISTENERS_KEY] = true;
 
-    document.addEventListener('pdp-set:bind-bundle-forms', () => {
-      document.querySelectorAll('form.pdp-set-bundle').forEach(bindForm);
+    document.addEventListener('pdp-set:bind-bundle-forms', (event) => {
+      const root = event.detail?.root;
+      bindAllBundleForms(root || document);
     });
 
-    document.addEventListener('pdp-set:refresh-submit', () => {
-      document.querySelectorAll('form.pdp-set-bundle').forEach((form) => {
-        refresh(form);
-      });
-    });
+    document.addEventListener('pdp-set:refresh-submit', refreshBundleFormsFromEvent);
 
     if (typeof FoxTheme !== 'undefined' && FoxTheme.pubsub && FoxTheme.pubsub.PUB_SUB_EVENTS) {
-      FoxTheme.pubsub.subscribe(FoxTheme.pubsub.PUB_SUB_EVENTS.variantChange, () => {
-        document.querySelectorAll('form.pdp-set-bundle').forEach((form) => {
-          refresh(form);
+      if (!window[PUBSUB_KEY]) {
+        window[PUBSUB_KEY] = true;
+        FoxTheme.pubsub.subscribe(FoxTheme.pubsub.PUB_SUB_EVENTS.variantChange, (event) => {
+          if (event?.data?.sectionId) {
+            refreshBundleFormsFromEvent({
+              detail: { sectionId: event.data.sectionId },
+            });
+            return;
+          }
+          refreshActiveBundleForms();
         });
-      });
+      }
     }
+  }
 
-    window.refreshPdpSetBundleForms = function () {
-      document.querySelectorAll('form.pdp-set-bundle').forEach((form) => refresh(form));
+  function init() {
+    bindPdpSetBundleChangeDelegation();
+    bindAllBundleForms();
+    bindGlobalListenersOnce();
+
+    window.refreshPdpSetBundleForms = refreshActiveBundleForms;
+
+    window.refreshPdpSetBundleFormsInScope = function (scope) {
+      const forms = collectBundleFormsFromScope(scope);
+      if (forms.size > 0) {
+        forms.forEach((form) => refresh(form));
+      } else {
+        refreshActiveBundleForms();
+      }
     };
 
     window.syncPdpSetBundleForm = function (form) {
