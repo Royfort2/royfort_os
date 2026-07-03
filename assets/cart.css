@@ -281,7 +281,7 @@
 .cart-drawer__summary-row--subtotal .cart-drawer__summary-label,
 .cart-drawer__summary-row--subtotal .cart-drawer__summary-value {
   font-size: 1.8rem;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--cart-drawer-text);
 }
 
@@ -305,7 +305,7 @@
   min-height: 4rem;
   padding-block: 0;
   line-height: 3.8rem;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .cart-drawer__items-area {
