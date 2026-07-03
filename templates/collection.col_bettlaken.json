@@ -110,6 +110,7 @@
           "disabled": true,
           "settings": {
             "color_scheme": "scheme-1",
+            "text_color": "",
             "video_url_desktop": "",
             "image_desktop": "shopify://shop_images/Sleep_Guide_LP_Hero_Banner_1568_x_738.jpg",
             "video_url_mobile": "",
@@ -135,7 +136,7 @@
         "color_scheme": "scheme-1",
         "products_per_page": 12,
         "columns_desktop": 4,
-        "render_variants": true,
+        "render_variants": false,
         "grid_layout": "standard",
         "pagination": "load_more",
         "enable_color_swatch": true,
