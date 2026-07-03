@@ -670,8 +670,9 @@
         max-height: 75vh;
         border-radius: var(--blocks-radius-mobile, 0.4rem) var(--blocks-radius-mobile, 0.4rem) 0 0;
         box-shadow: 0 -0.4rem 2.4rem rgba(0, 0, 0, 0.08);
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-rows: minmax(0, 1fr) auto;
+        overflow: hidden;
     }
 
     quick-view-modal.drawer--right[active]>.drawer__inner {
@@ -679,8 +680,45 @@
     }
 
     quick-view-modal.drawer--right .drawer__body {
+        grid-row: 1;
         min-height: 0;
-        flex: 1 1 auto;
+        height: auto !important;
+        max-height: none;
+        overflow-x: hidden;
+        overflow-y: auto;
+        scroll-snap-type: none;
+    }
+
+    quick-view-modal.drawer--right .quick-view__footer {
+        grid-row: 2;
+        flex-shrink: 0;
+        min-height: 0;
+        z-index: 2;
+        background: rgb(var(--color-background));
+    }
+
+    /* Pin ATC outside the scroll area so content is never covered. */
+    quick-view-modal.drawer--right .quick-view__sticky-actions {
+        position: static;
+        margin-top: 0;
+        margin-inline: 0;
+        width: 100%;
+        max-width: none;
+        box-sizing: border-box;
+    }
+
+    quick-view-modal.drawer--right.quick-view .product {
+        height: auto;
+        min-height: 0;
+        padding-bottom: calc(var(--quick-view-gap, 1.6rem) * 1.5);
+    }
+
+    quick-view-modal.drawer--right.quick-view .product__info-container {
+        height: auto;
+    }
+
+    quick-view-modal.drawer--right.quick-view .product__blocks {
+        padding-bottom: 0.8rem;
     }
 }
 

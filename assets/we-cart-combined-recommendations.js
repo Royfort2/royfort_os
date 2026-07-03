@@ -7,6 +7,44 @@ if (!customElements.get('we-cart-combined-recommendations')) {
     'we-cart-combined-recommendations',
     class WeCartCombinedRecommendations extends HTMLElement {
       connectedCallback() {
+        this._cartUpdatedHandler = this.onCartUpdated.bind(this);
+        document.addEventListener('cart:updated', this._cartUpdatedHandler);
+        this.scheduleLoad();
+      }
+
+      disconnectedCallback() {
+        if (this._cartUpdatedHandler) {
+          document.removeEventListener('cart:updated', this._cartUpdatedHandler);
+        }
+      }
+
+      onCartUpdated() {
+        this.dataset.loaded = 'false';
+        this._loading = false;
+        const root = this.querySelector('.we-main-product-related__root');
+        if (root) root.innerHTML = '';
+        this.classList.add('hidden');
+        this.closest('.cart-drawer__recs')?.classList.remove('cart-drawer__recs--has-dynamic');
+        this.scheduleLoad();
+      }
+
+      buildFetchUrl(productId, limit, intent, sectionId) {
+        const recPath = this.dataset.recommendationsUrl || '/recommendations/products';
+        const root = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) || '/';
+        const normalizedRoot = root.endsWith('/') ? root.slice(0, -1) : root;
+        const baseUrl = recPath.startsWith('http') ? recPath : `${normalizedRoot}${recPath.startsWith('/') ? '' : '/'}${recPath}`;
+        const url = new URL(baseUrl, window.location.origin);
+        url.searchParams.set('section_id', sectionId);
+        url.searchParams.set('product_id', String(productId));
+        url.searchParams.set('limit', String(limit));
+        url.searchParams.set('intent', intent);
+        if (window.location.hostname.includes('shopifypreview.com') && this.dataset.themeId) {
+          url.searchParams.set('preview_theme_id', this.dataset.themeId);
+        }
+        return url.toString();
+      }
+
+      scheduleLoad() {
         if (this.dataset.loaded === 'true' || this._loading) return;
         const run = () => this.load();
         if ('requestIdleCallback' in window) {
@@ -40,28 +78,23 @@ if (!customElements.get('we-cart-combined-recommendations')) {
           } catch (_) {}
         }
 
-        const totalCap = parseInt(this.dataset.totalLimit || '10', 10);
-        const intent = this.dataset.intent || 'related';
         const sectionId =
           window.__CART_COMBINED_RECS_SECTION_ID__ || this.dataset.sectionIdFallback || 'cart-combined-recs-fragment';
 
-        const recPath = this.dataset.recommendationsUrl || '/recommendations/products';
-        const root = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) || '/';
-        const normalizedRoot = root.endsWith('/') ? root.slice(0, -1) : root;
-        const baseUrl = recPath.startsWith('http') ? recPath : `${normalizedRoot}${recPath.startsWith('/') ? '' : '/'}${recPath}`;
+        const intent = this.dataset.intent || 'related';
 
-        const urls = seeds.map(({ productId, limit }) => {
-          const url = new URL(baseUrl, window.location.origin);
-          url.searchParams.set('section_id', sectionId);
-          url.searchParams.set('product_id', String(productId));
-          url.searchParams.set('limit', String(limit));
-          url.searchParams.set('intent', intent);
-          return url.toString();
-        });
+        const urls = seeds.map(({ productId, limit }) => this.buildFetchUrl(productId, limit, intent, sectionId));
 
         let responses;
         try {
-          responses = await Promise.all(urls.map((url) => fetch(url).then((r) => r.text())));
+          responses = await Promise.all(
+            urls.map((url) =>
+              fetch(url).then((r) => {
+                if (!r.ok) return '';
+                return r.text();
+              })
+            )
+          );
         } catch (e) {
           console.error(e);
           this._loading = false;
@@ -69,12 +102,14 @@ if (!customElements.get('we-cart-combined-recommendations')) {
         }
 
         const pools = responses.map((html) => {
+          if (!html) return [];
           const doc = new DOMParser().parseFromString(html, 'text/html');
           const rootEl = doc.getElementById('cart-combined-recs-fetch-root');
           if (!rootEl) return [];
           return [...rootEl.querySelectorAll(':scope > .swiper-slide')];
         });
 
+        const totalCap = parseInt(this.dataset.totalLimit || '10', 10);
         const mergedSlides = this.mergeSlidesFromPools(pools, excludeIds, totalCap);
         this._loading = false;
 
@@ -85,6 +120,7 @@ if (!customElements.get('we-cart-combined-recommendations')) {
         this.classList.remove('hidden');
         const mount = this.querySelector('.we-main-product-related__root');
         if (mount) mount.classList.remove('hidden');
+        this.closest('.cart-drawer__recs')?.classList.add('cart-drawer__recs--has-dynamic');
       }
 
       productIdFromSlide(slideEl) {
