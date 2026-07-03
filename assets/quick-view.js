@@ -44,6 +44,9 @@ if (!customElements.get('quick-view-modal')) {
 
       handleAfterHide() {
         super.handleAfterHide();
+        this._stickyActionsObserver?.disconnect();
+        this._stickyActionsObserver = null;
+        this.querySelector('.quick-view__footer')?.remove();
         const drawerContent = this.querySelector(this.selector);
         drawerContent.innerHTML = '';
         this.classList.remove(this._classes.loaded);
@@ -108,13 +111,48 @@ if (!customElements.get('quick-view-modal')) {
               })
             );
 
+            this.relocateStickyActionsForMobile(drawerContent);
+            this.observeStickyActions(drawerContent);
+
             setTimeout(() => {
               this.classList.add(this._classes.loaded);
+              this.relocateStickyActionsForMobile(drawerContent);
             }, 300);
           })
           .catch((e) => {
             console.error(e);
           });
+      }
+
+      relocateStickyActionsForMobile(drawerContent) {
+        if (!window.matchMedia('(max-width: 767.98px)').matches) return;
+
+        const stickyBar = drawerContent.querySelector('.quick-view__sticky-actions');
+        const drawerInner = drawerContent.closest('.drawer__inner');
+        if (!stickyBar || !drawerInner) return;
+
+        let footer = drawerInner.querySelector('.quick-view__footer');
+        if (!footer) {
+          footer = document.createElement('div');
+          footer.className = 'quick-view__footer';
+          drawerInner.appendChild(footer);
+        }
+
+        footer.appendChild(stickyBar);
+      }
+
+      observeStickyActions(drawerContent) {
+        if (!window.matchMedia('(max-width: 767.98px)').matches) return;
+
+        this._stickyActionsObserver?.disconnect();
+        this._stickyActionsObserver = new MutationObserver(() => {
+          const stickyBar = drawerContent.querySelector('.quick-view__sticky-actions');
+          const footer = drawerContent.closest('.drawer__inner')?.querySelector('.quick-view__footer');
+          if (stickyBar && stickyBar.parentElement !== footer) {
+            this.relocateStickyActionsForMobile(drawerContent);
+          }
+        });
+        this._stickyActionsObserver.observe(drawerContent, { childList: true, subtree: true });
       }
 
       setInnerHTML(element, innerHTML) {

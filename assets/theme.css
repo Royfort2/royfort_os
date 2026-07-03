@@ -3696,6 +3696,27 @@ input:is([type=radio])::after {
   }
   .quick-view .product {
     --product-gap: 2rem;
+    height: auto;
+  }
+  .quick-view.drawer--right .drawer__inner {
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    overflow: hidden;
+  }
+  .quick-view.drawer--right .drawer__body {
+    grid-row: 1;
+    min-height: 0;
+    height: auto !important;
+    max-height: none;
+    scroll-snap-type: none;
+  }
+  .quick-view.drawer--right .quick-view__footer {
+    grid-row: 2;
+    z-index: 2;
+    background: rgb(var(--color-background));
+  }
+  .quick-view .product__info-container {
+    height: auto;
   }
 }
 @keyframes rotator {
