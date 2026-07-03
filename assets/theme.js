@@ -852,23 +852,23 @@ class ModalComponent extends HTMLElement {
     }
   }
 
-  _waitForOverlayTransition(fallbackMs = 900) {
+  waitForTransitionEnd(element, fallbackMs = 900) {
     return new Promise((resolve) => {
-      const done = () => resolve();
-      const timeout = setTimeout(done, fallbackMs);
-      if (!this.overlay) {
-        clearTimeout(timeout);
-        done();
+      let done = false;
+      const finish = () => {
+        if (done) return;
+        done = true;
+        element?.removeEventListener('transitionend', finish);
+        resolve();
+      };
+
+      if (!element) {
+        finish();
         return;
       }
-      this.overlay.addEventListener(
-        'transitionend',
-        () => {
-          clearTimeout(timeout);
-          done();
-        },
-        { once: true }
-      );
+
+      element.addEventListener('transitionend', finish, { once: true });
+      setTimeout(finish, fallbackMs);
     });
   }
 
@@ -887,14 +887,14 @@ class ModalComponent extends HTMLElement {
       }
     }, 75);
 
-    return this._waitForOverlayTransition();
+    return this.waitForTransitionEnd(this.overlay);
   }
 
   handleHideTransition() {
     this._clearShowActiveTimeout();
     this.removeAttribute('active');
 
-    return this._waitForOverlayTransition();
+    return this.waitForTransitionEnd(this.overlay);
   }
 }
 customElements.define('modal-component', ModalComponent);
@@ -2531,6 +2531,29 @@ class ProductForm extends HTMLFormElement {
     event.preventDefault();
     if (this.submitButtonElement.hasAttribute('aria-disabled')) return;
     this.lastSubmittedElement = event.submitter || event.currentTarget;
+    this.hasError = false;
+
+    if (this.classList.contains('pdp-set-bundle')) {
+      if (typeof window.syncPdpSetBundleForm === 'function') {
+        window.syncPdpSetBundleForm(this);
+      } else if (typeof window.refreshPdpSetBundleForms === 'function') {
+        window.refreshPdpSetBundleForms();
+      }
+
+      const hasLineItems = this.querySelector('[data-pdp-set-line-items] input[name^="items"]');
+      if (!hasLineItems) {
+        const msg =
+          typeof FoxTheme !== 'undefined' &&
+          FoxTheme.variantStrings &&
+          String(FoxTheme.variantStrings.select_variant_text || '').trim()
+            ? String(FoxTheme.variantStrings.select_variant_text).trim()
+            : 'Select variant';
+        this.handleCartError({ description: msg });
+        this.submitButtonElement.classList.remove('btn--loading');
+        this.submitButtonElement.removeAttribute('aria-disabled');
+        return;
+      }
+    }
 
     this.displayFormErrors();
 
@@ -2580,14 +2603,6 @@ class ProductForm extends HTMLFormElement {
           ).json();
 
           this.updateCartState(cartJsonSub);
-          document.dispatchEvent(
-            new CustomEvent('cart:refresh', {
-              bubbles: true,
-              detail: {
-                open: true,
-              },
-            })
-          );
           return;
         }
 
@@ -2617,7 +2632,7 @@ class ProductForm extends HTMLFormElement {
   handleCartError = (parsedState) => {
     FoxTheme.pubsub.publish(FoxTheme.pubsub.PUB_SUB_EVENTS.cartError, {
       source: 'product-form',
-      productVariantId: this.formData.get('id'),
+      productVariantId: this.formData?.get('id') || this.productIdInput?.value,
       errors: parsedState.errors || parsedState.description,
       message: parsedState.message,
     });
@@ -2655,6 +2670,15 @@ class ProductForm extends HTMLFormElement {
     const openCartDrawer = () => {
       if (cartOpened || !cartDrawer) return;
       cartOpened = true;
+
+      if (cartDrawer.open && !cartDrawer.hasAttribute('active')) {
+        cartDrawer.hidden = false;
+        cartDrawer.removeAttribute('inert');
+        cartDrawer.setAttribute('active', '');
+        FoxTheme.a11y.trapFocus(cartDrawer, cartDrawer.focusElement);
+        return;
+      }
+
       cartDrawer.show(this.lastSubmittedElement);
     };
 

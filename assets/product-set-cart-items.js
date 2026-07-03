@@ -713,6 +713,43 @@
     }
   }
 
+  function buildSetBundleLines(productInfo, cfg) {
+    const { sectionId, firstSetProductId, firstVariantFallback } = cfg;
+    const lines = [];
+    const pickers = getSetBundlePickersToValidate(productInfo, cfg);
+
+    const pushLine = (pid) => {
+      const fallback =
+        String(pid) === String(firstSetProductId) ? firstVariantFallback : getDefaultVariantIdFromDom(pid);
+      const vid = getVariantIdForProduct(sectionId, pid, fallback);
+      if (vid) {
+        lines.push({
+          id: vid,
+          quantity: getInlineQuantityForProduct(sectionId, pid),
+        });
+      }
+    };
+
+    if (pickers.length > 0) {
+      pickers.forEach((vs) => pushLine(String(vs.dataset.productId)));
+      return lines;
+    }
+
+    // Quick view can fire bind/submit before variant-selects are in the DOM — fall back to config ids.
+    (cfg.requiredSetProductIds || []).forEach((pid) => pushLine(String(pid)));
+
+    (cfg.optionalProductIds || []).forEach((pid) => {
+      const pidStr = String(pid);
+      const cb = productInfo.querySelector(
+        `input.product-set-picker__toggle[data-set-optional-product-id="${pidStr}"]`
+      );
+      if (cb && !cb.checked) return;
+      pushLine(pidStr);
+    });
+
+    return lines;
+  }
+
   function syncSetCartLineItems(form) {
     const root = form.querySelector('[data-pdp-set-line-items]');
     const cfgEl = form.querySelector('script[data-pdp-set-config]');
@@ -725,25 +762,12 @@
       return;
     }
 
-    const { sectionId, firstSetProductId, firstVariantFallback } = cfg;
     root.replaceChildren();
 
     const productInfo = form.closest('product-info');
     if (!productInfo) return;
 
-    const lines = [];
-    getSetBundlePickersToValidate(productInfo, cfg).forEach((vs) => {
-      const pid = String(vs.dataset.productId);
-      const fallback =
-        String(pid) === String(firstSetProductId) ? firstVariantFallback : getDefaultVariantIdFromDom(pid);
-      const vid = getVariantIdForProduct(sectionId, pid, fallback);
-      if (vid) {
-        lines.push({
-          id: vid,
-          quantity: getInlineQuantityForProduct(sectionId, pid),
-        });
-      }
-    });
+    const lines = buildSetBundleLines(productInfo, cfg);
 
     lines.forEach((line, n) => {
       const idInput = document.createElement('input');
@@ -846,6 +870,12 @@
 
     window.refreshPdpSetBundleForms = function () {
       document.querySelectorAll('form.pdp-set-bundle').forEach((form) => refresh(form));
+    };
+
+    window.syncPdpSetBundleForm = function (form) {
+      if (!form?.classList?.contains('pdp-set-bundle')) return;
+      bindForm(form);
+      refresh(form);
     };
   }
 
