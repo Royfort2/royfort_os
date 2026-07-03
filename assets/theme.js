@@ -845,26 +845,56 @@ class ModalComponent extends HTMLElement {
 
   prepareToShow() {}
 
-  handleShowTransition() {
-    // Start a timeout to set an attribute
-    setTimeout(() => {
-      this.setAttribute('active', '');
-    }, 75);
+  _clearShowActiveTimeout() {
+    if (this._showActiveTimeout) {
+      clearTimeout(this._showActiveTimeout);
+      this._showActiveTimeout = null;
+    }
+  }
 
-    // Return a promise that resolves when the transition ends
+  _waitForOverlayTransition(fallbackMs = 900) {
     return new Promise((resolve) => {
-      this.overlay.addEventListener('transitionend', resolve, { once: true });
+      const done = () => resolve();
+      const timeout = setTimeout(done, fallbackMs);
+      if (!this.overlay) {
+        clearTimeout(timeout);
+        done();
+        return;
+      }
+      this.overlay.addEventListener(
+        'transitionend',
+        () => {
+          clearTimeout(timeout);
+          done();
+        },
+        { once: true }
+      );
     });
   }
 
+  handleShowTransition(animate = true) {
+    this._clearShowActiveTimeout();
+
+    if (!animate) {
+      this.setAttribute('active', '');
+      return Promise.resolve();
+    }
+
+    this._showActiveTimeout = setTimeout(() => {
+      this._showActiveTimeout = null;
+      if (this.open) {
+        this.setAttribute('active', '');
+      }
+    }, 75);
+
+    return this._waitForOverlayTransition();
+  }
+
   handleHideTransition() {
-    // Immediately remove the 'active' attribute
+    this._clearShowActiveTimeout();
     this.removeAttribute('active');
 
-    // Return a promise that resolves when the transition ends
-    return new Promise((resolve) => {
-      this.overlay.addEventListener('transitionend', resolve, { once: true });
-    });
+    return this._waitForOverlayTransition();
   }
 }
 customElements.define('modal-component', ModalComponent);
@@ -2619,23 +2649,29 @@ class ProductForm extends HTMLFormElement {
 
   showCartDrawer = () => {
     const quickViewModal = this.closest('quick-view-modal');
-    if (quickViewModal) {
-      if (this.cartDrawerElement && !this.cartDrawerElement.open) {
-        document.body.addEventListener(
-          quickViewModal.events.handleAfterHide,
-          () => {
-            setTimeout(() => {
-              this.cartDrawerElement.show(this.lastSubmittedElement);
-            });
-          },
-          { once: true }
-        );
+    const cartDrawer = this.cartDrawerElement;
+    let cartOpened = false;
+
+    const openCartDrawer = () => {
+      if (cartOpened || !cartDrawer) return;
+      cartOpened = true;
+      cartDrawer.show(this.lastSubmittedElement);
+    };
+
+    if (quickViewModal?.open) {
+      const handoff = () => requestAnimationFrame(openCartDrawer);
+      const hidePromise = quickViewModal.hide();
+
+      if (hidePromise?.then) {
+        hidePromise.then(handoff);
       }
 
-      quickViewModal.hide(true);
-    } else {
-      this.cartDrawerElement && this.cartDrawerElement.show(this.lastSubmittedElement);
+      // Fallback when hide transition/event is missed (e.g. quick add before drawer finished opening).
+      setTimeout(handoff, 950);
+      return;
     }
+
+    openCartDrawer();
   };
 }
 customElements.define('product-form', ProductForm, { extends: 'form' });
