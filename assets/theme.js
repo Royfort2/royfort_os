@@ -845,26 +845,42 @@ class ModalComponent extends HTMLElement {
 
   prepareToShow() {}
 
+  waitForTransitionEnd(element, fallbackMs = 900) {
+    return new Promise((resolve) => {
+      let done = false;
+      const finish = () => {
+        if (done) return;
+        done = true;
+        element?.removeEventListener('transitionend', finish);
+        resolve();
+      };
+
+      if (!element) {
+        finish();
+        return;
+      }
+
+      element.addEventListener('transitionend', finish, { once: true });
+      setTimeout(finish, fallbackMs);
+    });
+  }
+
   handleShowTransition() {
     // Start a timeout to set an attribute
     setTimeout(() => {
       this.setAttribute('active', '');
     }, 75);
 
-    // Return a promise that resolves when the transition ends
-    return new Promise((resolve) => {
-      this.overlay.addEventListener('transitionend', resolve, { once: true });
-    });
+    // Transitionend can be missed when drawers are swapped quickly; never leave a drawer half-open.
+    return this.waitForTransitionEnd(this.overlay);
   }
 
   handleHideTransition() {
     // Immediately remove the 'active' attribute
     this.removeAttribute('active');
 
-    // Return a promise that resolves when the transition ends
-    return new Promise((resolve) => {
-      this.overlay.addEventListener('transitionend', resolve, { once: true });
-    });
+    // Transitionend can be missed when drawers are swapped quickly; never leave a drawer half-hidden.
+    return this.waitForTransitionEnd(this.overlay);
   }
 }
 customElements.define('modal-component', ModalComponent);
@@ -2501,6 +2517,29 @@ class ProductForm extends HTMLFormElement {
     event.preventDefault();
     if (this.submitButtonElement.hasAttribute('aria-disabled')) return;
     this.lastSubmittedElement = event.submitter || event.currentTarget;
+    this.hasError = false;
+
+    if (this.classList.contains('pdp-set-bundle')) {
+      if (typeof window.syncPdpSetBundleForm === 'function') {
+        window.syncPdpSetBundleForm(this);
+      } else if (typeof window.refreshPdpSetBundleForms === 'function') {
+        window.refreshPdpSetBundleForms();
+      }
+
+      const hasLineItems = this.querySelector('[data-pdp-set-line-items] input[name^="items"]');
+      if (!hasLineItems) {
+        const msg =
+          typeof FoxTheme !== 'undefined' &&
+          FoxTheme.variantStrings &&
+          String(FoxTheme.variantStrings.select_variant_text || '').trim()
+            ? String(FoxTheme.variantStrings.select_variant_text).trim()
+            : 'Select variant';
+        this.handleCartError({ description: msg });
+        this.submitButtonElement.classList.remove('btn--loading');
+        this.submitButtonElement.removeAttribute('aria-disabled');
+        return;
+      }
+    }
 
     this.displayFormErrors();
 
@@ -2550,14 +2589,6 @@ class ProductForm extends HTMLFormElement {
           ).json();
 
           this.updateCartState(cartJsonSub);
-          document.dispatchEvent(
-            new CustomEvent('cart:refresh', {
-              bubbles: true,
-              detail: {
-                open: true,
-              },
-            })
-          );
           return;
         }
 
@@ -2587,7 +2618,7 @@ class ProductForm extends HTMLFormElement {
   handleCartError = (parsedState) => {
     FoxTheme.pubsub.publish(FoxTheme.pubsub.PUB_SUB_EVENTS.cartError, {
       source: 'product-form',
-      productVariantId: this.formData.get('id'),
+      productVariantId: this.formData?.get('id') || this.productIdInput?.value,
       errors: parsedState.errors || parsedState.description,
       message: parsedState.message,
     });
@@ -2619,23 +2650,37 @@ class ProductForm extends HTMLFormElement {
 
   showCartDrawer = () => {
     const quickViewModal = this.closest('quick-view-modal');
-    if (quickViewModal) {
-      if (this.cartDrawerElement && !this.cartDrawerElement.open) {
-        document.body.addEventListener(
-          quickViewModal.events.handleAfterHide,
-          () => {
-            setTimeout(() => {
-              this.cartDrawerElement.show(this.lastSubmittedElement);
-            });
-          },
-          { once: true }
-        );
+    const cartDrawer = this.cartDrawerElement;
+    let cartOpened = false;
+
+    const openCartDrawer = () => {
+      if (cartOpened || !cartDrawer) return;
+      cartOpened = true;
+
+      if (cartDrawer.open && !cartDrawer.hasAttribute('active')) {
+        cartDrawer.hidden = false;
+        cartDrawer.removeAttribute('inert');
+        cartDrawer.setAttribute('active', '');
+        FoxTheme.a11y.trapFocus(cartDrawer, cartDrawer.focusElement);
+        return;
       }
 
-      quickViewModal.hide(true);
-    } else {
-      this.cartDrawerElement && this.cartDrawerElement.show(this.lastSubmittedElement);
+      cartDrawer.show(this.lastSubmittedElement);
+    };
+
+    if (quickViewModal?.open) {
+      const handoff = () => requestAnimationFrame(openCartDrawer);
+      const hidePromise = quickViewModal.hide();
+
+      if (hidePromise?.then) {
+        hidePromise.then(handoff);
+      }
+
+      setTimeout(handoff, 950);
+      return;
     }
+
+    openCartDrawer();
   };
 }
 customElements.define('product-form', ProductForm, { extends: 'form' });
