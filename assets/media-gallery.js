@@ -243,6 +243,34 @@ if (!customElements.get('media-gallery')) {
       setSliderOptions() {
         const mediaItemGap = parseInt(this.dataset.mediaItemGap);
         const progressEl = this.querySelector('.product__media-gallery-progress');
+        const prevEl = this.querySelector('.product__media-gallery-nav-prev');
+        const nextEl = this.querySelector('.product__media-gallery-nav-next');
+        const isMobile = FoxTheme.config.mqlMobile;
+
+        let pagination = false;
+        let navigation = false;
+
+        if (progressEl != null) {
+          if (isMobile) {
+            pagination = {
+              el: progressEl,
+              type: 'bullets',
+              clickable: true,
+            };
+          } else {
+            pagination = {
+              el: progressEl,
+              type: 'progressbar',
+            };
+          }
+        }
+
+        if (isMobile && prevEl != null && nextEl != null) {
+          navigation = {
+            prevEl,
+            nextEl,
+          };
+        }
 
         this.sliderOptions = {
           init: false,
@@ -252,14 +280,8 @@ if (!customElements.get('media-gallery')) {
           grabCursor: true,
           allowTouchMove: true,
           autoHeight: true,
-          navigation: false,
-          pagination:
-            progressEl != null
-              ? {
-                  el: progressEl,
-                  type: 'progressbar',
-                }
-              : false,
+          navigation,
+          pagination,
           threshold: 2,
         };
 
@@ -310,15 +332,17 @@ if (!customElements.get('media-gallery')) {
       }
 
       updateMediaLayout() {
-        if (FoxTheme.config.mqlMobile) {
+        this.setSliderOptions();
+
+        const shouldHaveSlider = FoxTheme.config.mqlMobile || this.enableDesktopSlider;
+
+        if (shouldHaveSlider) {
+          this.destroySlider();
           this.initSlider();
         } else {
-          if (this.enableDesktopSlider) {
-            this.initSlider();
-          } else {
-            this.destroySlider();
-          }
+          this.destroySlider();
         }
+
         this.syncGridMixLayout();
         this.syncGalleryOverflowState();
       }

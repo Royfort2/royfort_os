@@ -198,14 +198,14 @@
   if product.metafields.custom.pdp_set_products != blank
     assign we_set_pricing = true
     comment
-      Set bundles: x,y = price_min of 1st/2nd pdp_set_products entries; d = set_discount_amount (%).
-      Compare (strikethrough) = x+y; sale = (x+y)*(100-d)/100. Shown as: from sale (x+y).
+      Set bundles: x = price_min of 1st pdp_set_products entry; d = set_discount_amount (%).
+      Compare (strikethrough) = x; sale = x*(100-d)/100. Shown as: from sale.
       Ignore bundle product target.compare_at_price_varies (else theme hides <s> or adds f-price--no-compare).
       product-set-cart-items.js updates #price on PDP when pickers change.
     endcomment
     assign we_set_plist = product.metafields.custom.pdp_set_products.value
     assign we_set_two_min_sum = 0
-    for we_sp in we_set_plist limit: 2
+    for we_sp in we_set_plist limit: 1
       assign we_set_two_min_sum = we_set_two_min_sum | plus: we_sp.price_min
     endfor
     assign we_set_disc_pct = product.metafields.custom.set_discount_amount | default: 0 | plus: 0

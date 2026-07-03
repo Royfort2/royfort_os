@@ -157,10 +157,26 @@
         {%- endif -%}
       </div>
       {%- if media_count > 1 -%}
-        <div class="swiper-pagination product__media-gallery-progress" aria-hidden="true"></div>
+        <button
+          type="button"
+          class="swiper-button-prev swiper-button--blank product__media-gallery-nav-btn product__media-gallery-nav-prev md:hidden"
+          aria-label="{{ 'general.slider.previous_slide' | t }}"
+        >
+          {%- render 'icon-slider-prev', size: 'medium' -%}
+        </button>
+        <button
+          type="button"
+          class="swiper-button-next swiper-button--blank product__media-gallery-nav-btn product__media-gallery-nav-next md:hidden"
+          aria-label="{{ 'general.slider.next_slide' | t }}"
+        >
+          {%- render 'icon-slider-next', size: 'medium' -%}
+        </button>
       {%- endif -%}
     </div>
   </div>
+  {%- if media_count > 1 -%}
+    <div class="swiper-pagination product__media-gallery-progress" aria-hidden="true"></div>
+  {%- endif -%}
   {%- if media_count > 1 and media_layout contains 'carousel' or mobile_thumbnails == 'show' -%}
     {%- liquid
       assign thumbnail_class = ''

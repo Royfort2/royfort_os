@@ -23,6 +23,7 @@
 
     assign pdp_set_bundle = false
     assign pdp_set_optional_offset = 1
+    assign pdp_set_required_count = 2
     assign pdp_zw_omit_main = false
     if product.metafields.custom.pdp_set_products != blank
       assign pdp_set_bundle = true
@@ -53,7 +54,7 @@
         endif
       endfor
       if pdp_section_has_we_variant_picker and pdp_section_has_variant_picker == false
-        assign pdp_set_optional_offset = 2
+        assign pdp_set_required_count = 1
         assign pdp_zw_omit_main = true
       endif
     endif
@@ -134,20 +135,14 @@
             "setDiscountAmount": {{ product.metafields.custom.set_discount_amount | default: 0 | json }},
             "omitMainProductFromZwischensumme": {{ pdp_zw_omit_main | json }},
             "requiredSetProductIds": [
-              {%- for sp in pdp_set_products_list limit: 2 -%}
+              {%- for sp in pdp_set_products_list limit: pdp_set_required_count -%}
                 {{ sp.id }}{%- unless forloop.last -%},{%- endunless -%}
               {%- endfor -%}
             ],
             "optionalProductIds": [
-              {%- if pdp_set_optional_offset == 2 -%}
-                {%- for sp in pdp_set_products_list offset: 2 -%}
-                  {{ sp.id }}{%- unless forloop.last -%},{%- endunless -%}
-                {%- endfor -%}
-              {%- else -%}
-                {%- for sp in pdp_set_products_list offset: 1 -%}
-                  {{ sp.id }}{%- unless forloop.last -%},{%- endunless -%}
-                {%- endfor -%}
-              {%- endif -%}
+              {%- for sp in pdp_set_products_list offset: pdp_set_optional_offset -%}
+                {{ sp.id }}{%- unless forloop.last -%},{%- endunless -%}
+              {%- endfor -%}
             ]
           }
         </script>

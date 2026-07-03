@@ -519,11 +519,12 @@
           >
             {%- if product.metafields.custom.pdp_set_products != blank -%}
               {%- assign we_set_products = product.metafields.custom.pdp_set_products.value -%}
+              {%- assign we_set_inline_count = 1 -%}
               {%- comment -%}
-                First two set products: inline pickers (same idea as variant_picker first embedded line, but two).
-                Remaining products: accordion with optional checkbox + picker (offset 2).
+                First set product: inline picker (main line — e.g. Deckenbezug).
+                Remaining set products: optional checkbox cards (e.g. Kissenbezug, Spannbettlaken).
               {%- endcomment -%}
-              {%- for set_product in we_set_products limit: 2 -%}
+              {%- for set_product in we_set_products limit: we_set_inline_count -%}
                 {%- capture we_set_line_vid_c -%}
                   {%- render 'we-pdp-first-set-line-variant-id', bundle_product: product, line_product: set_product -%}
                 {%- endcapture -%}
@@ -564,27 +565,36 @@
                 </script>
               {%- endfor -%}
 
+              {%- assign we_set_main_line_available = we_set_line_resolved.available | default: true -%}
+              <div
+                class="pdp-set-stock pdp-set-stock--instock"
+                data-pdp-set-stock-instock
+                {% unless we_set_main_line_available %}
+                  hidden
+                {% endunless %}
+              >
+                <span class="pdp-set-stock__dot" aria-hidden="true"></span>
+                <span>Vorrätig - Versand am nächsten Werktag.</span>
+              </div>
+              <div
+                class="pdp-set-stock pdp-set-stock--oos"
+                data-pdp-set-stock-oos
+                {% if we_set_main_line_available %}
+                  hidden
+                {% endif %}
+              >
+                <span class="pdp-set-stock__dot" aria-hidden="true"></span>
+                <span>Diese Variante ist ausverkauft. Wählen Sie gerne eine andere Farbe oder Größe.</span>
+              </div>
+
               <script src="{{ 'product-set-picker-price.js' | asset_url }}" defer="defer"></script>
 
-              {%- if we_set_products.size > 2 -%}
-                <details
-                  id="Details-we-set-{{ block.id }}-{{ section.id }}"
-                  class="accordion-details product-set-picker__accordion"
-                  is="accordion-group"
-                  open
-                  aria-expanded="true"
+              {%- if we_set_products.size > we_set_inline_count -%}
+                <div
+                  id="ProductSetWeOptionalList-{{ block.id }}-{{ section.id }}"
+                  class="product-set-picker__list"
                 >
-                  <summary class="accordion-details__summary flex items-center justify-between">
-                    <span class="product-set-picker__heading">
-                      {{ block.settings.set_picker_title }}
-                    </span>
-                    {%- render 'icon-plus-toggle', size: 'small' -%}
-                  </summary>
-                  <div
-                    id="ProductSetWeAccordionContent-{{ block.id }}-{{ section.id }}"
-                    class="accordion-details__content product-set-picker__list"
-                  >
-                    {%- for set_product in we_set_products offset: 2 -%}
+                    {%- for set_product in we_set_products offset: we_set_inline_count -%}
                       {%- capture we_set_line_vid_c -%}
                         {%- render 'we-pdp-first-set-line-variant-id', bundle_product: product, line_product: set_product -%}
                       {%- endcapture -%}
@@ -599,6 +609,20 @@
                           {%- endif -%}
                         {%- endfor -%}
                       {%- endif -%}
+                      {%- liquid
+                        assign we_set_card_title = set_product.title
+                        if set_product.metafields.custom.we_pdp_addon_card_title.value != blank
+                          assign we_set_card_title = set_product.metafields.custom.we_pdp_addon_card_title.value
+                        elsif set_product.title contains 'Kissenbezug' or set_product.title contains 'kissenbezug'
+                          assign we_set_card_title = 'Kissenbezug wählen'
+                        elsif set_product.title contains 'Spannbettlaken'
+                          if block.settings.set_picker_title != blank
+                            assign we_set_card_title = block.settings.set_picker_title
+                          else
+                            assign we_set_card_title = 'Spannbettlaken hinzufügen'
+                          endif
+                        endif
+                      -%}
                       <div class="product-set-picker__item">
                         <script type="application/json" data-set-product-variants="{{ set_product.id }}">
                           {{ set_product.variants | json }}
@@ -626,6 +650,9 @@
                               id="SetWeProductToggle-{{ block.id }}-{{ section.id }}-{{ set_product.id }}"
                               class="product-set-picker__toggle visually-hidden"
                               data-set-optional-product-id="{{ set_product.id }}"
+                              {% if forloop.first %}
+                                checked
+                              {% endif %}
                             >
                             <span
                               class="product-set-picker__thumb"
@@ -648,7 +675,7 @@
                               {%- endif -%}
                             </span>
                             <span class="product-set-picker__info">
-                              <span class="product-set-picker__title">{{ set_product.title | escape }}</span>
+                              <span class="product-set-picker__title">{{ we_set_card_title | escape }}</span>
                               <span
                                 class="product-set-picker__price"
                                 data-set-card-price
@@ -668,15 +695,15 @@
                                 product_form_id: product_form_id,
                                 update_url: update_browser_history,
                                 picker_id_suffix: set_product.id,
-                                pdp_set_line_variant_from_bundle: we_set_line_resolved
+                                pdp_set_line_variant_from_bundle: we_set_line_resolved,
+                                pdp_set_addon_card: true
                               %}
                             </div>
                           </div>
                         </div>
                       </div>
                     {%- endfor -%}
-                  </div>
-                </details>
+                </div>
               {%- endif -%}
 
               {%- unless context == 'quick-view' -%}
@@ -684,7 +711,7 @@
                 {%- assign zw_sale_cents = 0 -%}
                 {%- assign zw_compare_cents = 0 -%}
                 {%- assign zw_min_sum = 0 -%}
-                {%- for sp in set_products_zw limit: 2 -%}
+                {%- for sp in set_products_zw limit: we_set_inline_count -%}
                   {%- capture we_set_line_vid_c -%}
                     {%- render 'we-pdp-first-set-line-variant-id', bundle_product: product, line_product: sp -%}
                   {%- endcapture -%}
@@ -749,7 +776,7 @@
                     }
                   </script>
                   <div class="pdp-set-zwischensumme__header">
-                    <span class="pdp-set-zwischensumme__title">{{ block.settings.set_zwischensumme_title }}:</span>
+                    <span class="pdp-set-zwischensumme__title">{{ block.settings.set_zwischensumme_title }}</span>
                     <div class="pdp-set-zwischensumme__prices">
                       <span
                         class="pdp-set-zwischensumme__compare {%unless zw_has_compare %}visually-hidden{% endunless %}"
@@ -776,7 +803,7 @@
                     </div>
                   </div>
                   <p class="pdp-set-zwischensumme__breakdown">
-                    {%- for sp in set_products_zw limit: 2 -%}
+                    {%- for sp in set_products_zw limit: we_set_inline_count -%}
                       {%- capture we_set_line_vid_c -%}
                         {%- render 'we-pdp-first-set-line-variant-id', bundle_product: product, line_product: sp -%}
                       {%- endcapture -%}

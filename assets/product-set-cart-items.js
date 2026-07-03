@@ -1,7 +1,7 @@
 /**
  * PDP set bundles: submits cart line items as items[n][id] / items[n][quantity] / items[n][properties][_set].
  *
- * ATC: the first two set-product `variant-selects` (excluding the bundle PDP picker) must
+ * ATC: required set-product `variant-selects` (excluding optional unchecked lines) must
  * have a full variant selection; then the add button is enabled if those variants are available.
  */
 (function () {
@@ -182,9 +182,16 @@
     });
   }
 
-  /** First two set pickers in DOM order (after filters). Used only for ATC enable rules. */
-  function getFirstTwoSetPickers(productInfo, cfg) {
-    return getSetBundlePickersToValidate(productInfo, cfg).slice(0, 2);
+  /** Required set pickers in config order (after filters). Used for ATC enable rules. */
+  function getRequiredSetPickers(productInfo, cfg) {
+    const requiredIds = (cfg.requiredSetProductIds || []).map(String).filter(Boolean);
+    const pickers = getSetBundlePickersToValidate(productInfo, cfg);
+    if (!requiredIds.length) {
+      return pickers.slice(0, 1);
+    }
+    return requiredIds
+      .map((pid) => pickers.find((vs) => String(vs.dataset?.productId || '') === pid))
+      .filter(Boolean);
   }
 
   /**
@@ -444,13 +451,13 @@
     const mf = window.FoxTheme?.settings?.moneyFormat;
     if (typeof fmt !== 'function') return;
 
-    const firstTwoPickers = getFirstTwoSetPickers(productInfo, cfg);
-    const requiredGateIds = (requiredSetProductIds || []).map(String).slice(0, 2);
-    const bothFirstTwoResolved =
-      firstTwoPickers.length >= 2 &&
-      firstTwoPickers.every((vs) => wePickerHasResolvedVariant(vs, String(vs.dataset?.productId || '')));
+    const requiredPickers = getRequiredSetPickers(productInfo, cfg);
+    const requiredGateIds = (requiredSetProductIds || []).map(String);
+    const allRequiredResolved =
+      requiredPickers.length >= requiredGateIds.length &&
+      requiredPickers.every((vs) => wePickerHasResolvedVariant(vs, String(vs.dataset?.productId || '')));
 
-    const useFromTotals = !bothFirstTwoResolved;
+    const useFromTotals = !allRequiredResolved;
 
     const lines = [];
 
@@ -636,6 +643,38 @@
     );
   }
 
+  function updatePdpSetStockIndicator(form, cfg) {
+    const productInfo = form.closest('product-info');
+    const instockEl = productInfo?.querySelector('[data-pdp-set-stock-instock]');
+    const oosEl = productInfo?.querySelector('[data-pdp-set-stock-oos]');
+    if (!instockEl && !oosEl) return;
+
+    const { sectionId, firstSetProductId, firstVariantFallback, requiredSetProductIds = [] } = cfg;
+    const requiredPickers = getRequiredSetPickers(productInfo, cfg);
+    const requiredCount = Math.max(
+      1,
+      Array.isArray(requiredSetProductIds) && requiredSetProductIds.length
+        ? requiredSetProductIds.length
+        : 1
+    );
+
+    let allAvailable = requiredPickers.length >= requiredCount;
+    if (allAvailable) {
+      requiredPickers.forEach((vs) => {
+        const pid = String(vs.dataset.productId);
+        const fallback =
+          String(pid) === String(firstSetProductId) ? firstVariantFallback : getDefaultVariantIdFromDom(pid);
+        const v = getResolvedVariant(sectionId, pid, fallback);
+        if (!isVariantPurchasable(v)) allAvailable = false;
+      });
+    } else {
+      allAvailable = false;
+    }
+
+    if (instockEl) instockEl.hidden = !allAvailable;
+    if (oosEl) oosEl.hidden = allAvailable;
+  }
+
   function updatePdpSetSubmitButton(form) {
     const cfgEl = form.querySelector('script[data-pdp-set-config]');
     if (!cfgEl?.textContent) return;
@@ -653,10 +692,16 @@
     const submitBtn = document.getElementById(`ProductSubmitButton-${sectionId}`);
     if (!submitBtn || !mainProductId) return;
 
-    /** Only the first two set pickers gate the add-to-cart button. */
-    const firstTwoPickers = getFirstTwoSetPickers(productInfo, cfg);
+    /** Required set pickers gate the add-to-cart button. */
+    const requiredPickers = getRequiredSetPickers(productInfo, cfg);
+    const requiredCount = Math.max(
+      1,
+      Array.isArray(cfg.requiredSetProductIds) && cfg.requiredSetProductIds.length
+        ? cfg.requiredSetProductIds.length
+        : 1
+    );
 
-    const toCheck = firstTwoPickers.map((vs) => {
+    const toCheck = requiredPickers.map((vs) => {
       const pid = String(vs.dataset.productId);
       const fallback =
         String(pid) === String(firstSetProductId) ? firstVariantFallback : getDefaultVariantIdFromDom(pid);
@@ -664,7 +709,9 @@
     });
 
     const allPurchasable =
-      firstTwoPickers.length >= 2 && toCheck.length === 2 && toCheck.every(isVariantPurchasable);
+      requiredPickers.length >= requiredCount &&
+      toCheck.length === requiredCount &&
+      toCheck.every(isVariantPurchasable);
 
     const soldOut =
       typeof FoxTheme !== 'undefined' && FoxTheme.variantStrings && FoxTheme.variantStrings.soldOut
@@ -674,6 +721,10 @@
       typeof FoxTheme !== 'undefined' && FoxTheme.variantStrings && FoxTheme.variantStrings.addToCart
         ? FoxTheme.variantStrings.addToCart
         : 'Add to cart';
+    const addToCartBase = addToCart
+      .replace(/\s*\(.*\)\s*$/, '')
+      .trim()
+      .replace(/\s+legen$/i, '');
     const selectVariant =
       typeof FoxTheme !== 'undefined' &&
       FoxTheme.variantStrings &&
@@ -683,8 +734,8 @@
 
     const span = submitBtn.querySelector('span');
 
-    let incomplete = firstTwoPickers.length < 2;
-    firstTwoPickers.forEach((vs) => {
+    let incomplete = requiredPickers.length < requiredCount;
+    requiredPickers.forEach((vs) => {
       const pid = String(vs.dataset.productId);
       if (!wePickerHasResolvedVariant(vs, pid)) incomplete = true;
     });
@@ -707,7 +758,11 @@
     } else {
       submitBtn.disabled = false;
       submitBtn.removeAttribute('disabled');
-      if (span) span.textContent = addToCart;
+      const lineCount = getSetBundlePickersToValidate(productInfo, cfg).length;
+      if (span) {
+        span.textContent =
+          lineCount > 0 ? `${addToCartBase} (${lineCount} Artikel)` : addToCartBase;
+      }
       submitBtn.style.pointerEvents = '';
       submitBtn.style.opacity = '';
     }
@@ -767,6 +822,12 @@
   function refresh(form) {
     syncSetCartLineItems(form);
     updatePdpSetZwischensumme(form);
+    const cfgEl = form.querySelector('script[data-pdp-set-config]');
+    if (cfgEl?.textContent) {
+      try {
+        updatePdpSetStockIndicator(form, JSON.parse(cfgEl.textContent));
+      } catch (e) {}
+    }
     updatePdpSetSubmitButton(form);
   }
 

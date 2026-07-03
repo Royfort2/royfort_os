@@ -129,8 +129,54 @@
     data-we-dropdown-meta="true"
     data-we-low-stock-threshold="{{ block.settings.dropdown_low_inventory_threshold | default: 5 }}"
     data-sold-out-label="{{ 'products.product.sold_out' | t | escape }}"
+    {% if pdp_set_addon_card %}
+      data-pdp-set-addon-card="true"
+    {% endif %}
   >
-    {%- for option in product.options_with_values -%}
+    {%- liquid
+      assign pdp_set_addon_card = pdp_set_addon_card | default: false
+      assign we_color_pos_str = ''
+      assign we_other_pos_str = ''
+      unless pdp_set_addon_card
+        for we_ord_opt in product.options_with_values
+          assign we_ord_name = we_ord_opt.name | downcase | strip
+          assign we_ord_is_color = false
+          if settings.color_swatch_trigger != blank
+            assign we_ord_triggers = settings.color_swatch_trigger | downcase | split: ','
+            assign we_ord_hit = we_ord_triggers | where: we_ord_name | first
+            if we_ord_hit != blank
+              assign we_ord_is_color = true
+            elsif we_ord_name contains 'colour'
+              assign we_ord_triggers = settings.color_swatch_trigger | replace: 'color', 'colour' | downcase | split: ','
+              assign we_ord_hit = we_ord_triggers | where: we_ord_name | first
+              if we_ord_hit != blank
+                assign we_ord_is_color = true
+              endif
+            endif
+          endif
+          if we_ord_is_color
+            assign we_color_pos_str = we_color_pos_str | append: we_ord_opt.position | append: ','
+          else
+            assign we_other_pos_str = we_other_pos_str | append: we_ord_opt.position | append: ','
+          endif
+        endfor
+      endunless
+      if we_color_pos_str == blank and we_other_pos_str == blank
+        for we_ord_opt in product.options_with_values
+          assign we_other_pos_str = we_other_pos_str | append: we_ord_opt.position | append: ','
+        endfor
+      endif
+      assign we_ordered_option_positions = we_color_pos_str | append: we_other_pos_str | split: ','
+    -%}
+    {%- for we_pos_token in we_ordered_option_positions -%}
+      {%- if we_pos_token == blank -%}
+        {%- continue -%}
+      {%- endif -%}
+      {%- assign we_pos_num = we_pos_token | plus: 0 -%}
+      {%- for option in product.options_with_values -%}
+        {%- if option.position != we_pos_num -%}
+          {%- continue -%}
+        {%- endif -%}
       {%- liquid
         assign option_name_downcase = option.name | downcase
         assign swatch_count = option.values | map: 'swatch' | compact | size
@@ -170,6 +216,12 @@
             else
               assign picker_type = 'button'
             endif
+          endif
+        endif
+
+        if pdp_set_addon_card
+          if picker_type == 'color' or picker_type == 'swatch' or picker_type == 'button'
+            assign picker_type = 'custom_dropdown'
           endif
         endif
 
@@ -216,9 +268,11 @@
         endif
 
         assign is_pdp_qty_option = false
-        if option.position == pdp_qty_anchor_position
-          assign is_pdp_qty_option = true
-        endif
+        unless pdp_set_addon_card
+          if option.position == pdp_qty_anchor_position
+            assign is_pdp_qty_option = true
+          endif
+        endunless
 
         assign show_selected_value_in_label = false
         if picker_type == 'swatch' or picker_type == 'color' or picker_type == 'button'
@@ -472,7 +526,80 @@
             </div>
         {%- endcase -%}
       </{{ tag_fieldset }}>
+        {%- break -%}
+      {%- endfor -%}
     {%- endfor -%}
+    {%- if pdp_set_addon_card -%}
+      <div class="product-form__input product-form__input--quantity pdp-set-addon-qty">
+        <label class="form__label visually-hidden" for="AddonQty-{{ id_ns }}">
+          {{ 'products.product.quantity.label' | t }}
+        </label>
+        <div class="we-variant-picker__dropdown-container">
+          <div
+            class="we-quantity-selector"
+            data-qty-unit-short="{{ qty_unit_short | escape }}"
+          >
+            <details
+              class="we-select-container"
+              data-radio-group-name="quantity-{{ product.id }}"
+            >
+              <summary class="we-select-container__summary">
+                1&nbsp;{{ qty_unit_short }}
+              </summary>
+              <div class="we-select-mobile-portal">
+                <div class="we-select-mobile-backdrop" aria-hidden="true"></div>
+                <div class="we-select-mobile-sheet">
+                  <div class="we-select-mobile-sheet__header">
+                    <p
+                      class="we-select-mobile-sheet__title"
+                      id="WeSelectSheetTitle-{{ id_ns }}-addon-quantity"
+                    >
+                      {{ 'products.product.quantity.label' | t }}
+                    </p>
+                    <button
+                      type="button"
+                      class="we-select-mobile-sheet__close"
+                      aria-label="{{ 'accessibility.close' | t }}"
+                    >
+                      {% render 'icon-close', size: 'small' %}
+                    </button>
+                  </div>
+                  <div class="we-select">
+                    {% for i in (1..10) %}
+                      <div class="we-select__item">
+                        <input
+                          type="radio"
+                          id="quantity-{{ id_ns }}-addon-{{ forloop.index0 }}"
+                          name="quantity-{{ product.id }}"
+                          value="{{ i }}"
+                          data-we-qty-selector
+                          {% if forloop.first %}
+                            checked
+                          {% endif %}
+                        >
+                        <label
+                          class="we-select__label we-select__label--qty"
+                          for="quantity-{{ id_ns }}-addon-{{ forloop.index0 }}"
+                        >
+                          <span class="we-select__label-primary">
+                            <span class="we-select__qty-line we-select__qty-line--short"
+                              >{{ i }}&nbsp;{{ qty_unit_short -}}
+                            </span>
+                            <span class="we-select__qty-line we-select__qty-line--long"
+                              >{{ i }}&nbsp;{{ qty_unit_long -}}
+                            </span>
+                          </span>
+                        </label>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
     <script type="application/json" data-selected-variant>
       {{- we_active_variant | json -}}
     </script>

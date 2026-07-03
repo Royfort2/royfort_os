@@ -103,6 +103,93 @@
     background: rgb(var(--color-foreground));
 }
 
+/* PDP mobile gallery: segmented progress bar + overlay chevron arrows (preview parity) */
+@media (max-width: 767.98px) {
+    media-gallery .product__media-gallery-progress {
+        position: static !important;
+        display: flex !important;
+        width: 100%;
+        max-width: 100%;
+        height: 4px;
+        margin: 30px 0 0;
+        padding: 0;
+        background: #d8d8d8;
+        border-radius: 0;
+        gap: 0;
+        pointer-events: auto;
+        opacity: 1 !important;
+        visibility: visible !important;
+        bottom: auto !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        box-sizing: border-box;
+    }
+
+    media-gallery .product__media-gallery-progress .swiper-pagination-bullet {
+        flex: 1 1 0;
+        width: auto;
+        height: 4px;
+        margin: 0 !important;
+        border-radius: 0;
+        background: transparent;
+        opacity: 1;
+    }
+
+    media-gallery .product__media-gallery-progress .swiper-pagination-bullet::before {
+        top: -1rem;
+        bottom: -1rem;
+        left: 0;
+        right: 0;
+    }
+
+    media-gallery .product__media-gallery-progress .swiper-pagination-bullet::after {
+        display: none;
+    }
+
+    media-gallery .product__media-gallery-progress .swiper-pagination-bullet-active {
+        background: #2e3192;
+    }
+
+    .product__media-gallery-viewer .product__media-gallery-nav-btn {
+        --swiper-navigation-size: 3.6rem;
+        --swiper-navigation-offset-x: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        height: auto;
+        min-height: 4rem;
+        z-index: 2;
+        color: rgb(var(--color-foreground));
+    }
+
+    .product__media-gallery-viewer .product__media-gallery-nav-prev {
+        inset-inline-start: 0;
+    }
+
+    .product__media-gallery-viewer .product__media-gallery-nav-next {
+        inset-inline-end: 0;
+    }
+
+    .product__media-gallery-viewer .product__media-gallery-nav-btn svg {
+        width: 2rem;
+        height: 2rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .product--vertical-carousel media-gallery .product__media-gallery-progress {
+        display: none;
+    }
+
+    .product__media-gallery-viewer-wrap .product__media-gallery-progress.swiper-pagination-progressbar {
+        position: absolute;
+        bottom: 0;
+        top: auto;
+        left: 0;
+        right: 0;
+    }
+}
+
 .product-card.we-product-card--swiper .product-card__wrapper:hover .product-card__image-wrapper--main-only .swiper-slide .product-card__image {
     transform: none;
 }

@@ -306,6 +306,17 @@
             .product-set-picker__card:has(.product-set-picker__toggle:checked):has(details.we-select-container[open]) {
               z-index: 20;
             }
+            .product-set-picker__card.product-set-picker__card--options-visible .product-set-picker__expand {
+              grid-template-rows: 1fr;
+              overflow: visible;
+            }
+            .product-set-picker__card.product-set-picker__card--options-visible .product-set-picker__expand-inner {
+              overflow: visible;
+              padding-block-end: 0;
+            }
+            .product-set-picker__card.product-set-picker__card--options-visible .product-set-picker__expand-inner variant-selects {
+              padding-block-end: 0;
+            }
             .product-set-picker__card-row + .product-set-picker__expand .product-set-picker__expand-inner .product-form__input:first-child {
               margin-top: 0 !important;
             }
