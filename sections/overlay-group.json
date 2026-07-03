@@ -70,6 +70,7 @@
         "we_variant_picker_D4q7Fr",
         "buy_buttons"
       ],
+      "disabled": true,
       "settings": {
         "enable_video_looping": true
       }
