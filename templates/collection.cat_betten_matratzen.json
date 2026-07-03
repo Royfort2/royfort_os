@@ -106,25 +106,25 @@
     "product-grid": {
       "type": "main-collection-product-grid",
       "blocks": {
-        "we_promo_NieM3F": {
+        "we_promo_qBjynr": {
           "type": "we_promo",
           "settings": {
             "color_scheme": "scheme-inverse",
             "text_color": "",
-            "video_desktop": "shopify://files/videos/video_Atelier_Kolletkion.mov",
             "video_url_desktop": "",
-            "video_mobile": "shopify://files/videos/video_Atelier_Kolletkion.mov",
+            "image_desktop": "shopify://shop_images/Betten_Promo_108a565f-fdf4-465b-8daa-ded46a20aa2a.jpg",
             "video_url_mobile": "",
-            "title": "Atelier Betten & Matratzen",
-            "description": "<p><strong>Handwerkskunst auf höchstem Niveau</strong></p><p>Europäische Handwerkskunst, hochwertige Materialien und die perfekte Abstimmung von Bett und Matratze sorgen für außergewöhnlichen Schlafkomfort und ein einzigartiges Schlaferlebnis.</p>",
-            "description_mobile": "<p>Handwerkskunst auf höchstem Niveau</p>",
+            "image_mobile": "shopify://shop_images/Matratzen_Promo_1.jpg",
+            "title": "Atelier Betten",
+            "description": "<p>Europäische Handwerkskunst für erholsamen Schlaf.</p>",
+            "description_mobile": "",
             "button_label": "",
-            "button_url": "#",
-            "order_after": 8,
-            "col_span_desktop": 2,
-            "row_span_desktop": 2,
-            "col_span_mobile": "2",
-            "row_span_mobile": 2
+            "button_url": "",
+            "order_after": 3,
+            "col_span_desktop": 1,
+            "row_span_desktop": 1,
+            "col_span_mobile": "1",
+            "row_span_mobile": 1
           }
         },
         "we_promo_hGVCXG": {
@@ -133,7 +133,7 @@
             "color_scheme": "scheme-inverse",
             "text_color": "",
             "video_url_desktop": "",
-            "image_desktop": "shopify://shop_images/Matratzen_Promo_1.jpg",
+            "image_desktop": "shopify://shop_images/Matratzen_Promo_1_e6dc8146-4de7-443e-ba5f-bcfa54f6f1b4.jpg",
             "video_url_mobile": "",
             "image_mobile": "shopify://shop_images/Matratzen_Promo_1.jpg",
             "title": "Atelier Matratzen",
@@ -141,7 +141,7 @@
             "description_mobile": "",
             "button_label": "",
             "button_url": "",
-            "order_after": 3,
+            "order_after": 6,
             "col_span_desktop": 1,
             "row_span_desktop": 1,
             "col_span_mobile": "1",
@@ -162,18 +162,41 @@
             "description_mobile": "",
             "button_label": "",
             "button_url": "",
-            "order_after": 6,
+            "order_after": 9,
             "col_span_desktop": 1,
             "row_span_desktop": 1,
             "col_span_mobile": "1",
             "row_span_mobile": 1
           }
+        },
+        "we_promo_NieM3F": {
+          "type": "we_promo",
+          "disabled": true,
+          "settings": {
+            "color_scheme": "scheme-inverse",
+            "text_color": "",
+            "video_desktop": "shopify://files/videos/video_Atelier_Kolletkion.mov",
+            "video_url_desktop": "",
+            "video_mobile": "shopify://files/videos/video_Atelier_Kolletkion.mov",
+            "video_url_mobile": "",
+            "title": "Atelier Betten & Matratzen",
+            "description": "<p><strong>Handwerkskunst auf höchstem Niveau</strong></p><p>Europäische Handwerkskunst, hochwertige Materialien und die perfekte Abstimmung von Bett und Matratze sorgen für außergewöhnlichen Schlafkomfort und ein einzigartiges Schlaferlebnis.</p>",
+            "description_mobile": "<p>Handwerkskunst auf höchstem Niveau</p>",
+            "button_label": "",
+            "button_url": "#",
+            "order_after": 10,
+            "col_span_desktop": 2,
+            "row_span_desktop": 2,
+            "col_span_mobile": "2",
+            "row_span_mobile": 2
+          }
         }
       },
       "block_order": [
-        "we_promo_NieM3F",
+        "we_promo_qBjynr",
         "we_promo_hGVCXG",
-        "we_promo_tHY7W9"
+        "we_promo_tHY7W9",
+        "we_promo_NieM3F"
       ],
       "custom_css": [],
       "settings": {
