@@ -245,20 +245,15 @@ class CartItems extends HTMLElement {
     const cartDrawer = document.querySelector(`#CartDrawer-${sectionId}`);
     const cartDrawerBody = document.querySelector(`#CartDrawerBody-${sectionId}`);
     const cartDrawerSummary = document.querySelector(`#CartDrawerSummary-${sectionId}`);
-    const cartDrawerRecs = document.querySelector(`#CartDrawerRecs-${sectionId}`);
     if (cartDrawer) {
       const cartDrawerBodyUpdate = sectionToRender.querySelector(`#CartDrawerBody-${sectionId}`);
       const cartDrawerSummaryUpdate = sectionToRender.querySelector(`#CartDrawerSummary-${sectionId}`);
-      const cartDrawerRecsUpdate = sectionToRender.querySelector(`#CartDrawerRecs-${sectionId}`);
 
       if (cartDrawerBodyUpdate && cartDrawerBody) {
         cartDrawerBody.innerHTML = cartDrawerBodyUpdate.innerHTML;
       }
       if (cartDrawerSummaryUpdate && cartDrawerSummary) {
         cartDrawerSummary.innerHTML = cartDrawerSummaryUpdate.innerHTML;
-      }
-      if (cartDrawerRecsUpdate && cartDrawerRecs) {
-        cartDrawerRecs.innerHTML = cartDrawerRecsUpdate.innerHTML;
       }
 
       if (event.cart.item_count > 0) {

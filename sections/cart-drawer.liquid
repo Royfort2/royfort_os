@@ -1,8 +1,6 @@
   {%- if request.page_type != 'cart' and settings.cart_type == 'drawer' -%}
   {{ 'cart.css' | asset_url | stylesheet_tag }}
   <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
-  <script src="{{ 'we-main-product-related.js' | asset_url }}" defer="defer"></script>
-  <script src="{{ 'we-cart-combined-recommendations.js' | asset_url }}" defer="defer"></script>
   {%- if linklists['gift-wrapping'].links != blank and linklists['gift-wrapping'].links.first.type == 'product_link' -%}
     <script src="{{ 'gift-wrapping.js' | asset_url }}" defer="defer"></script>
   {%- endif -%}
@@ -30,6 +28,9 @@
               {%- endif -%}
             </cart-count>)
           </h2>
+          <p class="cart-drawer__shipping-notice cart-drawer__shipping-notice--header">
+            {{ 'sections.cart.shipping_notice' | t }}
+          </p>
           <button
             class="drawer__close-btn cart-drawer__close-btn z-1"
             aria-controls="CartDrawer"
@@ -83,10 +84,6 @@
                 </ul>
               </cart-items>
             </div>
-          </div>
-
-          <div id="CartDrawerRecs-{{ section.id }}" class="cart-drawer__recs v-scrollable">
-            {% render 'cart-drawer-recommendations', section: section, gift_wrap_id: gift_wrap_id %}
           </div>
         </div>
       </div>
