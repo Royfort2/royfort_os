@@ -18,7 +18,7 @@
             "render_from_metafield": true,
             "image_index": 2,
             "title": "Nachhaltige Materialien",
-            "description": "<p>Das Material passt sich Ihrer Körpertemperatur an und sorgt so vor allem bei wechselnden Temperaturen für Wohlbefinden.<\/p>",
+            "description": "<p>Das Material passt sich Ihrer Körpertemperatur an und sorgt so vor allem bei wechselnden Temperaturen für Wohlbefinden.</p>",
             "button_text": "Mehr Infos"
           }
         },
@@ -50,7 +50,6 @@
           "type": "we_variant_picker",
           "settings": {
             "set_picker_title": "Vervollständigen Sie Ihr Set",
-            "select_variant_text": "auswählen",
             "set_zwischensumme_title": "ZWISCHENSUMME",
             "picker_type": "custom_dropdown",
             "swatch_type": "color_swatch",
@@ -75,30 +74,30 @@
         "icon_info_text_8ayhQN": {
           "type": "icon_info_text",
           "settings": {
-            "icon": "shopify:\/\/shop_images\/local_shipping_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
+            "icon": "shopify://shop_images/local_shipping_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
             "title": "Geschätzte Lieferung: {{ product.metafields.custom.we_pdp_estimated_delivery_time.value }}",
             "short_description": "Kostenloser Versand",
-            "description": "<p>Von der sorgfältigen Vorbereitung bis zum sicheren Versand begleiten wir jede Bestellung mit besonderer Aufmerksamkeit und Liebe zum Detail.<\/p>",
+            "description": "<p>Von der sorgfältigen Vorbereitung bis zum sicheren Versand begleiten wir jede Bestellung mit besonderer Aufmerksamkeit und Liebe zum Detail.</p>",
             "page": ""
           }
         },
         "icon_info_text_pzJbNn": {
           "type": "icon_info_text",
           "settings": {
-            "icon": "shopify:\/\/shop_images\/undo_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
+            "icon": "shopify://shop_images/undo_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
             "title": "30-Tage Rückgaberecht",
             "short_description": "Kostenlose und einfache Rücksendungen",
-            "description": "<p>Schlafen Sie 30 Tage lang sorglos in unseren Produkten und erleben Sie das Royfort-Gefühl. Wenn Sie nicht zufrieden sind, können Sie die Produkte einfach und kostenlos an uns zurückschicken.<\/p>",
+            "description": "<p>Schlafen Sie 30 Tage lang sorglos in unseren Produkten und erleben Sie das Royfort-Gefühl. Wenn Sie nicht zufrieden sind, können Sie die Produkte einfach und kostenlos an uns zurückschicken.</p>",
             "page": ""
           }
         },
         "icon_info_text_4ErYdG": {
           "type": "icon_info_text",
           "settings": {
-            "icon": "shopify:\/\/shop_images\/chat_bubble_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
+            "icon": "shopify://shop_images/chat_bubble_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
             "title": "Persönliche Beratung",
             "short_description": "Unser Team steht Ihnen gerne zur Seite",
-            "description": "<p>Wir wissen, dass die richtige Entscheidung Zeit braucht.<br\/>Ob Sie sich zwischen Materialien entscheiden oder Fragen zur Passform haben – wir unterstützen Sie gerne mit einer persönlichen Empfehlung.<br\/><br\/>Wir beraten Sie telefonisch oder per E-Mail und nehmen uns Zeit für Ihr Anliegen.<br\/><br\/><br\/>+49 (0) 30 2332 7430<br\/>service@royfort.com<\/p>",
+            "description": "<p>Wir wissen, dass die richtige Entscheidung Zeit braucht.<br/>Ob Sie sich zwischen Materialien entscheiden oder Fragen zur Passform haben – wir unterstützen Sie gerne mit einer persönlichen Empfehlung.<br/><br/>Wir beraten Sie telefonisch oder per E-Mail und nehmen uns Zeit für Ihr Anliegen.<br/><br/><br/>+49 (0) 30 2332 7430<br/>service@royfort.com</p>",
             "page": ""
           }
         },
@@ -155,11 +154,11 @@
           "type": "usp_swiper",
           "settings": {
             "hide_on_desktop": true,
-            "icon_1": "shopify:\/\/shop_images\/globe.svg",
+            "icon_1": "shopify://shop_images/globe.svg",
             "usp_1": "Handgefertigt in Portugal",
-            "icon_2": "shopify:\/\/shop_images\/local_shipping_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
+            "icon_2": "shopify://shop_images/local_shipping_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
             "usp_2": "Traditionelle Fertigung",
-            "icon_3": "shopify:\/\/shop_images\/chat_bubble_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
+            "icon_3": "shopify://shop_images/chat_bubble_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
             "usp_3": "USP 3",
             "usp_4": "",
             "usp_5": ""
@@ -170,7 +169,7 @@
           "settings": {
             "heading": "Das könnte Ihnen auch gefallen",
             "product_list_limit": 4,
-            "image_ratio": "4\/5",
+            "image_ratio": "4/5",
             "show_reviews": true
           }
         }
@@ -194,7 +193,7 @@
         "complementary_custom_y6bBfH"
       ],
       "custom_css": [
-        "\/* .loox-rating {margin-top: -1rem;}.complementary-products__container .product-card__wrapper .btn--secondary {background-color: transparent;} *\/"
+        "/* .loox-rating {margin-top: -1rem;}.complementary-products__container .product-card__wrapper .btn--secondary {background-color: transparent;} */"
       ],
       "settings": {
         "color_scheme": "scheme-1",
@@ -236,7 +235,7 @@
         "text_UWkrNW"
       ],
       "custom_css": [
-        "\/* @media (max-width: 767.98px) {.image-with-text .image-with-text__inner {padding-top: 4.8rem; }}@media (min-width: 768px) {.image-with-text__wrapper {--gap-x: 3rem; }}@media (min-width: 1280px) {.image-with-text__inner {--padding-x: 9rem; }} *\/"
+        "/* @media (max-width: 767.98px) {.image-with-text .image-with-text__inner {padding-top: 4.8rem; }}@media (min-width: 768px) {.image-with-text__wrapper {--gap-x: 3rem; }}@media (min-width: 1280px) {.image-with-text__inner {--padding-x: 9rem; }} */"
       ],
       "settings": {
         "is_full_width": true,
@@ -288,7 +287,7 @@
         "text_FXjj84"
       ],
       "custom_css": [
-        "\/* @media (max-width: 767.98px) {.image-with-text .image-with-text__inner {padding-top: 4.8rem; }}@media (min-width: 768px) {.image-with-text__wrapper {--gap-x: 3rem; }}@media (min-width: 1280px) {.image-with-text__inner {--padding-x: 9rem; }} *\/"
+        "/* @media (max-width: 767.98px) {.image-with-text .image-with-text__inner {padding-top: 4.8rem; }}@media (min-width: 768px) {.image-with-text__wrapper {--gap-x: 3rem; }}@media (min-width: 1280px) {.image-with-text__inner {--padding-x: 9rem; }} */"
       ],
       "settings": {
         "is_full_width": true,
@@ -356,21 +355,21 @@
           "type": "collection",
           "settings": {
             "collection": "kaschmir-kollektion",
-            "image": "shopify:\/\/shop_images\/Featured_Category_Bettwasche_small_746baeff-f64d-4458-9038-cb914b6e5acf.jpg"
+            "image": "shopify://shop_images/Featured_Category_Bettwasche_small_746baeff-f64d-4458-9038-cb914b6e5acf.jpg"
           }
         },
         "collection_rxB9DV": {
           "type": "collection",
           "settings": {
             "collection": "matratzen",
-            "image": "shopify:\/\/shop_images\/Featured_Category_Betten_Matratzen_small_e453b342-76fb-4d8b-a375-a37b02a98c11.jpg"
+            "image": "shopify://shop_images/Featured_Category_Betten_Matratzen_small_e453b342-76fb-4d8b-a375-a37b02a98c11.jpg"
           }
         },
         "collection_3zkKVK": {
           "type": "collection",
           "settings": {
             "collection": "daunendecken-kissen",
-            "image": "shopify:\/\/shop_images\/Featured_Category_Decken_Kissen_small_eac569dd-12a7-4007-a5f7-d06b6965800b.jpg"
+            "image": "shopify://shop_images/Featured_Category_Decken_Kissen_small_eac569dd-12a7-4007-a5f7-d06b6965800b.jpg"
           }
         }
       },
@@ -397,7 +396,7 @@
         "columns": 3,
         "column_gap": "extra-small",
         "row_gap": "inherit",
-        "image_ratio": "1\/1",
+        "image_ratio": "1/1",
         "columns_mobile": "1",
         "swipe_on_mobile": false,
         "padding_top": 32,
