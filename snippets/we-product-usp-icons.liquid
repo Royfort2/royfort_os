@@ -31,11 +31,11 @@
                 {%- if icon != blank -%}
                   {{
                     icon
-                    | image_url: width: 120
+                    | image_url: width: 200
                     | image_tag:
                       loading: 'lazy',
-                      widths: '60, 80, 100, 120',
-                      sizes: '60px',
+                      widths: '70, 100, 140, 200',
+                      sizes: '(min-width: 992px) 100px, 70px',
                       alt: label
                   }}
                 {%- else -%}
