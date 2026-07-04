@@ -1053,12 +1053,16 @@ if (!customElements.get('product-info')) {
           this.syncMainMediaGalleryFromColorOnly(variantSelectsEl);
         }
 
+        const isSetAddonCardPicker =
+          isEmbeddedPicker && variantSelectsEl?.dataset?.pdpSetAddonCard === 'true';
+
         this.renderProductInfo({
           requestUrl: this.buildRequestUrlWithParams(
             productUrl,
             selectedOptionValues,
             shouldFetchFullPage,
-            variantIdForFetch
+            variantIdForFetch,
+            { pdpSetAddonCard: isSetAddonCardPicker }
           ),
           targetId: target.id,
           callback: shouldSwapProduct
@@ -1301,7 +1305,13 @@ if (!customElements.get('product-info')) {
         };
       }
 
-      buildRequestUrlWithParams(url, optionValues, shouldFetchFullPage = false, variantId = null) {
+      buildRequestUrlWithParams(
+        url,
+        optionValues,
+        shouldFetchFullPage = false,
+        variantId = null,
+        fetchOptions = {}
+      ) {
         const params = [];
 
         !shouldFetchFullPage && params.push(`section_id=${this.sectionId}`);
@@ -1313,6 +1323,10 @@ if (!customElements.get('product-info')) {
         const ids = (optionValues || []).filter((id) => id != null && String(id).length > 0);
         if (ids.length) {
           params.push(`option_values=${ids.join(',')}`);
+        }
+
+        if (fetchOptions.pdpSetAddonCard) {
+          params.push('pdp_set_addon_card=1');
         }
 
         const sep = String(url).includes('?') ? '&' : '?';
@@ -1426,6 +1440,32 @@ if (!customElements.get('product-info')) {
             source = html.querySelector(
               `variant-selects[data-product-id="${destination.dataset.productId}"]`
             );
+          }
+          /*
+           * Set optional cards use dropdown-only pickers (`data-pdp-set-addon-card`). Section fetches for
+           * embedded line products otherwise return the standalone PDP markup (color swatches), which
+           * breaks layout and variant state when swapped in.
+           */
+          if (
+            destination?.dataset?.pdpSetAddonCard === 'true' &&
+            source?.dataset?.pdpSetAddonCard !== 'true'
+          ) {
+            const srcVariant = source?.querySelector('[data-selected-variant]');
+            const destVariant = destination?.querySelector('[data-selected-variant]');
+            if (srcVariant?.textContent?.trim() && destVariant) {
+              destVariant.textContent = srcVariant.textContent;
+            }
+            if (typeof window.initWeVariantDropdownMeta === 'function') {
+              window.initWeVariantDropdownMeta(destination);
+            }
+            if (typeof window.syncWeQuantitySelectorCap === 'function') {
+              window.syncWeQuantitySelectorCap(destination);
+            }
+            if (typeof window.syncProductSetPickerCards === 'function') {
+              window.syncProductSetPickerCards();
+            }
+            document.dispatchEvent(new CustomEvent('pdp-set:refresh-submit', { bubbles: true }));
+            return;
           }
           swapVariantSelects(destination, source);
           return;

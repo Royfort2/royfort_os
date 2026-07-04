@@ -231,6 +231,16 @@
     });
   }
 
+  /** Total cart units for set-bundle ATC label — sums inline qty per active picker, not just line count. */
+  function getSetBundleTotalItemCount(productInfo, cfg) {
+    const { sectionId } = cfg;
+    return getSetBundlePickersToValidate(productInfo, cfg).reduce((sum, vs) => {
+      const pid = String(vs.dataset?.productId || '');
+      if (!pid) return sum;
+      return sum + getInlineQuantityForProduct(sectionId, pid);
+    }, 0);
+  }
+
   /** Required set pickers in config order (after filters). Used for ATC enable rules. */
   function getRequiredSetPickers(productInfo, cfg) {
     const requiredIds = (cfg.requiredSetProductIds || []).map(String).filter(Boolean);
@@ -807,10 +817,10 @@
     } else {
       submitBtn.disabled = false;
       submitBtn.removeAttribute('disabled');
-      const lineCount = getSetBundlePickersToValidate(productInfo, cfg).length;
+      const itemCount = getSetBundleTotalItemCount(productInfo, cfg);
       if (span) {
         span.textContent =
-          lineCount > 0 ? `${addToCartBase} (${lineCount} Artikel)` : addToCartBase;
+          itemCount > 0 ? `${addToCartBase} (${itemCount} Artikel)` : addToCartBase;
       }
       submitBtn.style.pointerEvents = '';
       submitBtn.style.opacity = '';
@@ -897,6 +907,14 @@
       return vs?.closest?.('product-info') || null;
     }
     const nm = target.getAttribute?.('name') || '';
+    if (target.type === 'radio' && nm.startsWith('quantity-')) {
+      const pid = nm.slice('quantity-'.length);
+      if (pid) {
+        const vs = document.querySelector(`variant-selects[data-product-id="${pid}"]`);
+        const pi = vs?.closest?.('product-info');
+        if (pi) return pi;
+      }
+    }
     if (target.type === 'radio' && (nm.startsWith('vs-') || nm.startsWith('quantity-'))) {
       try {
         const esc =

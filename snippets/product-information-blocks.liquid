@@ -859,11 +859,19 @@
                 </div>
               {%- endunless -%}
             {%- else -%}
+              {%- liquid
+                assign we_pdp_set_addon_card_ctx = false
+                if request.query_string contains 'pdp_set_addon_card=1'
+                  assign we_pdp_set_addon_card_ctx = true
+                endif
+              -%}
               {% render 'we-product-variant-picker',
                 product: product,
                 block: block,
                 product_form_id: product_form_id,
-                update_url: update_browser_history
+                update_url: update_browser_history,
+                picker_id_suffix: product.id,
+                pdp_set_addon_card: we_pdp_set_addon_card_ctx
               %}
               {%- unless context == 'quick-view' -%}
                 {% render 'we-pdp-simple-summary',
