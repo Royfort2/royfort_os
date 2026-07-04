@@ -357,7 +357,9 @@ body.sticky-atc-bar-enabled {
   .sticky-atc-bar--basic .sticky-atc-bar__breakdown {
     display: none !important;
   }
+}
 
+@media (max-width: 349.98px) {
   .sticky-atc-bar--basic .sticky-atc-bar__submit:has(.pdp-atc-label__count:not([hidden])) {
     white-space: normal !important;
     height: auto;
