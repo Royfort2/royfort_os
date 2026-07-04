@@ -224,18 +224,21 @@
         "item_3fTaWN": {
           "type": "item",
           "settings": {
+            "icon": "shopify://shop_images/Traumhaftes-Schlafgefuehl.webp",
             "label": "30 Tage Rückgaberecht"
           }
         },
         "item_mLciUR": {
           "type": "item",
           "settings": {
+            "icon": "shopify://shop_images/Optimale-Stuetzkraft.webp",
             "label": "In Handarbeit gefertigt"
           }
         },
         "item_Qn93yz": {
           "type": "item",
           "settings": {
+            "icon": "shopify://shop_images/90-Tage-Probeschlafen.webp",
             "label": "Einzigartig weich"
           }
         }
