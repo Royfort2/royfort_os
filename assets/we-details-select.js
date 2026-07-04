@@ -359,6 +359,13 @@
       });
       that.parentNode.classList.add('active');
       that.parentNode.setAttribute('aria-selected', 'true');
+
+      const isQtyPicker =
+        this.container.closest('.pdp-inline-quantity') ||
+        this.container.closest('.we-quantity-selector');
+      if (isQtyPicker) {
+        document.dispatchEvent(new CustomEvent('pdp-set:refresh-submit', { bubbles: true }));
+      }
     }
   }
 

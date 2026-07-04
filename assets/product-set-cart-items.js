@@ -901,12 +901,29 @@
     if (!target) return null;
     let pi = target.closest?.('product-info');
     if (pi) return pi;
-    const vid = target.dataset?.vsRoot || target.getAttribute?.('data-vs-root');
-    if (vid) {
-      const vs = document.getElementById(vid);
-      return vs?.closest?.('product-info') || null;
+
+    const vsRootId = target.dataset?.vsRoot || target.getAttribute?.('data-vs-root');
+    if (vsRootId) {
+      const vs = document.getElementById(vsRootId);
+      pi = vs?.closest?.('product-info');
+      if (pi) return pi;
     }
+
     const nm = target.getAttribute?.('name') || '';
+
+    /** Inline quantity radios (main set line); mobile portals them under `body`. */
+    if (target.hasAttribute?.('data-pdp-inline-qty-value') || (target.type === 'radio' && nm.startsWith('qty-inline-'))) {
+      if (nm.startsWith('qty-inline-')) {
+        const vs = document.getElementById(`variant-selects-${nm.slice('qty-inline-'.length)}`);
+        pi = vs?.closest?.('product-info');
+        if (pi) return pi;
+      }
+      const details = target.closest?.('details.we-select-container');
+      const vsFromDetails = details?.closest?.('variant-selects');
+      pi = vsFromDetails?.closest?.('product-info');
+      if (pi) return pi;
+    }
+
     if (target.type === 'radio' && nm.startsWith('quantity-')) {
       const pid = nm.slice('quantity-'.length);
       if (pid) {

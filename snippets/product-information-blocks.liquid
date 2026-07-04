@@ -549,7 +549,8 @@
                   product_form_id: product_form_id,
                   update_url: update_browser_history,
                   picker_id_suffix: set_product.id,
-                  pdp_set_line_variant_from_bundle: we_set_line_resolved
+                  pdp_set_line_variant_from_bundle: we_set_line_resolved,
+                  pdp_set_bundle_context: true
                 %}
                 <script type="application/json" data-set-product-variants="{{ set_product.id }}">
                   {{ set_product.variants | json }}

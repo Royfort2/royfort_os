@@ -8,6 +8,7 @@
   - update_url: {Boolean} whether or not to update url when changing variants. If false, the url isn't updated. Default: true (optional).
   - picker_id_suffix: {String} optional; defaults to product.id — used for id_ns (unique radio name/id; matches product-variant-picker).
   - pdp_set_line_variant_from_bundle: {Object} optional — first set line variant matching bundle ?variant= (set PDP / quick view).
+  - pdp_set_bundle_context: {Boolean} when true, inline quantity uses qty-inline-* radios (set bundle embedded pickers).
   Usage:
   {% render 'we-product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
 {% endcomment %}
@@ -35,6 +36,7 @@
     if pdp_set_line_variant_from_bundle != blank
       assign we_use_bundle_line_variant = true
     endif
+    assign pdp_set_bundle_context = pdp_set_bundle_context | default: false
     assign size_option_name = block.settings.size_title | downcase
     assign size_chart_content = product.metafields.foxtheme.size_chart.value.content
     assign size_chart_modal_id = 'SizeChartModal-' | append: block.id | append: '-' | append: picker_id_suffix
@@ -523,7 +525,8 @@
               option_position: 'qty',
               pdp_q_min: pdp_q_min,
               pdp_q_max: pdp_q_max,
-              pdp_q_inc: pdp_q_inc
+              pdp_q_inc: pdp_q_inc,
+              pdp_set_bundle_context: pdp_set_bundle_context
             %}
           </div>
         </div>
@@ -564,7 +567,8 @@
             option_position: 'qty',
             pdp_q_min: pdp_q_min,
             pdp_q_max: pdp_q_max,
-            pdp_q_inc: pdp_q_inc
+            pdp_q_inc: pdp_q_inc,
+            pdp_set_bundle_context: pdp_set_bundle_context
           %}
         </div>
       </div>
