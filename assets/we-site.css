@@ -108,10 +108,10 @@
     media-gallery .product__media-gallery-progress {
         position: static !important;
         display: flex !important;
-        width: 100%;
-        max-width: 100%;
+        width: auto;
+        max-width: none;
         height: 4px;
-        margin: 30px 0 0;
+        margin: 30px var(--page-padding, 1.6rem) 0;
         padding: 0;
         background: #d8d8d8;
         border-radius: 0;
@@ -171,8 +171,8 @@
     }
 
     .product__media-gallery-viewer .product__media-gallery-nav-btn svg {
-        width: 2rem;
-        height: 2rem;
+        width: 2.8rem;
+        height: 2.8rem;
     }
 }
 

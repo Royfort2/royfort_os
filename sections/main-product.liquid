@@ -1143,9 +1143,20 @@
       z-index: 0;
       transition: none;
     }
+    product-info[id^='MainProduct-'] .product:not(.product--media-has-0) .product__media-gallery-viewer-wrap,
+    product-info[id^='MainProduct-'] .product:not(.product--media-has-0) .product__media-gallery-viewer {
+      margin-inline: 0;
+      padding-inline: 0;
+      width: 100%;
+      max-width: 100%;
+    }
     product-info[id^='MainProduct-'] .product:not(.product--media-has-0) .product__media-gallery-progress {
       position: relative;
       z-index: 3;
+      margin-inline: var(--page-padding);
+      width: auto;
+      max-width: none;
+      box-sizing: border-box;
     }
     product-info[id^='MainProduct-'] .product:not(.product--media-has-0) .product__info-wrapper {
       position: relative;
