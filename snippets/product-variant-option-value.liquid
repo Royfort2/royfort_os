@@ -206,6 +206,9 @@
     {% if value_should_select %}
       selected="selected"
     {% endif %}
+    {% if option_disabled %}
+      disabled
+    {% endif %}
     {% if swatch_value and picker_type == 'swatch_dropdown' %}
       data-option-swatch-value="{{ swatch_value }}"
       {% if swatch_focal_point %}

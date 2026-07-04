@@ -1,72 +1,42 @@
 {% comment %}
-  Inline quantity using the same we-select / we-details-select pattern as variant dropdowns (not native <select>).
+  Inline quantity as native system <select> (same name/form wiring as former we-select radios).
 
   Accepts:
   - id_ns, product_form_id, option_position: for unique ids/names
   - pdp_q_min, pdp_q_max, pdp_q_inc: quantity_rule derived numbers
-  - pdp_set_bundle_context: when true, radios use unique name qty-inline-* and omit form= (cart lines built in product-set-cart-items.js)
+  - pdp_set_bundle_context: when true, uses unique name qty-inline-* and omits form= (cart lines built in product-set-cart-items.js)
 {% endcomment %}
 {%- liquid
-  assign qty_radio_name = 'qty-inline-' | append: id_ns
+  assign qty_field_name = 'qty-inline-' | append: id_ns
   unless pdp_set_bundle_context
-    assign qty_radio_name = 'quantity'
+    assign qty_field_name = 'quantity'
   endunless
 -%}
-<details
-  class="we-select-container pdp-inline-qty-we-select"
->
-  <summary class="we-select-container__summary">
-    <span class="pdp-inline-qty-we-select__value">{{ pdp_q_min }}</span>
-  </summary>
-  <div class="we-select-mobile-portal">
-    <div class="we-select-mobile-backdrop" aria-hidden="true"></div>
-    <div class="we-select-mobile-sheet">
-      <div class="we-select-mobile-sheet__header">
-        <p
-          class="we-select-mobile-sheet__title"
-          id="WeSelectQtySheetTitle-{{ id_ns }}-{{ option_position }}"
-        >
-          {{ 'products.product.quantity.label' | t }}
-        </p>
-        <button
-          type="button"
-          class="we-select-mobile-sheet__close"
-          aria-label="{{ 'accessibility.close' | t }}"
-        >
-          {% render 'icon-close', size: 'small' %}
-        </button>
-      </div>
-      <div class="we-select">
-        {%- for i in (1..100) -%}
-          {%- if i >= pdp_q_min and i <= pdp_q_max -%}
-            {%- assign pdp_mod = i | minus: pdp_q_min | modulo: pdp_q_inc -%}
-            {%- if pdp_mod == 0 -%}
-              {%- assign qty_id = id_ns | append: '-qty-' | append: i -%}
-              <div class="we-select__item">
-                <input
-                  type="radio"
-                  id="{{ qty_id }}"
-                  name="{{ qty_radio_name | escape }}"
-                  value="{{ i }}"
-                  {% unless pdp_set_bundle_context %}
-                    form="{{ product_form_id }}"
-                  {% endunless %}
-                  data-pdp-inline-qty-value="{{ i }}"
-                  {% if i == pdp_q_min %}
-                    checked
-                  {% endif %}
-                >
-                <label class="we-select__label we-select__label--qty" for="{{ qty_id }}">
-                  <span class="we-select__label-primary">
-                    <span class="we-select__qty-line we-select__qty-line--short">{{ i }}</span>
-                    <span class="we-select__qty-line we-select__qty-line--long">{{ i }}</span>
-                  </span>
-                </label>
-              </div>
-            {%- endif -%}
-          {%- endif -%}
-        {%- endfor -%}
-      </div>
-    </div>
-  </div>
-</details>
+<div class="select">
+  <select
+    id="Quantity-{{ id_ns }}-{{ option_position }}"
+    class="form-control form-control--select pdp-inline-qty-native-select"
+    name="{{ qty_field_name | escape }}"
+    {% unless pdp_set_bundle_context %}
+      form="{{ product_form_id }}"
+    {% endunless %}
+    data-pdp-inline-qty-select
+  >
+    {%- for i in (1..100) -%}
+      {%- if i >= pdp_q_min and i <= pdp_q_max -%}
+        {%- assign pdp_mod = i | minus: pdp_q_min | modulo: pdp_q_inc -%}
+        {%- if pdp_mod == 0 -%}
+          <option
+            value="{{ i }}"
+            {% if i == pdp_q_min %}
+              selected
+            {% endif %}
+          >
+            {{ i }}
+          </option>
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+  </select>
+  {%- render 'icon-caret-down' -%}
+</div>

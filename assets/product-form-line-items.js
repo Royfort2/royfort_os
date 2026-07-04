@@ -33,6 +33,12 @@
   function resolveInlineQtyFromRoot(qtyRoot, attrName) {
     if (!qtyRoot) return null;
 
+    const nativeSelect =
+      attrName === 'data-pdp-inline-qty-value'
+        ? qtyRoot.querySelector('select[data-pdp-inline-qty-select]')
+        : qtyRoot.querySelector('select[data-we-qty-selector]');
+    if (nativeSelect?.value) return String(nativeSelect.value);
+
     let checked = qtyRoot.querySelector(`input[type="radio"][${attrName}]:checked`);
     if (!checked) {
       const sample = qtyRoot.querySelector(`input[type="radio"][${attrName}]`);
@@ -62,6 +68,9 @@
 
     const qtyRoot = vs.querySelector('.we-quantity-selector');
     if (!qtyRoot) return null;
+
+    const qtySelect = qtyRoot.querySelector('select[data-we-qty-selector]');
+    if (qtySelect?.value) return String(qtySelect.value);
 
     let checked = qtyRoot.querySelector('input[type="radio"][data-we-qty-selector]:checked');
     if (!checked) {

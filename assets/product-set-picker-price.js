@@ -33,6 +33,10 @@
 
   function getOptionGroupPosition(wrap) {
     if (!wrap) return 0;
+    const selectEl = wrap.querySelector('select[name^="options"][data-we-option-position]');
+    if (selectEl?.dataset?.weOptionPosition) {
+      return parseInt(selectEl.dataset.weOptionPosition, 10) || 0;
+    }
     const details = wrap.querySelector('details.we-select-container[data-we-option-position]');
     if (details?.dataset?.weOptionPosition) {
       return parseInt(details.dataset.weOptionPosition, 10) || 0;

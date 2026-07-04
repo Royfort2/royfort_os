@@ -682,6 +682,15 @@ if (!customElements.get('product-info')) {
       _readInlineQtyFromRoot(qtyRoot, attrName, portaledName) {
         if (!qtyRoot) return null;
 
+        const nativeSelect =
+          attrName === 'data-pdp-inline-qty-value'
+            ? qtyRoot.querySelector('select[data-pdp-inline-qty-select]')
+            : qtyRoot.querySelector('select[data-we-qty-selector]');
+        if (nativeSelect?.value) {
+          const n = parseInt(String(nativeSelect.value), 10);
+          if (Number.isFinite(n) && n > 0) return n;
+        }
+
         let checked = qtyRoot.querySelector(`input[type="radio"][${attrName}]:checked`);
         if (!checked && portaledName) {
           const esc = this._escapeAttrSelector(portaledName);
@@ -711,6 +720,12 @@ if (!customElements.get('product-info')) {
 
         const inlineRoot = vs.querySelector('.pdp-inline-quantity');
         if (inlineRoot) {
+          const qtySelect = inlineRoot.querySelector('select[data-pdp-inline-qty-select]');
+          if (qtySelect?.value) {
+            const n = parseInt(String(qtySelect.value), 10);
+            if (Number.isFinite(n) && n > 0) return n;
+          }
+
           const sample = inlineRoot.querySelector('input[data-pdp-inline-qty-value]');
           const fromInline = this._readInlineQtyFromRoot(
             inlineRoot,
@@ -737,8 +752,9 @@ if (!customElements.get('product-info')) {
         const t = e.target;
         if (!t) return;
 
-        let isQty = t.hasAttribute?.('data-we-qty-selector');
-        if (!isQty && !t.closest?.('.we-quantity-selector')) return;
+        let isQty =
+          t.hasAttribute?.('data-we-qty-selector') || t.hasAttribute?.('data-pdp-inline-qty-select');
+        if (!isQty && !t.closest?.('.we-quantity-selector') && !t.closest?.('.pdp-inline-quantity')) return;
 
         const vs = this.variantSelectors;
         if (!vs) return;

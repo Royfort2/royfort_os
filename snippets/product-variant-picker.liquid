@@ -349,147 +349,28 @@
               </div>
             {% endif %}
           {%- else -%}
-            {% comment %}
-              <div class="select">
-                {%- if picker_type == 'swatch_dropdown' -%}
-                  <span
-                    data-selected-value
-                    class="dropdown-swatch"
-                  >
-                    {% comment %} {% render 'swatch', swatch: option.selected_value.swatch %} {% endcomment %}
-                  </span>
-                {%- endif -%}
-                <select
-                  id="Option-{{ id_ns }}-{{ forloop.index0 }}"
-                  class="form-control form-control--select"
-                  name="options[{{ option.name | escape }}]"
-                  form="{{ product_form_id }}"
-                >
-                  {% render 'product-variant-options',
-                    product: product,
-                    option: option,
-                    block: block,
-                    picker_type: picker_type,
-                    option_id_namespace: id_ns,
-                    option_name_suffix: option_name_suffix,
-                    skip_value_selected: pdp_skip_value_selected,
-                    pdp_line_variant_for_selection: we_active_variant,
-                    we_override_option_selection: we_use_bundle_line_variant
-                  %}
-                </select>
-                {%- render 'icon-caret-down' -%}
-              </div>
-            {% endcomment %}
-            {%- liquid
-              assign opt_radio_name = 'vs-' | append: id_ns | append: '-o' | append: option.position
-            -%}
-            <details
-              class="we-select-container"
-              data-radio-group-name="{{ opt_radio_name | escape }}"
-            >
-              <summary class="we-select-container__summary">
-                {%- liquid
-                  case option.position
-                    when 1
-                      assign we_dd_label = we_active_variant.option1
-                    when 2
-                      assign we_dd_label = we_active_variant.option2
-                    when 3
-                      assign we_dd_label = we_active_variant.option3
-                  endcase
-                -%}
-                  {% assign handle = we_dd_label | handleize %}
-                  {% if metaobjects.logo[handle] %}
-                    {% if metaobjects.logo[handle].bild != blank %}
-                      <span class="we-variant-logo">
-                        {{-
-                          metaobjects.logo[handle].bild
-                          | image_url: width: 16
-                          | image_tag:
-                            widths: '200,300,400,500,600,700,800,900,1000,1100,1200,1300,1400,1500',
-                            loading: 'lazy'
-                        -}}
-                      </span>
-                    {% endif %}
-                  {% endif %}
-                  {{ we_dd_label }}
-              </summary>
-              <div class="we-select-mobile-portal">
-                <div class="we-select-mobile-backdrop" aria-hidden="true"></div>
-                <div class="we-select-mobile-sheet">
-                <div class="we-select-mobile-sheet__header">
-                  <p
-                    class="we-select-mobile-sheet__title"
-                    id="WeSelectSheetTitle-{{ id_ns }}-{{ option.position }}"
-                  >
-                    {{ 'products.product.we_select_sheet_title' | t: option_name: option.name }}
-                  </p>
-                  <button
-                    type="button"
-                    class="we-select-mobile-sheet__close"
-                    aria-label="{{ 'accessibility.close' | t }}"
-                  >
-                    {% render 'icon-close', size: 'small' %}
-                  </button>
-                </div>
-                <div class="we-select">
-                {% for value in option.values %}
-                  {%- liquid
-                    assign we_dd_checked = false
-                    case option.position
-                      when 1
-                        if value == we_active_variant.option1
-                          assign we_dd_checked = true
-                        endif
-                      when 2
-                        if value == we_active_variant.option2
-                          assign we_dd_checked = true
-                        endif
-                      when 3
-                        if value == we_active_variant.option3
-                          assign we_dd_checked = true
-                        endif
-                    endcase
-                  -%}
-                  <div class="we-select__item">
-                    <input
-                      type="radio"
-                      id="{{ id_ns }}-{{ option.position }}-{{ forloop.index0 }}"
-                      name="{{ opt_radio_name | escape }}"
-                      value="{{ value | escape }}"
-                      form="{{ product_form_id }}"
-                      data-product-url="{{ value.product_url }}"
-                      data-option-value-id="{{ value.id }}"
-                      {% if we_dd_checked %}
-                        checked
-                      {% endif %}
-                      {% if value.available == false %}
-                        class="disabled"
-                      {% endif %}
-                    >
-                    <label for="{{ id_ns }}-{{ option.position }}-{{ forloop.index0 }}">
-                      {% assign handle = value | handleize %}
-                      {% if metaobjects.logo[handle] %}
-                        {% if metaobjects.logo[handle].bild != blank %}
-                          <span class="we-variant-logo">
-                            {{-
-                              metaobjects.logo[handle].bild
-                              | image_url: width: 16
-                              | image_tag:
-                                widths: '200,300,400,500,600,700,800,900,1000,1100,1200,1300,1400,1500',
-                                loading: 'lazy'
-                            -}}
-                          </span>
-                        {% endif %}
-                      {% endif %}
-                      {{ value }}
-                    </label>
-                  </div>
-                {% endfor %}
-                </div>
-                </div>
-              </div>
-            </details>
+            <div class="select">
+              <select
+                id="Option-{{ id_ns }}-{{ option.position }}"
+                class="form-control form-control--select"
+                name="options[{{ option.name | escape }}]"
+                form="{{ product_form_id }}"
+                data-we-option-position="{{ option.position }}"
+              >
+                {% render 'product-variant-options',
+                  product: product,
+                  option: option,
+                  block: block,
+                  picker_type: 'dropdown',
+                  option_id_namespace: id_ns,
+                  option_name_suffix: option_name_suffix,
+                  skip_value_selected: pdp_skip_value_selected,
+                  pdp_line_variant_for_selection: we_active_variant,
+                  we_override_option_selection: we_use_bundle_line_variant
+                %}
+              </select>
+              {%- render 'icon-caret-down' -%}
+            </div>
         {%- endcase -%}
       </{{ tag_fieldset }}>
       {%- if is_pdp_qty_option -%}

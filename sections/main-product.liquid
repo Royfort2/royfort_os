@@ -325,9 +325,38 @@
     max-width: none;
   }
   .product__block--we_variant_picker > variant-selects:not([data-pdp-set-addon-card]) > .product-form__input--quantity .pdp-inline-qty-we-select.we-select-container,
-  .product__block--variant_picker > variant-selects:not([data-pdp-set-addon-card]) > .product-form__input--quantity .pdp-inline-qty-we-select.we-select-container {
+  .product__block--variant_picker > variant-selects:not([data-pdp-set-addon-card]) > .product-form__input--quantity .pdp-inline-qty-we-select.we-select-container,
+  .product__block--we_variant_picker > variant-selects:not([data-pdp-set-addon-card]) > .product-form__input--quantity .select,
+  .product__block--variant_picker > variant-selects:not([data-pdp-set-addon-card]) > .product-form__input--quantity .select {
     width: 100%;
     display: block;
+  }
+  /* Native system <select> on PDP (variant + quantity) — not custom we-details-select */
+  .product__block--we_variant_picker .product-form__input--custom_dropdown .select,
+  .product__block--we_variant_picker .product-form__input--dropdown .select,
+  .product__block--variant_picker .product-form__input--custom_dropdown .select,
+  .product__block--variant_picker .product-form__input--dropdown .select,
+  .product-set-picker__expand-inner .select {
+    width: 100%;
+    display: block;
+  }
+  .product__block--we_variant_picker .select .form-control--select,
+  .product__block--variant_picker .select .form-control--select,
+  .product-set-picker__expand-inner .select .form-control--select {
+    min-height: 4.8rem;
+    padding: 0.25rem 4.8rem 0 1.5rem;
+    font-size: 1.4rem;
+    line-height: 1.3;
+    font-weight: 400;
+    color: #171717;
+    border-color: #2e3192;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  .product__block--we_variant_picker .select .form-control--select ~ .icon,
+  .product__block--variant_picker .select .form-control--select ~ .icon,
+  .product-set-picker__expand-inner .select .form-control--select ~ .icon {
+    inset-inline-end: 1.5rem;
   }
   /* Preview select.main-option-selector: 48px tall, navy border, asymmetric padding */
   .product__block--we_variant_picker details.we-select-container,

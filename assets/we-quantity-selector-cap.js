@@ -206,6 +206,40 @@
     }
   }
 
+  function syncQtyNativeSelect({ qtyRoot, selectSelector }, variant, maxQty, minQty) {
+    const select = qtyRoot?.querySelector(selectSelector);
+    if (!select) return false;
+
+    const disabledClass = qtyRoot.classList.contains('pdp-inline-quantity')
+      ? 'pdp-inline-quantity--disabled'
+      : 'we-quantity-selector--disabled';
+
+    if (maxQty < 1) {
+      select.disabled = true;
+      qtyRoot.classList.add(disabledClass);
+      return true;
+    }
+
+    select.disabled = false;
+    qtyRoot.classList.remove(disabledClass);
+
+    Array.from(select.options).forEach((opt) => {
+      const v = parseInt(opt.value, 10);
+      opt.disabled = !Number.isFinite(v) || v < minQty || v > maxQty;
+    });
+
+    const selected = select.options[select.selectedIndex];
+    if (!selected || selected.disabled) {
+      const firstEnabled = Array.from(select.options).find((opt) => !opt.disabled);
+      if (firstEnabled) {
+        select.value = firstEnabled.value;
+        select.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    }
+
+    return true;
+  }
+
   function syncQtyRadios({ qtyRoot, attrName, unitShort, summaryValueSelector }, variant, maxQty, minQty) {
     const allInputs = collectQtyInputs(qtyRoot, attrName);
 
@@ -277,17 +311,26 @@
 
     const weQtyRoot = variantSelects.querySelector('.we-quantity-selector');
     if (weQtyRoot) {
-      syncQtyRadios(
-        {
-          qtyRoot: weQtyRoot,
-          attrName: 'data-we-qty-selector',
-          unitShort: (weQtyRoot.dataset.qtyUnitShort || '').trim(),
-          summaryValueSelector: '.pdp-inline-qty-we-select__value',
-        },
-        variant,
-        maxQty,
-        minQty
-      );
+      if (
+        !syncQtyNativeSelect(
+          { qtyRoot: weQtyRoot, selectSelector: 'select[data-we-qty-selector]' },
+          variant,
+          maxQty,
+          minQty
+        )
+      ) {
+        syncQtyRadios(
+          {
+            qtyRoot: weQtyRoot,
+            attrName: 'data-we-qty-selector',
+            unitShort: (weQtyRoot.dataset.qtyUnitShort || '').trim(),
+            summaryValueSelector: '.pdp-inline-qty-we-select__value',
+          },
+          variant,
+          maxQty,
+          minQty
+        );
+      }
     }
 
     const inlineRoot = variantSelects.querySelector('.pdp-inline-quantity');
@@ -296,17 +339,26 @@
         inlineRoot.querySelector('[data-qty-unit-short]')?.dataset?.qtyUnitShort ||
         inlineRoot.dataset?.qtyUnitShort ||
         '';
-      syncQtyRadios(
-        {
-          qtyRoot: inlineRoot,
-          attrName: 'data-pdp-inline-qty-value',
-          unitShort,
-          summaryValueSelector: '.pdp-inline-qty-we-select__value',
-        },
-        variant,
-        maxQty,
-        minQty
-      );
+      if (
+        !syncQtyNativeSelect(
+          { qtyRoot: inlineRoot, selectSelector: 'select[data-pdp-inline-qty-select]' },
+          variant,
+          maxQty,
+          minQty
+        )
+      ) {
+        syncQtyRadios(
+          {
+            qtyRoot: inlineRoot,
+            attrName: 'data-pdp-inline-qty-value',
+            unitShort,
+            summaryValueSelector: '.pdp-inline-qty-we-select__value',
+          },
+          variant,
+          maxQty,
+          minQty
+        );
+      }
     }
   }
 
@@ -327,6 +379,7 @@
       const t = e.target;
       if (t?.hasAttribute?.('data-we-qty-selector')) return;
       if (t?.hasAttribute?.('data-pdp-inline-qty-value')) return;
+      if (t?.hasAttribute?.('data-pdp-inline-qty-select')) return;
 
       const vs = resolveVariantSelectsFromTarget(t);
       if (!vs?.querySelector?.('.we-quantity-selector, .pdp-inline-quantity')) return;

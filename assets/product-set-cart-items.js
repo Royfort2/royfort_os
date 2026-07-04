@@ -42,6 +42,10 @@
 
   function getOptionGroupPosition(wrap) {
     if (!wrap) return 0;
+    const selectEl = wrap.querySelector('select[name^="options"][data-we-option-position]');
+    if (selectEl?.dataset?.weOptionPosition) {
+      return parseInt(selectEl.dataset.weOptionPosition, 10) || 0;
+    }
     const details = wrap.querySelector('details.we-select-container[data-we-option-position]');
     if (details?.dataset?.weOptionPosition) {
       return parseInt(details.dataset.weOptionPosition, 10) || 0;
@@ -299,6 +303,12 @@
 
     const inlineRoot = vs.querySelector('.pdp-inline-quantity');
     if (inlineRoot) {
+      const qtySelect = inlineRoot.querySelector('select[data-pdp-inline-qty-select]');
+      if (qtySelect) {
+        const n = parseInt(String(qtySelect.value), 10);
+        return Number.isFinite(n) && n > 0 ? n : 1;
+      }
+
       let inlineChecked = inlineRoot.querySelector(
         'input[type="radio"][data-pdp-inline-qty-value]:checked'
       );
@@ -327,6 +337,12 @@
         const n = parseInt(m[1], 10);
         if (Number.isFinite(n) && n > 0) return n;
       }
+    }
+
+    const weQtySelect = vs.querySelector('.we-quantity-selector select[data-we-qty-selector]');
+    if (weQtySelect) {
+      const n = parseInt(String(weQtySelect.value), 10);
+      return Number.isFinite(n) && n > 0 ? n : 1;
     }
 
     const weLocal = vs.querySelector(
@@ -911,6 +927,12 @@
 
     const nm = target.getAttribute?.('name') || '';
 
+    if (target.hasAttribute?.('data-pdp-inline-qty-select')) {
+      const vs = target.closest?.('variant-selects');
+      pi = vs?.closest?.('product-info');
+      if (pi) return pi;
+    }
+
     /** Inline quantity radios (main set line); mobile portals them under `body`. */
     if (target.hasAttribute?.('data-pdp-inline-qty-value') || (target.type === 'radio' && nm.startsWith('qty-inline-'))) {
       if (nm.startsWith('qty-inline-')) {
@@ -921,6 +943,12 @@
       const details = target.closest?.('details.we-select-container');
       const vsFromDetails = details?.closest?.('variant-selects');
       pi = vsFromDetails?.closest?.('product-info');
+      if (pi) return pi;
+    }
+
+    if (target.tagName === 'SELECT' && target.hasAttribute?.('data-we-qty-selector')) {
+      const vs = target.closest?.('variant-selects');
+      pi = vs?.closest?.('product-info');
       if (pi) return pi;
     }
 

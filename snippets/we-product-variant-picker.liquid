@@ -256,7 +256,7 @@
 
         if pdp_set_addon_card
           if picker_type == 'color' or picker_type == 'swatch' or picker_type == 'button'
-            assign picker_type = 'custom_dropdown'
+            assign picker_type = 'dropdown'
           endif
         endif
 
@@ -365,130 +365,25 @@
               </div>
             {% endif %}
           {%- else -%}
-            {% comment %}
-              <div class="select">
-                {%- if picker_type == 'swatch_dropdown' -%}
-                  <span
-                    data-selected-value
-                    class="dropdown-swatch"
-                  >
-                    {% render 'swatch', swatch: option.selected_value.swatch %}
-                  </span>
-                {%- endif -%}
-                <select
-                  id="Option-{{ id_ns }}-{{ forloop.index0 }}"
-                  class="form-control form-control--select"
-                  name="options[{{ option.name | escape }}]"
-                  form="{{ product_form_id }}"
-                >
-                  {% render 'product-variant-options',
-                    product: product,
-                    option: option,
-                    block: block,
-                    picker_type: picker_type,
-                    option_id_namespace: id_ns
-                  %}
-                </select>
-                {%- render 'icon-caret-down' -%}
-              </div>
-            {% endcomment %}
-            {%- liquid
-              assign opt_radio_name = 'vs-' | append: id_ns | append: '-o' | append: option.position
-            -%}
-            <div class="we-variant-picker__dropdown-container">
-              <details
-                class="we-select-container"
-                data-radio-group-name="{{ opt_radio_name | escape }}"
+            <div class="select">
+              <select
+                id="Option-{{ id_ns }}-{{ option.position }}"
+                class="form-control form-control--select"
+                name="options[{{ option.name | escape }}]"
+                form="{{ product_form_id }}"
                 data-we-option-position="{{ option.position }}"
               >
-                <summary class="we-select-container__summary">
-                  {%- liquid
-                    case option.position
-                      when 1
-                        assign we_dd_show = we_active_variant.option1
-                      when 2
-                        assign we_dd_show = we_active_variant.option2
-                      when 3
-                        assign we_dd_show = we_active_variant.option3
-                    endcase
-                  -%}
-                  {{ we_dd_show }}
-                </summary>
-                <div class="we-select-mobile-portal">
-                  <div class="we-select-mobile-backdrop" aria-hidden="true"></div>
-                  <div class="we-select-mobile-sheet">
-                    <div class="we-select-mobile-sheet__header">
-                      <p
-                        class="we-select-mobile-sheet__title"
-                        id="WeSelectSheetTitle-{{ id_ns }}-{{ option.position }}"
-                      >
-                        {{ 'products.product.we_select_sheet_title' | t: option_name: option.name }}
-                      </p>
-                      <button
-                        type="button"
-                        class="we-select-mobile-sheet__close"
-                        aria-label="{{ 'accessibility.close' | t }}"
-                      >
-                        {% render 'icon-close', size: 'small' %}
-                      </button>
-                    </div>
-                    <div class="we-select">
-                      {% for value in option.values %}
-                        {%- liquid
-                          assign we_dd_checked = false
-                          case option.position
-                            when 1
-                              if value == we_active_variant.option1
-                                assign we_dd_checked = true
-                              endif
-                            when 2
-                              if value == we_active_variant.option2
-                                assign we_dd_checked = true
-                              endif
-                            when 3
-                              if value == we_active_variant.option3
-                                assign we_dd_checked = true
-                              endif
-                          endcase
-                        -%}
-                        <div class="we-select__item">
-                          <input
-                            type="radio"
-                            id="{{ id_ns }}-{{ option.position }}-{{ forloop.index0 }}"
-                            name="{{ opt_radio_name | escape }}"
-                            value="{{ value | escape }}"
-                            form="{{ product_form_id }}"
-                            data-product-url="{{ value.product_url }}"
-                            data-option-value-id="{{ value.id }}"
-                            {% if we_dd_checked %}
-                              checked
-                            {% endif %}
-                            {% if value.available == false %}
-                              class="disabled"
-                            {% endif %}
-                          >
-                          <label
-                            class="we-select__label we-select__label--with-meta"
-                            for="{{ id_ns }}-{{ option.position }}-{{ forloop.index0 }}"
-                          >
-                            <span class="we-select__label-primary">
-                              <span class="we-select__value-text">{{ value }}</span>
-                            </span>
-                            <span class="we-select__meta" hidden>
-                              <span class="we-select__price-block"></span>
-                              <span
-                                class="we-select__stock-marker"
-                                data-stock-level=""
-                                aria-hidden="true"
-                              ></span>
-                            </span>
-                          </label>
-                        </div>
-                      {% endfor %}
-                    </div>
-                  </div>
-                </div>
-              </details>
+                {% render 'product-variant-options',
+                  product: product,
+                  option: option,
+                  block: block,
+                  picker_type: 'dropdown',
+                  option_id_namespace: id_ns,
+                  pdp_line_variant_for_selection: we_active_variant,
+                  we_override_option_selection: true
+                %}
+              </select>
+              {%- render 'icon-caret-down' -%}
             </div>
         {%- endcase -%}
       </{{ tag_fieldset }}>
@@ -578,59 +473,26 @@
         <label class="form__label visually-hidden" for="AddonQty-{{ id_ns }}">
           {{ 'products.product.quantity.label' | t }}
         </label>
-        <div class="we-variant-picker__dropdown-container">
-          <div class="we-quantity-selector">
-            <details
-              class="we-select-container"
-              data-radio-group-name="quantity-{{ product.id }}"
+        <div class="we-quantity-selector">
+          <div class="select">
+            <select
+              id="AddonQty-{{ id_ns }}"
+              class="form-control form-control--select"
+              name="quantity-{{ product.id }}"
+              data-we-qty-selector
             >
-              <summary class="we-select-container__summary">1</summary>
-              <div class="we-select-mobile-portal">
-                <div class="we-select-mobile-backdrop" aria-hidden="true"></div>
-                <div class="we-select-mobile-sheet">
-                  <div class="we-select-mobile-sheet__header">
-                    <p
-                      class="we-select-mobile-sheet__title"
-                      id="WeSelectSheetTitle-{{ id_ns }}-addon-quantity"
-                    >
-                      {{ 'products.product.quantity.label' | t }}
-                    </p>
-                    <button
-                      type="button"
-                      class="we-select-mobile-sheet__close"
-                      aria-label="{{ 'accessibility.close' | t }}"
-                    >
-                      {% render 'icon-close', size: 'small' %}
-                    </button>
-                  </div>
-                  <div class="we-select">
-                    {% for i in (1..10) %}
-                      <div class="we-select__item">
-                        <input
-                          type="radio"
-                          id="quantity-{{ id_ns }}-addon-{{ forloop.index0 }}"
-                          name="quantity-{{ product.id }}"
-                          value="{{ i }}"
-                          data-we-qty-selector
-                          {% if forloop.first %}
-                            checked
-                          {% endif %}
-                        >
-                        <label
-                          class="we-select__label we-select__label--qty"
-                          for="quantity-{{ id_ns }}-addon-{{ forloop.index0 }}"
-                        >
-                          <span class="we-select__label-primary">
-                            <span class="we-select__qty-line we-select__qty-line--short">{{ i }}</span>
-                            <span class="we-select__qty-line we-select__qty-line--long">{{ i }}</span>
-                          </span>
-                        </label>
-                      </div>
-                    {% endfor %}
-                  </div>
-                </div>
-              </div>
-            </details>
+              {% for i in (1..10) %}
+                <option
+                  value="{{ i }}"
+                  {% if forloop.first %}
+                    selected
+                  {% endif %}
+                >
+                  {{ i }}
+                </option>
+              {% endfor %}
+            </select>
+            {%- render 'icon-caret-down' -%}
           </div>
         </div>
       </div>
