@@ -635,6 +635,10 @@
                             assign we_set_card_title = 'Matratzenschoner hinzufügen'
                           endif
                         endif
+                        assign we_set_card_title_check = we_set_card_title | downcase
+                        unless we_set_card_title_check contains 'hinzufügen' or we_set_card_title_check contains 'wählen'
+                          assign we_set_card_title = we_set_card_title | append: ' hinzufügen'
+                        endunless
                       -%}
                       <div class="product-set-picker__item">
                         <script type="application/json" data-set-product-variants="{{ set_product.id }}">
@@ -987,6 +991,26 @@
                           {%- endif -%}
                         {%- endfor -%}
                       {%- endif -%}
+                      {%- liquid
+                        assign we_set_card_title = set_product.title
+                        if set_product.metafields.custom.we_pdp_addon_card_title.value != blank
+                          assign we_set_card_title = set_product.metafields.custom.we_pdp_addon_card_title.value
+                        elsif set_product.title contains 'Kissenbezug' or set_product.title contains 'kissenbezug'
+                          assign we_set_card_title = 'Kissenbezug wählen'
+                        elsif set_product.title contains 'Spannbettlaken'
+                          if block.settings.set_picker_title != blank
+                            assign we_set_card_title = block.settings.set_picker_title
+                          else
+                            assign we_set_card_title = 'Spannbettlaken hinzufügen'
+                          endif
+                        elsif set_product.title contains 'Matratzenschoner' or set_product.title contains 'matratzenschoner'
+                          assign we_set_card_title = 'Matratzenschoner hinzufügen'
+                        endif
+                        assign we_set_card_title_check = we_set_card_title | downcase
+                        unless we_set_card_title_check contains 'hinzufügen' or we_set_card_title_check contains 'wählen'
+                          assign we_set_card_title = we_set_card_title | append: ' hinzufügen'
+                        endunless
+                      -%}
                       <div class="product-set-picker__item">
                         <script type="application/json" data-set-product-variants="{{ set_product.id }}">
                           {{ set_product.variants | json }}
@@ -1005,7 +1029,7 @@
                           }
                         </script>
                         <template id="SetCardDefaultPrice-{{ block.id }}-{{ section.id }}-{{ set_product.id }}">
-                          {% render 'price', product: set_product, price_class: 'product-set-picker__f-price' %}
+                          {% render 'price', product: set_product, price_class: 'product-set-picker__f-price', we_force_from_price: true %}
                         </template>
                         <div class="product-set-picker__card">
                           <label class="product-set-picker__card-row">
@@ -1036,14 +1060,14 @@
                               {%- endif -%}
                             </span>
                             <span class="product-set-picker__info">
-                              <span class="product-set-picker__title">{{ set_product.title | escape }}</span>
+                              <span class="product-set-picker__title">{{ we_set_card_title | escape }}</span>
                               <span
                                 class="product-set-picker__price"
                                 data-set-card-price
                                 data-product-id="{{ set_product.id }}"
                                 data-default-price-template="SetCardDefaultPrice-{{ block.id }}-{{ section.id }}-{{ set_product.id }}"
                               >
-                                {% render 'price', product: set_product, price_class: 'product-set-picker__f-price' %}
+                                {% render 'price', product: set_product, price_class: 'product-set-picker__f-price', we_force_from_price: true %}
                               </span>
                             </span>
                             <span class="product-set-picker__checkbox-ui" aria-hidden="true"></span>
@@ -1146,7 +1170,7 @@
                     }
                   </script>
                   <div class="pdp-set-zwischensumme__header">
-                    <span class="pdp-set-zwischensumme__title">ZWISCHENSUMME:</span>
+                    <span class="pdp-set-zwischensumme__title">Zwischensumme:</span>
                     <div class="pdp-set-zwischensumme__prices">
                       <span
                         class="pdp-set-zwischensumme__compare"

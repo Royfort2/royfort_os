@@ -50,7 +50,7 @@
           "type": "we_variant_picker",
           "settings": {
             "set_picker_title": "",
-            "set_zwischensumme_title": "ZWISCHENSUMME",
+            "set_zwischensumme_title": "Zwischensumme",
             "picker_type": "custom_dropdown",
             "swatch_type": "color_swatch",
             "button_style": "standard",

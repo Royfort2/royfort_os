@@ -412,7 +412,7 @@
         "expand_remaining_gallery": "{{ count }} weitere Galeriebilder anzeigen"
       },
       "quantity": {
-        "label": "Menge",
+        "label": "Anzahl",
         "input_label": "Menge für {{ product }}",
         "increase": "Menge für {{ product }} erhöhen",
         "decrease": "Menge für {{ product }} verringern",
@@ -445,7 +445,7 @@
       },
       "price": {
         "label": "Preis",
-        "from_price_html": "ab {{ price }}",
+        "from_price_html": "Ab {{ price }}",
         "regular_price": "Regulärer Preis",
         "sale_price": "Verkaufspreis",
         "unit_price": "Einzelpreis",

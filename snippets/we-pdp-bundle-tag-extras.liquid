@@ -105,6 +105,10 @@
         elsif we_tag_product.title contains 'Matratzenschoner' or we_tag_product.title contains 'matratzenschoner'
           assign we_set_card_title = 'Matratzenschoner hinzufügen'
         endif
+        assign we_set_card_title_check = we_set_card_title | downcase
+        unless we_set_card_title_check contains 'hinzufügen' or we_set_card_title_check contains 'wählen'
+          assign we_set_card_title = we_set_card_title | append: ' hinzufügen'
+        endunless
       -%}
       <div class="product-set-picker__item">
         <script type="application/json" data-set-product-variants="{{ we_tag_product.id }}">
@@ -126,13 +130,14 @@
         <template id="SetWeCardDefaultPrice-{{ block.id }}-{{ section.id }}-{{ we_tag_product.id }}">
           {% render 'price', product: we_tag_product, price_class: 'product-set-picker__f-price', we_force_from_price: true %}
         </template>
-        <div class="product-set-picker__card">
+        <div class="product-set-picker__card product-set-picker__card--cross-sell">
           <label class="product-set-picker__card-row">
             <input
               type="checkbox"
               id="SetWeProductToggle-{{ block.id }}-{{ section.id }}-{{ we_tag_product.id }}"
               class="product-set-picker__toggle visually-hidden"
               data-set-optional-product-id="{{ we_tag_product.id }}"
+              data-set-cross-sell="true"
             >
             <span
               class="product-set-picker__thumb"

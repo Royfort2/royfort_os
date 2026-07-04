@@ -296,6 +296,12 @@
             .product-set-picker__price .f-price-item--regular {
               color: rgb(var(--color-button));
             }
+            .product-set-picker__card:not(:has(.product-set-picker__toggle:checked)) .product-set-picker__price {
+              display: none;
+            }
+            .product-set-picker__card:not(:has(.product-set-picker__toggle:checked)) .product-set-picker__info {
+              justify-content: center;
+            }
             .product-set-picker__checkbox-ui {
               flex-shrink: 0;
               width: 2.4rem;

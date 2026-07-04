@@ -8,6 +8,7 @@
   @param product {Product}
 {% endcomment %}
 {%- liquid
+  assign gallery_aspect_ratio = gallery_aspect_ratio | default: '4 / 5'
   assign preview = media_item
   if media_item.preview_image != blank
     assign preview = media_item.preview_image
@@ -48,7 +49,7 @@
 >
   <div
     class="product__media-container blocks-radius media-type-image"
-    style="--aspect-ratio: 4 / 5 ;"
+    style="--aspect-ratio: {{ gallery_aspect_ratio }};"
   >
     <motion-element data-motion="zoom-out-sm" class="product__media media-wrapper">
       {{

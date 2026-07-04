@@ -161,12 +161,19 @@
     return null;
   }
 
+  function formatFromPriceLabel(priceHtml) {
+    const tpl = window.FoxTheme?.variantStrings?.fromPriceHtml;
+    if (!tpl || !String(tpl).includes('[price]')) return priceHtml;
+    return String(tpl).replace('[price]', priceHtml);
+  }
+
   function formatPriceHtml(variant) {
     const mf = window.FoxTheme?.settings?.moneyFormat || '${{amount}}';
     const fmt = window.FoxTheme?.Currency?.formatMoney;
     if (!variant || typeof fmt !== 'function') return '';
 
     const price = fmt(variant.price, mf);
+    const priceLabel = formatFromPriceLabel(price);
     const onSale = variant.compare_at_price && variant.compare_at_price > variant.price;
     if (onSale) {
       const compare = fmt(variant.compare_at_price, mf);
@@ -174,14 +181,14 @@
         `<div class="f-price f-price--on-sale product-set-picker__f-price">` +
         `<div class="f-price__sale">` +
         `<span class="f-price-item f-price-item--regular"><s>${compare}</s></span>` +
-        `<span class="f-price-item f-price-item--sale">${price}</span>` +
+        `<span class="f-price-item f-price-item--sale">${priceLabel}</span>` +
         `</div></div>`
       );
     }
     return (
       `<div class="f-price product-set-picker__f-price">` +
       `<div class="f-price__regular">` +
-      `<span class="f-price-item f-price-item--regular">${price}</span>` +
+      `<span class="f-price-item f-price-item--regular">${priceLabel}</span>` +
       `</div></div>`
     );
   }

@@ -5,6 +5,7 @@
   - product: {Object} Product liquid object
   - variant_images: {Array} Product images associated with a variant
   - vertical_thumbs_always: {Boolean} optional — force vertical thumb swiper (e.g. quick view drawer below 768px)
+  - gallery_aspect_ratio: {String} optional — main slide aspect ratio CSS value (default 4 / 5)
 
   Usage:
   {% render 'product-media-gallery' %}
@@ -12,6 +13,7 @@
 
 {%- liquid
   assign vertical_thumbs_always = vertical_thumbs_always | default: false
+  assign gallery_aspect_ratio = gallery_aspect_ratio | default: '4 / 5'
   assign we_mf_media_list = product.metafields.custom.we_temp_product_media.value
   assign we_use_metafield_gallery = false
   if settings.use_metafield_media and we_mf_media_list != blank and we_mf_media_list.size > 0
@@ -135,7 +137,8 @@
                 desktop_layout: media_layout,
                 mobile_layout: mobile_thumbnails,
                 enable_image_zoom: enable_image_zoom,
-                media_width: media_width
+                media_width: media_width,
+                gallery_aspect_ratio: gallery_aspect_ratio
               %}
             {%- endfor -%}
           {% endpaginate %}
@@ -151,7 +154,8 @@
               loop: section.settings.enable_video_looping,
               modal_id: section.id,
               xr_button: true,
-              media_width: media_width
+              media_width: media_width,
+              gallery_aspect_ratio: gallery_aspect_ratio
             %}
           {%- endfor -%}
         {%- endif -%}

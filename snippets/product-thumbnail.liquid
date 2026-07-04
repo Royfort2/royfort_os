@@ -22,6 +22,7 @@
   %}
 {% endcomment %}
 {%- liquid
+  assign gallery_aspect_ratio = gallery_aspect_ratio | default: '4 / 5'
   assign desktop_columns = 1
   if desktop_layout == 'columns' and media_count > 1
     assign desktop_columns = 2
@@ -62,7 +63,7 @@
 >
   <div
     class="product__media-container blocks-radius media-type-{{ media.media_type }}"
-    style="--aspect-ratio: 4 / 5 ;"
+    style="--aspect-ratio: {{ gallery_aspect_ratio }};"
   >
     {%- case media.media_type -%}
       {%- when 'model' -%}
