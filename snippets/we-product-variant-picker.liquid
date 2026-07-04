@@ -72,6 +72,38 @@
       assign pdp_qty_anchor_position = product.options_with_values.first.position
     endif
 
+    assign we_non_color_dropdown_count = 0
+    assign we_pdp_qty_layout = 'none'
+    if block.settings.picker_type == 'custom_dropdown'
+      for we_count_opt in product.options_with_values
+        assign we_count_name = we_count_opt.name | downcase | strip
+        assign we_count_is_color = false
+        if settings.color_swatch_trigger != blank
+          assign we_count_triggers = settings.color_swatch_trigger | downcase | split: ','
+          assign we_count_hit = we_count_triggers | where: we_count_name | first
+          if we_count_hit != blank
+            assign we_count_is_color = true
+          elsif we_count_name contains 'colour'
+            assign we_count_triggers = settings.color_swatch_trigger | replace: 'color', 'colour' | downcase | split: ','
+            assign we_count_hit = we_count_triggers | where: we_count_name | first
+            if we_count_hit != blank
+              assign we_count_is_color = true
+            endif
+          endif
+        endif
+        unless we_count_is_color
+          assign we_non_color_dropdown_count = we_non_color_dropdown_count | plus: 1
+        endunless
+      endfor
+    endif
+    if pdp_set_addon_card
+      assign we_pdp_qty_layout = 'addon'
+    elsif we_non_color_dropdown_count == 1
+      assign we_pdp_qty_layout = 'paired'
+    elsif we_non_color_dropdown_count >= 2
+      assign we_pdp_qty_layout = 'separate'
+    endif
+
     assign line_color_option_index = 0
     if settings.color_swatch_trigger != blank
       assign trigger_list_cc = settings.color_swatch_trigger | downcase | split: ','
@@ -131,6 +163,10 @@
     data-sold-out-label="{{ 'products.product.sold_out' | t | escape }}"
     {% if pdp_set_addon_card %}
       data-pdp-set-addon-card="true"
+    {% endif %}
+    {% if we_pdp_qty_layout != 'none' and we_pdp_qty_layout != 'addon' %}
+      data-pdp-qty-layout="{{ we_pdp_qty_layout }}"
+      data-pdp-qty-anchor-position="{{ pdp_qty_anchor_position }}"
     {% endif %}
   >
     {%- liquid
@@ -265,13 +301,6 @@
             endif
           endif
         endif
-
-        assign is_pdp_qty_option = false
-        unless pdp_set_addon_card
-          if option.position == pdp_qty_anchor_position
-            assign is_pdp_qty_option = true
-          endif
-        endunless
 
         assign show_selected_value_in_label = false
         if picker_type == 'swatch' or picker_type == 'color' or picker_type == 'button'
@@ -461,73 +490,88 @@
                   </div>
                 </div>
               </details>
-              {% if is_pdp_qty_option %}
-                <div
-                  class="we-quantity-selector"
-                  data-qty-unit-short="{{ qty_unit_short | escape }}"
-                >
-                  <details
-                    class="we-select-container"
-                    data-radio-group-name="quantity-{{ product.id }}"
-                  >
-                    <summary class="we-select-container__summary">
-                      1&nbsp;{{ qty_unit_short }}
-                    </summary>
-                    <div class="we-select-mobile-portal">
-                      <div class="we-select-mobile-backdrop" aria-hidden="true"></div>
-                      <div class="we-select-mobile-sheet">
-                        <div class="we-select-mobile-sheet__header">
-                          <p
-                            class="we-select-mobile-sheet__title"
-                            id="WeSelectSheetTitle-{{ product.id }}-quantity"
-                          >
-                            {{ 'products.product.quantity.label' | t }}
-                          </p>
-                          <button
-                            type="button"
-                            class="we-select-mobile-sheet__close"
-                            aria-label="{{ 'accessibility.close' | t }}"
-                          >
-                            {% render 'icon-close', size: 'small' %}
-                          </button>
-                        </div>
-                        <div class="we-select">
-                          {% for i in (1..10) %}
-                            <div class="we-select__item">
-                              <input
-                                type="radio"
-                                id="quantity-{{ product.id }}-{{ forloop.index0 }}"
-                                name="quantity-{{ product.id }}"
-                                value="{{ i }}"
-                                data-we-qty-selector
-                              >
-                              <label
-                                class="we-select__label we-select__label--qty"
-                                for="quantity-{{ product.id }}-{{ forloop.index0 }}"
-                              >
-                                <span class="we-select__label-primary">
-                                  <span class="we-select__qty-line we-select__qty-line--short"
-                                    >{{ i }}&nbsp;{{ qty_unit_short -}}
-                                  </span>
-                                  <span class="we-select__qty-line we-select__qty-line--long"
-                                    >{{ i }}&nbsp;{{ qty_unit_long -}}
-                                  </span>
-                                </span>
-                              </label>
-                            </div>
-                          {% endfor %}
-                        </div>
-                      </div>  
-                    </div>
-                  </details>
-                </div>
-              {% endif %}
             </div>
         {%- endcase -%}
       </{{ tag_fieldset }}>
+      {%- if we_pdp_qty_layout == 'paired' and option.position == pdp_qty_anchor_position -%}
+        {%- liquid
+          assign pdp_qr = we_active_variant.quantity_rule
+          assign pdp_q_min = pdp_qr.min | default: 1
+          if pdp_q_min < 1
+            assign pdp_q_min = 1
+          endif
+          assign pdp_q_max = pdp_qr.max | default: 10
+          if pdp_q_max == blank or pdp_q_max == 0
+            assign pdp_q_max = 10
+          endif
+          if pdp_q_max > 10
+            assign pdp_q_max = 10
+          endif
+          if pdp_q_max < pdp_q_min
+            assign pdp_q_max = pdp_q_min
+          endif
+          assign pdp_q_inc = pdp_qr.increment | default: 1
+          if pdp_q_inc < 1
+            assign pdp_q_inc = 1
+          endif
+        -%}
+        <div class="product-form__input product-form__input--quantity pdp-we-main-qty pdp-we-main-qty--paired">
+          <label class="form__label">
+            <span class="option-name">{{ 'products.product.quantity.label' | t }}:</span>
+          </label>
+          <div class="pdp-inline-quantity pdp-we-main-qty__select">
+            {% render 'pdp-inline-quantity-we-select',
+              id_ns: id_ns,
+              product_form_id: product_form_id,
+              option_position: 'qty',
+              pdp_q_min: pdp_q_min,
+              pdp_q_max: pdp_q_max,
+              pdp_q_inc: pdp_q_inc
+            %}
+          </div>
+        </div>
+      {%- endif -%}
         {%- break -%}
       {%- endfor -%}
     {%- endfor -%}
+    {%- if we_pdp_qty_layout == 'separate' -%}
+      {%- liquid
+        assign pdp_qr = we_active_variant.quantity_rule
+        assign pdp_q_min = pdp_qr.min | default: 1
+        if pdp_q_min < 1
+          assign pdp_q_min = 1
+        endif
+        assign pdp_q_max = pdp_qr.max | default: 10
+        if pdp_q_max == blank or pdp_q_max == 0
+          assign pdp_q_max = 10
+        endif
+        if pdp_q_max > 10
+          assign pdp_q_max = 10
+        endif
+        if pdp_q_max < pdp_q_min
+          assign pdp_q_max = pdp_q_min
+        endif
+        assign pdp_q_inc = pdp_qr.increment | default: 1
+        if pdp_q_inc < 1
+          assign pdp_q_inc = 1
+        endif
+      -%}
+      <div class="product-form__input product-form__input--quantity pdp-we-main-qty pdp-we-main-qty--separate">
+        <label class="form__label">
+          <span class="option-name">{{ 'products.product.quantity.label' | t }}:</span>
+        </label>
+        <div class="pdp-inline-quantity pdp-we-main-qty__select">
+          {% render 'pdp-inline-quantity-we-select',
+            id_ns: id_ns,
+            product_form_id: product_form_id,
+            option_position: 'qty',
+            pdp_q_min: pdp_q_min,
+            pdp_q_max: pdp_q_max,
+            pdp_q_inc: pdp_q_inc
+          %}
+        </div>
+      </div>
+    {%- endif -%}
     {%- if pdp_set_addon_card -%}
       <div class="product-form__input product-form__input--quantity pdp-set-addon-qty">
         <label class="form__label visually-hidden" for="AddonQty-{{ id_ns }}">

@@ -57,6 +57,21 @@
     return 0;
   }
 
+  function getOptionGroupWraps(variantSelects) {
+    const wraps = [];
+    if (!variantSelects) return wraps;
+    variantSelects.querySelectorAll(':scope > .product-form__input').forEach((wrap) => {
+      const hasOption =
+        wrap.querySelector('select[name^="options"]') ||
+        wrap.querySelector('input[type="radio"][data-option-value-id]') ||
+        wrap.querySelector(
+          'details.we-select-container[data-radio-group-name]:not([data-radio-group-name^="quantity-"])'
+        );
+      if (hasOption) wraps.push(wrap);
+    });
+    return wraps;
+  }
+
   function getSelectedOptionValues(variantSelects) {
     const byPosition = {};
     let maxPos = 0;
@@ -156,17 +171,17 @@
       return variants.length === 1;
     }
     if (vs.tagName === 'VARIANT-SELECTS') {
-      const groups = vs.querySelectorAll(':scope > .product-form__input');
-      if (groups.length === 0) {
+      const optionGroups = getOptionGroupWraps(vs);
+      if (optionGroups.length === 0) {
         const fromScript = parseDataSelectedVariant(vs);
         return fromScript?.id != null && fromScript.id !== '';
       }
       const values = getSelectedOptionValues(vs);
-      if (values.length >= groups.length) return true;
+      if (values.length >= optionGroups.length) return true;
       /** Alternate path: `<variant-selects>.selectedOptionValues` uses option value ids (swatches, etc.). */
       try {
         const sel = vs.selectedOptionValues;
-        if (Array.isArray(sel) && sel.length >= groups.length) return true;
+        if (Array.isArray(sel) && sel.length >= optionGroups.length) return true;
       } catch (e) {
         /* ignore */
       }

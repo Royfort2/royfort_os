@@ -67,6 +67,36 @@
       assign pdp_qty_anchor_position = product.options_with_values.first.position
     endif
 
+    assign we_non_color_dropdown_count = 0
+    assign we_pdp_qty_layout = 'none'
+    if block.settings.picker_type == 'custom_dropdown'
+      for we_count_opt in product.options_with_values
+        assign we_count_name = we_count_opt.name | downcase | strip
+        assign we_count_is_color = false
+        if settings.color_swatch_trigger != blank
+          assign we_count_triggers = settings.color_swatch_trigger | downcase | split: ','
+          assign we_count_hit = we_count_triggers | where: we_count_name | first
+          if we_count_hit != blank
+            assign we_count_is_color = true
+          elsif we_count_name contains 'colour'
+            assign we_count_triggers = settings.color_swatch_trigger | replace: 'color', 'colour' | downcase | split: ','
+            assign we_count_hit = we_count_triggers | where: we_count_name | first
+            if we_count_hit != blank
+              assign we_count_is_color = true
+            endif
+          endif
+        endif
+        unless we_count_is_color
+          assign we_non_color_dropdown_count = we_non_color_dropdown_count | plus: 1
+        endunless
+      endfor
+    endif
+    if we_non_color_dropdown_count == 1
+      assign we_pdp_qty_layout = 'paired'
+    elsif we_non_color_dropdown_count >= 2
+      assign we_pdp_qty_layout = 'separate'
+    endif
+
     assign size_option_name = block.settings.size_title | downcase
     assign size_chart_content = product.metafields.foxtheme.size_chart.value.content
     assign size_chart_modal_id = 'SizeChartModal-' | append: block.id | append: '-' | append: picker_id_suffix
@@ -131,6 +161,9 @@
     data-update-url="{% if update_url == false %}false{% else %}true{% endif %}"
     {% if block.settings.picker_type == 'custom_dropdown' %}
       data-pdp-qty-anchor-position="{{ pdp_qty_anchor_position }}"
+      {% if we_pdp_qty_layout != 'none' %}
+        data-pdp-qty-layout="{{ we_pdp_qty_layout }}"
+      {% endif %}
     {% endif %}
   >
     {%- for option in product.options_with_values -%}
@@ -238,7 +271,7 @@
         endunless
 
         assign is_pdp_qty_option = false
-        if option.position == pdp_qty_anchor_position
+        if we_pdp_qty_layout == 'paired' and option.position == pdp_qty_anchor_position
           assign is_pdp_qty_option = true
         endif
         assign is_color_swatch_picker = false
@@ -256,11 +289,6 @@
               assign is_color_swatch_picker = true
             endif
           endif
-        endif
-
-        assign pdp_qty_row_active = false
-        if is_pdp_qty_option
-          assign pdp_qty_row_active = true
         endif
       -%}
       <{{ tag_fieldset }}
@@ -355,10 +383,6 @@
             {%- liquid
               assign opt_radio_name = 'vs-' | append: id_ns | append: '-o' | append: option.position
             -%}
-            {%- if pdp_qty_row_active -%}
-              <div class="pdp-variant-qty-row">
-                <div class="pdp-variant-qty-row__picker">
-            {%- endif -%}
             <details
               class="we-select-container"
               data-radio-group-name="{{ opt_radio_name | escape }}"
@@ -466,45 +490,87 @@
                 </div>
               </div>
             </details>
-            {%- if pdp_qty_row_active -%}
-                </div>
-                {%- liquid
-                  assign pdp_qr = we_active_variant.quantity_rule
-                  assign pdp_q_min = pdp_qr.min | default: 1
-                  if pdp_q_min < 1
-                    assign pdp_q_min = 1
-                  endif
-                  assign pdp_q_max = pdp_qr.max | default: 10
-                  if pdp_q_max == blank or pdp_q_max == 0
-                    assign pdp_q_max = 10
-                  endif
-                  if pdp_q_max > 10
-                    assign pdp_q_max = 10
-                  endif
-                  if pdp_q_max < pdp_q_min
-                    assign pdp_q_max = pdp_q_min
-                  endif
-                  assign pdp_q_inc = pdp_qr.increment | default: 1
-                  if pdp_q_inc < 1
-                    assign pdp_q_inc = 1
-                  endif
-                -%}
-                <div class="pdp-inline-quantity">
-                  {% render 'pdp-inline-quantity-we-select',
-                    id_ns: id_ns,
-                    product_form_id: product_form_id,
-                    option_position: option.position,
-                    pdp_q_min: pdp_q_min,
-                    pdp_q_max: pdp_q_max,
-                    pdp_q_inc: pdp_q_inc,
-                    pdp_set_bundle_context: pdp_set_bundle_context
-                  %}
-                </div>
-              </div>
-            {%- endif -%}
         {%- endcase -%}
       </{{ tag_fieldset }}>
+      {%- if is_pdp_qty_option -%}
+        {%- liquid
+          assign pdp_qr = we_active_variant.quantity_rule
+          assign pdp_q_min = pdp_qr.min | default: 1
+          if pdp_q_min < 1
+            assign pdp_q_min = 1
+          endif
+          assign pdp_q_max = pdp_qr.max | default: 10
+          if pdp_q_max == blank or pdp_q_max == 0
+            assign pdp_q_max = 10
+          endif
+          if pdp_q_max > 10
+            assign pdp_q_max = 10
+          endif
+          if pdp_q_max < pdp_q_min
+            assign pdp_q_max = pdp_q_min
+          endif
+          assign pdp_q_inc = pdp_qr.increment | default: 1
+          if pdp_q_inc < 1
+            assign pdp_q_inc = 1
+          endif
+        -%}
+        <div class="product-form__input product-form__input--quantity pdp-we-main-qty pdp-we-main-qty--paired">
+          <label class="form__label">
+            <span class="option-name">{{ 'products.product.quantity.label' | t }}:</span>
+          </label>
+          <div class="pdp-inline-quantity pdp-we-main-qty__select">
+            {% render 'pdp-inline-quantity-we-select',
+              id_ns: id_ns,
+              product_form_id: product_form_id,
+              option_position: 'qty',
+              pdp_q_min: pdp_q_min,
+              pdp_q_max: pdp_q_max,
+              pdp_q_inc: pdp_q_inc,
+              pdp_set_bundle_context: pdp_set_bundle_context
+            %}
+          </div>
+        </div>
+      {%- endif -%}
     {%- endfor -%}
+    {%- if we_pdp_qty_layout == 'separate' -%}
+      {%- liquid
+        assign pdp_qr = we_active_variant.quantity_rule
+        assign pdp_q_min = pdp_qr.min | default: 1
+        if pdp_q_min < 1
+          assign pdp_q_min = 1
+        endif
+        assign pdp_q_max = pdp_qr.max | default: 10
+        if pdp_q_max == blank or pdp_q_max == 0
+          assign pdp_q_max = 10
+        endif
+        if pdp_q_max > 10
+          assign pdp_q_max = 10
+        endif
+        if pdp_q_max < pdp_q_min
+          assign pdp_q_max = pdp_q_min
+        endif
+        assign pdp_q_inc = pdp_qr.increment | default: 1
+        if pdp_q_inc < 1
+          assign pdp_q_inc = 1
+        endif
+      -%}
+      <div class="product-form__input product-form__input--quantity pdp-we-main-qty pdp-we-main-qty--separate">
+        <label class="form__label">
+          <span class="option-name">{{ 'products.product.quantity.label' | t }}:</span>
+        </label>
+        <div class="pdp-inline-quantity pdp-we-main-qty__select">
+          {% render 'pdp-inline-quantity-we-select',
+            id_ns: id_ns,
+            product_form_id: product_form_id,
+            option_position: 'qty',
+            pdp_q_min: pdp_q_min,
+            pdp_q_max: pdp_q_max,
+            pdp_q_inc: pdp_q_inc,
+            pdp_set_bundle_context: pdp_set_bundle_context
+          %}
+        </div>
+      </div>
+    {%- endif -%}
     <script type="application/json" data-selected-variant>
       {{- we_active_variant | json -}}
     </script>

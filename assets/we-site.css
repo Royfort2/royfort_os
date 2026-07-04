@@ -1549,12 +1549,12 @@ layout-switcher .btn::after {
 }
 
 .we-variant-picker__dropdown-container {
-    display: flex;
-    gap: 0.4rem;
+    display: block;
+    width: 100%;
 }
 
 .we-variant-picker__dropdown-container .we-select-container {
-    flex: 1;
+    width: 100%;
 }
 
 .we-quantity-selector {

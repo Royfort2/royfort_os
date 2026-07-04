@@ -87,7 +87,16 @@
   /** Prefer live picker state; fall back to SSR JSON when options are not fully chosen. */
   function resolveVariantFromPicker(vs) {
     const variants = getVariantsArray(vs);
-    const groups = vs.querySelectorAll(':scope > .product-form__input');
+    const groups = [];
+    vs.querySelectorAll(':scope > .product-form__input').forEach((wrap) => {
+      const hasOption =
+        wrap.querySelector('select[name^="options"]') ||
+        wrap.querySelector('input[type="radio"][data-option-value-id]') ||
+        wrap.querySelector(
+          'details.we-select-container[data-radio-group-name]:not([data-radio-group-name^="quantity-"])'
+        );
+      if (hasOption) groups.push(wrap);
+    });
     if (!variants?.length || !groups.length) return parseSelectedVariant(vs);
 
     const productInfo = vs.closest('product-info');
