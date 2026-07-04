@@ -1,15 +1,7 @@
-{%- liquid
-  assign we_is_set_product = false
-  if product.metafields.custom.pdp_set_products != blank
-    assign we_is_set_product = true
-  endif
--%}
-{%- if section.settings.visibility != 'hide' and we_is_set_product == false -%}
+{%- if section.settings.visibility != 'hide' and request.page_type == 'product' -%}
   <link rel="stylesheet" href="{{ 'section-sticky-atc-bar.css' | asset_url }}">
   <script src="{{ 'sticky-atc-bar.js' | asset_url }}" defer="defer"></script>
   {%- liquid
-    assign show_dynamic_checkout_buttons = section.settings.show_dynamic_checkout_buttons
-
     assign wrap_class = ''
     assign visibility = section.settings.visibility
 
@@ -19,185 +11,51 @@
       when 'mobile'
         assign wrap_class = ' block md:hidden'
     endcase
+
+    assign sticky_price_use_variant = true
+    if product.metafields.custom.we_pdp_preis_nach_grose == true
+      assign sticky_price_use_variant = false
+    elsif product.selected_variant == blank and product.price_varies
+      assign sticky_price_use_variant = false
+    endif
   -%}
-  <div class="sticky-atc-bar{{ wrap_class }}{% if show_dynamic_checkout_buttons %} sticky-atc-bar--with-dynamic-buttons{% endif %} page-width page-width--{{ section.settings.container }}">
+  <div class="sticky-atc-bar sticky-atc-bar--basic{{ wrap_class }} page-width page-width--{{ section.settings.container }}">
     <sticky-atc-bar
       class="sticky-atc-bar__inner"
       data-product-id="{{ product.id }}"
       data-section="{{ section.id }}"
-      data-url="{{ product.url }}"
+      data-mode="basic"
     >
-      <div class="sticky-atc-bar__product items-center gap-5">
-        <div class="sticky-atc-bar__product-image media-wrapper blocks-radius-sm" style="--aspect-ratio: 1">
-          {%- if product.featured_image -%}
-            {{
-              product.featured_media
-              | image_url: width: 180
-              | image_tag:
-                loading: 'lazy',
-                fetchpriority: 'low',
-                class: 'motion-reduce',
-                widths: '90, 180',
-                sizes: '90px',
-                is: 'image-lazy'
-            }}
-          {%- else -%}
-            {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
-          {%- endif -%}
-        </div>
-        <div class="sticky-atc-bar__product-info">
-          <h3 class="sticky-atc-bar__product-title text-pcard-title">
-            {{ product.title }}
-          </h3>
-          {%- liquid
-            assign sticky_price_use_variant = true
-            if product.metafields.custom.we_pdp_preis_nach_grose == true
-              assign sticky_price_use_variant = false
-            elsif product.selected_variant == blank and product.price_varies
-              assign sticky_price_use_variant = false
-            endif
-          -%}
-          {%- render 'price', product: product, section: section, use_variant: sticky_price_use_variant -%}
-        </div>
+      <div class="sticky-atc-bar__meta">
+        <h3 class="sticky-atc-bar__product-title text-pcard-title">
+          {{ product.title | escape }}
+        </h3>
+        <p class="sticky-atc-bar__breakdown" data-sticky-atc-breakdown hidden></p>
       </div>
-      {%- liquid
-        assign sticky_variant_label = product.variants.first.title
-        for variant in product.variants
-          if variant.title.size > sticky_variant_label.size
-            assign sticky_variant_label = variant.title
-          endif
-        endfor
-      -%}
-      {%- assign product_form_id = 'product-form-' | append: section.id -%}
-      {%- form 'product',
-        product,
-        id: product_form_id,
-        class: 'sticky-atc-bar__form',
-        data-type: 'add-to-cart-form',
-        is: 'product-form'
-      -%}
-        <div class="sticky-atc-bar__actions">
-          <div class="select sticky-atc-bar__variant-select-wrap{% if product.has_only_default_variant %} hidden{% endif %}">
-          <span class="sticky-atc-bar__variant-width" aria-hidden="true">{{ sticky_variant_label | escape }}</span>
-      {%- liquid
-        assign we_sticky_pas_mode = false
-        if product.metafields.custom.we_pdp_preis_nach_grose == true
-          assign we_sticky_pas_mode = true
-        endif
-      -%}
-          <select
-            name="id"
-            class="sticky-atc-bar__variant-select form-control form-control--select"
-          >
-            {%- if we_sticky_pas_mode -%}
-              <option value="" selected disabled>
-                {{- 'products.product.select_variant_placeholder' | t -}}
-              </option>
+      <div class="sticky-atc-bar__price" data-sticky-atc-price>
+        {%- render 'price', product: product, section: section, use_variant: sticky_price_use_variant -%}
+      </div>
+      <button
+        type="button"
+        class="product-form__submit sticky-atc-bar__submit btn btn--primary"
+        data-sticky-atc-submit
+        {% if product.selected_or_first_available_variant.available == false %}
+          disabled
+        {% endif %}
+      >
+        <span class="pdp-atc-label">
+          <span class="pdp-atc-label__main">
+            {%- if product.selected_or_first_available_variant.available -%}
+              {{ 'products.product.add_to_cart' | t }}
+            {%- else -%}
+              {{ 'products.product.sold_out' | t }}
             {%- endif -%}
-            {%- for variant in product.variants -%}
-              {%- liquid
-                assign selected = false
-                unless we_sticky_pas_mode
-                  if variant.id == product.selected_or_first_available_variant.id
-                    assign selected = true
-                  endif
-                endunless
-              -%}
-              <option
-                value="{{ variant.id }}"
-                {% if selected %}
-                  selected="true"
-                {% endif %}
-              >
-                {{ variant.title }}
-              </option>
-            {%- endfor -%}
-          </select>
-          {%- render 'icon-caret-down' -%}
-          </div>
-          {%- if section.settings.show_quantity -%}
-            <div id="QuantitySticky-{{ section.id }}" class="sticky-atc-bar__quantity">
-            {%- liquid
-              assign qty_class = ''
-              unless product.has_only_default_variant
-                assign qty_class = 'hidden md:flex'
-              endunless
-
-              assign cart_qty = cart | item_count_for_variant: product.selected_or_first_available_variant.id
-            -%}
-            <quantity-input
-              class="quantity {{ qty_class }}"
-              data-section-id="{{ section.id }}"
-              data-product-id="{{ product.id }}"
-            >
-              <button class="quantity__button" name="minus" type="button">
-                <span class="visually-hidden">
-                  {{- 'products.product.quantity.decrease' | t: product: product.title | escape -}}
-                </span>
-                {% render 'icon-minus' %}
-              </button>
-              <input
-                class="quantity__input"
-                type="number"
-                name="quantity"
-                id="Quantity-{{ section.id }}"
-                data-cart-quantity="{{ cart_qty }}"
-                step="{{ product.selected_or_first_available_variant.quantity_rule.increment }}"
-                value="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
-                data-quantity-variant-id="{{ product.selected_or_first_available_variant.id }}"
-                data-min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
-                min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
-                {% if product.selected_or_first_available_variant.quantity_rule.max != null %}
-                  data-max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"
-                  max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"
-                {% endif %}
-                inputmode="numeric"
-                autocomplete="off"
-                form="{{ product_form_id }}"
-              >
-              <button class="quantity__button" name="plus" type="button">
-                <span class="visually-hidden">
-                  {{- 'products.product.quantity.increase' | t: product: product.title | escape -}}
-                </span>
-                {% render 'icon-plus' %}
-              </button>
-            </quantity-input>
-            </div>
-          {% endif %}
-          <div class="product-form__buttons flex items-center sticky-atc-bar__submit-wrap">
-          {%- if section.settings.show_atc_button -%}
-            <button
-              type="submit"
-              name="add"
-              class="product-form__submit sticky-atc-bar__submit btn {% if show_dynamic_checkout_buttons and product.selling_plan_groups == empty %}btn--secondary{% else %}btn--primary{% endif %}"
-              {% if product.selected_or_first_available_variant.available == false %}
-                disabled
-              {% endif %}
-            >
-              <span>
-                {%- if product.selected_or_first_available_variant.available -%}
-                  {{ 'products.product.add_to_cart' | t }}
-                {%- else -%}
-                  {{ 'products.product.sold_out' | t }}
-                {%- endif -%}
-              </span>
-              {% render 'loading-spinner' %}
-            </button>
-          {% endif %}
-          {%- if product.quantity_price_breaks_configured? != true -%}
-            {%- if show_dynamic_checkout_buttons -%}
-              <div class="product-form__button-dynamic hidden md:block">
-                {{ form | payment_button }}
-              </div>
-            {%- endif -%}
-          {%- endif -%}
-          </div>
-        </div>
-      {%- endform -%}
+          </span>
+          <span class="pdp-atc-label__count" hidden></span>
+        </span>
+        {%- render 'loading-spinner' -%}
+      </button>
     </sticky-atc-bar>
-    <script type="application/json">
-      {{ product.variants | json }}
-    </script>
   </div>
 {%- endif -%}
 {% schema %}
@@ -205,10 +63,6 @@
   "name": "t:sections.sticky-atc-bar.name",
   "limit": 1,
   "settings": [
-    {
-      "type": "paragraph",
-      "content": "[Read How-to](https://foxecom.link/MdDIC1D)"
-    },
     {
       "type": "select",
       "id": "container",
@@ -248,24 +102,6 @@
         }
       ],
       "default": "all"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_atc_button",
-      "label": "t:sections.sticky-atc-bar.settings.show_atc_button.label",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_dynamic_checkout_buttons",
-      "label": "t:sections.sticky-atc-bar.settings.show_dynamic_checkout_buttons.label",
-      "default": false
-    },
-    {
-      "type": "checkbox",
-      "id": "show_quantity",
-      "label": "t:sections.sticky-atc-bar.settings.show_quantity.label",
-      "default": true
     }
   ]
 }

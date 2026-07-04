@@ -933,6 +933,16 @@
     });
   }
 
+  function syncStickyAtcFromMain(productInfo) {
+    if (!productInfo?.dataset?.productId) return;
+    const sticky = document.querySelector(
+      `sticky-atc-bar[data-product-id="${productInfo.dataset.productId}"]`
+    );
+    if (sticky && typeof sticky.syncFromMain === 'function') {
+      sticky.syncFromMain();
+    }
+  }
+
   function refresh(form) {
     syncSetCartLineItems(form);
     updatePdpSetZwischensumme(form);
@@ -943,6 +953,7 @@
       } catch (e) {}
     }
     updatePdpSetSubmitButton(form);
+    syncStickyAtcFromMain(form.closest('product-info'));
   }
 
   /** Resolve `product-info` for portaled we-select radios (under `body`) via `data-vs-root`. */

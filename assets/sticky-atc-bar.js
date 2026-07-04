@@ -5,295 +5,121 @@ if (!customElements.get('sticky-atc-bar')) {
       constructor() {
         super();
         document.body.classList.add('sticky-atc-bar-enabled');
-
-        this.selectors = {
-          variantIdSelect: '[name="id"]',
-        };
       }
 
-      get quantityInput() {
-        return this.querySelector('quantity-input input');
-      }
-      get quantity() {
-        return this.querySelector('quantity-input');
-      }
-      get sectionId() {
-        return this.dataset.originalSection || this.dataset.section;
-      }
       get productId() {
         return this.getAttribute('data-product-id');
       }
-      get select() {
-        return this.querySelector('select');
-      }
-      get productForm() {
-        return this.querySelector('form[is="product-form"]');
-      }
 
       connectedCallback() {
-        this.productFormActions = document.querySelector(`.main-product-form[data-product-id="${this.productId}"]`);
         this.mainProductInfo = document.querySelector(`product-info[data-product-id="${this.productId}"]`);
+        this.productFormActions = document.querySelector(
+          `.main-product-form[data-product-id="${this.productId}"]`
+        );
         this.container = this.closest('.sticky-atc-bar');
-        this.submitButton = this.querySelector('[type="submit"]');
-        this.selectedVariantId = this.querySelector(this.selectors.variantIdSelect).value;
+        this.submitButton = this.querySelector('[data-sticky-atc-submit]');
 
-        this.variantData = this.getVariantData();
-        this.mainVariantSelects =
-          this.mainProductInfo && this.mainProductInfo.querySelector('variant-selects');
+        this.initVisibility();
+        this.bindSubmit();
+        this.bindSync();
 
-        this.init();
-        this.syncWithMainProductForm();
-
-        const pasMode = this.mainVariantSelects?.dataset?.wePdpPreisNachGrose === 'true';
-        if (pasMode && typeof this.mainProductInfo?.syncStickyPriceFromMain === 'function') {
-          requestAnimationFrame(() => this.mainProductInfo.syncStickyPriceFromMain());
-        }
-
-        this.select.addEventListener('change', () => {
-          if (this.isUpdating) return;
-          this.isUpdating = true;
-
-          const selectedVariantId = this.querySelector(this.selectors.variantIdSelect).value;
-          this.selectedVariantId = selectedVariantId;
-          const pasMode = this.mainVariantSelects?.dataset?.wePdpPreisNachGrose === 'true';
-
-          if (!selectedVariantId) {
-            if (pasMode && typeof this.mainProductInfo?.syncStickyPriceFromMain === 'function') {
-              this.mainProductInfo.syncStickyPriceFromMain();
-            }
-            this.isUpdating = false;
-            this.updateButton(true, '', true);
-            return;
-          }
-
-          this.currentVariant = this.variantData.find((variant) => variant.id === Number(selectedVariantId));
-
-          const synced =
-            this.mainProductInfo &&
-            typeof this.mainProductInfo.syncMainPickerFromVariant === 'function' &&
-            this.currentVariant &&
-            this.mainProductInfo.syncMainPickerFromVariant(this.currentVariant);
-
-          if (!synced) {
-            this.isUpdating = false;
-          } else {
-            setTimeout(() => {
-              this.isUpdating = false;
-            }, 5000);
-          }
-
-          if (this.currentVariant) {
-            this.updatePrice();
-          }
-
-          this.updateButton(true, '', false);
-          if (!this.currentVariant) {
-            this.updateButton(true, '', true);
-          } else {
-            this.updateButton(!this.currentVariant.available, FoxTheme.variantStrings.soldOut);
-          }
-
-          if (this.currentVariant) {
-            this.updateQuantityInput();
-          } else if (!synced) {
-            this.isUpdating = false;
-          }
-        });
-
-        const hasRequiredFields = this.validateMainProductRequiredFields();
-        if (hasRequiredFields) {
-          this.submitButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            this.productFormActions.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            setTimeout(() => {
-              this.productFormActions.requestSubmit();
-            }, 300);
-          });
-        }
+        requestAnimationFrame(() => this.syncFromMain());
       }
 
-      validateMainProductRequiredFields() {
-        const mainForm = this.mainProductInfo;
-        if (!mainForm) return true;
-        const requiredFields = mainForm.querySelectorAll('[data-custom-property]');
-        return requiredFields.length > 0;
-      }
+      initVisibility() {
+        const sectionId = this.mainProductInfo?.dataset?.section;
+        const observeTarget =
+          (sectionId && document.getElementById(`ProductSubmitButton-${sectionId}`)) ||
+          this.mainProductInfo?.querySelector('.product__block--buy_buttons .product-form__submit') ||
+          this.productFormActions;
 
-      updateQuantityInput() {
-        this.currentVariant = this.variantData.find((variant) => variant.id === Number(this.selectedVariantId));
-        fetch(`${this.getAttribute('data-url')}?variant=${this.currentVariant.id}&section_id=${this.sectionId}`)
-          .then((response) => response.text())
-          .then((responseText) => {
-            const parsedHTML = new DOMParser().parseFromString(responseText, 'text/html');
-            const quantity = document.querySelector(`#QuantitySticky-${this.sectionId}`);
-            const newQuantity = parsedHTML.querySelector(`#QuantitySticky-${this.sectionId}`);
-            if (newQuantity) {
-              quantity.innerHTML = newQuantity.innerHTML;
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-          })
-          .finally(() => {});
-      }
-
-      getVariantData() {
-        this.variantData =
-          this.variantData || JSON.parse(this.container.querySelector('[type="application/json"]').textContent);
-        return this.variantData;
-      }
-
-      init() {
-        if (!this.productFormActions) {
-          this.container.classList.add('sticky-atc-bar--show');
+        if (!observeTarget) {
+          this.container?.classList.add('sticky-atc-bar--show');
+          this.updateBarHeight();
           return;
         }
 
-        const mql = window.matchMedia(FoxTheme.config.mediaQueryMobile);
-        mql.onchange = this.checkDevice.bind(this);
-        this.checkDevice();
-
-        const rootMargin = `-80px 0px 0px 0px`;
         this.observer = new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
-              const method = entry.intersectionRatio !== 1 ? 'add' : 'remove';
-              this.container.classList[method]('sticky-atc-bar--show');
+              const scrolledPast = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+              this.container?.classList.toggle('sticky-atc-bar--show', scrolledPast);
             });
           },
-          { threshold: 1, rootMargin }
+          { threshold: 0 }
         );
-        this.setObserveTarget();
+        this.observer.observe(observeTarget);
+        this.updateBarHeight();
+        window.addEventListener('resize', () => this.updateBarHeight(), { passive: true });
       }
 
-      setObserveTarget() {
-        this.observer.observe(this.productFormActions);
-        this.observeTarget = this.productFormActions;
+      updateBarHeight() {
+        document.documentElement.style.setProperty('--sticky-atc-bar-height', `${this.clientHeight}px`);
       }
 
-      checkDevice(e) {
-        document.documentElement.style.setProperty('--sticky-atc-bar-height', this.clientHeight + 'px');
+      bindSubmit() {
+        this.submitButton?.addEventListener('click', (e) => {
+          e.preventDefault();
+          if (this.submitButton.disabled || !this.productFormActions) return;
+          this.productFormActions.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          setTimeout(() => this.productFormActions.requestSubmit(), 300);
+        });
       }
 
-      updateButton(disable = true, text, modifyClass = true) {
-        const productForm = this.querySelector('#product-form-sticky-atc-bar');
-        if (!productForm) return;
-
-        const addButton = productForm.querySelector('[name="add"]');
-        if (!addButton) return;
-
-        const addButtonText = addButton.querySelector('span');
-        if (disable) {
-          addButton.setAttribute('disabled', 'disabled');
-          if (text) addButtonText.textContent = text;
-        } else {
-          addButton.removeAttribute('disabled');
-          addButtonText.textContent = FoxTheme.variantStrings.addToCart;
-        }
-      }
-
-      updatePrice() {
-        const classes = {
-          onSale: 'f-price--on-sale',
-          soldOut: 'f-price--sold-out',
-        };
-        const selectors = {
-          priceWrapper: '.f-price',
-          salePrice: '.f-price-item--sale',
-          compareAtPrice: ['.f-price-item--regular'],
-          unitPriceWrapper: '.f-price__unit-wrapper',
-        };
-        const moneyFormat = FoxTheme.settings.moneyFormat;
-        const { priceWrapper, salePrice, unitPriceWrapper, compareAtPrice } = FoxTheme.utils.queryDomNodes(
-          selectors,
-          this
-        );
-        const unitPrice = unitPriceWrapper.querySelector('.f-price__unit');
-
-        const { compare_at_price, price, unit_price_measurement } = this.currentVariant;
-        const formattedPrice = FoxTheme.Currency.formatMoney(price, moneyFormat);
-
-        // On sale.
-        if (compare_at_price && compare_at_price > price) {
-          priceWrapper.classList.add(classes.onSale);
-        } else {
-          priceWrapper.classList.remove(classes.onSale);
-        }
-
-        // Sold out.
-        if (!this.currentVariant.available) {
-          priceWrapper.classList.add(classes.soldOut);
-        } else {
-          priceWrapper.classList.remove(classes.soldOut);
-        }
-
-        const regularPrice = priceWrapper.querySelector('.f-price__regular > .f-price-item--regular');
-        if (regularPrice) regularPrice.innerHTML = formattedPrice;
-        if (salePrice) salePrice.innerHTML = formattedPrice;
-
-        if (compareAtPrice && compareAtPrice.length && compare_at_price > price) {
-          const formattedCompare = FoxTheme.Currency.formatMoney(compare_at_price, moneyFormat);
-          compareAtPrice.forEach((item) => {
-            if (item.closest('s')) item.innerHTML = formattedCompare;
+      bindSync() {
+        document.addEventListener('pdp-set:refresh-submit', () => this.syncFromMain());
+        if (typeof FoxTheme !== 'undefined' && FoxTheme.pubsub?.PUB_SUB_EVENTS) {
+          FoxTheme.pubsub.subscribe(FoxTheme.pubsub.PUB_SUB_EVENTS.variantChange, () => {
+            requestAnimationFrame(() => this.syncFromMain());
           });
         }
-
-        if (unit_price_measurement && unitPrice) {
-          unitPriceWrapper.classList.remove('hidden');
-          const unitPriceContent = `<span>${FoxTheme.Currency.formatMoney(
-            this.currentVariant.unit_price,
-            moneyFormat
-          )}</span>/<span data-unit-price-base-unit>${FoxTheme.Currency.getBaseUnit(this.currentVariant)}</span>`;
-          unitPrice.innerHTML = unitPriceContent;
-        } else {
-          unitPriceWrapper.classList.add('hidden');
-        }
       }
 
-      syncWithMainProductForm() {
-        FoxTheme.pubsub.subscribe(FoxTheme.pubsub.PUB_SUB_EVENTS.variantChange, (event) => {
-          const mainSectionId =
-            this.mainProductInfo?.dataset?.originalSection || this.mainProductInfo?.dataset?.section;
-          const isMainProduct = event.data.sectionId === mainSectionId;
-          if (!isMainProduct) return;
+      syncFromMain() {
+        if (!this.mainProductInfo) {
+          this.updateBarHeight();
+          return;
+        }
 
-          if (this.isUpdating) {
-            this.isUpdating = false;
-          }
+        if (typeof this.mainProductInfo.syncStickyPriceFromMain === 'function') {
+          this.mainProductInfo.syncStickyPriceFromMain();
+        }
 
-          const variant = event.data.variant;
-          const variantInput = this.querySelector('[name="id"]');
+        const breakdownSrc = this.mainProductInfo.querySelector('.pdp-set-zwischensumme__breakdown');
+        const breakdownDst = this.querySelector('[data-sticky-atc-breakdown]');
+        if (breakdownDst) {
+          const text = breakdownSrc?.textContent?.trim() || '';
+          breakdownDst.textContent = text;
+          breakdownDst.hidden = !text;
+        }
 
-          this.currentVariant = variant;
-          if (variant?.id != null) {
-            variantInput.value = String(variant.id);
-            this.selectedVariantId = String(variant.id);
-          }
+        const sectionId = this.mainProductInfo.dataset.section;
+        const mainBtn = document.getElementById(`ProductSubmitButton-${sectionId}`);
+        const stickyBtn = this.submitButton;
+        if (mainBtn && stickyBtn) {
+          stickyBtn.disabled = mainBtn.disabled;
+          stickyBtn.style.pointerEvents = mainBtn.style.pointerEvents;
+          stickyBtn.style.opacity = mainBtn.style.opacity;
 
-          const pasMode = this.mainVariantSelects?.dataset?.wePdpPreisNachGrose === 'true';
-          if (pasMode && typeof this.mainProductInfo?.syncStickyPriceFromMain === 'function') {
-            this.mainProductInfo.syncStickyPriceFromMain();
-            const stickyRegular = this.querySelector('.f-price__regular .f-price-item--regular');
-            const stickyText = stickyRegular?.innerText?.trim().toLowerCase() || '';
-            if (variant && (stickyText.startsWith('ab') || !stickyText)) {
-              this.updatePrice();
+          const mainLabel = mainBtn.querySelector(':scope > span');
+          const stickyMain = stickyBtn.querySelector('.pdp-atc-label__main');
+          const stickyCount = stickyBtn.querySelector('.pdp-atc-label__count');
+          const mainMain = mainLabel?.querySelector('.pdp-atc-label__main');
+          const mainCount = mainLabel?.querySelector('.pdp-atc-label__count');
+
+          if (stickyMain && mainMain) {
+            stickyMain.textContent = mainMain.textContent;
+            if (stickyCount && mainCount) {
+              stickyCount.textContent = mainCount.textContent;
+              stickyCount.hidden = mainCount.hidden;
             }
-          } else if (variant) {
-            this.updatePrice();
+          } else if (mainLabel && stickyMain) {
+            stickyMain.textContent = mainLabel.textContent.trim();
+            if (stickyCount) stickyCount.hidden = true;
           }
+        }
 
-          this.updateButton(true, '', false);
-          if (!variant) {
-            this.updateButton(true, '', true);
-          } else {
-            this.updateButton(!variant.available, FoxTheme.variantStrings.soldOut);
-          }
-
-          if (variant) {
-            this.updateQuantityInput();
-          }
-        });
+        this.updateBarHeight();
       }
     }
   );

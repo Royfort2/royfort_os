@@ -1633,7 +1633,14 @@ if (!customElements.get('product-info')) {
               button.setAttribute('disabled', 'disabled');
               if (updateText && text) {
                 const stickySpan = button.querySelector(':scope > span');
-                if (stickySpan) stickySpan.textContent = this.decoded(text);
+                const stickyMain = stickySpan?.querySelector('.pdp-atc-label__main');
+                const stickyCount = stickySpan?.querySelector('.pdp-atc-label__count');
+                if (stickyMain) {
+                  stickyMain.textContent = this.decoded(text);
+                  if (stickyCount) stickyCount.hidden = true;
+                } else if (stickySpan) {
+                  stickySpan.textContent = this.decoded(text);
+                }
               }
               if (updateStyles) {
                 button.style.pointerEvents = 'none';

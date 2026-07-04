@@ -286,3 +286,111 @@ body.sticky-atc-bar-enabled {
     --page-padding: 5rem;
   }
 }
+
+/* Basic sticky ATC: title, optional breakdown, price, add-to-cart only */
+.sticky-atc-bar--basic .sticky-atc-bar__inner {
+  display: grid;
+  gap: 0.6rem 1.2rem;
+  padding: 0.8rem var(--page-padding, 1.6rem);
+  align-items: center;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'meta price'
+    'submit submit';
+}
+
+.sticky-atc-bar--basic .sticky-atc-bar__meta {
+  grid-area: meta;
+  min-width: 0;
+}
+
+.sticky-atc-bar--basic .sticky-atc-bar__product-title {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 150%;
+  letter-spacing: -0.14px;
+  color: #2e3192;
+  white-space: normal;
+}
+
+.sticky-atc-bar--basic .sticky-atc-bar__breakdown {
+  margin: 0.2rem 0 0;
+  font-size: 1.2rem;
+  font-weight: 400;
+  line-height: 150%;
+  letter-spacing: -0.12px;
+  color: rgb(var(--color-foreground) / 0.65);
+}
+
+.sticky-atc-bar--basic .sticky-atc-bar__price {
+  grid-area: price;
+  align-self: center;
+  flex-shrink: 0;
+}
+
+.sticky-atc-bar--basic .sticky-atc-bar__price .f-price {
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 150%;
+  letter-spacing: -0.14px;
+  color: #2e3192;
+  text-transform: none;
+}
+
+.sticky-atc-bar--basic .sticky-atc-bar__price .f-price-item--regular,
+.sticky-atc-bar--basic .sticky-atc-bar__price .f-price-item--sale {
+  color: #2e3192;
+}
+
+.sticky-atc-bar--basic .sticky-atc-bar__submit {
+  grid-area: submit;
+  width: 100%;
+  font-weight: 600;
+}
+
+.sticky-atc-bar--basic .sticky-atc-bar__submit .pdp-atc-label__count:not([hidden]) {
+  margin-inline-start: 0.25em;
+}
+
+@media (max-width: 989.98px) {
+  .sticky-atc-bar--basic .sticky-atc-bar__breakdown {
+    display: none !important;
+  }
+
+  .sticky-atc-bar--basic .sticky-atc-bar__submit:has(.pdp-atc-label__count:not([hidden])) {
+    white-space: normal !important;
+    height: auto;
+    min-height: var(--buttons-height);
+    padding-block: 1rem;
+  }
+
+  .sticky-atc-bar--basic .sticky-atc-bar__submit:has(.pdp-atc-label__count:not([hidden])) .pdp-atc-label {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.25;
+  }
+
+  .sticky-atc-bar--basic .sticky-atc-bar__submit:has(.pdp-atc-label__count:not([hidden])) .pdp-atc-label__count {
+    margin-inline-start: 0;
+  }
+}
+
+@media (min-width: 990px) {
+  .sticky-atc-bar--basic .sticky-atc-bar__inner {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    grid-template-areas: 'meta price submit';
+    padding-block: 1rem;
+  }
+
+  .sticky-atc-bar--basic .sticky-atc-bar__breakdown:not([hidden]) {
+    display: block;
+  }
+
+  .sticky-atc-bar--basic .sticky-atc-bar__submit {
+    width: auto;
+    white-space: nowrap;
+    padding-inline: 2.4rem;
+  }
+}
