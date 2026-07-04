@@ -154,7 +154,9 @@
                 data-product-type="{{ product.type | escape }}"
                 data-product-title="{{ product.title | escape }}"
                 style="display: block;"
-              ></span>
+              >
+                {% render 'stamped-reviews-badge-zero' %}
+              </span>
             {%- endif -%}
           </div>
         {%- when 'icon_info_text' -%}

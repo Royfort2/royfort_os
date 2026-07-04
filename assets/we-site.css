@@ -366,6 +366,26 @@
 /* Stamped collection badge — reserve space; widget injects stars + rating + count */
 .we-product-card__stamped .stamped-product-reviews-badge {
     display: block !important;
+    min-height: 1.2rem;
+}
+
+/* Stamped widget.min.css hides zero-rating badges — always show on cards + PDP */
+.we-product-card__stamped .stamped-badge[data-rating='0'],
+.we-product-card__stamped .stamped-badge[data-rating='0.0'],
+.we-product-card__stamped .stamped-badge[data-rating='0,0'],
+.we-product-card__stamped .stamped-badge[data-we-stamped-zero-fallback='true'],
+.product__block--stamped_reviews .stamped-badge[data-rating='0'],
+.product__block--stamped_reviews .stamped-badge[data-rating='0.0'],
+.product__block--stamped_reviews .stamped-badge[data-rating='0,0'],
+.product__block--stamped_reviews .stamped-badge[data-we-stamped-zero-fallback='true'] {
+    display: flex !important;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.we-product-card__stamped .stamped-fa-star-o,
+.product__block--stamped_reviews .stamped-fa-star-o {
+    opacity: 0.45;
 }
 
 .product-card.we-product-card:not(.product-card--list) .we-product-card__main-actions {
@@ -487,6 +507,19 @@
 .product__block--stamped_reviews .stamped-badge-caption[data-reviews][data-label][data-version="2"]:after {
     content: ')' !important;
     margin-left: 0.2rem;
+}
+
+/* Zero reviews: one pair of parentheses — overrides rule above (higher specificity + no trailing ")") */
+.we-product-card .stamped-badge-caption[data-reviews='0'][data-label][data-version='2']::before,
+.product__block--stamped_reviews .stamped-badge-caption[data-reviews='0'][data-label][data-version='2']::before {
+    content: '(0)' !important;
+    margin-right: 0;
+}
+
+.we-product-card .stamped-badge-caption[data-reviews='0'][data-label][data-version='2']::after,
+.product__block--stamped_reviews .stamped-badge-caption[data-reviews='0'][data-label][data-version='2']::after {
+    content: none !important;
+    margin-left: 0;
 }
 
 

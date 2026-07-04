@@ -751,7 +751,9 @@
             data-product-type="{{ product.type | escape }}"
             data-product-title="{{ product.title | escape }}"
             style="display: block;"
-          ></span>
+          >
+            {% render 'stamped-reviews-badge-zero' %}
+          </span>
         </div>
       {%- endif -%}
       <span class="product-card__title text-pcard-title">
