@@ -204,7 +204,7 @@
   .product__block--price .f-price .f-price__sale {
     font-size: 1.6rem;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 600;
     line-height: 150%;
     letter-spacing: -0.16px;
     text-transform: uppercase;
@@ -854,12 +854,12 @@
     gap: 1.2rem 2rem;
   }
   .pdp-set-zwischensumme__title {
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     font-style: normal;
     font-weight: 600;
     line-height: 150%;
     text-transform: none;
-    letter-spacing: -0.14px;
+    letter-spacing: -0.16px;
     color: #2e3192;
   }
   .pdp-set-zwischensumme__prices {
@@ -880,7 +880,7 @@
     text-transform: uppercase;
   }
   .pdp-set-zwischensumme__sale {
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     font-style: normal;
     font-weight: 600;
     line-height: 150%;
@@ -910,7 +910,7 @@
     margin-bottom: 0 !important;
   }
   product-info[id^='MainProduct-'] .product__block--we_variant_picker:has(.pdp-set-zwischensumme) + .product__block--buy_buttons {
-    margin-top: 0.8rem !important;
+    margin-top: 1.2rem !important;
   }
 
   .product__block--usp_swiper {
@@ -1067,19 +1067,20 @@
       flex: 1 1 100%;
     }
 
-    @media (max-width: 320px) {
-      product-info[id^='MainProduct-'] .product__block--buy_buttons .product-form__submit {
-        white-space: normal !important;
-      }
-      product-info[id^='MainProduct-'] .product-form__submit .pdp-atc-label {
-        display: inline-flex;
-        flex-direction: column;
-        align-items: center;
-        line-height: 1.25;
-      }
-      product-info[id^='MainProduct-'] .product-form__submit .pdp-atc-label__count:not([hidden]) {
-        margin-inline-start: 0;
-      }
+    product-info[id^='MainProduct-'] .product-form__submit:has(.pdp-atc-label__count:not([hidden])) {
+      white-space: normal !important;
+      height: auto;
+      min-height: var(--buttons-height);
+      padding-block: 1rem;
+    }
+    product-info[id^='MainProduct-'] .product-form__submit:has(.pdp-atc-label__count:not([hidden])) .pdp-atc-label {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      line-height: 1.25;
+    }
+    product-info[id^='MainProduct-'] .product-form__submit:has(.pdp-atc-label__count:not([hidden])) .pdp-atc-label__count {
+      margin-inline-start: 0;
     }
 
     product-info[id^='MainProduct-'] .product--medium .product__block--icon_info_text {
