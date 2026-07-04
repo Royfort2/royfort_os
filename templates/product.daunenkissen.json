@@ -66,7 +66,7 @@
             "show_quantity_selector": false,
             "show_dynamic_checkout": false,
             "show_gift_card_recipient": false,
-            "show_secondary_button": true,
+            "show_secondary_button": false,
             "secondary_button_text": "zweiter-cta",
             "secondary_button_url": ""
           }

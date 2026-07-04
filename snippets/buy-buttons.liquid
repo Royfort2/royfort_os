@@ -23,6 +23,7 @@
 
     assign pdp_set_bundle = false
     assign pdp_simple_live = false
+    assign pdp_has_tag_addons = false
     assign pdp_set_optional_offset = 1
     assign pdp_set_required_count = 2
     assign pdp_zw_omit_main = false
@@ -140,6 +141,10 @@
       if pdp_set_bundle or pdp_simple_live
         assign main_product_form_class = main_product_form_class | append: ' pdp-set-bundle'
       endif
+      assign pdp_hybrid_main_id = false
+      if pdp_simple_live and pdp_has_tag_addons
+        assign pdp_hybrid_main_id = true
+      endif
     -%}
     {%- form 'product',
       product,
@@ -148,7 +153,8 @@
       data-type: 'add-to-cart-form',
       is: 'product-form',
       data-hide-errors: gift_card_recipient_feature_active,
-      data-product-id: product.id
+      data-product-id: product.id,
+      data-pdp-hybrid-main-id: pdp_hybrid_main_id
     -%}
       <input
         type="hidden"

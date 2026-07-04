@@ -2472,9 +2472,9 @@ class ProductForm extends HTMLFormElement {
     super();
 
     this.productIdInput = this.querySelector('[name=id]');
-    /** Set bundles submit `items[n][id]` only; `name="id"` must not be sent or Shopify adds the main product line. */
+    /** Set bundles submit `items[n][id]` only; hybrid tag-addon PDPs keep `name="id"` for the main line. */
     if (this.productIdInput) {
-      if (this.classList.contains('pdp-set-bundle')) {
+      if (this.classList.contains('pdp-set-bundle') && this.dataset.pdpHybridMainId !== 'true') {
         this.productIdInput.disabled = true;
       } else {
         this.productIdInput.disabled = false;
