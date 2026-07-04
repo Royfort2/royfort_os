@@ -96,4 +96,18 @@
       reloadStampedProductBadges();
     });
   });
+
+  /** PDP badge: scroll to #stamped-main-widget when Stamped app block / widget is on the page. */
+  document.addEventListener(
+    'click',
+    function (e) {
+      var root = e.target.closest && e.target.closest('.product__block--stamped_reviews');
+      if (!root) return;
+      var target = document.getElementById('stamped-main-widget');
+      if (!target) return;
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    },
+    true
+  );
 })();

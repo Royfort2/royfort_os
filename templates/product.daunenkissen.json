@@ -598,6 +598,32 @@
       "settings": {
         "text_alignment": "center"
       }
+    },
+    "we_site_product_reviews_PqR3mK": {
+      "type": "we-site-product-reviews",
+      "blocks": {
+        "stamped_reviews_main_widget_PK7eYn": {
+          "type": "shopify://apps/stamped-reviews/blocks/main-widget/a103faaf-2125-4b0e-89fa-de5149736723",
+          "settings": {
+            "animation": true,
+            "tags_exclude": "",
+            "tags_include": "",
+            "search": "",
+            "linkify": true,
+            "use_metafields": false,
+            "sku_tagtype": "sku"
+          }
+        }
+      },
+      "block_order": [
+        "stamped_reviews_main_widget_PK7eYn"
+      ],
+      "name": "[we] Product reviews",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 32,
+        "padding_bottom": 32
+      }
     }
   },
   "order": [
@@ -606,6 +632,7 @@
     "we_site_product_info_tabs_JQiJ9R",
     "image_with_text_zQ9iit",
     "image_with_text_dQDdte",
+    "we_site_product_reviews_PqR3mK",
     "multicolumn_Ta3eFy",
     "featured_collection_JQULLF",
     "we_featured_collections_Hgagwm",

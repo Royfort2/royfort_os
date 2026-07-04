@@ -1612,6 +1612,14 @@ layout-switcher .btn::after {
     --section-padding-top: 0px !important;
 }
 
+.product-template .we-site-product-reviews #stamped-main-widget {
+    scroll-margin-top: calc(var(--header-height, 0px) + 2rem);
+}
+
+.product-template .product__block--stamped_reviews .stamped-badge {
+    cursor: pointer;
+}
+
 .product-template .we-site-product-usp-icons__grid {
     padding-block: 3.5rem;
 }
