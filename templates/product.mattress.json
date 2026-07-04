@@ -83,6 +83,7 @@
         },
         "icon_info_text_8ayhQN": {
           "type": "icon_info_text",
+          "disabled": true,
           "settings": {
             "icon": "shopify://shop_images/local_shipping_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
             "title": "Lieferzeit: {{ product.metafields.custom.we_pdp_estimated_delivery_time.value }}",
@@ -93,6 +94,7 @@
         },
         "icon_info_text_pzJbNn": {
           "type": "icon_info_text",
+          "disabled": true,
           "settings": {
             "icon": "shopify://shop_images/undo_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
             "title": "30-Tage Rückgaberecht",
@@ -103,6 +105,7 @@
         },
         "icon_info_text_4ErYdG": {
           "type": "icon_info_text",
+          "disabled": true,
           "settings": {
             "icon": "shopify://shop_images/chat_bubble_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
             "title": "Persönliche Beratung",
@@ -113,6 +116,7 @@
         },
         "usp_list_yWyYmX": {
           "type": "usp_list",
+          "disabled": true,
           "settings": {
             "title": "{{ product.metafields.custom.we_pdp_usp_list_title.value }}",
             "use_usp_metafield": true,
@@ -126,6 +130,7 @@
         },
         "collapsible-row-1": {
           "type": "collapsible_tab",
+          "disabled": true,
           "settings": {
             "heading": "Beschreibung",
             "heading_styling": "body",
@@ -138,6 +143,7 @@
         },
         "collapsible_tab_Y9thBz": {
           "type": "collapsible_tab",
+          "disabled": true,
           "settings": {
             "heading": "Produktdetails",
             "heading_styling": "body",
@@ -150,6 +156,7 @@
         },
         "collapsible-row-2": {
           "type": "collapsible_tab",
+          "disabled": true,
           "settings": {
             "heading": "Material",
             "heading_styling": "body",
@@ -162,6 +169,7 @@
         },
         "collapsible-row-3": {
           "type": "collapsible_tab",
+          "disabled": true,
           "settings": {
             "heading": "Pflegehinweise",
             "heading_styling": "body",
@@ -174,6 +182,7 @@
         },
         "usp_swiper_ffaRkg": {
           "type": "usp_swiper",
+          "disabled": true,
           "settings": {
             "hide_on_desktop": true,
             "icon_1": "shopify://shop_images/globe.svg",
@@ -188,6 +197,7 @@
         },
         "complementary_custom_y6bBfH": {
           "type": "complementary_custom",
+          "disabled": true,
           "settings": {
             "heading": "Das könnte Ihnen auch gefallen",
             "product_list_limit": 4,
@@ -231,6 +241,87 @@
         "enable_video_looping": true,
         "padding_top": 0,
         "padding_bottom": 0
+      }
+    },
+    "we_site_product_usp_icons_HRtQVU": {
+      "type": "we-site-product-usp-icons",
+      "blocks": {
+        "item_3fTaWN": {
+          "type": "item",
+          "settings": {
+            "icon": "shopify://shop_images/Traumhaftes-Schlafgefuehl.webp",
+            "label": "30 Tage Rückgaberecht"
+          }
+        },
+        "item_mLciUR": {
+          "type": "item",
+          "settings": {
+            "icon": "shopify://shop_images/Optimale-Stuetzkraft.webp",
+            "label": "In Handarbeit gefertigt"
+          }
+        },
+        "item_Qn93yz": {
+          "type": "item",
+          "settings": {
+            "icon": "shopify://shop_images/90-Tage-Probeschlafen.webp",
+            "label": "Einzigartig weich"
+          }
+        }
+      },
+      "block_order": [
+        "item_3fTaWN",
+        "item_mLciUR",
+        "item_Qn93yz"
+      ],
+      "name": "[we] Product USP icons",
+      "settings": {
+        "color_scheme": "",
+        "padding_top": 32,
+        "padding_bottom": 32
+      }
+    },
+    "we_site_product_info_tabs_JQiJ9R": {
+      "type": "we-site-product-info-tabs",
+      "blocks": {
+        "tab_nchLr4": {
+          "type": "tab",
+          "settings": {
+            "heading": "Beschreibung",
+            "content": "{{ product.description }}",
+            "page": "",
+            "default_open": true
+          }
+        },
+        "tab_BP6rpW": {
+          "type": "tab",
+          "settings": {
+            "heading": "Produktdetails",
+            "content": "{{ product.metafields.custom.we_pdp_material | metafield_tag }}",
+            "page": "",
+            "default_open": false
+          }
+        },
+        "tab_TezEJi": {
+          "type": "tab",
+          "settings": {
+            "heading": "Versand & Rückgabe",
+            "content": "{{ product.metafields.custom.we_pdp_pflegehinweise | metafield_tag }}",
+            "page": "",
+            "default_open": false
+          }
+        }
+      },
+      "block_order": [
+        "tab_nchLr4",
+        "tab_BP6rpW",
+        "tab_TezEJi"
+      ],
+      "name": "[we] Product info tabs",
+      "settings": {
+        "aria_label": "Produktinformationen",
+        "color_scheme": "",
+        "padding_top": 32,
+        "padding_bottom": 32
       }
     },
     "mattress_shared_h6EK7R": {
@@ -446,87 +537,6 @@
       "type": "breadcrumbs",
       "settings": {
         "text_alignment": "center"
-      }
-    },
-    "we_site_product_usp_icons_HRtQVU": {
-      "type": "we-site-product-usp-icons",
-      "blocks": {
-        "item_3fTaWN": {
-          "type": "item",
-          "settings": {
-            "icon": "shopify://shop_images/Traumhaftes-Schlafgefuehl.webp",
-            "label": "30 Tage Rückgaberecht"
-          }
-        },
-        "item_mLciUR": {
-          "type": "item",
-          "settings": {
-            "icon": "shopify://shop_images/Optimale-Stuetzkraft.webp",
-            "label": "In Handarbeit gefertigt"
-          }
-        },
-        "item_Qn93yz": {
-          "type": "item",
-          "settings": {
-            "icon": "shopify://shop_images/90-Tage-Probeschlafen.webp",
-            "label": "Einzigartig weich"
-          }
-        }
-      },
-      "block_order": [
-        "item_3fTaWN",
-        "item_mLciUR",
-        "item_Qn93yz"
-      ],
-      "name": "[we] Product USP icons",
-      "settings": {
-        "color_scheme": "",
-        "padding_top": 32,
-        "padding_bottom": 32
-      }
-    },
-    "we_site_product_info_tabs_JQiJ9R": {
-      "type": "we-site-product-info-tabs",
-      "blocks": {
-        "tab_nchLr4": {
-          "type": "tab",
-          "settings": {
-            "heading": "Beschreibung",
-            "content": "{{ product.description }}",
-            "page": "",
-            "default_open": true
-          }
-        },
-        "tab_BP6rpW": {
-          "type": "tab",
-          "settings": {
-            "heading": "Produktdetails",
-            "content": "{{ product.metafields.custom.we_pdp_material | metafield_tag }}",
-            "page": "",
-            "default_open": false
-          }
-        },
-        "tab_TezEJi": {
-          "type": "tab",
-          "settings": {
-            "heading": "Versand & Rückgabe",
-            "content": "{{ product.metafields.custom.we_pdp_pflegehinweise | metafield_tag }}",
-            "page": "",
-            "default_open": false
-          }
-        }
-      },
-      "block_order": [
-        "tab_nchLr4",
-        "tab_BP6rpW",
-        "tab_TezEJi"
-      ],
-      "name": "[we] Product info tabs",
-      "settings": {
-        "aria_label": "Produktinformationen",
-        "color_scheme": "",
-        "padding_top": 32,
-        "padding_bottom": 32
       }
     }
   },
