@@ -60,7 +60,10 @@
       width: calc(100% - var(--media-width)) !important;
     }
     product-info[id^='MainProduct-'] .product--vertical-carousel.product--media-has-many .product__media-gallery {
-      position: relative;
+      position: sticky;
+      top: 0;
+      align-self: flex-start;
+      z-index: 1;
     }
     product-info[id^='MainProduct-'] .product--vertical-carousel .product__media-item {
       width: 100% !important;
@@ -76,6 +79,24 @@
   .product--medium .product__info-wrapper {
     padding: 0 !important;
   }
+  /* Sticky gallery: stay fixed on scroll — no transition bounce when header pins/unpins */
+  product-info[id^='MainProduct-'] .sticky-element {
+    transition: none !important;
+  }
+  product-info[id^='MainProduct-'] .product__media-wrapper,
+  product-info[id^='MainProduct-'] .product__media-gallery.sticky-element {
+    align-self: flex-start;
+  }
+  product-info[id^='MainProduct-'] .product__media-gallery.sticky-element {
+    --sticky-offset: 0px;
+    top: 0;
+  }
+  body.header-pinned product-info[id^='MainProduct-'] .product__media-gallery.sticky-element {
+    top: var(--header-height);
+  }
+  product-info[id^='MainProduct-'] .product--medium .product__info-container.sticky-element {
+    position: static;
+  }
   .product--medium .product__info-container {
     display: flex;
     justify-content: center;
@@ -84,7 +105,7 @@
   .product--medium .product__info-container .product__blocks {
     max-width: 40rem;
     padding-bottom: 8rem;
-    padding-top: 6.4rem;
+    padding-top: 3rem;
     overflow: visible;
   }
   .product--medium:has(.product-set-picker__card) .product__info-container {
@@ -107,6 +128,26 @@
   }
   .product__block--stamped_reviews .stamped-product-reviews-badge:not(:empty) {
     margin-bottom: 1.2rem !important;
+  }
+  .product__block--stamped_reviews .stamped-fa-star,
+  .product__block--stamped_reviews .stamped-fa-star-checked,
+  .product__block--stamped_reviews .stamped-fa-star-half-o,
+  .product__block--stamped_reviews .stamped-badge-starrating .stamped-fa {
+    color: #ffd200 !important;
+  }
+  .product__block--stamped_reviews .stamped-badge-starrating .stamped-fa:before {
+    font-size: 1.8rem !important;
+    width: 1.8rem !important;
+    height: 1.8rem !important;
+  }
+  .product__block--stamped_reviews .stamped-badge-rating-value,
+  .product__block--stamped_reviews .stamped-badge-caption {
+    color: #525252 !important;
+    font-size: 1.4rem !important;
+    font-style: normal;
+    font-weight: 600 !important;
+    line-height: 120%;
+    text-transform: none !important;
   }
   .product__block--title {
     margin: 0 !important;
@@ -804,10 +845,17 @@
       align-self: flex-start;
       width: 100%;
     }
+    product-info[id^='MainProduct-'] .product:not(.product--media-has-0) .product__media-gallery.sticky-element {
+      position: static;
+    }
+    product-info[id^='MainProduct-'] .product:not(.product--media-has-0) .product__info-container.sticky-element {
+      position: static;
+    }
     product-info[id^='MainProduct-'] .product:not(.product--media-has-0) .product__media-gallery-viewer {
       position: sticky;
       top: 0;
       z-index: 0;
+      transition: none;
     }
     product-info[id^='MainProduct-'] .product:not(.product--media-has-0) .product__media-gallery-progress {
       position: relative;
