@@ -30,10 +30,6 @@
             "sale_badge_type": "percentage"
           }
         },
-        "stamped_reviews_Kmb8np": {
-          "type": "stamped_reviews",
-          "settings": {}
-        },
         "title": {
           "type": "title",
           "settings": {
@@ -45,6 +41,10 @@
           "settings": {
             "show_tax_and_shipping": false
           }
+        },
+        "stamped_reviews_Kmb8np": {
+          "type": "stamped_reviews",
+          "settings": {}
         },
         "we_variant_picker_jJ7CqM": {
           "type": "we_variant_picker",
@@ -179,9 +179,9 @@
       "block_order": [
         "image_tooltip_iznpVX",
         "badges",
-        "stamped_reviews_Kmb8np",
         "title",
         "price",
+        "stamped_reviews_Kmb8np",
         "we_variant_picker_jJ7CqM",
         "buy_buttons",
         "icon_info_text_8ayhQN",
