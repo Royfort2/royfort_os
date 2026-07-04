@@ -225,7 +225,7 @@
         "color_scheme": "scheme-1",
         "enable_sticky_info": true,
         "media_size": "medium",
-        "gallery_layout": "grid-mix",
+        "gallery_layout": "vertical-carousel",
         "mobile_thumbnails": "hide",
         "enable_image_zoom": true,
         "enable_video_looping": true,

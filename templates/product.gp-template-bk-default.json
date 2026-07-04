@@ -355,7 +355,7 @@
         "enable_image_zoom": true,
         "enable_sticky_info": true,
         "enable_video_looping": true,
-        "gallery_layout": "grid-mix",
+        "gallery_layout": "vertical-carousel",
         "media_size": "medium",
         "mobile_thumbnails": "hide",
         "padding_bottom": 0,
