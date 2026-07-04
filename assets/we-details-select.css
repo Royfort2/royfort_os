@@ -37,7 +37,7 @@ details.we-select-container .we-select-container__summary {
   font-style: normal;
   font-weight: 400;
   line-height: 130%;
-  text-transform: uppercase;
+  text-transform: none;
   display: flex;
   align-items: center;
   gap: 0.8rem;
@@ -94,7 +94,7 @@ details.we-select-container .we-select-container__summary:hover {
   font-style: normal;
   font-weight: 400;
   line-height: 130%;
-  text-transform: uppercase;
+  text-transform: none;
   display: flex;
   align-items: center;
   gap: 0.8rem;
@@ -281,7 +281,7 @@ details.we-select-container .we-select-container__summary:hover {
     font-weight: 400;
     line-height: 150%;
     letter-spacing: -0.01em;
-    text-transform: uppercase;
+    text-transform: none;
     color: rgb(var(--color-foreground));
   }
 

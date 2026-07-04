@@ -43,9 +43,6 @@
       assign size_chart_content = pages[block.settings.size_chart_from_page].content
     endif
 
-    assign qty_unit_short = settings.qty_selector_unit_short | default: 'St.'
-    assign qty_unit_long = settings.qty_selector_unit_long | default: 'Stück'
-
     assign pdp_qty_anchor_position = blank
     for opt in product.options_with_values
       assign od = opt.name | downcase | strip
@@ -578,17 +575,12 @@
           {{ 'products.product.quantity.label' | t }}
         </label>
         <div class="we-variant-picker__dropdown-container">
-          <div
-            class="we-quantity-selector"
-            data-qty-unit-short="{{ qty_unit_short | escape }}"
-          >
+          <div class="we-quantity-selector">
             <details
               class="we-select-container"
               data-radio-group-name="quantity-{{ product.id }}"
             >
-              <summary class="we-select-container__summary">
-                1&nbsp;{{ qty_unit_short }}
-              </summary>
+              <summary class="we-select-container__summary">1</summary>
               <div class="we-select-mobile-portal">
                 <div class="we-select-mobile-backdrop" aria-hidden="true"></div>
                 <div class="we-select-mobile-sheet">
@@ -625,12 +617,8 @@
                           for="quantity-{{ id_ns }}-addon-{{ forloop.index0 }}"
                         >
                           <span class="we-select__label-primary">
-                            <span class="we-select__qty-line we-select__qty-line--short"
-                              >{{ i }}&nbsp;{{ qty_unit_short -}}
-                            </span>
-                            <span class="we-select__qty-line we-select__qty-line--long"
-                              >{{ i }}&nbsp;{{ qty_unit_long -}}
-                            </span>
+                            <span class="we-select__qty-line we-select__qty-line--short">{{ i }}</span>
+                            <span class="we-select__qty-line we-select__qty-line--long">{{ i }}</span>
                           </span>
                         </label>
                       </div>

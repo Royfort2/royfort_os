@@ -829,17 +829,21 @@
       return;
     }
 
-    if (cfg.isSimpleProduct) return;
+    if (cfg.isSimpleProduct && !cfg.hasTagAddons) return;
 
-    const { sectionId, firstSetProductId, firstVariantFallback } = cfg;
+    const { sectionId, firstSetProductId, firstVariantFallback, hasTagAddons = false } = cfg;
     root.replaceChildren();
 
     const productInfo = form.closest('product-info');
     if (!productInfo) return;
 
     const lines = [];
+    const mainProductId = productInfo?.dataset?.productId;
     getSetBundlePickersToValidate(productInfo, cfg).forEach((vs) => {
       const pid = String(vs.dataset.productId);
+      if (cfg.isSimpleProduct && hasTagAddons && mainProductId && pid === String(mainProductId)) {
+        return;
+      }
       const fallback =
         String(pid) === String(firstSetProductId) ? firstVariantFallback : getDefaultVariantIdFromDom(pid);
       const vid = getVariantIdForProduct(sectionId, pid, fallback);

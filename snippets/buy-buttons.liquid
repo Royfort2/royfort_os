@@ -77,6 +77,7 @@
       endif
     endif
 
+    assign pdp_tag_addon_ids = ''
     if pdp_set_bundle == false
       for sb in section.blocks
         if sb.type == 'we_variant_picker'
@@ -84,6 +85,14 @@
           break
         endif
       endfor
+      capture pdp_tag_addon_ids
+        render 'we-pdp-bundle-tag-extras', product: product, set_products: blank, mode: 'ids'
+      endcapture
+      assign pdp_tag_addon_ids = pdp_tag_addon_ids | strip
+      assign pdp_has_tag_addons = false
+      if pdp_tag_addon_ids != blank
+        assign pdp_has_tag_addons = true
+      endif
     endif
 
     assign variant_picker_custom_dropdown = false
@@ -178,6 +187,9 @@
         </script>
         <script src="{{ 'product-set-cart-items.js' | asset_url }}" defer="defer"></script>
       {%- elsif pdp_simple_live -%}
+        {%- if pdp_tag_addon_ids != blank -%}
+          <div class="js-pdp-set-line-items" data-pdp-set-line-items aria-hidden="true"></div>
+        {%- endif -%}
         <script type="application/json" data-pdp-set-config>
           {
             "sectionId": {{ section.id | json }},
@@ -186,8 +198,16 @@
             "setDiscountAmount": 0,
             "omitMainProductFromZwischensumme": true,
             "requiredSetProductIds": [{{ product.id | json }}],
-            "optionalProductIds": [],
-            "isSimpleProduct": true
+            "optionalProductIds": [
+              {%- assign pdp_tag_id_list = pdp_tag_addon_ids | split: ',' -%}
+              {%- for oid in pdp_tag_id_list -%}
+                {%- if oid != blank -%}
+                  {{ oid | plus: 0 }}{%- unless forloop.last -%},{%- endunless -%}
+                {%- endif -%}
+              {%- endfor -%}
+            ],
+            "isSimpleProduct": true,
+            "hasTagAddons": {{ pdp_has_tag_addons | json }}
           }
         </script>
         <script src="{{ 'product-set-cart-items.js' | asset_url }}" defer="defer"></script>

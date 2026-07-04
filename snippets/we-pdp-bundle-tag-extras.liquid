@@ -30,11 +30,34 @@
     {%- assign we_tag_segments = we_tag_body | split: '_' -%}
     {%- assign we_tag_order_str = we_tag_segments | last -%}
     {%- assign we_tag_order_num = we_tag_order_str | plus: 0 -%}
-    {%- if we_tag_order_num != we_bundle_order -%}
+    {%- assign we_tag_handle = we_tag_body -%}
+    {%- assign we_resolved_order = 0 -%}
+    {%- if we_tag_order_num > 0 and we_tag_order_str == we_tag_order_num -%}
+      {%- assign we_tag_suffix = we_tag_order_str | prepend: '_' -%}
+      {%- assign we_tag_handle = we_tag_body | remove: we_tag_suffix -%}
+      {%- assign we_resolved_order = we_tag_order_num -%}
+    {%- else -%}
+      {%- assign we_resolved_order = 0 -%}
+      {%- for we_order_tag in product.tags -%}
+        {%- unless we_order_tag contains 'bundle_' -%}
+          {%- continue -%}
+        {%- endunless -%}
+        {%- assign we_order_body = we_order_tag | remove_first: 'bundle_' -%}
+        {%- assign we_order_segments = we_order_body | split: '_' -%}
+        {%- assign we_order_str = we_order_segments | last -%}
+        {%- assign we_order_num = we_order_str | plus: 0 -%}
+        {%- if we_order_num > 0 and we_order_str == we_order_num -%}
+          {%- continue -%}
+        {%- endif -%}
+        {%- assign we_resolved_order = we_resolved_order | plus: 1 -%}
+        {%- if we_order_tag == tag -%}
+          {%- break -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+    {%- if we_resolved_order != we_bundle_order -%}
       {%- continue -%}
     {%- endif -%}
-    {%- assign we_tag_suffix = we_tag_order_str | prepend: '_' -%}
-    {%- assign we_tag_handle = we_tag_body | remove: we_tag_suffix -%}
     {%- assign we_tag_product = all_products[we_tag_handle] -%}
     {%- if we_tag_product == blank -%}
       {%- continue -%}
