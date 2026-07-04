@@ -22,6 +22,7 @@
     endif
 
     assign pdp_set_bundle = false
+    assign pdp_simple_live = false
     assign pdp_set_optional_offset = 1
     assign pdp_set_required_count = 2
     assign pdp_zw_omit_main = false
@@ -76,6 +77,15 @@
       endif
     endif
 
+    if pdp_set_bundle == false
+      for sb in section.blocks
+        if sb.type == 'we_variant_picker'
+          assign pdp_simple_live = true
+          break
+        endif
+      endfor
+    endif
+
     assign variant_picker_custom_dropdown = false
     for sb in section.blocks
       if sb.settings.picker_type == 'custom_dropdown'
@@ -118,7 +128,7 @@
         assign pdp_current_variant = product.selected_variant
       endif
       assign main_product_form_class = 'main-product-form grid gap-4'
-      if pdp_set_bundle
+      if pdp_set_bundle or pdp_simple_live
         assign main_product_form_class = main_product_form_class | append: ' pdp-set-bundle'
       endif
     -%}
@@ -164,6 +174,20 @@
                 {%- endif -%}
               {%- endfor -%}
             ]
+          }
+        </script>
+        <script src="{{ 'product-set-cart-items.js' | asset_url }}" defer="defer"></script>
+      {%- elsif pdp_simple_live -%}
+        <script type="application/json" data-pdp-set-config>
+          {
+            "sectionId": {{ section.id | json }},
+            "firstSetProductId": {{ product.id | json }},
+            "firstVariantFallback": {{ pdp_current_variant.id | json }},
+            "setDiscountAmount": 0,
+            "omitMainProductFromZwischensumme": true,
+            "requiredSetProductIds": [{{ product.id | json }}],
+            "optionalProductIds": [],
+            "isSimpleProduct": true
           }
         </script>
         <script src="{{ 'product-set-cart-items.js' | asset_url }}" defer="defer"></script>

@@ -865,6 +865,9 @@
                 product_form_id: product_form_id,
                 update_url: update_browser_history
               %}
+              {%- unless context == 'quick-view' -%}
+                {% render 'we-pdp-simple-summary', product: product, block: block %}
+              {%- endunless -%}
             {%- endif -%}
           </div>
         {%- when 'variant_picker' -%}

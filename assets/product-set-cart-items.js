@@ -219,7 +219,7 @@
     return getUniqueVariantSelects(productInfo).filter((vs) => {
       const pid = String(vs.dataset?.productId || '');
       if (!pid) return false;
-      if (mainId && pid === mainId) return false;
+      if (mainId && pid === mainId && !cfg.isSimpleProduct) return false;
 
       if (optionalIds.includes(pid)) {
         const cb = productInfo.querySelector(
@@ -828,6 +828,8 @@
     } catch (e) {
       return;
     }
+
+    if (cfg.isSimpleProduct) return;
 
     const { sectionId, firstSetProductId, firstVariantFallback } = cfg;
     root.replaceChildren();
