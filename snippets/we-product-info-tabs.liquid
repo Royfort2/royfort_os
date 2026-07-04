@@ -12,136 +12,138 @@
     assign content = block.settings[content_key]
     assign page = block.settings[page_key]
     if heading != blank
-      if content != blank or page.content != blank
+      if content != blank or page.content != blank or request.design_mode
         assign tab_count = tab_count | plus: 1
       endif
     endif
   endfor
 -%}
-{%- if tab_count > 0 -%}
+{%- if tab_count > 0 or request.design_mode -%}
   <div class="product__block product__block--product_info_tabs" {{ block.shopify_attributes }}>
-    <tabs-component class="we-product-info-tabs we-product-info-tabs--desktop hidden md:block">
-      <div class="we-product-info-tabs__titles" role="tablist" aria-label="{{ block.settings.aria_label | default: 'Product information' | escape }}">
-        {%- assign tab_index = 0 -%}
-        {%- for i in (1..5) -%}
-          {%- liquid
-            assign heading_key = 'tab_' | append: i | append: '_heading'
-            assign content_key = 'tab_' | append: i | append: '_content'
-            assign page_key = 'tab_' | append: i | append: '_page'
-            assign heading = block.settings[heading_key]
-            assign content = block.settings[content_key]
-            assign page = block.settings[page_key]
-          -%}
-          {%- liquid
-            assign tab_valid = false
-            if heading != blank
-              if content != blank or page.content != blank
-                assign tab_valid = true
+    {%- if tab_count > 0 -%}
+      <tabs-component class="we-product-info-tabs we-product-info-tabs--desktop">
+        <div class="we-product-info-tabs__titles" role="tablist" aria-label="{{ block.settings.aria_label | default: 'Product information' | escape }}">
+          {%- assign tab_index = 0 -%}
+          {%- for i in (1..5) -%}
+            {%- liquid
+              assign heading_key = 'tab_' | append: i | append: '_heading'
+              assign content_key = 'tab_' | append: i | append: '_content'
+              assign page_key = 'tab_' | append: i | append: '_page'
+              assign heading = block.settings[heading_key]
+              assign content = block.settings[content_key]
+              assign page = block.settings[page_key]
+              assign tab_valid = false
+              if heading != blank
+                if content != blank or page.content != blank or request.design_mode
+                  assign tab_valid = true
+                endif
               endif
-            endif
-          -%}
-          {%- if tab_valid -%}
-            <button
-              type="button"
-              class="we-product-info-tabs__title"
-              role="tab"
-              id="WeProductTab-{{ block.id }}-{{ tab_index }}"
-              aria-selected="{% if tab_index == 0 %}true{% else %}false{% endif %}"
-              data-index="{{ tab_index }}"
-            >
-              {{ heading | escape }}
-            </button>
-            {%- assign tab_index = tab_index | plus: 1 -%}
-          {%- endif -%}
-        {%- endfor -%}
-      </div>
-      <div class="we-product-info-tabs__panels">
-        {%- assign tab_index = 0 -%}
-        {%- for i in (1..5) -%}
-          {%- liquid
-            assign heading_key = 'tab_' | append: i | append: '_heading'
-            assign content_key = 'tab_' | append: i | append: '_content'
-            assign page_key = 'tab_' | append: i | append: '_page'
-            assign heading = block.settings[heading_key]
-            assign content = block.settings[content_key]
-            assign page = block.settings[page_key]
-          -%}
-          {%- liquid
-            assign tab_valid = false
-            if heading != blank
-              if content != blank or page.content != blank
-                assign tab_valid = true
+            -%}
+            {%- if tab_valid -%}
+              <button
+                type="button"
+                class="we-product-info-tabs__title"
+                role="tab"
+                id="WeProductTab-{{ block.id }}-{{ tab_index }}"
+                aria-selected="{% if tab_index == 0 %}true{% else %}false{% endif %}"
+                data-index="{{ tab_index }}"
+              >
+                {{ heading | escape }}
+              </button>
+              {%- assign tab_index = tab_index | plus: 1 -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        <div class="we-product-info-tabs__panels">
+          {%- assign tab_index = 0 -%}
+          {%- for i in (1..5) -%}
+            {%- liquid
+              assign heading_key = 'tab_' | append: i | append: '_heading'
+              assign content_key = 'tab_' | append: i | append: '_content'
+              assign page_key = 'tab_' | append: i | append: '_page'
+              assign heading = block.settings[heading_key]
+              assign content = block.settings[content_key]
+              assign page = block.settings[page_key]
+              assign tab_valid = false
+              if heading != blank
+                if content != blank or page.content != blank or request.design_mode
+                  assign tab_valid = true
+                endif
               endif
-            endif
-          -%}
-          {%- if tab_valid -%}
-            <div
-              class="we-product-info-tabs__panel rte"
-              role="tabpanel"
-              id="WeProductTabPanel-{{ block.id }}-{{ tab_index }}"
-              aria-labelledby="WeProductTab-{{ block.id }}-{{ tab_index }}"
-              {% unless tab_index == 0 %}
-                hidden
-              {% endunless %}
-            >
-              {%- if page.content != blank -%}
-                {{ page.content }}
-              {%- else -%}
-                {{ content }}
-              {%- endif -%}
-            </div>
-            {%- assign tab_index = tab_index | plus: 1 -%}
-          {%- endif -%}
-        {%- endfor -%}
-      </div>
-    </tabs-component>
+            -%}
+            {%- if tab_valid -%}
+              <div
+                class="we-product-info-tabs__panel rte"
+                role="tabpanel"
+                id="WeProductTabPanel-{{ block.id }}-{{ tab_index }}"
+                aria-labelledby="WeProductTab-{{ block.id }}-{{ tab_index }}"
+                {% unless tab_index == 0 %}
+                  hidden
+                {% endunless %}
+              >
+                {%- if page.content != blank -%}
+                  {{ page.content }}
+                {%- elsif content != blank -%}
+                  {{ content }}
+                {%- elsif request.design_mode -%}
+                  <p>Add tab content in block settings.</p>
+                {%- endif -%}
+              </div>
+              {%- assign tab_index = tab_index | plus: 1 -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </tabs-component>
 
-    <div class="we-product-info-tabs we-product-info-tabs--mobile md:hidden accordion-parent">
-      {%- for i in (1..5) -%}
-        {%- liquid
-          assign heading_key = 'tab_' | append: i | append: '_heading'
-          assign content_key = 'tab_' | append: i | append: '_content'
-          assign page_key = 'tab_' | append: i | append: '_page'
-          assign default_open_key = 'tab_' | append: i | append: '_default_open'
-          assign heading = block.settings[heading_key]
-          assign content = block.settings[content_key]
-          assign page = block.settings[page_key]
-          assign default_open = block.settings[default_open_key]
-        -%}
-        {%- liquid
-          assign tab_valid = false
-          if heading != blank
-            if content != blank or page.content != blank
-              assign tab_valid = true
+      <div class="we-product-info-tabs we-product-info-tabs--mobile accordion-parent">
+        {%- for i in (1..5) -%}
+          {%- liquid
+            assign heading_key = 'tab_' | append: i | append: '_heading'
+            assign content_key = 'tab_' | append: i | append: '_content'
+            assign page_key = 'tab_' | append: i | append: '_page'
+            assign default_open_key = 'tab_' | append: i | append: '_default_open'
+            assign heading = block.settings[heading_key]
+            assign content = block.settings[content_key]
+            assign page = block.settings[page_key]
+            assign default_open = block.settings[default_open_key]
+            assign tab_valid = false
+            if heading != blank
+              if content != blank or page.content != blank or request.design_mode
+                assign tab_valid = true
+              endif
             endif
-          endif
-        -%}
-        {%- if tab_valid -%}
-          <details
-            id="WeProductTabMobile-{{ block.id }}-{{ i }}"
-            class="accordion-details"
-            is="accordion-group"
-            {% if default_open %}
-              open
-              aria-expanded="true"
-            {% else %}
-              aria-expanded="false"
-            {% endif %}
-          >
-            <summary class="accordion-details__summary flex items-center justify-between">
-              <h2 class="h4 inline-richtext">{{ heading | escape }}</h2>
-              {%- render 'icon-plus-toggle', size: 'small' -%}
-            </summary>
-            <div class="accordion-details__content rte">
-              {%- if page.content != blank -%}
-                {{ page.content }}
-              {%- else -%}
-                {{ content }}
-              {%- endif -%}
-            </div>
-          </details>
-        {%- endif -%}
-      {%- endfor -%}
-    </div>
+          -%}
+          {%- if tab_valid -%}
+            <details
+              id="WeProductTabMobile-{{ block.id }}-{{ i }}"
+              class="accordion-details"
+              is="accordion-group"
+              {% if default_open %}
+                open
+                aria-expanded="true"
+              {% else %}
+                aria-expanded="false"
+              {% endif %}
+            >
+              <summary class="accordion-details__summary flex items-center justify-between">
+                <h2 class="h4 inline-richtext">{{ heading | escape }}</h2>
+                {%- render 'icon-plus-toggle', size: 'small' -%}
+              </summary>
+              <div class="accordion-details__content rte">
+                {%- if page.content != blank -%}
+                  {{ page.content }}
+                {%- elsif content != blank -%}
+                  {{ content }}
+                {%- elsif request.design_mode -%}
+                  <p>Add tab content in block settings.</p>
+                {%- endif -%}
+              </div>
+            </details>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- elsif request.design_mode -%}
+      <p class="we-product-info-tabs__empty">Add tab headings and content in block settings.</p>
+    {%- endif -%}
   </div>
 {%- endif -%}

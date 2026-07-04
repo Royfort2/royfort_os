@@ -1,0 +1,196 @@
+{%- liquid
+  assign visible_count = 0
+  for block in section.blocks
+    if block.settings.label != blank
+      assign visible_count = visible_count | plus: 1
+    endif
+  endfor
+-%}
+<div
+  id="WeSiteSection-{{ section.id }}"
+  class="we-site-product-usp-icons section section--padding color-{{ section.settings.color_scheme }}"
+  data-section-id="{{ section.id }}"
+  style="--section-padding-top: {{ section.settings.padding_top }}px; --section-padding-bottom: {{ section.settings.padding_bottom }}px;"
+>
+  <div class="page-width">
+    {%- if visible_count > 0 -%}
+      <div class="we-site-product-usp-icons__grid" role="list">
+        {%- for block in section.blocks -%}
+          {%- if block.settings.label != blank -%}
+            <div class="we-site-product-usp-icons__item" role="listitem" {{ block.shopify_attributes }}>
+              <div class="we-site-product-usp-icons__icon">
+                {%- if block.settings.icon != blank -%}
+                  {{
+                    block.settings.icon
+                    | image_url: width: 120
+                    | image_tag:
+                      loading: 'lazy',
+                      widths: '60, 80, 100, 120',
+                      sizes: '60px',
+                      alt: block.settings.label
+                  }}
+                {%- else -%}
+                  {{ 'image' | placeholder_svg_tag: 'we-site-product-usp-icons__placeholder' }}
+                {%- endif -%}
+              </div>
+              <p class="we-site-product-usp-icons__label">{{ block.settings.label | escape }}</p>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- elsif request.design_mode -%}
+      <p class="we-site-product-usp-icons__empty">{{ 'Add USP items using the blocks on the left.' }}</p>
+    {%- endif -%}
+  </div>
+</div>
+
+<style>
+  #WeSiteSection-{{ section.id }}.we-site-product-usp-icons {
+    padding-top: var(--section-padding-top, 0);
+    padding-bottom: var(--section-padding-bottom, 0);
+  }
+
+  #WeSiteSection-{{ section.id }} .we-site-product-usp-icons__grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 2rem 1.6rem;
+  }
+
+  #WeSiteSection-{{ section.id }} .we-site-product-usp-icons__item {
+    flex: 1 1 0;
+    min-width: 8rem;
+    max-width: 16rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.8rem;
+  }
+
+  #WeSiteSection-{{ section.id }} .we-site-product-usp-icons__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4.4rem;
+    height: 4.4rem;
+  }
+
+  #WeSiteSection-{{ section.id }} .we-site-product-usp-icons__icon img,
+  #WeSiteSection-{{ section.id }} .we-site-product-usp-icons__placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  #WeSiteSection-{{ section.id }} .we-site-product-usp-icons__label {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 150%;
+    letter-spacing: -0.14px;
+  }
+
+  #WeSiteSection-{{ section.id }} .we-site-product-usp-icons__empty {
+    margin: 0;
+    padding: 2rem;
+    text-align: center;
+    font-size: 1.4rem;
+    opacity: 0.65;
+    border: 1px dashed rgb(var(--color-foreground) / 0.25);
+  }
+
+  @media (min-width: 768px) {
+    #WeSiteSection-{{ section.id }} .we-site-product-usp-icons__grid {
+      justify-content: space-between;
+    }
+
+    #WeSiteSection-{{ section.id }} .we-site-product-usp-icons__item {
+      max-width: none;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "[we] Product USP icons",
+  "tag": "section",
+  "class": "we-site-product-usp-icons-section",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 32
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "USP item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "USP text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "[we] Product USP icons",
+      "blocks": [
+        {
+          "type": "item",
+          "settings": {
+            "label": "30 Tage Rückgaberecht"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "label": "In Handarbeit gefertigt"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "label": "Einzigartig weich"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
