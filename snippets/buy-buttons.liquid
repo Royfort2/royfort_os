@@ -145,6 +145,10 @@
       if pdp_simple_live and pdp_has_tag_addons
         assign pdp_hybrid_main_id = true
       endif
+      assign pdp_simple_single = false
+      if pdp_simple_live and pdp_has_tag_addons == false
+        assign pdp_simple_single = true
+      endif
     -%}
     {%- form 'product',
       product,
@@ -154,7 +158,8 @@
       is: 'product-form',
       data-hide-errors: gift_card_recipient_feature_active,
       data-product-id: product.id,
-      data-pdp-hybrid-main-id: pdp_hybrid_main_id
+      data-pdp-hybrid-main-id: pdp_hybrid_main_id,
+      data-pdp-simple-single: pdp_simple_single
     -%}
       <input
         type="hidden"
@@ -502,11 +507,16 @@
             disabled
           {% endif %}
         >
-          <span>
-            {%- if pdp_current_variant.available == false -%}
-              {{ 'products.product.sold_out' | t }}
-            {%- else -%}
-              {{ 'products.product.add_to_cart' | t }}
+          <span{% if pdp_set_bundle or pdp_simple_live %} class="pdp-atc-label"{% endif %}>
+            <span{% if pdp_set_bundle or pdp_simple_live %} class="pdp-atc-label__main"{% endif %}>
+              {%- if pdp_current_variant.available == false -%}
+                {{ 'products.product.sold_out' | t }}
+              {%- else -%}
+                {{ 'products.product.add_to_cart' | t }}
+              {%- endif -%}
+            </span>
+            {%- if pdp_set_bundle or pdp_simple_live -%}
+              <span class="pdp-atc-label__count" hidden></span>
             {%- endif -%}
           </span>
           {%- render 'loading-spinner' -%}

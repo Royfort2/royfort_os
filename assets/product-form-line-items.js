@@ -119,13 +119,21 @@
     qtyInput.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
+  function isPdpSimpleSingleForm(form) {
+    return form?.dataset?.pdpSimpleSingle === 'true';
+  }
+
+  function usesPdpSetCartLineItems(form) {
+    return form?.classList.contains('pdp-set-bundle') && !isPdpSimpleSingleForm(form);
+  }
+
   function ensureSubmitQuantitySyncBound(form) {
     if (!form || form.dataset.weInlineQtySubmitBound === 'true') return;
     form.dataset.weInlineQtySubmitBound = 'true';
     form.addEventListener(
       'submit',
       () => {
-        if (form.classList.contains('pdp-set-bundle')) return;
+        if (usesPdpSetCartLineItems(form)) return;
         const pi = form.closest('product-info');
         if (!pi) return;
         const pickers = getUniqueVariantPickers(pi);
@@ -159,7 +167,7 @@
     if (!productInfoEl?.querySelector) return;
     const form = productInfoEl.querySelector('form[is="product-form"]');
     if (!form) return;
-    if (form.classList.contains('pdp-set-bundle')) return;
+    if (usesPdpSetCartLineItems(form)) return;
 
     form.querySelectorAll('input[type="hidden"][name^="items"]').forEach((el) => el.remove());
     const extraContainers = form.querySelectorAll('.js-product-form-line-items');
@@ -261,7 +269,7 @@
   function initWeQtySync() {
     document.querySelectorAll('product-info').forEach((pi) => syncProductFormLineItems(pi));
     document.querySelectorAll('form[is="product-form"]').forEach((form) => {
-      if (!form.classList.contains('pdp-set-bundle')) ensureSubmitQuantitySyncBound(form);
+      if (!usesPdpSetCartLineItems(form)) ensureSubmitQuantitySyncBound(form);
     });
   }
 

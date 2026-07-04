@@ -2474,7 +2474,8 @@ class ProductForm extends HTMLFormElement {
     this.productIdInput = this.querySelector('[name=id]');
     /** Set bundles submit `items[n][id]` only; hybrid tag-addon PDPs keep `name="id"` for the main line. */
     if (this.productIdInput) {
-      if (this.classList.contains('pdp-set-bundle') && this.dataset.pdpHybridMainId !== 'true') {
+      const isSimpleSingle = this.dataset.pdpSimpleSingle === 'true';
+      if (this.classList.contains('pdp-set-bundle') && this.dataset.pdpHybridMainId !== 'true' && !isSimpleSingle) {
         this.productIdInput.disabled = true;
       } else {
         this.productIdInput.disabled = false;

@@ -1576,7 +1576,14 @@ if (!customElements.get('product-info')) {
             if (addButton) {
               addButton.setAttribute('disabled', 'disabled');
               if (updateText && text && addButtonText) {
-                addButtonText.textContent = this.decoded(text);
+                const mainEl = addButtonText.querySelector('.pdp-atc-label__main');
+                const countEl = addButtonText.querySelector('.pdp-atc-label__count');
+                if (mainEl) {
+                  mainEl.textContent = this.decoded(text);
+                  if (countEl) countEl.hidden = true;
+                } else {
+                  addButtonText.textContent = this.decoded(text);
+                }
               }
               if (updateStyles) {
                 addButton.style.pointerEvents = 'none';

@@ -750,6 +750,39 @@
     if (oosEl) oosEl.hidden = allAvailable;
   }
 
+  function setPdpSubmitLabel(span, { main, count, single }) {
+    if (!span) return;
+
+    if (single !== undefined) {
+      span.textContent = single;
+      return;
+    }
+
+    let mainEl = span.querySelector('.pdp-atc-label__main');
+    let countEl = span.querySelector('.pdp-atc-label__count');
+
+    if (!mainEl) {
+      span.classList.add('pdp-atc-label');
+      mainEl = document.createElement('span');
+      mainEl.className = 'pdp-atc-label__main';
+      countEl = document.createElement('span');
+      countEl.className = 'pdp-atc-label__count';
+      mainEl.textContent = span.textContent.trim();
+      span.textContent = '';
+      span.appendChild(mainEl);
+      span.appendChild(countEl);
+    }
+
+    mainEl.textContent = main;
+    if (count) {
+      countEl.textContent = count;
+      countEl.hidden = false;
+    } else {
+      countEl.textContent = '';
+      countEl.hidden = true;
+    }
+  }
+
   function updatePdpSetSubmitButton(form) {
     const cfgEl = form.querySelector('script[data-pdp-set-config]');
     if (!cfgEl?.textContent) return;
@@ -818,7 +851,7 @@
     if (incomplete) {
       submitBtn.disabled = true;
       submitBtn.setAttribute('disabled', 'disabled');
-      if (span) span.textContent = selectVariant;
+      setPdpSubmitLabel(span, { single: selectVariant });
       submitBtn.style.pointerEvents = 'none';
       submitBtn.style.opacity = '0.6';
       return;
@@ -827,17 +860,17 @@
     if (!allPurchasable) {
       submitBtn.disabled = true;
       submitBtn.setAttribute('disabled', 'disabled');
-      if (span) span.textContent = soldOut;
+      setPdpSubmitLabel(span, { single: soldOut });
       submitBtn.style.pointerEvents = 'none';
       submitBtn.style.opacity = '0.6';
     } else {
       submitBtn.disabled = false;
       submitBtn.removeAttribute('disabled');
       const itemCount = getSetBundleTotalItemCount(productInfo, cfg);
-      if (span) {
-        span.textContent =
-          itemCount > 0 ? `${addToCartBase} (${itemCount} Artikel)` : addToCartBase;
-      }
+      setPdpSubmitLabel(span, {
+        main: addToCartBase,
+        count: itemCount > 0 ? `(${itemCount} Artikel)` : '',
+      });
       submitBtn.style.pointerEvents = '';
       submitBtn.style.opacity = '';
     }
