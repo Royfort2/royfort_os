@@ -621,6 +621,12 @@
                           else
                             assign we_set_card_title = 'Spannbettlaken hinzufügen'
                           endif
+                        elsif set_product.title contains 'Matratzenschoner' or set_product.title contains 'matratzenschoner'
+                          if set_product.metafields.custom.we_pdp_addon_card_title.value != blank
+                            assign we_set_card_title = set_product.metafields.custom.we_pdp_addon_card_title.value
+                          else
+                            assign we_set_card_title = 'Matratzenschoner hinzufügen'
+                          endif
                         endif
                       -%}
                       <div class="product-set-picker__item">
@@ -641,7 +647,7 @@
                           }
                         </script>
                         <template id="SetWeCardDefaultPrice-{{ block.id }}-{{ section.id }}-{{ set_product.id }}">
-                          {% render 'price', product: set_product, price_class: 'product-set-picker__f-price' %}
+                          {% render 'price', product: set_product, price_class: 'product-set-picker__f-price', we_force_from_price: true %}
                         </template>
                         <div class="product-set-picker__card">
                           <label class="product-set-picker__card-row">
@@ -682,7 +688,7 @@
                                 data-product-id="{{ set_product.id }}"
                                 data-default-price-template="SetWeCardDefaultPrice-{{ block.id }}-{{ section.id }}-{{ set_product.id }}"
                               >
-                                {% render 'price', product: set_product, price_class: 'product-set-picker__f-price' %}
+                                {% render 'price', product: set_product, price_class: 'product-set-picker__f-price', we_force_from_price: true %}
                               </span>
                             </span>
                             <span class="product-set-picker__checkbox-ui" aria-hidden="true"></span>
@@ -703,6 +709,14 @@
                         </div>
                       </div>
                     {%- endfor -%}
+                    {%- render 'we-pdp-bundle-tag-extras',
+                      product: product,
+                      set_products: we_set_products,
+                      mode: 'products',
+                      block: block,
+                      product_form_id: product_form_id,
+                      update_browser_history: update_browser_history
+                    -%}
                 </div>
               {%- endif -%}
 
@@ -766,12 +780,14 @@
                         {%- for sp in set_products_zw -%}
                           "{{ sp.id }}":{{ sp.title | json }}{%- unless forloop.last -%},{%- endunless -%}
                         {%- endfor -%}
+                        {%- render 'we-pdp-bundle-tag-extras', product: product, set_products: set_products_zw, mode: 'titles-json' -%}
                       },
                       "fromPrefix": {{ 'products.product.price.from_price_html' | t: price: '' | json }},
                       "priceMinById":{
                         {%- for sp in set_products_zw -%}
                           "{{ sp.id }}":{{ sp.price_min }}{%- unless forloop.last -%},{%- endunless -%}
                         {%- endfor -%}
+                        {%- render 'we-pdp-bundle-tag-extras', product: product, set_products: set_products_zw, mode: 'prices-json' -%}
                       }
                     }
                   </script>
@@ -1095,12 +1111,14 @@
                         {%- for sp in set_products_zw -%}
                           "{{ sp.id }}":{{ sp.title | json }}{%- unless forloop.last -%},{%- endunless -%}
                         {%- endfor -%}
+                        {%- render 'we-pdp-bundle-tag-extras', product: product, set_products: set_products_zw, mode: 'titles-json' -%}
                       },
                       "fromPrefix": {{ 'products.product.price.from_price_html' | t: price: '' | json }},
                       "priceMinById":{
                         {%- for sp in set_products_zw -%}
                           "{{ sp.id }}":{{ sp.price_min }}{%- unless forloop.last -%},{%- endunless -%}
                         {%- endfor -%}
+                        {%- render 'we-pdp-bundle-tag-extras', product: product, set_products: set_products_zw, mode: 'prices-json' -%}
                       }
                     }
                   </script>

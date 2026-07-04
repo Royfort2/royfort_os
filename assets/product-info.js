@@ -436,18 +436,28 @@ if (!customElements.get('product-info')) {
         let groups = this._getMainOptionInputGroups(variantSelectsEl);
         if (!groups.length) return null;
 
-        const selected = [];
+        const byPosition = {};
+        let maxPos = 0;
         for (const wrap of groups) {
+          const pos = this._getOptionGroupPosition(wrap);
+          if (!pos) return null;
+          maxPos = Math.max(maxPos, pos);
+
           const selectEl = wrap.querySelector('select[name^="options"]');
           if (selectEl) {
             const opt = selectEl.selectedOptions?.[0];
             if (!opt) return null;
-            selected.push(String(opt.value));
+            byPosition[pos] = String(opt.value);
             continue;
           }
           const checked = this.findCheckedOptionRadio(wrap);
           if (!checked) return null;
-          selected.push(String(checked.value));
+          byPosition[pos] = String(checked.value);
+        }
+        const selected = [];
+        for (let i = 1; i <= maxPos; i++) {
+          if (byPosition[i] == null) return null;
+          selected.push(byPosition[i]);
         }
 
         const matchesOptions = (v, sel) => {
@@ -503,16 +513,25 @@ if (!customElements.get('product-info')) {
        */
       _getSelectedOptionValuesFromVariantSelects(vs) {
         if (!vs?.querySelectorAll) return [];
-        const selected = [];
+        const byPosition = {};
+        let maxPos = 0;
         for (const wrap of this._getMainOptionInputGroups(vs)) {
+          const pos = this._getOptionGroupPosition(wrap);
+          if (!pos) continue;
+          maxPos = Math.max(maxPos, pos);
+
           const selectEl = wrap.querySelector('select[name^="options"]');
           if (selectEl) {
             const opt = selectEl.selectedOptions?.[0];
-            selected.push(opt?.value ?? '');
+            byPosition[pos] = opt?.value ?? '';
             continue;
           }
           const checked = this.findCheckedOptionRadio(wrap);
-          selected.push(checked?.value ?? '');
+          byPosition[pos] = checked?.value ?? '';
+        }
+        const selected = [];
+        for (let i = 1; i <= maxPos; i++) {
+          selected.push(byPosition[i] ?? '');
         }
         return selected;
       }

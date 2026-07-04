@@ -40,19 +40,53 @@
     );
   }
 
+  function getOptionGroupPosition(wrap) {
+    if (!wrap) return 0;
+    const details = wrap.querySelector('details.we-select-container[data-we-option-position]');
+    if (details?.dataset?.weOptionPosition) {
+      return parseInt(details.dataset.weOptionPosition, 10) || 0;
+    }
+    const probe = wrap.querySelector('input[type="radio"][data-option-value-id]');
+    if (!probe) return 0;
+    const name = probe.getAttribute('name') || '';
+    const nameMatch = name.match(/-o(\d+)$/);
+    if (nameMatch) return parseInt(nameMatch[1], 10);
+    const id = probe.id || '';
+    const idMatch = id.match(/-(\d+)-\d+$/);
+    if (idMatch) return parseInt(idMatch[1], 10);
+    return 0;
+  }
+
   function getSelectedOptionValues(variantSelects) {
-    const values = [];
-    if (!variantSelects) return values;
+    const byPosition = {};
+    let maxPos = 0;
+    if (!variantSelects) return [];
     variantSelects.querySelectorAll(':scope > .product-form__input').forEach((wrap) => {
+      const hasOption =
+        wrap.querySelector('select[name^="options"]') ||
+        wrap.querySelector('input[type="radio"][data-option-value-id]') ||
+        wrap.querySelector(
+          'details.we-select-container[data-radio-group-name]:not([data-radio-group-name^="quantity-"])'
+        );
+      if (!hasOption) return;
+
+      const pos = getOptionGroupPosition(wrap);
+      if (!pos) return;
+      maxPos = Math.max(maxPos, pos);
+
       const optionSelect = wrap.querySelector('select[name^="options"]');
       if (optionSelect) {
         const opt = optionSelect.selectedOptions?.[0];
-        if (opt?.value) values.push(opt.value);
+        byPosition[pos] = opt?.value ?? '';
         return;
       }
       const checked = findCheckedOptionRadioInWrap(wrap);
-      if (checked) values.push(checked.value);
+      byPosition[pos] = checked?.value ?? '';
     });
+    const values = [];
+    for (let i = 1; i <= maxPos; i++) {
+      values.push(byPosition[i] ?? '');
+    }
     return values;
   }
 

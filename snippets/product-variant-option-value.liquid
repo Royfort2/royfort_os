@@ -177,9 +177,7 @@
     for="{{ input_id }}"
     class="block relative"
     data-swatch-type="{{ block.settings.swatch_type }}"
-    data-tooltip
   >
-    <span class="tooltip pointer-events-none">{{ value | escape }}</span>
     <span class="swatch-color block" style="--swatch-background: {{ swatch_value }}"></span>
   </label>
 {%- elsif picker_type == 'button' -%}

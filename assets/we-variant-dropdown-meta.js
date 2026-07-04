@@ -29,20 +29,50 @@
     }
   }
 
+  function getOptionGroupPosition(wrap) {
+    if (!wrap) return 0;
+    const details = wrap.querySelector('details.we-select-container[data-we-option-position]');
+    if (details?.dataset?.weOptionPosition) {
+      return parseInt(details.dataset.weOptionPosition, 10) || 0;
+    }
+    const probe =
+      wrap.querySelector('input[type="radio"][data-option-value-id]') ||
+      wrap.querySelector('select[name^="options"] option[data-option-value-id]');
+    return getOptionPositionFromInput(probe || {});
+  }
+
   function getSelectedOptionValues(vs, productInfo) {
-    const selected = [];
+    const byPosition = {};
+    let maxPos = 0;
     vs.querySelectorAll(':scope > .product-form__input').forEach((wrap) => {
+      const hasOption =
+        wrap.querySelector('select[name^="options"]') ||
+        wrap.querySelector('input[type="radio"][data-option-value-id]') ||
+        wrap.querySelector(
+          'details.we-select-container[data-radio-group-name]:not([data-radio-group-name^="quantity-"])'
+        );
+      if (!hasOption) return;
+
+      const pos = getOptionGroupPosition(wrap);
+      if (!pos) return;
+      maxPos = Math.max(maxPos, pos);
+
       const selectEl = wrap.querySelector('select[name^="options"]');
       if (selectEl) {
-        selected.push(selectEl.selectedOptions?.[0]?.value ?? '');
+        byPosition[pos] = selectEl.selectedOptions?.[0]?.value ?? '';
         return;
       }
       const checked =
         productInfo && typeof productInfo.findCheckedOptionRadio === 'function'
           ? productInfo.findCheckedOptionRadio(wrap)
           : null;
-      selected.push(checked?.value ?? '');
+      byPosition[pos] = checked?.value ?? '';
     });
+
+    const selected = [];
+    for (let i = 1; i <= maxPos; i++) {
+      selected.push(byPosition[i] ?? '');
+    }
     return selected;
   }
 

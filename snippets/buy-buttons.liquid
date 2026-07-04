@@ -57,6 +57,23 @@
         assign pdp_set_required_count = 1
         assign pdp_zw_omit_main = true
       endif
+      capture pdp_optional_tag_extra_ids
+        render 'we-pdp-bundle-tag-extras', product: product, set_products: pdp_set_products_list, mode: 'ids'
+      endcapture
+      assign pdp_optional_tag_extra_ids = pdp_optional_tag_extra_ids | strip
+      assign pdp_optional_product_ids = ''
+      for sp in pdp_set_products_list offset: pdp_set_optional_offset
+        if pdp_optional_product_ids != blank
+          assign pdp_optional_product_ids = pdp_optional_product_ids | append: ','
+        endif
+        assign pdp_optional_product_ids = pdp_optional_product_ids | append: sp.id
+      endfor
+      if pdp_optional_tag_extra_ids != blank
+        if pdp_optional_product_ids != blank
+          assign pdp_optional_product_ids = pdp_optional_product_ids | append: ','
+        endif
+        assign pdp_optional_product_ids = pdp_optional_product_ids | append: pdp_optional_tag_extra_ids
+      endif
     endif
 
     assign variant_picker_custom_dropdown = false
@@ -140,8 +157,11 @@
               {%- endfor -%}
             ],
             "optionalProductIds": [
-              {%- for sp in pdp_set_products_list offset: pdp_set_optional_offset -%}
-                {{ sp.id }}{%- unless forloop.last -%},{%- endunless -%}
+              {%- assign pdp_optional_id_list = pdp_optional_product_ids | split: ',' -%}
+              {%- for oid in pdp_optional_id_list -%}
+                {%- if oid != blank -%}
+                  {{ oid | plus: 0 }}{%- unless forloop.last -%},{%- endunless -%}
+                {%- endif -%}
               {%- endfor -%}
             ]
           }

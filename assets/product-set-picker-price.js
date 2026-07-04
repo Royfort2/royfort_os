@@ -31,21 +31,55 @@
     }
   }
 
+  function getOptionGroupPosition(wrap) {
+    if (!wrap) return 0;
+    const details = wrap.querySelector('details.we-select-container[data-we-option-position]');
+    if (details?.dataset?.weOptionPosition) {
+      return parseInt(details.dataset.weOptionPosition, 10) || 0;
+    }
+    const probe = wrap.querySelector('input[type="radio"][data-option-value-id]');
+    if (!probe) return 0;
+    const name = probe.getAttribute('name') || '';
+    const nameMatch = name.match(/-o(\d+)$/);
+    if (nameMatch) return parseInt(nameMatch[1], 10);
+    const id = probe.id || '';
+    const idMatch = id.match(/-(\d+)-\d+$/);
+    if (idMatch) return parseInt(idMatch[1], 10);
+    return 0;
+  }
+
   function getSelectedOptionValues(variantSelects) {
     const productInfo = variantSelects.closest('product-info');
-    const values = [];
+    const byPosition = {};
+    let maxPos = 0;
     variantSelects.querySelectorAll(':scope > .product-form__input').forEach((wrap) => {
+      const hasOption =
+        wrap.querySelector('select[name^="options"]') ||
+        wrap.querySelector('input[type="radio"][data-option-value-id]') ||
+        wrap.querySelector(
+          'details.we-select-container[data-radio-group-name]:not([data-radio-group-name^="quantity-"])'
+        );
+      if (!hasOption) return;
+
+      const pos = getOptionGroupPosition(wrap);
+      if (!pos) return;
+      maxPos = Math.max(maxPos, pos);
+
       const selectEl = wrap.querySelector('select[name^="options"]');
       if (selectEl) {
-        values.push(selectEl.selectedOptions?.[0]?.value ?? '');
+        byPosition[pos] = selectEl.selectedOptions?.[0]?.value ?? '';
         return;
       }
       const checked =
         productInfo && typeof productInfo.findCheckedOptionRadio === 'function'
           ? productInfo.findCheckedOptionRadio(wrap)
           : wrap.querySelector('input[type="radio"]:checked');
-      values.push(checked?.value ?? '');
+      byPosition[pos] = checked?.value ?? '';
     });
+    const values = [];
+    for (let i = 1; i <= maxPos; i++) {
+      values.push(byPosition[i] ?? '');
+    }
     return values;
   }
 

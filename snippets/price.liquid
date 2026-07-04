@@ -8,6 +8,7 @@
   - show_soldout_badge: {Boolean} Renders 'Sold Out' badge if the product matches the condition (optional)
   - price_class: {String} Adds a price class to the price element (optional)
   - section: {Object} Section object — used for custom.we_pdp_preis_nach_grose size detection (optional)
+  - we_force_from_price: {Boolean} Prefix with "from" / "ab" using price_min (optional)
 
   Usage:
   {% render 'price', product: product %}
@@ -192,6 +193,9 @@
     assign money_price = 'products.product.price.from_price_html' | t: price: money_price
   endif
   if we_pas_active and we_pas_show_fixed == false
+    assign money_price = 'products.product.price.from_price_html' | t: price: money_price_min
+  endif
+  if we_force_from_price and product != blank
     assign money_price = 'products.product.price.from_price_html' | t: price: money_price_min
   endif
 
