@@ -1,0 +1,47 @@
+{%- comment -%}
+  Icon-above USP grid (legacy product-usp-upper / site-usp-container).
+  Renders up to 6 items from block settings: icon_N + label_N.
+{%- endcomment -%}
+{%- liquid
+  assign item_count = 0
+  for idx in (1..6)
+    assign icon_key = 'icon_' | append: idx
+    assign label_key = 'label_' | append: idx
+    if block.settings[icon_key] != blank and block.settings[label_key] != blank
+      assign item_count = item_count | plus: 1
+    endif
+  endfor
+-%}
+{%- if item_count > 0 -%}
+  <div
+    class="product__block product__block--usp_icon_grid{% if block.settings.hide_on_mobile %} hidden md:block{% endif %}{% if block.settings.hide_on_desktop %} md:hidden{% endif %}"
+    {{ block.shopify_attributes }}
+  >
+    <div class="product__usp-icon-grid" role="list">
+      {%- for i in (1..6) -%}
+        {%- liquid
+          assign icon_setting = 'icon_' | append: i
+          assign label_setting = 'label_' | append: i
+          assign icon = block.settings[icon_setting]
+          assign label = block.settings[label_setting]
+        -%}
+        {%- if icon != blank and label != blank -%}
+          <div class="product__usp-icon-grid-item" role="listitem">
+            <div class="product__usp-icon-grid-icon">
+              {{
+                icon
+                | image_url: width: 120
+                | image_tag:
+                  loading: 'lazy',
+                  widths: '60, 80, 100, 120',
+                  sizes: '60px',
+                  alt: label
+              }}
+            </div>
+            <p class="product__usp-icon-grid-label">{{ label | escape }}</p>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+{%- endif -%}

@@ -99,6 +99,10 @@
               {%- endif -%}
             </div>
           </we-usp-swiper>
+        {%- when 'usp_icon_grid' -%}
+          {% render 'we-product-usp-icons', block: block %}
+        {%- when 'product_info_tabs' -%}
+          {% render 'we-product-info-tabs', block: block %}
         {%- when 'usp_list' -%}
           <div class="product__block product__block--{{ block.type }}">
             <div class="product__usp-list-container">
