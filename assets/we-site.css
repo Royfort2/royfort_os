@@ -1967,13 +1967,18 @@ swym-storefront-layout-as-drawer .swym-storefront-layout-share-footer-share-btn:
 swym-storefront-layout-notification {
     border-radius: 0 !important;
 }
+product-info #swym-atw-button-container,
+product-info #swym-atw-pdp-button,
+product-info .swym-wishlist-button-bar {
+  display: none !important;
+}
 .swym-atw-btn-wrapper.add_to_cart_button_right-position {
-    width: 100% !important;
+  width: 100% !important;
 }
 @media (max-width: 767.98px) {
-    .swym-atw-btn-wrapper.add_to_cart_button_right-position #swym-atw-pdp-button {
-        padding: 0 !important;
-    }
+  .swym-atw-btn-wrapper.add_to_cart_button_right-position .product-form__submit {
+    width: 100%;
+  }
 }
 
 /* Klaviyo popup */
