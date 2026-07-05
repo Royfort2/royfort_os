@@ -8,21 +8,14 @@
 {% endcomment %}
 {%- liquid
   assign fallback_id = color_variant.id
-  assign swatch_trigger = settings.color_swatch_trigger | downcase
   assign color_option_index = nil
-  for option in product.options_with_values
-    assign option_name = option.name | downcase
-    assign is_color = false
-    if swatch_trigger contains option_name
-      assign is_color = true
-    elsif swatch_trigger contains 'color' and option_name contains 'colour'
-      assign is_color = true
-    endif
-    if is_color
-      assign color_option_index = forloop.index0
-      break
-    endif
-  endfor
+  capture we_color_idx_raw
+    render 'we-product-color-option-index', product: product
+  endcapture
+  assign we_color_idx_raw = we_color_idx_raw | strip
+  if we_color_idx_raw != blank
+    assign color_option_index = we_color_idx_raw | plus: 0
+  endif
 -%}
 {%- if color_option_index == nil -%}
   {{- fallback_id -}}

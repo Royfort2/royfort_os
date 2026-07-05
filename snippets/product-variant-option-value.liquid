@@ -8,12 +8,14 @@
   - skip_value_selected: legacy param; ignored — selection follows pdp_line_variant_for_selection / value.selected
   - pdp_line_variant_for_selection: optional variant object when overriding selection (bundle URL → first set line).
   - we_override_option_selection: when true, use pdp_line_variant_for_selection instead of value.selected
+  - pdp_allow_sold_out_selection: when true, dropdown options stay selectable even if sold out (set add-on cards)
 {% endcomment %}
 {%- liquid
   assign id_namespace = id_namespace | default: section.id
   assign option_name_suffix = option_name_suffix | default: ''
   assign skip_value_selected = skip_value_selected | default: false
   assign we_override_option_selection = we_override_option_selection | default: false
+  assign pdp_allow_sold_out_selection = pdp_allow_sold_out_selection | default: false
   assign value_should_select = value.selected
   if skip_value_selected
     assign value_should_select = false
@@ -132,9 +134,20 @@
       assign swatch_config = settings.swatch_list | newline_to_br | split: '<br />'
       for swatch in swatch_config
         assign swatch_parts = swatch | strip | split: ':'
-        assign swatch_name = swatch_parts.first | downcase | strip
-
-        if swatch_name == value_downcase
+        if swatch_parts.size < 2
+          continue
+        endif
+        assign raw_swatch_names = swatch_parts.first | strip
+        assign swatch_name_parts = raw_swatch_names | split: '|'
+        assign swatch_matched = false
+        for swatch_name_part in swatch_name_parts
+          assign swatch_name = swatch_name_part | downcase | strip
+          if swatch_name == value_downcase
+            assign swatch_matched = true
+            break
+          endif
+        endfor
+        if swatch_matched
           assign swatch_val = swatch_parts.last | strip
           if swatch_val contains '#'
             assign swatch_fallback = swatch_val
@@ -206,7 +219,7 @@
     {% if value_should_select %}
       selected="selected"
     {% endif %}
-    {% if option_disabled %}
+    {% if option_disabled and pdp_allow_sold_out_selection == false %}
       disabled
     {% endif %}
     {% if swatch_value and picker_type == 'swatch_dropdown' %}

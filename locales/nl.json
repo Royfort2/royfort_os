@@ -654,5 +654,10 @@
       "send_on": "JJJJ-MM-DD",
       "send_on_label": "Doorsturen (optioneel)"
     }
+  },
+  "stamped": {
+    "reviews": {
+      "load_more": "Meer beoordelingen laden"
+    }
   }
 }

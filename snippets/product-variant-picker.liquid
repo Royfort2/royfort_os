@@ -19,15 +19,33 @@
     assign option_name_suffix = option_name_suffix | default: ''
     assign id_ns = section.id | append: '-' | append: picker_id_suffix
     assign we_active_variant = product.selected_variant
-    if we_active_variant == blank and request.query_string contains 'variant='
-      assign we_variant_from_url = request.query_string | split: 'variant=' | last | split: '&' | first | strip
+    assign we_url_vid_raw = ''
+    if request.query_string contains 'variant='
+      assign we_url_vid_raw = request.query_string | split: 'variant=' | last | split: '&' | first | strip
+    endif
+    if we_url_vid_raw != blank
       for v in product.variants
         assign v_id_str = v.id | append: ''
-        if v_id_str == we_variant_from_url
+        if v_id_str == we_url_vid_raw
           assign we_active_variant = v
           break
         endif
       endfor
+    endif
+    if we_active_variant == blank
+      capture we_active_vid_raw
+        render 'we-resolve-variant-id-from-url', product: product
+      endcapture
+      assign we_active_vid_raw = we_active_vid_raw | strip
+      if we_active_vid_raw != blank
+        for v in product.variants
+          assign v_id_str = v.id | append: ''
+          if v_id_str == we_active_vid_raw
+            assign we_active_variant = v
+            break
+          endif
+        endfor
+      endif
     endif
     if pdp_set_line_variant_from_bundle != blank
       assign we_active_variant = pdp_set_line_variant_from_bundle
@@ -41,23 +59,25 @@
 
     assign pdp_set_bundle_context = pdp_set_bundle_context | default: false
 
+    assign we_builtin_color_triggers = 'farbe,color,colour,couleur,kleur,colore,cor,farve,färg,farg,kolor,hinta,szín,väri,barva,culoare,renk,farge'
+    if settings.color_swatch_trigger != blank
+      assign we_color_trigger_csv = settings.color_swatch_trigger | append: ',' | append: we_builtin_color_triggers
+    else
+      assign we_color_trigger_csv = we_builtin_color_triggers
+    endif
+    assign we_color_trigger_list = we_color_trigger_csv | downcase | split: ','
+
     assign pdp_qty_anchor_position = blank
     for opt in product.options_with_values
       assign od = opt.name | downcase | strip
       assign is_color_by_trigger = false
-      if settings.color_swatch_trigger != blank
-        assign tr = settings.color_swatch_trigger | downcase | split: ','
-        assign hit = tr | where: od | first
-        if hit != blank
+      for trigger in we_color_trigger_list
+        assign tr_hit = trigger | strip
+        if tr_hit != blank and od == tr_hit
           assign is_color_by_trigger = true
-        elsif od contains 'colour'
-          assign tr2 = settings.color_swatch_trigger | replace: 'color', 'colour' | downcase | split: ','
-          assign hit2 = tr2 | where: od | first
-          if hit2 != blank
-            assign is_color_by_trigger = true
-          endif
+          break
         endif
-      endif
+      endfor
       unless is_color_by_trigger
         assign pdp_qty_anchor_position = opt.position
         break
@@ -73,19 +93,13 @@
       for we_count_opt in product.options_with_values
         assign we_count_name = we_count_opt.name | downcase | strip
         assign we_count_is_color = false
-        if settings.color_swatch_trigger != blank
-          assign we_count_triggers = settings.color_swatch_trigger | downcase | split: ','
-          assign we_count_hit = we_count_triggers | where: we_count_name | first
-          if we_count_hit != blank
+        for trigger in we_color_trigger_list
+          assign tr_hit = trigger | strip
+          if tr_hit != blank and we_count_name == tr_hit
             assign we_count_is_color = true
-          elsif we_count_name contains 'colour'
-            assign we_count_triggers = settings.color_swatch_trigger | replace: 'color', 'colour' | downcase | split: ','
-            assign we_count_hit = we_count_triggers | where: we_count_name | first
-            if we_count_hit != blank
-              assign we_count_is_color = true
-            endif
+            break
           endif
-        endif
+        endfor
         unless we_count_is_color
           assign we_non_color_dropdown_count = we_non_color_dropdown_count | plus: 1
         endunless
@@ -106,24 +120,21 @@
     endif
 
     assign line_color_option_index = 0
-    if settings.color_swatch_trigger != blank
-      assign trigger_list_cc = settings.color_swatch_trigger | downcase | split: ','
-      for option in product.options_with_values
-        assign opt_name_cc = option.name | downcase | strip
-        assign matched_cc = false
-        for trigger in trigger_list_cc
-          assign tr_cc = trigger | strip
-          if opt_name_cc == tr_cc
-            assign line_color_option_index = option.position
-            assign matched_cc = true
-            break
-          endif
-        endfor
-        if matched_cc
+    for option in product.options_with_values
+      assign opt_name_cc = option.name | downcase | strip
+      assign matched_cc = false
+      for trigger in we_color_trigger_list
+        assign tr_cc = trigger | strip
+        if tr_cc != blank and opt_name_cc == tr_cc
+          assign line_color_option_index = option.position
+          assign matched_cc = true
           break
         endif
       endfor
-    endif
+      if matched_cc
+        break
+      endif
+    endfor
 
     assign we_pas_size_option_position = 0
     if product.metafields.custom.we_pdp_preis_nach_grose == true
@@ -184,19 +195,13 @@
           endif
 
           assign is_color_option = false
-          if settings.color_swatch_trigger != blank
-            assign color_swatch_trigger_cd = settings.color_swatch_trigger | downcase | split: ','
-            assign has_color_cd = color_swatch_trigger_cd | where: option_name_downcase | first
-            if has_color_cd != blank
+          for trigger in we_color_trigger_list
+            assign tr_hit = trigger | strip
+            if tr_hit != blank and option_name_downcase == tr_hit
               assign is_color_option = true
-            elsif option_name_downcase contains 'colour'
-              assign color_swatch_trigger_cd = color_swatch_trigger_cd | replace: 'color', 'colour'
-              assign has_color_cd = color_swatch_trigger_cd | where: option_name_downcase | first
-              if has_color_cd != blank
-                assign is_color_option = true
-              endif
+              break
             endif
-          endif
+          endfor
 
           if is_color_option
             if block.settings.swatch_type == 'text'
@@ -214,19 +219,15 @@
               endif
             endif
           endif
-        elsif block.settings.picker_type == 'button' and settings.color_swatch_trigger != blank
-          assign color_swatch_trigger = settings.color_swatch_trigger | downcase | split: ','
-          assign has_color = color_swatch_trigger | where: option_name_downcase | first
+        elsif block.settings.picker_type == 'button'
           unless block.settings.swatch_type == 'text'
-            if has_color != blank
-              assign picker_type = 'color'
-            elsif option_name_downcase contains 'colour'
-              assign color_swatch_trigger = color_swatch_trigger | replace: 'color', 'colour'
-              assign has_color = color_swatch_trigger | where: option_name_downcase | first
-              if has_color != blank
+            for trigger in we_color_trigger_list
+              assign tr_hit = trigger | strip
+              if tr_hit != blank and option_name_downcase == tr_hit
                 assign picker_type = 'color'
+                break
               endif
-            endif
+            endfor
           endunless
         endif
 
@@ -277,18 +278,14 @@
         assign is_color_swatch_picker = false
         if picker_type == 'swatch' or picker_type == 'color'
           assign is_color_swatch_picker = true
-        elsif picker_type == 'button' and settings.color_swatch_trigger != blank
-          assign cst_emb = settings.color_swatch_trigger | downcase | split: ','
-          assign has_c_emb = cst_emb | where: option_name_downcase | first
-          if has_c_emb != blank
-            assign is_color_swatch_picker = true
-          elsif option_name_downcase contains 'colour'
-            assign cst_emb = settings.color_swatch_trigger | replace: 'color', 'colour' | downcase | split: ','
-            assign has_c_emb = cst_emb | where: option_name_downcase | first
-            if has_c_emb != blank
+        elsif picker_type == 'button'
+          for trigger in we_color_trigger_list
+            assign tr_hit = trigger | strip
+            if tr_hit != blank and option_name_downcase == tr_hit
               assign is_color_swatch_picker = true
+              break
             endif
-          endif
+          endfor
         endif
       -%}
       <{{ tag_fieldset }}

@@ -24,11 +24,10 @@
               {%- if filter.type == 'list' -%}
                 {%- liquid
                   assign is_color = false
-                  assign swatch_trigger = settings.color_swatch_trigger | downcase
-                  assign downcase_label = filter.label | downcase
-                  if swatch_trigger contains downcase_label
-                    assign is_color = true
-                  elsif swatch_trigger contains 'color' and downcase_label contains 'colour'
+                  capture we_is_color_facet_active
+                    render 'we-is-color-filter-label', filter_label: filter.label
+                  endcapture
+                  if we_is_color_facet_active == '1'
                     assign is_color = true
                   endif
 

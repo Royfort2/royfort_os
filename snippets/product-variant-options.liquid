@@ -15,7 +15,7 @@
     block: block
     picker_type: picker_type
   %}
-  Optional: pdp_line_variant_for_selection, we_override_option_selection (passed to variant-option-value)
+  Optional: pdp_line_variant_for_selection, we_override_option_selection, pdp_allow_sold_out_selection (passed to variant-option-value)
 {% endcomment %}
 {%- liquid
   assign option_id_namespace = option_id_namespace | default: section.id
@@ -23,6 +23,7 @@
   assign product_form_id = 'product-form-' | append: section.id
   assign image_size = block.settings.button_size | times: 1.5
   assign skip_value_selected = skip_value_selected | default: false
+  assign pdp_allow_sold_out_selection = pdp_allow_sold_out_selection | default: false
   assign use_main_color_rows = false
   if settings.main_colors != blank
     if picker_type == 'color' or picker_type == 'swatch'
@@ -43,7 +44,9 @@
     -%}
     {%- for token in main_tokens -%}
       {%- assign token_norm = token | strip | downcase -%}
-      {%- if value_norm == token_norm -%}
+      {%- capture we_color_eq -%}{%- render 'we-color-names-equivalent', name_a: value, name_b: token -%}{%- endcapture -%}
+      {%- assign we_color_eq = we_color_eq | strip -%}
+      {%- if value_norm == token_norm or we_color_eq == '1' -%}
         {%- assign is_main = true -%}
         {%- break -%}
       {%- endif -%}
@@ -60,7 +63,9 @@
     {%- assign token_norm = token | strip | downcase -%}
     {%- for value in option.values -%}
       {%- assign value_norm = value | strip | downcase -%}
-      {%- if value_norm == token_norm -%}
+      {%- capture we_color_eq -%}{%- render 'we-color-names-equivalent', name_a: value, name_b: token -%}{%- endcapture -%}
+      {%- assign we_color_eq = we_color_eq | strip -%}
+      {%- if value_norm == token_norm or we_color_eq == '1' -%}
         {%- assign main_match_count = main_match_count | plus: 1 -%}
         {%- break -%}
       {%- endif -%}
@@ -68,27 +73,35 @@
   {%- endfor -%}
 
   {%- if main_match_count > 0 -%}
+    {%- assign we_main_rendered_marker = '||' -%}
     <div class="variant-options__row we-variant-options__row we-variant-options__row--main flex flex-wrap gap-4">
       {%- for token in main_tokens -%}
         {%- assign token_norm = token | strip | downcase -%}
         {%- for value in option.values -%}
           {%- assign value_norm = value | strip | downcase -%}
-          {%- if value_norm == token_norm -%}
-            {% render 'product-variant-option-value',
-              section: section,
-              block: block,
-              option: option,
-              value: value,
-              picker_type: picker_type,
-              product_form_id: product_form_id,
-              image_size: image_size,
-              value_index: forloop.index0,
-              id_namespace: option_id_namespace,
-              option_name_suffix: option_name_suffix,
-              skip_value_selected: skip_value_selected,
-              pdp_line_variant_for_selection: pdp_line_variant_for_selection,
-              we_override_option_selection: we_override_option_selection
-            %}
+          {%- capture we_color_eq -%}{%- render 'we-color-names-equivalent', name_a: value, name_b: token -%}{%- endcapture -%}
+          {%- assign we_color_eq = we_color_eq | strip -%}
+          {%- if value_norm == token_norm or we_color_eq == '1' -%}
+            {%- assign value_marker = '||' | append: value | append: '||' -%}
+            {%- unless we_main_rendered_marker contains value_marker -%}
+              {%- assign we_main_rendered_marker = we_main_rendered_marker | append: value | append: '||' -%}
+              {% render 'product-variant-option-value',
+                section: section,
+                block: block,
+                option: option,
+                value: value,
+                picker_type: picker_type,
+                product_form_id: product_form_id,
+                image_size: image_size,
+                value_index: forloop.index0,
+                id_namespace: option_id_namespace,
+                option_name_suffix: option_name_suffix,
+                skip_value_selected: skip_value_selected,
+                pdp_line_variant_for_selection: pdp_line_variant_for_selection,
+                we_override_option_selection: we_override_option_selection,
+                pdp_allow_sold_out_selection: pdp_allow_sold_out_selection
+              %}
+            {%- endunless -%}
             {%- break -%}
           {%- endif -%}
         {%- endfor -%}
@@ -105,7 +118,9 @@
         -%}
         {%- for token in main_tokens -%}
           {%- assign token_norm = token | strip | downcase -%}
-          {%- if value_norm == token_norm -%}
+          {%- capture we_color_eq -%}{%- render 'we-color-names-equivalent', name_a: value, name_b: token -%}{%- endcapture -%}
+          {%- assign we_color_eq = we_color_eq | strip -%}
+          {%- if value_norm == token_norm or we_color_eq == '1' -%}
             {%- assign is_main = true -%}
             {%- break -%}
           {%- endif -%}
@@ -124,7 +139,8 @@
             option_name_suffix: option_name_suffix,
             skip_value_selected: skip_value_selected,
             pdp_line_variant_for_selection: pdp_line_variant_for_selection,
-            we_override_option_selection: we_override_option_selection
+            we_override_option_selection: we_override_option_selection,
+            pdp_allow_sold_out_selection: pdp_allow_sold_out_selection
           %}
         {%- endunless -%}
       {%- endfor -%}
@@ -145,7 +161,8 @@
       option_name_suffix: option_name_suffix,
       skip_value_selected: skip_value_selected,
       pdp_line_variant_for_selection: pdp_line_variant_for_selection,
-      we_override_option_selection: we_override_option_selection
+      we_override_option_selection: we_override_option_selection,
+      pdp_allow_sold_out_selection: pdp_allow_sold_out_selection
     %}
   {%- endfor -%}
 {%- endif -%}

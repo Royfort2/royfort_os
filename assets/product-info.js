@@ -411,6 +411,46 @@ if (!customElements.get('product-info')) {
           .replace(/\s+/g, ' ');
       }
 
+      _getColorNameGroups() {
+        if (this._colorNameGroups) return this._colorNameGroups;
+        if (window.WeColorI18n?.readGroupsFromProductInfo) {
+          this._colorNameGroups = window.WeColorI18n.readGroupsFromProductInfo(this);
+        } else {
+          this._colorNameGroups = [];
+        }
+        return this._colorNameGroups;
+      }
+
+      _colorOptionsMatch(a, b) {
+        if (window.WeColorI18n?.colorNamesMatch) {
+          return window.WeColorI18n.colorNamesMatch(a, b, this._getColorNameGroups());
+        }
+        return this.normOptionValue(a) === this.normOptionValue(b);
+      }
+
+      _findVariantByColorOption(variants, colorIdx, colorValue) {
+        if (!variants?.length || colorIdx < 1 || colorValue == null || String(colorValue).trim() === '') {
+          return null;
+        }
+        const key = `option${colorIdx}`;
+        const match = (v) => this._colorOptionsMatch(v[key], colorValue);
+        return variants.find((v) => match(v) && v.available !== false) || variants.find((v) => match(v)) || null;
+      }
+
+      _updateMediaGalleryForColor(colorIdx, colorValue) {
+        const productMedia = this.querySelector(`[id^="MediaGallery-${this.dataset.section}"]`);
+        if (!productMedia || colorIdx < 1 || colorValue == null || String(colorValue).trim() === '') return;
+
+        const variants = this._getMainProductVariantsFromDom();
+        let variant = this._findVariantByColorOption(variants, colorIdx, colorValue);
+
+        if (!variant) {
+          variant = { [`option${colorIdx}`]: String(colorValue).trim() };
+        }
+
+        this.updateMedia(variant);
+      }
+
       /**
        * Shopify Liquid sets product.selected_variant from the `variant` query param, not `option_values` alone.
        * Resolve the matching variant id from current picker UI so section fetches return correct SSR (summary + radios).
@@ -956,20 +996,7 @@ if (!customElements.get('product-info')) {
 
         if (!colorValue) return;
 
-        const variants = this._getMainProductVariantsFromDom();
-        if (!variants?.length) return;
-
-        const key = `option${mainBundleColorIdx}`;
-        const norm = (s) => this.normOptionValue(s);
-        const want = norm(colorValue);
-        const match = (v) => norm(v[key]) === want;
-
-        const variant =
-          variants.find((v) => match(v) && v.available !== false) || variants.find((v) => match(v));
-
-        if (variant) {
-          this.updateMedia(variant);
-        }
+        this._updateMediaGalleryForColor(mainBundleColorIdx, colorValue);
       }
 
       /**
@@ -993,20 +1020,7 @@ if (!customElements.get('product-info')) {
         const cv = selected[colorIdx - 1];
         if (cv == null || String(cv).trim() === '') return;
 
-        const variants = this._getMainProductVariantsFromDom();
-        if (!variants?.length) return;
-
-        const key = `option${colorIdx}`;
-        const norm = (s) => this.normOptionValue(s);
-        const want = norm(cv);
-        const match = (v) => norm(v[key]) === want;
-
-        const variant =
-          variants.find((v) => match(v) && v.available !== false) || variants.find((v) => match(v));
-
-        if (variant) {
-          this.updateMedia(variant);
-        }
+        this._updateMediaGalleryForColor(colorIdx, cv);
       }
 
       handleOptionValueChange(payload) {
@@ -1214,10 +1228,18 @@ if (!customElements.get('product-info')) {
                 const fid = this._getPdpSetFirstSetProductId();
                 if (fid) {
                   const sid = this.dataset?.section || this.sectionId;
-                  const vsFirst = sid
-                    ? document.getElementById(`variant-selects-${sid}-${fid}`)
-                    : null;
+                  const vsFirstId = sid ? `variant-selects-${sid}-${fid}` : null;
+                  const vsFirst = vsFirstId ? document.getElementById(vsFirstId) : null;
                   if (vsFirst) this.syncMainMediaGalleryFromFirstSetPicker(vsFirst);
+                  if (
+                    vsFirst &&
+                    variantSelectsId &&
+                    vsFirstId &&
+                    variantSelectsId === vsFirstId &&
+                    typeof window.syncSetAddonColorsFromFirstSetLine === 'function'
+                  ) {
+                    window.syncSetAddonColorsFromFirstSetLine(vsFirst);
+                  }
                 }
               }
               document.dispatchEvent(new CustomEvent('pdp-set:refresh-submit', { bubbles: true }));

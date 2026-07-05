@@ -59,8 +59,4 @@
     -%}
     <span class="f-badge f-badge--sale">{{ sale_badge }}</span>
   {%- endif -%}
-{%- else -%}
-  {%- if block.settings.show_soldout_badge -%}
-    <span class="f-badge f-badge--soldout">{{ 'products.product.sold_out' | t }}</span>
-  {%- endif -%}
 {%- endif -%}

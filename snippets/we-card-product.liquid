@@ -5,16 +5,11 @@
   assign gallery_color_name = ''
   if pcard_gallery_variant != blank
     assign swiper_variant = pcard_gallery_variant
-    assign swatch_trigger_opt = settings.color_swatch_trigger | downcase
     for option in product.options_with_values
-      assign option_name = option.name | downcase
-      assign is_color_opt = false
-      if swatch_trigger_opt contains option_name
-        assign is_color_opt = true
-      elsif swatch_trigger_opt contains 'color' and option_name contains 'colour'
-        assign is_color_opt = true
-      endif
-      if is_color_opt
+      capture we_is_color_opt
+        render 'we-is-color-option-name', option_name: option.name
+      endcapture
+      if we_is_color_opt == '1'
         assign gallery_color_name = pcard_gallery_variant.options[forloop.index0]
         break
       endif
@@ -22,16 +17,11 @@
   endif
   assign we_pcard_color_for_media = gallery_color_name
   if we_pcard_color_for_media == blank
-    assign swatch_trigger_opt2 = settings.color_swatch_trigger | downcase
     for option in product.options_with_values
-      assign option_name = option.name | downcase
-      assign is_color_opt2 = false
-      if swatch_trigger_opt2 contains option_name
-        assign is_color_opt2 = true
-      elsif swatch_trigger_opt2 contains 'color' and option_name contains 'colour'
-        assign is_color_opt2 = true
-      endif
-      if is_color_opt2
+      capture we_is_color_opt2
+        render 'we-is-color-option-name', option_name: option.name
+      endcapture
+      if we_is_color_opt2 == '1'
         assign we_pcard_color_for_media = swiper_variant.options[forloop.index0]
         break
       endif
@@ -331,20 +321,15 @@
           </a>
           {%- if swiper_interactive_swatches -%}
             {%- liquid
-              assign swatch_trigger = settings.color_swatch_trigger | downcase
               assign variant_templates_done = false
               assign initial_swiper_template_done = false
             -%}
             {%- for option in product.options_with_values -%}
               {%- liquid
-                assign option_name = option.name | downcase
-                assign is_color = false
-                if swatch_trigger contains option_name
-                  assign is_color = true
-                elsif swatch_trigger contains 'color' and option_name contains 'colour'
-                  assign is_color = true
-                endif
-                unless is_color
+                capture we_is_color_swatch
+                  render 'we-is-color-option-name', option_name: option.name
+                endcapture
+                unless we_is_color_swatch == '1'
                   continue
                 endunless
                 if variant_templates_done
@@ -437,19 +422,14 @@
             </motion-element>
           </a>
           {%- liquid
-            assign swatch_trigger = settings.color_swatch_trigger | downcase
             assign variant_templates_done = false
           -%}
           {%- for option in product.options_with_values -%}
             {%- liquid
-              assign option_name = option.name | downcase
-              assign is_color = false
-              if swatch_trigger contains option_name
-                assign is_color = true
-              elsif swatch_trigger contains 'color' and option_name contains 'colour'
-                assign is_color = true
-              endif
-              unless is_color
+              capture we_is_color_static
+                render 'we-is-color-option-name', option_name: option.name
+              endcapture
+              unless we_is_color_static == '1'
                 continue
               endunless
               if variant_templates_done

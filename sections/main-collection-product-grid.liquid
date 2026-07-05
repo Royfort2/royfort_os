@@ -39,7 +39,6 @@
   assign collection_plp_badge_filter = ''
   if section.settings.render_variants
     assign collection_plp_badge_filter = collection.metafields.custom.plp_badge_name_to_display.value | default: '' | strip
-    assign facet_swatch_t = settings.color_swatch_trigger | downcase
     for vcf in collection.filters
       if vcf.active_values.size == 0
         continue
@@ -49,14 +48,14 @@
         continue
       endunless
       assign vcf_opt_key = vcf_pn | split: '.' | last
-      assign vcf_label = vcf.label | downcase
       assign vcf_is_color = false
-      if vcf_opt_key == 'farbe' or vcf_opt_key == 'colour' or vcf_opt_key == 'color'
+      if vcf_opt_key == 'farbe' or vcf_opt_key == 'colour' or vcf_opt_key == 'color' or vcf_opt_key == 'couleur' or vcf_opt_key == 'kleur' or vcf_opt_key == 'colore'
         assign vcf_is_color = true
-      elsif facet_swatch_t != blank
-        if facet_swatch_t contains vcf_label
-          assign vcf_is_color = true
-        elsif facet_swatch_t contains 'color' and vcf_label contains 'colour'
+      else
+        capture we_vcf_is_color
+          render 'we-is-color-filter-label', filter_label: vcf.label
+        endcapture
+        if we_vcf_is_color == '1'
           assign vcf_is_color = true
         endif
       endif
@@ -84,14 +83,14 @@
           continue
         endunless
         assign vfs_opt_key = vfs_pn | split: '.' | last
-        assign vfs_label = vfs.label | downcase
         assign vfs_color_facet = false
-        if vfs_opt_key == 'farbe' or vfs_opt_key == 'colour' or vfs_opt_key == 'color'
+        if vfs_opt_key == 'farbe' or vfs_opt_key == 'colour' or vfs_opt_key == 'color' or vfs_opt_key == 'couleur' or vfs_opt_key == 'kleur' or vfs_opt_key == 'colore'
           assign vfs_color_facet = true
-        elsif facet_swatch_t != blank
-          if facet_swatch_t contains vfs_label
-            assign vfs_color_facet = true
-          elsif facet_swatch_t contains 'color' and vfs_label contains 'colour'
+        else
+          capture we_vfs_is_color
+            render 'we-is-color-filter-label', filter_label: vfs.label
+          endcapture
+          if we_vfs_is_color == '1'
             assign vfs_color_facet = true
           endif
         endif
@@ -106,7 +105,7 @@
         endif
       endfor
       if variant_count_color_facets_suffixes == blank
-        assign variant_count_color_facets_suffixes = '"farbe","colour","color"'
+        assign variant_count_color_facets_suffixes = '"farbe","colour","color","couleur","kleur","colore"'
       endif
 
     assign ssr_variant_card_total = nil
@@ -118,22 +117,15 @@
     endif
     if ssr_compute_full_variant_total
       assign ssr_acc = 0
-      assign ssr_sw = settings.color_swatch_trigger | downcase
       for srp in collection.products
         assign srp_coi = nil
-        for srp_opt in srp.options_with_values
-          assign srp_on = srp_opt.name | downcase
-          assign srp_ic = false
-          if ssr_sw contains srp_on
-            assign srp_ic = true
-          elsif ssr_sw contains 'color' and srp_on contains 'colour'
-            assign srp_ic = true
-          endif
-          if srp_ic
-            assign srp_coi = forloop.index0
-            break
-          endif
-        endfor
+        capture we_ssr_color_idx
+          render 'we-product-color-option-index', product: srp
+        endcapture
+        assign we_ssr_color_idx = we_ssr_color_idx | strip
+        if we_ssr_color_idx != blank
+          assign srp_coi = we_ssr_color_idx | plus: 0
+        endif
         if srp_coi == nil
           assign ssr_acc = ssr_acc | plus: 1
         else
@@ -325,7 +317,6 @@
                 assign grid_card_position = paginate.current_offset
                 if section.settings.render_variants
                   assign cards_before = 0
-                  assign swatch_trigger = settings.color_swatch_trigger | downcase
                   assign prev_coll = collections[collection.handle]
                   if prev_coll != blank
                     for product in prev_coll.products limit: paginate.current_offset
@@ -333,19 +324,13 @@
                         assign cards_before = cards_before | plus: 1
                       else
                         assign promo_color_option_index = nil
-                        for option in product.options_with_values
-                          assign option_name = option.name | downcase
-                          assign is_color = false
-                          if swatch_trigger contains option_name
-                            assign is_color = true
-                          elsif swatch_trigger contains 'color' and option_name contains 'colour'
-                            assign is_color = true
-                          endif
-                          if is_color
-                            assign promo_color_option_index = forloop.index0
-                            break
-                          endif
-                        endfor
+                        capture we_promo_color_idx
+                          render 'we-product-color-option-index', product: product
+                        endcapture
+                        assign we_promo_color_idx = we_promo_color_idx | strip
+                        if we_promo_color_idx != blank
+                          assign promo_color_option_index = we_promo_color_idx | plus: 0
+                        endif
                         if promo_color_option_index == nil
                           assign cards_before = cards_before | plus: 1
                         else
@@ -439,20 +424,13 @@
                   {%- else -%}
                     {%- liquid
                       assign color_option_index = nil
-                      assign swatch_trigger = settings.color_swatch_trigger | downcase
-                      for option in product.options_with_values
-                        assign option_name = option.name | downcase
-                        assign is_color = false
-                        if swatch_trigger contains option_name
-                          assign is_color = true
-                        elsif swatch_trigger contains 'color' and option_name contains 'colour'
-                          assign is_color = true
-                        endif
-                        if is_color
-                          assign color_option_index = forloop.index0
-                          break
-                        endif
-                      endfor
+                      capture we_grid_color_idx
+                        render 'we-product-color-option-index', product: product
+                      endcapture
+                      assign we_grid_color_idx = we_grid_color_idx | strip
+                      if we_grid_color_idx != blank
+                        assign color_option_index = we_grid_color_idx | plus: 0
+                      endif
                     -%}
                     {%- if color_option_index == nil -%}
                       <div class="f-column card">

@@ -1336,14 +1336,14 @@
         "type": "text",
         "id": "color_swatch_trigger",
         "label": "t:settings_schema.color_swatches.settings.color_swatch_trigger.label",
-        "placeholder": "Color,Colour,Couleur,Farbe",
-        "info": "t:settings_schema.color_swatches.settings.color_swatch_trigger.info"
+        "placeholder": "Color,Colour,Couleur,Farbe,Kleur,Colore",
+        "info": "Comma-separated option names that identify the color option in any storefront language. Built-in defaults cover common locales (DE/EN/FR/NL/IT/ES)."
       },
       {
         "type": "textarea",
         "id": "swatch_list",
         "label": "t:settings_schema.color_swatches.settings.swatch_list.label",
-        "info": "t:settings_schema.color_swatches.settings.swatch_list.info",
+        "info": "One color per line: NameDE|NameEN|NameFR|NameNL:#hexcode. Same hex = same color across languages (swatches, gallery, sort order).",
         "placeholder": "Red:#ff0000\nGreen:#00ff00\nBlue:#0000ff"
       }
     ]
@@ -1634,6 +1634,16 @@
         "id": "qty_selector_unit_long",
         "label": "Quantity selector unit long",
         "default": "Stück"
+      },
+      {
+        "type": "header",
+        "content": "Klaviyo Back in Stock (Set Add-ons)"
+      },
+      {
+        "type": "text",
+        "id": "we_klaviyo_company_id",
+        "label": "Klaviyo Public API Key (Site ID)",
+        "info": "Optional fallback if auto-detection fails. Klaviyo → Settings → Account → Settings → API Keys → Public API key / Site ID."
       }
     ]
   },

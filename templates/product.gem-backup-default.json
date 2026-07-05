@@ -456,7 +456,8 @@
           "type": "tab",
           "settings": {
             "heading": "Beschreibung",
-            "content": "{{ product.description }}",
+            "content_source": "product_description",
+            "content": "",
             "page": "",
             "default_open": true
           }
@@ -465,7 +466,18 @@
           "type": "tab",
           "settings": {
             "heading": "Produktdetails",
-            "content": "{{ product.metafields.custom.we_pdp_material | metafield_tag }}",
+            "content_source": "metafield_material",
+            "content": "",
+            "page": "",
+            "default_open": false
+          }
+        },
+        "tab_pflegehinweise": {
+          "type": "tab",
+          "settings": {
+            "heading": "Pflegehinweise",
+            "content_source": "metafield_pflegehinweise",
+            "content": "",
             "page": "",
             "default_open": false
           }
@@ -474,7 +486,8 @@
           "type": "tab",
           "settings": {
             "heading": "Versand & Rückgabe",
-            "content": "{{ product.metafields.custom.we_pdp_pflegehinweise | metafield_tag }}",
+            "content_source": "metafield_versand_rueckgabe",
+            "content": "",
             "page": "",
             "default_open": false
           }
@@ -483,6 +496,7 @@
       "block_order": [
         "tab_nchLr4",
         "tab_BP6rpW",
+        "tab_pflegehinweise",
         "tab_TezEJi"
       ],
       "name": "[we] Product info tabs",

@@ -1,0 +1,32 @@
+{%- comment -%}
+  Renders tab panel content for [we] Product info tabs.
+  Accepts: block, product
+{%- endcomment -%}
+{%- liquid
+  assign content_source = block.settings.content_source | default: 'custom'
+
+  case content_source
+    when 'product_description'
+      if product.description != blank
+        echo product.description
+      endif
+    when 'metafield_material'
+      if product.metafields.custom.we_pdp_material != blank
+        echo product.metafields.custom.we_pdp_material | metafield_tag
+      endif
+    when 'metafield_pflegehinweise'
+      if product.metafields.custom.we_pdp_pflegehinweise != blank
+        echo product.metafields.custom.we_pdp_pflegehinweise | metafield_tag
+      endif
+    when 'metafield_versand_rueckgabe'
+      if product.metafields.custom.we_pdp_versand_rueckgabe != blank
+        echo product.metafields.custom.we_pdp_versand_rueckgabe | metafield_tag
+      endif
+    else
+      if block.settings.page.content != blank
+        echo block.settings.page.content
+      elsif block.settings.content != blank
+        echo block.settings.content
+      endif
+  endcase
+-%}

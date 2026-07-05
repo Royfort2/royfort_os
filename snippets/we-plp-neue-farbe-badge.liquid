@@ -12,23 +12,16 @@
   assign plp_nf_txt = blank
   assign plp_nf_ci = ''
   assign plp_nf_has_col = false
-  assign sw_plp = settings.color_swatch_trigger | downcase | strip
-  if sw_plp != blank
-    for option in product.options_with_values
-      assign on_plp = option.name | downcase
-      assign nf_is_col = false
-      if sw_plp contains on_plp
-        assign nf_is_col = true
-      elsif sw_plp contains 'color' and on_plp contains 'colour'
-        assign nf_is_col = true
-      endif
-      if nf_is_col
-        assign plp_nf_has_col = true
-        assign plp_nf_ci = forloop.index0
-        break
-      endif
-    endfor
-  endif
+  for option in product.options_with_values
+    capture we_nf_is_col
+      render 'we-is-color-option-name', option_name: option.name
+    endcapture
+    if we_nf_is_col == '1'
+      assign plp_nf_has_col = true
+      assign plp_nf_ci = forloop.index0
+      break
+    endif
+  endfor
 
   if color_variant != blank and plp_nf_has_col
     assign plp_nf_tgt = color_variant.options[plp_nf_ci] | default: '' | strip

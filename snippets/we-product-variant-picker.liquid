@@ -17,15 +17,33 @@
     assign picker_id_suffix = picker_id_suffix | default: product.id
     assign id_ns = section.id | append: '-' | append: picker_id_suffix
     assign we_active_variant = product.selected_variant
-    if we_active_variant == blank and request.query_string contains 'variant='
-      assign we_variant_from_url = request.query_string | split: 'variant=' | last | split: '&' | first | strip
+    capture we_url_vid_raw
+      render 'we-variant-id-from-query', product: product
+    endcapture
+    assign we_url_vid_raw = we_url_vid_raw | strip
+    if we_url_vid_raw != blank
       for v in product.variants
         assign v_id_str = v.id | append: ''
-        if v_id_str == we_variant_from_url
+        if v_id_str == we_url_vid_raw
           assign we_active_variant = v
           break
         endif
       endfor
+    endif
+    if we_active_variant == blank
+      capture we_active_vid_raw
+        render 'we-resolve-variant-id-from-url', product: product
+      endcapture
+      assign we_active_vid_raw = we_active_vid_raw | strip
+      if we_active_vid_raw != blank
+        for v in product.variants
+          assign v_id_str = v.id | append: ''
+          if v_id_str == we_active_vid_raw
+            assign we_active_variant = v
+            break
+          endif
+        endfor
+      endif
     endif
     if pdp_set_line_variant_from_bundle != blank
       assign we_active_variant = pdp_set_line_variant_from_bundle
@@ -37,6 +55,7 @@
       assign we_use_bundle_line_variant = true
     endif
     assign pdp_set_bundle_context = pdp_set_bundle_context | default: false
+    assign pdp_set_addon_card = pdp_set_addon_card | default: false
     assign size_option_name = block.settings.size_title | downcase
     assign size_chart_content = product.metafields.foxtheme.size_chart.value.content
     assign size_chart_modal_id = 'SizeChartModal-' | append: block.id | append: '-' | append: picker_id_suffix
@@ -45,23 +64,25 @@
       assign size_chart_content = pages[block.settings.size_chart_from_page].content
     endif
 
+    assign we_builtin_color_triggers = 'farbe,color,colour,couleur,kleur,colore,cor,farve,färg,farg,kolor,hinta,szín,väri,barva,culoare,renk'
+    if settings.color_swatch_trigger != blank
+      assign we_color_trigger_csv = settings.color_swatch_trigger | append: ',' | append: we_builtin_color_triggers
+    else
+      assign we_color_trigger_csv = we_builtin_color_triggers
+    endif
+    assign we_color_trigger_list = we_color_trigger_csv | downcase | split: ','
+
     assign pdp_qty_anchor_position = blank
     for opt in product.options_with_values
       assign od = opt.name | downcase | strip
       assign is_color_by_trigger = false
-      if settings.color_swatch_trigger != blank
-        assign tr = settings.color_swatch_trigger | downcase | split: ','
-        assign hit = tr | where: od | first
-        if hit != blank
+      for trigger in we_color_trigger_list
+        assign tr_hit = trigger | strip
+        if tr_hit != blank and od == tr_hit
           assign is_color_by_trigger = true
-        elsif od contains 'colour'
-          assign tr2 = settings.color_swatch_trigger | replace: 'color', 'colour' | downcase | split: ','
-          assign hit2 = tr2 | where: od | first
-          if hit2 != blank
-            assign is_color_by_trigger = true
-          endif
+          break
         endif
-      endif
+      endfor
       unless is_color_by_trigger
         assign pdp_qty_anchor_position = opt.position
         break
@@ -77,19 +98,13 @@
       for we_count_opt in product.options_with_values
         assign we_count_name = we_count_opt.name | downcase | strip
         assign we_count_is_color = false
-        if settings.color_swatch_trigger != blank
-          assign we_count_triggers = settings.color_swatch_trigger | downcase | split: ','
-          assign we_count_hit = we_count_triggers | where: we_count_name | first
-          if we_count_hit != blank
+        for trigger in we_color_trigger_list
+          assign tr_hit = trigger | strip
+          if tr_hit != blank and we_count_name == tr_hit
             assign we_count_is_color = true
-          elsif we_count_name contains 'colour'
-            assign we_count_triggers = settings.color_swatch_trigger | replace: 'color', 'colour' | downcase | split: ','
-            assign we_count_hit = we_count_triggers | where: we_count_name | first
-            if we_count_hit != blank
-              assign we_count_is_color = true
-            endif
+            break
           endif
-        endif
+        endfor
         unless we_count_is_color
           assign we_non_color_dropdown_count = we_non_color_dropdown_count | plus: 1
         endunless
@@ -104,24 +119,21 @@
     endif
 
     assign line_color_option_index = 0
-    if settings.color_swatch_trigger != blank
-      assign trigger_list_cc = settings.color_swatch_trigger | downcase | split: ','
-      for option in product.options_with_values
-        assign opt_name_cc = option.name | downcase | strip
-        assign matched_cc = false
-        for trigger in trigger_list_cc
-          assign tr_cc = trigger | strip
-          if opt_name_cc == tr_cc
-            assign line_color_option_index = option.position
-            assign matched_cc = true
-            break
-          endif
-        endfor
-        if matched_cc
+    for option in product.options_with_values
+      assign opt_name_cc = option.name | downcase | strip
+      assign matched_cc = false
+      for trigger in we_color_trigger_list
+        assign tr_cc = trigger | strip
+        if tr_cc != blank and opt_name_cc == tr_cc
+          assign line_color_option_index = option.position
+          assign matched_cc = true
           break
         endif
       endfor
-    endif
+      if matched_cc
+        break
+      endif
+    endfor
 
     assign we_pas_size_option_position = 0
     if product.metafields.custom.we_pdp_preis_nach_grose == true
@@ -176,19 +188,13 @@
         for we_ord_opt in product.options_with_values
           assign we_ord_name = we_ord_opt.name | downcase | strip
           assign we_ord_is_color = false
-          if settings.color_swatch_trigger != blank
-            assign we_ord_triggers = settings.color_swatch_trigger | downcase | split: ','
-            assign we_ord_hit = we_ord_triggers | where: we_ord_name | first
-            if we_ord_hit != blank
+          for trigger in we_color_trigger_list
+            assign tr_hit = trigger | strip
+            if tr_hit != blank and we_ord_name == tr_hit
               assign we_ord_is_color = true
-            elsif we_ord_name contains 'colour'
-              assign we_ord_triggers = settings.color_swatch_trigger | replace: 'color', 'colour' | downcase | split: ','
-              assign we_ord_hit = we_ord_triggers | where: we_ord_name | first
-              if we_ord_hit != blank
-                assign we_ord_is_color = true
-              endif
+              break
             endif
-          endif
+          endfor
           if we_ord_is_color
             assign we_color_pos_str = we_color_pos_str | append: we_ord_opt.position | append: ','
           else
@@ -223,21 +229,15 @@
         endif
 
         if block.settings.picker_type == 'button' or block.settings.picker_type == 'custom_dropdown'
-          if settings.color_swatch_trigger != blank
-            assign color_swatch_trigger = settings.color_swatch_trigger | downcase | split: ','
-            assign has_color = color_swatch_trigger | where: option_name_downcase | first
-            unless block.settings.swatch_type == 'text'
-              if has_color != blank
+          unless block.settings.swatch_type == 'text'
+            for trigger in we_color_trigger_list
+              assign tr_hit = trigger | strip
+              if tr_hit != blank and option_name_downcase == tr_hit
                 assign picker_type = 'color'
-              elsif option_name_downcase contains 'colour'
-                assign color_swatch_trigger = color_swatch_trigger | replace: 'color', 'colour'
-                assign has_color = color_swatch_trigger | where: option_name_downcase | first
-                if has_color != blank
-                  assign picker_type = 'color'
-                endif
+                break
               endif
-            endunless
-          endif
+            endfor
+          endunless
         endif
 
         if swatch_count > 0
@@ -287,18 +287,14 @@
         assign is_color_swatch_picker = false
         if picker_type == 'swatch' or picker_type == 'color'
           assign is_color_swatch_picker = true
-        elsif picker_type == 'button' and settings.color_swatch_trigger != blank
-          assign cst_w = settings.color_swatch_trigger | downcase | split: ','
-          assign has_cw = cst_w | where: option_name_downcase | first
-          if has_cw != blank
-            assign is_color_swatch_picker = true
-          elsif option_name_downcase contains 'colour'
-            assign cst_w = settings.color_swatch_trigger | replace: 'color', 'colour' | downcase | split: ','
-            assign has_cw = cst_w | where: option_name_downcase | first
-            if has_cw != blank
+        elsif picker_type == 'button'
+          for trigger in we_color_trigger_list
+            assign tr_hit = trigger | strip
+            if tr_hit != blank and option_name_downcase == tr_hit
               assign is_color_swatch_picker = true
+              break
             endif
-          endif
+          endfor
         endif
 
         assign show_selected_value_in_label = false
@@ -359,7 +355,8 @@
               picker_type: picker_type,
               option_id_namespace: id_ns,
               pdp_line_variant_for_selection: we_active_variant,
-              we_override_option_selection: true
+              we_override_option_selection: true,
+              pdp_allow_sold_out_selection: pdp_set_addon_card
             %}
             {% if picker_type == 'color' or picker_type == 'swatch' %}
               </div>
@@ -380,7 +377,8 @@
                   picker_type: 'dropdown',
                   option_id_namespace: id_ns,
                   pdp_line_variant_for_selection: we_active_variant,
-                  we_override_option_selection: true
+                  we_override_option_selection: true,
+                  pdp_allow_sold_out_selection: pdp_set_addon_card
                 %}
               </select>
               {%- render 'icon-caret-down' -%}
@@ -496,6 +494,22 @@
           </div>
         </div>
       </div>
+      <div
+        class="pdp-set-addon-oos-msg pdp-set-stock pdp-set-stock--oos"
+        data-pdp-set-addon-oos-msg
+        hidden
+      >
+        <span class="pdp-set-stock__dot" aria-hidden="true"></span>
+        <span>Diese Variante ist ausverkauft. Wählen Sie gerne eine andere Farbe oder Größe.</span>
+      </div>
+      <button
+        type="button"
+        class="btn btn--secondary pdp-set-addon-bis"
+        data-pdp-set-addon-bis
+        hidden
+      >
+        Senden Sie mir eine E-Mail
+      </button>
     {%- endif -%}
     <script type="application/json" data-selected-variant>
       {{- we_active_variant | json -}}

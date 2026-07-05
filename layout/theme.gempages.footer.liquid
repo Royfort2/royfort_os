@@ -205,10 +205,20 @@
 
     
     {%- if settings.public_key_stamped != blank and settings.stamped_store_hash != blank -%}
+      <script type="application/json" id="WeStampedMainWidgetConfig">
+        {
+          "language": {{ request.locale.iso_code | json }},
+          "takeReviews": 2
+        }
+      </script>
+      <script src="{{ 'stamped-main-widget.js' | asset_url }}"></script>
       <script>
         function stampedThemeWidgetOnLoad() {
           if (typeof StampedFn === 'undefined') return;
           if (window.__stampedThemeInitDone) return;
+          if (typeof window.weConfigureStampedMainWidget === 'function') {
+            window.weConfigureStampedMainWidget({ beforeInit: true });
+          }
           window.__stampedThemeInitDone = true;
           StampedFn.init({
             apiKey: {{ settings.public_key_stamped | json }},

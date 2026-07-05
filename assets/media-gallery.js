@@ -1,14 +1,28 @@
 /**
  * Match gallery image alt text to the selected color option value.
- * Requires exact normalized equality to avoid partial overlaps
- * (e.g. "weiss" must not match "cremeweiss").
+ * Requires exact normalized equality or a shared swatch_list alias group.
  */
-function colorAltMatchesOption(altRaw, normalizedOption) {
+function colorAltMatchesOption(altRaw, normalizedOption, nameGroups) {
+  if (window.WeColorI18n?.colorNamesMatch) {
+    return window.WeColorI18n.colorNamesMatch(altRaw, normalizedOption, nameGroups);
+  }
   const normalize = (value) => String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
   const alt = normalize(altRaw);
   const opt = normalize(normalizedOption);
   if (!alt || !opt) return false;
   return alt === opt;
+}
+
+function readColorNameGroupsFromDom(root) {
+  if (window.WeColorI18n?.readGroupsFromProductInfo) {
+    const productInfo = root?.closest?.('product-info') || document.querySelector('product-info');
+    const groups = window.WeColorI18n.readGroupsFromProductInfo(productInfo || root);
+    if (groups.length) return groups;
+  }
+  if (window.WeColorI18n?.getGlobalColorNameGroups) {
+    return window.WeColorI18n.getGlobalColorNameGroups();
+  }
+  return [];
 }
 
 if (!customElements.get('media-gallery')) {
@@ -53,6 +67,7 @@ if (!customElements.get('media-gallery')) {
         this.enableMobileThumbnails = this.dataset.enableMobileThumbnails === 'true';
         this.enableImageZoom = this.dataset.enableImageZoom === 'true';
         this.colorOptionIndex = parseInt(this.dataset.colorOptionIndex, 10) || 0;
+        this.colorNameGroups = readColorNameGroupsFromDom(this);
         this.setSliderOptions();
 
         const mql = window.matchMedia(FoxTheme.config.mediaQueryMobile);
@@ -1094,7 +1109,7 @@ if (!customElements.get('media-gallery')) {
         mainSlides.forEach((slide) => {
           const isGlobal = slide.dataset.mediaFilterGlobal === 'true';
           const altRaw = slide.dataset.mediaAlt || '';
-          const match = isGlobal || colorAltMatchesOption(altRaw, normalized);
+          const match = isGlobal || colorAltMatchesOption(altRaw, normalized, this.colorNameGroups);
           slide.classList.toggle('product__media-item--color-hidden', !match);
           if (match) visibleCount++;
 

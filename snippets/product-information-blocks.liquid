@@ -537,9 +537,9 @@
                 {%- assign we_set_line_vid_str = we_set_line_vid_c | strip -%}
                 {%- assign we_set_line_resolved = set_product.selected_or_first_available_variant -%}
                 {%- if we_set_line_vid_str != blank -%}
-                  {%- assign we_set_line_vid_num = we_set_line_vid_str | plus: 0 -%}
                   {%- for v in set_product.variants -%}
-                    {%- if v.id == we_set_line_vid_num -%}
+                    {%- assign v_id_str = v.id | append: '' -%}
+                    {%- if v_id_str == we_set_line_vid_str -%}
                       {%- assign we_set_line_resolved = v -%}
                       {%- break -%}
                     {%- endif -%}
@@ -608,9 +608,9 @@
                       {%- assign we_set_line_vid_str = we_set_line_vid_c | strip -%}
                       {%- assign we_set_line_resolved = set_product.selected_or_first_available_variant -%}
                       {%- if we_set_line_vid_str != blank -%}
-                        {%- assign we_set_line_vid_num = we_set_line_vid_str | plus: 0 -%}
                         {%- for v in set_product.variants -%}
-                          {%- if v.id == we_set_line_vid_num -%}
+                          {%- assign v_id_str = v.id | append: '' -%}
+                          {%- if v_id_str == we_set_line_vid_str -%}
                             {%- assign we_set_line_resolved = v -%}
                             {%- break -%}
                           {%- endif -%}
@@ -743,9 +743,9 @@
                   {%- assign we_set_line_vid_str = we_set_line_vid_c | strip -%}
                   {%- assign zw_v = sp.selected_or_first_available_variant -%}
                   {%- if we_set_line_vid_str != blank -%}
-                    {%- assign we_set_line_vid_num = we_set_line_vid_str | plus: 0 -%}
                     {%- for v in sp.variants -%}
-                      {%- if v.id == we_set_line_vid_num -%}
+                      {%- assign v_id_str = v.id | append: '' -%}
+                      {%- if v_id_str == we_set_line_vid_str -%}
                         {%- assign zw_v = v -%}
                         {%- break -%}
                       {%- endif -%}
@@ -837,9 +837,9 @@
                       {%- assign we_set_line_vid_str = we_set_line_vid_c | strip -%}
                       {%- assign zw_v = sp.selected_or_first_available_variant -%}
                       {%- if we_set_line_vid_str != blank -%}
-                        {%- assign we_set_line_vid_num = we_set_line_vid_str | plus: 0 -%}
                         {%- for v in sp.variants -%}
-                          {%- if v.id == we_set_line_vid_num -%}
+                          {%- assign v_id_str = v.id | append: '' -%}
+                          {%- if v_id_str == we_set_line_vid_str -%}
                             {%- assign zw_v = v -%}
                             {%- break -%}
                           {%- endif -%}
@@ -929,9 +929,9 @@
               {%- assign we_set_line_vid_str = we_set_line_vid_c | strip -%}
               {%- assign we_set_line_resolved = first_product.selected_or_first_available_variant -%}
               {%- if we_set_line_vid_str != blank -%}
-                {%- assign we_set_line_vid_num = we_set_line_vid_str | plus: 0 -%}
                 {%- for v in first_product.variants -%}
-                  {%- if v.id == we_set_line_vid_num -%}
+                  {%- assign v_id_str = v.id | append: '' -%}
+                  {%- if v_id_str == we_set_line_vid_str -%}
                     {%- assign we_set_line_resolved = v -%}
                     {%- break -%}
                   {%- endif -%}
@@ -983,9 +983,9 @@
                       {%- assign we_set_line_vid_str = we_set_line_vid_c | strip -%}
                       {%- assign we_set_line_resolved = set_product.selected_or_first_available_variant -%}
                       {%- if we_set_line_vid_str != blank -%}
-                        {%- assign we_set_line_vid_num = we_set_line_vid_str | plus: 0 -%}
                         {%- for v in set_product.variants -%}
-                          {%- if v.id == we_set_line_vid_num -%}
+                          {%- assign v_id_str = v.id | append: '' -%}
+                          {%- if v_id_str == we_set_line_vid_str -%}
                             {%- assign we_set_line_resolved = v -%}
                             {%- break -%}
                           {%- endif -%}
@@ -1111,9 +1111,9 @@
                   {%- assign we_set_line_vid_str = we_set_line_vid_c | strip -%}
                   {%- assign zw_v = sp.selected_or_first_available_variant -%}
                   {%- if we_set_line_vid_str != blank -%}
-                    {%- assign we_set_line_vid_num = we_set_line_vid_str | plus: 0 -%}
                     {%- for v in sp.variants -%}
-                      {%- if v.id == we_set_line_vid_num -%}
+                      {%- assign v_id_str = v.id | append: '' -%}
+                      {%- if v_id_str == we_set_line_vid_str -%}
                         {%- assign zw_v = v -%}
                         {%- break -%}
                       {%- endif -%}
@@ -1204,9 +1204,9 @@
                       {%- assign we_set_line_vid_str = we_set_line_vid_c | strip -%}
                       {%- assign zw_v = sp.selected_or_first_available_variant -%}
                       {%- if we_set_line_vid_str != blank -%}
-                        {%- assign we_set_line_vid_num = we_set_line_vid_str | plus: 0 -%}
                         {%- for v in sp.variants -%}
-                          {%- if v.id == we_set_line_vid_num -%}
+                          {%- assign v_id_str = v.id | append: '' -%}
+                          {%- if v_id_str == we_set_line_vid_str -%}
                             {%- assign zw_v = v -%}
                             {%- break -%}
                           {%- endif -%}

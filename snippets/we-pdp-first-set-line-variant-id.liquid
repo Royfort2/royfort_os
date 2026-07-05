@@ -8,29 +8,56 @@
 {% endcomment %}
 {%- liquid
   assign fallback_id = line_product.selected_or_first_available_variant.id
+  assign bundle_variant = blank
+  assign we_url_vid_raw = ''
+  if request.query_string contains 'variant='
+    assign we_url_vid_raw = request.query_string | split: 'variant=' | last | split: '&' | first | strip
+  endif
+  if we_url_vid_raw != blank
+    for v in bundle_product.variants
+      assign v_id_str = v.id | append: ''
+      if v_id_str == we_url_vid_raw
+        assign bundle_variant = v
+        break
+      endif
+    endfor
+  endif
+  if bundle_variant == blank and bundle_product.selected_variant != blank
+    assign bundle_variant = bundle_product.selected_variant
+  endif
 -%}
-{%- if bundle_product.selected_variant == blank -%}
+{%- if bundle_variant == blank -%}
   {{- fallback_id -}}
 {%- else -%}
-  {%- assign bv = bundle_product.selected_variant -%}
-  {%- assign swatch_trigger = settings.color_swatch_trigger | downcase -%}
+  {%- assign bv = bundle_variant -%}
   {%- assign bundle_color_idx = nil -%}
+  {%- assign we_builtin_color_triggers = 'farbe,color,colour,couleur,kleur,colore,cor,farve,färg,farg,kolor,hinta,szín,väri,barva,culoare,renk,farge' -%}
+  {%- if settings.color_swatch_trigger != blank -%}
+    {%- assign we_color_trigger_csv = settings.color_swatch_trigger | append: ',' | append: we_builtin_color_triggers -%}
+  {%- else -%}
+    {%- assign we_color_trigger_csv = we_builtin_color_triggers -%}
+  {%- endif -%}
+  {%- assign we_color_trigger_list = we_color_trigger_csv | downcase | split: ',' -%}
   {%- for option in bundle_product.options_with_values -%}
-    {%- assign on = option.name | downcase -%}
-    {%- assign is_color = false -%}
-    {%- if swatch_trigger contains on -%}
-      {%- assign is_color = true -%}
-    {%- elsif swatch_trigger contains 'color' and on contains 'colour' -%}
-      {%- assign is_color = true -%}
-    {%- endif -%}
-    {%- if is_color -%}
-      {%- assign bundle_color_idx = forloop.index0 -%}
+    {%- assign we_opt_idx = forloop.index0 -%}
+    {%- assign on = option.name | downcase | strip -%}
+    {%- assign we_is_color_opt = false -%}
+    {%- for trigger in we_color_trigger_list -%}
+      {%- assign tr = trigger | strip -%}
+      {%- if tr != blank and on == tr -%}
+        {%- assign we_is_color_opt = true -%}
+        {%- break -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- if we_is_color_opt -%}
+      {%- assign bundle_color_idx = we_opt_idx -%}
       {%- break -%}
     {%- endif -%}
   {%- endfor -%}
   {%- if bundle_color_idx == nil -%}
     {{- fallback_id -}}
   {%- else -%}
+    {%- assign bundle_color_val = '' -%}
     {%- case bundle_color_idx -%}
       {%- when 0 -%}
         {%- assign bundle_color_val = bv.option1 -%}
@@ -38,31 +65,76 @@
         {%- assign bundle_color_val = bv.option2 -%}
       {%- when 2 -%}
         {%- assign bundle_color_val = bv.option3 -%}
-      {%- else -%}
-        {%- assign bundle_color_val = '' -%}
     {%- endcase -%}
     {%- if bundle_color_val == blank -%}
       {{- fallback_id -}}
     {%- else -%}
       {%- assign line_color_idx = nil -%}
       {%- for option in line_product.options_with_values -%}
-        {%- assign on = option.name | downcase -%}
-        {%- assign is_color = false -%}
-        {%- if swatch_trigger contains on -%}
-          {%- assign is_color = true -%}
-        {%- elsif swatch_trigger contains 'color' and on contains 'colour' -%}
-          {%- assign is_color = true -%}
-        {%- endif -%}
-        {%- if is_color -%}
-          {%- assign line_color_idx = forloop.index0 -%}
+        {%- assign we_line_opt_idx = forloop.index0 -%}
+        {%- assign on = option.name | downcase | strip -%}
+        {%- assign we_is_color_opt = false -%}
+        {%- for trigger in we_color_trigger_list -%}
+          {%- assign tr = trigger | strip -%}
+          {%- if tr != blank and on == tr -%}
+            {%- assign we_is_color_opt = true -%}
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if we_is_color_opt -%}
+          {%- assign line_color_idx = we_line_opt_idx -%}
           {%- break -%}
         {%- endif -%}
       {%- endfor -%}
       {%- if line_color_idx == nil -%}
         {{- fallback_id -}}
       {%- else -%}
+        {%- liquid
+          assign bundle_size_val = ''
+          for option in bundle_product.options_with_values
+            assign od = option.name | downcase | strip
+            assign is_color_opt = false
+            for trigger in we_color_trigger_list
+              assign tr = trigger | strip
+              if tr != blank and od == tr
+                assign is_color_opt = true
+                break
+              endif
+            endfor
+            unless is_color_opt
+              assign bundle_size_idx = forloop.index0
+              case bundle_size_idx
+                when 0
+                  assign bundle_size_val = bv.option1
+                when 1
+                  assign bundle_size_val = bv.option2
+                when 2
+                  assign bundle_size_val = bv.option3
+              endcase
+              break
+            endunless
+          endfor
+          assign line_size_idx = nil
+          for option in line_product.options_with_values
+            assign od = option.name | downcase | strip
+            assign is_color_opt2 = false
+            for trigger in we_color_trigger_list
+              assign tr = trigger | strip
+              if tr != blank and od == tr
+                assign is_color_opt2 = true
+                break
+              endif
+            endfor
+            unless is_color_opt2
+              assign line_size_idx = forloop.index0
+              break
+            endunless
+          endfor
+        -%}
         {%- assign matched_id = nil -%}
+        {%- assign matched_id_color_only = nil -%}
         {%- for v in line_product.variants -%}
+          {%- assign vc = '' -%}
           {%- case line_color_idx -%}
             {%- when 0 -%}
               {%- assign vc = v.option1 -%}
@@ -70,16 +142,51 @@
               {%- assign vc = v.option2 -%}
             {%- when 2 -%}
               {%- assign vc = v.option3 -%}
-            {%- else -%}
-              {%- assign vc = '' -%}
           {%- endcase -%}
-          {%- if vc == bundle_color_val and v.available -%}
-            {%- assign matched_id = v.id -%}
-            {%- break -%}
+          {%- capture we_color_eq -%}
+            {%- render 'we-color-names-equivalent', name_a: vc, name_b: bundle_color_val -%}
+          {%- endcapture -%}
+          {%- assign we_color_eq = we_color_eq | strip -%}
+          {%- unless vc == bundle_color_val or we_color_eq == '1' -%}
+            {%- continue -%}
+          {%- endunless -%}
+          {%- if bundle_size_val != blank and line_size_idx != nil -%}
+            {%- assign vs = '' -%}
+            {%- case line_size_idx -%}
+              {%- when 0 -%}
+                {%- assign vs = v.option1 -%}
+              {%- when 1 -%}
+                {%- assign vs = v.option2 -%}
+              {%- when 2 -%}
+                {%- assign vs = v.option3 -%}
+            {%- endcase -%}
+            {%- if vs == bundle_size_val -%}
+              {%- if v.available -%}
+                {%- assign matched_id = v.id -%}
+                {%- break -%}
+              {%- elsif matched_id == nil -%}
+                {%- assign matched_id = v.id -%}
+              {%- endif -%}
+            {%- elsif matched_id_color_only == nil -%}
+              {%- if v.available -%}
+                {%- assign matched_id_color_only = v.id -%}
+              {%- endif -%}
+            {%- endif -%}
+          {%- else -%}
+            {%- if v.available -%}
+              {%- assign matched_id = v.id -%}
+              {%- break -%}
+            {%- elsif matched_id == nil -%}
+              {%- assign matched_id = v.id -%}
+            {%- endif -%}
           {%- endif -%}
         {%- endfor -%}
+        {%- if matched_id == nil and matched_id_color_only != nil -%}
+          {%- assign matched_id = matched_id_color_only -%}
+        {%- endif -%}
         {%- if matched_id == nil -%}
           {%- for v in line_product.variants -%}
+            {%- assign vc = '' -%}
             {%- case line_color_idx -%}
               {%- when 0 -%}
                 {%- assign vc = v.option1 -%}
@@ -87,10 +194,12 @@
                 {%- assign vc = v.option2 -%}
               {%- when 2 -%}
                 {%- assign vc = v.option3 -%}
-              {%- else -%}
-                {%- assign vc = '' -%}
             {%- endcase -%}
-            {%- if vc == bundle_color_val -%}
+            {%- capture we_color_eq2 -%}
+              {%- render 'we-color-names-equivalent', name_a: vc, name_b: bundle_color_val -%}
+            {%- endcapture -%}
+            {%- assign we_color_eq2 = we_color_eq2 | strip -%}
+            {%- if vc == bundle_color_val or we_color_eq2 == '1' -%}
               {%- assign matched_id = v.id -%}
               {%- break -%}
             {%- endif -%}

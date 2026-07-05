@@ -296,7 +296,8 @@
           "type": "tab",
           "settings": {
             "heading": "Beschreibung",
-            "content": "{{ product.description }}",
+            "content_source": "product_description",
+            "content": "",
             "page": "",
             "default_open": true
           }
@@ -305,7 +306,18 @@
           "type": "tab",
           "settings": {
             "heading": "Produktdetails",
-            "content": "{{ product.metafields.custom.we_pdp_material | metafield_tag }}",
+            "content_source": "metafield_material",
+            "content": "",
+            "page": "",
+            "default_open": false
+          }
+        },
+        "tab_pflegehinweise": {
+          "type": "tab",
+          "settings": {
+            "heading": "Pflegehinweise",
+            "content_source": "metafield_pflegehinweise",
+            "content": "",
             "page": "",
             "default_open": false
           }
@@ -314,7 +326,8 @@
           "type": "tab",
           "settings": {
             "heading": "Versand & Rückgabe",
-            "content": "{{ product.metafields.custom.we_pdp_pflegehinweise | metafield_tag }}",
+            "content_source": "metafield_versand_rueckgabe",
+            "content": "",
             "page": "",
             "default_open": false
           }
@@ -323,11 +336,21 @@
       "block_order": [
         "tab_nchLr4",
         "tab_BP6rpW",
+        "tab_pflegehinweise",
         "tab_TezEJi"
       ],
       "name": "[we] Product info tabs",
       "settings": {
         "aria_label": "Produktinformationen",
+        "color_scheme": "",
+        "padding_top": 32,
+        "padding_bottom": 32
+      }
+    },
+    "we_site_product_lower_usps": {
+      "type": "we-site-product-lower-usps",
+      "name": "[we] Product lower USPs",
+      "settings": {
         "color_scheme": "",
         "padding_top": 32,
         "padding_bottom": 32
@@ -624,6 +647,7 @@
     "main",
     "we_site_product_usp_icons_HRtQVU",
     "we_site_product_info_tabs_JQiJ9R",
+    "we_site_product_lower_usps",
     "image_with_text_zQ9iit",
     "image_with_text_dQDdte",
     "we_site_product_reviews_PqR3mK",

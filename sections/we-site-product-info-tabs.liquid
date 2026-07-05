@@ -2,10 +2,11 @@
   assign tab_count = 0
   for block in section.blocks
     assign heading = block.settings.heading
-    assign content = block.settings.content
-    assign page = block.settings.page
     if heading != blank
-      if content != blank or page.content != blank or request.design_mode
+      capture tab_content_probe
+        render 'we-site-product-info-tab-content', block: block, product: product
+      endcapture
+      if tab_content_probe != blank or request.design_mode
         assign tab_count = tab_count | plus: 1
       endif
     endif
@@ -29,11 +30,12 @@
           {%- for block in section.blocks -%}
             {%- liquid
               assign heading = block.settings.heading
-              assign content = block.settings.content
-              assign page = block.settings.page
+              capture tab_content_probe
+                render 'we-site-product-info-tab-content', block: block, product: product
+              endcapture
               assign tab_valid = false
               if heading != blank
-                if content != blank or page.content != blank or request.design_mode
+                if tab_content_probe != blank or request.design_mode
                   assign tab_valid = true
                 endif
               endif
@@ -59,11 +61,12 @@
           {%- for block in section.blocks -%}
             {%- liquid
               assign heading = block.settings.heading
-              assign content = block.settings.content
-              assign page = block.settings.page
+              capture tab_content_probe
+                render 'we-site-product-info-tab-content', block: block, product: product
+              endcapture
               assign tab_valid = false
               if heading != blank
-                if content != blank or page.content != blank or request.design_mode
+                if tab_content_probe != blank or request.design_mode
                   assign tab_valid = true
                 endif
               endif
@@ -78,12 +81,10 @@
                   hidden
                 {% endunless %}
               >
-                {%- if page.content != blank -%}
-                  {{ page.content }}
-                {%- elsif content != blank -%}
-                  {{ content }}
+                {%- if tab_content_probe != blank -%}
+                  {{ tab_content_probe }}
                 {%- elsif request.design_mode -%}
-                  <p>Add tab content in the block settings.</p>
+                  <p>Add tab content in the block settings or assign a content source.</p>
                 {%- endif -%}
               </div>
               {%- assign tab_index = tab_index | plus: 1 -%}
@@ -96,11 +97,12 @@
         {%- for block in section.blocks -%}
           {%- liquid
             assign heading = block.settings.heading
-            assign content = block.settings.content
-            assign page = block.settings.page
+            capture tab_content_probe
+              render 'we-site-product-info-tab-content', block: block, product: product
+            endcapture
             assign tab_valid = false
             if heading != blank
-              if content != blank or page.content != blank or request.design_mode
+              if tab_content_probe != blank or request.design_mode
                 assign tab_valid = true
               endif
             endif
@@ -122,12 +124,10 @@
                 {%- render 'icon-plus-toggle', size: 'small' -%}
               </summary>
               <div class="accordion-details__content rte">
-                {%- if page.content != blank -%}
-                  {{ page.content }}
-                {%- elsif content != blank -%}
-                  {{ content }}
+                {%- if tab_content_probe != blank -%}
+                  {{ tab_content_probe }}
                 {%- elsif request.design_mode -%}
-                  <p>Add tab content in the block settings.</p>
+                  <p>Add tab content in the block settings or assign a content source.</p>
                 {%- endif -%}
               </div>
             </details>
@@ -194,16 +194,45 @@
           "default": "Tab"
         },
         {
+          "type": "select",
+          "id": "content_source",
+          "label": "Content source",
+          "default": "custom",
+          "options": [
+            {
+              "value": "custom",
+              "label": "Custom content / page"
+            },
+            {
+              "value": "product_description",
+              "label": "Product description"
+            },
+            {
+              "value": "metafield_material",
+              "label": "[we] PDP: Material"
+            },
+            {
+              "value": "metafield_pflegehinweise",
+              "label": "[we] PDP: Pflegehinweise"
+            },
+            {
+              "value": "metafield_versand_rueckgabe",
+              "label": "[we] PDP: Versand & Rückgabe"
+            }
+          ]
+        },
+        {
           "type": "richtext",
           "id": "content",
           "label": "Content",
-          "default": "<p>Tab content here.</p>"
+          "default": "<p>Tab content here.</p>",
+          "info": "Used when content source is “Custom content / page”."
         },
         {
           "type": "page",
           "id": "page",
           "label": "Content from page",
-          "info": "When set, page content is shown instead of the richtext above."
+          "info": "When set, page content is shown instead of the richtext above (custom source only)."
         },
         {
           "type": "checkbox",
@@ -222,7 +251,7 @@
           "type": "tab",
           "settings": {
             "heading": "Beschreibung",
-            "content": "<p>Produktbeschreibung hier einfügen.</p>",
+            "content_source": "product_description",
             "default_open": true
           }
         },
@@ -230,14 +259,21 @@
           "type": "tab",
           "settings": {
             "heading": "Produktdetails",
-            "content": "<p>Produktdetails hier einfügen.</p>"
+            "content_source": "metafield_material"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "heading": "Pflegehinweise",
+            "content_source": "metafield_pflegehinweise"
           }
         },
         {
           "type": "tab",
           "settings": {
             "heading": "Versand & Rückgabe",
-            "content": "<p>Versand- und Rückgabeinformationen hier einfügen.</p>"
+            "content_source": "metafield_versand_rueckgabe"
           }
         }
       ]

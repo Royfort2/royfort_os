@@ -733,16 +733,18 @@
   }
   .product-set-picker__expand-inner variant-selects[data-pdp-set-addon-card] {
     display: grid;
-    grid-template-columns: 1.16fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 0.6rem;
     width: 100%;
-    container-type: inline-size;
-    container-name: pdp-set-addon;
   }
-  @container pdp-set-addon (max-width: 26rem) {
-    .product-set-picker__expand-inner variant-selects[data-pdp-set-addon-card] {
-      grid-template-columns: 1fr;
-    }
+  /* With color: row 1 = size full width; row 2 = color + quantity side by side */
+  .product-set-picker__expand-inner variant-selects[data-pdp-set-addon-card]:not([data-line-color-option-position='0'])
+    > .product-form__input:not(.pdp-set-addon-qty):first-of-type {
+    grid-column: 1 / -1;
+  }
+  /* No color (e.g. Matratzenschoner): size + quantity in one row */
+  .product-set-picker__expand-inner variant-selects[data-pdp-set-addon-card][data-line-color-option-position='0'] {
+    grid-template-columns: 1fr 10rem;
   }
   /* Add-on card selects: white field surface on gray card */
   .product-set-picker__expand-inner .select {
@@ -775,7 +777,6 @@
     background-color: #f7f7f7;
   }
   .product-set-picker__expand-inner variant-selects[data-pdp-set-addon-card] .pdp-set-addon-qty {
-    grid-column: 1 / -1;
     margin-top: 0 !important;
     width: 100%;
   }
@@ -791,6 +792,109 @@
   .product-set-picker__expand-inner variant-selects[data-pdp-set-addon-card] .pdp-set-addon-qty .we-quantity-selector {
     width: 100%;
     max-width: none;
+  }
+  .product-set-picker__expand-inner variant-selects[data-pdp-set-addon-card]:not(.is-addon-oos) .pdp-set-addon-oos-msg,
+  .product-set-picker__expand-inner variant-selects[data-pdp-set-addon-card]:not(.is-addon-oos) .pdp-set-addon-bis {
+    display: none !important;
+  }
+  .product-set-picker__expand-inner variant-selects[data-pdp-set-addon-card].is-addon-oos .pdp-set-addon-qty {
+    display: none !important;
+  }
+  /* No-color OOS: keep size dropdown full width (qty hidden) */
+  .product-set-picker__expand-inner variant-selects[data-pdp-set-addon-card][data-line-color-option-position='0'].is-addon-oos
+    > .product-form__input:not(.pdp-set-addon-qty):first-of-type {
+    grid-column: 1 / -1;
+  }
+  .product-set-picker__expand-inner variant-selects[data-pdp-set-addon-card] .pdp-set-addon-oos-msg {
+    grid-column: 2;
+    align-self: center;
+    position: relative;
+    margin: 0;
+    padding-inline: 1.4rem;
+    text-align: center;
+    font-size: 1.2rem;
+    line-height: 1.35;
+    font-weight: 600;
+  }
+  .product-set-picker__expand-inner variant-selects[data-pdp-set-addon-card][data-line-color-option-position='0'].is-addon-oos
+    .pdp-set-addon-oos-msg {
+    grid-column: 1 / -1;
+    margin-top: 0.8rem;
+    margin-bottom: 0.8rem;
+  }
+  .product-set-picker__expand-inner variant-selects[data-pdp-set-addon-card] .pdp-set-addon-oos-msg .pdp-set-stock__dot {
+    position: absolute;
+    left: 0;
+    top: 0.35em;
+    height: 0.8rem;
+    width: 0.8rem;
+    margin-right: 0;
+  }
+  .product-set-picker__expand-inner variant-selects[data-pdp-set-addon-card].is-addon-oos > .product-form__input:not(.pdp-set-addon-qty):nth-of-type(2) {
+    grid-column: 1;
+  }
+  .product-set-picker__expand-inner variant-selects[data-pdp-set-addon-card] .pdp-set-addon-bis {
+    grid-column: 1 / -1;
+    width: 100%;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-weight: 600;
+    border: 0.1rem solid #171717;
+    background: #fff;
+    color: #171717;
+  }
+  .product-set-picker__expand-inner variant-selects[data-pdp-set-addon-card].is-addon-oos .pdp-set-addon-bis {
+    margin-top: 0.4rem;
+  }
+  @media screen and (min-width: 750px) {
+    .product-set-picker__expand-inner variant-selects[data-pdp-set-addon-card].is-addon-oos > .product-form__input:not(.pdp-set-addon-qty):nth-of-type(2) {
+      grid-column: 1 / -1;
+    }
+    .product-set-picker__expand-inner variant-selects[data-pdp-set-addon-card] .pdp-set-addon-oos-msg {
+      grid-column: 1 / -1;
+      margin-top: 0.8rem;
+      margin-bottom: 0.8rem;
+      font-size: 1.4rem;
+    }
+    .product-set-picker__expand-inner variant-selects[data-pdp-set-addon-card] .pdp-set-addon-oos-msg .pdp-set-stock__dot {
+      height: 1.2rem;
+      width: 1.2rem;
+      top: 0.3em;
+    }
+  }
+  .pdp-set-addon-bis-modal .pdp-set-addon-bis-modal__body {
+    padding: 2.4rem 2rem 2.8rem;
+  }
+  .pdp-set-addon-bis-modal__title {
+    margin: 0 0 0.4rem;
+  }
+  .pdp-set-addon-bis-modal__variant {
+    margin: 0 0 1.2rem;
+  }
+  .pdp-set-addon-bis-modal__intro {
+    margin: 0 0 1.6rem;
+    font-size: 1.4rem;
+    line-height: 1.5;
+  }
+  .pdp-set-addon-bis-modal__submit {
+    margin-top: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-weight: 600;
+    border: 0.1rem solid #171717;
+    background: #fff;
+    color: #171717;
+  }
+  .pdp-set-addon-bis-modal__error,
+  .pdp-set-addon-bis-modal__success {
+    margin-top: 1.2rem;
+    margin-bottom: 0;
+  }
+  .pdp-set-addon-bis-form[hidden],
+  .pdp-set-addon-bis-modal__error[hidden],
+  .pdp-set-addon-bis-modal__success[hidden] {
+    display: none !important;
   }
   .product-set-picker__expand-inner variant-selects[data-pdp-set-addon-card] .form__label {
     position: absolute !important;
@@ -1181,6 +1285,9 @@
   {%- unless product.has_only_default_variant -%}
     <script type="application/json" data-product-variants-for-url>
       {{- product.variants | json -}}
+    </script>
+    <script type="application/json" data-we-color-name-groups>
+      {%- render 'we-color-name-groups-json' -%}
     </script>
   {%- endunless -%}
   {{ 'section-main-product.css' | asset_url | stylesheet_tag }}

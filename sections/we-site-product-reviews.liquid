@@ -17,6 +17,10 @@
       <div
         id="stamped-main-widget"
         class="stamped-main-widget"
+        data-widget-language="{{ request.locale.iso_code | upcase }}"
+        data-take-reviews="2"
+        data-load-type="pagination"
+        data-animation="false"
         data-product-id="{{ product.id }}"
         data-name="{{ product.title | escape }}"
         data-url="{{ shop.url }}{{ product.url }}"

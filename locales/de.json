@@ -715,5 +715,10 @@
         "error_heading": "Bitte passen Sie Folgendes an:"
       }
     }
+  },
+  "stamped": {
+    "reviews": {
+      "load_more": "Mehr Bewertungen laden"
+    }
   }
 }

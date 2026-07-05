@@ -1464,6 +1464,7 @@ layout-switcher .btn::after {
 .product__usp-icon-grid-empty,
 .we-product-info-tabs__empty,
 .we-site-product-info-tabs__empty,
+.we-site-product-lower-usps__empty,
 .we-site-product-usp-icons__empty {
     margin: 0;
     padding: 1.6rem;
@@ -1650,6 +1651,103 @@ layout-switcher .btn::after {
     scroll-margin-top: calc(var(--header-height, 0px) + 2rem);
 }
 
+/* Stamped main widget: yellow stars (summary + individual reviews), matches PDP badge */
+.we-site-product-reviews .stamped-fa-star,
+.we-site-product-reviews .stamped-fa-star-checked,
+.we-site-product-reviews .stamped-fa-star-half-o,
+.we-site-product-reviews .stamped-summary-starrating .stamped-fa,
+.we-site-product-reviews .stamped-review-header-starrating .stamped-fa {
+    color: #ffd200 !important;
+}
+
+.we-site-product-reviews .stamped-fa-star-o {
+    color: #ffd200 !important;
+    opacity: 0.45;
+}
+
+.we-site-product-reviews [id^='stamped-review-'] {
+    scroll-margin-top: calc(var(--header-height, 0px) + 1.5rem);
+    scroll-margin-bottom: calc(var(--sticky-atc-bar-height, 0px) + 1.5rem);
+}
+
+.product-template .we-site-product-reviews {
+    scroll-padding-bottom: calc(var(--sticky-atc-bar-height, 0px) + 1.5rem);
+}
+
+/* Stamped reviews: numbered pagination (not Load More) */
+.we-site-product-reviews .stamped-pagination {
+    text-align: center;
+    margin: 3rem 0 0;
+    padding: 0;
+    position: relative;
+}
+
+.we-site-product-reviews .stamped-pagination ul {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem 0.6rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.we-site-product-reviews .stamped-pagination li {
+    display: inline-block !important;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    float: none;
+    width: auto;
+}
+
+.we-site-product-reviews .stamped-pagination a {
+    color: #999;
+    text-decoration: none;
+    font-size: 1.4rem;
+    line-height: 1.2;
+    padding: 0.4rem 0.5rem;
+    border: none !important;
+    background: none !important;
+    border-radius: 0 !important;
+}
+
+.we-site-product-reviews .stamped-pagination li.page.active a,
+.we-site-product-reviews .stamped-pagination .page.active a {
+    color: #000;
+    font-weight: 400;
+    text-decoration: underline;
+    text-underline-offset: 0.25rem;
+}
+
+.we-site-product-reviews .stamped-pagination li.previous a,
+.we-site-product-reviews .stamped-pagination li.next a,
+.we-site-product-reviews .stamped-pagination .previous a,
+.we-site-product-reviews .stamped-pagination .next a {
+    color: #999;
+}
+
+/* Override Stamped "Load More Reviews" pseudo-label on li.next */
+.we-site-product-reviews .stamped-pagination li.next a::before {
+    content: none !important;
+}
+
+.we-site-product-reviews .stamped-pagination li.next a {
+    font-size: 1.4rem !important;
+}
+
+/* Stamped Q&A: ensure forms show when toggled (Stamped defaults to display:none) */
+.we-site-product-reviews .new-question-form.stamped-visible,
+.we-site-product-reviews .new-review-form.stamped-visible {
+    display: block !important;
+}
+
+.we-site-product-reviews .question-form-wrapper,
+.we-site-product-reviews .stamped-questions:not([style*='display: none']) {
+    display: block;
+}
+
 .product-template .product__block--stamped_reviews .stamped-badge {
     cursor: pointer;
 }
@@ -1711,6 +1809,131 @@ layout-switcher .btn::after {
 
     .we-site-product-usp-icons__icon {
         width: 5rem;
+    }
+}
+
+.we-site-product-lower-usps__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0 2.4rem;
+    text-align: center;
+}
+
+.we-site-product-lower-usps__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    min-width: 0;
+}
+
+.we-site-product-lower-usps__link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+    text-decoration: none;
+    color: inherit;
+}
+
+.we-site-product-lower-usps__link:hover .we-site-product-lower-usps__title {
+    text-decoration: underline;
+}
+
+.we-site-product-lower-usps__icon {
+    display: block;
+    width: 10rem;
+    max-width: 100%;
+    margin-bottom: 2.4rem;
+}
+
+.we-site-product-lower-usps__icon img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.we-site-product-lower-usps__title {
+    margin: 0 0 1.2rem;
+    font-family: var(--font-heading-family);
+    font-style: var(--font-heading-style);
+    font-size: 1.8rem;
+    line-height: 1.35;
+    font-weight: 400;
+    color: #2e3192;
+}
+
+.we-site-product-lower-usps__content {
+    margin: 0;
+    font-family: var(--font-body-family);
+    font-style: var(--font-body-style);
+    font-size: 1.4rem;
+    line-height: 1.5;
+    font-weight: 400;
+    color: #171717;
+    max-width: 24rem;
+}
+
+.we-site-product-lower-usps__content p {
+    margin: 0;
+}
+
+.we-site-product-lower-usps__content p + p {
+    margin-top: 0.4rem;
+}
+
+.we-site-product-lower-usps__empty {
+    margin: 0;
+    text-align: center;
+    font-size: 1.4rem;
+    color: rgb(var(--color-foreground) / 0.65);
+}
+
+.product-template .we-site-product-lower-usps {
+    --section-padding-top: 48px !important;
+    --section-padding-bottom: 48px !important;
+    background-color: #f5f5f5;
+    border-top: 1px solid #c4c4c4;
+}
+
+@media (min-width: 992px) {
+    .product-template .we-site-product-lower-usps {
+        --section-padding-top: 56px !important;
+        --section-padding-bottom: 56px !important;
+    }
+
+    .we-site-product-lower-usps__grid {
+        gap: 0 3.2rem;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .we-site-product-lower-usps__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 3.2rem 2rem;
+    }
+
+    .we-site-product-lower-usps__icon {
+        width: 8rem;
+        margin-bottom: 2rem;
+    }
+
+    .we-site-product-lower-usps__title {
+        font-size: 1.6rem;
+        margin-bottom: 1rem;
+    }
+
+    .we-site-product-lower-usps__content {
+        font-size: 1.3rem;
+        max-width: 22rem;
+    }
+}
+
+@media (max-width: 549.98px) {
+    .we-site-product-lower-usps__grid {
+        grid-template-columns: 1fr;
+        gap: 3.2rem;
     }
 }
 

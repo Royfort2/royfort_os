@@ -14,23 +14,16 @@
   {%- liquid
     assign we_plp_ci = ''
     assign we_plp_has_col = false
-    assign sw_we = settings.color_swatch_trigger | downcase | strip
-    if sw_we != blank
-      for option in product.options_with_values
-        assign on_we = option.name | downcase
-        assign we_is_col = false
-        if sw_we contains on_we
-          assign we_is_col = true
-        elsif sw_we contains 'color' and on_we contains 'colour'
-          assign we_is_col = true
-        endif
-        if we_is_col
-          assign we_plp_has_col = true
-          assign we_plp_ci = forloop.index0
-          break
-        endif
-      endfor
-    endif
+    for option in product.options_with_values
+      capture we_is_col_badge
+        render 'we-is-color-option-name', option_name: option.name
+      endcapture
+      if we_is_col_badge == '1'
+        assign we_plp_has_col = true
+        assign we_plp_ci = forloop.index0
+        break
+      endif
+    endfor
 
     assign we_v_badges_list = blank
 

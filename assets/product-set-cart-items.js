@@ -237,10 +237,13 @@
 
   /** Total cart units for set-bundle ATC label — sums inline qty per active picker, not just line count. */
   function getSetBundleTotalItemCount(productInfo, cfg) {
-    const { sectionId } = cfg;
+    const { sectionId, firstSetProductId, firstVariantFallback } = cfg;
     return getSetBundlePickersToValidate(productInfo, cfg).reduce((sum, vs) => {
       const pid = String(vs.dataset?.productId || '');
       if (!pid) return sum;
+      const fallback =
+        String(pid) === String(firstSetProductId) ? firstVariantFallback : getDefaultVariantIdFromDom(pid);
+      if (!isVariantPurchasable(getResolvedVariant(sectionId, pid, fallback))) return sum;
       return sum + getInlineQuantityForProduct(sectionId, pid);
     }, 0);
   }
@@ -575,7 +578,7 @@
           });
         } else {
           const v = getResolvedVariant(sectionId, pid, fallback);
-          if (!v) return;
+          if (!v || !isVariantPurchasable(v)) return;
           lines.push({
             productId: pid,
             title: titles[pid] || titles[String(pid)] || '',
@@ -608,7 +611,7 @@
         }
       } else {
         const vFirst = getResolvedVariant(sectionId, firstSetProductId, firstVariantFallback);
-        if (vFirst) {
+        if (vFirst && isVariantPurchasable(vFirst)) {
           lines.push({
             productId: pid,
             title: titles[pid] || titles[String(pid)] || '',
@@ -630,7 +633,7 @@
       if (!cb?.checked) return;
       const v = getResolvedVariant(sectionId, pid, getDefaultVariantIdFromDom(pid));
       const q = getInlineQuantityForProduct(sectionId, pid);
-      if (v) {
+      if (v && isVariantPurchasable(v)) {
         lines.push({
           productId: pid,
           title: titles[pid] || titles[String(pid)] || '',
@@ -816,7 +819,15 @@
       return getResolvedVariant(sectionId, pid, fallback);
     });
 
-    const allPurchasable =
+    const activePickers = getSetBundlePickersToValidate(productInfo, cfg);
+    const allActivePurchasable = activePickers.every((vs) => {
+      const pid = String(vs.dataset.productId);
+      const fallback =
+        String(pid) === String(firstSetProductId) ? firstVariantFallback : getDefaultVariantIdFromDom(pid);
+      return isVariantPurchasable(getResolvedVariant(sectionId, pid, fallback));
+    });
+
+    const allRequiredPurchasable =
       requiredPickers.length >= requiredCount &&
       toCheck.length === requiredCount &&
       toCheck.every(isVariantPurchasable);
@@ -857,7 +868,7 @@
       return;
     }
 
-    if (!allPurchasable) {
+    if (!allRequiredPurchasable || !allActivePurchasable) {
       submitBtn.disabled = true;
       submitBtn.setAttribute('disabled', 'disabled');
       setPdpSubmitLabel(span, { single: soldOut });
@@ -905,7 +916,9 @@
       }
       const fallback =
         String(pid) === String(firstSetProductId) ? firstVariantFallback : getDefaultVariantIdFromDom(pid);
-      const vid = getVariantIdForProduct(sectionId, pid, fallback);
+      const variant = getResolvedVariant(sectionId, pid, fallback);
+      if (!isVariantPurchasable(variant)) return;
+      const vid = variant?.id ? String(variant.id) : '';
       if (vid) {
         lines.push({
           id: vid,

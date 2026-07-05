@@ -1,0 +1,130 @@
+{%- liquid
+  assign usp_items = product.metafields.custom.we_pdp_lower_usps.value
+  assign visible_count = 0
+
+  if usp_items != blank
+    for usp in usp_items
+      assign usp_title = usp.title.value
+      assign usp_image = usp.image.value
+      assign usp_content = usp.content.value
+      if usp_title != blank or usp_image != blank or usp_content != blank
+        assign visible_count = visible_count | plus: 1
+      endif
+    endfor
+  endif
+-%}
+
+{%- if visible_count > 0 or request.design_mode -%}
+  <div
+    id="WeSiteSection-{{ section.id }}"
+    class="we-site-product-lower-usps section section--padding color-{{ section.settings.color_scheme }}"
+    data-section-id="{{ section.id }}"
+    style="--section-padding-top: {{ section.settings.padding_top }}px; --section-padding-bottom: {{ section.settings.padding_bottom }}px;"
+  >
+    <div class="page-width">
+      {%- if visible_count > 0 -%}
+        <div class="we-site-product-lower-usps__grid" role="list">
+          {%- for usp in usp_items -%}
+            {%- liquid
+              assign usp_title = usp.title.value
+              assign usp_image = usp.image.value
+              assign usp_content = usp.content.value
+              assign usp_link = usp.link.value
+              assign usp_has_content = false
+              if usp_title != blank or usp_image != blank or usp_content != blank
+                assign usp_has_content = true
+              endif
+            -%}
+            {%- unless usp_has_content -%}
+              {%- continue -%}
+            {%- endunless -%}
+            <div class="we-site-product-lower-usps__item" role="listitem">
+              {%- capture usp_item_inner -%}
+                {%- if usp_image != blank -%}
+                  <div class="we-site-product-lower-usps__icon">
+                    {{
+                      usp_image
+                      | image_url: width: 240
+                      | image_tag:
+                        loading: 'lazy',
+                        widths: '80, 120, 160, 200, 240',
+                        sizes: '(min-width: 992px) 120px, 80px',
+                        alt: usp_title | default: 'USP'
+                    }}
+                  </div>
+                {%- endif -%}
+                {%- if usp_title != blank -%}
+                  <h3 class="we-site-product-lower-usps__title font-heading">{{ usp_title | escape }}</h3>
+                {%- endif -%}
+                {%- if usp.content != blank -%}
+                  <div class="we-site-product-lower-usps__content rte">
+                    {{ usp.content | metafield_tag }}
+                  </div>
+                {%- elsif usp_content != blank -%}
+                  <div class="we-site-product-lower-usps__content rte">
+                    {{ usp_content }}
+                  </div>
+                {%- endif -%}
+              {%- endcapture -%}
+              {%- if usp_link != blank -%}
+                <a class="we-site-product-lower-usps__link" href="{{ usp_link }}">
+                  {{- usp_item_inner -}}
+                </a>
+              {%- else -%}
+                {{- usp_item_inner -}}
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- elsif request.design_mode -%}
+        <p class="we-site-product-lower-usps__empty">
+          Verknüpfen Sie am Produkt das Metafeld <code>custom.we_pdp_lower_usps</code> mit Lower-USP-Metaobjekten.
+        </p>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "[we] Product lower USPs",
+  "tag": "section",
+  "class": "we-site-product-lower-usps-section",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 32
+    }
+  ],
+  "presets": [
+    {
+      "name": "[we] Product lower USPs"
+    }
+  ]
+}
+{% endschema %}

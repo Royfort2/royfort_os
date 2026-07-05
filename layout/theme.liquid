@@ -203,19 +203,34 @@
       <li id="a11y-new-window-message">{{ 'accessibility.link_messages.new_window' | t }}</li>
     </ul>
 
-    {% if settings.pcard_show_quickview_button or settings.pcard_choose_options_actions == 'open_popup' %}
+    {%- if settings.pcard_show_quickview_button or settings.pcard_choose_options_actions == 'open_popup' -%}
       <script src="{{ 'quick-view.js' | asset_url }}" defer="defer"></script>
-    {% endif %}
+    {%- endif -%}
+
+    <script type="application/json" id="WeColorNameGroups-global" data-we-color-name-groups-global>
+      {%- render 'we-color-name-groups-json' -%}
+    </script>
+    <script src="{{ 'we-color-i18n.js' | asset_url }}" defer="defer"></script>
 
     {%- comment -%}
       Stamped: widget requires StampedFn.init({ apiKey, sId }) after widget.min.js loads.
       data-api-key on the script tag alone does not initialize the widget.
     {%- endcomment -%}
     {%- if settings.public_key_stamped != blank and settings.stamped_store_hash != blank -%}
+      <script type="application/json" id="WeStampedMainWidgetConfig">
+        {
+          "language": {{ request.locale.iso_code | json }},
+          "takeReviews": 2
+        }
+      </script>
+      <script src="{{ 'stamped-main-widget.js' | asset_url }}"></script>
       <script>
         function stampedThemeWidgetOnLoad() {
           if (typeof StampedFn === 'undefined') return;
           if (window.__stampedThemeInitDone) return;
+          if (typeof window.weConfigureStampedMainWidget === 'function') {
+            window.weConfigureStampedMainWidget({ beforeInit: true });
+          }
           window.__stampedThemeInitDone = true;
           StampedFn.init({
             apiKey: {{ settings.public_key_stamped | json }},

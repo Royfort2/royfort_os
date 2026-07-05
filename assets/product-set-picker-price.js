@@ -11,6 +11,32 @@
       .replace(/\s+/g, ' ');
   }
 
+  function getColorNameGroups(variantSelects) {
+    const productInfo = variantSelects?.closest?.('product-info');
+    if (window.WeColorI18n?.readGroupsFromProductInfo) {
+      const groups = window.WeColorI18n.readGroupsFromProductInfo(productInfo);
+      if (groups.length) return groups;
+    }
+    if (window.WeColorI18n?.getGlobalColorNameGroups) {
+      return window.WeColorI18n.getGlobalColorNameGroups();
+    }
+    return [];
+  }
+
+  function colorOptionsMatch(a, b, groups) {
+    if (window.WeColorI18n?.colorNamesMatch) {
+      return window.WeColorI18n.colorNamesMatch(a, b, groups);
+    }
+    return normOption(a) === normOption(b);
+  }
+
+  function optionValuesMatch(vVal, sVal, optIndex1, colorPos, groups) {
+    if (colorPos > 0 && optIndex1 === colorPos) {
+      return colorOptionsMatch(vVal, sVal, groups);
+    }
+    return normOption(vVal) === normOption(sVal);
+  }
+
   function getVariantsForProduct(productId) {
     const el = document.querySelector(`script[data-set-product-variants="${productId}"]`);
     if (!el?.textContent) return [];
@@ -87,12 +113,14 @@
     return values;
   }
 
-  function findVariantByOptions(variants, selected) {
+  function findVariantByOptions(variants, selected, variantSelects) {
     if (!variants?.length || !selected.length) return null;
+    const colorPos = getColorOptionPosition(variantSelects);
+    const groups = getColorNameGroups(variantSelects);
     return variants.find((v) => {
       for (let i = 0; i < selected.length; i++) {
         const key = `option${i + 1}`;
-        if (normOption(v[key]) !== normOption(selected[i])) return false;
+        if (!optionValuesMatch(v[key], selected[i], i + 1, colorPos, groups)) return false;
       }
       return true;
     });
@@ -102,14 +130,16 @@
    * Match only options the shopper has chosen (non-empty). Used when e.g. color is set
    * but size dropdown is still unset — so the card image can follow the color immediately.
    */
-  function findVariantByPartialOptions(variants, selected) {
+  function findVariantByPartialOptions(variants, selected, variantSelects) {
     if (!variants?.length || !selected?.length) return null;
+    const colorPos = getColorOptionPosition(variantSelects);
+    const groups = getColorNameGroups(variantSelects);
     const candidates = variants.filter((v) => {
       for (let i = 0; i < selected.length; i++) {
         const sel = selected[i];
         if (sel == null || !String(sel).trim()) continue;
         const key = `option${i + 1}`;
-        if (normOption(v[key]) !== normOption(sel)) return false;
+        if (!optionValuesMatch(v[key], sel, i + 1, colorPos, groups)) return false;
       }
       return true;
     });
@@ -136,7 +166,7 @@
       }
       return null;
     }
-    return findVariantByOptions(variants, selected);
+    return findVariantByOptions(variants, selected, variantSelects);
   }
 
   /** Thumbnail / preview: allow partial option match (e.g. color swatch before size is chosen). */
@@ -144,10 +174,10 @@
     const variants = getVariantsForProduct(variantSelects.dataset.productId);
     const selected = getSelectedOptionValues(variantSelects);
 
-    const full = findVariantByOptions(variants, selected);
+    const full = findVariantByOptions(variants, selected, variantSelects);
     if (full) return full;
 
-    const partial = findVariantByPartialOptions(variants, selected);
+    const partial = findVariantByPartialOptions(variants, selected, variantSelects);
     if (partial) return partial;
 
     const script = variantSelects.querySelector('[data-selected-variant]');
@@ -240,6 +270,138 @@
     return vs;
   }
 
+  function getFirstSetProductIdFromDom(root) {
+    const form = (root || document).querySelector('form.pdp-set-bundle');
+    const cfgEl = form?.querySelector('script[data-pdp-set-config]');
+    if (!cfgEl?.textContent?.trim()) return null;
+    try {
+      const cfg = JSON.parse(cfgEl.textContent);
+      return cfg.firstSetProductId != null ? String(cfg.firstSetProductId) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function isFirstSetLineVariantSelects(vs) {
+    if (!vs || vs.dataset?.pdpSetAddonCard === 'true') return false;
+    if (vs.closest('.product-set-picker__expand')) return false;
+    const productInfo = vs.closest('product-info');
+    const firstId = getFirstSetProductIdFromDom(productInfo);
+    return Boolean(firstId && String(vs.dataset?.productId) === firstId);
+  }
+
+  function getColorOptionPosition(vs) {
+    return parseInt(vs.dataset?.lineColorOptionPosition, 10) || 0;
+  }
+
+  function getColorValueFromVariantSelects(vs) {
+    const colorPos = getColorOptionPosition(vs);
+    if (colorPos < 1) return '';
+    const selected = getSelectedOptionValues(vs);
+    const val = selected[colorPos - 1];
+    return val != null && String(val).trim() ? String(val).trim() : '';
+  }
+
+  function getColorOptionWrap(vs) {
+    const colorPos = getColorOptionPosition(vs);
+    if (!colorPos) return null;
+    for (const wrap of vs.querySelectorAll(':scope > .product-form__input')) {
+      if (getOptionGroupPosition(wrap) === colorPos) return wrap;
+    }
+    return null;
+  }
+
+  function isColorOptionTarget(target, vs) {
+    if (!target || !vs) return false;
+    let wrap = target.closest?.('.product-form__input');
+    if (!wrap && target.type === 'radio') {
+      const vsRootId = target.dataset?.vsRoot || target.getAttribute?.('data-vs-root');
+      if (vsRootId === vs.id) {
+        const groupName = target.getAttribute('name') || '';
+        wrap = Array.from(vs.querySelectorAll('details.we-select-container')).find(
+          (d) => d.dataset?.radioGroupName === groupName
+        )?.closest('.product-form__input');
+      }
+    }
+    if (!wrap || !vs.contains(wrap)) return false;
+    return getOptionGroupPosition(wrap) === getColorOptionPosition(vs);
+  }
+
+  function setColorOnVariantSelects(vs, colorValue) {
+    if (!vs || !colorValue) return false;
+    const wrap = getColorOptionWrap(vs);
+    if (!wrap) return false;
+    const groups = getColorNameGroups(vs);
+
+    const current = getColorValueFromVariantSelects(vs);
+    if (colorOptionsMatch(current, colorValue, groups)) return false;
+
+    const selectEl = wrap.querySelector('select[name^="options"]');
+    if (selectEl) {
+      const match = Array.from(selectEl.options).find((opt) =>
+        colorOptionsMatch(opt.value, colorValue, groups)
+      );
+      if (!match) return false;
+      selectEl.value = match.value;
+      selectEl.dispatchEvent(new Event('change', { bubbles: true }));
+      return true;
+    }
+
+    const checked =
+      vs.closest('product-info') &&
+      typeof vs.closest('product-info').findCheckedOptionRadio === 'function'
+        ? vs.closest('product-info').findCheckedOptionRadio(wrap)
+        : wrap.querySelector('input[type="radio"]:checked');
+    if (checked && colorOptionsMatch(checked.value, colorValue, groups)) return false;
+
+    const radio = Array.from(wrap.querySelectorAll('input[type="radio"][name^="options"]')).find(
+      (input) => colorOptionsMatch(input.value, colorValue, groups)
+    );
+    if (radio) {
+      radio.checked = true;
+      radio.dispatchEvent(new Event('change', { bubbles: true }));
+      return true;
+    }
+
+    const groupName = wrap.querySelector('details.we-select-container')?.dataset?.radioGroupName;
+    if (groupName) {
+      const esc =
+        typeof CSS !== 'undefined' && CSS.escape
+          ? CSS.escape(groupName)
+          : groupName.replace(/"/g, '\\"');
+      const portaled = Array.from(
+        document.querySelectorAll(`input[type="radio"][name="${esc}"]`)
+      ).find((input) => colorOptionsMatch(input.value, colorValue, groups));
+      if (portaled) {
+        portaled.checked = true;
+        portaled.dispatchEvent(new Event('change', { bubbles: true }));
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  /**
+   * When the main set line (e.g. Deckenbezug) color changes, mirror it onto checked add-on cards
+   * (e.g. Kissenbezug). Shoppers can still override the add-on color manually afterwards.
+   */
+  function syncSetAddonColorsFromFirstSetLine(firstSetVs) {
+    if (!firstSetVs || !isFirstSetLineVariantSelects(firstSetVs)) return;
+
+    const colorValue = getColorValueFromVariantSelects(firstSetVs);
+    if (!colorValue) return;
+
+    const scope = firstSetVs.closest('product-info') || document;
+    scope
+      .querySelectorAll('.product-set-picker__expand variant-selects[data-pdp-set-addon-card]')
+      .forEach((addonVs) => {
+        const card = addonVs.closest('.product-set-picker__card');
+        if (!isCardSelected(card)) return;
+        setColorOnVariantSelects(addonVs, colorValue);
+      });
+  }
+
   function updateCardForVariantSelects(variantSelects) {
     if (!variantSelects?.dataset?.productId) return;
     const card = variantSelects.closest('.product-set-picker__card');
@@ -248,6 +410,8 @@
     const pid = variantSelects.dataset.productId;
     const variantForPrice = resolveVariantForPrice(variantSelects);
     const variantForThumb = resolveVariant(variantSelects);
+
+    updateAddonCardStockState(variantSelects, variantForPrice);
 
     const priceHost = card?.querySelector('[data-set-card-price][data-product-id="' + pid + '"]');
     if (priceHost) {
@@ -260,6 +424,66 @@
     }
 
     updateThumbForCard(card, pid, variantForThumb);
+  }
+
+  function enableAllAddonSelectOptions(variantSelects) {
+    if (!variantSelects?.matches?.('[data-pdp-set-addon-card]')) return;
+    variantSelects.querySelectorAll('select[name^="options"] option').forEach((opt) => {
+      opt.disabled = false;
+      opt.removeAttribute('disabled');
+    });
+  }
+
+  function updateAddonCardStockState(variantSelects, variant) {
+    if (!variantSelects?.matches?.('[data-pdp-set-addon-card]')) return;
+
+    enableAllAddonSelectOptions(variantSelects);
+
+    const qtyEl = variantSelects.querySelector('.pdp-set-addon-qty');
+    const oosMsg = variantSelects.querySelector('[data-pdp-set-addon-oos-msg]');
+    const oosBis = variantSelects.querySelector('[data-pdp-set-addon-bis]');
+    const variantScript = variantSelects.querySelector('[data-selected-variant]');
+
+    const selected = getSelectedOptionValues(variantSelects);
+    const hasFullSelection =
+      selected.length > 0 && selected.every((v) => v != null && String(v).trim() !== '');
+    const isOos = Boolean(hasFullSelection && variant && variant.available === false);
+
+    variantSelects.classList.toggle('is-addon-oos', isOos);
+
+    if (qtyEl) qtyEl.hidden = isOos;
+    if (oosMsg) oosMsg.hidden = !isOos;
+    if (oosBis) oosBis.hidden = !isOos;
+
+    if (variantScript && variant && hasFullSelection) {
+      variantScript.textContent = JSON.stringify(variant);
+    }
+  }
+
+  function triggerAddonCardBackInStock(variantSelects) {
+    const variant = resolveVariantForPrice(variantSelects);
+    if (!variant?.id) return;
+
+    const card = variantSelects.closest('.product-set-picker__card');
+    const productTitle = card?.querySelector('.product-set-picker__title')?.textContent?.trim() || '';
+    const variantLabel = Array.isArray(variant.options)
+      ? variant.options.filter((v) => v != null && String(v).trim()).join(' · ')
+      : variant.title || '';
+
+    if (typeof window.openPdpSetAddonBisModal === 'function') {
+      window.openPdpSetAddonBisModal({ variant, productTitle, variantLabel });
+    }
+  }
+
+  function syncAddonCardStockStates() {
+    document
+      .querySelectorAll('.product-set-picker__expand variant-selects[data-pdp-set-addon-card]')
+      .forEach((vs) => {
+        enableAllAddonSelectOptions(vs);
+        const card = vs.closest('.product-set-picker__card');
+        if (!isCardSelected(card)) return;
+        updateAddonCardStockState(vs, resolveVariantForPrice(vs));
+      });
   }
 
   function syncCheckedSetPickers() {
@@ -282,6 +506,17 @@
     true
   );
 
+  document.addEventListener(
+    'change',
+    function (e) {
+      const vs = resolveVariantSelectsFromEventTarget(e.target);
+      if (!vs || !isFirstSetLineVariantSelects(vs)) return;
+      if (!isColorOptionTarget(e.target, vs)) return;
+      syncSetAddonColorsFromFirstSetLine(vs);
+    },
+    true
+  );
+
   document.addEventListener('change', function (e) {
     if (!e.target.classList?.contains('product-set-picker__toggle')) return;
     const card = e.target.closest('.product-set-picker__card');
@@ -289,12 +524,32 @@
     const vs = card?.querySelector('.product-set-picker__expand variant-selects[data-product-id]');
 
     if (e.target.checked) {
-      if (vs) updateCardForVariantSelects(vs);
+      if (vs) {
+        const productInfo = vs.closest('product-info');
+        const firstId = getFirstSetProductIdFromDom(productInfo);
+        const sid = productInfo?.dataset?.section;
+        if (firstId && sid) {
+          const vsFirst = document.getElementById(`variant-selects-${sid}-${firstId}`);
+          if (vsFirst) syncSetAddonColorsFromFirstSetLine(vsFirst);
+        }
+        updateCardForVariantSelects(vs);
+      }
     } else {
       if (priceHost) restoreDefaultPriceFromTemplate(priceHost);
       restoreDefaultThumb(card);
     }
   });
+
+  document.addEventListener(
+    'click',
+    function (e) {
+      const bisBtn = e.target.closest?.('[data-pdp-set-addon-bis]');
+      if (!bisBtn) return;
+      const vs = bisBtn.closest('variant-selects[data-pdp-set-addon-card]');
+      if (vs) triggerAddonCardBackInStock(vs);
+    },
+    true
+  );
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', syncCheckedSetPickers);
@@ -308,4 +563,5 @@
 
   /** Called after embedded set-product `variant-selects` HTML is swapped (e.g. default size applied). */
   window.syncProductSetPickerCards = syncCheckedSetPickers;
+  window.syncSetAddonColorsFromFirstSetLine = syncSetAddonColorsFromFirstSetLine;
 })();

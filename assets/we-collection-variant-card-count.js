@@ -29,6 +29,13 @@
     const labels = optionLabels(product);
     if (!labels.length) return -1;
 
+    if (window.WeColorI18n?.isColorOptionName) {
+      for (let i = 0; i < labels.length; i++) {
+        if (window.WeColorI18n.isColorOptionName(labels[i], triggerSetting)) return i;
+      }
+      return -1;
+    }
+
     const tokens = String(triggerSetting || '')
       .split(',')
       .map((s) => s.trim().toLowerCase())

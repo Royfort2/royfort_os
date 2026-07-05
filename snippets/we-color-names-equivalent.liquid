@@ -1,0 +1,57 @@
+{% comment %}
+  Outputs 1 when two color labels are the same (exact, swatch_list alias, or pattern_swatch), else 0.
+  Accepts: name_a {String}, name_b {String}
+{% endcomment %}
+{%- liquid
+  assign a_norm = name_a | downcase | strip
+  assign b_norm = name_b | downcase | strip
+  assign equivalent = false
+  if a_norm != blank and b_norm != blank
+    if a_norm == b_norm
+      assign equivalent = true
+    else
+      assign hex_a = ''
+      assign hex_b = ''
+      assign swatch_config = settings.swatch_list | newline_to_br | split: '<br />'
+      for swatch in swatch_config
+        assign swatch_parts = swatch | strip | split: ':'
+        if swatch_parts.size < 2
+          continue
+        endif
+        assign swatch_hex = swatch_parts.last | downcase | strip
+        assign name_parts = swatch_parts.first | split: '|'
+        for name_part in name_parts
+          assign nm = name_part | downcase | strip
+          if nm == a_norm and hex_a == blank
+            assign hex_a = swatch_hex
+          endif
+          if nm == b_norm and hex_b == blank
+            assign hex_b = swatch_hex
+          endif
+          if hex_a != blank and hex_b != blank
+            break
+          endif
+        endfor
+        if hex_a != blank and hex_b != blank
+          break
+        endif
+      endfor
+      if hex_a != blank and hex_a == hex_b
+        assign equivalent = true
+      endif
+      unless equivalent
+        assign handle_a = name_a | handle
+        assign handle_b = name_b | handle
+        if handle_a != blank and handle_a == handle_b
+          assign equivalent = true
+        else
+          assign mo_a = metaobjects.pattern_swatch[handle_a]
+          assign mo_b = metaobjects.pattern_swatch[handle_b]
+          if mo_a != blank and mo_b != blank and mo_a.system.id == mo_b.system.id
+            assign equivalent = true
+          endif
+        endif
+      endunless
+    endif
+  endif
+-%}{%- if equivalent -%}1{%- else -%}0{%- endif -%}
