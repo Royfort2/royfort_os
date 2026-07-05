@@ -12,6 +12,12 @@
     "main": {
       "type": "main-product",
       "blocks": {
+        "klaviyo_email_marketing_sms_form_embed_block_LbEQ8J": {
+          "type": "shopify://apps/klaviyo-email-marketing-sms/blocks/form-embed-block/2632fe16-c075-4321-a88b-50b567f42507",
+          "settings": {
+            "formId": ""
+          }
+        },
         "image_tooltip_iznpVX": {
           "type": "image_tooltip",
           "settings": {
@@ -186,6 +192,7 @@
         }
       },
       "block_order": [
+        "klaviyo_email_marketing_sms_form_embed_block_LbEQ8J",
         "image_tooltip_iznpVX",
         "badges",
         "title",
@@ -428,6 +435,32 @@
         "custom_class": ""
       }
     },
+    "we_site_product_reviews_PqR3mK": {
+      "type": "we-site-product-reviews",
+      "blocks": {
+        "stamped_reviews_main_widget_PK7eYn": {
+          "type": "shopify://apps/stamped-reviews/blocks/main-widget/a103faaf-2125-4b0e-89fa-de5149736723",
+          "settings": {
+            "animation": true,
+            "tags_exclude": "",
+            "tags_include": "",
+            "search": "",
+            "linkify": true,
+            "use_metafields": false,
+            "sku_tagtype": "sku"
+          }
+        }
+      },
+      "block_order": [
+        "stamped_reviews_main_widget_PK7eYn"
+      ],
+      "name": "[we] Product reviews",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 32,
+        "padding_bottom": 32
+      }
+    },
     "featured_collection_JQULLF": {
       "type": "featured-collection",
       "name": "t:sections.featured-collection.presets.name",
@@ -527,32 +560,6 @@
       "type": "breadcrumbs",
       "settings": {
         "text_alignment": "center"
-      }
-    },
-    "we_site_product_reviews_PqR3mK": {
-      "type": "we-site-product-reviews",
-      "blocks": {
-        "stamped_reviews_main_widget_PK7eYn": {
-          "type": "shopify://apps/stamped-reviews/blocks/main-widget/a103faaf-2125-4b0e-89fa-de5149736723",
-          "settings": {
-            "animation": true,
-            "tags_exclude": "",
-            "tags_include": "",
-            "search": "",
-            "linkify": true,
-            "use_metafields": false,
-            "sku_tagtype": "sku"
-          }
-        }
-      },
-      "block_order": [
-        "stamped_reviews_main_widget_PK7eYn"
-      ],
-      "name": "[we] Product reviews",
-      "settings": {
-        "color_scheme": "scheme-1",
-        "padding_top": 32,
-        "padding_bottom": 32
       }
     }
   },
