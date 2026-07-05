@@ -159,24 +159,30 @@
   .product__block--stamped_reviews .stamped-fa-star-o {
     opacity: 0.45;
   }
-  .product__block--stamped_reviews .stamped-badge-caption[data-reviews='0'][data-label][data-version='2']::before {
-    content: '(0) Bewertungen' !important;
-    margin-right: 0;
+  .product__block--stamped_reviews .stamped-badge-caption[data-reviews][data-label][data-version='2'] > span {
+    display: inline !important;
   }
-  .product__block--stamped_reviews .stamped-badge-caption[data-reviews='0'][data-label][data-version='2']::after {
+  .product__block--stamped_reviews .stamped-badge-caption[data-reviews][data-label][data-version='2']::before,
+  .product__block--stamped_reviews .stamped-badge-caption[data-reviews='0'][data-label][data-version='2']::before {
     content: none !important;
-    margin-left: 0;
+    margin: 0;
   }
   .product__block--stamped_reviews .stamped-badge-caption[data-reviews][data-label][data-version='2']:not([data-reviews='0'])::after {
-    content: ') Bewertungen' !important;
-    margin-left: 0.2rem;
+    content: none !important;
+    margin: 0;
+  }
+  .product__block--stamped_reviews .stamped-badge-caption[data-reviews='0'][data-label][data-version='2']::after {
+    content: ' Bewertungen' !important;
+    margin: 0;
   }
   .product__block--stamped_reviews .stamped-badge-starrating .stamped-fa:before {
     font-size: 1.8rem !important;
     width: 1.8rem !important;
     height: 1.8rem !important;
   }
-  .product__block--stamped_reviews .stamped-badge-rating-value,
+  .product__block--stamped_reviews .stamped-badge-rating-value {
+    display: none !important;
+  }
   .product__block--stamped_reviews .stamped-badge-caption {
     color: #525252 !important;
     font-size: 1.4rem !important;
@@ -793,7 +799,8 @@
     width: 100%;
     max-width: none;
   }
-  .product-set-picker__expand-inner variant-selects[data-pdp-set-addon-card]:not(.is-addon-oos) .pdp-set-addon-oos-msg {
+  .product-set-picker__expand-inner variant-selects[data-pdp-set-addon-card]:not(.is-addon-oos) .pdp-set-addon-oos-msg,
+  .product-set-picker__expand-inner variant-selects[data-pdp-set-addon-card]:not(.is-addon-oos) .pdp-set-addon-bis {
     display: none !important;
   }
   .product-set-picker__expand-inner variant-selects[data-pdp-set-addon-card].is-addon-oos .pdp-set-addon-qty {
@@ -832,6 +839,20 @@
   .product-set-picker__expand-inner variant-selects[data-pdp-set-addon-card].is-addon-oos > .product-form__input:not(.pdp-set-addon-qty):nth-of-type(2) {
     grid-column: 1;
   }
+  .product-set-picker__expand-inner variant-selects[data-pdp-set-addon-card] .pdp-set-addon-bis {
+    grid-column: 1 / -1;
+    width: 100%;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-weight: 600;
+    border: 0.1rem solid #171717;
+    background: #fff;
+    color: #171717;
+  }
+  .product-set-picker__expand-inner variant-selects[data-pdp-set-addon-card].is-addon-oos .pdp-set-addon-bis {
+    margin-top: 0.4rem;
+  }
   @media screen and (min-width: 750px) {
     .product-set-picker__expand-inner variant-selects[data-pdp-set-addon-card].is-addon-oos > .product-form__input:not(.pdp-set-addon-qty):nth-of-type(2) {
       grid-column: 1 / -1;
@@ -847,6 +868,39 @@
       width: 1.2rem;
       top: 0.3em;
     }
+  }
+  .pdp-set-addon-bis-modal .pdp-set-addon-bis-modal__body {
+    padding: 2.4rem 2rem 2.8rem;
+  }
+  .pdp-set-addon-bis-modal__title {
+    margin: 0 0 0.4rem;
+  }
+  .pdp-set-addon-bis-modal__variant {
+    margin: 0 0 1.2rem;
+  }
+  .pdp-set-addon-bis-modal__intro {
+    margin: 0 0 1.6rem;
+    font-size: 1.4rem;
+    line-height: 1.5;
+  }
+  .pdp-set-addon-bis-modal__submit {
+    margin-top: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-weight: 600;
+    border: 0.1rem solid #171717;
+    background: #fff;
+    color: #171717;
+  }
+  .pdp-set-addon-bis-modal__error,
+  .pdp-set-addon-bis-modal__success {
+    margin-top: 1.2rem;
+    margin-bottom: 0;
+  }
+  .pdp-set-addon-bis-form[hidden],
+  .pdp-set-addon-bis-modal__error[hidden],
+  .pdp-set-addon-bis-modal__success[hidden] {
+    display: none !important;
   }
   .product-set-picker__expand-inner variant-selects[data-pdp-set-addon-card] .form__label {
     position: absolute !important;

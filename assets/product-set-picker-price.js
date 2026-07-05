@@ -441,6 +441,7 @@
 
     const qtyEl = variantSelects.querySelector('.pdp-set-addon-qty');
     const oosMsg = variantSelects.querySelector('[data-pdp-set-addon-oos-msg]');
+    const oosBis = variantSelects.querySelector('[data-pdp-set-addon-bis]');
     const variantScript = variantSelects.querySelector('[data-selected-variant]');
 
     const selected = getSelectedOptionValues(variantSelects);
@@ -452,9 +453,25 @@
 
     if (qtyEl) qtyEl.hidden = isOos;
     if (oosMsg) oosMsg.hidden = !isOos;
+    if (oosBis) oosBis.hidden = !isOos;
 
     if (variantScript && variant && hasFullSelection) {
       variantScript.textContent = JSON.stringify(variant);
+    }
+  }
+
+  function triggerAddonCardBackInStock(variantSelects) {
+    const variant = resolveVariantForPrice(variantSelects);
+    if (!variant?.id) return;
+
+    const card = variantSelects.closest('.product-set-picker__card');
+    const productTitle = card?.querySelector('.product-set-picker__title')?.textContent?.trim() || '';
+    const variantLabel = Array.isArray(variant.options)
+      ? variant.options.filter((v) => v != null && String(v).trim()).join(' · ')
+      : variant.title || '';
+
+    if (typeof window.openPdpSetAddonBisModal === 'function') {
+      window.openPdpSetAddonBisModal({ variant, productTitle, variantLabel });
     }
   }
 
@@ -526,6 +543,17 @@
       restoreDefaultThumb(card);
     }
   });
+
+  document.addEventListener(
+    'click',
+    function (e) {
+      const bisBtn = e.target.closest?.('[data-pdp-set-addon-bis]');
+      if (!bisBtn) return;
+      const vs = bisBtn.closest('variant-selects[data-pdp-set-addon-card]');
+      if (vs) triggerAddonCardBackInStock(vs);
+    },
+    true
+  );
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', syncCheckedSetPickers);

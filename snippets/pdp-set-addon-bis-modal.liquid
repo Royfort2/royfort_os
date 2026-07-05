@@ -1,0 +1,53 @@
+{% comment %}
+  Klaviyo Back in Stock modal for set add-on line variants (Client BIS API).
+  Render once per product page (e.g. from buy-buttons when pdp_set_bundle).
+{% endcomment %}
+<basic-modal
+  id="PdpSetAddonBisModal-{{ section_id }}"
+  class="drawer modal pdp-set-addon-bis-modal"
+  style="--modal-width: 48rem;"
+  hidden
+>
+  <div class="fixed-overlay" aria-controls="PdpSetAddonBisModal-{{ section_id }}"></div>
+  <div class="drawer__inner">
+    <button
+      type="button"
+      class="drawer__close-btn"
+      aria-controls="PdpSetAddonBisModal-{{ section_id }}"
+      aria-label="{{ 'accessibility.close' | t }}"
+    >
+      {% render 'icon-close' %}
+    </button>
+    <div class="drawer__body v-scrollable h-full pdp-set-addon-bis-modal__body">
+      <form class="pdp-set-addon-bis-form" data-pdp-set-addon-bis-form novalidate>
+        <h2 class="pdp-set-addon-bis-modal__title h4" data-pdp-set-addon-bis-title></h2>
+        <p class="pdp-set-addon-bis-modal__variant text-subtext" data-pdp-set-addon-bis-variant hidden></p>
+        <p class="pdp-set-addon-bis-modal__intro">
+          Tragen Sie Ihre E-Mail-Adresse ein – wir informieren Sie, sobald diese Variante wieder verfügbar ist.
+        </p>
+        <div class="form-field">
+          <label class="form-label visually-hidden" for="PdpSetAddonBisEmail-{{ section_id }}">E-Mail</label>
+          <input
+            id="PdpSetAddonBisEmail-{{ section_id }}"
+            type="email"
+            name="email"
+            class="form-control"
+            autocomplete="email"
+            inputmode="email"
+            required
+            placeholder="E-Mail-Adresse"
+            data-pdp-set-addon-bis-email
+          >
+        </div>
+        <button type="submit" class="btn btn--secondary w-full pdp-set-addon-bis-modal__submit">
+          Senden Sie mir eine E-Mail
+        </button>
+        <p class="form-message alert alert--error blocks-radius pdp-set-addon-bis-modal__error" data-pdp-set-addon-bis-error hidden role="alert"></p>
+      </form>
+      <p class="form-message alert alert--success blocks-radius pdp-set-addon-bis-modal__success" data-pdp-set-addon-bis-success hidden role="status">
+        Vielen Dank! Wir benachrichtigen Sie per E-Mail, sobald die Variante wieder verfügbar ist.
+      </p>
+    </div>
+  </div>
+</basic-modal>
+<script src="{{ 'product-set-addon-bis.js' | asset_url }}" defer="defer"></script>

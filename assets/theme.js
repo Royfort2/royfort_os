@@ -967,10 +967,12 @@ class AccordionDetails extends HTMLDetailsElement {
   async animateAccordion(isOpen) {
     this.style.overflow = 'hidden';
 
+    let animation;
+
     if (isOpen) {
       this.setAttribute('open', '');
 
-      await FoxTheme.Motion.timeline([
+      animation = FoxTheme.Motion.timeline([
         [
           this,
           { height: [`${this.summaryElement.clientHeight + 1}px`, `${this.scrollHeight + 1}px`] },
@@ -983,7 +985,7 @@ class AccordionDetails extends HTMLDetailsElement {
         ],
       ]).finished;
     } else {
-      await FoxTheme.Motion.timeline([
+      animation = FoxTheme.Motion.timeline([
         [this.contentElement, { opacity: 0 }, { duration: 0.15 }],
         [
           this,
@@ -991,7 +993,12 @@ class AccordionDetails extends HTMLDetailsElement {
           { duration: 0.25, at: '<', easing: 'ease' },
         ],
       ]).finished;
+    }
 
+    this._animationPromise = animation;
+    await animation;
+
+    if (!isOpen) {
       this.removeAttribute('open');
     }
 
@@ -1024,6 +1031,16 @@ class AccordionGroup extends AccordionDetails {
     super();
   }
 
+  toggleAccordion(event) {
+    event.preventDefault();
+
+    if (!this.isOpen) {
+      this._scrollAnchorTop = this.summaryElement.getBoundingClientRect().top;
+    }
+
+    this.open = !this.open;
+  }
+
   handleAfterToggle() {
     if (this.isOpen) {
       const parent = this.closest('.accordion-parent') || document;
@@ -1035,6 +1052,32 @@ class AccordionGroup extends AccordionDetails {
         }
       });
     }
+  }
+
+  async handleAfterAnimated() {
+    if (!this.isOpen || this._scrollAnchorTop == null) return;
+
+    const parent = this.closest('.accordion-parent') || document;
+    const accordions = parent.querySelectorAll('details[is="accordion-group"]');
+    const animationPromises = [];
+
+    accordions.forEach((details) => {
+      if (details._animationPromise) {
+        animationPromises.push(details._animationPromise.catch(() => {}));
+      }
+    });
+
+    if (animationPromises.length) {
+      await Promise.all(animationPromises);
+    }
+
+    const delta = this.summaryElement.getBoundingClientRect().top - this._scrollAnchorTop;
+
+    if (Math.abs(delta) > 1) {
+      window.scrollBy(0, delta);
+    }
+
+    this._scrollAnchorTop = null;
   }
 }
 customElements.define('accordion-group', AccordionGroup, { extends: 'details' });
