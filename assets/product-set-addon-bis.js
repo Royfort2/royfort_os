@@ -207,19 +207,25 @@
       submit.setAttribute('aria-busy', 'true');
     }
 
-    const result = await subscribeBackInStock(email, activeVariantId, companyId);
-
-    if (submit) {
-      submit.disabled = false;
-      submit.removeAttribute('aria-busy');
+    try {
+      const result = await subscribeBackInStock(email, activeVariantId, companyId);
+      if (result.ok) {
+        showSuccess(modal);
+      } else {
+        showError(modal, result.message);
+      }
+    } catch (err) {
+      console.error('[pdp-set-addon-bis] subscribe failed', err);
+      showError(
+        modal,
+        'Die Anmeldung konnte nicht gesendet werden. Bitte versuchen Sie es später erneut.'
+      );
+    } finally {
+      if (submit) {
+        submit.disabled = false;
+        submit.removeAttribute('aria-busy');
+      }
     }
-
-    if (result.ok) {
-      showSuccess(modal);
-      return;
-    }
-
-    showError(modal, result.message);
   });
 
   document.addEventListener('toggle', (event) => {
