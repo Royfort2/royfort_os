@@ -513,7 +513,11 @@
         const sid = productInfo?.dataset?.section;
         if (firstId && sid) {
           const vsFirst = document.getElementById(`variant-selects-${sid}-${firstId}`);
-          if (vsFirst) syncSetAddonColorsFromFirstSetLine(vsFirst);
+          /* Inherit the main line color only onto the NEWLY added card — never touch other already-configured cards. */
+          if (vsFirst && isFirstSetLineVariantSelects(vsFirst) && vs.dataset?.pdpSetAddonCard === 'true') {
+            const colorValue = getColorValueFromVariantSelects(vsFirst);
+            if (colorValue) setColorOnVariantSelects(vs, colorValue);
+          }
         }
         updateCardForVariantSelects(vs);
       }
