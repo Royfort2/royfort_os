@@ -197,7 +197,6 @@
           }
         </script>
         <script src="{{ 'product-set-cart-items.js' | asset_url }}" defer="defer"></script>
-        {% render 'pdp-set-addon-bis-modal', section_id: section.id %}
       {%- elsif pdp_simple_live -%}
         {%- if pdp_tag_addon_ids != blank -%}
           <div class="js-pdp-set-line-items" data-pdp-set-line-items aria-hidden="true"></div>

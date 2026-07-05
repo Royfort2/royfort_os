@@ -1,11 +1,10 @@
 /**
- * Stamped.io main reviews widget: locale, pagination mode, Q&A interactions.
+ * Stamped.io main reviews widget: locale, pagination mode, page size, scroll on page change.
  */
 (function () {
   var CONFIG_ID = 'WeStampedMainWidgetConfig';
   var DEFAULT_TAKE = 2;
   var reloadPending = false;
-  var actionsBound = false;
 
   function getConfig() {
     var el = document.getElementById(CONFIG_ID);
@@ -51,7 +50,7 @@
         /* noop */
       }
       reloadPending = false;
-      onWidgetReady();
+      onReviewsLoaded();
     });
   }
 
@@ -71,15 +70,10 @@
     return true;
   }
 
-  function toggleStampedForm(type) {
-    if (typeof StampedFn === 'undefined' || typeof StampedFn.toggleForm !== 'function') return;
-    try {
-      StampedFn.toggleForm(type);
-    } catch (e) {
-      /* noop */
-    }
-  }
-
+  /**
+   * After review pagination Stamped re-renders `.stamped-tabs`, leaving the Q&A panel
+   * tied to review page 1 (often empty). Reload questions on-demand via Stamped's own method.
+   */
   function questionsPanelNeedsLoad(widget) {
     var panel = widget.querySelector('.stamped-questions');
     if (!panel) return true;
@@ -88,45 +82,32 @@
     );
   }
 
-  function ensureQuestionsLoaded() {
-    var widget = getWidget();
-    if (!widget || !questionsPanelNeedsLoad(widget)) return;
-    if (typeof StampedFn === 'undefined') return;
-
+  function reloadQuestions(widget) {
+    if (typeof StampedFn === 'undefined' || typeof StampedFn.pageQuestions !== 'function') return;
+    if (widget.dataset.weQuestionsReloading === 'true') return;
+    widget.dataset.weQuestionsReloading = 'true';
     try {
-      if (typeof StampedFn.pageQuestions === 'function') {
-        StampedFn.pageQuestions();
-        return;
-      }
+      StampedFn.pageQuestions();
     } catch (e) {
-      /* fall through */
+      /* noop */
     }
+    window.setTimeout(function () {
+      delete widget.dataset.weQuestionsReloading;
+    }, 3000);
   }
 
-  function bindSummaryActionClicks() {
-    if (actionsBound) return;
-    actionsBound = true;
+  function bindQuestionsTabReload() {
+    var widget = getWidget();
+    if (!widget || widget.dataset.weQuestionsTabBound === 'true') return;
+    widget.dataset.weQuestionsTabBound = 'true';
 
-    document.addEventListener('click', function (e) {
-      var widget = getWidget();
-      if (!widget || !widget.contains(e.target)) return;
-
-      if (e.target.closest('.stamped-summary-actions-newreview')) {
-        e.preventDefault();
-        toggleStampedForm('review');
-        return;
-      }
-
-      if (e.target.closest('.stamped-summary-actions-newquestion')) {
-        e.preventDefault();
-        toggleStampedForm('question');
-        return;
-      }
-
-      var questionsTab = e.target.closest('#tab-questions, .stamped-tabs [data-type="questions"]');
-      if (questionsTab) {
-        window.setTimeout(ensureQuestionsLoaded, 400);
-      }
+    widget.addEventListener('click', function (e) {
+      var tab = e.target.closest('#tab-questions, .stamped-tabs [data-type="questions"]');
+      if (!tab) return;
+      /* Let Stamped's own tab switch (Fe) run first, then top up an empty panel. */
+      window.setTimeout(function () {
+        if (questionsPanelNeedsLoad(widget)) reloadQuestions(widget);
+      }, 350);
     });
   }
 
@@ -168,12 +149,12 @@
     });
   }
 
-  function onWidgetReady() {
+  function onReviewsLoaded() {
     var widget = getWidget();
     if (!widget) return;
     applyWidgetAttributes(widget);
-    bindSummaryActionClicks();
     bindPaginationScroll();
+    bindQuestionsTabReload();
   }
 
   function addEventListenerStamped(el, eventName, handler) {
@@ -201,9 +182,7 @@
     watchForWidget();
   }
 
-  bindSummaryActionClicks();
-  addEventListenerStamped(document, 'stamped:reviews:loaded', onWidgetReady);
-  addEventListenerStamped(document, 'stamped:questions:loaded', onWidgetReady);
+  addEventListenerStamped(document, 'stamped:reviews:loaded', onReviewsLoaded);
 
   document.addEventListener('shopify:section:load', function (e) {
     var target = e && e.target;
@@ -212,6 +191,7 @@
       if (widget) {
         delete widget.dataset.weConfigured;
         delete widget.dataset.wePaginationBound;
+        delete widget.dataset.weQuestionsTabBound;
         configureWidget();
       }
     }

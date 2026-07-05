@@ -1315,15 +1315,19 @@ if (!customElements.get('product-info')) {
             stickyAtcBar.classList.remove('hidden');
           }
 
-          const newAddButton = html.getElementById(`ProductSubmitButton-${this.sectionId}`);
-          let isDisabled = !newAddButton || newAddButton.hasAttribute('disabled');
-          if (!this._isPdpSetBundleForm() && variant && variant.available === true) {
-            isDisabled = false;
+          if (this._isPdpSetBundleForm()) {
+            document.dispatchEvent(new CustomEvent('pdp-set:refresh-submit', { bubbles: true }));
+          } else {
+            const newAddButton = html.getElementById(`ProductSubmitButton-${this.sectionId}`);
+            let isDisabled = !newAddButton || newAddButton.hasAttribute('disabled');
+            if (variant && variant.available === true) {
+              isDisabled = false;
+            }
+            this.updateButtonsState(isDisabled, {
+              updateText: true,
+              text: isDisabled ? FoxTheme.variantStrings.soldOut : null,
+            });
           }
-          this.updateButtonsState(isDisabled, {
-            updateText: true,
-            text: isDisabled ? FoxTheme.variantStrings.soldOut : null,
-          });
 
           FoxTheme.pubsub.publish(FoxTheme.pubsub.PUB_SUB_EVENTS.variantChange, {
             data: {
@@ -1440,8 +1444,13 @@ if (!customElements.get('product-info')) {
           .catch((error) => {
             if (error.name === 'AbortError') {
               console.log('Fetch aborted by user');
+              return;
+            }
+            console.error(error);
+            if (this._isPdpSetBundleForm()) {
+              document.dispatchEvent(new CustomEvent('pdp-set:refresh-submit', { bubbles: true }));
             } else {
-              console.error(error);
+              this.enableButtons();
             }
           });
       }

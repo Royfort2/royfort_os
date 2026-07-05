@@ -2500,7 +2500,8 @@ class ProductForm extends HTMLFormElement {
     if (document.body.classList.contains('cart-template') || FoxTheme.settings.cartType === 'page') return;
 
     event.preventDefault();
-    if (this.submitButtonElement.hasAttribute('aria-disabled')) return;
+    if (this.submitButtonElement.hasAttribute('aria-disabled') || this.submitButtonElement.disabled) return;
+    this.hasError = false;
     this.lastSubmittedElement = event.submitter || event.currentTarget;
 
     this.displayFormErrors();

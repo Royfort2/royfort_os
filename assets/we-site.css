@@ -1737,17 +1737,6 @@ layout-switcher .btn::after {
     font-size: 1.4rem !important;
 }
 
-/* Stamped Q&A: ensure forms show when toggled (Stamped defaults to display:none) */
-.we-site-product-reviews .new-question-form.stamped-visible,
-.we-site-product-reviews .new-review-form.stamped-visible {
-    display: block !important;
-}
-
-.we-site-product-reviews .question-form-wrapper,
-.we-site-product-reviews .stamped-questions:not([style*='display: none']) {
-    display: block;
-}
-
 .product-template .product__block--stamped_reviews .stamped-badge {
     cursor: pointer;
 }

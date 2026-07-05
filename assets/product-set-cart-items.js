@@ -877,6 +877,8 @@
     } else {
       submitBtn.disabled = false;
       submitBtn.removeAttribute('disabled');
+      submitBtn.removeAttribute('aria-disabled');
+      submitBtn.classList.remove('btn--loading');
       const itemCount = getSetBundleTotalItemCount(productInfo, cfg);
       setPdpSubmitLabel(span, {
         main: addToCartBase,
