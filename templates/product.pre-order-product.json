@@ -75,14 +75,15 @@
           "type": "icon_info_text",
           "settings": {
             "icon": "shopify://shop_images/local_shipping_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
-            "title": "Lieferzeit: {{ product.metafields.custom.we_pdp_estimated_delivery_time.value }}",
-            "short_description": "Einzelne Varianten ab 08.06. versandbereit",
-            "description": "<p>Von der sorgfältigen Vorbereitung bis zum sicheren Versand begleiten wir jede Bestellung mit besonderer Aufmerksamkeit und Liebe zum Detail.</p><p><strong>Hinweis zur Verfügbarkeit einzelner Varianten</strong><br/>Folgende Größen und Farben werden aktuell mit verlängerter Lieferzeit ab dem 08.06.2026 versendet:<br/><br/>• Weiß: 50 x 70 cm & 80 x 80 cm<br/>• Sanftgrau: 50 x 70 cm<br/>• Taupe: 40 x 80 cm</p>",
+            "title": "Neue Farben vorbestellen",
+            "short_description": "Auslieferung ab Mitte September",
+            "description": "<p>Unsere neuen Musselin-Farben sind ab sofort vorbestellbar. Der Versand erfolgt voraussichtlich <strong>Mitte September</strong>.<br/><br/>Mit Ihrer Vorbestellung reservieren wir Ihre gewünschte Farbe bereits heute – die Auslieferung beginnt, sobald die neue Kollektion bei uns eingetroffen ist.</p><p><strong>Voraussichtlicher Versand:</strong> Mitte September 2026</p>",
             "page": ""
           }
         },
         "icon_info_text_pzJbNn": {
           "type": "icon_info_text",
+          "disabled": true,
           "settings": {
             "icon": "shopify://shop_images/undo_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
             "title": "30-Tage Rückgaberecht",
@@ -93,6 +94,7 @@
         },
         "icon_info_text_4ErYdG": {
           "type": "icon_info_text",
+          "disabled": true,
           "settings": {
             "icon": "shopify://shop_images/chat_bubble_20dp_171717_FILL0_wght400_GRAD0_opsz20.svg",
             "title": "Persönliche Beratung",
@@ -103,6 +105,7 @@
         },
         "usp_list_yWyYmX": {
           "type": "usp_list",
+          "disabled": true,
           "settings": {
             "title": "{{ product.metafields.custom.we_pdp_usp_list_title.value }}",
             "use_usp_metafield": true,
@@ -116,6 +119,7 @@
         },
         "collapsible-row-1": {
           "type": "collapsible_tab",
+          "disabled": true,
           "settings": {
             "heading": "Beschreibung",
             "heading_styling": "body",
@@ -128,6 +132,7 @@
         },
         "collapsible-row-2": {
           "type": "collapsible_tab",
+          "disabled": true,
           "settings": {
             "heading": "Material",
             "heading_styling": "body",
@@ -140,6 +145,7 @@
         },
         "collapsible-row-3": {
           "type": "collapsible_tab",
+          "disabled": true,
           "settings": {
             "heading": "Pflegehinweise",
             "heading_styling": "body",
@@ -152,6 +158,7 @@
         },
         "usp_swiper_ffaRkg": {
           "type": "usp_swiper",
+          "disabled": true,
           "settings": {
             "hide_on_desktop": true,
             "icon_1": "shopify://shop_images/diamond_100dp_1F1F1F_FILL0_wght400_GRAD0_opsz48_359711e6-d49d-46fc-a50c-169b725b2eb1.png",
@@ -166,6 +173,7 @@
         },
         "complementary_custom_y6bBfH": {
           "type": "complementary_custom",
+          "disabled": true,
           "settings": {
             "heading": "Das könnte Ihnen auch gefallen",
             "product_list_limit": 4,
@@ -207,211 +215,6 @@
         "enable_video_looping": true,
         "padding_top": 0,
         "padding_bottom": 0
-      }
-    },
-    "image_with_text_zQ9iit": {
-      "type": "image-with-text",
-      "blocks": {
-        "heading_9Y3zkK": {
-          "type": "heading",
-          "settings": {
-            "heading": "{{ product.metafields.custom.we_pdp_image_with_text_1_title.value }}",
-            "heading_size": "h3",
-            "heading_highlight_style": "none"
-          }
-        },
-        "text_UWkrNW": {
-          "type": "text",
-          "settings": {
-            "text": "{{ product.metafields.custom.we_pdp_image_with_text_1_text | metafield_tag }}",
-            "text_size": "text-base",
-            "truncate_on_mobile": true,
-            "truncate_on_mobile_lines": 3,
-            "truncate_trigger_text": "Mehr lesen",
-            "truncate_collapse_text": "Weniger"
-          }
-        }
-      },
-      "block_order": [
-        "heading_9Y3zkK",
-        "text_UWkrNW"
-      ],
-      "custom_css": [
-        "/* @media (max-width: 767.98px) {.image-with-text .image-with-text__inner {padding-top: 4.8rem; }}@media (min-width: 768px) {.image-with-text__wrapper {--gap-x: 3rem; }}@media (min-width: 1280px) {.image-with-text__inner {--padding-x: 9rem; }} */"
-      ],
-      "settings": {
-        "is_full_width": true,
-        "section_color_scheme": "",
-        "color_scheme": "scheme-1",
-        "image": "{{ product.metafields.custom.we_pdp_image_with_text_1_image.value }}",
-        "image_height": "adapt",
-        "layout": "text_first",
-        "desktop_content_position": "center",
-        "desktop_content_alignment": "left",
-        "enable_parallax": false,
-        "parallax_direction": "vertical",
-        "mobile_content_alignment": "left",
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "different_mobile_padding": true,
-        "padding_top_mobile": 0,
-        "padding_bottom_mobile": 16,
-        "show_section_divider": false,
-        "divider_width": "fixed",
-        "custom_class": ""
-      }
-    },
-    "image_with_text_dQDdte": {
-      "type": "image-with-text",
-      "blocks": {
-        "heading_4Ni4ix": {
-          "type": "heading",
-          "settings": {
-            "heading": "{{ product.metafields.custom.we_pdp_image_with_text_2_title.value }}",
-            "heading_size": "h3",
-            "heading_highlight_style": "none"
-          }
-        },
-        "text_FXjj84": {
-          "type": "text",
-          "settings": {
-            "text": "{{ product.metafields.custom.we_pdp_image_with_text_2_text | metafield_tag }}",
-            "text_size": "text-base",
-            "truncate_on_mobile": true,
-            "truncate_on_mobile_lines": 3,
-            "truncate_trigger_text": "Mehr lesen",
-            "truncate_collapse_text": "Weniger"
-          }
-        }
-      },
-      "block_order": [
-        "heading_4Ni4ix",
-        "text_FXjj84"
-      ],
-      "custom_css": [
-        "/* @media (max-width: 767.98px) {.image-with-text .image-with-text__inner {padding-top: 4.8rem; }}@media (min-width: 768px) {.image-with-text__wrapper {--gap-x: 3rem; }}@media (min-width: 1280px) {.image-with-text__inner {--padding-x: 9rem; }} */"
-      ],
-      "settings": {
-        "is_full_width": true,
-        "section_color_scheme": "",
-        "color_scheme": "scheme-1",
-        "image": "{{ product.metafields.custom.we_pdp_image_with_text_2_image.value }}",
-        "image_height": "adapt",
-        "layout": "image_first",
-        "desktop_content_position": "center",
-        "desktop_content_alignment": "left",
-        "enable_parallax": false,
-        "parallax_direction": "vertical",
-        "mobile_content_alignment": "left",
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "different_mobile_padding": true,
-        "padding_top_mobile": 0,
-        "padding_bottom_mobile": 16,
-        "show_section_divider": false,
-        "divider_width": "fixed",
-        "custom_class": ""
-      }
-    },
-    "featured_collection_JQULLF": {
-      "type": "featured-collection",
-      "name": "t:sections.featured-collection.presets.name",
-      "settings": {
-        "color_scheme": "",
-        "header_layout": "vertical",
-        "heading": "ähnliche Produkte",
-        "heading_size": "h3",
-        "heading_styling": "body",
-        "heading_highlight_style": "none",
-        "subheading": "",
-        "description": "",
-        "text_size": "text-base",
-        "show_collection_description": false,
-        "collection": "all",
-        "limit": 8,
-        "columns": 4,
-        "column_gap": "extra-small",
-        "row_gap": "inherit",
-        "grid_layout": "standard",
-        "enable_slider": true,
-        "controls_position": "inside",
-        "pcard_use_swiper": false,
-        "show_reviews": true,
-        "pcard_image_ratio": "",
-        "columns_mobile": "2",
-        "swipe_on_mobile": true,
-        "show_all_button_on_top": false,
-        "button_label": "",
-        "button_style": "btn--primary",
-        "padding_top": 32,
-        "padding_bottom": 32,
-        "show_section_divider": true,
-        "divider_width": "full",
-        "custom_class": ""
-      }
-    },
-    "we_featured_collections_Hgagwm": {
-      "type": "we-featured-collections",
-      "blocks": {
-        "collection_WYgrn4": {
-          "type": "collection",
-          "settings": {
-            "collection": "kaschmir-kollektion",
-            "image": "shopify://shop_images/Featured_Category_Bettwasche_small_746baeff-f64d-4458-9038-cb914b6e5acf.jpg"
-          }
-        },
-        "collection_rxB9DV": {
-          "type": "collection",
-          "settings": {
-            "collection": "matratzen",
-            "image": "shopify://shop_images/Featured_Category_Betten_Matratzen_small_e453b342-76fb-4d8b-a375-a37b02a98c11.jpg"
-          }
-        },
-        "collection_3zkKVK": {
-          "type": "collection",
-          "settings": {
-            "collection": "daunendecken-kissen",
-            "image": "shopify://shop_images/Featured_Category_Decken_Kissen_small_eac569dd-12a7-4007-a5f7-d06b6965800b.jpg"
-          }
-        }
-      },
-      "block_order": [
-        "collection_WYgrn4",
-        "collection_rxB9DV",
-        "collection_3zkKVK"
-      ],
-      "name": "[we] Featured collections",
-      "settings": {
-        "color_scheme": "",
-        "section_width": "full",
-        "header_layout": "vertical",
-        "heading": "",
-        "heading_size": "h1",
-        "heading_highlight_style": "none",
-        "subheading": "",
-        "description": "",
-        "text_size": "text-base",
-        "button_label": "",
-        "button_link": "",
-        "button_style": "btn--primary",
-        "social_media": "none",
-        "columns": 3,
-        "column_gap": "extra-small",
-        "row_gap": "inherit",
-        "image_ratio": "1/1",
-        "columns_mobile": "1",
-        "swipe_on_mobile": false,
-        "padding_top": 32,
-        "padding_bottom": 0,
-        "show_section_divider": false,
-        "divider_width": "fixed",
-        "custom_class": ""
-      }
-    },
-    "breadcrumbs": {
-      "type": "breadcrumbs",
-      "settings": {
-        "text_alignment": "center"
       }
     },
     "we_site_product_usp_icons_HRtQVU": {
@@ -518,6 +321,110 @@
         "padding_bottom": 32
       }
     },
+    "image_with_text_zQ9iit": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_9Y3zkK": {
+          "type": "heading",
+          "settings": {
+            "heading": "{{ product.metafields.custom.we_pdp_image_with_text_1_title.value }}",
+            "heading_size": "h3",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_UWkrNW": {
+          "type": "text",
+          "settings": {
+            "text": "{{ product.metafields.custom.we_pdp_image_with_text_1_text | metafield_tag }}",
+            "text_size": "text-base",
+            "truncate_on_mobile": true,
+            "truncate_on_mobile_lines": 3,
+            "truncate_trigger_text": "Mehr lesen",
+            "truncate_collapse_text": "Weniger"
+          }
+        }
+      },
+      "block_order": [
+        "heading_9Y3zkK",
+        "text_UWkrNW"
+      ],
+      "custom_css": [
+        "/* @media (max-width: 767.98px) {.image-with-text .image-with-text__inner {padding-top: 4.8rem; }}@media (min-width: 768px) {.image-with-text__wrapper {--gap-x: 3rem; }}@media (min-width: 1280px) {.image-with-text__inner {--padding-x: 9rem; }} */"
+      ],
+      "settings": {
+        "is_full_width": true,
+        "section_color_scheme": "",
+        "color_scheme": "scheme-1",
+        "image": "{{ product.metafields.custom.we_pdp_image_with_text_1_image.value }}",
+        "image_height": "adapt",
+        "layout": "text_first",
+        "desktop_content_position": "center",
+        "desktop_content_alignment": "left",
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "mobile_content_alignment": "left",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "different_mobile_padding": true,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 16,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "image_with_text_dQDdte": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_4Ni4ix": {
+          "type": "heading",
+          "settings": {
+            "heading": "{{ product.metafields.custom.we_pdp_image_with_text_2_title.value }}",
+            "heading_size": "h3",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_FXjj84": {
+          "type": "text",
+          "settings": {
+            "text": "{{ product.metafields.custom.we_pdp_image_with_text_2_text | metafield_tag }}",
+            "text_size": "text-base",
+            "truncate_on_mobile": true,
+            "truncate_on_mobile_lines": 3,
+            "truncate_trigger_text": "Mehr lesen",
+            "truncate_collapse_text": "Weniger"
+          }
+        }
+      },
+      "block_order": [
+        "heading_4Ni4ix",
+        "text_FXjj84"
+      ],
+      "custom_css": [
+        "/* @media (max-width: 767.98px) {.image-with-text .image-with-text__inner {padding-top: 4.8rem; }}@media (min-width: 768px) {.image-with-text__wrapper {--gap-x: 3rem; }}@media (min-width: 1280px) {.image-with-text__inner {--padding-x: 9rem; }} */"
+      ],
+      "settings": {
+        "is_full_width": true,
+        "section_color_scheme": "",
+        "color_scheme": "scheme-1",
+        "image": "{{ product.metafields.custom.we_pdp_image_with_text_2_image.value }}",
+        "image_height": "adapt",
+        "layout": "image_first",
+        "desktop_content_position": "center",
+        "desktop_content_alignment": "left",
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "mobile_content_alignment": "left",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "different_mobile_padding": true,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 16,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
     "we_site_product_reviews_PqR3mK": {
       "type": "we-site-product-reviews",
       "blocks": {
@@ -542,6 +449,107 @@
         "color_scheme": "scheme-1",
         "padding_top": 32,
         "padding_bottom": 32
+      }
+    },
+    "featured_collection_JQULLF": {
+      "type": "featured-collection",
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "header_layout": "vertical",
+        "heading": "ähnliche Produkte",
+        "heading_size": "h3",
+        "heading_styling": "body",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "show_collection_description": false,
+        "collection": "all",
+        "limit": 8,
+        "columns": 4,
+        "column_gap": "extra-small",
+        "row_gap": "inherit",
+        "grid_layout": "standard",
+        "enable_slider": true,
+        "controls_position": "inside",
+        "pcard_use_swiper": false,
+        "show_reviews": true,
+        "pcard_image_ratio": "",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "show_all_button_on_top": false,
+        "button_label": "",
+        "button_style": "btn--primary",
+        "padding_top": 32,
+        "padding_bottom": 32,
+        "show_section_divider": true,
+        "divider_width": "full",
+        "custom_class": ""
+      }
+    },
+    "we_featured_collections_Hgagwm": {
+      "type": "we-featured-collections",
+      "blocks": {
+        "collection_WYgrn4": {
+          "type": "collection",
+          "settings": {
+            "collection": "kaschmir-kollektion",
+            "image": "shopify://shop_images/Featured_Category_Bettwasche_small_746baeff-f64d-4458-9038-cb914b6e5acf.jpg"
+          }
+        },
+        "collection_rxB9DV": {
+          "type": "collection",
+          "settings": {
+            "collection": "matratzen",
+            "image": "shopify://shop_images/Featured_Category_Betten_Matratzen_small_e453b342-76fb-4d8b-a375-a37b02a98c11.jpg"
+          }
+        },
+        "collection_3zkKVK": {
+          "type": "collection",
+          "settings": {
+            "collection": "daunendecken-kissen",
+            "image": "shopify://shop_images/Featured_Category_Decken_Kissen_small_eac569dd-12a7-4007-a5f7-d06b6965800b.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "collection_WYgrn4",
+        "collection_rxB9DV",
+        "collection_3zkKVK"
+      ],
+      "name": "[we] Featured collections",
+      "settings": {
+        "color_scheme": "",
+        "section_width": "full",
+        "header_layout": "vertical",
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "button_label": "",
+        "button_link": "",
+        "button_style": "btn--primary",
+        "social_media": "none",
+        "columns": 3,
+        "column_gap": "extra-small",
+        "row_gap": "inherit",
+        "image_ratio": "1/1",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 32,
+        "padding_bottom": 0,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "breadcrumbs": {
+      "type": "breadcrumbs",
+      "settings": {
+        "text_alignment": "center"
       }
     }
   },
