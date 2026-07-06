@@ -547,6 +547,9 @@
   .pdp-set-main-bis[hidden] {
     display: none !important;
   }
+  product-info:has([data-pdp-set-main-bis]:not([hidden])) #klaviyo-bis-button-container {
+    display: none !important;
+  }
   /* Lift whole block above later .product__block siblings (e.g. buy buttons) while custom select is open.
      Child .we-select z-index only applies inside this block’s stacking context. */
   .product__block--we_variant_picker:has(details.we-select-container[open]),

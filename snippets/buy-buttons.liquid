@@ -557,7 +557,7 @@
       <div class="product-form__error-message blocks-radius-md alert alert--error" role="alert" hidden></div>
     {%- endform -%}
     {%- comment -%} BIS-Modal MUSS außerhalb des Produktformulars stehen (eigenes <form> würde sonst das ATC-Formular vorzeitig schließen). {%- endcomment -%}
-    {%- if pdp_set_bundle -%}
+    {%- if pdp_set_bundle or pdp_simple_live -%}
       {% render 'pdp-set-addon-bis-modal', section_id: section.id %}
     {%- endif -%}
   </div>

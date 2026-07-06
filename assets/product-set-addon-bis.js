@@ -172,6 +172,73 @@
     });
   }
 
+  function getPdpSetConfig(productInfo) {
+    const form = productInfo?.querySelector('form.pdp-set-bundle');
+    const cfgEl = form?.querySelector('script[data-pdp-set-config]');
+    if (!cfgEl?.textContent?.trim()) return null;
+    try {
+      return JSON.parse(cfgEl.textContent);
+    } catch {
+      return null;
+    }
+  }
+
+  function parseSelectedVariantFromPicker(vs) {
+    const script = vs?.querySelector('script[data-selected-variant]');
+    const raw = script?.textContent?.trim();
+    if (!raw || raw === 'null') return null;
+    try {
+      const parsed = JSON.parse(raw);
+      return parsed?.id ? parsed : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function triggerMainLineBackInStock(btn) {
+    const productInfo = btn.closest('product-info');
+    const cfg = getPdpSetConfig(productInfo);
+    if (!cfg) return;
+
+    const sectionId = cfg.sectionId || productInfo?.dataset?.section;
+    const firstSetProductId = cfg.firstSetProductId;
+    if (!sectionId || firstSetProductId == null) return;
+
+    const vs = document.getElementById(`variant-selects-${sectionId}-${firstSetProductId}`);
+    if (!vs) return;
+
+    let variant = null;
+    if (typeof window.weGetResolvedVariantForProduct === 'function') {
+      variant = window.weGetResolvedVariantForProduct(
+        productInfo,
+        sectionId,
+        firstSetProductId,
+        cfg.firstVariantFallback
+      );
+    }
+    if (!variant?.id) {
+      variant = parseSelectedVariantFromPicker(vs);
+    }
+    if (!variant?.id) return;
+
+    const productTitle = btn.dataset.pdpSetMainBisTitle || '';
+    const variantLabel = Array.isArray(variant.options)
+      ? variant.options.filter((v) => v != null && String(v).trim()).join(' · ')
+      : variant.title || '';
+
+    openPdpSetAddonBisModal({ variant, productTitle, variantLabel });
+  }
+
+  document.addEventListener(
+    'click',
+    (e) => {
+      const btn = e.target.closest?.('[data-pdp-set-main-bis]');
+      if (!btn) return;
+      triggerMainLineBackInStock(btn);
+    },
+    true
+  );
+
   document.addEventListener('submit', async (event) => {
     const form = event.target.closest?.('[data-pdp-set-addon-bis-form]');
     if (!form) return;

@@ -18,11 +18,27 @@
 
     for (const root of roots) {
       const el = root.querySelector?.(`script[data-set-product-variants="${productId}"]`);
-      if (!el?.textContent) continue;
-      try {
-        return JSON.parse(el.textContent) || [];
-      } catch (e) {
-        return [];
+      if (el?.textContent) {
+        try {
+          const parsed = JSON.parse(el.textContent);
+          if (Array.isArray(parsed) && parsed.length) return parsed;
+        } catch (e) {
+          /* ignore */
+        }
+      }
+
+      const productInfo =
+        root.matches?.('product-info') ? root : root.querySelector?.('product-info');
+      if (productInfo && String(productInfo.dataset?.productId) === String(productId)) {
+        const urlEl = productInfo.querySelector('script[data-product-variants-for-url]');
+        if (urlEl?.textContent) {
+          try {
+            const parsed = JSON.parse(urlEl.textContent);
+            if (Array.isArray(parsed) && parsed.length) return parsed;
+          } catch (e) {
+            /* ignore */
+          }
+        }
       }
     }
     return [];
@@ -180,25 +196,24 @@
     });
   }
 
+  function isOptionSelectionComplete(vs, productId, productInfo) {
+    if (!vs) return false;
+    const optionGroups = getOptionGroupWraps(vs);
+    if (optionGroups.length === 0) return true;
+    return wePickerHasResolvedVariant(vs, productId, productInfo);
+  }
+
   function resolveVariant(variantSelects, productId, productInfo) {
     if (!variantSelects) return null;
     const variants = getVariantsForProduct(productId, productInfo);
     const selected = getSelectedOptionValues(variantSelects);
-    let variant = findVariantByOptions(variants, selected);
-    if (!variant && variantSelects) {
-      const script = variantSelects.querySelector('[data-selected-variant]');
-      if (script?.textContent) {
-        const raw = script.textContent.trim();
-        if (raw === 'null' || raw === '') {
-          variant = null;
-        } else {
-          try {
-            variant = JSON.parse(script.textContent);
-          } catch (e) {}
-        }
-      }
-    }
-    return variant;
+    const variant = findVariantByOptions(variants, selected);
+    if (variant) return variant;
+
+    // All options chosen but no Shopify variant (sold out or invalid combo) — never use SSR fallback.
+    if (isOptionSelectionComplete(variantSelects, productId, productInfo)) return null;
+
+    return parseDataSelectedVariant(variantSelects);
   }
 
   function findVariantById(variants, id) {
@@ -356,12 +371,23 @@
    */
   function getResolvedVariant(sectionId, productId, fallbackId, productInfo) {
     const vs = getVariantSelectsEl(sectionId, productId, productInfo);
-    let variant = resolveVariant(vs, productId, productInfo);
-    if (!variant && fallbackId != null && fallbackId !== '') {
-      variant = findVariantById(getVariantsForProduct(productId, productInfo), fallbackId);
+    if (!vs) {
+      const variants = getVariantsForProduct(productId, productInfo);
+      if (variants.length === 1) return variants[0];
+      if (fallbackId != null && fallbackId !== '') {
+        return findVariantById(variants, fallbackId);
+      }
+      return null;
     }
-    if (!variant && vs) {
-      variant = parseDataSelectedVariant(vs);
+
+    let variant = resolveVariant(vs, productId, productInfo);
+    if (
+      !variant &&
+      !isOptionSelectionComplete(vs, productId, productInfo) &&
+      fallbackId != null &&
+      fallbackId !== ''
+    ) {
+      variant = findVariantById(getVariantsForProduct(productId, productInfo), fallbackId);
     }
     return variant;
   }
@@ -682,7 +708,7 @@
           });
         } else {
           const v = getResolvedVariant(sectionId, pid, fallback, productInfo);
-          if (!v || !isVariantPurchasable(v)) return;
+          if (!v) return;
           lines.push({
             productId: pid,
             title: titles[pid] || titles[String(pid)] || '',
@@ -715,7 +741,7 @@
         }
       } else {
         const vFirst = getResolvedVariant(sectionId, firstSetProductId, firstVariantFallback, productInfo);
-        if (vFirst && isVariantPurchasable(vFirst)) {
+        if (vFirst) {
           lines.push({
             productId: pid,
             title: titles[pid] || titles[String(pid)] || '',
@@ -858,7 +884,6 @@
 
     if (instockEl) instockEl.hidden = !allAvailable;
     if (oosEl) oosEl.hidden = allAvailable;
-    // Back-in-stock CTA for the main line (e.g. Deckenbezug): shown exactly when the main line is OOS.
     if (mainBisEl) mainBisEl.hidden = allAvailable;
   }
 
@@ -1364,6 +1389,10 @@
       if (!form?.classList?.contains('pdp-set-bundle')) return;
       bindForm(form);
       refresh(form);
+    };
+
+    window.weGetResolvedVariantForProduct = function (productInfo, sectionId, productId, fallbackId) {
+      return getResolvedVariant(sectionId, productId, fallbackId, productInfo);
     };
   }
 

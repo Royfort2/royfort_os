@@ -69,6 +69,17 @@
   <span class="pdp-set-stock__dot" aria-hidden="true"></span>
   <span>Diese Variante ist ausverkauft. Wählen Sie gerne eine andere Farbe oder Größe.</span>
 </div>
+<button
+  type="button"
+  class="btn btn--secondary pdp-set-main-bis"
+  data-pdp-set-main-bis
+  data-pdp-set-main-bis-title="{{ product.title | escape }}"
+  {% if we_line_available %}
+    hidden
+  {% endif %}
+>
+  Senden Sie mir eine E-Mail
+</button>
 
 {%- if we_tag_extra_ids != blank -%}
   <script src="{{ 'product-set-picker-price.js' | asset_url }}" defer="defer"></script>
