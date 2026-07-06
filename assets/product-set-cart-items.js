@@ -725,7 +725,8 @@
     const productInfo = form.closest('product-info');
     const instockEl = productInfo?.querySelector('[data-pdp-set-stock-instock]');
     const oosEl = productInfo?.querySelector('[data-pdp-set-stock-oos]');
-    if (!instockEl && !oosEl) return;
+    const mainBisEl = productInfo?.querySelector('[data-pdp-set-main-bis]');
+    if (!instockEl && !oosEl && !mainBisEl) return;
 
     const { sectionId, firstSetProductId, firstVariantFallback, requiredSetProductIds = [] } = cfg;
     const requiredPickers = getRequiredSetPickers(productInfo, cfg);
@@ -751,6 +752,8 @@
 
     if (instockEl) instockEl.hidden = !allAvailable;
     if (oosEl) oosEl.hidden = allAvailable;
+    // Back-in-stock CTA for the main line (e.g. Deckenbezug): shown exactly when the main line is OOS.
+    if (mainBisEl) mainBisEl.hidden = allAvailable;
   }
 
   function setPdpSubmitLabel(span, { main, count, single }) {
@@ -859,6 +862,39 @@
       if (!wePickerHasResolvedVariant(vs, pid)) incomplete = true;
     });
 
+    /**
+     * Number of purchasable items that would actually be submitted. Computed the exact same way as
+     * `syncSetCartLineItems` (same pickers, same variant resolution, same purchasability check), so
+     * the enabled state can never disagree with what ends up in the cart.
+     */
+    const itemCount = getSetBundleTotalItemCount(productInfo, cfg);
+
+    /**
+     * Enable rule:
+     *  - Real set bundles (Variante 1 / legacy shop): partial add-to-cart — the button is enabled as
+     *    soon as at least one active line is purchasable, even if the main/required line is sold out.
+     *    Only the purchasable lines are submitted, so nothing OOS ends up in the cart.
+     *  - Simple / hybrid products: strict — every required and active line must be purchasable
+     *    (unchanged legacy behavior, so single-product ATC can never be broken).
+     */
+    const enableAtc = cfg.isSimpleProduct
+      ? !incomplete && allRequiredPurchasable && allActivePurchasable
+      : itemCount > 0;
+
+    if (enableAtc) {
+      submitBtn.disabled = false;
+      submitBtn.removeAttribute('disabled');
+      submitBtn.removeAttribute('aria-disabled');
+      submitBtn.classList.remove('btn--loading');
+      setPdpSubmitLabel(span, {
+        main: addToCartBase,
+        count: itemCount > 0 ? `(${itemCount} Artikel)` : '',
+      });
+      submitBtn.style.pointerEvents = '';
+      submitBtn.style.opacity = '';
+      return;
+    }
+
     if (incomplete) {
       submitBtn.disabled = true;
       submitBtn.setAttribute('disabled', 'disabled');
@@ -868,25 +904,11 @@
       return;
     }
 
-    if (!allRequiredPurchasable || !allActivePurchasable) {
-      submitBtn.disabled = true;
-      submitBtn.setAttribute('disabled', 'disabled');
-      setPdpSubmitLabel(span, { single: soldOut });
-      submitBtn.style.pointerEvents = 'none';
-      submitBtn.style.opacity = '0.6';
-    } else {
-      submitBtn.disabled = false;
-      submitBtn.removeAttribute('disabled');
-      submitBtn.removeAttribute('aria-disabled');
-      submitBtn.classList.remove('btn--loading');
-      const itemCount = getSetBundleTotalItemCount(productInfo, cfg);
-      setPdpSubmitLabel(span, {
-        main: addToCartBase,
-        count: itemCount > 0 ? `(${itemCount} Artikel)` : '',
-      });
-      submitBtn.style.pointerEvents = '';
-      submitBtn.style.opacity = '';
-    }
+    submitBtn.disabled = true;
+    submitBtn.setAttribute('disabled', 'disabled');
+    setPdpSubmitLabel(span, { single: soldOut });
+    submitBtn.style.pointerEvents = 'none';
+    submitBtn.style.opacity = '0.6';
   }
 
   function syncSetCartLineItems(form) {

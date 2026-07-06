@@ -246,6 +246,81 @@ if (!customElements.get('product-info')) {
       /**
        * Snapshot we-select option groups + inline quantity before `variant-selects` is replaced (e.g. color swatch).
        */
+      _readCapturedInlineQuantity(variantSelectsEl) {
+        if (!variantSelectsEl?.querySelector) return null;
+
+        const qtySelect = variantSelectsEl.querySelector(
+          '.pdp-inline-quantity select[data-pdp-inline-qty-select]'
+        );
+        if (qtySelect?.value) {
+          const n = parseInt(String(qtySelect.value), 10);
+          if (Number.isFinite(n) && n > 0) return String(n);
+        }
+
+        const inlineRoot = variantSelectsEl.querySelector('.pdp-inline-quantity');
+        if (inlineRoot) {
+          const fromInline = this._readInlineQtyFromRoot(
+            inlineRoot,
+            'data-pdp-inline-qty-value',
+            inlineRoot.querySelector('input[data-pdp-inline-qty-value]')?.getAttribute('name') || null
+          );
+          if (fromInline != null) return String(fromInline);
+        }
+
+        const weQtyRoot = variantSelectsEl.querySelector('.we-quantity-selector');
+        if (weQtyRoot) {
+          const pid = variantSelectsEl.getAttribute('data-product-id') || this.productId;
+          const fromWe = this._readInlineQtyFromRoot(
+            weQtyRoot,
+            'data-we-qty-selector',
+            pid ? `quantity-${pid}` : null
+          );
+          if (fromWe != null) return String(fromWe);
+        }
+
+        return null;
+      }
+
+      _applyInlineQuantityToVariantSelects(variantSelectsEl, quantity) {
+        if (!variantSelectsEl || quantity == null || !String(quantity).length) return;
+
+        const want = String(quantity);
+        const qtySelect = variantSelectsEl.querySelector(
+          '.pdp-inline-quantity select[data-pdp-inline-qty-select]'
+        );
+        if (qtySelect) {
+          const match = Array.from(qtySelect.options).find(
+            (opt) => opt.value === want && !opt.disabled
+          );
+          if (match) {
+            qtySelect.value = want;
+          } else {
+            const wantNum = parseInt(want, 10);
+            const enabled = Array.from(qtySelect.options).filter((opt) => !opt.disabled);
+            if (enabled.length) {
+              const fits = Number.isFinite(wantNum)
+                ? enabled.filter((opt) => parseInt(opt.value, 10) <= wantNum)
+                : [];
+              const pick = fits.length ? fits[fits.length - 1] : enabled[0];
+              qtySelect.value = pick.value;
+            }
+          }
+          qtySelect.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+
+        const inlineQtyDetails = variantSelectsEl.querySelector(
+          '.pdp-inline-quantity details.we-select-container[data-radio-group-name]'
+        );
+        const inlineQtyName = inlineQtyDetails?.dataset?.radioGroupName;
+        if (inlineQtyName) this._applyRadioNameValue(inlineQtyName, want);
+
+        const qtyDetails = variantSelectsEl.querySelector(
+          '.we-quantity-selector details.we-select-container[data-radio-group-name]'
+        );
+        const qName = qtyDetails?.dataset?.radioGroupName;
+        if (qName) this._applyRadioNameValue(qName, want);
+      }
+
       _captureWePickerUiState(variantSelectsEl) {
         if (!variantSelectsEl?.querySelectorAll) return null;
         const state = { groups: [], quantity: null };
@@ -254,7 +329,7 @@ if (!customElements.get('product-info')) {
           .forEach((det) => {
             const name = det.dataset.radioGroupName;
             if (!name) return;
-            if (name.startsWith('quantity-')) {
+            if (name.startsWith('quantity-') || name.startsWith('qty-inline-')) {
               const checked = this._findCheckedRadioByName(name);
               if (checked) {
                 state.quantity = checked.value;
@@ -268,6 +343,10 @@ if (!customElements.get('product-info')) {
             const checked = this._findCheckedRadioByName(name);
             if (checked) state.groups.push({ name, value: checked.value });
           });
+
+        const inlineQty = this._readCapturedInlineQuantity(variantSelectsEl);
+        if (inlineQty != null) state.quantity = inlineQty;
+
         if (!state.groups.length && state.quantity == null) return null;
         return state;
       }
@@ -393,11 +472,7 @@ if (!customElements.get('product-info')) {
           this._applyRadioNameValue(name, value);
         }
         if (state.quantity != null && String(state.quantity).length) {
-          const qtyDetails = variantSelectsEl.querySelector(
-            '.we-quantity-selector details.we-select-container[data-radio-group-name]'
-          );
-          const qName = qtyDetails?.dataset?.radioGroupName;
-          if (qName) this._applyRadioNameValue(qName, String(state.quantity));
+          this._applyInlineQuantityToVariantSelects(variantSelectsEl, state.quantity);
         }
         if (typeof window.initWeDetailsSelects === 'function') {
           window.initWeDetailsSelects(variantSelectsEl);

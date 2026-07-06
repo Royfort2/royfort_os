@@ -533,6 +533,20 @@
   .pdp-set-stock--oos .pdp-set-stock__dot {
     background: #c00;
   }
+  /* Back-in-stock CTA for the main set line (e.g. Deckenbezug) when its selected variant is sold out. */
+  .pdp-set-main-bis {
+    width: 100%;
+    margin: 0 0 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-weight: 600;
+    border: 0.1rem solid #171717;
+    background: #fff;
+    color: #171717;
+  }
+  .pdp-set-main-bis[hidden] {
+    display: none !important;
+  }
   /* Lift whole block above later .product__block siblings (e.g. buy buttons) while custom select is open.
      Child .we-select z-index only applies inside this block’s stacking context. */
   .product__block--we_variant_picker:has(details.we-select-container[open]),

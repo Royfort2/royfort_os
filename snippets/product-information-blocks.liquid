@@ -545,6 +545,7 @@
                     {%- endif -%}
                   {%- endfor -%}
                 {%- endif -%}
+                {%- assign we_set_main_line_title = set_product.title -%}
                 {% render 'we-product-variant-picker',
                   product: set_product,
                   block: block,
@@ -593,6 +594,16 @@
                 <span class="pdp-set-stock__dot" aria-hidden="true"></span>
                 <span>Diese Variante ist ausverkauft. Wählen Sie gerne eine andere Farbe oder Größe.</span>
               </div>
+
+              <button
+                type="button"
+                class="btn btn--secondary pdp-set-main-bis"
+                data-pdp-set-main-bis
+                data-pdp-set-main-bis-title="{{ we_set_main_line_title | escape }}"
+                {% if we_set_main_line_available %}hidden{% endif %}
+              >
+                Senden Sie mir eine E-Mail
+              </button>
 
               <script src="{{ 'product-set-picker-price.js' | asset_url }}" defer="defer"></script>
 

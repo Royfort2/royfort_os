@@ -555,6 +555,31 @@
     true
   );
 
+  /** Back-in-stock CTA for the main set line (e.g. Deckenbezug), which lives outside a variant-selects. */
+  document.addEventListener(
+    'click',
+    function (e) {
+      const btn = e.target.closest?.('[data-pdp-set-main-bis]');
+      if (!btn) return;
+      const productInfo = btn.closest('product-info');
+      const firstId = getFirstSetProductIdFromDom(productInfo);
+      const sid = productInfo?.dataset?.section;
+      if (!firstId || !sid) return;
+      const vsFirst = document.getElementById(`variant-selects-${sid}-${firstId}`);
+      if (!vsFirst) return;
+      const variant = resolveVariantForPrice(vsFirst);
+      if (!variant?.id) return;
+      const productTitle = btn.dataset.pdpSetMainBisTitle || '';
+      const variantLabel = Array.isArray(variant.options)
+        ? variant.options.filter((v) => v != null && String(v).trim()).join(' · ')
+        : variant.title || '';
+      if (typeof window.openPdpSetAddonBisModal === 'function') {
+        window.openPdpSetAddonBisModal({ variant, productTitle, variantLabel });
+      }
+    },
+    true
+  );
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', syncCheckedSetPickers);
   } else {

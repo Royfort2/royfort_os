@@ -483,7 +483,7 @@
     "facets": {
       "filter_and_operator_subtitle": "Passen Sie alle zusammen",
       "apply": "Anwenden",
-      "clear": "Klar",
+      "clear": "Löschen",
       "clear_all": "Alles entfernen",
       "from": "Aus",
       "filter_and_sort": "Filtern und sortieren",
@@ -696,7 +696,7 @@
       "suggestions": "Vorschläge",
       "articles_pages": "Artikel und Seiten",
       "collections": "Kollektionen",
-      "clear": "Klar",
+      "clear": "Löschen",
       "most_searched_keywords": "Am häufigsten gesuchte Schlüsselwörter",
       "most_searched_products": "Am häufigsten gesuchte Produkte"
     },
