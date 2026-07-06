@@ -2585,8 +2585,16 @@ class ProductForm extends HTMLFormElement {
         window.refreshPdpSetBundleForms();
       }
 
+      /**
+       * Real set bundles submit only via items[n][id] (the main name="id" line is disabled), so they
+       * must have at least one set line item. Simple-single and hybrid PDPs keep an enabled name="id"
+       * main line, so only block the submit when nothing at all would be added to the cart — otherwise
+       * simple products (no optional/add-on products) wrongly error with "Select variant".
+       */
+      const mainIdInput = this.productIdInput;
+      const hasMainLine = Boolean(mainIdInput && !mainIdInput.disabled && mainIdInput.value);
       const hasLineItems = this.querySelector('[data-pdp-set-line-items] input[name^="items"]');
-      if (!hasLineItems) {
+      if (!hasMainLine && !hasLineItems) {
         const msg =
           typeof FoxTheme !== 'undefined' &&
           FoxTheme.variantStrings &&
