@@ -1996,6 +1996,10 @@ layout-switcher .btn::after {
     flex-shrink: 0;
 }
 
+.header__icons--right .swym-advanced-header-icon svg path {
+    stroke-width: 1.5;
+}
+
 .header__icons--right .swym-header-icon-html {
     position: unset !important;
 }
