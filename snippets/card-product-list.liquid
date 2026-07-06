@@ -11,9 +11,11 @@
 
   assign we_mf_temp_media = product.metafields.custom.we_temp_product_media.value
   assign we_use_mf_pcard = false
-  if settings.use_metafield_media and we_mf_temp_media != blank and we_mf_temp_media.size > 0
-    assign we_use_mf_pcard = true
-  endif
+  unless prefer_catalog_media
+    if settings.use_metafield_media and we_mf_temp_media != blank and we_mf_temp_media.size > 0
+      assign we_use_mf_pcard = true
+    endif
+  endunless
 
   if we_use_mf_pcard
     assign mf0 = we_mf_temp_media[0]
@@ -23,8 +25,17 @@
     assign featured_media = mf0
     assign first_media_type = 'image'
   else
-    assign first_media_type = product.media.first.media_type
+    assign first_media_type = product.featured_media.media_type
     assign featured_media = product.featured_media
+  endif
+
+  if we_use_mf_pcard and featured_media == blank
+    assign first_media_type = product.featured_media.media_type
+    assign featured_media = product.featured_media
+    if first_media_type == 'model' or first_media_type == 'video'
+      assign featured_media = product.featured_media.preview_image
+      assign first_media_type = 'image'
+    endif
   endif
 
   if image_ratio == blank
@@ -133,12 +144,12 @@
           </div>
         {%- endif -%}
       </a>
-      {%- if we_plp_nf_badge != blank -%}
-        <div class="product-card__badge">
-          {{- we_plp_nf_badge -}}
-        </div>
-      {%- endif -%}
     </div>
+    {%- if we_plp_nf_badge != blank -%}
+      <div class="product-card__badge product-card__badge--list">
+        {{- we_plp_nf_badge -}}
+      </div>
+    {%- endif -%}
     <div class="product-card__info text-left">
       {%- if show_vendor -%}
         <p class="product-card__vendor text-sm m-0">

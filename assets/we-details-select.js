@@ -22,6 +22,7 @@
       this._sheetAnimationEndHandler = null;
       this._closeSheetFallbackTimer = null;
       this._onResize = this._onResize.bind(this);
+      this._onDocumentPointerDown = this._onDocumentPointerDown.bind(this);
       this._addEventListeners();
       this._setAria();
       this._syncActiveFromDom();
@@ -168,7 +169,38 @@
       return Math.max(0, [...this.options].indexOf(item));
     }
 
+    _dispatchPdpSetRefresh() {
+      const vsRoot = this.container.closest('variant-selects');
+      const productInfo = vsRoot?.closest?.('product-info');
+      document.dispatchEvent(
+        new CustomEvent('pdp-set:refresh-submit', {
+          bubbles: true,
+          detail: {
+            productInfo,
+            sectionId: productInfo?.dataset?.section,
+          },
+        })
+      );
+    }
+
+    _onDocumentPointerDown(event) {
+      if (!this.container.open) return;
+
+      const clickInside =
+        this.container.contains(event.target) ||
+        (this.portalEl && this.portalEl.contains(event.target));
+      if (clickInside) return;
+
+      if (this._isMobileSheet()) {
+        this._closeMobileSheet();
+      } else {
+        this.container.removeAttribute('open');
+      }
+    }
+
     _addEventListeners() {
+      document.addEventListener('pointerdown', this._onDocumentPointerDown, true);
+
       this.container.addEventListener('toggle', () => {
         if (this._isMobileSheet()) {
           if (this.container.open) {
@@ -181,10 +213,15 @@
             this._restoreFromBody();
             this._setBodyScrollLock(false);
             this.updateValue();
+            this._dispatchPdpSetRefresh();
           }
           return;
         }
-        if (this.container.open) return;
+        if (!this.container.open) {
+          this.updateValue();
+          this._dispatchPdpSetRefresh();
+          return;
+        }
         this.updateValue();
       });
 
@@ -240,7 +277,10 @@
       (this.portalEl || this.container).querySelectorAll('.we-select > .we-select__item input[type="radio"]').forEach((input) => {
         if (vsRoot?.id) input.dataset.vsRoot = vsRoot.id;
         input.addEventListener('change', () => {
-          if (input.checked) this.setValue(input);
+          if (input.checked) {
+            this.setValue(input);
+            this._dispatchPdpSetRefresh();
+          }
         });
       });
 
@@ -377,6 +417,13 @@
   }
 
   window.initWeDetailsSelects = initWeDetailsSelects;
+
+  window.cleanupWeSelectBodyState = function () {
+    document.body.style.overflow = '';
+    document.querySelectorAll('body > .we-select-mobile-portal').forEach((portal) => {
+      portal.remove();
+    });
+  };
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => initWeDetailsSelects());

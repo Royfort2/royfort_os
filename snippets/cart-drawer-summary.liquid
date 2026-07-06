@@ -1,0 +1,29 @@
+<div class="cart-drawer__summary">
+  <p class="cart-drawer__shipping-notice">{{ 'sections.cart.shipping_notice' | t }}</p>
+  <div class="cart-drawer__summary-rows">
+    <div class="cart-drawer__summary-row cart-drawer__summary-row--subtotal">
+      <span class="cart-drawer__summary-label">{{ 'sections.cart.subtotal' | t }}</span>
+      <span class="cart-drawer__summary-value cart-drawer__price">
+        {%- if settings.currency_code_enabled -%}
+          {{- cart.items_subtotal_price | money_with_currency -}}
+        {%- else -%}
+          {{- cart.items_subtotal_price | money -}}
+        {%- endif -%}
+      </span>
+    </div>
+    <div class="cart-drawer__summary-row cart-drawer__summary-row--shipping">
+      <span class="cart-drawer__summary-label cart-drawer__summary-label--muted">{{ 'sections.cart.tax_note_shipping_label' | t }}:</span>
+      <span class="cart-drawer__summary-value cart-drawer__summary-value--shipping">{{ 'sections.cart.shipping_free' | t }}</span>
+    </div>
+  </div>
+  <form
+    action="{{ routes.cart_url }}"
+    method="POST"
+    novalidate
+    class="cart-drawer__checkout-form"
+  >
+    <button class="btn btn--primary cart-drawer__checkout-btn w-full" type="submit" name="checkout">
+      {{ 'sections.cart.checkout' | t }}
+    </button>
+  </form>
+</div>

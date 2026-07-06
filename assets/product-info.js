@@ -1317,7 +1317,12 @@ if (!customElements.get('product-info')) {
                   }
                 }
               }
-              document.dispatchEvent(new CustomEvent('pdp-set:refresh-submit', { bubbles: true }));
+              document.dispatchEvent(
+                new CustomEvent('pdp-set:refresh-submit', {
+                  bubbles: true,
+                  detail: { sectionId: this.dataset.section },
+                })
+              );
               this._syncFormLineItems();
             });
             return;
@@ -1665,16 +1670,23 @@ if (!customElements.get('product-info')) {
         shareButton.updateUrl(`${window.shopUrl}${this.dataset.url}?variant=${variantId}`);
       }
 
+      _getProductForm() {
+        return (
+          this.querySelector(`#product-form-${this.dataset.section}`) ||
+          this.closest('quick-view-modal')?.querySelector(`#product-form-${this.dataset.section}`)
+        );
+      }
+
       /** Set PDPs: ATC state comes from `product-set-cart-items.js` (we-variant pickers only), not `input[name="id"]`. */
       _isPdpSetBundleForm() {
-        const productForm = document.getElementById(`product-form-${this.dataset.section}`);
+        const productForm = this._getProductForm();
         return Boolean(productForm?.classList?.contains('pdp-set-bundle'));
       }
 
       updateButtonsState(disabled, options = {}) {
         const { updateText = false, text = null, updateStyles = true } = options;
 
-        const productForm = document.getElementById(`product-form-${this.dataset.section}`);
+        const productForm = this._getProductForm();
         if (productForm?.classList?.contains('pdp-set-bundle')) {
           const addButton = productForm.querySelector('[name="add"]');
           const addButtonText = productForm.querySelector('[name="add"] > span');
@@ -1698,7 +1710,12 @@ if (!customElements.get('product-info')) {
             }
             return;
           }
-          document.dispatchEvent(new CustomEvent('pdp-set:refresh-submit', { bubbles: true }));
+          document.dispatchEvent(
+            new CustomEvent('pdp-set:refresh-submit', {
+              bubbles: true,
+              detail: { sectionId: this.dataset.section },
+            })
+          );
           return;
         }
 
@@ -1772,7 +1789,12 @@ if (!customElements.get('product-info')) {
 
       setUnavailable() {
         if (this._isPdpSetBundleForm()) {
-          document.dispatchEvent(new CustomEvent('pdp-set:refresh-submit', { bubbles: true }));
+          document.dispatchEvent(
+            new CustomEvent('pdp-set:refresh-submit', {
+              bubbles: true,
+              detail: { sectionId: this.dataset.section },
+            })
+          );
         } else {
           this.updateButtonsState(true, {
             updateText: true,
@@ -1795,7 +1817,12 @@ if (!customElements.get('product-info')) {
       /** Partial variant selection — keep PDP chrome visible (unlike unavailable). */
       setIncompleteVariantPrompt() {
         if (this._isPdpSetBundleForm()) {
-          document.dispatchEvent(new CustomEvent('pdp-set:refresh-submit', { bubbles: true }));
+          document.dispatchEvent(
+            new CustomEvent('pdp-set:refresh-submit', {
+              bubbles: true,
+              detail: { sectionId: this.dataset.section },
+            })
+          );
           return;
         }
         const hint =

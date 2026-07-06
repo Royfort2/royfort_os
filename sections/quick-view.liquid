@@ -39,6 +39,12 @@
     {% unless product.has_only_default_variant %}
       {{ 'component-product-variant-picker.css' | asset_url | stylesheet_tag }}
     {% endunless %}
+    <script src="{{ 'product-form-line-items.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'product-set-cart-items.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'we-details-select.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'we-variant-dropdown-meta.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'we-quantity-selector-cap.js' | asset_url }}" defer="defer"></script>
     <div class="fixed-overlay" aria-controls="MainProductQuickView-{{ section.id }}-{{ product.id }}"></div>
     <div class="drawer__inner">
       <button
@@ -550,6 +556,7 @@
           {%- endif -%}
 
           <script src="{{ 'product-form-line-items.js' | asset_url }}" defer="defer"></script>
+          <script src="{{ 'product-set-cart-items.js' | asset_url }}" defer="defer"></script>
           <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
           <script src="{{ 'we-details-select.js' | asset_url }}" defer="defer"></script>
           <script src="{{ 'we-variant-dropdown-meta.js' | asset_url }}" defer="defer"></script>
