@@ -8,7 +8,7 @@
   - skip_value_selected: legacy param; ignored — selection follows pdp_line_variant_for_selection / value.selected
   - pdp_line_variant_for_selection: optional variant object when overriding selection (bundle URL → first set line).
   - we_override_option_selection: when true, use pdp_line_variant_for_selection instead of value.selected
-  - pdp_allow_sold_out_selection: when true, dropdown options stay selectable even if sold out (set add-on cards)
+  - pdp_allow_sold_out_selection: legacy param (sold-out options are always selectable)
 {% endcomment %}
 {%- liquid
   assign id_namespace = id_namespace | default: section.id
@@ -37,11 +37,6 @@
         endif
     endcase
   endif
-  assign option_disabled = true
-  if value.available
-    assign option_disabled = false
-  endif
-
   assign pattern_handle = value | handle
   assign pattern_mo = metaobjects.pattern_swatch[pattern_handle]
 
@@ -110,7 +105,6 @@
     swatch: effective_swatch,
     product_form_id: product_form_id,
     checked: value_should_select,
-    visually_disabled: option_disabled,
     help_text: help_text,
     additional_props: input_dataset,
     swatch_focal_point: swatch_focal_point,
@@ -181,9 +175,6 @@
     {% if value_should_select %}
       checked
     {% endif %}
-    {% if option_disabled %}
-      class="disabled"
-    {% endif %}
     {{ input_dataset }}
   >
   <label
@@ -203,9 +194,6 @@
     {% if value_should_select %}
       checked
     {% endif %}
-    {% if option_disabled %}
-      class="disabled"
-    {% endif %}
     {{ input_dataset }}
   >
   <label for="{{ input_id }}">
@@ -218,9 +206,6 @@
     value="{{ value | escape }}"
     {% if value_should_select %}
       selected="selected"
-    {% endif %}
-    {% if option_disabled and pdp_allow_sold_out_selection == false %}
-      disabled
     {% endif %}
     {% if swatch_value and picker_type == 'swatch_dropdown' %}
       data-option-swatch-value="{{ swatch_value }}"
