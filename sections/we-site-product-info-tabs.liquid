@@ -93,7 +93,7 @@
         </div>
       </tabs-component>
 
-      <div class="we-site-product-info-tabs__mobile accordion-parent">
+      <div class="we-site-product-info-tabs__mobile accordion-parent accordion-parent--multi">
         {%- for block in section.blocks -%}
           {%- liquid
             assign heading = block.settings.heading
@@ -110,7 +110,7 @@
           {%- if tab_valid -%}
             <details
               class="accordion-details"
-              is="accordion-group"
+              is="accordion-details"
               {% if block.settings.default_open %}
                 open
                 aria-expanded="true"
