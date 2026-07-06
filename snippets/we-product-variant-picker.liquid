@@ -112,6 +112,8 @@
     endif
     if pdp_set_addon_card
       assign we_pdp_qty_layout = 'addon'
+    elsif block.settings.picker_type == 'custom_dropdown' and we_non_color_dropdown_count == 0
+      assign we_pdp_qty_layout = 'separate'
     elsif we_non_color_dropdown_count == 1
       assign we_pdp_qty_layout = 'paired'
     elsif we_non_color_dropdown_count >= 2

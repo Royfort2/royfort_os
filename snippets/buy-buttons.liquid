@@ -108,7 +108,22 @@
 
     assign hide_qty_in_buy_buttons = false
     if variant_picker_custom_dropdown
-      if block.settings.show_quantity_selector and product.quantity_price_breaks_configured? != true and product.has_only_default_variant == false
+      assign custom_dropdown_non_color_options = 0
+      assign builtin_color_triggers = 'farbe,color,colour,couleur,kleur,colore,cor,farve,färg,farg,kolor,hinta,szín,väri,barva,culoare,renk,farge'
+      if settings.color_swatch_trigger != blank
+        assign color_trigger_csv = settings.color_swatch_trigger | append: ',' | append: builtin_color_triggers
+      else
+        assign color_trigger_csv = builtin_color_triggers
+      endif
+      assign color_trigger_tokens = color_trigger_csv | downcase | replace: ', ', ',' | prepend: ',' | append: ','
+      for qty_opt in product.options_with_values
+        assign qty_opt_name = qty_opt.name | downcase | strip
+        assign qty_opt_token = ',' | append: qty_opt_name | append: ','
+        unless color_trigger_tokens contains qty_opt_token
+          assign custom_dropdown_non_color_options = custom_dropdown_non_color_options | plus: 1
+        endunless
+      endfor
+      if block.settings.show_quantity_selector and product.quantity_price_breaks_configured? != true and custom_dropdown_non_color_options > 0
         assign hide_qty_in_buy_buttons = true
       endif
     endif
