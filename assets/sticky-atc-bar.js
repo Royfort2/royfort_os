@@ -4,7 +4,6 @@ if (!customElements.get('sticky-atc-bar')) {
     class StickyAtcBar extends HTMLElement {
       constructor() {
         super();
-        document.body.classList.add('sticky-atc-bar-enabled');
       }
 
       get productId() {
@@ -26,6 +25,16 @@ if (!customElements.get('sticky-atc-bar')) {
         requestAnimationFrame(() => this.syncFromMain());
       }
 
+      setBarVisible(visible) {
+        this.container?.classList.toggle('sticky-atc-bar--show', visible);
+        document.body.classList.toggle('sticky-atc-bar-enabled', visible);
+        if (visible) {
+          this.updateBarHeight();
+        } else {
+          document.documentElement.style.setProperty('--sticky-atc-bar-height', '0px');
+        }
+      }
+
       initVisibility() {
         const sectionId = this.mainProductInfo?.dataset?.section;
         const observeTarget =
@@ -34,8 +43,7 @@ if (!customElements.get('sticky-atc-bar')) {
           this.productFormActions;
 
         if (!observeTarget) {
-          this.container?.classList.add('sticky-atc-bar--show');
-          this.updateBarHeight();
+          this.setBarVisible(true);
           return;
         }
 
@@ -43,14 +51,18 @@ if (!customElements.get('sticky-atc-bar')) {
           (entries) => {
             entries.forEach((entry) => {
               const scrolledPast = !entry.isIntersecting && entry.boundingClientRect.top < 0;
-              this.container?.classList.toggle('sticky-atc-bar--show', scrolledPast);
+              this.setBarVisible(scrolledPast);
             });
           },
           { threshold: 0 }
         );
         this.observer.observe(observeTarget);
-        this.updateBarHeight();
-        window.addEventListener('resize', () => this.updateBarHeight(), { passive: true });
+        this.setBarVisible(false);
+        window.addEventListener('resize', () => {
+          if (this.container?.classList.contains('sticky-atc-bar--show')) {
+            this.updateBarHeight();
+          }
+        }, { passive: true });
       }
 
       updateBarHeight() {

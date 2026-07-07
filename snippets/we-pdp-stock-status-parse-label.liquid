@@ -1,0 +1,37 @@
+{%- comment -%}
+  Parses we_pdp_stock_status_label syntax ("farbe | Text"). Echoes message and CSS modifier
+  separated by ||WE_STOCK|| for capture in parent snippet.
+  Accepts: stock_label {String}
+{%- endcomment -%}
+{%- liquid
+  assign parsed_msg = stock_label
+  assign parsed_style = 'presale'
+  assign parsed_modifier = ' pdp-set-stock--presale'
+
+  if stock_label contains '|'
+    assign stock_parts = stock_label | split: '|'
+    assign style_token = stock_parts[0] | strip | downcase
+    assign parsed_msg = stock_parts | slice: 1 | join: '|' | strip
+
+    if style_token == 'grün' or style_token == 'gruen' or style_token == 'green' or style_token == 'instock' or style_token == 'vorrätig' or style_token == 'vorratig'
+      assign parsed_style = 'instock'
+    elsif style_token == 'rot' or style_token == 'red'
+      assign parsed_style = 'alert'
+    else
+      assign parsed_style = 'presale'
+    endif
+  endif
+
+  if parsed_msg == blank
+    assign parsed_msg = 'Vorrätig - Versand am nächsten Werktag.'
+    assign parsed_style = 'instock'
+  endif
+
+  if parsed_style == 'instock'
+    assign parsed_modifier = ''
+  elsif parsed_style == 'alert'
+    assign parsed_modifier = ' pdp-set-stock--alert'
+  else
+    assign parsed_modifier = ' pdp-set-stock--presale'
+  endif
+-%}{{- parsed_msg -}}||WE_STOCK||{{- parsed_modifier -}}

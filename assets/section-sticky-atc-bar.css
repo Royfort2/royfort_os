@@ -16,7 +16,14 @@ body.sticky-atc-bar-enabled {
   container-name: sticky-atc;
 }
 
+.sticky-atc-bar:not(.sticky-atc-bar--show) {
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .sticky-atc-bar--show {
+  visibility: visible;
+  pointer-events: auto;
   transform: translate3d(0, 0, 0);
   bottom: var(--mobile-sticky-bar-height, 0px);
 }

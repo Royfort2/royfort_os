@@ -574,26 +574,12 @@
               {%- endfor -%}
 
               {%- assign we_set_main_line_available = we_set_line_resolved.available | default: true -%}
-              <div
-                class="pdp-set-stock pdp-set-stock--instock"
-                data-pdp-set-stock-instock
-                {% unless we_set_main_line_available %}
-                  hidden
-                {% endunless %}
-              >
-                <span class="pdp-set-stock__dot" aria-hidden="true"></span>
-                <span>Vorrätig - Versand am nächsten Werktag.</span>
-              </div>
-              <div
-                class="pdp-set-stock pdp-set-stock--oos"
-                data-pdp-set-stock-oos
-                {% if we_set_main_line_available %}
-                  hidden
-                {% endif %}
-              >
-                <span class="pdp-set-stock__dot" aria-hidden="true"></span>
-                <span>Diese Variante ist ausverkauft. Wählen Sie gerne eine andere Farbe oder Größe.</span>
-              </div>
+              {%- assign we_set_main_line_product = we_set_products | first -%}
+              {%- render 'we-pdp-stock-status',
+                product: product,
+                fallback_product: we_set_main_line_product,
+                line_available: we_set_main_line_available
+              -%}
 
               <button
                 type="button"

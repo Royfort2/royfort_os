@@ -30,45 +30,12 @@
   endif
   assign zw_title = block.settings.set_zwischensumme_title | default: 'Zwischensumme'
   assign we_line_available = zw_v.available | default: true
-  assign we_delivery_time = product.metafields.custom.we_pdp_estimated_delivery_time.value
-  assign we_instock_msg = 'Vorrätig - Versand am nächsten Werktag.'
-  assign we_stock_modifier = ''
-  if we_delivery_time != blank
-    assign we_delivery_lower = we_delivery_time | downcase
-    assign we_is_presale = false
-    if we_delivery_lower contains 'woche' or we_delivery_lower contains 'week' or we_delivery_lower contains 'maß' or we_delivery_lower contains 'tagen'
-      assign we_is_presale = true
-    endif
-    if we_is_presale
-      assign we_instock_msg = 'Maßanfertigung - Lieferzeit: ' | append: we_delivery_time
-      assign we_stock_modifier = ' pdp-set-stock--presale'
-    endif
-  endif
   capture we_tag_extra_ids
     render 'we-pdp-bundle-tag-extras', product: product, set_products: blank, mode: 'ids'
   endcapture
   assign we_tag_extra_ids = we_tag_extra_ids | strip
 -%}
-<div
-  class="pdp-set-stock pdp-set-stock--instock{{ we_stock_modifier }}"
-  data-pdp-set-stock-instock
-  {% unless we_line_available %}
-    hidden
-  {% endunless %}
->
-  <span class="pdp-set-stock__dot" aria-hidden="true"></span>
-  <span>{{ we_instock_msg }}</span>
-</div>
-<div
-  class="pdp-set-stock pdp-set-stock--oos"
-  data-pdp-set-stock-oos
-  {% if we_line_available %}
-    hidden
-  {% endif %}
->
-  <span class="pdp-set-stock__dot" aria-hidden="true"></span>
-  <span>Diese Variante ist ausverkauft. Wählen Sie gerne eine andere Farbe oder Größe.</span>
-</div>
+{%- render 'we-pdp-stock-status', product: product, line_available: we_line_available -%}
 <button
   type="button"
   class="btn btn--secondary pdp-set-main-bis"
