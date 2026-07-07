@@ -23,7 +23,7 @@
         "text_XafVaJ": {
           "type": "text",
           "settings": {
-            "text": "",
+            "text": "<p>15% auf alles genießen mit dem Code GINA15</p>",
             "text_size": "text-base"
           }
         }
@@ -35,7 +35,7 @@
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
-        "image": "shopify://shop_images/Bestseller_Kategorie_Desktop_57c4c027-4a3c-45a8-b553-ea8522a15d59.jpg",
+        "image": "shopify://shop_images/Influencer-Gina-Sandrin-desktop_d0280103-c95d-4287-95ac-55a92fa58735.jpg",
         "desktop_height": "small",
         "overlay_opacity": 75,
         "use_custom_overlay": true,
@@ -45,7 +45,7 @@
         "color_scheme": "",
         "content_position": "bottom-left",
         "content_alignment": "left",
-        "image_mobile": "shopify://shop_images/Bestseller_Kategorie_Mobil_aaf2b04b-9230-458c-a1e5-68cd4cefea34.jpg",
+        "image_mobile": "shopify://shop_images/Influencer-Gina-Sandrin-mobil_9e81e02b-569b-4e21-86ed-34aeccf10053.jpg",
         "mobile_height": "auto",
         "padding_top": 0,
         "padding_bottom": 0,
@@ -103,6 +103,7 @@
       "blocks": {
         "we_promo_NieM3F": {
           "type": "we_promo",
+          "disabled": true,
           "settings": {
             "color_scheme": "scheme-inverse",
             "text_color": "",
@@ -211,8 +212,16 @@
     "we_featured_collections_yka3Qn": {
       "type": "we-featured-collections",
       "blocks": {
+        "collection_dmxxhj": {
+          "type": "collection",
+          "settings": {
+            "collection": "matratzen",
+            "image": "shopify://shop_images/Betten_Matratzen_Kategorie_Promo_1_1.jpg"
+          }
+        },
         "collection_AkcG9Y": {
           "type": "collection",
+          "disabled": true,
           "settings": {
             "collection": "leinen-kollektion",
             "image": "shopify://shop_images/Bettwasche_Kollektion_Featured.jpg"
@@ -234,6 +243,7 @@
         }
       },
       "block_order": [
+        "collection_dmxxhj",
         "collection_AkcG9Y",
         "collection_gghYUc",
         "collection_cniUQH"
