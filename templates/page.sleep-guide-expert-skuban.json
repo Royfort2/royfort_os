@@ -210,26 +210,6 @@
         "custom_class": ""
       }
     },
-    "17788308003a955b48": {
-      "type": "apps",
-      "blocks": {
-        "klaviyo_email_marketing_sms_form_embed_block_3LLAhL": {
-          "type": "shopify://apps/klaviyo-email-marketing-sms/blocks/form-embed-block/2632fe16-c075-4321-a88b-50b567f42507",
-          "settings": {
-            "formId": "VkQFxK"
-          }
-        }
-      },
-      "block_order": [
-        "klaviyo_email_marketing_sms_form_embed_block_3LLAhL"
-      ],
-      "settings": {
-        "include_margins": true,
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "custom_class": ""
-      }
-    },
     "multicolumn_wWG4DC": {
       "type": "multicolumn",
       "blocks": {
@@ -324,11 +304,23 @@
             "page": "",
             "open": true
           }
+        },
+        "collapsible_item_C79nbq": {
+          "type": "collapsible_item",
+          "settings": {
+            "icon": "none",
+            "heading": "Wie erklären Sie das Phänomen, dass man sich nachts körperlich erschöpft fühlt, aber mental hellwach ist?",
+            "content": "<p>Diese Wachheit bei Erschöpfung ist meist ein “Alert”-Zustand, nicht also eine Wachheit im Sinne positiver Klarheit, sondern eine intensive mentale Aktivität, die uns daran hindert, einzuschlafen, obwohl der Körper eigentlich müde ist. </p>",
+            "custom_liquid": "Es müssen auch gar nicht immer nur belastende Gedanken oder Gefühle  sein: Wenn ich zum Beispiel mit einer Frage, die mich wissenschaftlich sehr beschäftigt, ins Bett gehe, bin ich wach, obwohl der Körper schlafen will. Dann hält einen das Denken wach. Es ist gewissermaßen ein “Mismatch” zwischen Körper und Geist: Der Körper will etwas anderes als der Geist. Unsere heutige Zeit mit ihren extrem vielen mentalen Eindrücken fördert dies natürlich stark.",
+            "page": "",
+            "open": true
+          }
         }
       },
       "block_order": [
         "collapsible_item_cdhxGb",
-        "collapsible_item_GTMh9h"
+        "collapsible_item_GTMh9h",
+        "collapsible_item_C79nbq"
       ],
       "name": "t:sections.collapsible-tabs.presets.name",
       "settings": {
@@ -364,7 +356,7 @@
         "heading_4fetWE": {
           "type": "heading",
           "settings": {
-            "heading": "Atemwissen von Dr. Ralph Skuban direkt in Ihr Postfach",
+            "heading": "Noch mehr Atemwissen von Dr. Ralph Skuban direkt in Ihr Postfach",
             "heading_size": "h2",
             "heading_highlight_style": "none"
           }
@@ -389,6 +381,26 @@
         "padding_bottom": 50,
         "show_section_divider": false,
         "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "17788308003a955b48": {
+      "type": "apps",
+      "blocks": {
+        "klaviyo_email_marketing_sms_form_embed_block_3LLAhL": {
+          "type": "shopify://apps/klaviyo-email-marketing-sms/blocks/form-embed-block/2632fe16-c075-4321-a88b-50b567f42507",
+          "settings": {
+            "formId": "VkQFxK"
+          }
+        }
+      },
+      "block_order": [
+        "klaviyo_email_marketing_sms_form_embed_block_3LLAhL"
+      ],
+      "settings": {
+        "include_margins": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
         "custom_class": ""
       }
     },
