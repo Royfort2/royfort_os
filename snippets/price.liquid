@@ -202,15 +202,23 @@
   if product.metafields.custom.pdp_set_products != blank
     assign we_set_pricing = true
     comment
-      Set bundles: x = price_min of 1st pdp_set_products entry; d = set_discount_amount (%).
+      Set bundles: x = summed price_min of the PDP DEFAULT selection; d = set_discount_amount (%).
       Compare (strikethrough) = x; sale = x*(100-d)/100. Shown as: from sale.
+      Default selection is defined in snippets/product-information-blocks.liquid:
+        - 1st pdp_set_products entry = inline main line (always included)
+        - 2nd entry = first optional card, pre-checked via `forloop.first` (included when available)
+      Keep this sum in sync if that default-checked rule changes.
       Ignore bundle product target.compare_at_price_varies (else theme hides <s> or adds f-price--no-compare).
       product-set-cart-items.js updates #price on PDP when pickers change.
     endcomment
     assign we_set_plist = product.metafields.custom.pdp_set_products.value
     assign we_set_two_min_sum = 0
-    for we_sp in we_set_plist limit: 1
-      assign we_set_two_min_sum = we_set_two_min_sum | plus: we_sp.price_min
+    for we_sp in we_set_plist limit: 2
+      if forloop.first
+        assign we_set_two_min_sum = we_set_two_min_sum | plus: we_sp.price_min
+      elsif we_sp.available
+        assign we_set_two_min_sum = we_set_two_min_sum | plus: we_sp.price_min
+      endif
     endfor
     assign we_set_disc_pct = product.metafields.custom.set_discount_amount | default: 0 | plus: 0
     assign compare_at_price = we_set_two_min_sum
