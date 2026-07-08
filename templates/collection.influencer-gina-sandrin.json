@@ -1,0 +1,295 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "image_with_text_overlay_37pPBC": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading_NVB9zb": {
+          "type": "heading",
+          "settings": {
+            "heading": "{{ collection.title }}",
+            "heading_size": "h2",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_XafVaJ": {
+          "type": "text",
+          "settings": {
+            "text": "<p>15% auf alles genießen mit dem Code GINA15</p>",
+            "text_size": "text-base"
+          }
+        }
+      },
+      "block_order": [
+        "heading_NVB9zb",
+        "text_XafVaJ"
+      ],
+      "name": "t:sections.image-with-text-overlay.name",
+      "settings": {
+        "container": "full",
+        "image": "shopify://shop_images/Influencer-Gina-Sandrin-desktop_d0280103-c95d-4287-95ac-55a92fa58735.jpg",
+        "desktop_height": "small",
+        "overlay_opacity": 75,
+        "use_custom_overlay": true,
+        "custom_overlay": "linear-gradient(201deg, rgba(23, 23, 23, 0.00) 0.08%, rgba(23, 23, 23, 0.75) 100.09%)",
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "color_scheme": "",
+        "content_position": "bottom-left",
+        "content_alignment": "left",
+        "image_mobile": "shopify://shop_images/Influencer-Gina-Sandrin-mobil_9e81e02b-569b-4e21-86ed-34aeccf10053.jpg",
+        "mobile_height": "auto",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "custom_class": ""
+      }
+    },
+    "we_subcollections_N4HKQf": {
+      "type": "we-subcollections",
+      "disabled": true,
+      "name": "[we] Subcollections",
+      "settings": {
+        "subcollections": "{{ collection.metafields.custom.plp_subcollections.value }}",
+        "background": "#ffffff",
+        "opacity": 1,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "banner": {
+      "type": "main-collection-banner",
+      "blocks": {
+        "collection_info_zUNyKV": {
+          "type": "collection_info",
+          "settings": {
+            "heading_size": "hd2",
+            "heading_tag": "h1",
+            "show_description": false,
+            "padding_top": 0,
+            "padding_bottom": 0
+          }
+        }
+      },
+      "block_order": [
+        "collection_info_zUNyKV"
+      ],
+      "disabled": true,
+      "custom_css": [],
+      "settings": {
+        "color_scheme": "scheme-inverse",
+        "text_alignment": "left",
+        "show_collection_image": true,
+        "image": "shopify://shop_images/jetztentdecken.jpg",
+        "image_overlay_opacity": 10,
+        "image_position": "as-bg",
+        "image_height": "extra-small",
+        "enable_parallax": true,
+        "parallax_direction": "vertical",
+        "image_height_mobile": "auto",
+        "padding_top": 16,
+        "padding_bottom": 16
+      }
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "blocks": {
+        "we_promo_NieM3F": {
+          "type": "we_promo",
+          "disabled": true,
+          "settings": {
+            "color_scheme": "scheme-inverse",
+            "text_color": "",
+            "video_url_desktop": "",
+            "image_desktop": "shopify://shop_images/Sleep_Guide_LP_Hero_Banner_1568_x_738.jpg",
+            "video_url_mobile": "",
+            "image_mobile": "shopify://shop_images/3_5c534a26-39c6-4a05-9953-26bbccdf9817.jpg",
+            "title": "",
+            "description": "",
+            "description_mobile": "",
+            "button_label": "",
+            "button_url": "#",
+            "order_after": 2,
+            "col_span_desktop": 2,
+            "row_span_desktop": 1,
+            "col_span_mobile": "2",
+            "row_span_mobile": 1
+          }
+        },
+        "we_promo_4nLeiw": {
+          "type": "we_promo",
+          "settings": {
+            "color_scheme": "scheme-inverse",
+            "text_color": "",
+            "video_desktop": "shopify://files/videos/ROYFORT_LEFKADA_08_FINAL.mp4",
+            "video_url_desktop": "",
+            "video_mobile": "shopify://files/videos/ROYFORT_LEFKADA_08_FINAL.mp4",
+            "video_url_mobile": "",
+            "title": "",
+            "description": "",
+            "description_mobile": "",
+            "button_label": "",
+            "button_url": "#",
+            "order_after": 2,
+            "col_span_desktop": 2,
+            "row_span_desktop": 1,
+            "col_span_mobile": "2",
+            "row_span_mobile": 1
+          }
+        }
+      },
+      "block_order": [
+        "we_promo_NieM3F",
+        "we_promo_4nLeiw"
+      ],
+      "custom_css": [],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "products_per_page": 12,
+        "columns_desktop": 4,
+        "render_variants": true,
+        "grid_layout": "standard",
+        "pagination": "load_more",
+        "enable_color_swatch": true,
+        "pcard_use_swiper": true,
+        "show_reviews": true,
+        "enable_filtering": true,
+        "filter_type": "drawer",
+        "enable_sorting": false,
+        "enable_sorting_only_on_mobile": false,
+        "expand_filter_groups": "Availability, Price, Color, Size, Product type",
+        "columns_mobile": "2",
+        "padding_top": 16,
+        "padding_bottom": 32,
+        "show_section_divider": true,
+        "divider_width": "full"
+      }
+    },
+    "featured_collection_n7AnqW": {
+      "type": "featured-collection",
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "header_layout": "vertical",
+        "heading": "ähnliche Produkte",
+        "heading_size": "h3",
+        "heading_styling": "body",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "show_collection_description": false,
+        "collection": "bestseller",
+        "limit": 8,
+        "columns": 4,
+        "column_gap": "extra-small",
+        "row_gap": "inherit",
+        "grid_layout": "standard",
+        "enable_slider": true,
+        "controls_position": "inside",
+        "pcard_use_swiper": false,
+        "show_reviews": true,
+        "pcard_image_ratio": "",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "show_all_button_on_top": false,
+        "button_label": "",
+        "button_style": "btn--primary",
+        "padding_top": 32,
+        "padding_bottom": 32,
+        "show_section_divider": true,
+        "divider_width": "full",
+        "custom_class": ""
+      }
+    },
+    "we_featured_collections_yka3Qn": {
+      "type": "we-featured-collections",
+      "blocks": {
+        "collection_dmxxhj": {
+          "type": "collection",
+          "settings": {
+            "collection": "matratzen",
+            "image": "shopify://shop_images/Betten_Matratzen_Kategorie_Promo_1_1.jpg"
+          }
+        },
+        "collection_AkcG9Y": {
+          "type": "collection",
+          "disabled": true,
+          "settings": {
+            "collection": "leinen-kollektion",
+            "image": "shopify://shop_images/Bettwasche_Kollektion_Featured.jpg"
+          }
+        },
+        "collection_gghYUc": {
+          "type": "collection",
+          "settings": {
+            "collection": "hotelbettwaesche",
+            "image": "shopify://shop_images/Bettwasche_Sets_Kollektion_Featured.jpg"
+          }
+        },
+        "collection_cniUQH": {
+          "type": "collection",
+          "settings": {
+            "collection": "neuheiten",
+            "image": "shopify://shop_images/Neuheiten_Kollektion_Featured.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "collection_dmxxhj",
+        "collection_AkcG9Y",
+        "collection_gghYUc",
+        "collection_cniUQH"
+      ],
+      "name": "[we] Featured collections",
+      "settings": {
+        "color_scheme": "",
+        "section_width": "full",
+        "header_layout": "vertical",
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "button_label": "",
+        "button_link": "",
+        "button_style": "btn--primary",
+        "social_media": "none",
+        "columns": 3,
+        "column_gap": "extra-small",
+        "row_gap": "inherit",
+        "image_ratio": "1/1",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 32,
+        "padding_bottom": 0,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "breadcrumbs_Gxg9wp": {
+      "type": "breadcrumbs",
+      "settings": {
+        "text_alignment": "center"
+      }
+    }
+  },
+  "order": [
+    "image_with_text_overlay_37pPBC",
+    "we_subcollections_N4HKQf",
+    "banner",
+    "product-grid",
+    "featured_collection_n7AnqW",
+    "we_featured_collections_yka3Qn",
+    "breadcrumbs_Gxg9wp"
+  ]
+}
