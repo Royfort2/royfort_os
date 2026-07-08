@@ -254,56 +254,96 @@
         "custom_class": ""
       }
     },
-    "custom_content_ArQKiM": {
-      "type": "custom-content",
+    "collection_list_J4yi7y": {
+      "type": "collection-list",
       "blocks": {
-        "collections_XkxbRW": {
-          "type": "collections",
+        "featured_collection_qYiNiV": {
+          "type": "featured_collection",
           "settings": {
-            "collection_list": [
-              "bestseller"
-            ],
-            "hide_collection_name": true,
-            "button_label": "",
-            "button_style": "btn--underline",
-            "limit": 4,
-            "columns": 4,
-            "column_gap": "extra-small",
-            "row_gap": "inherit",
-            "enable_slider": false,
-            "show_reviews": true,
-            "pcard_image_ratio": "",
-            "columns_mobile": "2",
-            "swipe_on_mobile": true,
-            "width": "100%",
-            "alignment": "center",
-            "block_custom_class": ""
+            "collection": "hotelbettwaesche",
+            "image": "shopify://shop_images/Featured_Category_Bettwasche_New.jpg",
+            "title": "",
+            "description": ""
+          }
+        },
+        "featured_collection_k7TnzV": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "daunendecken-kissen",
+            "image": "shopify://shop_images/Featured_Category_Decken_Kissen_New.jpg",
+            "title": "",
+            "description": ""
+          }
+        },
+        "featured_collection_RgWqxa": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "kaschmir-kollektion",
+            "image": "shopify://shop_images/Featured_Category_Kaschmir_New.jpg",
+            "title": "",
+            "description": ""
+          }
+        },
+        "featured_collection_f9wgF4": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "badezimmer",
+            "image": "shopify://shop_images/Featured_Category_Badezimmer_New.jpg",
+            "title": "",
+            "description": ""
+          }
+        },
+        "featured_collection_fnpp8m": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "matratzen",
+            "image": "shopify://shop_images/Featured_Category_Betten_Matratzen_New.jpg",
+            "title": "",
+            "description": ""
+          }
+        },
+        "featured_collection_kQpF36": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "tagesdecken-kollektion",
+            "image": "shopify://shop_images/Featured_Category_Tagesdecken_New.jpg",
+            "title": "",
+            "description": ""
           }
         }
       },
       "block_order": [
-        "collections_XkxbRW"
+        "featured_collection_qYiNiV",
+        "featured_collection_k7TnzV",
+        "featured_collection_RgWqxa",
+        "featured_collection_f9wgF4",
+        "featured_collection_fnpp8m",
+        "featured_collection_kQpF36"
       ],
-      "custom_css": [
-        ".product-card__title {white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}",
-        ".section__content {padding-left: 1.5rem; padding-right: 1.5rem;}"
-      ],
-      "name": "t:sections.custom-content.name",
+      "name": "t:sections.collection-list.name",
       "settings": {
-        "container": "full",
         "color_scheme": "",
-        "enable_sticky_column": false,
+        "layout": "standard",
+        "subheading": "",
         "heading": "",
         "heading_size": "h1",
         "heading_highlight_style": "none",
-        "subheading": "",
         "description": "",
+        "text_size": "text-base",
+        "card_color_inherited": false,
+        "show_product_count": false,
+        "show_icon": false,
+        "card_style": "",
+        "card_image_ratio": "adapt",
+        "content_alignment": "center",
+        "columns_desktop": 6,
         "column_gap": "medium",
-        "row_gap": "large",
+        "row_gap": "medium",
+        "enable_slider": false,
+        "columns_mobile": "2",
         "swipe_on_mobile": false,
-        "columns_mobile": "1",
-        "padding_top": 64,
-        "padding_bottom": 64,
+        "padding_top": 50,
+        "padding_bottom": 50,
         "show_section_divider": false,
         "divider_width": "fixed",
         "custom_class": ""
@@ -396,9 +436,65 @@
         "image_card_r4bbmh",
         "image_card_Ew9UTi"
       ],
+      "disabled": true,
       "custom_css": [
         ".f-grid--row-gap-extra-small {--row-gap: 1rem; --row-gap-mobile: 0rem;}",
         "@media (max-width: 767px) {.card-media--small .content-overlay {--padding-y: 1.5rem; --padding-x: 1.5rem; } .h5 {font-size: 1.5rem; text-transform: uppercase; } .section--padding {padding-block-end: 0rem; }}"
+      ],
+      "name": "t:sections.custom-content.name",
+      "settings": {
+        "container": "full",
+        "color_scheme": "scheme-1",
+        "enable_sticky_column": false,
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "column_gap": "extra-small",
+        "row_gap": "extra-small",
+        "swipe_on_mobile": true,
+        "columns_mobile": "2",
+        "padding_top": 0,
+        "padding_bottom": 16,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "custom_content_ArQKiM": {
+      "type": "custom-content",
+      "blocks": {
+        "collections_XkxbRW": {
+          "type": "collections",
+          "settings": {
+            "collection_list": [
+              "bestseller"
+            ],
+            "hide_collection_name": true,
+            "button_label": "",
+            "button_style": "btn--underline",
+            "limit": 4,
+            "columns": 4,
+            "column_gap": "extra-small",
+            "row_gap": "inherit",
+            "enable_slider": false,
+            "show_reviews": true,
+            "pcard_image_ratio": "",
+            "columns_mobile": "2",
+            "swipe_on_mobile": true,
+            "width": "100%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        }
+      },
+      "block_order": [
+        "collections_XkxbRW"
+      ],
+      "custom_css": [
+        ".product-card__title {white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}",
+        ".section__content {padding-left: 1.5rem; padding-right: 1.5rem;}"
       ],
       "name": "t:sections.custom-content.name",
       "settings": {
@@ -410,12 +506,12 @@
         "heading_highlight_style": "none",
         "subheading": "",
         "description": "",
-        "column_gap": "extra-small",
-        "row_gap": "extra-small",
+        "column_gap": "medium",
+        "row_gap": "large",
         "swipe_on_mobile": false,
         "columns_mobile": "1",
-        "padding_top": 0,
-        "padding_bottom": 16,
+        "padding_top": 64,
+        "padding_bottom": 64,
         "show_section_divider": false,
         "divider_width": "fixed",
         "custom_class": ""
@@ -1164,8 +1260,9 @@
     "image_with_text_overlay_CBrdFi",
     "custom_content_kJfyKb",
     "video_hero_qjxhUU",
-    "custom_content_ArQKiM",
+    "collection_list_J4yi7y",
     "custom_content_Bx7iBY",
+    "custom_content_ArQKiM",
     "custom_content_EK4bVJ",
     "video_hero_np4cbQ",
     "custom_content_XCnW8a",
