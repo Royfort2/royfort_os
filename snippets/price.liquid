@@ -8,7 +8,7 @@
   - show_soldout_badge: {Boolean} Renders 'Sold Out' badge if the product matches the condition (optional)
   - price_class: {String} Adds a price class to the price element (optional)
   - section: {Object} Section object — used for custom.we_pdp_preis_nach_grose size detection (optional)
-  - we_force_from_price: {Boolean} Prefix with "from" / "ab" using price_min (optional)
+  - we_force_from_price: {Boolean} Prefix with "from" / "ab" using the PDP default variant price (optional)
 
   Usage:
   {% render 'price', product: product %}
@@ -154,6 +154,11 @@
   endif
 
   assign selected_variant = product.selected_or_first_available_variant
+  assign we_from_price = selected_variant.price
+  assign money_from_price = we_from_price | money
+  if settings.currency_code_enabled
+    assign money_from_price = we_from_price | money_with_currency
+  endif
   if use_variant
     assign target = selected_variant
   else
@@ -189,14 +194,18 @@
     assign money_price_min = price_min | money_with_currency
     assign money_price_max = price_max | money_with_currency
   endif
+  comment
+    Grid/search "Ab" uses the PDP default variant (1st available in admin order), not price_min.
+    Matches client rule: bestseller size (e.g. 40x80) not cheapest size (e.g. 40x40).
+  endcomment
   if target == product and product.price_varies
-    assign money_price = 'products.product.price.from_price_html' | t: price: money_price
+    assign money_price = 'products.product.price.from_price_html' | t: price: money_from_price
   endif
   if we_pas_active and we_pas_show_fixed == false
-    assign money_price = 'products.product.price.from_price_html' | t: price: money_price_min
+    assign money_price = 'products.product.price.from_price_html' | t: price: money_from_price
   endif
   if we_force_from_price and product != blank
-    assign money_price = 'products.product.price.from_price_html' | t: price: money_price_min
+    assign money_price = 'products.product.price.from_price_html' | t: price: money_from_price
   endif
 
   if product.metafields.custom.pdp_set_products != blank
