@@ -23,7 +23,7 @@
         "text_XafVaJ": {
           "type": "text",
           "settings": {
-            "text": "<p>Entdecke die Royfort Favoriten von Gina – <br/>für erholsamen Schlaf und ein Zuhause zum Wohlfühlen.</p>",
+            "text": "<p>Die Royfort Favoriten von Gina Sandrin – <br/>für erholsamen Schlaf und ein Zuhause zum Wohlfühlen.</p>",
             "text_size": "text-base"
           }
         }
@@ -69,6 +69,7 @@
       "blocks": {
         "collection_info_zUNyKV": {
           "type": "collection_info",
+          "disabled": true,
           "settings": {
             "heading_size": "hd2",
             "heading_tag": "h1",
@@ -133,8 +134,8 @@
             "video_mobile": "shopify://files/videos/ROYFORT_LEFKADA_08_FINAL.mp4",
             "video_url_mobile": "",
             "title": "The Luxury of Sleep.",
-            "description": "",
-            "description_mobile": "",
+            "description": "<p>Entdecke zeitloses Design, handverlesene Materialien und erstklassige Verarbeitung</p>",
+            "description_mobile": "<p>Entdecke zeitloses Design, handverlesene Materialien und erstklassige Verarbeitung. </p>",
             "button_label": "",
             "button_url": "#",
             "order_after": 4,
@@ -174,6 +175,7 @@
     },
     "featured_collection_n7AnqW": {
       "type": "featured-collection",
+      "disabled": true,
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
         "color_scheme": "",
@@ -251,10 +253,10 @@
       "name": "[we] Featured collections",
       "settings": {
         "color_scheme": "",
-        "section_width": "full",
+        "section_width": "page",
         "header_layout": "vertical",
-        "heading": "",
-        "heading_size": "h1",
+        "heading": "Mehr von Royfort entdecken",
+        "heading_size": "h3",
         "heading_highlight_style": "none",
         "subheading": "",
         "description": "",
@@ -282,10 +284,10 @@
         "text_alignment": "center"
       }
     },
-    "rich_text_tmNtDN": {
-      "type": "rich-text",
+    "image_with_text_cVbryc": {
+      "type": "image-with-text",
       "blocks": {
-        "heading_hEngiT": {
+        "heading_iEeLEd": {
           "type": "heading",
           "settings": {
             "heading": "Talk about your brand",
@@ -293,14 +295,18 @@
             "heading_highlight_style": "none"
           }
         },
-        "text_4bMRaa": {
+        "text_rBJfTL": {
           "type": "text",
           "settings": {
             "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
-            "text_size": "text-base"
+            "text_size": "text-base",
+            "truncate_on_mobile": false,
+            "truncate_on_mobile_lines": 3,
+            "truncate_trigger_text": "Mehr lesen",
+            "truncate_collapse_text": "Weniger"
           }
         },
-        "button_e6THhy": {
+        "button_qPctyw": {
           "type": "button",
           "settings": {
             "button_label": "Button label",
@@ -310,16 +316,27 @@
         }
       },
       "block_order": [
-        "heading_hEngiT",
-        "text_4bMRaa",
-        "button_e6THhy"
+        "heading_iEeLEd",
+        "text_rBJfTL",
+        "button_qPctyw"
       ],
-      "name": "t:sections.rich-text.presets.name",
+      "name": "t:sections.image-with-text.presets.name",
       "settings": {
+        "is_full_width": false,
+        "section_color_scheme": "",
         "color_scheme": "",
-        "content_alignment": "center",
+        "image_height": "adapt",
+        "layout": "image_first",
+        "desktop_content_position": "center",
+        "desktop_content_alignment": "left",
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "mobile_content_alignment": "left",
         "padding_top": 50,
         "padding_bottom": 50,
+        "different_mobile_padding": false,
+        "padding_top_mobile": 30,
+        "padding_bottom_mobile": 30,
         "show_section_divider": false,
         "divider_width": "fixed",
         "custom_class": ""
@@ -334,6 +351,6 @@
     "featured_collection_n7AnqW",
     "we_featured_collections_yka3Qn",
     "breadcrumbs_Gxg9wp",
-    "rich_text_tmNtDN"
+    "image_with_text_cVbryc"
   ]
 }
