@@ -23,7 +23,7 @@
         "text_XafVaJ": {
           "type": "text",
           "settings": {
-            "text": "<p>Entdecke die Royfort Favoriten von Gina – für erholsamen Schlaf und ein Zuhause zum Wohlfühlen.</p>",
+            "text": "<p>Entdecke die Royfort Favoriten von Gina – <br/>für erholsamen Schlaf und ein Zuhause zum Wohlfühlen.</p>",
             "text_size": "text-base"
           }
         }
