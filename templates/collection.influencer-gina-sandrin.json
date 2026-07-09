@@ -132,12 +132,12 @@
             "video_url_desktop": "",
             "video_mobile": "shopify://files/videos/ROYFORT_LEFKADA_08_FINAL.mp4",
             "video_url_mobile": "",
-            "title": "",
+            "title": "The Luxury of Sleep.",
             "description": "",
             "description_mobile": "",
             "button_label": "",
             "button_url": "#",
-            "order_after": 2,
+            "order_after": 4,
             "col_span_desktop": 2,
             "row_span_desktop": 1,
             "col_span_mobile": "2",
@@ -281,6 +281,49 @@
       "settings": {
         "text_alignment": "center"
       }
+    },
+    "rich_text_tmNtDN": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_hEngiT": {
+          "type": "heading",
+          "settings": {
+            "heading": "Talk about your brand",
+            "heading_size": "hd1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_4bMRaa": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "button_e6THhy": {
+          "type": "button",
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style": "btn--primary"
+          }
+        }
+      },
+      "block_order": [
+        "heading_hEngiT",
+        "text_4bMRaa",
+        "button_e6THhy"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "content_alignment": "center",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
     }
   },
   "order": [
@@ -290,6 +333,7 @@
     "product-grid",
     "featured_collection_n7AnqW",
     "we_featured_collections_yka3Qn",
-    "breadcrumbs_Gxg9wp"
+    "breadcrumbs_Gxg9wp",
+    "rich_text_tmNtDN"
   ]
 }
