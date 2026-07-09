@@ -664,6 +664,11 @@
       "step_error": "Sie können dieses Element nur in Schritten von {{ step }} hinzufügen."
     }
   },
+  "stamped": {
+    "reviews": {
+      "load_more": "Mehr Bewertungen laden"
+    }
+  },
   "templates": {
     "404": {
       "title": "404 Seite nicht gefunden",
@@ -717,11 +722,6 @@
         "post_success": "Danke, dass sie uns kontaktiert haben. Wir werden uns so schnell wie möglich bei Ihnen melden.",
         "error_heading": "Bitte passen Sie Folgendes an:"
       }
-    }
-  },
-  "stamped": {
-    "reviews": {
-      "load_more": "Mehr Bewertungen laden"
     }
   }
 }
