@@ -103,6 +103,7 @@
       "blocks": {
         "we_promo_NieM3F": {
           "type": "we_promo",
+          "disabled": true,
           "settings": {
             "color_scheme": "scheme-inverse",
             "text_color": "",
@@ -124,6 +125,7 @@
         },
         "we_promo_4nLeiw": {
           "type": "we_promo",
+          "disabled": true,
           "settings": {
             "color_scheme": "scheme-inverse",
             "text_color": "",
