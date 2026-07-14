@@ -8,6 +8,1081 @@
  * ------------------------------------------------------------
  */
 {
+  "sections": {
+    "image_with_text_overlay_nrqpPE": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading_dYJPBr": {
+          "type": "heading",
+          "settings": {
+            "heading": "The Luxury of Sleep.",
+            "heading_size": "h1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_DGYfwe": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Entdecken Sie zeitloses Design, handverlesene Materialien und erstklassige Verarbeitung. <br/>Durch nachhaltige Herstellung und Liebe zum Detail schaffen wir Produkte, die Ihren Schlaf neu definieren.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "button_HHyGXk": {
+          "type": "button",
+          "settings": {
+            "button_label": "Jetzt entdecken",
+            "button_link": "shopify://collections/royfort-all-products-collection",
+            "button_style": "btn--underline"
+          }
+        }
+      },
+      "block_order": [
+        "heading_dYJPBr",
+        "text_DGYfwe",
+        "button_HHyGXk"
+      ],
+      "name": "t:sections.image-with-text-overlay.name",
+      "settings": {
+        "container": "full",
+        "image": "shopify://shop_images/Homepage_Hero_2c98def4-5e8f-4b0b-a542-2aceead73ce1.jpg",
+        "desktop_height": "extra-large",
+        "overlay_opacity": 10,
+        "use_custom_overlay": false,
+        "custom_overlay": "linear-gradient(201deg, rgba(23, 23, 23, 0.00) 0.08%, rgba(23, 23, 23, 0.75) 100.09%)",
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "color_scheme": "",
+        "content_position": "bottom-left",
+        "content_alignment": "left",
+        "mobile_height": "extra-large",
+        "padding_top": 0,
+        "padding_bottom": 16,
+        "custom_class": ""
+      }
+    },
+    "custom_content_kJfyKb": {
+      "type": "custom-content",
+      "blocks": {
+        "image_card_mQPzQP": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/Website_Images_Template_5.png",
+            "image_ratio": "4/3",
+            "image_overlay_opacity": 10,
+            "heading": "Bettwäsche für besten Schlaf",
+            "heading_size": "h3",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "<p>Traumhafte Bettwäsche für den Sommer – Leinen, Musselin und Baumwolle. Höchste Qualität und beste Verarbeitung Made in Portugal.</p>",
+            "button_label": "Jetzt Entdecken",
+            "button_style": "btn--underline",
+            "content_position": "bottom-left",
+            "content_alignment": "left",
+            "content_spacing": "small",
+            "card_link": "",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "50%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_card_CkWQ4E": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/blog_image3.jpg",
+            "image_ratio": "4/3",
+            "image_overlay_opacity": 10,
+            "heading": "Die Atelier Kollektion",
+            "heading_size": "h3",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "<p>Betten & Matratzen gefertigt aus feinsten Materialien und geprägt von klarem Design – für ein Schlafgefühl, das man nicht nur spürt, sondern erlebt.</p>",
+            "button_label": "Jetzt entdecken",
+            "button_style": "btn--underline",
+            "content_position": "bottom-left",
+            "content_alignment": "left",
+            "content_spacing": "small",
+            "card_link": "",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "50%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_card_mQPzQP",
+        "image_card_CkWQ4E"
+      ],
+      "disabled": true,
+      "custom_css": [
+        ".f-grid--row-gap-extra-small {--row-gap: 1rem; --row-gap-mobile: 0rem;}",
+        "@media (max-width: 767px) {.card-media--small .content-overlay {--padding-y: 1.5rem; --padding-x: 1.5rem; } .section--padding {padding-block-end: 0rem; }}"
+      ],
+      "name": "t:sections.custom-content.name",
+      "settings": {
+        "container": "full",
+        "color_scheme": "",
+        "enable_sticky_column": false,
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "column_gap": "none",
+        "row_gap": "extra-small",
+        "swipe_on_mobile": false,
+        "columns_mobile": "1",
+        "padding_top": 0,
+        "padding_bottom": 16,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "video_hero_qjxhUU": {
+      "type": "video-hero",
+      "blocks": {
+        "heading_wPJq4T": {
+          "type": "heading",
+          "settings": {
+            "heading": "Video hero",
+            "heading_size": "h1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_dKXQer": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Use this text to share information about your brand with your customers. <br/>Describe a product, share announcements, or welcome customers to your store.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "button_6hDMWg": {
+          "type": "button",
+          "settings": {
+            "button_label": "Jetzt entdecken",
+            "button_link": "",
+            "button_style": "btn--underline"
+          }
+        }
+      },
+      "block_order": [
+        "heading_wPJq4T",
+        "text_dKXQer",
+        "button_6hDMWg"
+      ],
+      "disabled": true,
+      "name": "t:sections.video-hero.name",
+      "settings": {
+        "container": "full",
+        "video": "shopify://files/videos/NewHomepageVideo2 (1).mp4",
+        "video_url": "",
+        "description": "",
+        "video_height": "adapt",
+        "overlay_opacity": 0,
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "color_scheme": "scheme-inverse",
+        "content_position": "bottom-left",
+        "content_alignment": "left",
+        "video_mobile_height": "extra-large",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "custom_content_ArQKiM": {
+      "type": "custom-content",
+      "blocks": {
+        "collections_XkxbRW": {
+          "type": "collections",
+          "settings": {
+            "collection_list": [
+              "bestseller"
+            ],
+            "hide_collection_name": true,
+            "button_label": "",
+            "button_style": "btn--underline",
+            "limit": 4,
+            "columns": 4,
+            "column_gap": "extra-small",
+            "row_gap": "inherit",
+            "enable_slider": false,
+            "show_reviews": true,
+            "pcard_image_ratio": "",
+            "columns_mobile": "2",
+            "swipe_on_mobile": true,
+            "width": "100%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        }
+      },
+      "block_order": [
+        "collections_XkxbRW"
+      ],
+      "custom_css": [
+        ".product-card__title {white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}",
+        ".section__content {padding-left: 1.5rem; padding-right: 1.5rem;}"
+      ],
+      "name": "t:sections.custom-content.name",
+      "settings": {
+        "container": "full",
+        "color_scheme": "",
+        "enable_sticky_column": false,
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "column_gap": "medium",
+        "row_gap": "large",
+        "swipe_on_mobile": false,
+        "columns_mobile": "1",
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "custom_content_Bx7iBY": {
+      "type": "custom-content",
+      "blocks": {
+        "image_card_YeqpA7": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/Featured_Category_Bettwasche_small_746baeff-f64d-4458-9038-cb914b6e5acf.jpg",
+            "image_ratio": "1/1",
+            "image_overlay_opacity": 10,
+            "heading": "Bettwäsche",
+            "heading_size": "h5",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "",
+            "button_style": "btn--primary",
+            "content_position": "bottom-left",
+            "content_alignment": "center",
+            "content_spacing": "small",
+            "card_link": "shopify://collections/hotelbettwaesche",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "33%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_card_r4bbmh": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/Featured_Category_Decken_Kissen_small_eac569dd-12a7-4007-a5f7-d06b6965800b.jpg",
+            "image_ratio": "1/1",
+            "image_overlay_opacity": 10,
+            "heading": "Decken & Kissen",
+            "heading_size": "h5",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "",
+            "button_style": "btn--primary",
+            "content_position": "bottom-left",
+            "content_alignment": "center",
+            "content_spacing": "small",
+            "card_link": "shopify://collections/daunendecken-kissen",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "33%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_card_Ew9UTi": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/Featured_Category_Betten_Matratzen_small_e453b342-76fb-4d8b-a375-a37b02a98c11.jpg",
+            "image_ratio": "1/1",
+            "image_overlay_opacity": 10,
+            "heading": "Betten & Matratzen",
+            "heading_size": "h5",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "",
+            "button_style": "btn--primary",
+            "content_position": "bottom-left",
+            "content_alignment": "center",
+            "content_spacing": "small",
+            "card_link": "shopify://collections/matratzen",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "33%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_card_YeqpA7",
+        "image_card_r4bbmh",
+        "image_card_Ew9UTi"
+      ],
+      "custom_css": [
+        ".f-grid--row-gap-extra-small {--row-gap: 1rem; --row-gap-mobile: 0rem;}",
+        "@media (max-width: 767px) {.card-media--small .content-overlay {--padding-y: 1.5rem; --padding-x: 1.5rem; } .h5 {font-size: 1.5rem; text-transform: uppercase; } .section--padding {padding-block-end: 0rem; }}"
+      ],
+      "name": "t:sections.custom-content.name",
+      "settings": {
+        "container": "full",
+        "color_scheme": "",
+        "enable_sticky_column": false,
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "column_gap": "extra-small",
+        "row_gap": "extra-small",
+        "swipe_on_mobile": false,
+        "columns_mobile": "1",
+        "padding_top": 0,
+        "padding_bottom": 16,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "custom_content_EK4bVJ": {
+      "type": "custom-content",
+      "blocks": {
+        "image_card_kdVfjb": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/Website_Images_Template_5.png",
+            "image_ratio": "1/1",
+            "image_overlay_opacity": 10,
+            "heading": "Bettwäsche",
+            "heading_size": "h5",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "",
+            "button_style": "btn--primary",
+            "content_position": "bottom-left",
+            "content_alignment": "center",
+            "content_spacing": "small",
+            "card_link": "",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "50%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_card_8468g8": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/blog_image3.jpg",
+            "image_ratio": "1/1",
+            "image_overlay_opacity": 10,
+            "heading": "Decken & Kissen",
+            "heading_size": "h5",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "",
+            "button_style": "btn--primary",
+            "content_position": "bottom-left",
+            "content_alignment": "center",
+            "content_spacing": "small",
+            "card_link": "",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "50%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_card_kdVfjb",
+        "image_card_8468g8"
+      ],
+      "disabled": true,
+      "custom_css": [
+        ".f-grid--row-gap-extra-small {--row-gap: 1rem; --row-gap-mobile: 0rem;}",
+        "@media (max-width: 767px) {.card-media--small .content-overlay {--padding-y: 1.5rem; --padding-x: 1.5rem; } .h5 {font-size: 1.5rem; text-transform: uppercase; } .section--padding {padding-block-end: 0rem; }}"
+      ],
+      "name": "t:sections.custom-content.name",
+      "settings": {
+        "container": "full",
+        "color_scheme": "",
+        "enable_sticky_column": false,
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "column_gap": "extra-small",
+        "row_gap": "extra-small",
+        "swipe_on_mobile": false,
+        "columns_mobile": "1",
+        "padding_top": 0,
+        "padding_bottom": 16,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "video_hero_np4cbQ": {
+      "type": "video-hero",
+      "blocks": {
+        "heading_J8LeX3": {
+          "type": "heading",
+          "settings": {
+            "heading": "Der beste Schlaf Ihres Lebens.",
+            "heading_size": "h1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_n7jNze": {
+          "type": "text",
+          "settings": {
+            "text": "<h4>In einer Welt, die sich immer schneller dreht und voller Lärm ist, wird Schlaf zum wahren Luxus. Royfort hilft Menschen, diesen Luxus zu erleben. <br/>Mit hochwertigen Produkten, die dafür geschaffen sind, den besten Schlaf Ihres Lebens zu ermöglichen.<br/></h4>",
+            "text_size": "text-base"
+          }
+        },
+        "button_GeAQbk": {
+          "type": "button",
+          "disabled": true,
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style": "btn--underline"
+          }
+        }
+      },
+      "block_order": [
+        "heading_J8LeX3",
+        "text_n7jNze",
+        "button_GeAQbk"
+      ],
+      "name": "t:sections.video-hero.name",
+      "settings": {
+        "container": "full",
+        "video": "shopify://files/videos/NewHomepageVideo3_a1b10b31-7110-4239-a9e8-e6a038ed73da.mp4",
+        "video_url": "",
+        "description": "",
+        "video_height": "adapt",
+        "overlay_opacity": 0,
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "color_scheme": "scheme-inverse",
+        "content_position": "bottom-left",
+        "content_alignment": "left",
+        "video_mobile_height": "large",
+        "padding_top": 0,
+        "padding_bottom": 16,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "custom_content_XCnW8a": {
+      "type": "custom-content",
+      "blocks": {
+        "collections_nVPXrL": {
+          "type": "collections",
+          "settings": {
+            "collection_list": [
+              "trends"
+            ],
+            "hide_collection_name": true,
+            "button_label": "",
+            "button_style": "btn--underline",
+            "limit": 4,
+            "columns": 4,
+            "column_gap": "extra-small",
+            "row_gap": "inherit",
+            "enable_slider": false,
+            "show_reviews": true,
+            "pcard_image_ratio": "",
+            "columns_mobile": "2",
+            "swipe_on_mobile": true,
+            "width": "100%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        }
+      },
+      "block_order": [
+        "collections_nVPXrL"
+      ],
+      "custom_css": [
+        ".product-card__title {white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}",
+        ".section__content {padding-left: 1.5rem; padding-right: 1.5rem;}"
+      ],
+      "name": "t:sections.custom-content.name",
+      "settings": {
+        "container": "full",
+        "color_scheme": "",
+        "enable_sticky_column": false,
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "column_gap": "medium",
+        "row_gap": "large",
+        "swipe_on_mobile": false,
+        "columns_mobile": "1",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "we_stamped_carousel_JX6Df9": {
+      "type": "we-stamped-carousel",
+      "name": "[we] Stamped Carousel",
+      "settings": {
+        "title": "Das sagen unsere Kund:innen",
+        "take": 30,
+        "background": "#ffffff",
+        "opacity": 1,
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "custom_content_UpLfPE": {
+      "type": "custom-content",
+      "blocks": {
+        "image_card_qAWjQm": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/Featured_Category_Baumwolle.jpg",
+            "image_ratio": "1/1",
+            "image_overlay_opacity": 10,
+            "heading": "Baumwolle",
+            "heading_size": "h5",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "",
+            "button_style": "btn--primary",
+            "content_position": "bottom-left",
+            "content_alignment": "center",
+            "content_spacing": "small",
+            "card_link": "shopify://collections/baumwolle-kollektion",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "33%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_card_zW4Vtz": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/Featured_Category_Musselin.jpg",
+            "image_ratio": "1/1",
+            "image_overlay_opacity": 10,
+            "heading": "Musselin",
+            "heading_size": "h5",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "",
+            "button_style": "btn--primary",
+            "content_position": "bottom-left",
+            "content_alignment": "center",
+            "content_spacing": "small",
+            "card_link": "shopify://collections/musselin-kollektion",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "33%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_card_8AVPRr": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/Featured_Category_Leinen.jpg",
+            "image_ratio": "1/1",
+            "image_overlay_opacity": 10,
+            "heading": "Leinen",
+            "heading_size": "h5",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "",
+            "button_style": "btn--primary",
+            "content_position": "bottom-left",
+            "content_alignment": "center",
+            "content_spacing": "small",
+            "card_link": "shopify://collections/leinen-kollektion",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "33%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_card_qAWjQm",
+        "image_card_zW4Vtz",
+        "image_card_8AVPRr"
+      ],
+      "custom_css": [
+        ".f-grid--row-gap-extra-small {--row-gap: 1rem; --row-gap-mobile: 0rem;}",
+        "@media (max-width: 767px) {.card-media--small .content-overlay {--padding-y: 1.5rem; --padding-x: 1.5rem; } .h5 {font-size: 1.5rem; text-transform: uppercase; } .section--padding {padding-block-end: 0rem; }}"
+      ],
+      "name": "t:sections.custom-content.name",
+      "settings": {
+        "container": "full",
+        "color_scheme": "",
+        "enable_sticky_column": false,
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "column_gap": "extra-small",
+        "row_gap": "extra-small",
+        "swipe_on_mobile": false,
+        "columns_mobile": "1",
+        "padding_top": 0,
+        "padding_bottom": 16,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "image_with_text_overlay_HEUATk": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading_bWYBiw": {
+          "type": "heading",
+          "settings": {
+            "heading": "Besser schlafen. Besser leben.",
+            "heading_size": "h1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_xEdiD6": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Entdecken Sie unsere beliebtesten Produkte und genießen Sie den besten Schlaf Ihres Lebens.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "button_GigK6L": {
+          "type": "button",
+          "settings": {
+            "button_label": "BESTSELLER ENTDECKEN",
+            "button_link": "",
+            "button_style": "btn--underline"
+          }
+        }
+      },
+      "block_order": [
+        "heading_bWYBiw",
+        "text_xEdiD6",
+        "button_GigK6L"
+      ],
+      "name": "t:sections.image-with-text-overlay.name",
+      "settings": {
+        "container": "full",
+        "image": "shopify://shop_images/shipping-email-image.jpg",
+        "desktop_height": "extra-large",
+        "overlay_opacity": 10,
+        "use_custom_overlay": false,
+        "custom_overlay": "linear-gradient(201deg, rgba(23, 23, 23, 0.00) 0.08%, rgba(23, 23, 23, 0.75) 100.09%)",
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "color_scheme": "",
+        "content_position": "bottom-left",
+        "content_alignment": "left",
+        "mobile_height": "extra-large",
+        "padding_top": 0,
+        "padding_bottom": 16,
+        "custom_class": ""
+      }
+    },
+    "custom_content_eLwKYA": {
+      "type": "custom-content",
+      "blocks": {
+        "promotion_card_3iq7fa": {
+          "type": "promotion_card",
+          "settings": {
+            "color_scheme": "scheme-1",
+            "image": "shopify://shop_images/Rectangle_211.jpg",
+            "image_ratio": "1/1",
+            "image_overlay_opacity": 0,
+            "card_layout": "space-between",
+            "heading": "Seidenkissenbezug",
+            "heading_highlight_style": "none",
+            "heading_size": "h1",
+            "subheading": "Schönheit im Schlaf",
+            "description": "",
+            "button_label": "seide entdecken",
+            "button_style": "btn--underline",
+            "card_link": "shopify://collections/seiden-kollektion",
+            "content_alignment": "center",
+            "width": "50%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "promotion_card_rFYfHK": {
+          "type": "promotion_card",
+          "settings": {
+            "color_scheme": "scheme-1",
+            "image": "shopify://shop_images/Rectangle_87.jpg",
+            "image_ratio": "1/1",
+            "image_overlay_opacity": 0,
+            "card_layout": "space-between",
+            "heading": "Trendfarben",
+            "heading_highlight_style": "none",
+            "heading_size": "h1",
+            "subheading": "Sommer im Schlafzimmer",
+            "description": "",
+            "button_label": "Trends entdecken",
+            "button_style": "btn--underline",
+            "card_link": "shopify://collections/trends",
+            "content_alignment": "center",
+            "width": "50%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        }
+      },
+      "block_order": [
+        "promotion_card_3iq7fa",
+        "promotion_card_rFYfHK"
+      ],
+      "name": "t:sections.custom-content.name",
+      "settings": {
+        "container": "fixed",
+        "color_scheme": "",
+        "enable_sticky_column": false,
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "column_gap": "medium",
+        "row_gap": "large",
+        "swipe_on_mobile": false,
+        "columns_mobile": "1",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "custom_content_XLeH4V": {
+      "type": "custom-content",
+      "blocks": {
+        "image_card_ywBncE": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/royfort-kadewe-10_11b15f9c-04b9-4e25-8d5a-d687e8709f3a.jpg",
+            "image_ratio": "3/4",
+            "image_overlay_opacity": 26,
+            "heading": "KaDeWe Berlin",
+            "heading_size": "h4",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "Mehr erfahren",
+            "button_style": "btn--underline",
+            "content_position": "bottom-left",
+            "content_alignment": "left",
+            "content_spacing": "small",
+            "card_link": "shopify://pages/standorte",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "33%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_card_aq8LeV": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/royfort_standorte_hamburg_01.webp",
+            "image_ratio": "3/4",
+            "image_overlay_opacity": 26,
+            "heading": "Alsterhaus Hamburg",
+            "heading_size": "h4",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "Mehr erfahren",
+            "button_style": "btn--underline",
+            "content_position": "bottom-left",
+            "content_alignment": "left",
+            "content_spacing": "small",
+            "card_link": "shopify://pages/standorte",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "33%",
+            "alignment": "center",
+            "block_custom_class": ""
+          }
+        },
+        "image_card_ACHazG": {
+          "type": "image_card",
+          "settings": {
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/royfort_standorte_muenchen_01.webp",
+            "image_ratio": "3/4",
+            "image_overlay_opacity": 26,
+            "heading": "Michel Bäder München",
+            "heading_size": "h4",
+            "heading_highlight_style": "none",
+            "subheading": "",
+            "description": "",
+            "button_label": "Mehr erfahren",
+            "button_style": "btn--underline",
+            "content_position": "bottom-left",
+            "content_alignment": "left",
+            "content_spacing": "small",
+            "card_link": "shopify://pages/standorte",
+            "color_scheme_mobile": "scheme-6",
+            "show_text_below": true,
+            "content_alignment_mobile": "left",
+            "width": "33%",
+            "alignment": "end",
+            "block_custom_class": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_card_ywBncE",
+        "image_card_aq8LeV",
+        "image_card_ACHazG"
+      ],
+      "disabled": true,
+      "custom_css": [
+        ".f-grid--row-gap-extra-small {--row-gap: 1rem; --row-gap-mobile: 0rem;}",
+        "@media (max-width: 767px) {.card-media--small .content-overlay {--padding-y: 1.5rem; --padding-x: 1.5rem; } .h5 {font-size: 1.5rem; text-transform: uppercase; } .section--padding {padding-block-end: 0rem; }}"
+      ],
+      "name": "t:sections.custom-content.name",
+      "settings": {
+        "container": "full",
+        "color_scheme": "",
+        "enable_sticky_column": false,
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "column_gap": "extra-small",
+        "row_gap": "extra-small",
+        "swipe_on_mobile": true,
+        "columns_mobile": "1",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "multicolumn_dGdzNX": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_433Ff7": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image": "shopify://shop_images/falstaff_logo.jpg",
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
+            "image_width": "full",
+            "title": "",
+            "heading_size": "h4",
+            "text": "",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_xexFQc": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image": "shopify://shop_images/zeit_logo.jpg",
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
+            "image_width": "full",
+            "title": "",
+            "heading_size": "h4",
+            "text": "",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_mTiiwn": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image": "shopify://shop_images/suddeutschzeitung_logo.jpg",
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
+            "image_width": "full",
+            "title": "",
+            "heading_size": "h4",
+            "text": "",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        }
+      },
+      "block_order": [
+        "column_433Ff7",
+        "column_xexFQc",
+        "column_mTiiwn"
+      ],
+      "name": "t:sections.multicolumn.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "column_alignment": "left",
+        "columns_desktop": 3,
+        "column_gap": "none",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
+    "image_with_text_GMFb4h": {
+      "type": "image-with-text",
+      "blocks": {
+        "subheading_PhNeGN": {
+          "type": "subheading",
+          "settings": {
+            "subheading": "KaDeWe | Alsterhaus | Breuninger"
+          }
+        },
+        "heading_qXTYeM": {
+          "type": "heading",
+          "settings": {
+            "heading": "Standorte",
+            "heading_size": "hd1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_pCVkBM": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Erleben Sie Royfort persönlich an unseren Standorten in Berlin, Hamburg, München, Stuttgart, Frankfurt und Düsseldorf – entdecken Sie ausgewählte Bettwäsche, Matratzen und Betten und lassen Sie sich individuell zu Ihrem perfekten Schlafkomfort beraten.</p>",
+            "text_size": "text-base",
+            "truncate_on_mobile": false,
+            "truncate_on_mobile_lines": 3,
+            "truncate_trigger_text": "Mehr lesen",
+            "truncate_collapse_text": "Weniger"
+          }
+        },
+        "button_mhNxMY": {
+          "type": "button",
+          "settings": {
+            "button_label": "Alle Standorte entdecken",
+            "button_link": "shopify://pages/standorte",
+            "button_style": "btn--underline"
+          }
+        }
+      },
+      "block_order": [
+        "subheading_PhNeGN",
+        "heading_qXTYeM",
+        "text_pCVkBM",
+        "button_mhNxMY"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "is_full_width": false,
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "image": "shopify://shop_images/royfort-kadewe-12.jpg",
+        "image_height": "adapt",
+        "layout": "image_first",
+        "desktop_content_position": "center",
+        "desktop_content_alignment": "left",
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "mobile_content_alignment": "left",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "different_mobile_padding": false,
+        "padding_top_mobile": 30,
+        "padding_bottom_mobile": 30,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    }
+  },
   "order": [
     "image_with_text_overlay_nrqpPE",
     "custom_content_kJfyKb",
@@ -24,1080 +1099,5 @@
     "custom_content_XLeH4V",
     "multicolumn_dGdzNX",
     "image_with_text_GMFb4h"
-  ],
-  "sections": {
-    "custom_content_ArQKiM": {
-      "block_order": [
-        "collections_XkxbRW"
-      ],
-      "blocks": {
-        "collections_XkxbRW": {
-          "settings": {
-            "alignment": "center",
-            "block_custom_class": "",
-            "button_label": "",
-            "button_style": "btn--underline",
-            "collection_list": [
-              "bestseller"
-            ],
-            "column_gap": "extra-small",
-            "columns": 4,
-            "columns_mobile": "2",
-            "enable_slider": false,
-            "hide_collection_name": true,
-            "limit": 4,
-            "pcard_image_ratio": "",
-            "row_gap": "inherit",
-            "show_reviews": true,
-            "swipe_on_mobile": true,
-            "width": "100%"
-          },
-          "type": "collections"
-        }
-      },
-      "custom_css": [
-        ".product-card__title {white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}",
-        ".section__content {padding-left: 1.5rem; padding-right: 1.5rem;}"
-      ],
-      "name": "t:sections.custom-content.name",
-      "settings": {
-        "color_scheme": "",
-        "column_gap": "medium",
-        "columns_mobile": "1",
-        "container": "full",
-        "custom_class": "",
-        "description": "",
-        "divider_width": "fixed",
-        "enable_sticky_column": false,
-        "heading": "",
-        "heading_highlight_style": "none",
-        "heading_size": "h1",
-        "padding_bottom": 64,
-        "padding_top": 64,
-        "row_gap": "large",
-        "show_section_divider": false,
-        "subheading": "",
-        "swipe_on_mobile": false
-      },
-      "type": "custom-content"
-    },
-    "custom_content_Bx7iBY": {
-      "block_order": [
-        "image_card_YeqpA7",
-        "image_card_r4bbmh",
-        "image_card_Ew9UTi"
-      ],
-      "blocks": {
-        "image_card_Ew9UTi": {
-          "settings": {
-            "alignment": "center",
-            "block_custom_class": "",
-            "button_label": "",
-            "button_style": "btn--primary",
-            "card_link": "shopify://collections/matratzen",
-            "color_scheme": "scheme-3",
-            "color_scheme_mobile": "scheme-6",
-            "content_alignment": "center",
-            "content_alignment_mobile": "left",
-            "content_position": "bottom-left",
-            "content_spacing": "small",
-            "description": "",
-            "heading": "Betten & Matratzen",
-            "heading_highlight_style": "none",
-            "heading_size": "h5",
-            "image": "shopify://shop_images/Featured_Category_Betten_Matratzen_small_e453b342-76fb-4d8b-a375-a37b02a98c11.jpg",
-            "image_overlay_opacity": 10,
-            "image_ratio": "1/1",
-            "show_text_below": true,
-            "subheading": "",
-            "width": "33%"
-          },
-          "type": "image_card"
-        },
-        "image_card_YeqpA7": {
-          "settings": {
-            "alignment": "center",
-            "block_custom_class": "",
-            "button_label": "",
-            "button_style": "btn--primary",
-            "card_link": "shopify://collections/hotelbettwaesche",
-            "color_scheme": "scheme-3",
-            "color_scheme_mobile": "scheme-6",
-            "content_alignment": "center",
-            "content_alignment_mobile": "left",
-            "content_position": "bottom-left",
-            "content_spacing": "small",
-            "description": "",
-            "heading": "Bettwäsche",
-            "heading_highlight_style": "none",
-            "heading_size": "h5",
-            "image": "shopify://shop_images/Featured_Category_Bettwasche_small_746baeff-f64d-4458-9038-cb914b6e5acf.jpg",
-            "image_overlay_opacity": 10,
-            "image_ratio": "1/1",
-            "show_text_below": true,
-            "subheading": "",
-            "width": "33%"
-          },
-          "type": "image_card"
-        },
-        "image_card_r4bbmh": {
-          "settings": {
-            "alignment": "center",
-            "block_custom_class": "",
-            "button_label": "",
-            "button_style": "btn--primary",
-            "card_link": "shopify://collections/daunendecken-kissen",
-            "color_scheme": "scheme-3",
-            "color_scheme_mobile": "scheme-6",
-            "content_alignment": "center",
-            "content_alignment_mobile": "left",
-            "content_position": "bottom-left",
-            "content_spacing": "small",
-            "description": "",
-            "heading": "Decken & Kissen",
-            "heading_highlight_style": "none",
-            "heading_size": "h5",
-            "image": "shopify://shop_images/Featured_Category_Decken_Kissen_small_eac569dd-12a7-4007-a5f7-d06b6965800b.jpg",
-            "image_overlay_opacity": 10,
-            "image_ratio": "1/1",
-            "show_text_below": true,
-            "subheading": "",
-            "width": "33%"
-          },
-          "type": "image_card"
-        }
-      },
-      "custom_css": [
-        ".f-grid--row-gap-extra-small {--row-gap: 1rem; --row-gap-mobile: 0rem;}",
-        "@media (max-width: 767px) {.card-media--small .content-overlay {--padding-y: 1.5rem; --padding-x: 1.5rem; } .h5 {font-size: 1.5rem; text-transform: uppercase; } .section--padding {padding-block-end: 0rem; }}"
-      ],
-      "name": "t:sections.custom-content.name",
-      "settings": {
-        "color_scheme": "",
-        "column_gap": "extra-small",
-        "columns_mobile": "1",
-        "container": "full",
-        "custom_class": "",
-        "description": "",
-        "divider_width": "fixed",
-        "enable_sticky_column": false,
-        "heading": "",
-        "heading_highlight_style": "none",
-        "heading_size": "h1",
-        "padding_bottom": 16,
-        "padding_top": 0,
-        "row_gap": "extra-small",
-        "show_section_divider": false,
-        "subheading": "",
-        "swipe_on_mobile": false
-      },
-      "type": "custom-content"
-    },
-    "custom_content_EK4bVJ": {
-      "block_order": [
-        "image_card_kdVfjb",
-        "image_card_8468g8"
-      ],
-      "blocks": {
-        "image_card_8468g8": {
-          "settings": {
-            "alignment": "center",
-            "block_custom_class": "",
-            "button_label": "",
-            "button_style": "btn--primary",
-            "card_link": "",
-            "color_scheme": "scheme-3",
-            "color_scheme_mobile": "scheme-6",
-            "content_alignment": "center",
-            "content_alignment_mobile": "left",
-            "content_position": "bottom-left",
-            "content_spacing": "small",
-            "description": "",
-            "heading": "Decken & Kissen",
-            "heading_highlight_style": "none",
-            "heading_size": "h5",
-            "image": "shopify://shop_images/blog_image3.jpg",
-            "image_overlay_opacity": 10,
-            "image_ratio": "1/1",
-            "show_text_below": true,
-            "subheading": "",
-            "width": "50%"
-          },
-          "type": "image_card"
-        },
-        "image_card_kdVfjb": {
-          "settings": {
-            "alignment": "center",
-            "block_custom_class": "",
-            "button_label": "",
-            "button_style": "btn--primary",
-            "card_link": "",
-            "color_scheme": "scheme-3",
-            "color_scheme_mobile": "scheme-6",
-            "content_alignment": "center",
-            "content_alignment_mobile": "left",
-            "content_position": "bottom-left",
-            "content_spacing": "small",
-            "description": "",
-            "heading": "Bettwäsche",
-            "heading_highlight_style": "none",
-            "heading_size": "h5",
-            "image": "shopify://shop_images/Website_Images_Template_5.png",
-            "image_overlay_opacity": 10,
-            "image_ratio": "1/1",
-            "show_text_below": true,
-            "subheading": "",
-            "width": "50%"
-          },
-          "type": "image_card"
-        }
-      },
-      "custom_css": [
-        ".f-grid--row-gap-extra-small {--row-gap: 1rem; --row-gap-mobile: 0rem;}",
-        "@media (max-width: 767px) {.card-media--small .content-overlay {--padding-y: 1.5rem; --padding-x: 1.5rem; } .h5 {font-size: 1.5rem; text-transform: uppercase; } .section--padding {padding-block-end: 0rem; }}"
-      ],
-      "disabled": true,
-      "name": "t:sections.custom-content.name",
-      "settings": {
-        "color_scheme": "",
-        "column_gap": "extra-small",
-        "columns_mobile": "1",
-        "container": "full",
-        "custom_class": "",
-        "description": "",
-        "divider_width": "fixed",
-        "enable_sticky_column": false,
-        "heading": "",
-        "heading_highlight_style": "none",
-        "heading_size": "h1",
-        "padding_bottom": 16,
-        "padding_top": 0,
-        "row_gap": "extra-small",
-        "show_section_divider": false,
-        "subheading": "",
-        "swipe_on_mobile": false
-      },
-      "type": "custom-content"
-    },
-    "custom_content_UpLfPE": {
-      "block_order": [
-        "image_card_qAWjQm",
-        "image_card_zW4Vtz",
-        "image_card_8AVPRr"
-      ],
-      "blocks": {
-        "image_card_8AVPRr": {
-          "settings": {
-            "alignment": "center",
-            "block_custom_class": "",
-            "button_label": "",
-            "button_style": "btn--primary",
-            "card_link": "shopify://collections/leinen-kollektion",
-            "color_scheme": "scheme-3",
-            "color_scheme_mobile": "scheme-6",
-            "content_alignment": "center",
-            "content_alignment_mobile": "left",
-            "content_position": "bottom-left",
-            "content_spacing": "small",
-            "description": "",
-            "heading": "Leinen",
-            "heading_highlight_style": "none",
-            "heading_size": "h5",
-            "image": "shopify://shop_images/Featured_Category_Leinen.jpg",
-            "image_overlay_opacity": 10,
-            "image_ratio": "1/1",
-            "show_text_below": true,
-            "subheading": "",
-            "width": "33%"
-          },
-          "type": "image_card"
-        },
-        "image_card_qAWjQm": {
-          "settings": {
-            "alignment": "center",
-            "block_custom_class": "",
-            "button_label": "",
-            "button_style": "btn--primary",
-            "card_link": "shopify://collections/baumwolle-kollektion",
-            "color_scheme": "scheme-3",
-            "color_scheme_mobile": "scheme-6",
-            "content_alignment": "center",
-            "content_alignment_mobile": "left",
-            "content_position": "bottom-left",
-            "content_spacing": "small",
-            "description": "",
-            "heading": "Baumwolle",
-            "heading_highlight_style": "none",
-            "heading_size": "h5",
-            "image": "shopify://shop_images/Featured_Category_Baumwolle.jpg",
-            "image_overlay_opacity": 10,
-            "image_ratio": "1/1",
-            "show_text_below": true,
-            "subheading": "",
-            "width": "33%"
-          },
-          "type": "image_card"
-        },
-        "image_card_zW4Vtz": {
-          "settings": {
-            "alignment": "center",
-            "block_custom_class": "",
-            "button_label": "",
-            "button_style": "btn--primary",
-            "card_link": "shopify://collections/musselin-kollektion",
-            "color_scheme": "scheme-3",
-            "color_scheme_mobile": "scheme-6",
-            "content_alignment": "center",
-            "content_alignment_mobile": "left",
-            "content_position": "bottom-left",
-            "content_spacing": "small",
-            "description": "",
-            "heading": "Musselin",
-            "heading_highlight_style": "none",
-            "heading_size": "h5",
-            "image": "shopify://shop_images/Featured_Category_Musselin.jpg",
-            "image_overlay_opacity": 10,
-            "image_ratio": "1/1",
-            "show_text_below": true,
-            "subheading": "",
-            "width": "33%"
-          },
-          "type": "image_card"
-        }
-      },
-      "custom_css": [
-        ".f-grid--row-gap-extra-small {--row-gap: 1rem; --row-gap-mobile: 0rem;}",
-        "@media (max-width: 767px) {.card-media--small .content-overlay {--padding-y: 1.5rem; --padding-x: 1.5rem; } .h5 {font-size: 1.5rem; text-transform: uppercase; } .section--padding {padding-block-end: 0rem; }}"
-      ],
-      "name": "t:sections.custom-content.name",
-      "settings": {
-        "color_scheme": "",
-        "column_gap": "extra-small",
-        "columns_mobile": "1",
-        "container": "full",
-        "custom_class": "",
-        "description": "",
-        "divider_width": "fixed",
-        "enable_sticky_column": false,
-        "heading": "",
-        "heading_highlight_style": "none",
-        "heading_size": "h1",
-        "padding_bottom": 16,
-        "padding_top": 0,
-        "row_gap": "extra-small",
-        "show_section_divider": false,
-        "subheading": "",
-        "swipe_on_mobile": false
-      },
-      "type": "custom-content"
-    },
-    "custom_content_XCnW8a": {
-      "block_order": [
-        "collections_nVPXrL"
-      ],
-      "blocks": {
-        "collections_nVPXrL": {
-          "settings": {
-            "alignment": "center",
-            "block_custom_class": "",
-            "button_label": "",
-            "button_style": "btn--underline",
-            "collection_list": [
-              "trends"
-            ],
-            "column_gap": "extra-small",
-            "columns": 4,
-            "columns_mobile": "2",
-            "enable_slider": false,
-            "hide_collection_name": true,
-            "limit": 4,
-            "pcard_image_ratio": "",
-            "row_gap": "inherit",
-            "show_reviews": true,
-            "swipe_on_mobile": true,
-            "width": "100%"
-          },
-          "type": "collections"
-        }
-      },
-      "custom_css": [
-        ".product-card__title {white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}",
-        ".section__content {padding-left: 1.5rem; padding-right: 1.5rem;}"
-      ],
-      "name": "t:sections.custom-content.name",
-      "settings": {
-        "color_scheme": "",
-        "column_gap": "medium",
-        "columns_mobile": "1",
-        "container": "full",
-        "custom_class": "",
-        "description": "",
-        "divider_width": "fixed",
-        "enable_sticky_column": false,
-        "heading": "",
-        "heading_highlight_style": "none",
-        "heading_size": "h1",
-        "padding_bottom": 40,
-        "padding_top": 40,
-        "row_gap": "large",
-        "show_section_divider": false,
-        "subheading": "",
-        "swipe_on_mobile": false
-      },
-      "type": "custom-content"
-    },
-    "custom_content_XLeH4V": {
-      "block_order": [
-        "image_card_ywBncE",
-        "image_card_aq8LeV",
-        "image_card_ACHazG"
-      ],
-      "blocks": {
-        "image_card_ACHazG": {
-          "settings": {
-            "alignment": "end",
-            "block_custom_class": "",
-            "button_label": "Mehr erfahren",
-            "button_style": "btn--underline",
-            "card_link": "shopify://pages/unsere-standorte",
-            "color_scheme": "scheme-3",
-            "color_scheme_mobile": "scheme-6",
-            "content_alignment": "left",
-            "content_alignment_mobile": "left",
-            "content_position": "bottom-left",
-            "content_spacing": "small",
-            "description": "",
-            "heading": "Michel Bäder München",
-            "heading_highlight_style": "none",
-            "heading_size": "h4",
-            "image": "shopify://shop_images/royfort_standorte_muenchen_01.webp",
-            "image_overlay_opacity": 26,
-            "image_ratio": "3/4",
-            "show_text_below": true,
-            "subheading": "",
-            "width": "33%"
-          },
-          "type": "image_card"
-        },
-        "image_card_aq8LeV": {
-          "settings": {
-            "alignment": "center",
-            "block_custom_class": "",
-            "button_label": "Mehr erfahren",
-            "button_style": "btn--underline",
-            "card_link": "shopify://pages/unsere-standorte",
-            "color_scheme": "scheme-3",
-            "color_scheme_mobile": "scheme-6",
-            "content_alignment": "left",
-            "content_alignment_mobile": "left",
-            "content_position": "bottom-left",
-            "content_spacing": "small",
-            "description": "",
-            "heading": "Alsterhaus Hamburg",
-            "heading_highlight_style": "none",
-            "heading_size": "h4",
-            "image": "shopify://shop_images/royfort_standorte_hamburg_01.webp",
-            "image_overlay_opacity": 26,
-            "image_ratio": "3/4",
-            "show_text_below": true,
-            "subheading": "",
-            "width": "33%"
-          },
-          "type": "image_card"
-        },
-        "image_card_ywBncE": {
-          "settings": {
-            "alignment": "center",
-            "block_custom_class": "",
-            "button_label": "Mehr erfahren",
-            "button_style": "btn--underline",
-            "card_link": "shopify://pages/unsere-standorte",
-            "color_scheme": "scheme-3",
-            "color_scheme_mobile": "scheme-6",
-            "content_alignment": "left",
-            "content_alignment_mobile": "left",
-            "content_position": "bottom-left",
-            "content_spacing": "small",
-            "description": "",
-            "heading": "KaDeWe Berlin",
-            "heading_highlight_style": "none",
-            "heading_size": "h4",
-            "image": "shopify://shop_images/royfort-kadewe-10_11b15f9c-04b9-4e25-8d5a-d687e8709f3a.jpg",
-            "image_overlay_opacity": 26,
-            "image_ratio": "3/4",
-            "show_text_below": true,
-            "subheading": "",
-            "width": "33%"
-          },
-          "type": "image_card"
-        }
-      },
-      "custom_css": [
-        ".f-grid--row-gap-extra-small {--row-gap: 1rem; --row-gap-mobile: 0rem;}",
-        "@media (max-width: 767px) {.card-media--small .content-overlay {--padding-y: 1.5rem; --padding-x: 1.5rem; } .h5 {font-size: 1.5rem; text-transform: uppercase; } .section--padding {padding-block-end: 0rem; }}"
-      ],
-      "disabled": true,
-      "name": "t:sections.custom-content.name",
-      "settings": {
-        "color_scheme": "",
-        "column_gap": "extra-small",
-        "columns_mobile": "1",
-        "container": "full",
-        "custom_class": "",
-        "description": "",
-        "divider_width": "fixed",
-        "enable_sticky_column": false,
-        "heading": "",
-        "heading_highlight_style": "none",
-        "heading_size": "h1",
-        "padding_bottom": 0,
-        "padding_top": 0,
-        "row_gap": "extra-small",
-        "show_section_divider": false,
-        "subheading": "",
-        "swipe_on_mobile": true
-      },
-      "type": "custom-content"
-    },
-    "custom_content_eLwKYA": {
-      "block_order": [
-        "promotion_card_3iq7fa",
-        "promotion_card_rFYfHK"
-      ],
-      "blocks": {
-        "promotion_card_3iq7fa": {
-          "settings": {
-            "alignment": "center",
-            "block_custom_class": "",
-            "button_label": "seide entdecken",
-            "button_style": "btn--underline",
-            "card_layout": "space-between",
-            "card_link": "shopify://collections/seiden-kollektion",
-            "color_scheme": "scheme-1",
-            "content_alignment": "center",
-            "description": "",
-            "heading": "Seidenkissenbezug",
-            "heading_highlight_style": "none",
-            "heading_size": "h1",
-            "image": "shopify://shop_images/Rectangle_211.jpg",
-            "image_overlay_opacity": 0,
-            "image_ratio": "1/1",
-            "subheading": "Schönheit im Schlaf",
-            "width": "50%"
-          },
-          "type": "promotion_card"
-        },
-        "promotion_card_rFYfHK": {
-          "settings": {
-            "alignment": "center",
-            "block_custom_class": "",
-            "button_label": "Trends entdecken",
-            "button_style": "btn--underline",
-            "card_layout": "space-between",
-            "card_link": "shopify://collections/trends",
-            "color_scheme": "scheme-1",
-            "content_alignment": "center",
-            "description": "",
-            "heading": "Trendfarben",
-            "heading_highlight_style": "none",
-            "heading_size": "h1",
-            "image": "shopify://shop_images/Rectangle_87.jpg",
-            "image_overlay_opacity": 0,
-            "image_ratio": "1/1",
-            "subheading": "Sommer im Schlafzimmer",
-            "width": "50%"
-          },
-          "type": "promotion_card"
-        }
-      },
-      "name": "t:sections.custom-content.name",
-      "settings": {
-        "color_scheme": "",
-        "column_gap": "medium",
-        "columns_mobile": "1",
-        "container": "fixed",
-        "custom_class": "",
-        "description": "",
-        "divider_width": "fixed",
-        "enable_sticky_column": false,
-        "heading": "",
-        "heading_highlight_style": "none",
-        "heading_size": "h1",
-        "padding_bottom": 50,
-        "padding_top": 50,
-        "row_gap": "large",
-        "show_section_divider": false,
-        "subheading": "",
-        "swipe_on_mobile": false
-      },
-      "type": "custom-content"
-    },
-    "custom_content_kJfyKb": {
-      "block_order": [
-        "image_card_mQPzQP",
-        "image_card_CkWQ4E"
-      ],
-      "blocks": {
-        "image_card_CkWQ4E": {
-          "settings": {
-            "alignment": "center",
-            "block_custom_class": "",
-            "button_label": "Jetzt entdecken",
-            "button_style": "btn--underline",
-            "card_link": "",
-            "color_scheme": "scheme-3",
-            "color_scheme_mobile": "scheme-6",
-            "content_alignment": "left",
-            "content_alignment_mobile": "left",
-            "content_position": "bottom-left",
-            "content_spacing": "small",
-            "description": "<p>Betten & Matratzen gefertigt aus feinsten Materialien und geprägt von klarem Design – für ein Schlafgefühl, das man nicht nur spürt, sondern erlebt.</p>",
-            "heading": "Die Atelier Kollektion",
-            "heading_highlight_style": "none",
-            "heading_size": "h3",
-            "image": "shopify://shop_images/blog_image3.jpg",
-            "image_overlay_opacity": 10,
-            "image_ratio": "4/3",
-            "show_text_below": true,
-            "subheading": "",
-            "width": "50%"
-          },
-          "type": "image_card"
-        },
-        "image_card_mQPzQP": {
-          "settings": {
-            "alignment": "center",
-            "block_custom_class": "",
-            "button_label": "Jetzt Entdecken",
-            "button_style": "btn--underline",
-            "card_link": "",
-            "color_scheme": "scheme-3",
-            "color_scheme_mobile": "scheme-6",
-            "content_alignment": "left",
-            "content_alignment_mobile": "left",
-            "content_position": "bottom-left",
-            "content_spacing": "small",
-            "description": "<p>Traumhafte Bettwäsche für den Sommer – Leinen, Musselin und Baumwolle. Höchste Qualität und beste Verarbeitung Made in Portugal.</p>",
-            "heading": "Bettwäsche für besten Schlaf",
-            "heading_highlight_style": "none",
-            "heading_size": "h3",
-            "image": "shopify://shop_images/Website_Images_Template_5.png",
-            "image_overlay_opacity": 10,
-            "image_ratio": "4/3",
-            "show_text_below": true,
-            "subheading": "",
-            "width": "50%"
-          },
-          "type": "image_card"
-        }
-      },
-      "custom_css": [
-        ".f-grid--row-gap-extra-small {--row-gap: 1rem; --row-gap-mobile: 0rem;}",
-        "@media (max-width: 767px) {.card-media--small .content-overlay {--padding-y: 1.5rem; --padding-x: 1.5rem; } .section--padding {padding-block-end: 0rem; }}"
-      ],
-      "disabled": true,
-      "name": "t:sections.custom-content.name",
-      "settings": {
-        "color_scheme": "",
-        "column_gap": "none",
-        "columns_mobile": "1",
-        "container": "full",
-        "custom_class": "",
-        "description": "",
-        "divider_width": "fixed",
-        "enable_sticky_column": false,
-        "heading": "",
-        "heading_highlight_style": "none",
-        "heading_size": "h1",
-        "padding_bottom": 16,
-        "padding_top": 0,
-        "row_gap": "extra-small",
-        "show_section_divider": false,
-        "subheading": "",
-        "swipe_on_mobile": false
-      },
-      "type": "custom-content"
-    },
-    "image_with_text_GMFb4h": {
-      "block_order": [
-        "subheading_PhNeGN",
-        "heading_qXTYeM",
-        "text_pCVkBM",
-        "button_mhNxMY"
-      ],
-      "blocks": {
-        "button_mhNxMY": {
-          "settings": {
-            "button_label": "Alle Standorte entdecken",
-            "button_link": "shopify://pages/unsere-standorte",
-            "button_style": "btn--underline"
-          },
-          "type": "button"
-        },
-        "heading_qXTYeM": {
-          "settings": {
-            "heading": "Standorte",
-            "heading_highlight_style": "none",
-            "heading_size": "hd1"
-          },
-          "type": "heading"
-        },
-        "subheading_PhNeGN": {
-          "settings": {
-            "subheading": "KaDeWe | Alsterhaus | Breuninger"
-          },
-          "type": "subheading"
-        },
-        "text_pCVkBM": {
-          "settings": {
-            "text": "<p>Erleben Sie Royfort persönlich an unseren Standorten in Berlin, Hamburg, München, Stuttgart, Frankfurt und Düsseldorf – entdecken Sie ausgewählte Bettwäsche, Matratzen und Betten und lassen Sie sich individuell zu Ihrem perfekten Schlafkomfort beraten.</p>",
-            "text_size": "text-base",
-            "truncate_collapse_text": "Weniger",
-            "truncate_on_mobile": false,
-            "truncate_on_mobile_lines": 3,
-            "truncate_trigger_text": "Mehr lesen"
-          },
-          "type": "text"
-        }
-      },
-      "name": "t:sections.image-with-text.presets.name",
-      "settings": {
-        "color_scheme": "",
-        "custom_class": "",
-        "desktop_content_alignment": "left",
-        "desktop_content_position": "center",
-        "different_mobile_padding": false,
-        "divider_width": "fixed",
-        "enable_parallax": false,
-        "image": "shopify://shop_images/royfort-kadewe-12.jpg",
-        "image_height": "adapt",
-        "is_full_width": false,
-        "layout": "image_first",
-        "mobile_content_alignment": "left",
-        "padding_bottom": 50,
-        "padding_bottom_mobile": 30,
-        "padding_top": 50,
-        "padding_top_mobile": 30,
-        "parallax_direction": "vertical",
-        "section_color_scheme": "",
-        "show_section_divider": false
-      },
-      "type": "image-with-text"
-    },
-    "image_with_text_overlay_HEUATk": {
-      "block_order": [
-        "heading_bWYBiw",
-        "text_xEdiD6",
-        "button_GigK6L"
-      ],
-      "blocks": {
-        "button_GigK6L": {
-          "settings": {
-            "button_label": "BESTSELLER ENTDECKEN",
-            "button_link": "",
-            "button_style": "btn--underline"
-          },
-          "type": "button"
-        },
-        "heading_bWYBiw": {
-          "settings": {
-            "heading": "Besser schlafen. Besser leben.",
-            "heading_highlight_style": "none",
-            "heading_size": "h1"
-          },
-          "type": "heading"
-        },
-        "text_xEdiD6": {
-          "settings": {
-            "text": "<p>Entdecken Sie unsere beliebtesten Produkte und genießen Sie den besten Schlaf Ihres Lebens.</p>",
-            "text_size": "text-base"
-          },
-          "type": "text"
-        }
-      },
-      "name": "t:sections.image-with-text-overlay.name",
-      "settings": {
-        "color_scheme": "",
-        "container": "full",
-        "content_alignment": "left",
-        "content_position": "bottom-left",
-        "custom_class": "",
-        "custom_overlay": "linear-gradient(201deg, rgba(23, 23, 23, 0.00) 0.08%, rgba(23, 23, 23, 0.75) 100.09%)",
-        "desktop_height": "extra-large",
-        "enable_parallax": false,
-        "image": "shopify://shop_images/shipping-email-image.jpg",
-        "mobile_height": "extra-large",
-        "overlay_opacity": 10,
-        "padding_bottom": 16,
-        "padding_top": 0,
-        "parallax_direction": "vertical",
-        "use_custom_overlay": false
-      },
-      "type": "image-with-text-overlay"
-    },
-    "image_with_text_overlay_nrqpPE": {
-      "block_order": [
-        "heading_dYJPBr",
-        "text_DGYfwe",
-        "button_HHyGXk"
-      ],
-      "blocks": {
-        "button_HHyGXk": {
-          "settings": {
-            "button_label": "Jetzt entdecken",
-            "button_link": "shopify://collections/royfort-all-products-collection",
-            "button_style": "btn--underline"
-          },
-          "type": "button"
-        },
-        "heading_dYJPBr": {
-          "settings": {
-            "heading": "The Luxury of Sleep.",
-            "heading_highlight_style": "none",
-            "heading_size": "h1"
-          },
-          "type": "heading"
-        },
-        "text_DGYfwe": {
-          "settings": {
-            "text": "<p>Entdecken Sie zeitloses Design, handverlesene Materialien und erstklassige Verarbeitung. <br/>Durch nachhaltige Herstellung und Liebe zum Detail schaffen wir Produkte, die Ihren Schlaf neu definieren.</p>",
-            "text_size": "text-base"
-          },
-          "type": "text"
-        }
-      },
-      "name": "t:sections.image-with-text-overlay.name",
-      "settings": {
-        "color_scheme": "",
-        "container": "full",
-        "content_alignment": "left",
-        "content_position": "bottom-left",
-        "custom_class": "",
-        "custom_overlay": "linear-gradient(201deg, rgba(23, 23, 23, 0.00) 0.08%, rgba(23, 23, 23, 0.75) 100.09%)",
-        "desktop_height": "extra-large",
-        "enable_parallax": false,
-        "image": "shopify://shop_images/Homepage_Hero_2c98def4-5e8f-4b0b-a542-2aceead73ce1.jpg",
-        "mobile_height": "extra-large",
-        "overlay_opacity": 10,
-        "padding_bottom": 16,
-        "padding_top": 0,
-        "parallax_direction": "vertical",
-        "use_custom_overlay": false
-      },
-      "type": "image-with-text-overlay"
-    },
-    "multicolumn_dGdzNX": {
-      "block_order": [
-        "column_433Ff7",
-        "column_xexFQc",
-        "column_mTiiwn"
-      ],
-      "blocks": {
-        "column_433Ff7": {
-          "settings": {
-            "button_label": "",
-            "button_link": "",
-            "button_style": "btn--underline",
-            "heading_size": "h4",
-            "image": "shopify://shop_images/falstaff_logo.jpg",
-            "image_width": "full",
-            "mobile_layout": "inherit",
-            "show_image": true,
-            "text": "",
-            "text_size": "text-base",
-            "title": "",
-            "video_autoplay": false,
-            "video_controls": true,
-            "video_loop": false,
-            "video_muted": true,
-            "video_url": ""
-          },
-          "type": "column"
-        },
-        "column_mTiiwn": {
-          "settings": {
-            "button_label": "",
-            "button_link": "",
-            "button_style": "btn--underline",
-            "heading_size": "h4",
-            "image": "shopify://shop_images/suddeutschzeitung_logo.jpg",
-            "image_width": "full",
-            "mobile_layout": "inherit",
-            "show_image": true,
-            "text": "",
-            "text_size": "text-base",
-            "title": "",
-            "video_autoplay": false,
-            "video_controls": true,
-            "video_loop": false,
-            "video_muted": true,
-            "video_url": ""
-          },
-          "type": "column"
-        },
-        "column_xexFQc": {
-          "settings": {
-            "button_label": "",
-            "button_link": "",
-            "button_style": "btn--underline",
-            "heading_size": "h4",
-            "image": "shopify://shop_images/zeit_logo.jpg",
-            "image_width": "full",
-            "mobile_layout": "inherit",
-            "show_image": true,
-            "text": "",
-            "text_size": "text-base",
-            "title": "",
-            "video_autoplay": false,
-            "video_controls": true,
-            "video_loop": false,
-            "video_muted": true,
-            "video_url": ""
-          },
-          "type": "column"
-        }
-      },
-      "name": "t:sections.multicolumn.presets.name",
-      "settings": {
-        "color_scheme": "",
-        "column_alignment": "left",
-        "column_gap": "none",
-        "columns_desktop": 3,
-        "columns_mobile": "1",
-        "custom_class": "",
-        "description": "",
-        "divider_width": "fixed",
-        "heading": "",
-        "heading_highlight_style": "none",
-        "heading_size": "h1",
-        "padding_bottom": 0,
-        "padding_top": 0,
-        "show_section_divider": false,
-        "subheading": "",
-        "swipe_on_mobile": true,
-        "text_size": "text-base"
-      },
-      "type": "multicolumn"
-    },
-    "video_hero_np4cbQ": {
-      "block_order": [
-        "heading_J8LeX3",
-        "text_n7jNze",
-        "button_GeAQbk"
-      ],
-      "blocks": {
-        "button_GeAQbk": {
-          "disabled": true,
-          "settings": {
-            "button_label": "Button label",
-            "button_link": "",
-            "button_style": "btn--underline"
-          },
-          "type": "button"
-        },
-        "heading_J8LeX3": {
-          "settings": {
-            "heading": "Der beste Schlaf Ihres Lebens.",
-            "heading_highlight_style": "none",
-            "heading_size": "h1"
-          },
-          "type": "heading"
-        },
-        "text_n7jNze": {
-          "settings": {
-            "text": "<h4>In einer Welt, die sich immer schneller dreht und voller Lärm ist, wird Schlaf zum wahren Luxus. Royfort hilft Menschen, diesen Luxus zu erleben. <br/>Mit hochwertigen Produkten, die dafür geschaffen sind, den besten Schlaf Ihres Lebens zu ermöglichen.<br/></h4>",
-            "text_size": "text-base"
-          },
-          "type": "text"
-        }
-      },
-      "name": "t:sections.video-hero.name",
-      "settings": {
-        "color_scheme": "scheme-inverse",
-        "container": "full",
-        "content_alignment": "left",
-        "content_position": "bottom-left",
-        "custom_class": "",
-        "description": "",
-        "divider_width": "fixed",
-        "enable_parallax": false,
-        "overlay_opacity": 0,
-        "padding_bottom": 16,
-        "padding_top": 0,
-        "parallax_direction": "vertical",
-        "show_section_divider": false,
-        "video": "shopify://files/videos/NewHomepageVideo3_a1b10b31-7110-4239-a9e8-e6a038ed73da.mp4",
-        "video_height": "adapt",
-        "video_mobile_height": "large",
-        "video_url": ""
-      },
-      "type": "video-hero"
-    },
-    "video_hero_qjxhUU": {
-      "block_order": [
-        "heading_wPJq4T",
-        "text_dKXQer",
-        "button_6hDMWg"
-      ],
-      "blocks": {
-        "button_6hDMWg": {
-          "settings": {
-            "button_label": "Jetzt entdecken",
-            "button_link": "",
-            "button_style": "btn--underline"
-          },
-          "type": "button"
-        },
-        "heading_wPJq4T": {
-          "settings": {
-            "heading": "Video hero",
-            "heading_highlight_style": "none",
-            "heading_size": "h1"
-          },
-          "type": "heading"
-        },
-        "text_dKXQer": {
-          "settings": {
-            "text": "<p>Use this text to share information about your brand with your customers. <br/>Describe a product, share announcements, or welcome customers to your store.</p>",
-            "text_size": "text-base"
-          },
-          "type": "text"
-        }
-      },
-      "disabled": true,
-      "name": "t:sections.video-hero.name",
-      "settings": {
-        "color_scheme": "scheme-inverse",
-        "container": "full",
-        "content_alignment": "left",
-        "content_position": "bottom-left",
-        "custom_class": "",
-        "description": "",
-        "divider_width": "fixed",
-        "enable_parallax": false,
-        "overlay_opacity": 0,
-        "padding_bottom": 0,
-        "padding_top": 0,
-        "parallax_direction": "vertical",
-        "show_section_divider": false,
-        "video": "shopify://files/videos/NewHomepageVideo2 (1).mp4",
-        "video_height": "adapt",
-        "video_mobile_height": "extra-large",
-        "video_url": ""
-      },
-      "type": "video-hero"
-    },
-    "we_stamped_carousel_JX6Df9": {
-      "name": "[we] Stamped Carousel",
-      "settings": {
-        "background": "#ffffff",
-        "opacity": 1,
-        "padding_bottom": 40,
-        "padding_top": 40,
-        "take": 30,
-        "title": "Das sagen unsere Kund:innen"
-      },
-      "type": "we-stamped-carousel"
-    }
-  }
+  ]
 }
