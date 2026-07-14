@@ -658,7 +658,7 @@
           "type": "button",
           "settings": {
             "button_label": "Alle Standorte entdecken",
-            "button_link": "shopify://pages/unsere-standorte",
+            "button_link": "shopify://pages/standorte",
             "button_style": "btn--underline"
           }
         }

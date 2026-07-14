@@ -23,7 +23,7 @@
         "text_DGYfwe": {
           "type": "text",
           "settings": {
-            "text": "<p>Entdecken Sie zeitloses Design, handverlesene Materialien und erstklassige Verarbeitung. <br\/>Durch nachhaltige Herstellung und Liebe zum Detail schaffen wir Produkte, die Ihren Schlaf neu definieren.<\/p>",
+            "text": "<p>Entdecken Sie zeitloses Design, handverlesene Materialien und erstklassige Verarbeitung. <br/>Durch nachhaltige Herstellung und Liebe zum Detail schaffen wir Produkte, die Ihren Schlaf neu definieren.</p>",
             "text_size": "text-base"
           }
         },
@@ -31,7 +31,7 @@
           "type": "button",
           "settings": {
             "button_label": "Jetzt entdecken",
-            "button_link": "shopify:\/\/collections\/royfort-all-products-collection",
+            "button_link": "shopify://collections/royfort-all-products-collection",
             "button_style": "btn--underline"
           }
         }
@@ -44,7 +44,7 @@
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
-        "image": "shopify:\/\/shop_images\/Homepage_Hero_4.jpg",
+        "image": "shopify://shop_images/Homepage_Hero_4.jpg",
         "desktop_height": "extra-large",
         "overlay_opacity": 10,
         "use_custom_overlay": false,
@@ -67,14 +67,14 @@
           "type": "image_card",
           "settings": {
             "color_scheme": "scheme-3",
-            "image": "shopify:\/\/shop_images\/Website_Images_Template_5.png",
-            "image_ratio": "4\/3",
+            "image": "shopify://shop_images/Website_Images_Template_5.png",
+            "image_ratio": "4/3",
             "image_overlay_opacity": 10,
             "heading": "Bettwäsche für besten Schlaf",
             "heading_size": "h3",
             "heading_highlight_style": "none",
             "subheading": "",
-            "description": "<p>Traumhafte Bettwäsche für den Sommer – Leinen, Musselin und Baumwolle. Höchste Qualität und beste Verarbeitung Made in Portugal.<\/p>",
+            "description": "<p>Traumhafte Bettwäsche für den Sommer – Leinen, Musselin und Baumwolle. Höchste Qualität und beste Verarbeitung Made in Portugal.</p>",
             "button_label": "Jetzt Entdecken",
             "button_style": "btn--underline",
             "content_position": "bottom-left",
@@ -93,14 +93,14 @@
           "type": "image_card",
           "settings": {
             "color_scheme": "scheme-3",
-            "image": "shopify:\/\/shop_images\/blog_image3.jpg",
-            "image_ratio": "4\/3",
+            "image": "shopify://shop_images/blog_image3.jpg",
+            "image_ratio": "4/3",
             "image_overlay_opacity": 10,
             "heading": "Die Atelier Kollektion",
             "heading_size": "h3",
             "heading_highlight_style": "none",
             "subheading": "",
-            "description": "<p>Betten & Matratzen gefertigt aus feinsten Materialien und geprägt von klarem Design – für ein Schlafgefühl, das man nicht nur spürt, sondern erlebt.<\/p>",
+            "description": "<p>Betten & Matratzen gefertigt aus feinsten Materialien und geprägt von klarem Design – für ein Schlafgefühl, das man nicht nur spürt, sondern erlebt.</p>",
             "button_label": "Jetzt entdecken",
             "button_style": "btn--underline",
             "content_position": "bottom-left",
@@ -160,7 +160,7 @@
         "text_dKXQer": {
           "type": "text",
           "settings": {
-            "text": "<p>Use this text to share information about your brand with your customers. <br\/>Describe a product, share announcements, or welcome customers to your store.<\/p>",
+            "text": "<p>Use this text to share information about your brand with your customers. <br/>Describe a product, share announcements, or welcome customers to your store.</p>",
             "text_size": "text-base"
           }
         },
@@ -182,7 +182,7 @@
       "name": "t:sections.video-hero.name",
       "settings": {
         "container": "full",
-        "video": "shopify:\/\/files\/videos\/NewHomepageVideo2 (1).mp4",
+        "video": "shopify://files/videos/NewHomepageVideo2 (1).mp4",
         "video_url": "",
         "description": "",
         "video_height": "adapt",
@@ -262,8 +262,8 @@
           "type": "image_card",
           "settings": {
             "color_scheme": "scheme-3",
-            "image": "shopify:\/\/shop_images\/Featured_Category_Bettwasche_small_746baeff-f64d-4458-9038-cb914b6e5acf.jpg",
-            "image_ratio": "1\/1",
+            "image": "shopify://shop_images/Featured_Category_Bettwasche_small_746baeff-f64d-4458-9038-cb914b6e5acf.jpg",
+            "image_ratio": "1/1",
             "image_overlay_opacity": 10,
             "heading": "Bettwäsche",
             "heading_size": "h5",
@@ -275,7 +275,7 @@
             "content_position": "bottom-left",
             "content_alignment": "center",
             "content_spacing": "small",
-            "card_link": "shopify:\/\/collections\/hotelbettwaesche",
+            "card_link": "shopify://collections/hotelbettwaesche",
             "color_scheme_mobile": "scheme-6",
             "show_text_below": true,
             "content_alignment_mobile": "left",
@@ -288,8 +288,8 @@
           "type": "image_card",
           "settings": {
             "color_scheme": "scheme-3",
-            "image": "shopify:\/\/shop_images\/Featured_Category_Decken_Kissen_small_eac569dd-12a7-4007-a5f7-d06b6965800b.jpg",
-            "image_ratio": "1\/1",
+            "image": "shopify://shop_images/Featured_Category_Decken_Kissen_small_eac569dd-12a7-4007-a5f7-d06b6965800b.jpg",
+            "image_ratio": "1/1",
             "image_overlay_opacity": 10,
             "heading": "Decken & Kissen",
             "heading_size": "h5",
@@ -301,7 +301,7 @@
             "content_position": "bottom-left",
             "content_alignment": "center",
             "content_spacing": "small",
-            "card_link": "shopify:\/\/collections\/daunendecken-kissen",
+            "card_link": "shopify://collections/daunendecken-kissen",
             "color_scheme_mobile": "scheme-6",
             "show_text_below": true,
             "content_alignment_mobile": "left",
@@ -314,8 +314,8 @@
           "type": "image_card",
           "settings": {
             "color_scheme": "scheme-3",
-            "image": "shopify:\/\/shop_images\/Featured_Category_Betten_Matratzen_small_e453b342-76fb-4d8b-a375-a37b02a98c11.jpg",
-            "image_ratio": "1\/1",
+            "image": "shopify://shop_images/Featured_Category_Betten_Matratzen_small_e453b342-76fb-4d8b-a375-a37b02a98c11.jpg",
+            "image_ratio": "1/1",
             "image_overlay_opacity": 10,
             "heading": "Betten & Matratzen",
             "heading_size": "h5",
@@ -327,7 +327,7 @@
             "content_position": "bottom-left",
             "content_alignment": "center",
             "content_spacing": "small",
-            "card_link": "shopify:\/\/collections\/matratzen",
+            "card_link": "shopify://collections/matratzen",
             "color_scheme_mobile": "scheme-6",
             "show_text_below": true,
             "content_alignment_mobile": "left",
@@ -374,8 +374,8 @@
           "type": "image_card",
           "settings": {
             "color_scheme": "scheme-3",
-            "image": "shopify:\/\/shop_images\/Website_Images_Template_5.png",
-            "image_ratio": "1\/1",
+            "image": "shopify://shop_images/Website_Images_Template_5.png",
+            "image_ratio": "1/1",
             "image_overlay_opacity": 10,
             "heading": "Bettwäsche",
             "heading_size": "h5",
@@ -400,8 +400,8 @@
           "type": "image_card",
           "settings": {
             "color_scheme": "scheme-3",
-            "image": "shopify:\/\/shop_images\/blog_image3.jpg",
-            "image_ratio": "1\/1",
+            "image": "shopify://shop_images/blog_image3.jpg",
+            "image_ratio": "1/1",
             "image_overlay_opacity": 10,
             "heading": "Decken & Kissen",
             "heading_size": "h5",
@@ -467,7 +467,7 @@
         "text_n7jNze": {
           "type": "text",
           "settings": {
-            "text": "<h4>In einer Welt, die sich immer schneller dreht und voller Lärm ist, wird Schlaf zum wahren Luxus. Royfort hilft Menschen, diesen Luxus zu erleben. <br\/>Mit hochwertigen Produkten, die dafür geschaffen sind, den besten Schlaf Ihres Lebens zu ermöglichen.<br\/><\/h4>",
+            "text": "<h4>In einer Welt, die sich immer schneller dreht und voller Lärm ist, wird Schlaf zum wahren Luxus. Royfort hilft Menschen, diesen Luxus zu erleben. <br/>Mit hochwertigen Produkten, die dafür geschaffen sind, den besten Schlaf Ihres Lebens zu ermöglichen.<br/></h4>",
             "text_size": "text-base"
           }
         },
@@ -489,7 +489,7 @@
       "name": "t:sections.video-hero.name",
       "settings": {
         "container": "full",
-        "video": "shopify:\/\/files\/videos\/NewHomepageVideo3_a1b10b31-7110-4239-a9e8-e6a038ed73da.mp4",
+        "video": "shopify://files/videos/NewHomepageVideo3_a1b10b31-7110-4239-a9e8-e6a038ed73da.mp4",
         "video_url": "",
         "description": "",
         "video_height": "adapt",
@@ -581,8 +581,8 @@
           "type": "image_card",
           "settings": {
             "color_scheme": "scheme-3",
-            "image": "shopify:\/\/shop_images\/Featured_Category_Baumwolle.jpg",
-            "image_ratio": "1\/1",
+            "image": "shopify://shop_images/Featured_Category_Baumwolle.jpg",
+            "image_ratio": "1/1",
             "image_overlay_opacity": 10,
             "heading": "Baumwolle",
             "heading_size": "h5",
@@ -594,7 +594,7 @@
             "content_position": "bottom-left",
             "content_alignment": "center",
             "content_spacing": "small",
-            "card_link": "shopify:\/\/collections\/baumwolle-kollektion",
+            "card_link": "shopify://collections/baumwolle-kollektion",
             "color_scheme_mobile": "scheme-6",
             "show_text_below": true,
             "content_alignment_mobile": "left",
@@ -607,8 +607,8 @@
           "type": "image_card",
           "settings": {
             "color_scheme": "scheme-3",
-            "image": "shopify:\/\/shop_images\/Featured_Category_Musselin.jpg",
-            "image_ratio": "1\/1",
+            "image": "shopify://shop_images/Featured_Category_Musselin.jpg",
+            "image_ratio": "1/1",
             "image_overlay_opacity": 10,
             "heading": "Musselin",
             "heading_size": "h5",
@@ -620,7 +620,7 @@
             "content_position": "bottom-left",
             "content_alignment": "center",
             "content_spacing": "small",
-            "card_link": "shopify:\/\/collections\/musselin-kollektion",
+            "card_link": "shopify://collections/musselin-kollektion",
             "color_scheme_mobile": "scheme-6",
             "show_text_below": true,
             "content_alignment_mobile": "left",
@@ -633,8 +633,8 @@
           "type": "image_card",
           "settings": {
             "color_scheme": "scheme-3",
-            "image": "shopify:\/\/shop_images\/Featured_Category_Leinen.jpg",
-            "image_ratio": "1\/1",
+            "image": "shopify://shop_images/Featured_Category_Leinen.jpg",
+            "image_ratio": "1/1",
             "image_overlay_opacity": 10,
             "heading": "Leinen",
             "heading_size": "h5",
@@ -646,7 +646,7 @@
             "content_position": "bottom-left",
             "content_alignment": "center",
             "content_spacing": "small",
-            "card_link": "shopify:\/\/collections\/leinen-kollektion",
+            "card_link": "shopify://collections/leinen-kollektion",
             "color_scheme_mobile": "scheme-6",
             "show_text_below": true,
             "content_alignment_mobile": "left",
@@ -700,7 +700,7 @@
         "text_xEdiD6": {
           "type": "text",
           "settings": {
-            "text": "<p>Entdecken Sie unsere beliebtesten Produkte und genießen Sie den besten Schlaf Ihres Lebens.<\/p>",
+            "text": "<p>Entdecken Sie unsere beliebtesten Produkte und genießen Sie den besten Schlaf Ihres Lebens.</p>",
             "text_size": "text-base"
           }
         },
@@ -708,7 +708,7 @@
           "type": "button",
           "settings": {
             "button_label": "BESTSELLER ENTDECKEN",
-            "button_link": "shopify:\/\/collections\/bestseller",
+            "button_link": "shopify://collections/bestseller",
             "button_style": "btn--underline"
           }
         }
@@ -721,7 +721,7 @@
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
-        "image": "shopify:\/\/shop_images\/shipping-email-image.jpg",
+        "image": "shopify://shop_images/shipping-email-image.jpg",
         "desktop_height": "extra-large",
         "overlay_opacity": 10,
         "use_custom_overlay": false,
@@ -744,8 +744,8 @@
           "type": "promotion_card",
           "settings": {
             "color_scheme": "scheme-1",
-            "image": "shopify:\/\/shop_images\/Rectangle_211.jpg",
-            "image_ratio": "1\/1",
+            "image": "shopify://shop_images/Rectangle_211.jpg",
+            "image_ratio": "1/1",
             "image_overlay_opacity": 0,
             "card_layout": "space-between",
             "heading": "Seidenkissenbezug",
@@ -755,7 +755,7 @@
             "description": "",
             "button_label": "seide entdecken",
             "button_style": "btn--underline",
-            "card_link": "shopify:\/\/collections\/seiden-kollektion",
+            "card_link": "shopify://collections/seiden-kollektion",
             "content_alignment": "center",
             "width": "50%",
             "alignment": "center",
@@ -766,8 +766,8 @@
           "type": "promotion_card",
           "settings": {
             "color_scheme": "scheme-1",
-            "image": "shopify:\/\/shop_images\/Rectangle_87.jpg",
-            "image_ratio": "1\/1",
+            "image": "shopify://shop_images/Rectangle_87.jpg",
+            "image_ratio": "1/1",
             "image_overlay_opacity": 0,
             "card_layout": "space-between",
             "heading": "Trendfarben",
@@ -777,7 +777,7 @@
             "description": "",
             "button_label": "Trends entdecken",
             "button_style": "btn--underline",
-            "card_link": "shopify:\/\/collections\/trends",
+            "card_link": "shopify://collections/trends",
             "content_alignment": "center",
             "width": "50%",
             "alignment": "center",
@@ -817,8 +817,8 @@
           "type": "image_card",
           "settings": {
             "color_scheme": "scheme-3",
-            "image": "shopify:\/\/shop_images\/royfort-kadewe-10_11b15f9c-04b9-4e25-8d5a-d687e8709f3a.jpg",
-            "image_ratio": "3\/4",
+            "image": "shopify://shop_images/royfort-kadewe-10_11b15f9c-04b9-4e25-8d5a-d687e8709f3a.jpg",
+            "image_ratio": "3/4",
             "image_overlay_opacity": 26,
             "heading": "KaDeWe Berlin",
             "heading_size": "h4",
@@ -830,7 +830,7 @@
             "content_position": "bottom-left",
             "content_alignment": "left",
             "content_spacing": "small",
-            "card_link": "shopify:\/\/pages\/unsere-standorte",
+            "card_link": "shopify://pages/standorte",
             "color_scheme_mobile": "scheme-6",
             "show_text_below": true,
             "content_alignment_mobile": "left",
@@ -843,8 +843,8 @@
           "type": "image_card",
           "settings": {
             "color_scheme": "scheme-3",
-            "image": "shopify:\/\/shop_images\/royfort_standorte_hamburg_01.webp",
-            "image_ratio": "3\/4",
+            "image": "shopify://shop_images/royfort_standorte_hamburg_01.webp",
+            "image_ratio": "3/4",
             "image_overlay_opacity": 26,
             "heading": "Alsterhaus Hamburg",
             "heading_size": "h4",
@@ -856,7 +856,7 @@
             "content_position": "bottom-left",
             "content_alignment": "left",
             "content_spacing": "small",
-            "card_link": "shopify:\/\/pages\/unsere-standorte",
+            "card_link": "shopify://pages/standorte",
             "color_scheme_mobile": "scheme-6",
             "show_text_below": true,
             "content_alignment_mobile": "left",
@@ -869,8 +869,8 @@
           "type": "image_card",
           "settings": {
             "color_scheme": "scheme-3",
-            "image": "shopify:\/\/shop_images\/royfort_standorte_muenchen_01.webp",
-            "image_ratio": "3\/4",
+            "image": "shopify://shop_images/royfort_standorte_muenchen_01.webp",
+            "image_ratio": "3/4",
             "image_overlay_opacity": 26,
             "heading": "Michel Bäder München",
             "heading_size": "h4",
@@ -882,7 +882,7 @@
             "content_position": "bottom-left",
             "content_alignment": "left",
             "content_spacing": "small",
-            "card_link": "shopify:\/\/pages\/unsere-standorte",
+            "card_link": "shopify://pages/standorte",
             "color_scheme_mobile": "scheme-6",
             "show_text_below": true,
             "content_alignment_mobile": "left",
@@ -930,7 +930,7 @@
           "type": "column",
           "settings": {
             "show_image": true,
-            "image": "shopify:\/\/shop_images\/falstaff_logo.jpg",
+            "image": "shopify://shop_images/falstaff_logo.jpg",
             "video_url": "",
             "video_autoplay": false,
             "video_loop": false,
@@ -951,7 +951,7 @@
           "type": "column",
           "settings": {
             "show_image": true,
-            "image": "shopify:\/\/shop_images\/zeit_logo.jpg",
+            "image": "shopify://shop_images/zeit_logo.jpg",
             "video_url": "",
             "video_autoplay": false,
             "video_loop": false,
@@ -972,7 +972,7 @@
           "type": "column",
           "settings": {
             "show_image": true,
-            "image": "shopify:\/\/shop_images\/suddeutschzeitung_logo.jpg",
+            "image": "shopify://shop_images/suddeutschzeitung_logo.jpg",
             "video_url": "",
             "video_autoplay": false,
             "video_loop": false,
@@ -1036,7 +1036,7 @@
         "text_pCVkBM": {
           "type": "text",
           "settings": {
-            "text": "<p>Erleben Sie Royfort persönlich an unseren Standorten in Berlin, Hamburg, München, Stuttgart, Frankfurt und Düsseldorf – entdecken Sie ausgewählte Bettwäsche, Matratzen und Betten und lassen Sie sich individuell zu Ihrem perfekten Schlafkomfort beraten.<\/p>",
+            "text": "<p>Erleben Sie Royfort persönlich an unseren Standorten in Berlin, Hamburg, München, Stuttgart, Frankfurt und Düsseldorf – entdecken Sie ausgewählte Bettwäsche, Matratzen und Betten und lassen Sie sich individuell zu Ihrem perfekten Schlafkomfort beraten.</p>",
             "text_size": "text-base",
             "truncate_on_mobile": false,
             "truncate_on_mobile_lines": 3,
@@ -1048,7 +1048,7 @@
           "type": "button",
           "settings": {
             "button_label": "Alle Standorte entdecken",
-            "button_link": "shopify:\/\/pages\/unsere-standorte",
+            "button_link": "shopify://pages/standorte",
             "button_style": "btn--underline"
           }
         }
@@ -1064,7 +1064,7 @@
         "is_full_width": false,
         "section_color_scheme": "",
         "color_scheme": "",
-        "image": "shopify:\/\/shop_images\/royfort-kadewe-12.jpg",
+        "image": "shopify://shop_images/royfort-kadewe-12.jpg",
         "image_height": "adapt",
         "layout": "image_first",
         "desktop_content_position": "center",

@@ -883,7 +883,7 @@
             "content_position": "bottom-left",
             "content_alignment": "left",
             "content_spacing": "small",
-            "card_link": "shopify://pages/unsere-standorte",
+            "card_link": "shopify://pages/standorte",
             "color_scheme_mobile": "scheme-6",
             "show_text_below": true,
             "content_alignment_mobile": "left",
@@ -909,7 +909,7 @@
             "content_position": "bottom-left",
             "content_alignment": "left",
             "content_spacing": "small",
-            "card_link": "shopify://pages/unsere-standorte",
+            "card_link": "shopify://pages/standorte",
             "color_scheme_mobile": "scheme-6",
             "show_text_below": true,
             "content_alignment_mobile": "left",
@@ -935,7 +935,7 @@
             "content_position": "bottom-left",
             "content_alignment": "left",
             "content_spacing": "small",
-            "card_link": "shopify://pages/unsere-standorte",
+            "card_link": "shopify://pages/standorte",
             "color_scheme_mobile": "scheme-6",
             "show_text_below": true,
             "content_alignment_mobile": "left",
@@ -1101,7 +1101,7 @@
           "type": "button",
           "settings": {
             "button_label": "Alle Standorte entdecken",
-            "button_link": "shopify://pages/unsere-standorte",
+            "button_link": "shopify://pages/standorte",
             "button_style": "btn--underline"
           }
         }
