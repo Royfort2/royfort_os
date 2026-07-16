@@ -1,0 +1,31 @@
+<div class="collection-load-more text-center mt-5" data-collection-load-more>
+  {%- if paginate.next.is_link -%}
+    <button
+      type="button"
+      class="btn btn-primary collection-load-more__button"
+      data-next-url="{{ paginate.next.url }}"
+      aria-live="polite"
+    >
+      {{ 'collections.general.load_more' | t }}
+    </button>
+  {%- endif -%}
+</div>
+
+<style>
+  .collection-load-more-container .container-fluid {
+    display: flex;
+    justify-content: center;
+  }
+
+  .collection-load-more-container .collection-load-more {
+    width: 100%;
+    padding: 1rem 0 3rem;
+  }
+
+  .collection-load-more__button[disabled] {
+    opacity: 0.6;
+    cursor: wait;
+  }
+</style>
+
+<script src="{{ 'we-collection-load-more.js' | asset_url }}" defer="defer"></script>

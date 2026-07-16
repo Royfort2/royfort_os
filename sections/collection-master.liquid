@@ -70,7 +70,7 @@
         <!-- Other Collection --> 
         {% for found_collection in collections_found %}
             {% assign other_collection = collections[found_collection] %}
-            <div class="collection-listing-container mb-lg-5 mb-md-10 ddd">
+            <div class="collection-listing-container mb-lg-5 mb-md-10 ddd" data-collection-section="{{ found_collection }}">
 
                 <div class="container-fluid px-3">
                     
@@ -479,7 +479,7 @@ function handleWindowLoad ()
 
     {%- capture top_cat %}
         <!-- TOP Collection -->
-        <div class="collection-listing-container mb-lg-5 mb-md-10 ccc">
+        <div class="collection-listing-container mb-lg-5 mb-md-10 ccc" data-collection-section="__top__">
             <div class="container-fluid px-3{% if collections_count < 2 %} contains-1-collection{% endif %}">
 
 
@@ -810,9 +810,13 @@ function handleWindowLoad ()
     {{ other_cats }}
 
     {% if paginate.pages > 1 %}
-    <div class="collection-listing-container mb-lg-5">
+    <div class="collection-listing-container mb-lg-5 collection-load-more-container">
         <div class="container-fluid px-3">
-            {% render 'pagination' with paginate as paginate, class: 'pagination-bottom collection-pagination' %}
+            {% if collection.handle == 'royfort-all-products-collection' %}
+                {% render 'collection-load-more', paginate: paginate %}
+            {% else %}
+                {% render 'pagination' with paginate as paginate, class: 'pagination-bottom collection-pagination' %}
+            {% endif %}
         </div>
     </div>
     {% endif %}
@@ -875,10 +879,11 @@ function handleWindowLoad ()
         "type":      "range",
         "id":        "products_per_page",
         "min":       6,
-        "max":       100,
+        "max":       50,
         "step":      1,
         "label":     "Products Per Page",
-        "default":   100
+        "info":      "Shopify allows a maximum of 50 products per page.",
+        "default":   50
     },
     {
         "type": 		"header",
