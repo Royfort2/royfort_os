@@ -167,7 +167,7 @@
         position: absolute;
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: flex-end;
         z-index: 9;
         left: 145px;
         top: 223px;
@@ -180,9 +180,6 @@
         align-self: center;
         border: 1px solid #2E3192;
         color: #2E3192;
-        line-height: 1;
-        font-size: 0.85rem;
-        text-transform: none;
         transition: opacity 0.15s ease-out 1s, transform 0.3s ease-out 0s, color 0.15s ease-out 0s, background-color 0.15s ease-out 0s;
         box-shadow: rgb(30 48 110 / 40%) 0px 0px 0px 0px;
     }
@@ -512,59 +509,59 @@
     let toggledIndex;
 
     function toggleElement(element) {
-      if (element.classList.contains('active')) {
-        element.classList.remove('active');
-        toggledElement = null;
-      } else {
-        if (toggledElement) {
-          toggledElement.classList.remove('active');
+        if (element.classList.contains("active")) {
+            element.classList.remove("active")
+            toggledElement = null;
+        } else {
+            if (toggledElement) {
+                toggledElement.classList.remove("active")
+            }
+            element.classList.add("active");
+            toggledElement = element;
         }
-        element.classList.add('active');
-        toggledElement = element;
-      }
     }
 
     function toggleImage(element) {
-      if (element.classList.contains('active')) {
-        element.classList.remove('active');
-        toggledImage = null;
-      } else {
-        if (toggledImage) {
-          toggledImage.classList.remove('active');
+        if (element.classList.contains("active")) {
+            element.classList.remove("active")
+            toggledImage = null;
+        } else {
+            if (toggledImage) {
+                toggledImage.classList.remove("active")
+            }
+            element.classList.add("active");
+            toggledImage = element;
         }
-        element.classList.add('active');
-        toggledImage = element;
-      }
     }
 
-    const layerBox = document.querySelectorAll('.mattressShared__layer');
-    const imageBox = document.querySelectorAll('.mattressShared__layerMobile .mattressShared__imageBox');
+    const layerBox = document.querySelectorAll(".mattressShared__layer");
+    const imageBox = document.querySelectorAll(".mattressShared__layerMobile .mattressShared__imageBox");
 
     layerBox.forEach((element, index) => {
-      element.addEventListener('click', () => {
-        toggleElement(element);
-        toggleImage(imageBox[index]);
-      });
-    });
+        element.addEventListener("click", () => {
+            toggleElement(element);
+            toggleImage(imageBox[index]);
+        })
+    })
 
     let toggledElementSize = 82;
     imageBox.forEach((element, index) => {
-      element.addEventListener('click', () => {
-        toggleImage(element);
-        if (toggledElement && toggledIndex < index) {
-          toggledElementSize = toggledElement.offsetHeight;
-        } else if (toggledIndex > index) {
-          toggledElementSize = 82;
-        }
-        let topCoordinates = layerBox[index].getBoundingClientRect().top + window.scrollY - toggledElementSize;
-        toggleElement(layerBox[index]);
-        toggledIndex = index;
-        window.scroll({
-          top: topCoordinates,
-          behavior: 'smooth',
-        });
-      });
-    });
+        element.addEventListener("click", () => {
+            toggleImage(element);
+            if (toggledElement && toggledIndex < index) {
+                toggledElementSize = toggledElement.offsetHeight
+            } else if (toggledIndex > index) {
+                toggledElementSize = 82
+            }
+            let topCoordinates = layerBox[index].getBoundingClientRect().top + window.scrollY - toggledElementSize;
+            toggleElement(layerBox[index]);
+            toggledIndex = index;
+            window.scroll({
+                top: topCoordinates,
+                behavior: "smooth"
+            })
+        })
+    })
   </script>
 {% endif %}
 {% schema %}
@@ -586,11 +583,6 @@
       "id": "text_color",
       "label": "Text Color",
       "default": "#888"
-    }
-  ],
-  "presets": [
-    {
-      "name": "Mattress Shared"
     }
   ]
 }

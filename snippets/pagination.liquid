@@ -1,156 +1,18 @@
-{% comment %}
-  Renders a set of links for paginated results. Must be used within paginate tags.
+<nav class="pagination {{class}}">
+    <ul class="pagination-items">
+    {% if paginate.previous.is_link %}
+        {%- capture prev_text %} {{ 'collections.pagination.previous' | t }} {% endcapture -%}
+        <li class="pagination-btn prev"><a href="{{ paginate.previous.url }}">{% render 'icon-chevron-left' %}{% unless prev_text contains 'translation missing' %}{{ prev_text }}{% endunless %}</a></li>
+    {% endif %}
+    {% for part in paginate.parts %}
+        <li class="pagination-link{% if paginate.current_page == part.title %} current{% endif %}">{% if part.url != blank %}<a href="{{part.url}}">{{part.title}}</a>{% else %}<span class="pagination-item">{{part.title}}</span>{% endif %}</li>
+    {% endfor %}
 
-  Usage:
-  {% paginate results by 2 %}
-    {% render 'pagination', paginate: paginate, anchor: '#yourID' %}
-  {% endpaginate %}
-
-  Accepts:
-  - paginate: {Object}
-  - anchor: {String} (optional) This can be added so that on page reload it takes you to wherever you've placed your anchor tag.
-  - page_result_count: {Number} (optional) Items on the current page — used with infinite / load more to show “X of Y” and a progress bar.
-  - variant_cards_shown: {Number} (optional) Running count of variant grid cards on the collection page (with “render variants”).
-  - variant_card_progress: {Boolean} (optional) Use variant-card totals from JS for the load-more denominator.
-  - color_trigger: {String} (optional) Theme color option trigger — passed with variant_card_progress for JS fetch.
-  - products_json_href: {String} (optional) Collection products.json URL for total variant count.
-{% endcomment %}
-
-{%- if paginate.parts.size > 0 -%}
-  <div class="pagination-wrapper">
-    <nav
-      class="pagination{% unless type == 'number' %} text-center{% endunless %}"
-      role="navigation"
-      aria-label="{{ 'general.pagination.label' | t }}"
-    >
-      {%- if type == 'infinite' or type == 'load_more' -%}
-        {%- liquid
-          assign shown_total = nil
-          if variant_card_progress and variant_cards_shown != blank
-            assign shown_total = variant_cards_shown
-          elsif page_result_count != blank
-            assign shown_total = paginate.current_offset | plus: page_result_count
-          endif
-          assign total_items = paginate.items
-          assign progress_percent = 100
-          if variant_card_progress
-            assign progress_percent = 0
-          elsif total_items > 0 and shown_total != nil
-            assign progress_percent = shown_total | times: 100 | divided_by: total_items
-            if progress_percent > 100
-              assign progress_percent = 100
-            endif
-          endif
-        -%}
-        <div class="pagination-load-more">
-          {%- if request.page_type == 'collection' and shown_total != nil and total_items > 0 -%}
-            <div
-              class="pagination-load-more__progress"
-              {% if variant_card_progress %}
-                data-variant-pagination
-                data-color-trigger="{{ color_trigger | escape }}"
-                data-products-json-href="{{ products_json_href }}"
-              {% endif %}
-            >
-              <p
-                {% if variant_card_progress %}
-                  id="LoadMoreProgressLabel"
-                {% endif %}
-                class="pagination-load-more__label m-0"
-                role="status"
-              >
-                {%- if variant_card_progress -%}
-                  {{ 'general.pagination.load_more_progress_variant_html' | t: shown: shown_total, total: '…' }}
-                {%- else -%}
-                  {{ 'general.pagination.load_more_progress_html' | t: shown: shown_total, total: total_items }}
-                {%- endif -%}
-              </p>
-              <div
-                class="pagination-load-more__track"
-                role="progressbar"
-                {% if variant_card_progress %}
-                  aria-labelledby="LoadMoreProgressLabel"
-                  aria-valuenow="{{ shown_total }}"
-                  aria-valuemin="0"
-                  aria-valuemax="0"
-                {% else %}
-                  aria-valuenow="{{ shown_total }}"
-                  aria-valuemin="0"
-                  aria-valuemax="{{ total_items }}"
-                  aria-label="{{ 'general.pagination.load_more_progress_aria' | t: shown: shown_total, total: total_items }}"
-                {% endif %}
-              >
-                <span class="pagination-load-more__fill" style="--pagination-progress: {{ progress_percent }}%;"></span>
-              </div>
-            </div>
-          {%- endif -%}
-          {%- if paginate.next -%}
-            <button
-              class="btn btn--primary pagination-load-more__button"
-              action="{{ shop.url }}{{ paginate.next.url }}"
-              type="{{ type }}"
-              is="load-more-button"
-            >
-              <span>{{ 'general.pagination.show_more' | t }}</span>
-              {%- render 'loading-spinner' -%}
-            </button>
-          {%- endif -%}
-        </div>
-      {%- else -%}
-        <ul class="pagination__list list-unstyled flex items-center flex-wrap justify-center" role="list">
-          {%- if paginate.previous -%}
-            <li>
-              <a
-                href="{{ paginate.previous.url }}{{ anchor }}"
-                class="pagination__item pagination__item--previous pagination__item-arrow motion-reduce"
-              >
-                {% render 'icon-caret', size: 'extra-small' %}
-                <span>{{ 'general.pagination.previous' | t }}</span>
-              </a>
-            </li>
-          {%- endif -%}
-
-          {%- for part in paginate.parts -%}
-            <li>
-              {%- if part.is_link -%}
-                <a
-                  href="{{ part.url }}{{ anchor }}"
-                  class="pagination__item"
-                  aria-label="{{ 'general.pagination.page' | t: number: part.title }}"
-                >
-                  {{- part.title -}}
-                </a>
-              {%- else -%}
-                {%- if part.title == paginate.current_page -%}
-                  <a
-                    role="link"
-                    aria-disabled="true"
-                    class="pagination__item pagination__item--current background-2"
-                    aria-current="page"
-                    aria-label="{{ 'general.pagination.page' | t: number: part.title }}"
-                  >
-                    {{- part.title -}}
-                  </a>
-                {%- else -%}
-                  <span class="pagination__item">{{ part.title }}</span>
-                {%- endif -%}
-              {%- endif -%}
-            </li>
-          {%- endfor -%}
-
-          {%- if paginate.next -%}
-            <li>
-              <a
-                href="{{ paginate.next.url }}{{ anchor }}"
-                class="pagination__item pagination__item--next pagination__item-arrow motion-reduce"
-              >
-                <span>{{ 'general.pagination.next' | t }}</span>
-                {% render 'icon-caret', size: 'extra-small' %}
-              </a>
-            </li>
-          {%- endif -%}
-        </ul>
-      {%- endif -%}
-    </nav>
-  </div>
-{%- endif -%}
+    {%- capture pagination_info %} {{ 'shopify.pagination.pagination_info' | t }} {% endcapture -%}
+    <li class="small-pagination-info">{% unless pagination_info contains 'translation missing' %}{{ pagination_info | replace: "%current_page%", paginate.current_page | replace: "%pages%", paginate.pages }}{% endunless %}</li>
+    {% if paginate.next.is_link %}
+        {%- capture next_text %} {{ 'collections.pagination.next' | t }} {% endcapture -%}
+        <li class="pagination-btn next"><a href="{{ paginate.next.url }}">{% unless next_text contains 'translation missing' %}{{ next_text }}{% endunless %}{% render 'icon-chevron-right' %}</a></li>
+    {% endif %}
+    </ul>
+</nav>

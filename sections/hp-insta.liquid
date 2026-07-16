@@ -1,54 +1,43 @@
 {% if section.settings.gallery_id != blank %}
-  <div class="">
+<div class="">
     <div class="container text-center">
-      <h3 class="mb-4 text-secondary text-center">{{ section.settings.feed_title }}</h3>
-      <a
-        href="https://www.instagram.com/{{ section.settings.username }}"
-        class="d-inline-block mb-4 remove-decoration text-center text-secondary"
-      >
-        @{{ section.settings.username }}
-      </a>
-      <script
-        src="https://showcase.abovemarket.com/embed/gallery/{{ section.settings.gallery_id }}"
-        data-gallery-id="{{ section.settings.gallery_id }}"
-        {% if product.id %}
-          data-product-id="{{ shop.url }}"
-        {% endif %}
-        data-gallery-style="grid"
-        async
-      ></script>
+      	<h3 class="mb-4 text-secondary text-center">{{ section.settings.feed_title }}</h3>
+        <a href="https://www.instagram.com/{{ section.settings.username }}" class="d-inline-block mb-4 remove-decoration text-center text-secondary">
+            @{{ section.settings.username }}
+        </a>
+        <script src="https://showcase.abovemarket.com/embed/gallery/{{ section.settings.gallery_id }}" data-gallery-id="{{ section.settings.gallery_id }}" {% if product.id %}data-product-id="{{ shop.url }}"{% endif %} data-gallery-style="grid" async></script>
     </div>
-  </div>
+</div>
 {% endif %}
 
 {% schema %}
-{
-  "name": "Showcase Insta Gallery",
-  "settings": [
-    {
-      "type": "text",
-      "id": "feed_title",
-      "label": "Feed Title",
-      "default": "Shop Our Instagram"
-    },
-    {
-      "type": "text",
-      "id": "username",
-      "label": "Instagram username",
-      "default": "royfort_"
-    },
-    {
-      "type": "text",
-      "id": "gallery_id",
-      "label": "Showcase gallery ID",
-      "default": "20752"
-    }
-  ],
-  "presets": [
-    {
-      "name": "Insta Gallery Section",
-      "category": "Insta"
-    }
-  ]
-}
+  {
+    "name": "Showcase Insta Gallery",
+    "settings": [
+        {
+            "type": "text",
+            "id": "feed_title",
+            "label": "Feed Title",
+            "default": "Shop Our Instagram"
+        },
+        {
+            "type": "text",
+            "id": "username",
+            "label": "Instagram username",
+            "default": "royfort_"
+        },
+        {
+            "type": "text",
+            "id": "gallery_id",
+            "label": "Showcase gallery ID",
+            "default": "20752"
+        }
+    ],
+	"presets": [
+        {
+	        "name": "Insta Gallery Section",
+    	    "category": "Insta"
+        }
+    ]
+  }
 {% endschema %}

@@ -1,3 +1,4 @@
+{% include 'shogun-content-handler' %}
 {% comment %}
 	GEMPAGES BUILDER (https://apps.shopify.com/gempages)
 
@@ -5,164 +6,150 @@
 	It is automatically generated from GEMPAGES BUILDER
 	Try to edit page with the live editor.
 {% endcomment %}
-{%- liquid
-  assign enable_rtl = settings.enable_rtl
-  assign language_support_rtl = settings.language_support_rtl
-  if enable_rtl and language_support_rtl != blank
-    assign shop_locale = localization.language.iso_code
-    assign language_support_rtl_list = language_support_rtl | split: ','
-    assign is_rtl = language_support_rtl_list | where: shop_locale
-    if is_rtl.size > 0
-      assign enable_rtl = true
-    else
-      assign enable_rtl = false
-    endif
-  endif
--%}
 <!doctype html>
+<!--[if ie 9]> <html class="ie9 no-js supports-no-cookies" lang="{{ shop.locale }}"> <![endif]-->
+<!-- [if (gt ie 9)|!(ie)]><! -->
 <html
-  class="no-js{% if cart != empty %} cart-has-items{% endif %}"
-  lang="{{ request.locale.iso_code }}"
-  {% if enable_rtl %}
-    dir="rtl"
+  data-transitions="true"
+  class="no-js supports-no-cookies {% if template == 'index' %} index {% endif %}"
+  lang="{{ shop.locale }}"
+  {% if customer %}
+    data-customer-logged-in="true"
   {% endif %}
 >
+  <!-- <![endif] -->
+
+  <!-- lm: 10/01/22 post purchase checkout upsell snippet -->
+  {% render 'spurit_uac_meta_snippet' %}
   <head>
-
-    <link
-      rel="preload"
-      href="https://cdn.shopify.com/s/files/1/1610/3585/files/ABCArizonaMix-Light.woff2?v=1771176331"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    >
-    <link
-      rel="preload"
-      href="https://cdn.shopify.com/s/files/1/1610/3585/files/GT-America-Standard-Light.woff2?v=1771176310"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    >
-
-    <style>
-      @font-face {
-        font-family: 'ABCArizonaMix-Light';
-        src: url('https://cdn.shopify.com/s/files/1/1610/3585/files/ABCArizonaMix-Light.woff2?v=1771176331')
-          format('woff2');
-        font-display: swap;
-        font-weight: normal;
-        font-style: normal;
-      }
-
-      @font-face {
-        font-family: 'GT-America-Standard-Light';
-        src: url('https://cdn.shopify.com/s/files/1/1610/3585/files/GT-America-Standard-Light.woff2?v=1771176310')
-          format('woff2');
-        font-display: swap;
-        font-weight: normal;
-        font-style: normal;
-      }
-
-      p,
-      span,
-      div,
-      ul,
-      ol,
-      li,
-      a,
-      button,
-      input,
-      select,
-      option,
-      label,
-      legend,
-      textarea,
-      small {
-        font-family: 'GT-America-Standard-Light', Arial, sans-serif !important;
-      }
-
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6,
-      .h1,
-      .h2,
-      .h3,
-      .h4,
-      .h5,
-      .h6 {
-        font-family: 'ABCArizonaMix-Light', Arial, sans-serif !important;
-      }
-    </style>
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="theme-color" content="">
-    <link rel="canonical" href="{{ canonical_url }}">
-
-    {%- if settings.favicon != blank -%}
-      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
-    {%- endif -%}
-
-    <title>
-      {{- page_title -}}
-      {%- if current_tags -%}
-        {%- assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags -}}
-      {%- endif -%}
-      {%- if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif -%}
-      {%- if template == 'password' -%}
-        {{- shop.name -}}
-      {%- else -%}
-        {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
-      {%- endif -%}
-    </title>
-
-    {% if page_description %}
-      <meta name="description" content="{{ page_description | escape }}">
-    {% endif %}
-
-    {%- liquid
-      render 'meta-tags'
-      render 'css-variables'
-
-      echo 'vendor.css' | asset_url | stylesheet_tag: preload: true
-      echo 'theme.css' | asset_url | stylesheet_tag: preload: true
-      echo 'we-site.css' | asset_url | stylesheet_tag: preload: true
-
-      if enable_rtl
-        echo 'rtl.css' | asset_url | stylesheet_tag: preload: true
-      endif
-    -%}
-
-    {{ content_for_header }}
-
-    <script src="{{ 'vendor.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'we-product-card.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'we-swym-card-wishlist.js' | asset_url }}" defer="defer"></script>
-
-    {%- if request.page_type contains 'customers/' -%}
-      <script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer="defer"></script>
-    {%- endif -%}
-
+ {%- render 'ecom_header' -%}
+    {% render 'pandectes-rules' %}
+    <meta property="og:image" content="https://cdn.shopify.com/s/files/1/1610/3585/files/Royfort_Logo.png?v=1661862533">
     <script>
-      if (Shopify.designMode) {
-        document.documentElement.classList.add('shopify-design-mode');
+      if(document.location.href.indexOf('https://royfort.de/collections/all?sort_by=best-selling') > -1) {
+      document.location.href = 'https://royfort.de/collections/royfort-all-products-collection';
       }
     </script>
 
-    {%- if request.design_mode -%}
-      <script src="{{ 'theme-editor.js' | asset_url }}" defer="defer"></script>
-    {%- endif -%}
+    <!-- Google Tag Manager -->
+    <script>
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-PQRRW3J');
+    </script>
+    <!-- End Google Tag Manager -->
 
-    {%- render 'js-variables' -%}
+    <script defer src="//trck.linkster.co/trck/etms/eatms.js?campaign_id=232"></script>
 
-    {% comment %} Custom metafield for head tag like GTag tracking {% endcomment %}
-    {{ shop.metafields.foxtheme.code_head.value }}
-    {% comment %} End custom metafield for head tag like GTag tracking {% endcomment %}
+    {% if shop.permanent_domain == 'bw2016.myshopify.com' %}
+      <!-- anti-flicker snippet (recommended) -->
+      <style>
+        .async-hide { opacity: 0 !important}
+      </style>
+      <script>
+        (function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
+        h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
+        (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
+        })(window,document.documentElement,'async-hide','dataLayer',4000,
+        {'OPT-WMC4H7W':true});
+      </script>
+      <script defer src="https://www.googleoptimize.com/optimize.js?id=OPT-WMC4H7W"></script>
+    {% endif %}
+
+    {% render 'pagefly-head' %}
+    <!-- lm: 10/01/22 post purchase checkout upsell snippet -->
+    {% render 'spurit_uac_open_graph_snippet' %}
+    <meta charset="utf-8">
+    {% if shop.domain contains '.myshopify'
+      or current_tags
+      or handle contains 'newsletter-sign-up'
+      or handle contains 'sign-up-confirmation'
+      or template contains 'search'
+    %}
+      <meta name="robots" content="noindex">
+    {% else %}
+      <meta name="robots" content="index,follow">
+    {% endif %}
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    <!-- brand font -->
+    <link rel="stylesheet" href="{{ 'avenir.css' | asset_url }}">
+    <link rel="stylesheet" href="{{ 'quador.css' | asset_url }}">
+    <link rel="stylesheet" href="{{ 'fonts.css' | asset_url }}">
+    <!-- <link rel="stylesheet" href="https://use.typekit.net/zuo5uim.css"> -->
+
+    {% if settings.favicon != blank %}
+      <link
+        rel="shortcut icon"
+        href="{{ settings.favicon | image_url: width: '32', height: '32' }}"
+        media="(prefers-color-scheme: light)"
+        type="image/webp"
+      >
+    {% endif %}
+
+    {% if settings.favicon_dark != blank %}
+      <link
+        rel="shortcut icon"
+        href="{{ settings.favicon_dark | image_url: width: '32', height: '32' }}"
+        media="(prefers-color-scheme: dark)"
+        type="image/webp"
+      >
+    {% endif %}
+
+    {% if template == 'list-collections' %}
+      {% assign seo_title = 'royfort' %}
+    {% elsif template == 'search' %}
+      {% capture seo_title %}
+            search results for '{{ search.terms }}'
+        {% endcapture %}
+    {% else %}
+      {% capture seo_title %}
+            {{ page_title }}
+            {% if current_tags %}
+                {%- assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags -}}
+            {% endif %}
+            {% if current_page != 1 %}
+                &ndash; {{ 'general.meta.page' | t: page_number: current_page }}
+            {% endif %}
+        {% endcapture %}
+    {% endif %}
+
+    <title>{{ seo_title }}</title>
+
+    {% if template == 'list-collections' %}
+      <meta name="description" content="">
+    {% elsif page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+
+    {% render 'social-meta-tags' %}
+
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
+    <link rel="stylesheet" href="https://cdn1.stamped.io/files/widget.min.css">
+
+    {{ 'theme.min.css' | asset_url | stylesheet_tag }}
+
+    {% render 'javascript-tags-head' %}
+
+    {{ content_for_header }}
+    <!-- Global site tag (gtag.js) - Google Ads: 826601846 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-826601846"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'AW-826601846');
+    </script>
+
+    {{ 'paymentfont.scss.css' | asset_url | stylesheet_tag }}
+
+    <!-- {% render 'gsf-conversion-pixels' %} -->
+    {% render 'ufe-offer' %}
   <!--Gem_Page_Header_Script-->
 {% render 'gem-app-header-scripts' %}
 <!--End_Gem_Page_Header_Script-->
@@ -198,6 +185,136 @@
     {% render 'gem-app-footer-scripts', GEM_FOOTER_SCRIPT: GEM_FOOTER_SCRIPT %}
   {% endif %}
 <!--End_Gem_Page_Footer_Script-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

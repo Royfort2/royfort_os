@@ -1,2855 +1,6978 @@
-window.FoxTheme = window.FoxTheme || {};
-FoxTheme.config = {
-  hasLocalStorage: false,
-  mqlMobile: false,
-  mqlTablet: false,
-  mediaQueryMobile: 'screen and (max-width: 767px)',
-  mediaQueryTablet: 'screen and (max-width: 1023px)',
-  motionReduced: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
-  isTouch: 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0,
-  isRTL: document.documentElement.getAttribute('dir') === 'rtl',
-};
-console.log(
-  '%c' +
-    window.FoxTheme.settings.themeName +
-    ' theme (v' +
-    window.FoxTheme.settings.themeVersion +
-    ') by Foxecom | Learn more https://foxecom.com/products/sleek-shopify-theme',
-  'font-size: 14px; color: #FF5C00;'
-);
-(function () {
-  // Detect browser has support local storage.
-  try {
-    const key = 'sleek:test';
-    window.localStorage.setItem(key, 'test');
-    window.localStorage.removeItem(key);
-    FoxTheme.config.hasLocalStorage = true;
-  } catch (err) {}
+window.slate = window.slate || {};
+window.theme = window.theme || {};
 
-  FoxTheme.DOMready = function (callback) {
-    document.readyState != 'loading' ? callback() : document.addEventListener('DOMContentLoaded', callback);
-  };
+//Create Vars that match SCSS breakpoints, defined in variables.scss.liquid file.
+var screenSM = 576,
+	screenMD = 768,
+	screenLG = 992,
+    screenXL = 1200;
+    
+var slickPrevArrow = "<button class='slick-prev slick-arrow' aria-label='Previous' type='button'><svg aria-hidden='true' data-prefix='fal' data-icon='chevron-left' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 512'><path d='M238.475 475.535l7.071-7.07c4.686-4.686 4.686-12.284 0-16.971L50.053 256 245.546 60.506c4.686-4.686 4.686-12.284 0-16.971l-7.071-7.07c-4.686-4.686-12.284-4.686-16.97 0L10.454 247.515c-4.686 4.686-4.686 12.284 0 16.971l211.051 211.05c4.686 4.686 12.284 4.686 16.97-.001z'></path></svg></button>",
+    slickNextArrow = "<button class='slick-next slick-arrow' aria-label='Next' type='button'><svg aria-hidden='true' data-prefix='fal' data-icon='chevron-right' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 512'><path d='M17.525 36.465l-7.071 7.07c-4.686 4.686-4.686 12.284 0 16.971L205.947 256 10.454 451.494c-4.686 4.686-4.686 12.284 0 16.971l7.071 7.07c4.686 4.686 12.284 4.686 16.97 0l211.051-211.05c4.686-4.686 4.686-12.284 0-16.971L34.495 36.465c-4.686-4.687-12.284-4.687-16.97 0z'></path></svg></button>";
 
-  FoxTheme.a11y = {
-    trapFocusHandlers: {},
-    getFocusableElements: (container) => {
-      return Array.from(
-        container.querySelectorAll(
-          "summary, a[href], button:enabled, [tabindex]:not([tabindex^='-']), [draggable], area, input:not([type=hidden]):enabled, select:enabled, textarea:enabled, object, iframe"
-        )
-      );
-    },
-    trapFocus: (container, elementToFocus = container) => {
-      var elements = FoxTheme.a11y.getFocusableElements(container);
-      var first = elements[0];
-      var last = elements[elements.length - 1];
+//if no image available, load the SVG placeholder image. Generate by the liquid tag {{ 'product-1' | placeholder_svg_tag: 'svg-placeholder' }}
+var svgPlaceholder = '<svg class="svg-placeholder" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 525.5 525.5"><path d="M375.5 345.2c0-.1 0-.1 0 0 0-.1 0-.1 0 0-1.1-2.9-2.3-5.5-3.4-7.8-1.4-4.7-2.4-13.8-.5-19.8 3.4-10.6 3.6-40.6 1.2-54.5-2.3-14-12.3-29.8-18.5-36.9-5.3-6.2-12.8-14.9-15.4-17.9 8.6-5.6 13.3-13.3 14-23 0-.3 0-.6.1-.8.4-4.1-.6-9.9-3.9-13.5-2.1-2.3-4.8-3.5-8-3.5h-54.9c-.8-7.1-3-13-5.2-17.5-6.8-13.9-12.5-16.5-21.2-16.5h-.7c-8.7 0-14.4 2.5-21.2 16.5-2.2 4.5-4.4 10.4-5.2 17.5h-48.5c-3.2 0-5.9 1.2-8 3.5-3.2 3.6-4.3 9.3-3.9 13.5 0 .2 0 .5.1.8.7 9.8 5.4 17.4 14 23-2.6 3.1-10.1 11.7-15.4 17.9-6.1 7.2-16.1 22.9-18.5 36.9-2.2 13.3-1.2 47.4 1 54.9 1.1 3.8 1.4 14.5-.2 19.4-1.2 2.4-2.3 5-3.4 7.9-4.4 11.6-6.2 26.3-5 32.6 1.8 9.9 16.5 14.4 29.4 14.4h176.8c12.9 0 27.6-4.5 29.4-14.4 1.2-6.5-.5-21.1-5-32.7zm-97.7-178c.3-3.2.8-10.6-.2-18 2.4 4.3 5 10.5 5.9 18h-5.7zm-36.3-17.9c-1 7.4-.5 14.8-.2 18h-5.7c.9-7.5 3.5-13.7 5.9-18zm4.5-6.9c0-.1.1-.2.1-.4 4.4-5.3 8.4-5.8 13.1-5.8h.7c4.7 0 8.7.6 13.1 5.8 0 .1 0 .2.1.4 3.2 8.9 2.2 21.2 1.8 25h-30.7c-.4-3.8-1.3-16.1 1.8-25zm-70.7 42.5c0-.3 0-.6-.1-.9-.3-3.4.5-8.4 3.1-11.3 1-1.1 2.1-1.7 3.4-2.1l-.6.6c-2.8 3.1-3.7 8.1-3.3 11.6 0 .2 0 .5.1.8.3 3.5.9 11.7 10.6 18.8.3.2.8.2 1-.2.2-.3.2-.8-.2-1-9.2-6.7-9.8-14.4-10-17.7 0-.3 0-.6-.1-.8-.3-3.2.5-7.7 3-10.5.8-.8 1.7-1.5 2.6-1.9h155.7c1 .4 1.9 1.1 2.6 1.9 2.5 2.8 3.3 7.3 3 10.5 0 .2 0 .5-.1.8-.3 3.6-1 13.1-13.8 20.1-.3.2-.5.6-.3 1 .1.2.4.4.6.4.1 0 .2 0 .3-.1 13.5-7.5 14.3-17.5 14.6-21.3 0-.3 0-.5.1-.8.4-3.5-.5-8.5-3.3-11.6l-.6-.6c1.3.4 2.5 1.1 3.4 2.1 2.6 2.9 3.5 7.9 3.1 11.3 0 .3 0 .6-.1.9-1.5 20.9-23.6 31.4-65.5 31.4h-43.8c-41.8 0-63.9-10.5-65.4-31.4zm91 89.1h-7c0-1.5 0-3-.1-4.2-.2-12.5-2.2-31.1-2.7-35.1h3.6c.8 0 1.4-.6 1.4-1.4v-14.1h2.4v14.1c0 .8.6 1.4 1.4 1.4h3.7c-.4 3.9-2.4 22.6-2.7 35.1v4.2zm65.3 11.9h-16.8c-.4 0-.7.3-.7.7 0 .4.3.7.7.7h16.8v2.8h-62.2c0-.9-.1-1.9-.1-2.8h33.9c.4 0 .7-.3.7-.7 0-.4-.3-.7-.7-.7h-33.9c-.1-3.2-.1-6.3-.1-9h62.5v9zm-12.5 24.4h-6.3l.2-1.6h5.9l.2 1.6zm-5.8-4.5l1.6-12.3h2l1.6 12.3h-5.2zm-57-19.9h-62.4v-9h62.5c0 2.7 0 5.8-.1 9zm-62.4 1.4h62.4c0 .9-.1 1.8-.1 2.8H194v-2.8zm65.2 0h7.3c0 .9.1 1.8.1 2.8H259c.1-.9.1-1.8.1-2.8zm7.2-1.4h-7.2c.1-3.2.1-6.3.1-9h7c0 2.7 0 5.8.1 9zm-7.7-66.7v6.8h-9v-6.8h9zm-8.9 8.3h9v.7h-9v-.7zm0 2.1h9v2.3h-9v-2.3zm26-1.4h-9v-.7h9v.7zm-9 3.7v-2.3h9v2.3h-9zm9-5.9h-9v-6.8h9v6.8zm-119.3 91.1c-2.1-7.1-3-40.9-.9-53.6 2.2-13.5 11.9-28.6 17.8-35.6 5.6-6.5 13.5-15.7 15.7-18.3 11.4 6.4 28.7 9.6 51.8 9.6h6v14.1c0 .8.6 1.4 1.4 1.4h5.4c.3 3.1 2.4 22.4 2.7 35.1 0 1.2.1 2.6.1 4.2h-63.9c-.8 0-1.4.6-1.4 1.4v16.1c0 .8.6 1.4 1.4 1.4H256c-.8 11.8-2.8 24.7-8 33.3-2.6 4.4-4.9 8.5-6.9 12.2-.4.7-.1 1.6.6 1.9.2.1.4.2.6.2.5 0 1-.3 1.3-.8 1.9-3.7 4.2-7.7 6.8-12.1 5.4-9.1 7.6-22.5 8.4-34.7h7.8c.7 11.2 2.6 23.5 7.1 32.4.2.5.8.8 1.3.8.2 0 .4 0 .6-.2.7-.4 1-1.2.6-1.9-4.3-8.5-6.1-20.3-6.8-31.1H312l-2.4 18.6c-.1.4.1.8.3 1.1.3.3.7.5 1.1.5h9.6c.4 0 .8-.2 1.1-.5.3-.3.4-.7.3-1.1l-2.4-18.6H333c.8 0 1.4-.6 1.4-1.4v-16.1c0-.8-.6-1.4-1.4-1.4h-63.9c0-1.5 0-2.9.1-4.2.2-12.7 2.3-32 2.7-35.1h5.2c.8 0 1.4-.6 1.4-1.4v-14.1h6.2c23.1 0 40.4-3.2 51.8-9.6 2.3 2.6 10.1 11.8 15.7 18.3 5.9 6.9 15.6 22.1 17.8 35.6 2.2 13.4 2 43.2-1.1 53.1-1.2 3.9-1.4 8.7-1 13-1.7-2.8-2.9-4.4-3-4.6-.2-.3-.6-.5-.9-.6h-.5c-.2 0-.4.1-.5.2-.6.5-.8 1.4-.3 2 0 0 .2.3.5.8 1.4 2.1 5.6 8.4 8.9 16.7h-42.9v-43.8c0-.8-.6-1.4-1.4-1.4s-1.4.6-1.4 1.4v44.9c0 .1-.1.2-.1.3 0 .1 0 .2.1.3v9c-1.1 2-3.9 3.7-10.5 3.7h-7.5c-.4 0-.7.3-.7.7 0 .4.3.7.7.7h7.5c5 0 8.5-.9 10.5-2.8-.1 3.1-1.5 6.5-10.5 6.5H210.4c-9 0-10.5-3.4-10.5-6.5 2 1.9 5.5 2.8 10.5 2.8h67.4c.4 0 .7-.3.7-.7 0-.4-.3-.7-.7-.7h-67.4c-6.7 0-9.4-1.7-10.5-3.7v-54.5c0-.8-.6-1.4-1.4-1.4s-1.4.6-1.4 1.4v43.8h-43.6c4.2-10.2 9.4-17.4 9.5-17.5.5-.6.3-1.5-.3-2s-1.5-.3-2 .3c-.1.2-1.4 2-3.2 5 .1-4.9-.4-10.2-1.1-12.8zm221.4 60.2c-1.5 8.3-14.9 12-26.6 12H174.4c-11.8 0-25.1-3.8-26.6-12-1-5.7.6-19.3 4.6-30.2H197v9.8c0 6.4 4.5 9.7 13.4 9.7h105.4c8.9 0 13.4-3.3 13.4-9.7v-9.8h44c4 10.9 5.6 24.5 4.6 30.2z"></path><path d="M286.1 359.3c0 .4.3.7.7.7h14.7c.4 0 .7-.3.7-.7 0-.4-.3-.7-.7-.7h-14.7c-.3 0-.7.3-.7.7zm5.3-145.6c13.5-.5 24.7-2.3 33.5-5.3.4-.1.6-.5.4-.9-.1-.4-.5-.6-.9-.4-8.6 3-19.7 4.7-33 5.2-.4 0-.7.3-.7.7 0 .4.3.7.7.7zm-11.3.1c.4 0 .7-.3.7-.7 0-.4-.3-.7-.7-.7H242c-19.9 0-35.3-2.5-45.9-7.4-.4-.2-.8 0-.9.3-.2.4 0 .8.3.9 10.8 5 26.4 7.5 46.5 7.5h38.1zm-7.2 116.9c.4.1.9.1 1.4.1 1.7 0 3.4-.7 4.7-1.9 1.4-1.4 1.9-3.2 1.5-5-.2-.8-.9-1.2-1.7-1.1-.8.2-1.2.9-1.1 1.7.3 1.2-.4 2-.7 2.4-.9.9-2.2 1.3-3.4 1-.8-.2-1.5.3-1.7 1.1s.2 1.5 1 1.7z"></path><path d="M275.5 331.6c-.8 0-1.4.6-1.5 1.4 0 .8.6 1.4 1.4 1.5h.3c3.6 0 7-2.8 7.7-6.3.2-.8-.4-1.5-1.1-1.7-.8-.2-1.5.4-1.7 1.1-.4 2.3-2.8 4.2-5.1 4zm5.4 1.6c-.6.5-.6 1.4-.1 2 1.1 1.3 2.5 2.2 4.2 2.8.2.1.3.1.5.1.6 0 1.1-.3 1.3-.9.3-.7-.1-1.6-.8-1.8-1.2-.5-2.2-1.2-3-2.1-.6-.6-1.5-.6-2.1-.1zm-38.2 12.7c.5 0 .9 0 1.4-.1.8-.2 1.3-.9 1.1-1.7-.2-.8-.9-1.3-1.7-1.1-1.2.3-2.5-.1-3.4-1-.4-.4-1-1.2-.8-2.4.2-.8-.3-1.5-1.1-1.7-.8-.2-1.5.3-1.7 1.1-.4 1.8.1 3.7 1.5 5 1.2 1.2 2.9 1.9 4.7 1.9z"></path><path d="M241.2 349.6h.3c.8 0 1.4-.7 1.4-1.5s-.7-1.4-1.5-1.4c-2.3.1-4.6-1.7-5.1-4-.2-.8-.9-1.3-1.7-1.1-.8.2-1.3.9-1.1 1.7.7 3.5 4.1 6.3 7.7 6.3zm-9.7 3.6c.2 0 .3 0 .5-.1 1.6-.6 3-1.6 4.2-2.8.5-.6.5-1.5-.1-2s-1.5-.5-2 .1c-.8.9-1.8 1.6-3 2.1-.7.3-1.1 1.1-.8 1.8 0 .6.6.9 1.2.9z"></path></svg>';
+/*
+BG: persistentCheck: The idea being to constantly check (or persistently check) if the target exists, if it does, pass in an additional function that will trigger once condition is true. If condition is never true, have a timeoutTime to stop checking.
+*/
+function persistentCheck(target,targetValue,paramFunction,paramTarget,timeoutTime) {
+    //console.log('persistentCheckFunction');
+    var checkExist = setInterval(function() {
+        //console.log('Persistently checking for: '+target);
+    //keep checking to see if condition is true
 
-      FoxTheme.a11y.removeTrapFocus();
-
-      FoxTheme.a11y.trapFocusHandlers.focusin = (event) => {
-        if (event.target !== container && event.target !== last && event.target !== first) return;
-
-        document.addEventListener('keydown', FoxTheme.a11y.trapFocusHandlers.keydown);
-      };
-
-      FoxTheme.a11y.trapFocusHandlers.focusout = function () {
-        document.removeEventListener('keydown', FoxTheme.a11y.trapFocusHandlers.keydown);
-      };
-
-      FoxTheme.a11y.trapFocusHandlers.keydown = function (event) {
-        if (event.code.toUpperCase() !== 'TAB') return; // If not TAB key
-        // On the last focusable element and tab forward, focus the first element.
-        if (event.target === last && !event.shiftKey) {
-          event.preventDefault();
-          first.focus();
-        }
-
-        //  On the first focusable element and tab backward, focus the last element.
-        if ((event.target === container || event.target === first) && event.shiftKey) {
-          event.preventDefault();
-          last.focus();
-        }
-      };
-
-      document.addEventListener('focusout', FoxTheme.a11y.trapFocusHandlers.focusout);
-      document.addEventListener('focusin', FoxTheme.a11y.trapFocusHandlers.focusin);
-
-      elementToFocus.focus();
-
-      if (
-        elementToFocus.tagName === 'INPUT' &&
-        ['search', 'text', 'email', 'url'].includes(elementToFocus.type) &&
-        elementToFocus.value
-      ) {
-        elementToFocus.setSelectionRange(0, elementToFocus.value.length);
-      }
-    },
-    removeTrapFocus: (elementToFocus = null) => {
-      document.removeEventListener('focusin', FoxTheme.a11y.trapFocusHandlers.focusin);
-      document.removeEventListener('focusout', FoxTheme.a11y.trapFocusHandlers.focusout);
-      document.removeEventListener('keydown', FoxTheme.a11y.trapFocusHandlers.keydown);
-
-      if (elementToFocus) elementToFocus.focus();
-    },
-  };
-
-  FoxTheme.utils = {
-    throttle: (callback) => {
-      let requestId = null,
-        lastArgs;
-      const later = (context) => () => {
-        requestId = null;
-        callback.apply(context, lastArgs);
-      };
-      const throttled = (...args) => {
-        lastArgs = args;
-        if (requestId === null) {
-          requestId = requestAnimationFrame(later(this));
-        }
-      };
-      throttled.cancel = () => {
-        cancelAnimationFrame(requestId);
-        requestId = null;
-      };
-      return throttled;
-    },
-    setScrollbarWidth: () => {
-      const scrollbarWidth = window.innerWidth - document.body.clientWidth;
-      scrollbarWidth > 0 && document.documentElement.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
-    },
-    waitForEvent: (element, eventName) => {
-      return new Promise((resolve) => {
-        // Event handler that checks if the event target is the expected element
-        const eventHandler = (event) => {
-          if (event.target === element) {
-            element.removeEventListener(eventName, eventHandler); // Clean up listener
-            resolve(event); // Resolve the promise with the event
-          }
-        };
-
-        // Attach the event handler to the element
-        element.addEventListener(eventName, eventHandler);
-      });
-    },
-    queryDomNodes: (selectors = {}, context = document) => {
-      const domNodes = Object.entries(selectors).reduce((acc, [name, selector]) => {
-        const findOne = typeof selector === 'string';
-        const queryMethod = findOne ? 'querySelector' : 'querySelectorAll';
-        const sl = findOne ? selector : selector[0];
-
-        acc[name] = context && context[queryMethod](sl);
-        if (!findOne && acc[name]) {
-          acc[name] = [...acc[name]];
-        }
-        return acc;
-      }, {});
-      return domNodes;
-    },
-    addEventDelegate: ({ context = document.documentElement, event = 'click', selector, handler, capture = false }) => {
-      const listener = function (e) {
-        // loop parent nodes from the target to the delegation node
-        for (let target = e.target; target && target !== this; target = target.parentNode) {
-          if (target.matches(selector)) {
-            handler.call(target, e, target);
-            break;
-          }
-        }
-      };
-      context.addEventListener(event, listener, capture);
-      return () => {
-        context.removeEventListener(event, listener, capture);
-      };
-    },
-    getSectionId: (element) => {
-      if (element.hasAttribute('data-section-id')) {
-        return element.dataset.sectionId;
-      } else {
-        if (!element.classList.contains('shopify-section')) {
-          element = element.closest('.shopify-section');
-        }
-        return element.id.replace('shopify-section-', '');
-      }
-    },
-    debounce: (fn, wait) => {
-      let t;
-      return (...args) => {
-        clearTimeout(t);
-        t = setTimeout(() => fn.apply(this, args), wait);
-      };
-    },
-    fetchConfig: (type = 'json', method = 'POST') => {
-      return {
-        method,
-        headers: { 'Content-Type': 'application/json', Accept: `application/${type}` },
-      };
-    },
-    /**
-     * Store key-value pair with expiration time in localStorage
-     * Use storage instead of cookie to make it work properly on Safari IOS (in iframe).
-     */
-    setStorage(key, value, expiryInDays) {
-      if (!FoxTheme.config.hasLocalStorage) return;
-
-      const now = new Date();
-      const item = {
-        value: value,
-        expiry: now.getTime() + expiryInDays * 86400000,
-      };
-      window.localStorage.setItem(key, JSON.stringify(item));
-    },
-    getStorage(key) {
-      if (!FoxTheme.config.hasLocalStorage) return null;
-
-      const itemStr = window.localStorage.getItem(key);
-      // If the item doesn't exist, return null.
-      if (!itemStr) {
-        return null;
-      }
-      const item = JSON.parse(itemStr);
-      const now = new Date();
-      // Compare the expiry time of the item with the current time.
-      if (now.getTime() > item.expiry) {
-        // If the item has expired, remove it from storage and return null.
-        window.localStorage.removeItem(key);
-        return null;
-      }
-      return item.value;
-    },
-    postLink: (path, options) => {
-      options = options || {};
-      const method = options['method'] || 'post';
-      const params = options['parameters'] || {};
-
-      const form = document.createElement('form');
-      form.setAttribute('method', method);
-      form.setAttribute('action', path);
-
-      for (const key in params) {
-        for (const index in params[key]) {
-          for (const key2 in params[key][index]) {
-            const hiddenField = document.createElement('input');
-            hiddenField.setAttribute('type', 'hidden');
-            hiddenField.setAttribute('name', `${key}[${index}][${key2}]`);
-            hiddenField.setAttribute('value', params[key][index][key2]);
-            form.appendChild(hiddenField);
-          }
-        }
-      }
-      document.body.appendChild(form);
-      form.submit();
-      document.body.removeChild(form);
-    },
-    imageReady: (imageOrArray) => {
-      if (!imageOrArray) {
-        return Promise.resolve();
-      }
-      imageOrArray = imageOrArray instanceof Element ? [imageOrArray] : Array.from(imageOrArray);
-      return Promise.all(
-        imageOrArray.map((image) => {
-          return new Promise((resolve) => {
-            if ((image.tagName === 'IMG' && image.complete) || !image.offsetParent) {
-              resolve();
-            } else {
-              image.onload = () => resolve();
+    if ($(target).length > targetValue) {
+            //console.log('condition is true, will no longer check.');
+            //check paramFunction is actually a function
+            if (typeof paramFunction == "function") {
+                paramFunction(paramTarget);
             }
-          });
-        })
-      );
-    },
-    displayedMedia: (media) => {
-      return Array.from(media).find((item) => {
-        const style = window.getComputedStyle(item);
-        return style.display !== 'none';
-      });
-    },
-    getGridColumnGap: (container) => {
-      const gapByDevice = {};
-      const gapCSSVariables = {
-        desktop: '--column-gap',
-        tabletLarge: '--column-gap-tablet-large',
-        tablet: '--column-gap-tablet',
-        mobile: '--column-gap-mobile',
-      };
+            //clear interval
+            clearInterval(checkExist);
+        }
+    }, 100); // check every 100ms
 
-      const computedStyles = window.getComputedStyle(container);
+    setTimeout(function(){
+        //console.log('couldn\'t find target or condition wasn\'t true');
+        clearInterval(checkExist);
+    }, timeoutTime);
+}
 
-      for (const [device, cssVar] of Object.entries(gapCSSVariables)) {
-        const rawValue = computedStyles.getPropertyValue(cssVar).trim();
-        const match = rawValue.match(/^(\d*\.?\d+)(px|rem)$/);
 
-        let numericGap = 0;
-        if (match) {
-          const [originalValue, numberStr, unit] = match;
-          numericGap = unit === 'rem' ? parseFloat(numberStr) * 10 : parseFloat(numberStr);
+/*
+BG: A mobile first approach that moves HTML from one place to another. The reason being the mobile and desktops can be fairly different in certain areas and rather than using liquid to render the change twice, we can use this function to move it.
+The mobile first approach means it should be in the correct position but for desktop, we make the switch as it should have better resources available.
+example usage:
+moveMarkup('.store-select','#store-select-mobile','#store-select-desktop',screenLG);
+elementToMove - String
+startPoint  - String
+endPoint - String
+screenSize - Int
+ */
+function moveMarkup(elementToMove,startPoint,endPoint,screenSize) {
+    var elementToMove = $(elementToMove);
+    if ($(window).width() >= screenSize) {
+        elementToMove.detach().appendTo(endPoint);
+    } else {
+        elementToMove.detach().appendTo(startPoint);
+    }
+};
+
+
+/**
+ * BG: a function that can countdown to a specific time (daily) or a future date.
+ * output (string) - class or id timer should be output too.
+ * parent (string) - target the parent of the timer, should it need to be hide upon completetion.
+ * daily (boolean) - if true, daily enabled, if false, specific date.
+ * paramFunction (string) - a function to call upon completion
+ */
+function countdownTimer(output, parent, daily, paramFunction) {
+
+    var output = $(output),
+        targetHour = parseInt(output.attr('data-hours')),
+        targetMinute = parseInt(output.attr('data-minutes'));
+
+    //if not daily countdown, gather the target date.
+    if (daily == false) {
+        var targetMonth = parseInt(output.attr('data-month')),
+            targetDate = parseInt(output.attr('data-date')),
+            targetYear = parseInt(output.attr('data-year'));
+    }
+
+    const second = 1000,
+      minute = second * 60,
+      hour = minute * 60,
+      day = hour * 24;
+
+
+    //if daily, we set the time
+    if (daily == true) {
+        var countDown = new Date;
+        countDown.setHours(targetHour, targetMinute, 0);
+    } else {
+        //if date, we define the target date
+
+        //new Date(year, month, day, hours, minutes, seconds, milliseconds)
+        var countDown = new Date(targetYear, targetMonth, targetDate, targetHour, targetMinute, 00);
+    }
+
+    function pad(num) {
+        return ("0" + parseInt(num)).substr(-2);
+    }
+
+    var x = setInterval(outputHTML, second);
+
+    function outputHTML() {
+        let now = new Date().getTime(),
+          distance = countDown - now;
+
+        var remainingDays = pad(Math.floor(distance / (day))),
+            remainingHours = pad(Math.floor((distance % (day)) / (hour))),
+            remainingMinutes = pad((distance % (hour)) / (minute)),
+            remainingSeconds = pad((distance % (minute)) / second);
+
+
+        if (daily == true) {
+            output.html(remainingHours + ' hours, ' + remainingMinutes + ' minutes' );
+        } else {
+            output.html("<span class='time-col'><span class='remaining days'>"+remainingDays + "</span><span class='time-label'>Days</span></span><span class='time-col'><span class='remaining hours'>" + remainingHours + "</span><span class='time-label'>Hrs</span></span><span class='time-col'><span class='remaining mins'>" + remainingMinutes + "</span><span class='time-label'>Mins</span></span><span class='time-col'><span class='remaining secs'>" + remainingSeconds + "</span><span class='time-label'>Secs</span></span>");
         }
 
-        gapByDevice[device] = numericGap;
-      }
+      //if we're pasted the time or date, then...
+        if (distance < 0) {
+            clearInterval(x);
 
-      return gapByDevice;
-    },
-  };
+            if (typeof paramFunction == "function") {
+                paramFunction(parent);
+            }
 
-  FoxTheme.pubsub = {
-    PUB_SUB_EVENTS: {
-      cartUpdate: 'cart-update',
-      quantityUpdate: 'quantity-update',
-      quantityRules: 'quantity-rules',
-      quantityBoundries: 'quantity-boundries',
-      variantChange: 'variant-change',
-      cartError: 'cart-error',
-      facetUpdate: 'facet-update',
-      optionValueSelectionChange: 'option-value-selection-change',
-    },
-    subscribers: {},
-    subscribe: (eventName, callback) => {
-      if (FoxTheme.pubsub.subscribers[eventName] === undefined) {
-        FoxTheme.pubsub.subscribers[eventName] = [];
-      }
+        }
+    }
 
-      FoxTheme.pubsub.subscribers[eventName] = [...FoxTheme.pubsub.subscribers[eventName], callback];
+}
 
-      return function unsubscribe() {
-        FoxTheme.pubsub.subscribers[eventName] = FoxTheme.pubsub.subscribers[eventName].filter((cb) => {
-          return cb !== callback;
-        });
-      };
-    },
-
-    publish: (eventName, data) => {
-      if (FoxTheme.pubsub.subscribers[eventName]) {
-        FoxTheme.pubsub.subscribers[eventName].forEach((callback) => {
-          callback(data);
-        });
-      }
-    },
-  };
-
-  FoxTheme.focusVisiblePolyfill = function () {
-    const navKeys = [
-      'ARROWUP',
-      'ARROWDOWN',
-      'ARROWLEFT',
-      'ARROWRIGHT',
-      'TAB',
-      'ENTER',
-      'SPACE',
-      'ESCAPE',
-      'HOME',
-      'END',
-      'PAGEUP',
-      'PAGEDOWN',
-    ];
-    let currentFocusedElement = null;
-    let mouseClick = null;
-
-    window.addEventListener('keydown', (event) => {
-      if (navKeys.includes(event.code.toUpperCase())) {
-        mouseClick = false;
-      }
-    });
-
-    window.addEventListener('mousedown', (event) => {
-      mouseClick = true;
-    });
-
-    window.addEventListener(
-      'focus',
-      () => {
-        if (currentFocusedElement) currentFocusedElement.classList.remove('focused');
-
-        if (mouseClick) return;
-
-        currentFocusedElement = document.activeElement;
-        currentFocusedElement.classList.add('focused');
-      },
-      true
+/**
+ *
+ * BG: a function that checks if an element is in the viewport.
+ * Taken from: https://gomakethings.com/how-to-test-if-an-element-is-in-the-viewport-with-vanilla-javascript/
+ */
+var isInViewport = function (elem) {
+    var bounding = elem.getBoundingClientRect();
+    return (
+        bounding.top >= 0 &&
+        bounding.left >= 0 &&
+        bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        bounding.right <= (window.innerWidth || document.documentElement.clientWidth)
     );
+};
+
+/**
+ * BG: Returns the current screensize.
+ */
+function screenSizeCheck() {
+    var windowWidth = $(window).width();
+
+    if (windowWidth >= screenXL) {
+        return screenXL;
+    } else if (windowWidth < screenXL && windowWidth >= screenLG) {
+        return screenLG;
+    } else if (windowWidth < screenLG && windowWidth >= screenMD) {
+        return screenMD;
+    } else if (windowWidth < screenMD) {
+        return screenSM;
+    }
+}
+
+/**
+ * BG: The idea is to use the data-slick to define additional options. We only define the arrow styling below for consisteny.
+ * if the ShopifySectionID is present, the function is being called after editing options within the theme customiser. The intention is to pass over the unique section id to destory and re-enable the slick. Slides could have been added or removed, and destorying it and re-enabling will capture this change.
+ */
+function inlineSlick(shopifySectionID) {
+    var storeURL = window.location.href;
+
+    //console.log('inlineSlickFire');
+
+    if (shopifySectionID) {
+
+        var sectionSlideCount = $('#shopify-section-'+shopifySectionID+' .about-featured-images .inline-slick').next('.slide-count');
+
+        $('#shopify-section-'+shopifySectionID+' .about-featured-images .inline-slick').on('init reInit afterChange', function (event, slick, currentSlide, nextSlide) {
+            //currentSlide is undefined on init -- set it to 0 in this case (currentSlide is 0 based)
+            if(!slick.$dots){
+                return;
+            }
+
+            if(storeURL.indexOf("royfort.de") >= 0) {
+                var word = ' von ';
+            } else if (storeURL.indexOf("royfort.ch") >= 0) {
+                var word = ' von ';
+            } else if (storeURL.indexOf("royfort.fr") >= 0) {
+                var word = ' de ';
+            } else {
+                var word = ' of ';
+            }
+
+            var i = (currentSlide ? currentSlide : 0) + 1;
+            sectionSlideCount.text(i + word + (slick.$dots[0].children.length));
+        });
+
+        //Don't need to destory slick, the theme customiser seems to handle this for us, and we just get an error.
+        //$('#shopify-section-'+shopifySectionID+' .inline-slick').slick('unslick');
+        $('#shopify-section-'+shopifySectionID+' .inline-slick').slick({
+            prevArrow: slickPrevArrow,
+            nextArrow: slickNextArrow
+        });
+    } else {
+
+        $('.about-featured-images').each(function(){
+            var SlideCount = $(this).find('.slide-count'),
+                carousel = $(this).find('.inline-slick');
+
+            $(carousel).on('init reInit afterChange', function (event, slick, currentSlide, nextSlide) {
+                //currentSlide is undefined on init -- set it to 0 in this case (currentSlide is 0 based)
+                if(!slick.$dots){
+                    return;
+                }
+
+                if(storeURL.indexOf("royfort.de") >= 0) {
+                    var word = ' von ';
+                } else if (storeURL.indexOf("royfort.ch") >= 0) {
+                    var word = ' von ';
+                } else if (storeURL.indexOf("royfort.fr") >= 0) {
+                    var word = ' de ';
+                } else {
+                    var word = ' of ';
+                }
+
+                var i = (currentSlide ? currentSlide : 0) + 1;
+                SlideCount.text(i + word + (slick.$dots[0].children.length));
+            });
+        });
+
+        $('.inline-slick').slick({
+            prevArrow: slickPrevArrow,
+            nextArrow: slickNextArrow
+        });
+    }
+}
+
+
+/**
+ * BG: Basic accordion functionality.
+ */
+function accordionToggle() {
+	var accordionTitle = $('.accordion-title');
+
+	$('.accordion-item.active .accordion-content').show();
+
+	accordionTitle.click(function(){
+        var accordion_item_selector = '.accordion-item'
+        var accordion_content_selector = '.accordion-content'
+        var accordion_parent_selector = '.accordion-parent'
+
+        if($(this).attr('data-group') !== undefined){
+            var group = $(this).attr('data-group')
+            accordion_item_selector += '[data-group="'+group+'"]'
+            accordion_content_selector += '[data-group="'+group+'"]'
+            accordion_parent_selector += '[data-group="'+group+'"]'
+        }
+
+
+		if ($(this).parent().hasClass('active')) {
+			$(this).parent(accordion_item_selector).removeClass('active');
+            $(this).parents(accordion_parent_selector).removeClass('active');
+			$(this).next(accordion_content_selector).slideUp();
+		} else {
+
+			$(accordion_item_selector).removeClass('active default');
+            $(accordion_parent_selector).removeClass('active default');
+            $(accordion_content_selector).slideUp();
+
+            var title = $(this);
+
+            $(this).parent(accordion_item_selector).addClass('active');
+            $(this).parents(accordion_parent_selector).addClass('active');
+            $(this).next(accordion_content_selector).slideDown(400, function() {
+
+                //BG:  if element is not in view, then scroll to it, minus the height of the header
+                if (!isInViewport(title[0])) {
+                    var siteHeaderHeight = $('.site-header').outerHeight();
+                    $('html,body').animate({
+                        scrollTop: title.offset().top - siteHeaderHeight
+                    });
+                }
+            });
+		}
+	})
+}
+
+
+/**
+ * BG: A simple function that takes the data attribute value and applies it to all product listing.
+ */
+function productListingRatio() {
+    $('[data-image-ratio]').each(function() {
+        var $parent = $(this),
+            fixedRatio = $parent.attr('data-image-ratio'),
+            productListing = $parent.find('.product-listing .product-image a');
+
+        if (!fixedRatio || $parent.hasClass('featured-products')) {
+            return;
+        }
+
+        productListing.addClass(fixedRatio);
+    });
+}
+
+/**
+ * BG: Used in conjunction with the theme customiser. If the user is working on a block that sits within slick slider, go to that slide so the user can see the block as they edit it. This only works with inlineSlick function
+ */
+function blockSlickShow(slidePosition,shopifySectionID) {
+    $('#shopify-section-'+shopifySectionID+' .inline-slick').slick('slickGoTo',slidePosition);
+}
+
+/**
+ * BG: code from David Keown to check if the url contains an attach param, if it does, redirect to the MAS store.
+ */
+function redirectAttachToMas() {
+    let params = window.location.search;
+
+    if(params.search("attach") != -1){
+        console.log("attached")
+        let target = "https://www.shopwithmyrep.co.uk";
+        let redirect = target + params;
+        window.location = redirect;
+    } else{
+        // console.log("not attached")
+    }
+}
+
+
+inlineSlick();
+accordionToggle();
+productListingRatio();
+redirectAttachToMas();
+
+
+//BG: Callback when theme customizer section option are changed.
+//https://shopify.dev/tutorials/develop-theme-sections-integration-with-theme-editor
+$(document).on('shopify:section:load', function(event){
+
+    console.log('Customizer section ' + event.detail.sectionId + ' changed');
+    inlineSlick(event.detail.sectionId);
+
+});
+
+//BG: Callback when the theme customizer blocks are selected.
+$(document).on('shopify:block:select', function(event){
+
+    console.log('Shopify block select');
+
+    var classNames = event.target.className;
+
+    //if the block element contains the class "slick-slide"
+    if (classNames.indexOf('slick-slide') !== -1 ) {
+        var slidePosition = event.target.attributes['data-slick-index'].nodeValue,
+            shopifySectionID = event.target.attributes['data-shopify-section-id'].nodeValue;
+
+        //if the block sits within slick, show the block
+        blockSlickShow(slidePosition,shopifySectionID);
+    }
+
+});
+
+//on window resize
+$(window).on('resize orientationChange', function(event) {
+
+    //if slick has previously been destroy via inline attr, we have to reinit with JS.
+    //Here we are looping through each inline-slick that doesn't have the class slick-initialzed.
+    $('.inline-slick:not(.slick-initialized)').each(function(){
+        $(this).slick({
+            prevArrow: slickPrevArrow,
+            nextArrow: slickNextArrow
+        });
+    })
+});
+
+/**
+ * A11y Helpers
+ * -----------------------------------------------------------------------------
+ * A collection of useful functions that help make your theme more accessible
+ * to users with visual impairments.
+ *
+ *
+ * @namespace a11y
+ */
+
+slate.a11y = {
+
+  /**
+   * For use when focus shifts to a container rather than a link
+   * eg for In-page links, after scroll, focus shifts to content area so that
+   * next `tab` is where user expects if focusing a link, just $link.focus();
+   *
+   * @param {JQuery} $element - The element to be acted upon
+   */
+  pageLinkFocus: function($element) {
+    var focusClass = 'js-focus-hidden';
+
+    $element.first()
+      .attr('tabIndex', '-1')
+      .focus()
+      .addClass(focusClass)
+      .one('blur', callback);
+
+    function callback() {
+      $element.first()
+        .removeClass(focusClass)
+        .removeAttr('tabindex');
+    }
+  },
+
+  /**
+   * If there's a hash in the url, focus the appropriate element
+   */
+  focusHash: function() {
+    var hash = window.location.hash;
+
+    // is there a hash in the url? is it an element on the page?
+    if (hash && document.getElementById(hash.slice(1))) {
+      this.pageLinkFocus($(hash));
+    }
+  },
+
+  /**
+   * When an in-page (url w/hash) link is clicked, focus the appropriate element
+   */
+  bindInPageLinks: function() {
+    $('a[href*=#]').on('click', function(evt) {
+      this.pageLinkFocus($(evt.currentTarget.hash));
+    }.bind(this));
+  },
+
+  /**
+   * Traps the focus in a particular container
+   *
+   * @param {object} options - Options to be used
+   * @param {jQuery} options.$container - Container to trap focus within
+   * @param {jQuery} options.$elementToFocus - Element to be focused when focus leaves container
+   * @param {string} options.namespace - Namespace used for new focus event handler
+   */
+  trapFocus: function(options) {
+    var eventName = options.namespace
+      ? 'focusin.' + options.namespace
+      : 'focusin';
+
+    if (!options.$elementToFocus) {
+      options.$elementToFocus = options.$container;
+    }
+
+    options.$container.attr('tabindex', '-1');
+    options.$elementToFocus.focus();
+
+    $(document).on(eventName, function(evt) {
+      if (options.$container[0] !== evt.target && !options.$container.has(evt.target).length) {
+        options.$container.focus();
+      }
+    });
+  },
+
+  /**
+   * Removes the trap of focus in a particular container
+   *
+   * @param {object} options - Options to be used
+   * @param {jQuery} options.$container - Container to trap focus within
+   * @param {string} options.namespace - Namespace used for new focus event handler
+   */
+  removeTrapFocus: function(options) {
+    var eventName = options.namespace
+      ? 'focusin.' + options.namespace
+      : 'focusin';
+
+    if (options.$container && options.$container.length) {
+      options.$container.removeAttr('tabindex');
+    }
+
+    $(document).off(eventName);
+  }
+};
+
+/**
+ * Cart Template Script
+ * ------------------------------------------------------------------------------
+ * A file that contains scripts highly couple code to the Cart template.
+ *
+ * @namespace cart
+ */
+
+slate.cart = {
+  
+  /**
+   * Browser cookies are required to use the cart. This function checks if
+   * cookies are enabled in the browser.
+   */
+  cookiesEnabled: function() {
+    var cookieEnabled = navigator.cookieEnabled;
+
+    if (!cookieEnabled){
+      document.cookie = 'testcookie';
+      cookieEnabled = (document.cookie.indexOf('testcookie') !== -1);
+    }
+    return cookieEnabled;
+  }
+};
+
+/**
+ * Utility helpers
+ * -----------------------------------------------------------------------------
+ * A collection of useful functions for dealing with arrays and objects
+ *
+ * @namespace utils
+ */
+
+slate.utils = {
+
+  /**
+   * Return an object from an array of objects that matches the provided key and value
+   *
+   * @param {array} array - Array of objects
+   * @param {string} key - Key to match the value against
+   * @param {string} value - Value to get match of
+   */
+  findInstance: function(array, key, value) {
+    for (var i = 0; i < array.length; i++) {
+      if (array[i][key] === value) {
+        return array[i];
+      }
+    }
+  },
+
+  /**
+   * Remove an object from an array of objects by matching the provided key and value
+   *
+   * @param {array} array - Array of objects
+   * @param {string} key - Key to match the value against
+   * @param {string} value - Value to get match of
+   */
+  removeInstance: function(array, key, value) {
+    var i = array.length;
+    while(i--) {
+      if (array[i][key] === value) {
+        array.splice(i, 1);
+        break;
+      }
+    }
+
+    return array;
+  },
+
+  /**
+   * _.compact from lodash
+   * Remove empty/false items from array
+   * Source: https://github.com/lodash/lodash/blob/master/compact.js
+   *
+   * @param {array} array
+   */
+  compact: function(array) {
+    var index = -1;
+    var length = array == null ? 0 : array.length;
+    var resIndex = 0;
+    var result = [];
+
+    while (++index < length) {
+      var value = array[index];
+      if (value) {
+        result[resIndex++] = value;
+      }
+    }
+    return result;
+  },
+
+  /**
+   * _.defaultTo from lodash
+   * Checks `value` to determine whether a default value should be returned in
+   * its place. The `defaultValue` is returned if `value` is `NaN`, `null`,
+   * or `undefined`.
+   * Source: https://github.com/lodash/lodash/blob/master/defaultTo.js
+   *
+   * @param {*} value - Value to check
+   * @param {*} defaultValue - Default value
+   * @returns {*} - Returns the resolved value
+   */
+  defaultTo: function(value, defaultValue) {
+    return (value == null || value !== value) ? defaultValue : value
+  }
+};
+
+/**
+ * Rich Text Editor
+ * -----------------------------------------------------------------------------
+ * Wrap iframes and tables in div tags to force responsive/scrollable layout.
+ *
+ * @namespace rte
+ */
+
+slate.rte = {
+  /**
+   * Wrap tables in a container div to make them scrollable when needed
+   *
+   * @param {object} options - Options to be used
+   * @param {jquery} options.$tables - jquery object(s) of the table(s) to wrap
+   * @param {string} options.tableWrapperClass - table wrapper class name
+   */
+  wrapTable: function(options) {
+    var tableWrapperClass = typeof options.tableWrapperClass === "undefined" ? '' : options.tableWrapperClass;
+
+    options.$tables.wrap('<div class="' + tableWrapperClass + '"></div>');
+  },
+
+  /**
+   * Wrap iframes in a container div to make them responsive
+   *
+   * @param {object} options - Options to be used
+   * @param {jquery} options.$iframes - jquery object(s) of the iframe(s) to wrap
+   * @param {string} options.iframeWrapperClass - class name used on the wrapping div
+   */
+  wrapIframe: function(options) {
+    var iframeWrapperClass = typeof options.iframeWrapperClass === "undefined" ? '' : options.iframeWrapperClass;
+
+    options.$iframes.each(function() {
+      // Add wrapper to make video responsive
+      $(this).wrap('<div class="' + iframeWrapperClass + '"></div>');
+      
+      // Re-set the src attribute on each iframe after page load
+      // for Chrome's "incorrect iFrame content on 'back'" bug.
+      // https://code.google.com/p/chromium/issues/detail?id=395791
+      // Need to specifically target video and admin bar
+      this.src = this.src;
+    });
+  }
+};
+
+slate.Sections = function Sections() {
+  this.constructors = {};
+  this.instances = [];
+
+  $(document)
+    .on('shopify:section:load', this._onSectionLoad.bind(this))
+    .on('shopify:section:unload', this._onSectionUnload.bind(this))
+    .on('shopify:section:select', this._onSelect.bind(this))
+    .on('shopify:section:deselect', this._onDeselect.bind(this))
+    .on('shopify:section:reorder', this._onReorder.bind(this))
+    .on('shopify:block:select', this._onBlockSelect.bind(this))
+    .on('shopify:block:deselect', this._onBlockDeselect.bind(this));
+};
+
+slate.Sections.prototype = $.extend({}, slate.Sections.prototype, {
+  _createInstance: function(container, constructor) {
+    var $container = $(container);
+    var id = $container.attr('data-section-id');
+    var type = $container.attr('data-section-type');
+
+    constructor = constructor || this.constructors[type];
+
+    if (typeof constructor === 'undefined') {
+      return;
+    }
+
+    var instance = $.extend(new constructor(container), {
+      id: id,
+      type: type,
+      container: container
+    });
+
+    this.instances.push(instance);
+  },
+
+  _onSectionLoad: function(evt) {
+    var container = $('[data-section-id]', evt.target)[0];
+    if (container) {
+      this._createInstance(container);
+    }
+  },
+
+  _onSectionUnload: function(evt) {
+    var instance = slate.utils.findInstance(this.instances, 'id', evt.detail.sectionId);
+
+    if (!instance) {
+      return;
+    }
+
+    if (typeof instance.onUnload === 'function') {
+      instance.onUnload(evt);
+    }
+
+    this.instances = slate.utils.removeInstance(this.instances, 'id', evt.detail.sectionId);
+  },
+
+  _onSelect: function(evt) {
+    var instance = slate.utils.findInstance(this.instances, 'id', evt.detail.sectionId);
+
+    if (instance && typeof instance.onSelect === 'function') {
+      instance.onSelect(evt);
+    }
+  },
+
+  _onDeselect: function(evt) {
+    var instance = slate.utils.findInstance(this.instances, 'id', evt.detail.sectionId);
+
+    if (instance && typeof instance.onDeselect === 'function') {
+      instance.onDeselect(evt);
+    }
+  },
+
+  _onReorder: function(evt) {
+    var instance = slate.utils.findInstance(this.instances, 'id', evt.detail.sectionId);
+
+    if (instance && typeof instance.onReorder === 'function') {
+      instance.onReorder(evt);
+    }
+  },
+
+  _onBlockSelect: function(evt) {
+    var instance = slate.utils.findInstance(this.instances, 'id', evt.detail.sectionId);
+
+    if (instance && typeof instance.onBlockSelect === 'function') {
+      instance.onBlockSelect(evt);
+    }
+  },
+
+  _onBlockDeselect: function(evt) {
+    var instance = slate.utils.findInstance(this.instances, 'id', evt.detail.sectionId);
+
+    if (instance && typeof instance.onBlockDeselect === 'function') {
+      instance.onBlockDeselect(evt);
+    }
+  },
+
+  register: function(type, constructor) {
+    this.constructors[type] = constructor;
+
+    $('[data-section-type=' + type + ']').each(function(index, container) {
+      this._createInstance(container, constructor);
+    }.bind(this));
+  }
+});
+
+/**
+ * Currency Helpers
+ * -----------------------------------------------------------------------------
+ * A collection of useful functions that help with currency formatting
+ *
+ * Current contents
+ * - formatMoney - Takes an amount in cents and returns it as a formatted dollar value.
+ *
+ */
+
+slate.Currency = (function() {
+  var moneyFormat = '${{amount}}';
+
+  /**
+   * Format money values based on your shop currency settings
+   * @param  {Number|string} cents - value in cents or dollar amount e.g. 300 cents
+   * or 3.00 dollars
+   * @param  {String} format - shop money_format setting
+   * @return {String} value - formatted value
+   */
+  function formatMoney(cents, format) {
+    if (typeof cents === 'string') {
+      cents = cents.replace('.', '');
+    }
+    var value = '';
+    var placeholderRegex = /\{\{\s*(\w+)\s*\}\}/;
+    var formatString = (format || moneyFormat);
+
+    function formatWithDelimiters(number, precision, thousands, decimal) {
+      precision = slate.utils.defaultTo(precision, 2);
+      thousands = slate.utils.defaultTo(thousands, ',');
+      decimal = slate.utils.defaultTo(decimal, '.');
+
+      if (isNaN(number) || number == null) {
+        return 0;
+      }
+
+      number = (number / 100.0).toFixed(precision);
+
+      var parts = number.split('.');
+      var dollarsAmount = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1' + thousands);
+      var centsAmount = parts[1] ? (decimal + parts[1]) : '';
+
+      return dollarsAmount + centsAmount;
+    }
+
+switch (formatString.match(placeholderRegex)[1]) {
+      case 'amount':
+        value = formatWithDelimiters(cents, 2);
+        break;
+      case 'amount_no_decimals':
+        value = formatWithDelimiters(cents, 0);
+        break;
+      case 'amount_with_space_separator':
+        value = formatWithDelimiters(cents, 2, ' ', '.');
+        break;
+      case 'amount_with_comma_separator':
+        value = formatWithDelimiters(cents, 2, ' ', ',');
+        break;
+      case 'amount_no_decimals_with_comma_separator':
+        value = formatWithDelimiters(cents, 0, ',', '.');
+        break;
+      case 'amount_no_decimals_with_space_separator':
+        value = formatWithDelimiters(cents, 0, ' ');
+        break;
+    }
+
+    return formatString.replace(placeholderRegex, value);
+  }
+
+  return {
+    formatMoney: formatMoney
   };
+})();
 
-  FoxTheme.Carousel = (function () {
-    class Carousel {
-      constructor(container, options, modules = null) {
-        this.container = container;
-        let defaultModules = [
-          FoxTheme.Swiper.Navigation,
-          FoxTheme.Swiper.Pagination,
-          FoxTheme.Swiper.Keyboard,
-          FoxTheme.Swiper.Mousewheel,
-        ];
-        if (modules) {
-          defaultModules = defaultModules.concat(modules);
+/**
+ * Image Helper Functions
+ * -----------------------------------------------------------------------------
+ * A collection of functions that help with basic image operations.
+ *
+ */
+
+slate.Image = (function() {
+
+  /**
+   * Preloads an image in memory and uses the browsers cache to store it until needed.
+   *
+   * @param {Array} images - A list of image urls
+   * @param {String} size - A shopify image size attribute
+   */
+
+  function preload(images, size) {
+    if (typeof images === 'string') {
+      images = [images];
+    }
+
+    for (var i = 0; i < images.length; i++) {
+      var image = images[i];
+      this.loadImage(this.getSizedImageUrl(image, size));
+    }
+  }
+
+  /**
+   * Loads and caches an image in the browsers cache.
+   * @param {string} path - An image url
+   */
+  function loadImage(path) {
+    new Image().src = path;
+  }
+
+  /**
+   * Find the Shopify image attribute size
+   *
+   * @param {string} src
+   * @returns {null}
+   */
+  function imageSize(src) {
+    var match = src.match(/.+_((?:pico|icon|thumb|small|compact|medium|large|grande)|\d{1,4}x\d{0,4}|x\d{1,4})[_\.@]/);
+
+    if (match) {
+      return match[1];
+    } else {
+      return null;
+    }
+  }
+
+  /**
+   * Adds a Shopify size attribute to a URL
+   *
+   * @param src
+   * @param size
+   * @returns {*}
+   */
+  function getSizedImageUrl(src, size) {
+    if (size === null) {
+      return src;
+    }
+
+    if (size === 'master') {
+      return this.removeProtocol(src);
+    }
+
+    var match = src.match(/\.(jpg|jpeg|gif|png|bmp|bitmap|tiff|tif)(\?v=\d+)?$/i);
+
+    if (match) {
+      var prefix = src.split(match[0]);
+      var suffix = match[0];
+
+      return this.removeProtocol(prefix[0] + '_' + size + suffix);
+    } else {
+      return null;
+    }
+  }
+
+  function removeProtocol(path) {
+    return path.replace(/http(s)?:/, '');
+  }
+
+  return {
+    preload: preload,
+    loadImage: loadImage,
+    imageSize: imageSize,
+    getSizedImageUrl: getSizedImageUrl,
+    removeProtocol: removeProtocol
+  };
+})();
+
+/**
+ * Variant Selection scripts
+ * ------------------------------------------------------------------------------
+ *
+ * Handles change events from the variant inputs in any `cart/add` forms that may
+ * exist. Also updates the master select and triggers updates when the variants
+ * price or image changes.
+ *
+ * @namespace variants
+ */
+
+slate.Variants = (function() {
+
+  /**
+   * Variant constructor
+   *
+   * @param {object} options - Settings from `product.js`
+   */
+  function Variants(options) {
+    this.$container = options.$container;
+    this.product = options.product;
+    this.singleOptionSelector = options.singleOptionSelector;
+    this.originalSelectorId = options.originalSelectorId;
+    this.enableHistoryState = options.enableHistoryState;
+    this.currentVariant = this._getVariantFromOptions();
+
+    $(this.singleOptionSelector, this.$container).on('change', this._onSelectChange.bind(this));
+  }
+
+  Variants.prototype = $.extend({}, Variants.prototype, {
+
+    /**
+     * Get the currently selected options from add-to-cart form. Works with all
+     * form input elements.
+     *
+     * @return {array} options - Values of currently selected variants
+     */
+    _getCurrentOptions: function() {
+      var currentOptions = $.map($(this.singleOptionSelector, this.$container), function(element) {
+        var $element = $(element);
+        var type = $element.attr('type');
+        var currentOption = {};
+
+        if (type === 'radio' || type === 'checkbox') {
+          if ($element[0].checked) {
+            currentOption.value = $element.val();
+            currentOption.index = $element.data('index');
+
+            return currentOption;
+          } else {
+            return false;
+          }
+        } else {
+          currentOption.value = $element.val();
+          currentOption.index = $element.data('index');
+
+          return currentOption;
         }
+      });
 
-        this.options = {
-          modules: defaultModules,
-          ...options,
-        };
-      }
+      // remove any unchecked input values if using radio buttons or checkboxes
+      currentOptions = slate.utils.compact(currentOptions);
 
-      init() {
-        this.slider = new FoxTheme.Swiper.Swiper(this.container, this.options);
-      }
-    }
-    return Carousel;
-  })();
+      return currentOptions;
+    },
 
-  FoxTheme.delayUntilInteraction = (function () {
-    class ScriptLoader {
-      constructor(callback, delay = 5000) {
-        this.loadScriptTimer = setTimeout(callback, delay);
-        this.userInteractionEvents = [
-          'mouseover',
-          'mousemove',
-          'keydown',
-          'touchstart',
-          'touchend',
-          'touchmove',
-          'wheel',
-        ];
+    /**
+     * Find variant based on selected values.
+     *
+     * @param  {array} selectedValues - Values of variant inputs
+     * @return {object || undefined} found - Variant object from product.variants
+     */
+    _getVariantFromOptions: function() {
+      var selectedValues = this._getCurrentOptions();
+      var variants = this.product.variants;
+      var found = false;
 
-        this.onScriptLoader = this.triggerScriptLoader.bind(this, callback);
-        this.userInteractionEvents.forEach((event) => {
-          window.addEventListener(event, this.onScriptLoader, {
-            passive: !0,
-          });
+      variants.forEach(function(variant) {
+        var satisfied = true;
+
+        selectedValues.forEach(function(option) {
+          if (satisfied) {
+            satisfied = (option.value === variant[option.index]);
+          }
         });
-      }
 
-      triggerScriptLoader(callback) {
-        callback();
-        clearTimeout(this.loadScriptTimer);
-        this.userInteractionEvents.forEach((event) => {
-          window.removeEventListener(event, this.onScriptLoader, {
-            passive: !0,
-          });
-        });
-      }
-    }
-
-    return ScriptLoader;
-  })();
-
-  FoxTheme.Currency = (function () {
-    const moneyFormat = '${{amount}}'; // eslint-disable-line camelcase
-
-    function formatMoney(cents, format) {
-      if (typeof cents === 'string') {
-        cents = cents.replace('.', '');
-      }
-      let value = '';
-      const placeholderRegex = /\{\{\s*(\w+)\s*\}\}/;
-      const formatString = format || moneyFormat;
-
-      function formatWithDelimiters(number, precision, thousands, decimal) {
-        thousands = thousands || ',';
-        decimal = decimal || '.';
-
-        if (isNaN(number) || number === null) {
-          return 0;
+        if (satisfied) {
+          found = variant;
         }
+      });
 
-        number = (number / 100.0).toFixed(precision);
+      return found || null;
+    },
 
-        const parts = number.split('.');
-        const dollarsAmount = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1' + thousands);
-        const centsAmount = parts[1] ? decimal + parts[1] : '';
+    /**
+     * Event handler for when a variant input changes.
+     */
+    _onSelectChange: function() {
+      var variant = this._getVariantFromOptions();
 
-        return dollarsAmount + centsAmount;
-      }
+      this.$container.trigger({
+        type: 'variantChange',
+        variant: variant
+      });
 
-      switch (formatString.match(placeholderRegex)[1]) {
-        case 'amount':
-          value = formatWithDelimiters(cents, 2);
-          break;
-        case 'amount_no_decimals':
-          value = formatWithDelimiters(cents, 0);
-          break;
-        case 'amount_with_comma_separator':
-          value = formatWithDelimiters(cents, 2, '.', ',');
-          break;
-        case 'amount_no_decimals_with_comma_separator':
-          value = formatWithDelimiters(cents, 0, '.', ',');
-          break;
-        case 'amount_no_decimals_with_space_separator':
-          value = formatWithDelimiters(cents, 0, ' ');
-          break;
-        case 'amount_with_apostrophe_separator':
-          value = formatWithDelimiters(cents, 2, "'");
-          break;
-      }
-
-      return formatString.replace(placeholderRegex, value);
-    }
-
-    function getBaseUnit(variant) {
       if (!variant) {
         return;
       }
 
-      if (!variant.unit_price_measurement || !variant.unit_price_measurement.reference_value) {
+      this._updateMasterSelect(variant);
+      this._updateImages(variant);
+      this._updatePrice(variant);
+      this.currentVariant = variant;
+
+      if (this.enableHistoryState) {
+        this._updateHistoryState(variant);
+      }
+    },
+
+    /**
+     * Trigger event when variant image changes
+     *
+     * @param  {object} variant - Currently selected variant
+     * @return {event}  variantImageChange
+     */
+    _updateImages: function(variant) {
+      var variantImage = variant.featured_image || {};
+      var currentVariantImage = this.currentVariant.featured_image || {};
+
+      if (!variant.featured_image || variantImage.src === currentVariantImage.src) {
         return;
       }
 
-      return variant.unit_price_measurement.reference_value === 1
-        ? variant.unit_price_measurement.reference_unit
-        : variant.unit_price_measurement.reference_value + variant.unit_price_measurement.reference_unit;
+      this.$container.trigger({
+        type: 'variantImageChange',
+        variant: variant
+      });
+    },
+
+    /**
+     * Trigger event when variant price changes.
+     *
+     * @param  {object} variant - Currently selected variant
+     * @return {event} variantPriceChange
+     */
+    _updatePrice: function(variant) {
+      if (variant.price === this.currentVariant.price && variant.compare_at_price === this.currentVariant.compare_at_price) {
+        return;
+      }
+
+      this.$container.trigger({
+        type: 'variantPriceChange',
+        variant: variant
+      });
+    },
+
+    /**
+     * Update history state for product deeplinking
+     *
+     * @param {object} variant - Currently selected variant
+     */
+    _updateHistoryState: function(variant) {
+      if (!history.replaceState || !variant) {
+        return;
+      }
+
+      var newurl = window.location.protocol + '//' + window.location.host + window.location.pathname + '?variant=' + variant.id;
+      window.history.replaceState({path: newurl}, '', newurl);
+    },
+
+    /**
+     * Update hidden master select of variant change
+     *
+     * @param {object} variant - Currently selected variant
+     */
+    _updateMasterSelect: function(variant) {
+      $(this.originalSelectorId, this.$container)[0].value = variant.id;
     }
-
-    return {
-      formatMoney: formatMoney,
-      getBaseUnit: getBaseUnit,
-    };
-  })();
-
-  new FoxTheme.delayUntilInteraction(() => {
-    document.body.removeAttribute('data-initializing');
   });
 
-  FoxTheme.DOMready(FoxTheme.utils.setScrollbarWidth);
-  // window.addEventListener('resize', FoxTheme.utils.throttle(FoxTheme.utils.setScrollbarWidth));
-
-  const mql = window.matchMedia(FoxTheme.config.mediaQueryMobile);
-  FoxTheme.config.mqlMobile = mql.matches;
-  mql.onchange = (event) => {
-    if (event.matches) {
-      FoxTheme.config.mqlMobile = true;
-      document.dispatchEvent(new CustomEvent('matchMobile'));
-    } else {
-      FoxTheme.config.mqlMobile = false;
-      document.dispatchEvent(new CustomEvent('unmatchMobile'));
-    }
-  };
-
-  const mqlTablet = window.matchMedia(FoxTheme.config.mediaQueryTablet);
-  FoxTheme.config.mqlTablet = mqlTablet.matches;
-  mqlTablet.onchange = (event) => {
-    if (event.matches) {
-      FoxTheme.config.mqlTablet = true;
-      document.dispatchEvent(new CustomEvent('matchTablet'));
-    } else {
-      FoxTheme.config.mqlTablet = false;
-      document.dispatchEvent(new CustomEvent('unmatchTablet'));
-    }
-  };
+  return Variants;
 })();
 
-// Here run the querySelector to figure out if the browser supports :focus-visible or not and run code based on it.
-try {
-  document.querySelector(':focus-visible');
-} catch (e) {
-  FoxTheme.focusVisiblePolyfill();
+	/**
+	 * Velstar Ajaxify Cart
+	 **/
+	 var config = {
+
+		/* Langauge */
+		//addToCartBtnText: 		'In den Warenkorb', //Add to Basket
+		//addedToCartBtnText: 	'Im Warenkorb', //Added to Basket
+		//addingToCartBtnText: 	'Wird hinzugefügt', //Adding...
+		//soldOutBtnText: 		'Sold Out', //Sold Out
+
+		//After adding a product to the cart, how long to wait before it returns to normal?
+		returnBtnToNormal: 		4000, // milliseconds
+
+		/* Selectors */
+		cartCountSelector: 		'.ajax-cart__count',
+		cartTotalSelector: 		'.ajax-cart__price',
+		cartRemoveSelector: 	'.ajax-cart__remove',
+
+		/* Icons*/
+		successIcon: 			'',
+		errorIcon: 				'',
+		loadingIcon: 			'',
+
+
+		/* No need to change this elements. */
+		addToCartBtnSelector: 	'.btn-basket',
+		addToCartFormSelector: 	'form[action="/cart/add"]',
+		shopifyAjaxAddURL: 		'/cart/add.js',
+		shopifyAjaxChangeURL: 	'/cart/change.js',
+		shopifyAjaxCartURL: 	'/cart.js'
+	}
+
+	/* Langauge */
+	var addToCartBtnText = $(config.addToCartBtnSelector).data('add-to-cart-text');
+	var addToCartUnavailableText = $(config.addToCartBtnSelector).data('unavailable-text');
+	var addingToCartBtnText = $(config.addToCartBtnSelector).data('add-to-cart-status');
+	var addedToCartBtnText = $(config.addToCartBtnSelector).data('added-to-cart-text');
+	var soldOutBtnText = $(config.addToCartBtnSelector).data('sold-out-text');
+
+
+//Provide the user Feedback if the Ajax was sucessful or not.
+function ajaxFeedback(status, html, $addToCartForm) {
+	//$('.ajaxfeedback').remove();
+	var feedback = '<p class="ajaxfeedback ' + status + '">' + html + '</p>';
+
+	$addToCartForm.find(config.addToCartBtnSelector).after(feedback);
+	$('.ajaxfeedback').slideDown();
 }
 
-function pauseAllMedia() {
-  document.querySelectorAll('.js-youtube').forEach((video) => {
-    video.contentWindow.postMessage('{"event":"command","func":"' + 'pauseVideo' + '","args":""}', '*');
-  });
-  document.querySelectorAll('.js-vimeo').forEach((video) => {
-    video.contentWindow.postMessage('{"method":"pause"}', '*');
-  });
-  document.querySelectorAll('video').forEach((video) => video.pause());
-  document.querySelectorAll('product-model').forEach((model) => {
-    if (model.modelViewerUI) model.modelViewerUI.pause();
-  });
+//BG: Provide the user feedback on the cart template when adjusting quantity / variant.
+function ajaxFeedbackCart(status,html,output) {
+	$('.ajaxFeedbackCart').remove();
+	var feedback = '<span class="ajaxFeedbackCart '+status+'">'+html+'</span>';
+
+	$(output).after(feedback);
 }
 
-class HTMLUpdateUtility {
-  /**
-   * Used to swap an HTML node with a new node.
-   * The new node is inserted as a previous sibling to the old node, the old node is hidden, and then the old node is removed.
-   *
-   * The function currently uses a double buffer approach, but this should be replaced by a view transition once it is more widely supported https://developer.mozilla.org/en-US/docs/Web/API/View_Transitions_API
-   */
-  static viewTransition(oldNode, newContent, preProcessCallbacks = [], postProcessCallbacks = []) {
-    if (!oldNode || !newContent) return;
-    preProcessCallbacks?.forEach((callback) => callback(newContent));
-
-    const newNodeWrapper = document.createElement('div');
-    HTMLUpdateUtility.setInnerHTML(newNodeWrapper, newContent.outerHTML);
-    const newNode = newNodeWrapper.firstChild;
-
-    // dedupe IDs
-    const uniqueKey = Date.now();
-    oldNode.querySelectorAll('[id], [form]').forEach((element) => {
-      element.id && (element.id = `${element.id}-${uniqueKey}`);
-      element.form && element.setAttribute('form', `${element.form.getAttribute('id')}-${uniqueKey}`);
-    });
-
-    oldNode.parentNode.insertBefore(newNode, oldNode);
-    oldNode.style.display = 'none';
-
-    postProcessCallbacks?.forEach((callback) => callback(newNode));
-
-    setTimeout(() => oldNode.remove(), 500);
-  }
-
-  // Sets inner HTML and reinjects the script tags to allow execution. By default, scripts are disabled when using element.innerHTML.
-  static setInnerHTML(element, html) {
-    element.innerHTML = html;
-    element.querySelectorAll('script').forEach((oldScriptTag) => {
-      const newScriptTag = document.createElement('script');
-      Array.from(oldScriptTag.attributes).forEach((attribute) => {
-        newScriptTag.setAttribute(attribute.name, attribute.value);
-      });
-      newScriptTag.appendChild(document.createTextNode(oldScriptTag.innerHTML));
-      oldScriptTag.parentNode.replaceChild(newScriptTag, oldScriptTag);
-    });
-  }
+//Update the button apperance during the various stages. Adding, added, and back to add.
+function updateBtnText($button, label, icon) {
+	if (icon) {
+		$button.val(label).html(label + icon);
+	} else {
+		$button.val(label).text(label);
+	}
 }
 
-class PageTransition extends HTMLElement {
-  constructor() {
-    super();
+//Format the money
+function formatMoney(cents, format) {
+	if (typeof cents == 'string') {
+		cents = cents.replace('.', '');
+	}
+	var value = '';
+	var placeholderRegex = /\{\{\s*(\w+)\s*\}\}/;
+	var formatString = (format || this.money_format);
 
-    window.addEventListener('beforeunload', () => {
-      document.body.classList.add('page-loading');
-    });
+	function defaultOption(opt, def) {
+		return (typeof opt == 'undefined' ? def : opt);
+	}
 
-    window.addEventListener('DOMContentLoaded', () => {
-      FoxTheme.Motion.animate(this, { visibility: 'hidden', opacity: 0 }, { duration: 1 });
+	function formatWithDelimiters(number, precision, thousands, decimal) {
+		precision = defaultOption(precision, 2);
+		thousands = defaultOption(thousands, ',');
+		decimal = defaultOption(decimal, '.');
 
-      document.body.classList.add('page-loaded');
-      document.dispatchEvent(new CustomEvent('page:loaded'));
-    });
+		if (isNaN(number) || number == null) {
+			return 0;
+		}
 
-    window.addEventListener('pageshow', (event) => {
-      if (event.persisted) {
-        document.body.classList.remove('page-loading');
-      }
-    });
-  }
-}
-customElements.define('page-transition', PageTransition);
+		number = (number / 100.0).toFixed(precision);
 
-const clearModalComponentCount = new WeakMap();
-class ModalComponent extends HTMLElement {
-  constructor() {
-    super();
-    this.events = {
-      handleAfterHide: 'modal:handleAfterHide',
-      handleAfterShow: 'modal:handleAfterShow',
-    };
+		var parts = number.split('.'),
+			dollars = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1' + thousands),
+			cents = parts[1] ? (decimal + parts[1]) : '';
 
-    this.classes = {
-      show: 'modal-show',
-      showing: 'modal-showing',
-    };
-  }
+		return dollars + cents;
+	}
 
-  static get observedAttributes() {
-    return ['id', 'open'];
-  }
+	switch (formatString.match(placeholderRegex)[1]) {
+		case 'amount':
+			value = formatWithDelimiters(cents, 2);
+			break;
+		case 'amount_no_decimals':
+			value = formatWithDelimiters(cents, 0);
+			break;
+		case 'amount_with_comma_separator':
+			value = formatWithDelimiters(cents, 2, '.', ',');
+			break;
+		case 'amount_no_decimals_with_comma_separator':
+			value = formatWithDelimiters(cents, 0, '.', ',');
+			break;
+	}
 
-  get isLockingNeeded() {
-    return false;
-  }
+	return formatString.replace(placeholderRegex, value);
+};
+updateMiniCartContents()
 
-  get requiresBodyAppended() {
-    return false;
-  }
 
-  get controls() {
-    return Array.from(document.querySelectorAll(`[aria-controls="${this.id}"]`));
-  }
+//BG: Function to update the Cart Dropdown with the newly added product(s)
+function updateMiniCartContents() {
 
-  get designMode() {
-    return this.hasAttribute('shopify-design-mode');
-  }
+	//ajax get request to cart.js
+	$.ajax({
+		type: 'GET',
+		url: config.shopifyAjaxCartURL,
+		dataType: 'json',
+		success: function (data) {
 
-  get open() {
-    return this.hasAttribute('open');
-  }
+             
+			//Debug
+			////console.log(data);
 
-  get overlay() {
-    // Check if the _overlay property is already set
-    if (!this._overlay) {
-      // If not set, find the element and cache it
-      this._overlay = this.querySelector('.fixed-overlay');
-    }
 
-    // Return the cached element
-    return this._overlay;
-  }
 
-  get focusElement() {
-    const button = this.querySelector('button');
-    if (button) return button;
+			//Get Cart Total Cost (format it) & Cart Count.
+			var cartTotalCost = slate.Currency.formatMoney(data.total_price, theme.moneyFormat),
+				cartCount = data.item_count;       
 
-    const focusableElements = FoxTheme.a11y.getFocusableElements(this);
-    return focusableElements[0] || this;
-  }
-  connectedCallback() {
-    // Initialize the AbortController
-    this.abortController = new AbortController();
+			//Output cart total
+			$(config.cartTotalSelector).text(cartTotalCost);
+			$(config.cartCountSelector).text('('+cartCount+')');
 
-    // Add click event listeners to all controls
-    this.controls.forEach((button) => {
-      button.addEventListener('click', this.onButtonClick.bind(this), {
-        signal: this.abortController.signal,
-      });
-    });
+			if (cartCount > 0) {
+				$(config.cartCountSelector).removeClass('no-items');
+			} else {
+				$(config.cartCountSelector).addClass('no-items');
+			}         
+          
+			//remove all items within cart.
+			$('.ajax-cart__items > div').remove();
+            
+            
+            var totalPriceInCart = 0;
+            
+			//with the returned data, focus soley on the items. For each item...
+			$.each(data.items, function (i, item) {
+                
+				var shop = window.Shopify.shop;
+				if(shop == 'bw2016.myshopify.com'){
+					// DE store
+					var duvetcover = ' Deckenbezug';
+				} else if(shop == 'royfort-ch.myshopify.com') {
+					// CH store
+					var duvetcover = ' Deckenbezug';
+				} else {
+					// Other store
+					var duvetcover = ' Duvet Cover';
+				}
 
-    // Add keyup event listener to document for handling the Escape key
-    document.addEventListener(
-      'keyup',
-      (event) => {
-        if (event.code === 'Escape') {
-          this.hide();
-        }
-      },
-      { signal: this.abortController.signal }
-    );
+				var itemTitle = item.product_title;
+				if (itemTitle.includes(' Set')){
+					itemTitle = itemTitle.replace(' Set', duvetcover);
+				}
+				var itemPrice = slate.Currency.formatMoney(item.price, theme.moneyFormat);
+				var itemQuantity = item.quantity;
+				var itemVariant = item.variant_title;
+				var itemVariantId = item.variant_id;
+				var itemImage = item.image;
+				var itemUrl = item.url;
+ 
+                 
+              
+                var comparePrice;
+                var comparePriceInCurrency ;
 
-    // Additional setup for Shopify design mode
-    if (this.designMode && Shopify.designMode) {
-      const section = this.closest('.shopify-section');
-      section.addEventListener(
-        'shopify:section:select',
-        (event) => {
-          this.show(null, !event.detail.load);
-        },
-        {
-          signal: this.abortController.signal,
-        }
-      );
-      section.addEventListener(
-        'shopify:section:deselect',
-        () => {
-          this.hide();
-        },
-        {
-          signal: this.abortController.signal,
-        }
-      );
-    }
-  }
+                $.ajaxSetup({
+                    async: false
+                  });
 
-  disconnectedCallback() {
-    this.abortController.abort();
-  }
+                jQuery.getJSON(window.Shopify.routes.root + `products/${item.handle}.js`, function(product) {
+                    if(product.variants){
+                        comparePrice = product.variants.find(v => v.id == itemVariantId).compare_at_price
+                    }
 
-  attributeChangedCallback(name, oldValue, newValue) {
-    switch (name) {
-      case 'open':
-        this.controls.forEach((button) => button.setAttribute('aria-expanded', newValue === null ? 'false' : 'true'));
+               
+                    comparePriceInCurrency = slate.Currency.formatMoney(comparePrice, theme.moneyFormat)
+                } );
+    
+                $.ajaxSetup({
+                    async: true
+                });
 
-        if (oldValue === null && (newValue === '' || newValue === 'immediate')) {
-          this.hidden = false;
-          this.removeAttribute('inert');
+                
+                
+                
+              
+                
+				//debugging
+				// console.log('Add: ' + itemTitle);
+                
+				//add each product back to mini cart preview.
+				// $('.ajax-cart__items').append('<div class="ajax-cart__item"><div class="ajax-cart__item-wrap"><div class="ajax-cart__item-image"><a href="' + itemUrl + '"><img src="' + itemImage + '"></a></div><div class="ajax-cart__item-info"><div class="ajax-cart__item-name"><a href="' + itemUrl + '" class="title-font text-14">' + itemTitle + '</a><div class="text-12">' + itemVariant + '</div></div><div class="ajax-cart__item-price title-font text-primary text-14">' + itemPrice + '</div></div></div><div class="ajax-cart__item-controlls"><div class="ajax-cart__qty" data-variant-id="' + itemVariantId + '"><span class="ajax-cart__qty--minus"><svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><rect stroke="#D9D9D9" fill="#FFF" x=".5" y=".5" width="17" height="17" rx="8.5"/><path d="M5 9h8" stroke="#4D4F50"/></g></svg></span><span class="ajax-cart__qty--number">' + itemQuantity + '</span><span class="ajax-cart__qty--plus"><svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><rect stroke="#D9D9D9" fill="#FFF" x=".5" y=".5" width="17" height="17" rx="8.5"/><g stroke="#4D4F50"><path d="M4 9h10M9 4v10"/></g></g></svg></span></div><div class="ajax-cart__remove"><span data-variant-id="' + itemVariantId + '"><svg width="20" height="22" viewBox="0 0 20 22" xmlns="http://www.w3.org/2000/svg"><g stroke="#4D4F50" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"><path d="M1 5.444h18M7.75 9.889v6.667M12.25 9.889v6.667M2.125 5.444L3.25 18.778C3.25 20.005 4.257 21 5.5 21h9c1.243 0 2.25-.995 2.25-2.222l1.125-13.334"/><path d="M6.625 5.444V2.111C6.625 1.497 7.129 1 7.75 1h4.5c.621 0 1.125.497 1.125 1.111v3.333"/></g></svg></span></div></div></div>');
+                
+                if (comparePrice > 0 && comparePrice> item.price){
+                     totalPriceInCart += (comparePrice * item.quantity)
+                     $('.ajax-cart__items').append('<div class="ajax-cart__item"><div class="ajax-cart__item-wrap"><div class="ajax-cart__item-image"><a href="' + itemUrl + '"><img src="' + itemImage + '"></a></div><div class="ajax-cart__item-info"><div class="ajax-cart__item-name"><a href="' + itemUrl + '" class="title-font text-14">' + itemTitle + '</a><div class="text-12">' + itemVariant + '</div></div><div class="ajax-cart__item-price title-font text-primary text-14" style="flex-direction: column; align-items: unset; text-decoration: line-through">' + comparePriceInCurrency +'<span class="original-price money title-font" style="color: #FFC42F; "><span class="compare-at-price" style="text-decoration: unset;">'+itemPrice+'</span></span></div></div></div><div class="ajax-cart__item-controlls"><div class="ajax-cart__qty" data-variant-id="' + itemVariantId + '"><span class="ajax-cart__qty--minus"><svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><rect stroke="#D9D9D9" fill="#FFF" x=".5" y=".5" width="17" height="17" rx="8.5"/><path d="M5 9h8" stroke="#4D4F50"/></g></svg></span><span class="ajax-cart__qty--number">' + itemQuantity + '</span><span class="ajax-cart__qty--plus"><svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><rect stroke="#D9D9D9" fill="#FFF" x=".5" y=".5" width="17" height="17" rx="8.5"/><g stroke="#4D4F50"><path d="M4 9h10M9 4v10"/></g></g></svg></span></div><div class="ajax-cart__remove"><span data-variant-id="' + itemVariantId + '"><svg width="20" height="22" viewBox="0 0 20 22" xmlns="http://www.w3.org/2000/svg"><g stroke="#4D4F50" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"><path d="M1 5.444h18M7.75 9.889v6.667M12.25 9.889v6.667M2.125 5.444L3.25 18.778C3.25 20.005 4.257 21 5.5 21h9c1.243 0 2.25-.995 2.25-2.222l1.125-13.334"/><path d="M6.625 5.444V2.111C6.625 1.497 7.129 1 7.75 1h4.5c.621 0 1.125.497 1.125 1.111v3.333"/></g></svg></span></div></div></div>');
+                } else {
+                    totalPriceInCart += (item.price * item.quantity)
+                    $('.ajax-cart__items').append('<div class="ajax-cart__item"><div class="ajax-cart__item-wrap"><div class="ajax-cart__item-image"><a href="' + itemUrl + '"><img src="' + itemImage + '"></a></div><div class="ajax-cart__item-info"><div class="ajax-cart__item-name"><a href="' + itemUrl + '" class="title-font text-14">' + itemTitle + '</a><div class="text-12">' + itemVariant + '</div></div><div class="ajax-cart__item-price title-font text-primary text-14" style="flex-direction: column; align-items: unset;">' + itemPrice +'<span class="original-price money title-font" style="color: #FFC42F; "><span style="text-decoration: line-through;" class="compare-at-price"></span><span style="margin-left: 20px;" class="compare-at-price-percentage"></span></span></div></div></div><div class="ajax-cart__item-controlls"><div class="ajax-cart__qty" data-variant-id="' + itemVariantId + '"><span class="ajax-cart__qty--minus"><svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><rect stroke="#D9D9D9" fill="#FFF" x=".5" y=".5" width="17" height="17" rx="8.5"/><path d="M5 9h8" stroke="#4D4F50"/></g></svg></span><span class="ajax-cart__qty--number">' + itemQuantity + '</span><span class="ajax-cart__qty--plus"><svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><rect stroke="#D9D9D9" fill="#FFF" x=".5" y=".5" width="17" height="17" rx="8.5"/><g stroke="#4D4F50"><path d="M4 9h10M9 4v10"/></g></g></svg></span></div><div class="ajax-cart__remove"><span data-variant-id="' + itemVariantId + '"><svg width="20" height="22" viewBox="0 0 20 22" xmlns="http://www.w3.org/2000/svg"><g stroke="#4D4F50" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"><path d="M1 5.444h18M7.75 9.889v6.667M12.25 9.889v6.667M2.125 5.444L3.25 18.778C3.25 20.005 4.257 21 5.5 21h9c1.243 0 2.25-.995 2.25-2.222l1.125-13.334"/><path d="M6.625 5.444V2.111C6.625 1.497 7.129 1 7.75 1h4.5c.621 0 1.125.497 1.125 1.111v3.333"/></g></svg></span></div></div></div>');
+                }
 
-          this.parentElementBeforeAppend = null;
-          if (this.requiresBodyAppended && this.parentElement !== document.body) {
-            this.parentElementBeforeAppend = this.parentElement;
-            document.body.append(this);
-          }
-          const handleShowTransitionPromise = this.handleShowTransition(newValue !== 'immediate') || Promise.resolve();
-          handleShowTransitionPromise.then(() => {
-            this.handleAfterShow();
-            this.dispatchEvent(new CustomEvent(this.events.handleAfterShow, { bubbles: true }));
-          });
-        } else if (oldValue !== null && newValue === null) {
-          this.setAttribute('inert', '');
+       
 
-          const handleHideTransitionPromise = this.handleHideTransition() || Promise.resolve();
-          handleHideTransitionPromise.then(() => {
-            this.handleAfterHide();
+        
+			});
+            // console.log(totalPriceInCart, slate.Currency.formatMoney(totalPriceInCart, theme.moneyFormat))
 
-            if (!this.hasAttribute('inert')) return;
+            // var discountPercentageTotal = 100 * (totalPriceInCart - data.total_price) / totalPriceInCart
 
-            if (this.parentElement === document.body && this.parentElementBeforeAppend) {
-              this.parentElementBeforeAppend.appendChild(this);
-              this.parentElementBeforeAppend = null;
+           
+            if(data.total_price < totalPriceInCart){
+                $('.total-compare-price').text(slate.Currency.formatMoney(totalPriceInCart, theme.moneyFormat))
+                // $('.prova-percentage').text('- ' + Math.floor(discountPercentageTotal) + '%')
+
+                $(config.cartTotalSelector).text(slate.Currency.formatMoney(totalPriceInCart, theme.moneyFormat));
+                $(config.cartTotalSelector).css('text-decoration','line-through')
+                
+                $('.total-compare-price').text(cartTotalCost)
+                $('.total-compare-price').css('text-decoration', 'unset') 
+            } else {
+                $('.total-compare-price').text('')
+                // $('.prova-percentage').text('')
+                $(config.cartTotalSelector).css('text-decoration','unset')
             }
-            this.dispatchEvent(new CustomEvent(this.events.handleAfterHide, { bubbles: true }));
-
-            this.hidden = true;
-          });
-        }
-        this.dispatchEvent(new CustomEvent('toggle', { bubbles: true }));
-
-        break;
-    }
-  }
-
-  onButtonClick(event) {
-    event.preventDefault();
-    if (this.open) {
-      this.hide();
-    } else {
-      this.show(event.currentTarget);
-    }
-  }
-
-  hide() {
-    if (this.open) {
-      this.removeAttribute('open');
-      return FoxTheme.utils.waitForEvent(this, this.events.handleAfterHide);
-    }
-  }
-
-  show(activeElement = null, animate = true) {
-    if (!this.shouleBeShow()) {
-      return;
-    }
-
-    if (!this.open) {
-      this.prepareToShow();
-      this.activeElement = activeElement;
-      this.setAttribute('open', animate ? '' : 'immediate');
-
-      if (this.isLockingNeeded) {
-        document.body.classList.add(this.classes.showing);
-      }
-
-      return FoxTheme.utils.waitForEvent(this, this.events.handleAfterShow);
-    }
-  }
-
-  handleAfterHide() {
-    setTimeout(() => {
-      // Remove trap focus from the active element
-      FoxTheme.a11y.removeTrapFocus(this.activeElement);
-
-      // Conditionally manage locking behavior
-      if (this.isLockingNeeded) {
-        // Decrement the lock layer count for the ModalElement
-        const currentModalCount = clearModalComponentCount.get(ModalComponent) - 1;
-        clearModalComponentCount.set(ModalComponent, currentModalCount);
-
-        // Toggle the 'open' class on the body based on the current lock count
-        document.body.classList.toggle(this.classes.show, currentModalCount > 0);
-      }
-    });
-  }
-
-  handleAfterShow() {
-    // Trap focus on the specified elements
-    FoxTheme.a11y.trapFocus(this, this.focusElement);
-
-    // Check if locking is needed
-    if (this.isLockingNeeded) {
-      // Increment the lock layer count for the ModalElement
-      const currentLockCount = clearModalComponentCount.get(ModalComponent) + 1;
-      clearModalComponentCount.set(ModalComponent, currentLockCount);
-
-      // Manage class changes on the document body
-      document.body.classList.remove(this.classes.showing);
-      document.body.classList.add(this.classes.show);
-    }
-  }
-
-  shouleBeShow() {
-    return true;
-  }
-
-  prepareToShow() {}
-
-  _clearShowActiveTimeout() {
-    if (this._showActiveTimeout) {
-      clearTimeout(this._showActiveTimeout);
-      this._showActiveTimeout = null;
-    }
-  }
-
-  waitForTransitionEnd(element, fallbackMs = 900) {
-    return new Promise((resolve) => {
-      let done = false;
-      const finish = () => {
-        if (done) return;
-        done = true;
-        element?.removeEventListener('transitionend', finish);
-        resolve();
-      };
-
-      if (!element) {
-        finish();
-        return;
-      }
-
-      element.addEventListener('transitionend', finish, { once: true });
-      setTimeout(finish, fallbackMs);
-    });
-  }
-
-  handleShowTransition(animate = true) {
-    this._clearShowActiveTimeout();
-
-    if (!animate) {
-      this.setAttribute('active', '');
-      return Promise.resolve();
-    }
-
-    this._showActiveTimeout = setTimeout(() => {
-      this._showActiveTimeout = null;
-      if (this.open) {
-        this.setAttribute('active', '');
-      }
-    }, 75);
-
-    return this.waitForTransitionEnd(this.overlay);
-  }
-
-  handleHideTransition() {
-    this._clearShowActiveTimeout();
-    this.removeAttribute('active');
-
-    return this.waitForTransitionEnd(this.overlay);
-  }
+		}
+	});
 }
-customElements.define('modal-component', ModalComponent);
-clearModalComponentCount.set(ModalComponent, 0);
 
-class BasicModal extends ModalComponent {
-  constructor() {
-    super();
-  }
+//remove product by setting quantity to zero via the data attribute.
+function removeItemFromCart(variant_id) {
+	//ajax get request to cart.js
+	$.ajax({
+		type: 'POST',
+		url: config.shopifyAjaxChangeURL,
+		data: 'quantity=0&id=' + variant_id,
+		dataType: 'json',
+		success: function (data) {
 
-  get isLockingNeeded() {
-    return true;
-  }
+			////console.log('Remove Item Triggered');
+			
+			//Update the cart to reflect new contents.
+			updateMiniCartContents();
 
-  get requiresBodyAppended() {
-    return true;
-  }
+		},
+		error: function (XMLHttpRequest) {
+			var response = eval('(' + XMLHttpRequest.responseText + ')');
+			response = response.description;
+			//console.log(response);
+
+		}
+	});
 }
-customElements.define('basic-modal', BasicModal);
 
-class DrawerComponent extends ModalComponent {
-  constructor() {
-    super();
-    this.events = {
-      handleAfterHide: 'drawer:handleAfterHide',
-      handleAfterShow: 'drawer:handleAfterShow',
-    };
-  }
-  get isLockingNeeded() {
-    return true;
-  }
-  get requiresBodyAppended() {
-    return true;
-  }
+//BG: Function will trigger on the cart page if user changes variant
+function addItem(variant_id,quantity,old_variant_id) {
+	$.ajax({
+		type: 'POST',
+		url: config.shopifyAjaxAddURL,
+		data: 'quantity='+quantity+'&id=' + variant_id,
+		dataType: 'json',
+		success: function (data) {
+			ajaxFeedbackCart('success','Updated size','.product-title[data-variant-id='+old_variant_id+'] .cart-product-variant-select');
+
+		},
+		error: function (XMLHttpRequest) {
+			var response = eval('(' + XMLHttpRequest.responseText + ')');
+			response = response.description;
+		}
+	});
 }
-customElements.define('drawer-component', DrawerComponent);
 
-class AccordionDetails extends HTMLDetailsElement {
-  constructor() {
-    super();
-    this.initAccordion();
-  }
+//BG: function can be triggered by Quantity update, or variant update.
+function quantityItemChange(variant_id,value,addProduct,new_variant_id,quantity) {
+	//convert string to int
+	var variant_id = parseInt(variant_id);
 
-  initAccordion() {
-    this.isOpen = this.hasAttribute('open');
-    this.summaryElement = this.querySelector('summary');
-    this.contentElement = this.querySelector('summary + *');
-    this.setAttribute('aria-expanded', this.isOpen ? 'true' : 'false');
+	// console.log('quantityItemChange')
+	// console.log(variant_id)
+	// console.log(value)
 
-    this.summaryElement.addEventListener('click', this.toggleAccordion.bind(this));
+	//ajax get request to cart.js
+	$.ajax({
+		type: 'POST',
+		url: config.shopifyAjaxChangeURL,
+		data: 'quantity='+value+'&id=' + variant_id,
+		dataType: 'json',
+		success: function (data) {
 
-    if (Shopify.designMode) {
-      this.designModeEventSetup();
-    }
-  }
+			if (addProduct == 'add') {
+				addItem(new_variant_id,quantity,variant_id);
+			} else {
+				$.each(data.items, function(index,item) {
+					if (variant_id === item.variant_id) {
+						if (item.quantity == value) {
+							ajaxFeedbackCart('success','Quantity updated','.basket-item[data-variant-id='+variant_id+'] .product-quantity-select');
 
-  static get observedAttributes() {
-    return ['open'];
-  }
+						//BG: if the amount has changed, but not to the value the user wanted.
+						} else if (item.quantity < value) {
+							ajaxFeedbackCart('warning','Quantity Updated to '+item.quantity+'. This is the last remaining amount.','.basket-item[data-variant-id='+variant_id+'] .product-quantity-select');
+						}
+						return false
+					}
+				});
+			}
 
-  get open() {
-    return this.isOpen;
-  }
+			updateMiniCartContents();
 
-  set open(value) {
-    if (value !== this.isOpen) {
-      this.isOpen = value;
-
-      if (this.isConnected) {
-        this.animateAccordion(value);
-      } else {
-        if (value) {
-          this.setAttribute('open', '');
-        } else {
-          this.removeAttribute('open');
-        }
-      }
-
-      this.setAttribute('aria-expanded', value ? 'true' : 'false');
-      this.setAttribute('aria-controls', this.contentElement.id);
-
-      this.handleAfterToggle();
-    }
-  }
-
-  handleAfterToggle() {}
-
-  handleAfterAnimated() {}
-
-  toggleAccordion(event) {
-    event.preventDefault();
-    this.open = !this.open;
-  }
-
-  close() {
-    this.isOpen = false;
-    this.animateAccordion(false);
-  }
-
-  async animateAccordion(isOpen) {
-    this.style.overflow = 'hidden';
-
-    let animation;
-
-    if (isOpen) {
-      this.setAttribute('open', '');
-
-      animation = FoxTheme.Motion.timeline([
-        [
-          this,
-          { height: [`${this.summaryElement.clientHeight + 1}px`, `${this.scrollHeight + 1}px`] },
-          { duration: 0.25, easing: 'ease' },
-        ],
-        [
-          this.contentElement,
-          { opacity: [0, 1], transform: ['translateY(10px)', 'translateY(0)'] },
-          { duration: 0.15, at: '<' },
-        ],
-      ]).finished;
-    } else {
-      animation = FoxTheme.Motion.timeline([
-        [this.contentElement, { opacity: 0 }, { duration: 0.15 }],
-        [
-          this,
-          { height: [`${this.clientHeight + 1}px`, `${this.summaryElement.clientHeight + 1}px`] },
-          { duration: 0.25, at: '<', easing: 'ease' },
-        ],
-      ]).finished;
-    }
-
-    this._animationPromise = animation;
-    await animation;
-
-    if (!isOpen) {
-      this.removeAttribute('open');
-    }
-
-    this.style.height = 'auto';
-    this.style.overflow = 'visible';
-
-    this.handleAfterAnimated();
-  }
-
-  designModeEventSetup() {
-    this.addEventListener('shopify:block:select', () => {
-      this.open = true;
-    });
-
-    this.addEventListener('shopify:block:deselect', () => {
-      this.open = false;
-    });
-  }
-
-  attributeChangedCallback(name, oldValue, newValue) {
-    if (name === 'open') {
-      this.setAttribute('aria-controls', this.contentElement.id);
-    }
-  }
+			//Update Total Price
+			var cartTotalCost = slate.Currency.formatMoney(data.total_price, theme.moneyFormat);
+			$('.basket-total-value span').text(cartTotalCost);
+		},
+		error: function (XMLHttpRequest) {
+			var response = eval('(' + XMLHttpRequest.responseText + ')');
+			response = response.description;
+		}
+	});
 }
-customElements.define('accordion-details', AccordionDetails, { extends: 'details' });
 
-class AccordionGroup extends AccordionDetails {
-  constructor() {
-    super();
-  }
 
-  toggleAccordion(event) {
-    event.preventDefault();
 
-    if (!this.isOpen) {
-      this._scrollAnchorTop = this.summaryElement.getBoundingClientRect().top;
-    }
 
-    this.open = !this.open;
-  }
+//Define the remove cart item selector, use the .off & .on feature to ensure it works correctly after new contents added to mini cart.
+function removeCartItemTrigger() {
+	//Remove Item from Cart
+	$('body').on('click',config.cartRemoveSelector + ' span',function () {
+		var varientID = $(this).attr('data-variant-id');
 
-  handleAfterToggle() {
-    if (this.isOpen) {
-      const parent = this.closest('.accordion-parent') || document;
-      const siblingsAccordions = parent.querySelectorAll('details[is="accordion-group"]');
+		$(this).parents('.ajax-cart__item').slideUp();
 
-      siblingsAccordions.forEach((details) => {
-        if (details !== this) {
-          details.open = false;
-        }
-      });
-    }
-  }
+		//Pass over to removeItemFromCart Function.
+		removeItemFromCart(varientID);
 
-  async handleAfterAnimated() {
-    if (!this.isOpen || this._scrollAnchorTop == null) return;
-
-    const parent = this.closest('.accordion-parent') || document;
-    const accordions = parent.querySelectorAll('details[is="accordion-group"]');
-    const animationPromises = [];
-
-    accordions.forEach((details) => {
-      if (details._animationPromise) {
-        animationPromises.push(details._animationPromise.catch(() => {}));
-      }
-    });
-
-    if (animationPromises.length) {
-      await Promise.all(animationPromises);
-    }
-
-    const delta = this.summaryElement.getBoundingClientRect().top - this._scrollAnchorTop;
-
-    if (Math.abs(delta) > 1) {
-      window.scrollBy(0, delta);
-    }
-
-    this._scrollAnchorTop = null;
-  }
+	});
 }
-customElements.define('accordion-group', AccordionGroup, { extends: 'details' });
 
-class ProgressBar extends HTMLElement {
-  constructor() {
-    super();
+function addToCart(form) {
+		$('.ajaxfeedback').remove();
+		//e.preventDefault();
 
-    if (this.hasAttribute('style')) return;
+		var $addToCartForm = form;
+		var $addToCartBtn = $addToCartForm.find(config.addToCartBtnSelector+':first-of-type');
+		var $fakeAddToCartBtn = $('.dummy-btn-basket');
 
-    if (this.dataset.from) {
-      this.initProgress();
-    }
+		//Adding button stage
+		updateBtnText($addToCartBtn, addingToCartBtnText, config.loadingIcon);
+		updateBtnText($fakeAddToCartBtn, addingToCartBtnText, config.loadingIcon);
+		$addToCartBtn.addClass('btn-adding').prop('disabled', true);
+		$fakeAddToCartBtn.addClass('btn-adding').prop('disabled', true);
+		// Add to cart.
+		$.ajax({
+			url: config.shopifyAjaxAddURL,
+			dataType: 'json',
+			type: 'post',
+			data: $addToCartForm.serialize(),
 
-    FoxTheme.Motion.inView(this, this.init.bind(this));
-  }
+			success: function (itemData) {
 
-  init() {
-    this.setPercentage(this.dataset.value, this.dataset.max);
-  }
+				//Added button stag
+					updateBtnText($addToCartBtn, addedToCartBtnText, config.successIcon);
+					updateBtnText($fakeAddToCartBtn, addedToCartBtnText, config.successIcon);
+					$addToCartBtn.removeClass('btn-adding').addClass('btn-added');
+					$fakeAddToCartBtn.removeClass('btn-adding').addClass('btn-added');
 
-  initProgress() {
-    this.setPercentage(this.dataset.from, this.dataset.max);
-  }
+					//Once added, reset button back to add.
+					window.setTimeout(function () {
+						$addToCartBtn.prop('disabled', false).removeClass('btn-added');
+						$fakeAddToCartBtn.prop('disabled', false).removeClass('btn-added');
+						updateBtnText($addToCartBtn, addToCartBtnText);
+						updateBtnText($fakeAddToCartBtn, addToCartBtnText);
+					}, config.returnBtnToNormal);
 
-  setPercentage(val1, val2) {
-    this.style.setProperty('--percent', `${(parseInt(val1) / parseInt(val2)) * 100}%`);
-  }
+				updateMiniCartContents();
+
+				// If bundle, do not trigger slide out cart
+				if( $($addToCartBtn).hasClass('btn-bundle') ){
+					return;
+				}
+
+				window.setTimeout(function () {
+					//$('.header-basket .cart-icon').addClass('swing animated');
+					$('.ajax-cart').addClass('active');
+				}, 1000);
+
+			},
+			error: function (XMLHttpRequest) {
+				var response = eval('(' + XMLHttpRequest.responseText + ')');
+				response = response.description;
+				if (response.slice(0, 4) === 'All ') {
+					ajaxFeedback('error', response.replace('All 1 ', 'All '), $addToCartForm);
+					$addToCartBtn.prop('disabled', false);
+					updateBtnText($addToCartBtn, soldOutBtnText);
+					updateBtnText($fakeAddToCartBtn, soldOutBtnText);
+					$addToCartBtn.prop('disabled', true).removeClass('btn-adding').removeClass('btn-added');
+					$fakeAddToCartBtn.prop('disabled', true).removeClass('btn-adding').removeClass('btn-added');
+				} else {
+					ajaxFeedback('error', '<i class="fa fa-warning"></i> ' + response, $addToCartForm);
+					$addToCartBtn.prop('disabled', false).removeClass('disabled');
+					updateBtnText($addToCartBtn, addToCartBtnText);
+					$fakeAddToCartBtn.prop('disabled', false).removeClass('disabled');
+					updateBtnText($fakeAddToCartBtn, addToCartBtnText);
+				}
+
+			}
+
+		});
+		return false;
 }
-customElements.define('progress-bar', ProgressBar);
 
-class CartCount extends HTMLElement {
-  constructor() {
-    super();
-  }
 
-  cartUpdateUnsubscriber = undefined;
+function add_to_cart_bundle(form) {
+		$('.ajaxfeedback').remove();
+		//e.preventDefault();
 
-  connectedCallback() {
-    this.cartUpdateUnsubscriber = FoxTheme.pubsub.subscribe(
-      FoxTheme.pubsub.PUB_SUB_EVENTS.cartUpdate,
-      this.onCartUpdate.bind(this)
-    );
-  }
+		var $addToCartForm = form;
+		var $addToCartBtn = $addToCartForm.find(config.addToCartBtnSelector+':first-of-type');
+		var $fakeAddToCartBtn = $('.dummy-btn-basket');
 
-  disconnectedCallback() {
-    if (this.cartUpdateUnsubscriber) {
-      this.cartUpdateUnsubscriber();
-    }
-  }
+		//Adding button stage
+		updateBtnText($addToCartBtn, addingToCartBtnText, config.loadingIcon);
+		updateBtnText($fakeAddToCartBtn, addingToCartBtnText, config.loadingIcon);
+		$addToCartBtn.addClass('btn-adding').prop('disabled', true);
+		$fakeAddToCartBtn.addClass('btn-adding').prop('disabled', true);
+		// Add to cart.
+		$.ajax({
+			url: config.shopifyAjaxAddURL,
+			dataType: 'json',
+			type: 'post',
+			data: $addToCartForm.serialize(),
 
-  get itemCount() {
-    return parseInt(this.innerText);
-  }
+			success: function (itemData) {
 
-  onCartUpdate(event) {
-    if (event.cart.errors) return;
+				//Added button stag
+					updateBtnText($addToCartBtn, addedToCartBtnText, config.successIcon);
+					updateBtnText($fakeAddToCartBtn, addedToCartBtnText, config.successIcon);
+					$addToCartBtn.removeClass('btn-adding').addClass('btn-added');
+					$fakeAddToCartBtn.removeClass('btn-adding').addClass('btn-added');
 
-    if (event.cart.item_count > 99) {
-      this.innerHTML = `<span class="text-sm">99+</span>`;
-      this.classList.add('cart-count--small-medium');
-    } else {
-      this.innerText = event.cart.item_count;
-      this.classList.remove('cart-count--small-medium');
-    }
-    this.hidden = this.itemCount === 0;
+					//Once added, reset button back to add.
+					window.setTimeout(function () {
+						$addToCartBtn.prop('disabled', false).removeClass('btn-added');
+						$fakeAddToCartBtn.prop('disabled', false).removeClass('btn-added');
+						updateBtnText($addToCartBtn, addToCartBtnText);
+						updateBtnText($fakeAddToCartBtn, addToCartBtnText);
+					}, config.returnBtnToNormal);
 
-    const method = this.itemCount === 0 ? 'remove' : 'add';
-    document.documentElement.classList[method]('cart-has-items');
-  }
+				add_bundle_to_cart();
+				updateMiniCartContents();
+
+				// If bundle, do not trigger slide out cart
+				if( $($addToCartBtn).hasClass('btn-bundle') ){
+					return;
+				}
+
+				window.setTimeout(function () {
+					//$('.header-basket .cart-icon').addClass('swing animated');
+					$('.ajax-cart').addClass('active');
+				}, 1000);
+
+			},
+			error: function (XMLHttpRequest) {
+				var response = eval('(' + XMLHttpRequest.responseText + ')');
+				response = response.description;
+				if (response.slice(0, 4) === 'All ') {
+					ajaxFeedback('error', response.replace('All 1 ', 'All '), $addToCartForm);
+					$addToCartBtn.prop('disabled', false);
+					updateBtnText($addToCartBtn, soldOutBtnText);
+					updateBtnText($fakeAddToCartBtn, soldOutBtnText);
+					$addToCartBtn.prop('disabled', true).removeClass('btn-adding').removeClass('btn-added');
+					$fakeAddToCartBtn.prop('disabled', true).removeClass('btn-adding').removeClass('btn-added');
+				} else {
+					ajaxFeedback('error', '<i class="fa fa-warning"></i> ' + response, $addToCartForm);
+					$addToCartBtn.prop('disabled', false).removeClass('disabled');
+					updateBtnText($addToCartBtn, addToCartBtnText);
+					$fakeAddToCartBtn.prop('disabled', false).removeClass('disabled');
+					updateBtnText($fakeAddToCartBtn, addToCartBtnText);
+				}
+
+			}
+
+		});
+		return false;
 }
-customElements.define('cart-count', CartCount);
 
-class QuantityInput extends HTMLElement {
-  quantityUpdateUnsubscriber = undefined;
-  quantityBoundriesUnsubscriber = undefined;
-  quantityRulesUnsubscriber = undefined;
+function add_bundle_to_cart() {
+	window.setTimeout(function () {
 
-  constructor() {
-    super();
-  }
+		// SH: Check if mini cart is open
+		if(window.addupsell == 'no'){
+		} else {
+			
+			var items = []
 
-  get sectionId() {
-    return this.getAttribute('data-section-id');
-  }
+			$('.bundle-form').each(function() {
+				var $this = $(this);
+				var qtyInput = $this.find('.bundle-form-quantity')
+				var idInput = $this.find('.bundle-variant-select')
+				if(!qtyInput.is(':disabled') && qtyInput.val() > 0 ){
+					if (0 < qtyInput.val()) {
+						items.push({
+							id: idInput.val(),
+							quantity: qtyInput.val()
+						});
+					}
+				}
+			});
 
-  get productId() {
-    return this.getAttribute('data-product-id');
-  }
+			$.ajax({
+				type: 'POST',
+				url: '/cart/add.js',
+				dataType: 'json',
+				data: {
+					items: items
+				},
+				success: function() {
+					updateMiniCartContents();
+				},
+				error: function() {}
+			});
 
-  get input() {
-    return this.querySelector('input');
-  }
+		}
 
-  get value() {
-    return this.input.value;
-  }
-
-  connectedCallback() {
-    this.abortController = new AbortController();
-
-    this.buttons = Array.from(this.querySelectorAll('button'));
-    this.changeEvent = new Event('change', { bubbles: true });
-
-    this.input.addEventListener('change', this.onInputChange.bind(this));
-
-    this.input.addEventListener('focus', () => setTimeout(() => this.input.select()));
-
-    this.buttons.forEach((button) => button.addEventListener('click', this.onButtonClick.bind(this)), {
-      signal: this.abortController.signal,
-    });
-
-    this.validateQtyRules();
-
-    this.quantityUpdateUnsubscriber = FoxTheme.pubsub.subscribe(
-      FoxTheme.pubsub.PUB_SUB_EVENTS.quantityUpdate,
-      this.validateQtyRules.bind(this)
-    );
-    this.quantityBoundriesUnsubscriber = FoxTheme.pubsub.subscribe(
-      FoxTheme.pubsub.PUB_SUB_EVENTS.quantityBoundries,
-      this.setQuantityBoundries.bind(this)
-    );
-    this.quantityRulesUnsubscriber = FoxTheme.pubsub.subscribe(
-      FoxTheme.pubsub.PUB_SUB_EVENTS.quantityRules,
-      this.updateQuantityRules.bind(this)
-    );
-
-    this.currentValue = this.value;
-  }
-
-  disconnectedCallback() {
-    this.abortController.abort();
-
-    if (this.quantityUpdateUnsubscriber) {
-      this.quantityUpdateUnsubscriber();
-    }
-    if (this.quantityBoundriesUnsubscriber) {
-      this.quantityBoundriesUnsubscriber();
-    }
-    if (this.quantityRulesUnsubscriber) {
-      this.quantityRulesUnsubscriber();
-    }
-  }
-
-  onButtonClick(event) {
-    const previousValue = this.input.value;
-
-    if (event.currentTarget.name === 'plus') {
-      if (parseInt(this.input.getAttribute('data-min')) > parseInt(this.input.step) && this.input.value == 0) {
-        this.input.value = this.input.getAttribute('data-min');
-      } else {
-        this.input.stepUp();
-      }
-    } else {
-      this.input.stepDown();
-    }
-
-    if (previousValue !== this.input.value) this.input.dispatchEvent(this.changeEvent);
-
-    if (this.input.getAttribute('data-min') === previousValue && event.currentTarget.name === 'minus') {
-      this.input.value = parseInt(this.input.min);
-    }
-  }
-
-  onInputChange() {
-    if (this.input.value === '') {
-      this.input.value = parseInt(this.input.min);
-    }
-    setTimeout(() => {
-      this.validateQtyRules();
-    }, 350);
-  }
-
-  validateQtyRules() {
-    const value = parseInt(this.input.value);
-    if (this.input.min) {
-      const buttonMinus = this.querySelector('button[name="minus"]');
-      if (buttonMinus) buttonMinus.toggleAttribute('disabled', parseInt(value) <= parseInt(this.input.min));
-    }
-    if (this.input.max) {
-      const buttonPlus = this.querySelector('button[name="plus"]');
-      if (buttonPlus) buttonPlus.toggleAttribute('disabled', parseInt(value) >= parseInt(this.input.max));
-    } else {
-      const buttonPlus = this.querySelector('button[name="plus"]');
-      if (buttonPlus) buttonPlus.removeAttribute('disabled');
-    }
-  }
-
-  updateQuantityRules({ data: { sectionId, productId, parsedHTML } }) {
-    if (sectionId !== this.sectionId || productId !== this.productId) return;
-
-    // Helper function to find element in both document and template content
-    const findElementById = (container, id) => {
-      // First try direct search
-      let element = container.getElementById ? container.getElementById(id) : container.querySelector(`#${id}`);
-
-      if (!element) {
-        // Search in template contents
-        const templates = container.querySelectorAll('template');
-        for (const template of templates) {
-          element = template.content.getElementById
-            ? template.content.getElementById(id)
-            : template.content.querySelector(`#${id}`);
-          if (element) break;
-        }
-      }
-
-      return element;
-    };
-
-    const selectors = ['.quantity__input', '.quantity__rules', '.quantity__label'];
-    const quantityFormUpdated = findElementById(parsedHTML, `QuantityForm-${sectionId}`);
-    const quantityForm = this.closest(`#QuantityForm-${sectionId}`);
-
-    if (!quantityFormUpdated) {
-      console.warn(`QuantityForm-${sectionId} not found in parsedHTML`);
-      return;
-    }
-
-    for (let selector of selectors) {
-      const current = quantityForm.querySelector(selector);
-      const updated = quantityFormUpdated.querySelector(selector);
-      if (!current || !updated) continue;
-
-      if (selector === '.quantity__input') {
-        const attributes = ['data-cart-quantity', 'data-min', 'data-max', 'step'];
-        for (let attribute of attributes) {
-          const valueUpdated = updated.getAttribute(attribute);
-          if (valueUpdated !== null) {
-            current.setAttribute(attribute, valueUpdated);
-          } else {
-            current.removeAttribute(attribute);
-          }
-        }
-      } else {
-        current.innerHTML = updated.innerHTML;
-      }
-    }
-  }
-
-  setQuantityBoundries({ data: { sectionId, productId } }) {
-    if (sectionId !== this.sectionId || productId !== this.productId) return;
-    const data = {
-      cartQuantity: this.input.hasAttribute('data-cart-quantity')
-        ? parseInt(this.input.getAttribute('data-cart-quantity'))
-        : 0,
-      min: this.input.hasAttribute('data-min') ? parseInt(this.input.getAttribute('data-min')) : 1,
-      max: this.input.hasAttribute('data-max') ? parseInt(this.input.getAttribute('data-max')) : null,
-      step: this.input.hasAttribute('step') ? parseInt(this.input.getAttribute('step')) : 1,
-    };
-
-    let min = data.min;
-    const max = data.max === null ? data.max : data.max - data.cartQuantity;
-    if (max !== null) min = Math.min(min, max);
-    if (data.cartQuantity >= data.min) min = Math.min(min, data.step);
-
-    this.input.min = min;
-
-    if (max) {
-      this.input.max = max;
-    } else {
-      this.input.removeAttribute('max');
-    }
-    this.input.value = min;
-
-    FoxTheme.pubsub.publish(FoxTheme.pubsub.PUB_SUB_EVENTS.quantityUpdate, undefined);
-  }
+	}, 500);
 }
-customElements.define('quantity-input', QuantityInput);
 
-class QuantitySelector extends HTMLElement {
-  constructor() {
-    super();
-  }
+//BG: allows the user to update the quantity and/or variant on the cart page.
+function cartItemQuantityVariant() {
 
-  connectedCallback() {
-    this.abortController = new AbortController();
+	$('body').on('click','.ajax-cart__qty--plus',function(){
+		var variant = $(this).parent().attr('data-variant-id')
+		var quanitity = parseInt( $(this).parent().find('.ajax-cart__qty--number').text() )
+		quantityItemChange(variant,quanitity + 1);
+	})	
 
-    this.input = this.querySelector('input');
-    this.buttons = Array.from(this.querySelectorAll('button'));
-    this.changeEvent = new Event('change', { bubbles: true });
-
-    this.buttons.forEach((button) => button.addEventListener('click', this.onButtonClick.bind(this)), {
-      signal: this.abortController.signal,
-    });
-  }
-
-  disconnectedCallback() {
-    this.abortController.abort();
-  }
-
-  onButtonClick(event) {
-    event.preventDefault();
-    const previousValue = this.input.value;
-
-    if (event.currentTarget.name === 'plus') {
-      this.input.quantity = this.input.quantity + 1;
-    } else {
-      this.input.quantity = this.input.quantity - 1;
-    }
-
-    if (previousValue !== this.input.value) this.input.dispatchEvent(this.changeEvent);
-  }
+	$('body').on('click','.ajax-cart__qty--minus',function(){
+		var variant = $(this).parent().attr('data-variant-id')
+		var quanitity = parseInt( $(this).parent().find('.ajax-cart__qty--number').text() )
+		quantityItemChange(variant,quanitity - 1);
+	})	
 }
-customElements.define('quantity-selector', QuantitySelector);
 
-const onYouTubeApiLoaded = new Promise((resolve) => {
-  window.onYouTubeIframeAPIReady = () => resolve();
+$(document).ready(function() {
+
+	cartItemQuantityVariant();
+	removeCartItemTrigger();
+
+	$(config.addToCartFormSelector).submit(function (e) {
+		e.preventDefault();
+		addToCart($(this));
+		add_to_cart_bundle($(this));
+	});
+
+	$('.header-basket > a').click(function(e){
+		e.preventDefault();
+		$('.ajax-cart').toggleClass('active')
+	})
+
+	$('.ajax-cart__close').click(function(){
+		$('.ajax-cart').toggleClass('active')
+	})
+
+	$('.ajax-cart .btn-basket').click(function(e){
+		console.log('Mini Cart Addon Clicked');
+		window.addupsell = 'no';
+	})	
+
 });
-class VideoElement extends HTMLElement {
-  constructor() {
-    super();
 
-    if (this.posterElement) {
-      this.posterElement.addEventListener('click', this.handlePosterClick.bind(this));
-    }
-
-    if (this.autoplay) {
-      FoxTheme.Motion.inView(this, () => {
-        if (!this.paused) {
-          this.play();
+/**
+ * BG: Show the scroll to top button when user is roughly half way down the page.
+ */
+function shareAndScrollTop() {
+    if ($(window).scrollTop() > $('body').height() / 4) {
+        if ($('#site-scroll-top').length) {
+            $('#site-scroll-top').addClass('visible');
         }
-
-        return () => {
-          this.pause();
-        };
-      });
-    }
-  }
-
-  get posterElement() {
-    return this.querySelector('[id^="DeferredPoster-"]');
-  }
-
-  get controlledElement() {
-    return this.hasAttribute('aria-controls') ? document.getElementById(this.getAttribute('aria-controls')) : null;
-  }
-
-  get autoplay() {
-    return this.hasAttribute('autoplay');
-  }
-
-  get playing() {
-    return this.hasAttribute('playing');
-  }
-
-  get player() {
-    return (this.playerProxy =
-      this.playerProxy ||
-      new Proxy(this.initializePlayer(), {
-        get: (target, prop) => {
-          return async () => {
-            target = await target;
-            this.handlePlayerAction(target, prop);
-          };
-        },
-      }));
-  }
-
-  static get observedAttributes() {
-    return ['playing'];
-  }
-
-  handlePosterClick(event) {
-    event.preventDefault();
-    event.stopPropagation();
-
-    if (this.playing) {
-      this.paused = true;
-      this.pause();
+        if ($('#site-social-share').length) {
+            $('#site-social-share').addClass('visible');
+        }
     } else {
-      this.paused = false;
-      this.play();
-    }
-  }
-
-  play() {
-    if (!this.playing) {
-      this.player.play();
-    }
-  }
-
-  pause() {
-    if (this.playing) {
-      this.player.pause();
-    }
-  }
-
-  attributeChangedCallback(name, oldValue, newValue) {
-    if (name === 'playing') {
-      if (oldValue === null && newValue === '') {
-        return this.dispatchEvent(new CustomEvent('video:play', { bubbles: true }));
-      }
-
-      if (newValue === null) {
-        return this.dispatchEvent(new CustomEvent('video:pause', { bubbles: true }));
-      }
-    }
-  }
-
-  initializePlayer() {
-    if (this.hasAttribute('source')) {
-      this.setAttribute('loaded', '');
-      this.closest('.media')?.classList.remove('loading');
-
-      return new Promise(async (resolve) => {
-        const templateElement = this.querySelector('template');
-        if (templateElement) {
-          templateElement.replaceWith(templateElement.content.firstElementChild.cloneNode(true));
+        if ($('#site-scroll-top').length) {
+            $('#site-scroll-top').removeClass('visible');
         }
-        const muteVideo = this.hasAttribute('autoplay') || window.matchMedia('screen and (max-width: 1023px)').matches;
-        const script = document.createElement('script');
-        script.type = 'text/javascript';
-        if (this.getAttribute('source') === 'youtube') {
-          if (!window.YT || !window.YT.Player) {
-            script.src = 'https://www.youtube.com/iframe_api';
-            document.head.appendChild(script);
-            await new Promise((resolve2) => {
-              script.onload = resolve2;
-            });
-          }
-          await onYouTubeApiLoaded;
-          const player = new YT.Player(this.querySelector('iframe'), {
-            events: {
-              onReady: () => {
-                if (muteVideo) {
-                  player.mute();
-                }
-                resolve(player);
-              },
-              onStateChange: (event) => {
-                if (event.data === YT.PlayerState.PLAYING) {
-                  this.setAttribute('playing', '');
-                } else if (event.data === YT.PlayerState.ENDED || event.data === YT.PlayerState.PAUSED) {
-                  this.removeAttribute('playing');
-                }
-              },
-            },
-          });
+        if ($('#site-social-share').length) {
+            $('#site-social-share').removeClass('visible');
         }
-        if (this.getAttribute('source') === 'vimeo') {
-          if (!window.Vimeo || !window.Vimeo.Player) {
-            script.src = 'https://player.vimeo.com/api/player.js';
-            document.head.appendChild(script);
-            await new Promise((resolve2) => {
-              script.onload = resolve2;
-            });
-          }
-          const player = new Vimeo.Player(this.querySelector('iframe'));
-          if (muteVideo) {
-            player.setMuted(true);
-          }
-          player.on('play', () => {
-            this.setAttribute('playing', '');
-          });
-          player.on('pause', () => this.removeAttribute('playing'));
-          player.on('ended', () => this.removeAttribute('playing'));
-          resolve(player);
-        }
-      });
+    }
+}
+
+
+function whatsappIcon() {
+    //if user on mobile, show whatsapp icon
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+            $('#site-social-share .whatsapp').removeClass('d-none');
+    } 
+}
+
+if ($('#site-scroll-top').length) {
+//BG: clicking button will scroll user to the top of the page.
+$('#site-scroll-top').on('click', function(){
+    $("html, body").animate({ scrollTop: 0 }, 2000);
+ 
+    return false;
+});
+}
+
+if ($('#site-social-share').length) {
+$('#social-share-trigger').on('click', function(){
+    if ($('#site-social-share').hasClass('active')) {
+        $('#site-social-share').removeClass('active');
     } else {
-      this.appendChild(this.querySelector('template').content.firstElementChild.cloneNode(true));
-      this.setAttribute('loaded', '');
-      this.closest('.media')?.classList.remove('loading');
-
-      const player = this.querySelector('video');
-      player.addEventListener('play', () => {
-        this.setAttribute('playing', '');
-        this.removeAttribute('suspended');
-      });
-      player.addEventListener('pause', () => {
-        if (!player.seeking && player.paused) {
-          this.removeAttribute('playing');
-        }
-      });
-      return player;
+        $('#site-social-share').addClass('active');
+        //BG: No idea why this occurs, but clicking the social share link can cause the one trust overlay to appear!?!
+        $('.onetrust-pc-dark-filter').css('display','none');
     }
-  }
+});
+}
 
-  handlePlayerAction(target, prop) {
-    if (this.getAttribute('source') === 'youtube') {
-      prop === 'play' ? target.playVideo() : target.pauseVideo();
+whatsappIcon();
+
+$(window).scroll(function () { 
+    shareAndScrollTop();
+});
+
+// /**
+//  * BG: User Search History, check to see if the user has previously searched on the website. 
+//  */
+// function checkSearchHistory(searchTerm) {
+//     //check local storage for searchHistory
+//     var searchHistory = JSON.parse(localStorage.getItem("searchHistory")),
+//         searchHistoryLimit = parseInt($('#site-search .site-search-form').attr('data-history-limit')),
+//         BtnDelete = $('#site-search .site-search-form .search-history .btn-delete');
+
+//     //local function - Add to the array.
+//     function addToSearchHistory(array,value) {
+//          //only add the product to the array, if it doesn't already exist
+//          if(array.indexOf(value) == -1) {
+//             array.push(value);
+//         }
+
+//         //update localStorage
+//         localStorage.setItem("searchHistory", JSON.stringify(array));
+//     }
+
+//     //if it exists, let's display it
+//     if (searchHistory) {
+
+//         //BG: if Search History is greater than the allowed limit, remove the first item in the array.
+//         if (searchHistory.length > searchHistoryLimit) {
+//             searchHistory.shift();
+//         }
+
+//         //if the searchTerm is present, add it to the array.
+//         if (searchTerm) {
+//             addToSearchHistory(searchHistory, searchTerm);
+//         } else {
+
+//             //if the searchHistory has items within it, show the list.
+//             if (searchHistory.length > 0) {
+
+//                 //show the search history
+//                 $('#site-search .instant-results-container .search-history').removeClass('d-none');
+
+//                 //build the list markup
+//                 var listMarkup = ''
+//                 //reverse the array, to show the latest search item first.
+//                 searchHistory.reverse();
+//                 //for each item in the array
+//                 $.each(searchHistory,function(i, searchHistoryTerm) {
+//                     listMarkup += '<li class="history-item"><a href="/search?type=product&q='+searchHistoryTerm+'">'+searchHistoryTerm+'</a></li>';
+//                 });
+
+//                 //output the results.
+//                 $('#site-search .instant-results-container .search-history').append(listMarkup);
+//             }
+//         }
+
+//     } else {
+//         //if the local storage doesn't exist, create it. 
+//         if (searchTerm) {
+//         var searchHistoryArray = [];
+
+//         addToSearchHistory(searchHistoryArray, searchTerm);
+//         }
+//     }
+
+//     //On click, delete search history
+//     BtnDelete.on('click', function(){
+//         console.log('click');
+//         $('#site-search .site-search-form .search-history').slideUp();
+//         localStorage.removeItem("searchHistory");
+//     });
+// }
+
+
+// /**
+//  * BG: output the article, collection and page results
+//  * @param {*} object - returned from the predictive search json
+//  * @param {*} string - only used to apply a class, such as page, article, collection.
+//  */
+// function outputStandard(result, type) {
+//     var productHTML = "";
+
+//     productHTML += '<li class="result-item '+type+'" data-id="'+result['id']+'">';
+//     productHTML += '<h3><a href="'+result['url']+'">'+result['title']+'</a></h3>';
+//     productHTML += '</li>';
+
+
+//     //only add the result if it doesn't already exisit
+//     if ($('.predictive-search-form .instant-results-container .results li.result-item[data-id="'+result['id']+'"]').length === 0) {
+
+//         var colListContainer = '<li class="collection-results"><ul class="collection-results-list"><li class="result-title">Collections</li></ul></li>';
+
+//         if (type == "collection") {
+//             $('.predictive-search-form .instant-results-container .results .collection-results .collection-results-list .result-title').after(productHTML);
+//         } else if (type == "page") {
+//             $('.predictive-search-form .instant-results-container .results .page-results .page-results-list .result-title').after(productHTML);
+//         } else if (type == "article") {
+//             $('.predictive-search-form .instant-results-container .results .article-results .article-results-list .result-title').after(productHTML);
+//         } else {
+//             $('.predictive-search-form .instant-results-container .results').prepend(productHTML);
+//         }
+//     }
+
+// }
+
+// /* BG: Output the product suggestions  */
+// function outputProductSuggestions(product) {
+//     var productHTML = "";
+
+//     productHTML += '<li class="result-item product-result" data-product-id="'+product['id']+'">';
+//         productHTML += '<a href="'+product['url']+'">';
+//         productHTML += '<span class="result-item-image">';
+//         if (product['image'] != null) {
+//             productHTML += '<img src="'+slate.Image.getSizedImageUrl(product['image'],'80x')+'" alt="'+product['title']+'" class="img-fluid" />';
+//         } else {
+//             productHTML += svgPlaceholder;
+//         }
+//         productHTML += '</span>';
+//         productHTML += '<span class="result-item-detail">';
+//             productHTML += '<h3 class="product-title">'+product['title']+'</h3>';
+//             if (product['available']) {
+//                 productHTML += '<span class="product-price"><span class="money">'+slate.Currency.formatMoney(product['price_min'], theme.moneyFormat)+'</span></span>';
+//             } else {
+//                 productHTML += '<span class="soldout">Sold Out</span>';
+//             }
+//         productHTML += '</span>';
+//         productHTML += '</a>';
+//     productHTML += '</li>';
+
+//     //only add the product if it doesn't already exisit
+//     if ($('.predictive-search-form .instant-results-container .results .product-results .product-results-list li.result-item[data-product-id="'+product['id']+'"]').length === 0) {
+//         $('.predictive-search-form .instant-results-container .results .product-results .product-results-list').prepend(productHTML);
+//     }
+// }
+
+// /*BG: The predictive search API. for more info visit https://help.shopify.com/en/themes/development/search/predictive-search */
+// function searchAPI(query) {
+
+//     var searchType = $('#site-search .site-search-form').attr('data-search-type'),
+//         searchLimit = parseInt($('#site-search .site-search-form').attr('data-history-limit')),
+//         searchOn = $('#site-search .site-search-form').attr('data-search-on'),
+//         searchUnavailableProducts = $('#site-search .site-search-form').attr('data-unavailable-products');
+
+//     jQuery.getJSON("/search/suggest.json", {
+//         "q": query,
+//         "resources": {
+//         "type": searchType,
+//         "limit": searchLimit,
+//         "options": {
+//             "unavailable_products": searchUnavailableProducts,
+//             "fields": searchOn
+//         }
+//     }
+//     }).done(function(response) {
+//         var productSuggestions = response.resources.results.products,
+//             collectionSuggestions = response.resources.results.collections,
+//             pageSuggestions = response.resources.results.pages,
+//             articleSuggestions = response.resources.results.articles;
+
+        
+//         //Check to see if the response has page suggestions, if it does, output the results.
+//         if (pageSuggestions.length > 0) {
+//             console.log({pageSuggestions});
+            
+//             if ($('#site-search .predictive-search-form .instant-results-container .results .page-results').length === 0) {
+//                 var pageListContainer = '<li class="page-results"><ul class="page-results-list"><li class="result-title">Pages</li></ul></li>';
+//                 $('#site-search .predictive-search-form .instant-results-container .results').append(pageListContainer);
+//             }
+
+//             //for each page
+//             for (var key in pageSuggestions) {
+//                 var page = pageSuggestions[key];
+//                 outputStandard(page, 'page');
+//             }
+//         }
+        
+//         //Check to see if the response has article suggestions, if it does, output the results.
+//         if (articleSuggestions.length > 0) {
+//             console.log({articleSuggestions});
+
+//             if ($('#site-search .predictive-search-form .instant-results-container .results .article-results').length === 0) {
+//                 var articleListContainer = '<li class="article-results"><ul class="article-results-list"><li class="result-title">Articles</li></ul></li>';
+//                 $('#site-search .predictive-search-form .instant-results-container .results').append(articleListContainer);
+//             }
+
+//             //for each article
+//             for (var key in articleSuggestions) {
+//                 var article = articleSuggestions[key];
+//                 outputStandard(article, 'article');
+//             }
+//         }
+
+//         //Check to see if the response has collection suggestions, if it does, output the results.
+//         if (collectionSuggestions.length > 0) {
+//             console.log({collectionSuggestions});
+
+//             if ($('#site-search .predictive-search-form .instant-results-container .results .collection-results').length === 0) {
+//                 var colListContainer = '<li class="collection-results"><ul class="collection-results-list"><li class="result-title">Collections</li></ul></li>';
+//                 $('#site-search .predictive-search-form .instant-results-container .results').append(colListContainer);
+//             }
+
+//             //for each collection
+//             for (var key in collectionSuggestions) {
+//                 var collection = collectionSuggestions[key];
+//                 outputStandard(collection, 'collection');
+//             }
+//         }
+
+//          //Check to see if the response has products suggestions, if it does, output the results.
+//          if (productSuggestions.length > 0) {
+//             //console.log('producSuggestion');
+
+//             if ($('#site-search .predictive-search-form .instant-results-container .results .product-results').length === 0) {
+//                 var prodListContainer = '<li class="product-results"><ul class="product-results-list"></ul></div>';
+//                 $('#site-search .predictive-search-form .instant-results-container .results').append(prodListContainer);
+//             }
+            
+//             //for each product
+//             for (var key in productSuggestions) {
+//                 var product = productSuggestions[key];
+//                 outputProductSuggestions(product);
+//             }
+//         }
+        
+//         //if none of the search types has results, output 'no results'.
+//         if (productSuggestions.length == 0 && collectionSuggestions.length == 0 && pageSuggestions == 0 && articleSuggestions == 0) {
+//             var noResults = '<li class="no-results">No Results</li>';
+//             if ($('.instant-results-container .results li.no-results').length === 0) {
+//                 $('#site-search .predictive-search-form .instant-results-container .results').append(noResults);
+//             }
+//         }
+//     });
+// }
+
+// /**
+//  * BG: Site Search
+//  */
+// function searchInput() {
+//     var searchForm = $('#site-search .site-search-form'),
+//         searchField = $('#site-search .predictive-search-form .search-input'),
+//         searchCharacterThreshold = parseInt($('#site-search .predictive-search-form').attr('data-character-threshold')),
+//         searchValue = '';
+
+//     searchField.on('input', function() { 
+//             searchValue = $(this).val() 
+//         //only trigger if input value is greater than the defined amount (client can change via theme customizer)
+//         if (searchValue.length >= searchCharacterThreshold) {
+//             //clear the search results if the user continues to input 
+//             $('#site-search .predictive-search-form .instant-results-container .results').html('');
+//             //for each input, run the query
+//             searchAPI(searchValue);
+//             $(this).parent('.predictive-search-form').find('.instant-results-container').removeClass('d-none');
+//             $(this).parent('.predictive-search-form').find('.instant-results-container').addClass('mobile-show');
+//         } else {
+//             $(this).parent('.predictive-search-form').find('.instant-results-container').addClass('d-none');
+//         }
+//     });
+
+//     //On actual form search, pass the value over to the searchHistory. 
+//     searchForm.on('submit', function(){
+//         var value = $('input[type="search"]').val();
+//         checkSearchHistory(value);
+//     })
+
+//     searchField.on("focus", function() {
+//         var resultsCount = $(this).parent('.predictive-search-form').find('.instant-results-container .results > li').length;
+
+//         if (resultsCount > 0) {
+//             //console.log('show it');
+//             $(this).parent('.predictive-search-form').find('.instant-results-container').removeClass('d-none');
+//         }
+//     });
+
+//     //on blur, (focus out), close the instant results.
+//     searchField.on("blur", function() {
+//         //brief delay to allow the user to interact with the results
+//         window.setTimeout(function () {
+//             $('#header-search .predictive-search-form .instant-results-container').addClass('d-none');
+//         }, 200);
+//     });
+// }
+
+/**
+ * BG: Toggle the visibility of the site search on mobile.
+ */
+function searchVisibility() {
+    var btnOpen = $('#header-search .btn-search-open'),
+        btnClose = $('#site-search .btn-search-close'),
+        siteSearch = $('#site-search'),
+        siteOverlay = $('#site-overlay'),
+        siteBody = $('body'),
+        scrollPosition;
+
+    btnOpen.on('click', function(){
+        scrollPosition = $(document).scrollTop();
+        siteSearch.addClass('active');
+        siteOverlay.addClass('mobileSearch active');
+        siteBody.addClass('noscroll');
+
+        $('.klevu-quick').show();
+        $('input.search-input').focus();
+        
+
+    })
+
+    btnClose.on('click', function(){
+        siteSearch.removeClass('active');
+        siteOverlay.removeClass('mobileSearch active');
+        siteBody.removeClass('noscroll');
+        //if present, scroll user to the position they were in prior to opening the search.
+        $("html, body").scrollTop(scrollPosition);
+        $('.klevu-quick').hide();
+    })
+}
+
+searchVisibility();
+// searchInput();
+// checkSearchHistory();
+/**
+ * BG: Client wanted us to review the breadcrumbs of the site, as currently on Shopify everything sits at the same level, no hierarchy. So we proposed to use the main navigation to determine the hierarchy, which means we need to use JS to get the current page, and work it's way back to get the full breadcrumb path.
+ */
+function navigationBasedBreadcrumb(page) {
+    if (page) {
+        //console.log({page});
+        var currentPage = $('#site-navigation').find('a[href="'+page+'"]');
+        //console.log({currentPage});
     } else {
-      if (prop === 'play' && !this.hasAttribute('source')) {
-        target.play().catch((error) => {
-          if (error.name === 'NotAllowedError') {
-            this.setAttribute('suspended', '');
-            target.controls = true;
-            const replacementImageSrc = target.previousElementSibling?.currentSrc;
-            if (replacementImageSrc) {
-              target.poster = replacementImageSrc;
+        //BG: Find the current page within the site navigation
+        var currentPage = $('#site-navigation li.current > a');
+    }
+    //create an object of each element that contains '-level-listing' up until the first-level.
+    var parents = currentPage.parentsUntil($('.first-level'), "[class*='-level-listing']"),
+        chevronLeft = $('.full-breadcrumbs > ol').attr('data-arrow-left'),
+        chevronRight = $('.full-breadcrumbs > ol').attr('data-arrow-right'),
+        loopNumber = 1,
+        parentsArray = [];
+
+    //loop through the object, and push the items into an array
+    parents.each(function(i){
+        var link = $(this).find('> a');
+        parentsArray.push(link);
+    })
+
+    //loop through the array in reverse
+    for (var i = parentsArray.length - 1; i >= 0; i--) {
+        loopNumber++
+
+        var cssClass = '',
+            extraMarkup = '';
+
+        if (!page) {
+            //BG: if last item in the array, add current page
+            if (i == 0) {
+                extraMarkup = ' aria-current="page"';
+                cssClass = " class='current'";
             }
-          }
+        }
+
+        //BG: if second to last item, add to mini-breadcrumb
+        if (i == 1) {
+            var miniBreadcrumb = '<li><a href="'+parentsArray[i].attr('href')+'" title="'+parentsArray[i].text().trim()+'"><span class="breadcrumb-divider" aria-hidden="true">'+chevronLeft+'</span> Browse all '+parentsArray[i].text().trim()+'</a></li>'
+
+            $('.mini-breadcrumbs > ol').append(miniBreadcrumb);
+
+        }
+
+        //markup for each level
+        var breadcrumbHTML = '<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"'+ cssClass +'><a href="'+parentsArray[i].attr('href')+'" itemprop="item" title="'+parentsArray[i].text().trim()+'"'+extraMarkup+'><span itemprop="name">'+parentsArray[i].text().trim()+'</span><span aria-hidden="true" class="breadcrumb-divider">'+chevronRight+''+chevronLeft+'</span></a><meta itemprop="position" content="'+loopNumber+'" /></li>'
+
+        //output the breadcrumb
+        $('.full-breadcrumbs > ol').append(breadcrumbHTML);
+
+        //console.log(loopNumber + parentsArray[i].text().trim() + parentsArray[i].attr('href'));
+    }
+
+    //find the current page, and apply parent to the breadcrumb before, we use this for mobile styling
+    $('.full-breadcrumbs li.current').prev('li').addClass('parent');
+}
+
+/**
+ * BG: The function above, doesn't consider the product, and the collection the user came from, so we're going to simulate that experience now. I'm going to set a localstorage whenever the user visits a collection page, and when they click through to a product, it will show the breadcrumb trail to that collection. Whenever the user visits any other page other than a product, we will clear the localstorage, and set it again for any other collection page visited.
+ */
+function productBreadcrumb() {
+
+    //Check to see if localStorage was previously defined (regardless of page), and delete it (if not on a product page).
+    var collectionLink = localStorage.getItem('collectionLink');
+    if (!$('body').hasClass('template-product') && collectionLink) {
+        localStorage.removeItem('collectionLink');
+    }
+
+    //if we're on a collection or category page
+    if ($('body').hasClass('template-collection') || $('body').hasClass('template-category')) {
+        var currentPage = $('#site-navigation li.current > a').attr('href');
+        localStorage.setItem('collectionLink', currentPage);
+    }
+
+    //if we're on a product page
+    if ($('body').hasClass('template-product')) {
+        var page = localStorage.getItem('collectionLink');
+        if (page) {
+            navigationBasedBreadcrumb(page);
+        }
+    }
+}
+
+//Only run if not on the product page
+/*if (!$('body').hasClass('template-product')) {
+    navigationBasedBreadcrumb();
+}
+productBreadcrumb();*/
+const reviewsTotal = 12;
+const reviewsPerPage = 3;
+const reviewHelpers = {
+    ratingHtml: function(rating){
+        var ratingHtml = ''
+        for(var i = 0;i < 5;i++){
+            if(i < rating){
+                ratingHtml += '<i aria-hidden="true" class="stamped-fa fa-star"></i>'
+            }
+            else{
+                var modulo = rating % 1
+                if(modulo >= 0.5){
+                    ratingHtml += '<i aria-hidden="true" class="stamped-fa fa-star-half-o"></i>'
+                }
+                else{
+                    ratingHtml += '<i aria-hidden="true" class="stamped-fa fa-star-o"></i>'
+                }
+            }
+        }
+        return ratingHtml
+    },
+    excerpt: function(content){
+        var excerpt = content.split('. ')
+        if(!Array.isArray(excerpt) || content.indexOf(excerpt[0]) !== 0){
+            excerpt = content.split('! ')
+            if(!Array.isArray(excerpt) || content.indexOf(excerpt[0]) !== 0){
+                excerpt = content.split('? ')
+                if(!Array.isArray(excerpt) || content.indexOf(excerpt[0]) !== 0){
+                    excerpt = content
+                }
+            }
+        }
+        return (Array.isArray(excerpt) ? excerpt[0] : excerpt)
+    }
+}
+
+const productReviewsStamped = {
+    get: function(){
+        var _this = this
+        const settings = {
+            "url": "http://stamped.io/api/widget/reviews",
+            "data": {
+                apiKey: stampedDetails.public_key,
+                storeUrl: stampedDetails.domain,
+                take: 3,
+                productId: stampedDetails.product,
+                minRating: 1
+            },
+            "method": "GET",
+            "timeout": 0,
+        }
+        $.ajax(settings).done(function (response) {
+            _this.draw(response)
         });
-      } else {
-        target[prop]();
-      }
+    },
+    draw: function(response){
+        if(response.data.length){
+            const htmlTemplate = $('template[data-template="stamped-review-product"]').html()
+            var reviewRender = ''
+            response.data.forEach(function(review){
+                var ratingHtml = reviewHelpers.ratingHtml(review.reviewRating)
+                var excerpt = reviewHelpers.excerpt(review.reviewMessage)
+                reviewRender += htmlTemplate
+                    .replaceAll('@ratingStars',ratingHtml)
+                    .replaceAll('@excerpt',excerpt)
+                    .replaceAll('@name',review.author)    
+            })
+            $('.product-reviews-stamped-singles .carousel').html(reviewRender)
+            $('.product-reviews-stamped-singles').removeClass('hide')
+            $('.product-reviews-stamped-singles .carousel').slick({
+                dots: true,
+                prevArrow: '<div class="slick-prev slick-arrow" aria-label="Previous"><span class="chevron"></span></div>',
+                nextArrow: '<div class="slick-next slick-arrow" aria-label="Next"><span class="chevron"></span></div>'
+            })
+        }
     }
-  }
 }
-customElements.define('video-element', VideoElement);
 
-class LocalizationForm extends HTMLElement {
-  constructor() {
-    super();
-    this.elements = {
-      input: this.querySelector('input[name="locale_code"], input[name="country_code"]'),
-      button: this.querySelector('button'),
-      panel: this.querySelector('.disclosure-list'),
-    };
-
-    this.elements.panel.removeAttribute('hidden');
-    this.elements.button.addEventListener('click', this.openSelector.bind(this));
-    this.elements.button.addEventListener('focusout', this.closeSelector.bind(this));
-    this.addEventListener('keyup', this.onContainerKeyUp.bind(this));
-
-    this.querySelectorAll('a').forEach((item) => item.addEventListener('click', this.onItemClick.bind(this)));
-
-    this.handleDropdownPos();
-  }
-
-  handleDropdownPos() {
-    const offsetButton = this.elements.button.getBoundingClientRect().right;
-    if (window.innerWidth - offsetButton < 220) {
-      this.elements.button.nextElementSibling &&
-        this.elements.button.nextElementSibling.classList.add('disclosure-list__right');
-    }
-  }
-
-  hidePanel() {
-    this.elements.button.setAttribute('aria-expanded', 'false');
-    this.removeAttribute('open');
-  }
-
-  onContainerKeyUp(event) {
-    if (event.code.toUpperCase() !== 'ESCAPE') return;
-
-    this.hidePanel();
-    this.elements.button.focus();
-  }
-
-  onItemClick(event) {
-    event.preventDefault();
-    const form = this.querySelector('form');
-    this.elements.input.value = event.currentTarget.dataset.value;
-    if (form) form.submit();
-  }
-
-  openSelector() {
-    this.elements.button.focus();
-    this.toggleAttribute('open');
-    this.elements.button.setAttribute(
-      'aria-expanded',
-      (this.elements.button.getAttribute('aria-expanded') === 'false').toString()
-    );
-  }
-
-  closeSelector(event) {
-    const shouldClose =
-      (event.relatedTarget && event.relatedTarget.nodeName === 'BUTTON') ||
-      (event.relatedTarget && !event.relatedTarget.classList.contains('disclosure-list__option'));
-    if (event.relatedTarget === null || shouldClose) {
-      this.hidePanel(shouldClose);
-    }
-  }
-}
-customElements.define('localization-form', LocalizationForm);
-
-class GridList extends HTMLElement {
-  constructor() {
-    super();
-
-    if (FoxTheme.config.motionReduced || this.hasAttribute('motion-reduced')) return;
-
-    this.hideGridItems();
-    FoxTheme.Motion.inView(this, this.showGridItems.bind(this), { margin: '0px 0px -50px 0px' });
-  }
-
-  get gridItems() {
-    return this.querySelectorAll('.f-column');
-  }
-
-  get visibleGridItems() {
-    return this.querySelectorAll('.f-column:not([style])');
-  }
-
-  hideGridItems() {
-    FoxTheme.Motion.animate(
-      this.gridItems,
-      { transform: 'translateY(3.5rem)', opacity: 0.01, visibility: 'hidden' },
-      { duration: 0 }
-    );
-  }
-
-  showGridItems() {
-    FoxTheme.Motion.animate(
-      this.gridItems,
-      { transform: ['translateY(3.5rem)', 'translateY(0)'], opacity: [0.01, 1], visibility: ['hidden', 'visible'] },
-      {
-        duration: 0.5,
-        delay: FoxTheme.config.motionReduced ? 0 : FoxTheme.Motion.stagger(0.1),
-        easing: [0, 0, 0.3, 1],
-      }
-    );
-  }
-
-  reShowVisibleGridItems() {
-    FoxTheme.Motion.animate(
-      this.visibleGridItems,
-      { transform: ['translateY(3.5rem)', 'translateY(0)'], opacity: [0.01, 1], visibility: ['hidden', 'visible'] },
-      { duration: 0.5, delay: FoxTheme.config.motionReduced ? 0 : FoxTheme.Motion.stagger(0.1), easing: [0, 0, 0.3, 1] }
-    );
-  }
-}
-customElements.define('grid-list', GridList);
-
-class AnnouncementBar extends HTMLElement {
-  constructor() {
-    super();
-    this.announcementItemsWrapper = this.querySelector('.swiper-wrapper');
-
-    FoxTheme.Motion.inView(this, this.initializeCarousel.bind(this), { margin: '200px 0px 200px 0px' });
-  }
-
-  getNextSlideButton() {
-    return this.querySelector('.swiper-button-next');
-  }
-
-  getPrevSlideButton() {
-    return this.querySelector('.swiper-button-prev');
-  }
-
-  get getSlideItems() {
-    return (this._cachedSlideItems = this._cachedSlideItems || Array.from(this.announcementItemsWrapper.children));
-  }
-
-  isAutoplayEnabled() {
-    return this.hasAttribute('autoplay');
-  }
-
-  getAutoplaySpeed() {
-    return this.hasAttribute('autoplay') ? parseInt(this.getAttribute('autoplay-speed')) * 1000 : 5000;
-  }
-
-  initializeCarousel() {
-    if (this.getSlideItems.length > 1) {
-      this.carousel = new FoxTheme.Carousel(
-        this,
-        {
-          navigation: {
-            nextEl: this.getNextSlideButton(),
-            prevEl: this.getPrevSlideButton(),
-          },
-          loop: true,
-          autoplay: this.isAutoplayEnabled() ? { delay: this.getAutoplaySpeed(), pauseOnMouseEnter: true } : false,
-        },
-        FoxTheme.Swiper.Autoplay
-      );
-      this.carousel && this.carousel.init();
-
-      if (Shopify.designMode) {
-        this.addEventListener('shopify:block:select', (event) => {
-          this.carousel.slider.slideToLoop(this.getSlideItems.indexOf(event.target));
+const mainReviewsWidget = {
+    getSettings: function(take,page){
+        return {
+            "url": "http://stamped.io/api/widget/reviews",
+            "data": {
+                apiKey: stampedDetails.public_key,
+                storeUrl: stampedDetails.domain,
+                productId: stampedDetails.product,
+                take: take,
+                minRating: 1,
+                page: page
+            },
+            "method": "GET",
+            "timeout": 0,
+        }
+    },
+    get: function(){
+        // Get required total of reviews and view first page
+        $.ajax(mainReviewsWidget.getSettings(reviewsTotal,1)).done(function (response) {
+            window.mainReviewsSlideCount = response.data.length
+            mainReviewsWidget.draw(response)
+            mainReviewsWidget.handleSlick()
         });
-      }
-    }
-  }
-}
-customElements.define('announcement-bar', AnnouncementBar);
-
-class SelectElement extends HTMLElement {
-  constructor() {
-    super();
-
-    FoxTheme.Motion.inView(this, this.init.bind(this), { margin: '200px 0px 200px 0px' });
-
-    this.select = this.querySelector('select');
-
-    this.select && this.select.addEventListener('change', this.handleSelectChange.bind(this));
-  }
-
-  init() {
-    const style = window.getComputedStyle(this);
-    const value = this.select.options[this.select.selectedIndex].text;
-
-    const text = document.createElement('span');
-    text.style.fontFamily = style.fontFamily;
-    text.style.fontSize = style.fontSize;
-    text.style.fontWeight = style.fontWeight;
-    text.style.visibility = 'hidden';
-    text.style.position = 'absolute';
-    text.innerHTML = value;
-
-    document.body.appendChild(text);
-    const width = text.clientWidth;
-
-    this.style.setProperty('--width', `${width}px`);
-    text.remove();
-  }
-
-  handleSelectChange() {
-    this.init();
-  }
-}
-customElements.define('select-element', SelectElement);
-
-class ProductBundleVariantSelector extends HTMLElement {
-  constructor() {
-    super();
-
-    this.cssClasses = {
-      soldOut: 'f-price--sold-out',
-      onSale: 'f-price--on-sale',
-      noCompare: 'f-price--no-compare',
-    };
-
-    this.priceElement = this.querySelector('.f-price');
-    this.variantSelect = this.querySelector('select');
-
-    this.variantSelect && this.variantSelect.addEventListener('change', this.handleVariantChange.bind(this));
-  }
-
-  handleVariantChange(event) {
-    const variantSelect = event.target;
-    const selectedVariant = variantSelect.options[variantSelect.selectedIndex];
-    const compareAtPrice = parseInt(selectedVariant.dataset.compare_at_price || 0);
-    const price = parseInt(selectedVariant.dataset.price || 0);
-    const available = selectedVariant.dataset.available === 'true';
-    const priceVaries = variantSelect.dataset.price_varies === 'true';
-    const compareAtPriceVaries = variantSelect.dataset.compare_at_price_varies === 'true';
-
-    // Remove classes
-    this.priceElement.classList.remove(this.cssClasses.soldOut);
-    this.priceElement.classList.remove(this.cssClasses.onSale);
-    this.priceElement.classList.remove(this.cssClasses.noCompare);
-
-    // Add classes
-    if (!available) {
-      this.priceElement.classList.add(this.cssClasses.soldOut);
-    } else if (compareAtPrice > price && available) {
-      this.priceElement.classList.add(this.cssClasses.onSale);
-    }
-    if (!priceVaries && compareAtPriceVaries) {
-      this.priceElement.classList.add(this.cssClasses.noCompare);
-    }
-
-    // Change price
-    const regularPriceElement = this.querySelector('.f-price__regular');
-    regularPriceElement.querySelector('.f-price-item--regular').innerHTML = `${FoxTheme.Currency.formatMoney(
-      price,
-      FoxTheme.settings.moneyFormat
-    )}`;
-
-    const salePriceElement = this.querySelector('.f-price__sale');
-    salePriceElement.querySelector('.f-price-item--regular').innerHTML = `<s>${FoxTheme.Currency.formatMoney(
-      compareAtPrice,
-      FoxTheme.settings.moneyFormat
-    )}</s>`;
-    salePriceElement.querySelector('.f-price-item--sale').innerHTML = `${FoxTheme.Currency.formatMoney(
-      price,
-      FoxTheme.settings.moneyFormat
-    )}`;
-  }
-}
-customElements.define('product-bundle-variant-selector', ProductBundleVariantSelector);
-
-class ProductsBundle extends HTMLElement {
-  constructor() {
-    super();
-
-    this.cssClasses = {
-      hover: 'is-hover',
-      active: 'is-active',
-    };
-
-    this.cartDrawerElement = document.querySelector('cart-drawer');
-    this.addToCartButtonElement = this.querySelector('button');
-
-    this.addToCartButtonElement &&
-      this.addToCartButtonElement.addEventListener('click', this.handleButtonClick.bind(this));
-
-    this.productBundleBlocks = this.querySelectorAll('[data-block-id]');
-    this.productBundleBlocks.forEach((block) =>
-      block.addEventListener('mouseenter', this.handleBlockHover.bind(this, 'enter'))
-    );
-    this.productBundleBlocks.forEach((block) =>
-      block.addEventListener('mouseleave', this.handleBlockHover.bind(this, 'leave'))
-    );
-  }
-
-  handleBlockHover(type, event) {
-    if (type === 'enter') {
-      this.classList.add(this.cssClasses.hover);
-      this.toggleBlockActive(event.target, true);
-    } else {
-      this.classList.remove(this.cssClasses.hover);
-      this.toggleBlockActive(null, false);
-    }
-  }
-
-  toggleBlockActive(target, isActive) {
-    this.productBundleBlocks.forEach((block) => {
-      if (target) {
-        if (block.dataset.blockId === target.dataset.blockId) {
-          block.classList.add(this.cssClasses.active);
-        } else {
-          block.classList.remove(this.cssClasses.active);
-        }
-      } else {
-        block.classList.remove(this.cssClasses.active);
-      }
-    });
-  }
-
-  handleButtonClick(event) {
-    event.preventDefault();
-    this.lastClickedElement = event.submitter || event.currentTarget;
-
-    const productIds = this.querySelectorAll('[name="id"]');
-    const items = {
-      items: [...productIds]
-        .map((e) => e.value)
-        .map((e) => ({
-          id: e,
-          quantity: 1,
-        })),
-    };
-
-    if (document.body.classList.contains('cart-template') || FoxTheme.settings.cartType != 'drawer') {
-      FoxTheme.utils.postLink(FoxTheme.routes.cart_add_url, {
-        parameters: {
-          ...items,
-        },
-      });
-      return;
-    }
-
-    this.showErrorMessage();
-    this.toggleButtonLoading(true);
-
-    let sectionsToBundle = [];
-    document.documentElement.dispatchEvent(
-      new CustomEvent('cart:grouped-sections', { bubbles: true, detail: { sections: sectionsToBundle } })
-    );
-
-    const body = JSON.stringify({
-      ...items,
-      sections: sectionsToBundle,
-      section_url: window.pathname,
-    });
-
-    fetch(`${FoxTheme.routes.cart_add_url}`, { ...FoxTheme.utils.fetchConfig('javascript'), ...{ body } })
-      .then((response) => response.json())
-      .then(async (parsedState) => {
-        if (parsedState.status) {
-          this.showErrorMessage(parsedState.description);
-          return;
-        }
-        if (parsedState.status === 422) {
-          document.dispatchEvent(
-            new CustomEvent('product-ajax:error', {
-              detail: {
-                errorMessage: parsedState.description,
-              },
-            })
-          );
-        } else {
-          const cartJson = await (
-            await fetch(`${FoxTheme.routes.cart_url}`, { ...FoxTheme.utils.fetchConfig() })
-          ).json();
-          cartJson['sections'] = parsedState['sections'];
-
-          FoxTheme.pubsub.publish(FoxTheme.pubsub.PUB_SUB_EVENTS.cartUpdate, { cart: cartJson });
-          document.dispatchEvent(
-            new CustomEvent('product-ajax:added', {
-              detail: {
-                product: parsedState,
-              },
-            })
-          );
-          this.cartDrawerElement && this.cartDrawerElement.show(this.lastClickedElement);
-        }
-      })
-      .catch((e) => {
-        console.error(e);
-      })
-      .finally(() => {
-        this.toggleButtonLoading(false);
-      });
-  }
-
-  showErrorMessage(errorMessage = false) {
-    this.errorMessageElement = this.errorMessageElement || this.querySelector('.product-form__error-message');
-    if (this.errorMessageElement) {
-      this.errorMessageElement.hidden = !errorMessage;
-
-      if (errorMessage) this.errorMessageElement.textContent = errorMessage;
-    } else {
-      errorMessage && alert(errorMessage);
-    }
-  }
-
-  toggleButtonLoading(status) {
-    if (status) {
-      this.addToCartButtonElement.classList.add('btn--loading');
-      this.addToCartButtonElement.setAttribute('disabled', true);
-    } else {
-      this.addToCartButtonElement.classList.remove('btn--loading');
-      this.addToCartButtonElement.removeAttribute('disabled');
-    }
-  }
-}
-customElements.define('products-bundle', ProductsBundle);
-
-class ProductRecentlyViewed extends HTMLElement {
-  constructor() {
-    super();
-
-    if (FoxTheme.config.hasLocalStorage) {
-      const productId = parseInt(this.dataset.productId);
-      const cookieName = 'sleektheme:recently-viewed';
-      const items = JSON.parse(window.localStorage.getItem(cookieName) || '[]');
-
-      if (items.includes(productId)) {
-        items.splice(items.indexOf(productId), 1);
-      }
-
-      items.unshift(productId);
-
-      window.localStorage.setItem(cookieName, JSON.stringify(items.slice(0, 20)));
-    }
-  }
-}
-customElements.define('product-recently-viewed', ProductRecentlyViewed);
-
-class MotionElement extends HTMLElement {
-  constructor() {
-    super();
-    this.preInitialize();
-  }
-
-  connectedCallback() {
-    if (FoxTheme.config.motionReduced) return;
-    FoxTheme.Motion.inView(
-      this,
-      async () => {
-        if (!this.isInstant && this.media) await FoxTheme.utils.imageReady(this.media);
-        this.initialize();
-      },
-      { margin: '0px 0px -50px 0px' }
-    );
-  }
-
-  get isHold() {
-    return this.hasAttribute('hold');
-  }
-
-  get isInstant() {
-    return this.hasAttribute('data-instantly');
-  }
-
-  get mediaElements() {
-    return Array.from(this.querySelectorAll('img, iframe, svg'));
-  }
-
-  get animationType() {
-    return this.dataset.motion || 'fade-up';
-  }
-
-  get animationDelay() {
-    return parseInt(this.dataset.motionDelay || 0) / 1000;
-  }
-
-  preInitialize() {
-    if (this.isHold) return;
-    switch (this.animationType) {
-      case 'fade-in':
-        FoxTheme.Motion.animate(this, { opacity: 0.01 }, { duration: 0 });
-        break;
-
-      case 'fade-up':
-        FoxTheme.Motion.animate(this, { transform: 'translateY(2.5rem)', opacity: 0.01 }, { duration: 0 });
-        break;
-
-      case 'zoom-in':
-        FoxTheme.Motion.animate(this, { transform: 'scale(0.8)' }, { duration: 0 });
-        break;
-      case 'zoom-in-lg':
-        FoxTheme.Motion.animate(this, { transform: 'scale(0)' }, { duration: 0 });
-        break;
-
-      case 'zoom-out':
-        FoxTheme.Motion.animate(this, { transform: 'scale(1.3)' }, { duration: 0 });
-        break;
-
-      case 'zoom-out-sm':
-        FoxTheme.Motion.animate(this, { transform: 'scale(1.1)' }, { duration: 0 });
-    }
-  }
-
-  async initialize() {
-    if (this.isHold) return;
-
-    switch (this.animationType) {
-      case 'fade-in':
-        await FoxTheme.Motion.animate(
-          this,
-          { opacity: 1 },
-          { duration: 1.5, delay: this.animationDelay, easing: [0, 0, 0.3, 1] }
-        ).finished;
-        break;
-
-      case 'fade-up':
-        await FoxTheme.Motion.animate(
-          this,
-          { transform: 'translateY(0)', opacity: 1 },
-          { duration: 0.5, delay: this.animationDelay, easing: [0, 0, 0.3, 1] }
-        ).finished;
-        break;
-
-      case 'zoom-in':
-        await FoxTheme.Motion.animate(
-          this,
-          { transform: 'scale(1)' },
-          { duration: 1.3, delay: this.animationDelay, easing: [0, 0, 0.3, 1] }
-        ).finished;
-        break;
-
-      case 'zoom-in-lg':
-        await FoxTheme.Motion.animate(
-          this,
-          { transform: 'scale(1)' },
-          { duration: 0.5, delay: this.animationDelay, easing: [0, 0, 0.3, 1] }
-        ).finished;
-        break;
-
-      case 'zoom-out':
-        await FoxTheme.Motion.animate(
-          this,
-          { transform: 'scale(1)' },
-          { duration: 1.5, delay: this.animationDelay, easing: [0, 0, 0.3, 1] }
-        ).finished;
-        break;
-
-      case 'zoom-out-sm':
-        await FoxTheme.Motion.animate(
-          this,
-          { transform: 'scale(1)' },
-          { duration: 1, delay: this.animationDelay, easing: [0, 0, 0.3, 1] }
-        ).finished;
-        break;
-    }
-
-    this.classList.add('is-animated');
-  }
-
-  async resetAnimation(duration) {
-    switch (this.animationType) {
-      case 'fade-in':
-        await FoxTheme.Motion.animate(
-          this,
-          { opacity: 0 },
-          {
-            duration: duration ? duration : 1.5,
-            delay: this.animationDelay,
-            easing: duration ? 'none' : [0, 0, 0.3, 1],
-          }
-        ).finished;
-        break;
-
-      case 'fade-up':
-        await FoxTheme.Motion.animate(
-          this,
-          { transform: 'translateY(2.5rem)', opacity: 0 },
-          {
-            duration: duration ? duration : 0.5,
-            delay: this.animationDelay,
-            easing: duration ? 'none' : [0, 0, 0.3, 1],
-          }
-        ).finished;
-        break;
-
-      case 'zoom-in':
-        await FoxTheme.Motion.animate(
-          this,
-          { transform: 'scale(0)' },
-          {
-            duration: duration ? duration : 1.3,
-            delay: this.animationDelay,
-            easing: duration ? 'none' : [0, 0, 0.3, 1],
-          }
-        ).finished;
-        break;
-
-      case 'zoom-in-lg':
-        await FoxTheme.Motion.animate(
-          this,
-          { transform: 'scale(0)' },
-          {
-            duration: duration ? duration : 1.3,
-            delay: this.animationDelay,
-            easing: duration ? 'none' : [0, 0, 0.3, 1],
-          }
-        ).finished;
-        break;
-
-      case 'zoom-out':
-        await FoxTheme.Motion.animate(
-          this,
-          { transform: 'scale(0)' },
-          {
-            duration: duration ? duration : 1.3,
-            delay: this.animationDelay,
-            easing: duration ? 'none' : [0.16, 1, 0.3, 1],
-          }
-        ).finished;
-        break;
-
-      case 'zoom-out-sm':
-        await FoxTheme.Motion.animate(
-          this,
-          { transform: 'scale(0)' },
-          {
-            duration: duration ? duration : 1.3,
-            delay: this.animationDelay,
-            easing: duration ? 'none' : [0.16, 1, 0.3, 1],
-          }
-        ).finished;
-        break;
-    }
-  }
-
-  refreshAnimation() {
-    this.removeAttribute('hold');
-    this.preInitialize();
-    setTimeout(() => {
-      this.initialize();
-    }, 50); // Delay a bit to make animation re init properly.
-  }
-}
-customElements.define('motion-element', MotionElement);
-
-class TabsComponent extends HTMLElement {
-  constructor() {
-    super();
-    this.selectors = {
-      tabHeader: '[role="tablist"]',
-      tabPanels: ['[role="tabpanel"]'],
-      tabNavs: ['[role="tab"]'],
-      tabSelect: 'tab-selector',
-    };
-    this.domNodes = FoxTheme.utils.queryDomNodes(this.selectors, this);
-
-    this.selectedIndex = 0;
-    this.selectedTab = this.domNodes.tabPanels[this.selectedIndex];
-    this.scrollToActiveTab = this.dataset.scrollToActiveTab === 'true';
-    this.scrollOffset = 20;
-    this.headerEl = document.querySelector('.header-section header[is="sticky-header"]');
-
-    this.init();
-    this.setActiveTab(0);
-
-    this.tabChange = new CustomEvent('tabChange', {
-      bubbles: true,
-      detail: { selectedTab: this.selectedTab },
-    });
-  }
-
-  connectedCallback() {
-    this.setActiveTab(0);
-  }
-
-  init = () => {
-    this.domNodes.tabNavs.forEach((tab) => {
-      tab.addEventListener('click', this.onTabClick.bind(this));
-    });
-    this.domNodes.tabHeader && this.domNodes.tabHeader.addEventListener('keydown', this.handleKeyDown.bind(this));
-    this.setAccessible();
-  };
-
-  static get observedAttributes() {
-    return ['data-selected'];
-  }
-
-  get buttons() {
-    return (this._buttons = this._buttons || Array.from(this.querySelectorAll('button[role="tab"]')));
-  }
-
-  getHeaderHeight() {
-    let headerHeight = 0;
-
-    if (this.headerEl) {
-      const height = Math.round(this.headerEl.offsetHeight);
-      if (this.headerEl.isAlwaysSticky) {
-        headerHeight = height;
-      } else {
-        const isSticky = document.body.classList.contains(this.headerEl.classes.pinned);
-
-        if (window.scrollY > this.offsetTop - this.scrollOffset) {
-          headerHeight = height;
-        }
-
-        if (isSticky && window.scrollY >= this.offsetTop - this.scrollOffset - height) {
-          headerHeight = height;
-        }
-      }
-    }
-
-    return headerHeight;
-  }
-
-  scrollToTop() {
-    let offsetTop = this.offsetTop - this.scrollOffset - this.getHeaderHeight();
-    window.scrollTo({ top: offsetTop, behavior: 'smooth' });
-  }
-
-  onTabClick(evt) {
-    if (evt.target.tagName === 'A' && evt.target.hasAttribute('href')) return;
-    evt.preventDefault();
-    const currentTab = evt.currentTarget;
-    const index = currentTab ? Number(currentTab.dataset.index) : 0;
-    this.setActiveTab(index);
-
-    if (this.scrollToActiveTab) {
-      this.scrollToTop();
-    }
-  }
-
-  setActiveTab = (tabIndex) => {
-    const { tabNavs, tabPanels, tabSelect } = this.domNodes;
-    if (tabIndex !== -1) {
-      const newHeader = tabNavs && tabNavs[tabIndex];
-      const newTab = tabPanels && tabPanels[tabIndex];
-      this.setAttribute('data-selected', tabIndex);
-
-      tabNavs.forEach((nav) => nav.setAttribute('aria-selected', false));
-
-      newHeader && newHeader.setAttribute('aria-selected', true);
-
-      this.selectedIndex = tabIndex;
-      this.selectedTab = newTab;
-
-      this.onTabChange();
-
-      this.dispatchEvent(
-        new CustomEvent('tabChange', {
-          bubbles: true,
-          detail: { selectedIndex: tabIndex, selectedTab: newTab },
+    },
+    draw: function(response){
+        const htmlTemplate = $('template[data-template="stamped-review-product-main"]').html()
+        $('.section-main-reviews .summary .total span').text(response.total)
+        $('.section-main-reviews .summary .total-rating').html(reviewHelpers.ratingHtml(response.rating))
+        $('.section-main-reviews .summary .total-stars span').html(response.rating)
+
+        var reviewRender = ''
+        response.data.forEach(function(review){
+            if(!mainReviewsIds.includes(review.id)){
+                mainReviewsIds.push(review.id)
+                var ratingHtml = reviewHelpers.ratingHtml(review.reviewRating)
+                var date = new Date(review.dateCreated)
+                date = date.getDate()+'/'+date.getMonth()+'/'+date.getFullYear()
+                var reviewSubRender = htmlTemplate
+                    .replaceAll('@ratingStars',ratingHtml)
+                    .replaceAll('@content',review.reviewMessage)
+                    .replaceAll('@name',review.author)
+                    .replaceAll('@verified',response.translations.label_verified_buyer)
+                    .replaceAll('@date',date)
+                    .replaceAll('@product',review.productName)
+                    .replaceAll('@title',review.reviewTitle)
+
+                if(mainReviewsSlick == null){
+                    reviewRender += reviewSubRender
+                }
+                else{
+                    mainReviewsSlick.slick('slickAdd',reviewSubRender)
+                }
+            }
         })
-      );
-
-      if (tabSelect) {
-        tabSelect.querySelector('select').value = tabIndex;
-      }
+        if(mainReviewsSlick == null){
+            $('.section-main-reviews .reviews').html(reviewRender)
+        }
+    },
+    handleSlick: function(){
+        mainReviewsSlick = $('.section-main-reviews .reviews').slick({
+            dots: true,
+            customPaging: function(slick,index) {
+                return '<a>' + (index + 1) + '</a>';
+            },
+            arrows: false,
+            slidesToShow: reviewsPerPage,
+            slidesToScroll: reviewsPerPage,
+            infinite: false,
+            responsive: [{
+                breakpoint: 992,
+                settings: {
+                    infinite: true,
+                    slidesToShow: 1,
+                    dots: false,
+                    customPaging: function(slick,index) {
+                        return '<a>' + (index + 1) + '</a>';
+                    },
+                    arrows: true,
+                    slidesToScroll: 1,
+                    //adaptiveHeight: true,
+                    prevArrow: `<div class="prev-review-btn"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg></div>`,
+                    nextArrow: `<div class="next-review-btn"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></svg></div>`,
+                }
+            }]
+        })
     }
-  };
+}
 
-  onTabChange() {}
+window.addEventListener('DOMContentLoaded', (event) => {
+    if($('.section-main-reviews').length){
+        window.mainReviewsCurrentSlide = 0
+        window.mainReviewsSlideCount = 0
+        window.mainReviewsSlick = null
+        window.mainReviewsIds = []
+        mainReviewsWidget.get()
+    }
+});
 
-  setAccessible() {
-    const { tabNavs, tabPanels } = this.domNodes;
-    tabNavs.forEach((tab, index) => {
-      if (tab.id) tabPanels[index].setAttribute('aria-labelledby', tab.id);
-      tab.setAttribute('aria-selected', index === 0);
-      tab.setAttribute('data-index', index);
-      if (index !== 0) {
-        // tab.setAttribute('tabindex', -1);
-      }
+const pageReviewsWidget = {
+    getSettings: function(take,page){
+        return {
+            "url": "http://stamped.io/api/widget/reviews",
+            "data": {
+                apiKey: stampedDetails.public_key,
+                storeUrl: stampedDetails.domain,
+                productId: stampedDetails.product,
+                take: take,
+                minRating: 1,
+                page: page
+            },
+            "method": "GET",
+            "timeout": 0,
+        }
+    },
+    get: function(){
+        $.ajax(pageReviewsWidget.getSettings(3,1)).done(function (response) {
+            mainReviewsSlideCount = response.data.length
+            pageReviewsWidget.draw(response)
+        });
+    },
+    draw: function(response){
+        const htmlTemplate = $('template[data-template="stamped-review-product-main"]').html()
+        $('.section-main-reviews-page .summary .total span').text(response.total)
+        $('.section-main-reviews-page .summary .total-rating').html(reviewHelpers.ratingHtml(response.rating))
+        $('.section-main-reviews-page .summary .total-stars span').html(response.rating)
+
+        var reviewRender = ''
+        response.data.forEach(function(review){
+            if(!mainReviewsIds.includes(review.id)){
+                mainReviewsIds.push(review.id)
+                var ratingHtml = reviewHelpers.ratingHtml(review.reviewRating)
+                var date = new Date(review.dateCreated)
+                date = date.getDate()+'/'+date.getMonth()+'/'+date.getFullYear()
+                var reviewSubRender = htmlTemplate
+                    .replaceAll('@ratingStars',ratingHtml)
+                    .replaceAll('@content',review.reviewMessage)
+                    .replaceAll('@name',review.author)
+                    .replaceAll('@verified',response.translations.label_verified_buyer)
+                    .replaceAll('@date',date)
+                    .replaceAll('@product',review.productName)
+                    .replaceAll('@title',review.reviewTitle)
+
+                reviewRender += reviewSubRender
+            }
+        })
+        $('.section-main-reviews-page .reviews').append(reviewRender)
+    },
+}
+
+window.addEventListener('DOMContentLoaded', (event) => {
+    if($('.section-main-reviews-page').length){
+        window.mainReviewsSlideCount = 0
+        window.mainReviewsIds = []
+        pageReviewsWidget.get()
+        collectionShadeImages();
+        collectionHover();
+        collectionProductImage();
+        slickMobileProductSwatch();
+    }
+});
+theme.pageTransitions = function() {
+    if ($('html').data('transitions') == true) {
+        // Hack test to fix Safari page cache issue.
+        // window.onpageshow doesn't always run when navigating
+        // back to the page, so the unloading class remains, leaving
+        // a white page. Setting a timeout to remove that class when leaving
+        // the page actually finishes running when they come back.
+          if (/iPhone|iPod|iPad/.test(navigator.platform)) {
+console.log ('found an iphone')
+                window.setTimeout(function() {
+                    $('html').removeClass('unloading').addClass('loaded');
+                }, 300);
+
+        }
+
+        // Add disable transition class to malito, anchor, and YouTube links
+        $('a[href^="mailto:"], a[href^="#"], a[target="_blank"], a[href*="youtube.com/watch"], a[href*="youtu.be/"]').each(function() {
+            $(this).addClass('js-no-transition');
+        });
+
+        $('a:not(.js-no-transition)').bind('click', function(evt) {
+            if (evt.metaKey) {
+                return true;
+            }
+
+            evt.preventDefault();
+
+            $('html').addClass('unloading');
+            $('html').removeClass('loaded');
+
+            var src = $(this).attr('href');
+
+            window.setTimeout(function() {
+                location.href = src;
+            }, 50);
+        });
+
+        $('a.mobile-nav__link').bind('click', function() {
+            theme.NavDrawer.close();
+        });
+    }
+};
+
+$(document).ready(function() {
+    theme.pageTransitions();
+
+    window.setTimeout(function() {
+        $('html').addClass('loaded');
+    }, 250)
+});
+
+window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+      window.setTimeout(function() {
+                    $('html').removeClass('unloading').addClass('loaded');
+                }, 500);
+  }
+});
+
+//TPC: using liquid render this rearranging via js is redundant
+//TPC: Check product-form-bundle for more info
+//var bundles = document.getElementById('product-options-bundle');
+//$(bundles).insertAfter('.outofstock-indicator');
+
+//SH: Javascript handlize
+var Latinise={};Latinise.latin_map={"Á":"A","Ă":"A","Ắ":"A","Ặ":"A","Ằ":"A","Ẳ":"A","Ẵ":"A","Ǎ":"A","Â":"A","Ấ":"A","Ậ":"A","Ầ":"A","Ẩ":"A","Ẫ":"A","Ä":"A","Ǟ":"A","Ȧ":"A","Ǡ":"A","Ạ":"A","Ȁ":"A","À":"A","Ả":"A","Ȃ":"A","Ā":"A","Ą":"A","Å":"A","Ǻ":"A","Ḁ":"A","Ⱥ":"A","Ã":"A","Ꜳ":"AA","Æ":"AE","Ǽ":"AE","Ǣ":"AE","Ꜵ":"AO","Ꜷ":"AU","Ꜹ":"AV","Ꜻ":"AV","Ꜽ":"AY","Ḃ":"B","Ḅ":"B","Ɓ":"B","Ḇ":"B","Ƀ":"B","Ƃ":"B","Ć":"C","Č":"C","Ç":"C","Ḉ":"C","Ĉ":"C","Ċ":"C","Ƈ":"C","Ȼ":"C","Ď":"D","Ḑ":"D","Ḓ":"D","Ḋ":"D","Ḍ":"D","Ɗ":"D","Ḏ":"D","ǲ":"D","ǅ":"D","Đ":"D","Ƌ":"D","Ǳ":"DZ","Ǆ":"DZ","É":"E","Ĕ":"E","Ě":"E","Ȩ":"E","Ḝ":"E","Ê":"E","Ế":"E","Ệ":"E","Ề":"E","Ể":"E","Ễ":"E","Ḙ":"E","Ë":"E","Ė":"E","Ẹ":"E","Ȅ":"E","È":"E","Ẻ":"E","Ȇ":"E","Ē":"E","Ḗ":"E","Ḕ":"E","Ę":"E","Ɇ":"E","Ẽ":"E","Ḛ":"E","Ꝫ":"ET","Ḟ":"F","Ƒ":"F","Ǵ":"G","Ğ":"G","Ǧ":"G","Ģ":"G","Ĝ":"G","Ġ":"G","Ɠ":"G","Ḡ":"G","Ǥ":"G","Ḫ":"H","Ȟ":"H","Ḩ":"H","Ĥ":"H","Ⱨ":"H","Ḧ":"H","Ḣ":"H","Ḥ":"H","Ħ":"H","Í":"I","Ĭ":"I","Ǐ":"I","Î":"I","Ï":"I","Ḯ":"I","İ":"I","Ị":"I","Ȉ":"I","Ì":"I","Ỉ":"I","Ȋ":"I","Ī":"I","Į":"I","Ɨ":"I","Ĩ":"I","Ḭ":"I","Ꝺ":"D","Ꝼ":"F","Ᵹ":"G","Ꞃ":"R","Ꞅ":"S","Ꞇ":"T","Ꝭ":"IS","Ĵ":"J","Ɉ":"J","Ḱ":"K","Ǩ":"K","Ķ":"K","Ⱪ":"K","Ꝃ":"K","Ḳ":"K","Ƙ":"K","Ḵ":"K","Ꝁ":"K","Ꝅ":"K","Ĺ":"L","Ƚ":"L","Ľ":"L","Ļ":"L","Ḽ":"L","Ḷ":"L","Ḹ":"L","Ⱡ":"L","Ꝉ":"L","Ḻ":"L","Ŀ":"L","Ɫ":"L","ǈ":"L","Ł":"L","Ǉ":"LJ","Ḿ":"M","Ṁ":"M","Ṃ":"M","Ɱ":"M","Ń":"N","Ň":"N","Ņ":"N","Ṋ":"N","Ṅ":"N","Ṇ":"N","Ǹ":"N","Ɲ":"N","Ṉ":"N","Ƞ":"N","ǋ":"N","Ñ":"N","Ǌ":"NJ","Ó":"O","Ŏ":"O","Ǒ":"O","Ô":"O","Ố":"O","Ộ":"O","Ồ":"O","Ổ":"O","Ỗ":"O","Ö":"O","Ȫ":"O","Ȯ":"O","Ȱ":"O","Ọ":"O","Ő":"O","Ȍ":"O","Ò":"O","Ỏ":"O","Ơ":"O","Ớ":"O","Ợ":"O","Ờ":"O","Ở":"O","Ỡ":"O","Ȏ":"O","Ꝋ":"O","Ꝍ":"O","Ō":"O","Ṓ":"O","Ṑ":"O","Ɵ":"O","Ǫ":"O","Ǭ":"O","Ø":"O","Ǿ":"O","Õ":"O","Ṍ":"O","Ṏ":"O","Ȭ":"O","Ƣ":"OI","Ꝏ":"OO","Ɛ":"E","Ɔ":"O","Ȣ":"OU","Ṕ":"P","Ṗ":"P","Ꝓ":"P","Ƥ":"P","Ꝕ":"P","Ᵽ":"P","Ꝑ":"P","Ꝙ":"Q","Ꝗ":"Q","Ŕ":"R","Ř":"R","Ŗ":"R","Ṙ":"R","Ṛ":"R","Ṝ":"R","Ȑ":"R","Ȓ":"R","Ṟ":"R","Ɍ":"R","Ɽ":"R","Ꜿ":"C","Ǝ":"E","Ś":"S","Ṥ":"S","Š":"S","Ṧ":"S","Ş":"S","Ŝ":"S","Ș":"S","Ṡ":"S","Ṣ":"S","Ṩ":"S","Ť":"T","Ţ":"T","Ṱ":"T","Ț":"T","Ⱦ":"T","Ṫ":"T","Ṭ":"T","Ƭ":"T","Ṯ":"T","Ʈ":"T","Ŧ":"T","Ɐ":"A","Ꞁ":"L","Ɯ":"M","Ʌ":"V","Ꜩ":"TZ","Ú":"U","Ŭ":"U","Ǔ":"U","Û":"U","Ṷ":"U","ÜE":"U","Ǘ":"U","Ǚ":"U","Ǜ":"U","Ǖ":"U","Ṳ":"U","Ụ":"U","Ű":"U","Ȕ":"U","Ù":"U","Ủ":"U","Ư":"U","Ứ":"U","Ự":"U","Ừ":"U","Ử":"U","Ữ":"U","Ȗ":"U","Ū":"U","Ṻ":"U","Ų":"U","Ů":"U","Ũ":"U","Ṹ":"U","Ṵ":"U","Ꝟ":"V","Ṿ":"V","Ʋ":"V","Ṽ":"V","Ꝡ":"VY","Ẃ":"W","Ŵ":"W","Ẅ":"W","Ẇ":"W","Ẉ":"W","Ẁ":"W","Ⱳ":"W","Ẍ":"X","Ẋ":"X","Ý":"Y","Ŷ":"Y","Ÿ":"Y","Ẏ":"Y","Ỵ":"Y","Ỳ":"Y","Ƴ":"Y","Ỷ":"Y","Ỿ":"Y","Ȳ":"Y","Ɏ":"Y","Ỹ":"Y","Ź":"Z","Ž":"Z","Ẑ":"Z","Ⱬ":"Z","Ż":"Z","Ẓ":"Z","Ȥ":"Z","Ẕ":"Z","Ƶ":"Z","Ĳ":"IJ","Œ":"OE","ᴀ":"A","ᴁ":"AE","ʙ":"B","ᴃ":"B","ᴄ":"C","ᴅ":"D","ᴇ":"E","ꜰ":"F","ɢ":"G","ʛ":"G","ʜ":"H","ɪ":"I","ʁ":"R","ᴊ":"J","ᴋ":"K","ʟ":"L","ᴌ":"L","ᴍ":"M","ɴ":"N","ᴏ":"O","ɶ":"OE","ᴐ":"O","ᴕ":"OU","ᴘ":"P","ʀ":"R","ᴎ":"N","ᴙ":"R","ꜱ":"S","ᴛ":"T","ⱻ":"E","ᴚ":"R","ᴜ":"U","ᴠ":"V","ᴡ":"W","ʏ":"Y","ᴢ":"Z","á":"a","ă":"a","ắ":"a","ặ":"a","ằ":"a","ẳ":"a","ẵ":"a","ǎ":"a","â":"a","ấ":"a","ậ":"a","ầ":"a","ẩ":"a","ẫ":"a","ä":"a","ǟ":"a","ȧ":"a","ǡ":"a","ạ":"a","ȁ":"a","à":"a","ả":"a","ȃ":"a","ā":"a","ą":"a","ᶏ":"a","ẚ":"a","å":"a","ǻ":"a","ḁ":"a","ⱥ":"a","ã":"a","ꜳ":"aa","æ":"ae","ǽ":"ae","ǣ":"ae","ꜵ":"ao","ꜷ":"au","ꜹ":"av","ꜻ":"av","ꜽ":"ay","ḃ":"b","ḅ":"b","ɓ":"b","ḇ":"b","ᵬ":"b","ᶀ":"b","ƀ":"b","ƃ":"b","ɵ":"o","ć":"c","č":"c","ç":"c","ḉ":"c","ĉ":"c","ɕ":"c","ċ":"c","ƈ":"c","ȼ":"c","ď":"d","ḑ":"d","ḓ":"d","ȡ":"d","ḋ":"d","ḍ":"d","ɗ":"d","ᶑ":"d","ḏ":"d","ᵭ":"d","ᶁ":"d","đ":"d","ɖ":"d","ƌ":"d","ı":"i","ȷ":"j","ɟ":"j","ʄ":"j","ǳ":"dz","ǆ":"dz","é":"e","ĕ":"e","ě":"e","ȩ":"e","ḝ":"e","ê":"e","ế":"e","ệ":"e","ề":"e","ể":"e","ễ":"e","ḙ":"e","ë":"e","ė":"e","ẹ":"e","ȅ":"e","è":"e","ẻ":"e","ȇ":"e","ē":"e","ḗ":"e","ḕ":"e","ⱸ":"e","ę":"e","ᶒ":"e","ɇ":"e","ẽ":"e","ḛ":"e","ꝫ":"et","ḟ":"f","ƒ":"f","ᵮ":"f","ᶂ":"f","ǵ":"g","ğ":"g","ǧ":"g","ģ":"g","ĝ":"g","ġ":"g","ɠ":"g","ḡ":"g","ᶃ":"g","ǥ":"g","ḫ":"h","ȟ":"h","ḩ":"h","ĥ":"h","ⱨ":"h","ḧ":"h","ḣ":"h","ḥ":"h","ɦ":"h","ẖ":"h","ħ":"h","ƕ":"hv","í":"i","ĭ":"i","ǐ":"i","î":"i","ï":"i","ḯ":"i","ị":"i","ȉ":"i","ì":"i","ỉ":"i","ȋ":"i","ī":"i","į":"i","ᶖ":"i","ɨ":"i","ĩ":"i","ḭ":"i","ꝺ":"d","ꝼ":"f","ᵹ":"g","ꞃ":"r","ꞅ":"s","ꞇ":"t","ꝭ":"is","ǰ":"j","ĵ":"j","ʝ":"j","ɉ":"j","ḱ":"k","ǩ":"k","ķ":"k","ⱪ":"k","ꝃ":"k","ḳ":"k","ƙ":"k","ḵ":"k","ᶄ":"k","ꝁ":"k","ꝅ":"k","ĺ":"l","ƚ":"l","ɬ":"l","ľ":"l","ļ":"l","ḽ":"l","ȴ":"l","ḷ":"l","ḹ":"l","ⱡ":"l","ꝉ":"l","ḻ":"l","ŀ":"l","ɫ":"l","ᶅ":"l","ɭ":"l","ł":"l","ǉ":"lj","ſ":"s","ẜ":"s","ẛ":"s","ẝ":"s","ḿ":"m","ṁ":"m","ṃ":"m","ɱ":"m","ᵯ":"m","ᶆ":"m","ń":"n","ň":"n","ņ":"n","ṋ":"n","ȵ":"n","ṅ":"n","ṇ":"n","ǹ":"n","ɲ":"n","ṉ":"n","ƞ":"n","ᵰ":"n","ᶇ":"n","ɳ":"n","ñ":"n","ǌ":"nj","ó":"o","ŏ":"o","ǒ":"o","ô":"o","ố":"o","ộ":"o","ồ":"o","ổ":"o","ỗ":"o","ö":"o","ȫ":"o","ȯ":"o","ȱ":"o","ọ":"o","ő":"o","ȍ":"o","ò":"o","ỏ":"o","ơ":"o","ớ":"o","ợ":"o","ờ":"o","ở":"o","ỡ":"o","ȏ":"o","ꝋ":"o","ꝍ":"o","ⱺ":"o","ō":"o","ṓ":"o","ṑ":"o","ǫ":"o","ǭ":"o","ø":"o","ǿ":"o","õ":"o","ṍ":"o","ṏ":"o","ȭ":"o","ƣ":"oi","ꝏ":"oo","ɛ":"e","ᶓ":"e","ɔ":"o","ᶗ":"o","ȣ":"ou","ṕ":"p","ṗ":"p","ꝓ":"p","ƥ":"p","ᵱ":"p","ᶈ":"p","ꝕ":"p","ᵽ":"p","ꝑ":"p","ꝙ":"q","ʠ":"q","ɋ":"q","ꝗ":"q","ŕ":"r","ř":"r","ŗ":"r","ṙ":"r","ṛ":"r","ṝ":"r","ȑ":"r","ɾ":"r","ᵳ":"r","ȓ":"r","ṟ":"r","ɼ":"r","ᵲ":"r","ᶉ":"r","ɍ":"r","ɽ":"r","ↄ":"c","ꜿ":"c","ɘ":"e","ɿ":"r","ś":"s","ṥ":"s","š":"s","ṧ":"s","ş":"s","ŝ":"s","ș":"s","ṡ":"s","ṣ":"s","ṩ":"s","ʂ":"s","ᵴ":"s","ᶊ":"s","ȿ":"s","ɡ":"g","ᴑ":"o","ᴓ":"o","ᴝ":"u","ť":"t","ţ":"t","ṱ":"t","ț":"t","ȶ":"t","ẗ":"t","ⱦ":"t","ṫ":"t","ṭ":"t","ƭ":"t","ṯ":"t","ᵵ":"t","ƫ":"t","ʈ":"t","ŧ":"t","ᵺ":"th","ɐ":"a","ᴂ":"ae","ǝ":"e","ᵷ":"g","ɥ":"h","ʮ":"h","ʯ":"h","ᴉ":"i","ʞ":"k","ꞁ":"l","ɯ":"m","ɰ":"m","ᴔ":"oe","ɹ":"r","ɻ":"r","ɺ":"r","ⱹ":"r","ʇ":"t","ʌ":"v","ʍ":"w","ʎ":"y","ꜩ":"tz","ú":"u","ŭ":"u","ǔ":"u","û":"u","ṷ":"u","ü":"ue","ǘ":"u","ǚ":"u","ǜ":"u","ǖ":"u","ṳ":"u","ụ":"u","ű":"u","ȕ":"u","ù":"u","ủ":"u","ư":"u","ứ":"u","ự":"u","ừ":"u","ử":"u","ữ":"u","ȗ":"u","ū":"u","ṻ":"u","ų":"u","ᶙ":"u","ů":"u","ũ":"u","ṹ":"u","ṵ":"u","ᵫ":"ue","ꝸ":"um","ⱴ":"v","ꝟ":"v","ṿ":"v","ʋ":"v","ᶌ":"v","ⱱ":"v","ṽ":"v","ꝡ":"vy","ẃ":"w","ŵ":"w","ẅ":"w","ẇ":"w","ẉ":"w","ẁ":"w","ⱳ":"w","ẘ":"w","ẍ":"x","ẋ":"x","ᶍ":"x","ý":"y","ŷ":"y","ÿ":"y","ẏ":"y","ỵ":"y","ỳ":"y","ƴ":"y","ỷ":"y","ỿ":"y","ȳ":"y","ẙ":"y","ɏ":"y","ỹ":"y","ź":"z","ž":"z","ẑ":"z","ʑ":"z","ⱬ":"z","ż":"z","ẓ":"z","ȥ":"z","ẕ":"z","ᵶ":"z","ᶎ":"z","ʐ":"z","ƶ":"z","ɀ":"z","ﬀ":"ff","ﬃ":"ffi","ﬄ":"ffl","ﬁ":"fi","ﬂ":"fl","ĳ":"ij","œ":"oe","ﬆ":"st","ₐ":"a","ₑ":"e","ᵢ":"i","ⱼ":"j","ₒ":"o","ᵣ":"r","ᵤ":"u","ᵥ":"v","ₓ":"x","ß":"ss"};
+String.prototype.latinise=function(){return this.replace(/[^A-Za-z0-9\[\] ]/g,function(a){return Latinise.latin_map[a]||a})};
+String.prototype.latinize=String.prototype.latinise;
+String.prototype.isLatin=function(){return this==this.latinise()}
+function handleize (str) {
+    str = str.toLowerCase().latinise();
+    var toReplace = ['"', "'", "\\", "(", ")", "[", "]"];
+    for (var i = 0; i < toReplace.length; ++i) {
+        str = str.replace(toReplace[i], "");
+    }
+    str = str.replace(/\W+/g, "-");
+    if (str.charAt(str.length - 1) == "-") {
+        str = str.replace(/-+\z/, "");
+    }
+    if (str.charAt(0) == "-") {
+        str = str.replace(/\A-+/, "");
+    }
+    return str
+};
+
+//console.log('Product Bundle Confirmed');
+
+
+
+
+//SH: Setup function for updating swatches
+function set_thumbnail_by_color(color_name) { 
+    //console.log('Set Thumbnail By Colour');
+    //console.log('Chosen Pos: ' + chosen_pos);
+
+    //SH: Determine which variant thumbnails to show
+    var thumbs = $('#product-thumbnails .thumbnail-image');
+
+    //SH: Determine which variant image to show
+    //var imgs = $('.product-images .large-image');
+    var images = $('.product-images');
+    
+    var groupbyColour = 'yes';
+    if (color_name) {
+
+        //var chosen_pos = 1;
+        //var main = $('.product-images [data-image-position=' + chosen_pos + ']');
+
+        //var swatch = $(this).closest().attr('data-swatch');
+        var swatch = handleize(color_name);
+
+        var chosen_thumbs = $('#product-thumbnails [data-swatch=' + swatch + ']');
+        var chosen_images = $('.product-images[data-swatch-group=' + swatch + ']');
+        //console.log('Chosen Colour: ' + swatch);
+
+        //SH: Need to test which products need this
+        if(groupbyColour == 'yes'){
+            if ($(window).width() > 992) {
+                thumbs.css('display', 'none');
+                chosen_thumbs.css('display', 'block');
+                images.css('display', 'none');
+                chosen_images.css('display', 'block');
+            } else {
+                //images.css('display', 'none');
+                //chosen_images.css('display', 'block');
+                images.css('height', '0').css('overflow', 'hidden');
+                chosen_images.css('height', 'auto').css('overflow', 'hidden');
+            }
+            //imgs.css('display', 'none');
+            //main.css('display', 'block');
+            //thumbs.css('pointerEvents', 'none');
+            //chosen.css('pointerEvents', 'auto');
+            //console.log('Thumbnail Bundle Swatch: ' + swatch);
+            $('.product-images').slick('resize');
+            $('.product-images').slick('setPosition');
+        }
+
+        //SH: Check the additonal product colours update
+        //console.log('colour ' + JSON.stringify(color_name) + ' selected');
+        $(".product-options-bundle-sub").each(function () {
+            console.log('Select additional product colour: ' + color_name);
+            $('.select-container select [value="' + color_name + '"]')
+                .prop('selected', true)
+                .trigger('change');
+        })
+                
+    }
+
+}
+
+function set_bundle_colors() { // BMK: this function did not seem to be consistantly working
+    //'Set Bundle Colours');
+
+    $(".product-swatch .swatch-value").on('click', function(e)  {
+
+        //var pos = $(this).attr('data-image-position');
+        //console.log('Thumbnail Image Clicked: ' + pos);
+
+        //var chosen_pos = $(this).attr('data-pos');
+        var color_name = $(this).closest('input').attr('value');
+        set_thumbnail_by_color(color_name);
     });
-    tabPanels.forEach((panel, index) => {
-      if (panel.id) tabNavs[index].setAttribute('aria-controls', panel.id);
-      panel.setAttribute('tabindex', 0);
-    });
-  }
+}
 
-  handleKeyDown(e) {
-    const { tabNavs } = this.domNodes;
-    if (e.keyCode === 39 || e.keyCode === 37) {
-      tabNavs[this.selectedIndex].setAttribute('tabindex', -1);
-      if (e.keyCode === 39) {
-        this.selectedIndex++;
-        // If we're at the end, go to the start.
-        if (this.selectedIndex >= tabNavs.length) {
-          this.selectedIndex = 0;
+function bundle_product_loop() {
+    var mainVariant = $('.main-product-variant-selector option:selected')
+    var mainQuantity = parseInt($('.main-product-form-quantity').val())
+    var itemCount = mainQuantity
+    var dataPrice = mainVariant.attr('data-price')
+
+    var mainPrice = mainVariant.attr('data-price-unformated')
+
+    //console.log('mainPrice: ' + mainPrice)
+    if(mainPrice == undefined){
+        //console.log('Undefined price')
+        window.selectedPrice = $('.product-options .main-option-selector').find('option:selected').attr('data-price-unformated')
+        window.selectedOption = $('.product-options .main-option-selector').find('option:selected').val()
+        //console.log('Selected Price: ' + window.selectedPrice + ' (' + window.selectedOption + ')')
+        mainPrice = window.selectedPrice
+        dataPrice = slate.Currency.formatMoney(mainPrice, slate.moneyFormat)
+        itemCount = 1
+    }
+
+    //console.log('mainPrice: ' + mainPrice)
+
+    var bottomBarOutput = $('.main-product-bottom').html().replace('@Count',itemCount).replace('@Price',dataPrice)
+    var totalPrice = parseInt(mainPrice)*itemCount
+    var individualTogetherPrice = parseInt(mainPrice)
+    var flagUnavailable = false
+
+    //console.log('itemCount: ' + itemCount);
+    //console.log('mainVariant: ' + mainVariant.val());
+    //console.log('totalPrice: ' + totalPrice);
+
+    $('.bundle-form').each(function(){
+        //console.log('Bundle-Form')
+        if($(this).parent().hasClass('active')){
+            var prefix = $(this).parent().attr('data-container')+'-'
+            var bundleVariant = $(this).find('.bundle-variant-select option:selected')
+            var maxQuantity = parseInt(bundleVariant.attr('data-inventory'))
+            if(maxQuantity == 0){
+                flagUnavailable = true
+                $('.quantity-bundle-'+prefix).hide()
+                $('.out-of-stock-bundle-'+prefix).show()
+            }
+            else{
+                $('.quantity-bundle-'+prefix).show()
+                $('.out-of-stock-bundle-'+prefix).hide()
+                var quantity = parseInt($(this).find('.bundle-form-quantity').val())
+                var template = $(this).find('.bottom-bar-template').html().replace('@Count',quantity).replace('@Price',bundleVariant.attr('data-price'))
+                var price = parseInt(bundleVariant.attr('data-price-unformated'))*quantity
+                totalPrice += price
+                individualTogetherPrice += parseInt(bundleVariant.attr('data-price-unformated'))
+                bottomBarOutput += '+ '+template
+                itemCount += quantity
+            }
         }
-        // Move left.
-      } else if (e.keyCode === 37) {
-        this.selectedIndex--;
-        // If we're at the start, move to the end.
-        if (this.selectedIndex < 0) {
-          this.selectedIndex = tabNavs.length - 1;
-        }
-      }
-
-      tabNavs[this.selectedIndex].setAttribute('tabindex', 0);
-      tabNavs[this.selectedIndex].focus();
+    })
+    if(flagUnavailable == true){
+        $('.main--basket').html($('.main--basket').attr('data-sold-out-text'))
+        $('.main--basket').attr('disabled', true)
     }
-  }
-
-  getSelected() {
-    return {
-      index: this.selectedIndex,
-      element: this.selectedTab,
-    };
-  }
-
-  attributeChangedCallback(name, oldValue, newValue) {
-    if (name === 'data-selected' && oldValue !== null && oldValue !== newValue) {
-      const fromButton = this.buttons[parseInt(oldValue)];
-      const toButton = this.buttons[parseInt(newValue)];
-      this.transition(
-        document.getElementById(fromButton.getAttribute('aria-controls')),
-        document.getElementById(toButton.getAttribute('aria-controls'))
-      );
+    else{
+        $('.main--basket').html($('.main--basket').attr('data-add-to-cart-text'))
+        $('.main--basket').attr('disabled', false)
     }
-  }
 
-  async transition(fromPanel, toPanel) {
-    await FoxTheme.Motion.animate(
-      fromPanel,
-      { transform: ['translateY(0)', 'translateY(2rem)'], opacity: [1, 0] },
-      { duration: 0.3 }
-    ).finished;
+    var productPrice = slate.Currency.formatMoney(totalPrice, slate.moneyFormat);
+    var productComparePrice = slate.Currency.formatMoney(totalComparePrice, slate.moneyFormat);
+    var difference = totalComparePrice-totalPrice;
+    var discount_display = `-${Math.round((difference / totalComparePrice) * 100)}%`;
+    var saved = slate.Currency.formatMoney(difference, slate.moneyFormat);
+    //console.log('Product bundle price: ' + productPrice);
+    //$('.additional-money').html(slate.Currency.formatMoney(individualTogetherPrice, slate.moneyFormat))
+    $('.main-product-additional-price .additional-money').html(productPrice)
+    $('.main-product-additional-price .additional-money').css({'color':'#2E3192','text-decoration':'unset'} )
+    $('.main-product-additional-price .original-price').html(difference > 0 ? productComparePrice : '')
+    $('.main-product-additional-price .discount-perc').html(difference > 0 ? discount_display : '')
+    $('.product-subtotal-price').html(productPrice)
+    $('.product-subtotal-price').css('text-decoration','unset')
+    $('.product-bottom-bar .money').css('text-decoration','unset')
+    $('.product-subtotal-compare-price').html(difference > 0 ? productComparePrice : '')
+    $('.product-subtotal.discount-perc').html(difference > 0 ? discount_display : '')
+    $('.you-saved').html(difference > 0 ? "(" + $('.you-saved').attr("data-text") + " " + saved + ")" : '')
+    $('.product-options-bundle-bottom').html(bottomBarOutput)
 
-    fromPanel.hidden = true;
-    toPanel.hidden = false;
 
-    FoxTheme.Motion.animate(
-      toPanel,
-      { transform: ['translateY(2rem)', 'translateY(0)'], opacity: [0, 1] },
-      { duration: 0.3 }
-    ).finished;
+    //switching the order
+    if (totalPrice < totalComparePrice){   
+        $('.main-product-additional-price .additional-money').html(difference > 0 ? productComparePrice : '')
+        $('.main-product-additional-price .additional-money').css({'text-decoration':'line-through', 'color': '#2E3192'})
+        $('.main-product-additional-price .original-price').html(productPrice)
+        $('.main-product-additional-price .original-price').css('text-decoration','unset')
+        $('.product-subtotal-price').html(difference > 0 ? productComparePrice : '')
+        $('.product-subtotal-price').css('text-decoration','line-through')
+        $('.product-bottom-bar .money').css('text-decoration','line-through')
+        $('.product-subtotal-compare-price').html(productPrice)
+        $('.product-subtotal-compare-price').css('text-decoration','unset')
+    }
 
-    toPanel.querySelector('grid-list') && toPanel.querySelector('grid-list').showGridItems();
-  }
+    
+    updateDummy()
 }
-customElements.define('tabs-component', TabsComponent);
 
-class ProductTabs extends TabsComponent {
-  constructor() {
-    super();
-  }
-
-  onTabChange() {
-    const productsList = this.selectedTab.querySelector(`.products-list`);
-    if (productsList) {
-      return;
-    }
-
-    const template = this.selectedTab.querySelector(`template`);
-    const tabContent = template.content.cloneNode(true).firstElementChild;
-    this.selectedTab.appendChild(tabContent);
-  }
+function updateDummy(){
+    //Update bottom bar whenever a bundle change occurs
+    $('.dummy-main--basket').html($('.main--basket').html())
+    $('.product-bottom-bar .money').html($('.product-subtotal-price').html())
+    $('.product-bottom-bar .additional').html($('.product-options-bundle-bottom').html())
+    $('.product-bottom-bar .compare-price-bottom').html($('.main-product-additional-price .additional-money-compare-price').html())
+    $('.product-bottom-bar .compare-price-bottom').css('text-decoration','none')
 }
-customElements.define('product-tabs', ProductTabs);
 
-class TabSelector extends HTMLElement {
-  constructor() {
-    super();
+if($('.main--basket').length){
+    set_bundle_colors();
 
-    this.tabs = this.closest('tabs-component');
+    bundle_product_loop();
+    $('.bundle-variant-select,.main-product-variant-selector,.quantity-selector').change(function(){
+        setTimeout(function () {
+            bundle_product_loop()
+        }, 100);
+    })
+    $(".product-options-bundle-sub").each(function(){
+        let $id = $(this).attr('data-container');
+        let $checkbox = $(this).find('input[type="checkbox"]');
+        let $optionSelector = $(this).find('.option-selector');
 
-    this.querySelector('select').addEventListener('change', (e) => {
-      this.tabs.setActiveTab(e.target.value);
-    });
-  }
-}
-customElements.define('tab-selector', TabSelector);
+        $("[data-container='" + $id + "']").each(function () {
+            let $this = $(this);
 
-class Parallax extends HTMLElement {
-  get parallax() {
-    return this.dataset.parallax ? parseFloat(this.dataset.parallax) : false;
-  }
-
-  get parallaxDirection() {
-    return this.dataset.parallaxDirection || 'vertical';
-  }
-
-  get parallaxMediaElements() {
-    return Array.from(this.querySelectorAll('img, video, iframe, svg, video-element'));
-  }
-
-  connectedCallback() {
-    if (this.shouldInitializeParallax()) {
-      this.setupParallax();
-    }
-  }
-
-  shouldInitializeParallax() {
-    return !FoxTheme.config.motionReduced && this.parallax;
-  }
-
-  setupParallax() {
-    const parallaxScale = 1 + this.parallax;
-    const parallaxTranslate = (this.parallax * 100) / (1 + this.parallax);
-
-    let parallaxTransformProperties = {};
-
-    if (this.parallaxDirection === 'vertical') {
-      parallaxTransformProperties = {
-        transform: [
-          `scale(${parallaxScale}) translateY(0)`,
-          `scale(${parallaxScale}) translateY(${parallaxTranslate}%)`,
-        ],
-        transformOrigin: ['bottom', 'bottom'],
-      };
-    } else if (this.parallaxDirection === 'horizontal') {
-      parallaxTransformProperties = {
-        transform: [
-          `scale(${parallaxScale}) translateX(0)`,
-          `scale(${parallaxScale}) translateX(${parallaxTranslate}%)`,
-        ],
-        transformOrigin: ['right', 'right'],
-      };
-    } else {
-      parallaxTransformProperties = {
-        transform: [`scale(1)`, `scale(${parallaxScale})`],
-        transformOrigin: ['center', 'center'],
-      };
-    }
-
-    FoxTheme.Motion.scroll(
-      FoxTheme.Motion.animate(this.parallaxMediaElements, parallaxTransformProperties, { easing: 'linear' }),
-      {
-        target: this,
-        offset: ['start end', 'end start'],
-      }
-    );
-  }
-}
-customElements.define('parallax-element', Parallax);
-
-class ProductForm extends HTMLFormElement {
-  constructor() {
-    super();
-
-    this.productIdInput = this.querySelector('[name=id]');
-    /** Set bundles submit `items[n][id]` only; hybrid tag-addon PDPs keep `name="id"` for the main line. */
-    if (this.productIdInput) {
-      const isSimpleSingle = this.dataset.pdpSimpleSingle === 'true';
-      if (this.classList.contains('pdp-set-bundle') && this.dataset.pdpHybridMainId !== 'true' && !isSimpleSingle) {
-        this.productIdInput.disabled = true;
-      } else {
-        this.productIdInput.disabled = false;
-      }
-    }
-    this.addEventListener('submit', this.handleFormSubmit);
-  }
-
-  get cartDrawerElement() {
-    return document.querySelector('cart-drawer');
-  }
-
-  get submitButtonElement() {
-    return (this._submitButtonElement = this._submitButtonElement || this.querySelector('[type="submit"]'));
-  }
-
-  get isHideErrors() {
-    return this.dataset.hideErrors === 'true';
-  }
-
-  handleFormSubmit = (event) => {
-    if (document.body.classList.contains('cart-template') || FoxTheme.settings.cartType === 'page') return;
-
-    event.preventDefault();
-    if (this.submitButtonElement.hasAttribute('aria-disabled') || this.submitButtonElement.disabled) return;
-    this.hasError = false;
-    this.lastSubmittedElement = event.submitter || event.currentTarget;
-    this.hasError = false;
-
-    if (this.classList.contains('pdp-set-bundle')) {
-      if (typeof window.syncPdpSetBundleForm === 'function') {
-        window.syncPdpSetBundleForm(this);
-      } else if (typeof window.refreshPdpSetBundleForms === 'function') {
-        window.refreshPdpSetBundleForms();
-      }
-
-      /**
-       * Real set bundles submit only via items[n][id] (the main name="id" line is disabled), so they
-       * must have at least one set line item. Simple-single and hybrid PDPs keep an enabled name="id"
-       * main line, so only block the submit when nothing at all would be added to the cart — otherwise
-       * simple products (no optional/add-on products) wrongly error with "Select variant".
-       */
-      const mainIdInput = this.productIdInput;
-      const hasMainLine = Boolean(mainIdInput && !mainIdInput.disabled && mainIdInput.value);
-      const hasLineItems = this.querySelector('[data-pdp-set-line-items] input[name^="items"]');
-      if (!hasMainLine && !hasLineItems) {
-        const msg =
-          typeof FoxTheme !== 'undefined' &&
-          FoxTheme.variantStrings &&
-          String(FoxTheme.variantStrings.select_variant_text || '').trim()
-            ? String(FoxTheme.variantStrings.select_variant_text).trim()
-            : 'Select variant';
-        this.handleCartError({ description: msg });
-        this.submitButtonElement.classList.remove('btn--loading');
-        this.submitButtonElement.removeAttribute('aria-disabled');
-        return;
-      }
-    }
-
-    this.displayFormErrors();
-
-    let sectionsToBundle = [];
-    document.documentElement.dispatchEvent(
-      new CustomEvent('cart:grouped-sections', { bubbles: true, detail: { sections: sectionsToBundle } })
-    );
-
-    const config = FoxTheme.utils.fetchConfig('javascript');
-    config.headers['X-Requested-With'] = 'XMLHttpRequest';
-    delete config.headers['Content-Type'];
-
-    this.formData = new FormData(this);
-    this.formData.append('sections', sectionsToBundle);
-    this.formData.append('sections_url', window.location.pathname);
-
-    config.body = this.formData;
-
-    this.submitButtonElement.setAttribute('aria-disabled', 'true');
-    this.submitButtonElement.classList.add('btn--loading');
-
-    this.handleFormSubmission(config);
-  };
-
-  displayFormErrors = (errorMessage = false) => {
-    if (this.isHideErrors) return;
-
-    this.formErrorMessage = this.formErrorMessage || this.querySelector('.product-form__error-message');
-    if (!this.formErrorMessage) {
-      if (errorMessage !== false) {
-        alert(errorMessage);
-      }
-    } else {
-      this.formErrorMessage.toggleAttribute('hidden', !errorMessage);
-      this.formErrorMessage.innerText = errorMessage;
-    }
-  };
-
-  handleFormSubmission = (config) => {
-    fetch(`${FoxTheme.routes.cart_add_url}`, config)
-      .then((response) => response.json())
-      .then(async (parsedState) => {
-        if (parsedState.status) {
-          this.handleCartError(parsedState);
-          const cartJsonSub = await (
-            await fetch(`${FoxTheme.routes.cart_url}`, { ...FoxTheme.utils.fetchConfig('json', 'GET') })
-          ).json();
-
-          this.updateCartState(cartJsonSub);
-          return;
-        }
-
-        const cartJson = await (
-          await fetch(`${FoxTheme.routes.cart_url}`, { ...FoxTheme.utils.fetchConfig('json', 'GET') })
-        ).json();
-        cartJson['sections'] = parsedState['sections'];
-
-        this.updateCartState(cartJson);
-        this.dispatchProductAddedEvent(parsedState);
-
-        this.showCartDrawer();
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        this.submitButtonElement.classList.remove('btn--loading');
-        this.submitButtonElement.removeAttribute('aria-disabled');
-
-        if (!this.hasError) {
-          this.submitButtonElement.removeAttribute('aria-disabled');
-        }
-      });
-  };
-
-  handleCartError = (parsedState) => {
-    FoxTheme.pubsub.publish(FoxTheme.pubsub.PUB_SUB_EVENTS.cartError, {
-      source: 'product-form',
-      productVariantId: this.formData?.get('id') || this.productIdInput?.value,
-      errors: parsedState.errors || parsedState.description,
-      message: parsedState.message,
-    });
-
-    this.displayFormErrors(parsedState.description);
-    document.dispatchEvent(
-      new CustomEvent('product-ajax:error', {
-        detail: {
-          errorMessage: parsedState.description,
-        },
-      })
-    );
-    this.hasError = true;
-  };
-
-  updateCartState = (cartJson) => {
-    FoxTheme.pubsub.publish(FoxTheme.pubsub.PUB_SUB_EVENTS.cartUpdate, { cart: cartJson });
-  };
-
-  dispatchProductAddedEvent = (parsedState) => {
-    document.dispatchEvent(
-      new CustomEvent('product-ajax:added', {
-        detail: {
-          product: parsedState,
-        },
-      })
-    );
-  };
-
-  showCartDrawer = () => {
-    const quickViewModal = this.closest('quick-view-modal');
-    const cartDrawer = this.cartDrawerElement;
-    let cartOpened = false;
-
-    const openCartDrawer = () => {
-      if (cartOpened || !cartDrawer) return;
-      cartOpened = true;
-
-      if (cartDrawer.open && !cartDrawer.hasAttribute('active')) {
-        cartDrawer.hidden = false;
-        cartDrawer.removeAttribute('inert');
-        cartDrawer.setAttribute('active', '');
-        FoxTheme.a11y.trapFocus(cartDrawer, cartDrawer.focusElement);
-        return;
-      }
-
-      cartDrawer.show(this.lastSubmittedElement);
-    };
-
-    if (quickViewModal?.open) {
-      const handoff = () => requestAnimationFrame(openCartDrawer);
-      const hidePromise = quickViewModal.hide();
-
-      if (hidePromise?.then) {
-        hidePromise.then(handoff);
-      }
-
-      // Fallback when hide transition/event is missed (e.g. quick add before drawer finished opening).
-      setTimeout(handoff, 950);
-      return;
-    }
-
-    openCartDrawer();
-  };
-}
-customElements.define('product-form', ProductForm, { extends: 'form' });
-
-class HighlightText extends HTMLElement {
-  constructor() {
-    super();
-
-    FoxTheme.Motion.inView(this, this.init.bind(this));
-  }
-
-  init() {
-    this.classList.add('animate');
-  }
-}
-customElements.define('highlight-text', HighlightText, { extends: 'em' });
-
-class NewsletterForm extends HTMLFormElement {
-  constructor() {
-    super();
-
-    this.selectors = {
-      subscribedMessage: '[id*=Newsletter-error-subscribed]',
-      modal: '[id*=NewsletterAlertModal-]',
-    };
-
-    this.init();
-  }
-
-  /**
-   * Show message when user re-subscribe with exists email.
-   */
-  init() {
-    const liveUrl = window.location.href;
-    const result = liveUrl.includes('form_type=customer');
-    const inputVal = this.querySelector('[id*="NewsletterForm"]').value.length;
-    const modalEl = this.querySelector(this.selectors.modal);
-
-    if (result && inputVal != 0) {
-      const subscribedMessageEl = this.querySelector(this.selectors.subscribedMessage);
-      subscribedMessageEl && subscribedMessageEl.classList.remove('hidden');
-
-      if (!window.isNewsletterModalShow) {
-        modalEl && modalEl.show();
-        window.isNewsletterModalShow = true;
-      }
-    }
-
-    const alertEl = this.querySelector('.form-message--main');
-    if (alertEl) {
-      if (!window.isNewsletterModalShow) {
-        modalEl && modalEl.show();
-        window.isNewsletterModalShow = true;
-      }
-    }
-  }
-}
-customElements.define('newsletter-form', NewsletterForm, { extends: 'form' });
-
-if (!customElements.get('scrolling-promotion')) {
-  class ScrollingPromotion extends HTMLElement {
-    constructor() {
-      super();
-      if (FoxTheme.config.motionReduced) return;
-      this.promotion = this.querySelector('.promotion');
-      FoxTheme.Motion.inView(this, this.init.bind(this), { margin: '200px 0px 200px 0px' });
-    }
-    init() {
-      if (this.childElementCount === 1) {
-        this.promotion.classList.add('promotion--animated');
-
-        for (let index = 0; index < 10; index++) {
-          this.clone = this.promotion.cloneNode(true);
-          this.appendChild(this.clone);
-        }
-
-        // pause when out of view
-        const observer = new IntersectionObserver(
-          (entries, _observer) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                this.scrollingPlay();
-              } else {
-                this.scrollingPause();
-              }
+            $optionSelector.on('change', function () {
+                setTimeout(function () {
+                    bundle_product_loop()
+                }, 100);
             });
-          },
-          { rootMargin: '0px 0px 50px 0px' }
-        );
-
-        observer.observe(this);
-      }
-    }
-
-    scrollingPlay() {
-      this.classList.remove('scrolling-promotion--paused');
-    }
-
-    scrollingPause() {
-      this.classList.add('scrolling-promotion--paused');
-    }
-  }
-  customElements.define('scrolling-promotion', ScrollingPromotion);
+            $checkbox.on('change',function(e){
+                if($(this).is(":checked")) {
+                    $this.attr('data-bundle-active', 'active');
+                    $("[data-container='"+ $id +"']").addClass("active");
+                    $this.find('form .bundle-form-quantity').attr('disabled', false);
+                } else {
+                    $this.attr('data-bundle-active', '');
+                    $("[data-container='"+ $id +"']").removeClass("active");
+                    $this.find('form .bundle-form-quantity').attr('disabled', true);
+                }
+                setTimeout(function () {
+                    bundle_product_loop()
+                }, 100);
+            });
+        });
+    });
+    // $('.product-options-bundle .product-options-bundle-sub:first')
+    //     .find('input[type="checkbox"]')
+    //     .trigger('click');
 }
+
+class ProductBundleBuilder {
+    constructor(wrapper) {
+        this.wrapper = wrapper;
+        this.container = wrapper.querySelector('.pbb-container');
+        this.startButton = wrapper.querySelector('.pbb-start');
+        this.closeButton = wrapper.querySelectorAll('.pbb-close');
+        this.nextButton = wrapper.querySelector('.pbb-next');
+        this.skipButton = wrapper.querySelector('.pbb-skip');
+        this.backButton = wrapper.querySelectorAll('.pbb-back');
+        this.stepsScreen = wrapper.querySelector('.pbb-steps-screen');
+        this.steps = wrapper.querySelectorAll('.pbb-step');
+        this.stepsData = [];
+        this.maxSteps = this.steps.length;
+        this.started = false;
+        this.currentStep = 1;
+        this.canContinue = false;
+        this.canSkip = false;
+        this.items = [];
+        this.subtotal = 0;
+        this.currencyCode = (this.wrapper.dataset.shopCurrency ? this.wrapper.dataset.shopCurrency : 'GBP');
+        this.subtotalFormatted = `£0.00`;
+        this.locale = (this.wrapper.dataset.shopLocale ? this.wrapper.dataset.shopLocale : 'GBP');
+        this.subtotalElement = wrapper.querySelector('.pbb-subtotal-amount');
+        this.subtotalOverview = wrapper.querySelector('.pbb-subtotal-overview');
+        this.summaryScreen = wrapper.querySelector('.pbb-summary-screen');
+        this.showSummaryScreen = false;
+        this.summaryList = this.wrapper.querySelector('.pbb-summary-items');
+        this.summaryListItems = [];
+        this.summarySubTotal = this.summaryScreen.querySelector('.pbb-subtotal-amount');
+        this.addToCheckout = this.summaryScreen.querySelector('.pbb-checkout');
+        this.learnMore = this.wrapper.querySelector('.pbb-learn-more');
+    }
+
+    init() {
+        this.setupEvents();
+        this.updateTotals();
+        //this.start();
+    }
+
+    setupEvents() {
+        let self = this;
+
+        // Bind The Learn More Button, basically just anchors to the USP
+        this.learnMore.addEventListener('click', (event) => {
+
+            event.preventDefault();
+
+            let rect = document.querySelector(event.currentTarget.dataset.target).getBoundingClientRect();
+
+            if (rect) {
+                let offset = {
+                    top: rect.top + window.scrollY,
+                    left: rect.left + window.scrollX,
+                }
+
+                //console.log((window.innerWidth > 767 ? 120 : 0));
+
+                jQuery('html, body').animate({
+                    scrollTop: offset.top - (window.innerWidth > 767 ? 120 : 0),
+                }, 1000);
+            }
+        });
+
+        // Bind the start button
+        this.startButton.addEventListener('click', () => {
+            self.start();
+        });
+
+        // Bind the close button
+        this.closeButton.forEach((btn, index) => {
+            btn.addEventListener('click', () => {
+                self.close();
+            });
+        });
+
+        // Bind the previous/back button
+        this.backButton.forEach((btn, index) => {
+            btn.addEventListener('click', () => {
+                self.goBack();
+            });
+        });
+
+
+        // Bind the continue button
+        this.nextButton.addEventListener('click', () => {
+            self.nextStep();
+        });
+
+        // Bind the skip button
+        this.skipButton.addEventListener('click', () => {
+            self.skipStep();
+        });
+
+        // Set the first step as active on initial load.
+        this.steps[0].classList.add('is-active');
+
+        // Disable the next button as they need to have positive quantity which as default will be 0
+        this.disableNextButton();
+
+        // See if the first step can be skipped, which is unlikely but you never know.
+        if (this.steps[0].dataset.bundleCanSkip == 'true') {
+            this.enableSkipButton();
+        } else {
+            this.disableSkipButton();
+        }
+
+
+        // Let's loop through the steps and set individual bindings
+        this.steps.forEach((step, index) => {
+            let realStepIndex = index;
+            let stepIndex = realStepIndex + 1;
+            let theForms = step.querySelectorAll('.pbb-form');
+            let price = step.querySelector('.pbb-product-price');
+            let colour = step.querySelector('.pbb-selected-colour');
+            let imageSliders = step.querySelectorAll('.pbb-image-slider');
+            let imageSlidersArray = [];
+            let currentStepElements = step.querySelectorAll('.pbb-current-step');
+            let maxStepElement = step.querySelectorAll('.pbb-max-step');
+            let additional = step.querySelectorAll('.pbb-add-additional');
+
+            // Lets update the current step span tag with the stepIndex
+            currentStepElements.forEach(element => {
+                element.textContent = stepIndex;
+            });
+
+            // Let update the max step span tag with the number of steps in the array.
+            maxStepElement.textContent = this.steps.length;
+
+            // Lets loop through the image sliders, should be 1 slider per colour option. So 4 colours, 4 sliders.
+            imageSliders.forEach(slider => {
+
+                let slick = jQuery(slider).slick({
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    mobileFirst: true,
+                    swipeToSlide: true,
+                    dots: true,
+                    dotsClass: 'pbb-image-slider-dots',
+                    arrows: false,
+                    adaptiveHeight: true,
+                    fade: false,
+                    prevArrow: `<span role="button" class="pbb-image-slider-arrow pbb-image-slider-arrow-prev"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg></span>`,
+                    nextArrow: `<span role="button" class="pbb-image-slider-arrow pbb-image-slider-arrow-next"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg></span>`,
+                    responsive: [
+                        {
+                            breakpoint: 768,
+                            settings: {
+                                arrows: true,
+                                infinite: true,
+                            }
+                        }
+                    ]
+                });
+
+                // Lets add it to the array so it's easier to grab when needed.
+                imageSlidersArray = [...imageSlidersArray, {slick}];
+            });
+
+            // lets loop through the forms on each step. There could be potentially 2 forms per step if a step allows an additional product. For example pillowcases.
+            theForms.forEach((form, index) => {
+
+                let selectedVariant = form.querySelector('.pbb-form-id'),
+                    swatches = form.querySelectorAll('.pbb-swatch'),
+                    swatchDropdown = form.querySelector('.pbb-product-swatch-select'),
+                    options = form.querySelectorAll('.pbb-product-option-select'),
+                    quantityDropdown = form.querySelector('.pbb-product-option-quantity'),
+                    uid = `step-${stepIndex}`;
+
+                // Lets add a placeholder items in the items array from this step.
+                this.addItem({
+                    realStepIndex: stepIndex - 1, 
+                    uid: `step-${stepIndex}`,
+                    variantId: null,
+                    title: null,
+                    shortName: null,
+                    quantity: 0,
+                    price: 0,
+                    option1: null,
+                    option2: null,
+                    option3: null,
+                    thumbnail: null,
+                });
+
+                // This is a function that gets called when the variant has changed. Magic. Pure Magic.
+                let updateVariant = () => {
+                    let { selectedQuantity, selectedOption1, selectedOption2 } = form.dataset;
+
+                    Array.from(selectedVariant.options).forEach((variant, index) => {
+                        let { option1Slug, option2Slug } = variant.dataset;
+
+                        if (option1Slug == selectedOption1 && option2Slug == selectedOption2) {
+                            selectedVariant.value = variant.value;
+                        }
+                    });
+
+                    selectedVariant.dispatchEvent(new Event('change'));
+
+                }
+
+                // Event: When Selected Variant Dropdown value is changed
+                selectedVariant.addEventListener('change', (event) => {
+                    // Lets update the price element under the product title
+                    //price.textContent = event.target.options[event.target.selectedIndex].dataset.priceFormatted;
+
+                    let qty = (quantityDropdown.value == 0 ? 1 : quantityDropdown.value);
+                    
+                    price.textContent = new Intl.NumberFormat(window.navigator.language, {
+                            style: 'currency',
+                            currency: (window.Shopify.currency.active ? window.Shopify.currency.active : 'GBP'),
+                            minimumFractionDigits: 2,
+                        }).format(qty * event.target.options[event.target.selectedIndex].dataset.price / 100);
+
+                    //price.textContent = (qty * event.target.options[event.target.selectedIndex].dataset.price);
+
+                    //quantityDropdown.value * event.target.options[event.target.selectedIndex].dataset.price
+
+                    //console.log(`Qty: ${quantityDropdown.value * event.target.options[event.target.selectedIndex].dataset.price}`)
+                    
+
+                    // Lets update the colour element
+                    let colourDataOption = `data-option${colour.dataset.optionId}`;
+                    colour.textContent = event.target.options[event.target.selectedIndex].getAttribute(colourDataOption);
+
+                    let stockNumber = parseInt(event.target.options[event.target.selectedIndex].dataset.inventory);
+
+                    let instock_indicator = form.querySelector('.instock');
+                    let outstock_indicator = form.querySelector('.outstock');
+
+                    if (stockNumber > 0) {
+                        instock_indicator.classList.remove('hide');
+                        outstock_indicator.classList.add('hide');
+                    } else {
+                        instock_indicator.classList.add('hide');
+                        outstock_indicator.classList.remove('hide');
+                    }
+
+                });
+                
+                // Event: When Quantity Dropdown value is changed
+                quantityDropdown.addEventListener('change', (event) => {
+                    //form.setAttribute(`data-selected-quantity`, event.target.value);
+
+                    let qty = (quantityDropdown.value == 0 ? 1 : quantityDropdown.value);
+                    
+                    price.textContent = new Intl.NumberFormat(window.navigator.language, {
+                            style: 'currency',
+                            currency: (window.Shopify.currency.active ? window.Shopify.currency.active : 'GBP'),
+                            minimumFractionDigits: 2,
+                        }).format(qty * event.target.options[event.target.selectedIndex].dataset.price / 100);
+
+                    if (event.target.value > 0) {
+                        // Remove red field if it's now > 1
+                        event.target.classList.remove('is-required');
+                        this.enabledNextButton();
+                    } else {
+                        this.disableNextButton();
+                    }
+
+                    this.handleFormUpdate(realStepIndex, uid);
+                });
+
+                // Let's set the default quantity to the first value which is always 0
+                form.setAttribute(`data-selected-quantity`, quantityDropdown.options[0].value);
+
+                // Event: When The swatch value has changed.
+                swatchDropdown.addEventListener('change', (event) => {
+                    this.handleFormUpdate(realStepIndex, uid);
+
+                    let qty = (quantityDropdown.value == 0 ? 1 : quantityDropdown.value);
+                    
+                    price.textContent = new Intl.NumberFormat(window.navigator.language, {
+                            style: 'currency',
+                            currency: (window.Shopify.currency.active ? window.Shopify.currency.active : 'GBP'),
+                            minimumFractionDigits: 2,
+                        }).format(qty * event.target.options[event.target.selectedIndex].dataset.price / 100);
+                        
+                });
+
+                swatches.forEach((swatch, index) => {
+                    
+                    if (index == 0) {
+                        form.setAttribute(`data-selected-option${swatch.dataset.optionId}`, swatch.dataset.swatchColourSlug);
+                    }
+
+                    swatch.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        event.stopPropagation();
+
+                        form.setAttribute(`data-selected-option${swatch.dataset.optionId}`, swatch.dataset.swatchColourSlug);
+
+                        swatchDropdown.value = swatch.dataset.swatchColourSlug;
+                        swatchDropdown.dispatchEvent(new Event('change'));
+
+                        // Mark it as active
+                        swatches.forEach((sw, idx) => {
+                            if(index == idx) {
+                                sw.classList.add('is-active');
+                            } else {
+                                sw.classList.remove('is-active');
+                            }
+                        });
+
+                        // Let's switch to the active slider
+                        imageSliders.forEach((slider, index) => {
+
+                            imageSlidersArray[index].slick.slick('slickGoTo', 0);
+
+                            if (swatch.dataset.swatchColourSlug == slider.dataset.swatchSlider) {
+                                slider.classList.add('is-active');
+                            } else {
+                                slider.classList.remove('is-active');
+                            }
+                        });
+
+                        updateVariant();
+                    });
+                });
+                
+                //console.log(swatchSelectDropdown);
+
+                // If an option is changed (not the swatch though!)
+                options.forEach((option) => {
+
+                    form.setAttribute(`data-selected-option${option.dataset.optionId}`, options[0].value);
+
+                    option.addEventListener('change', (event) => {
+                        this.handleFormUpdate(realStepIndex, uid);
+                    });
+                });
+
+                // Lets fire the change event for selected variant so it can update the price and colour.
+                selectedVariant.dispatchEvent(new Event('change'));
+
+                // Lets just run this to keep everything in sync.
+                this.handleFormUpdate(realStepIndex, uid);
+
+            });
+
+            // Lets see if there is any additional boxes in the step.
+            additional.forEach((element, index) => {
+
+                let control = element.querySelector('.pbb-add-additional-control');
+                let additionalForms = step.querySelectorAll('.pbb-form-additional');
+                let additionalPrice = step.querySelector('.pbb-additional-product-price');
+
+                additionalForms.forEach((form, index) => {
+
+                    let selectedAdditionalVariant = form.querySelector('.pbb-form-additional-id'),
+                        options = form.querySelectorAll('.pbb-product-option-select'),
+                        quantityDropdown = form.querySelector('.pbb-product-option-quantity'),
+                        uid = `step-${stepIndex}-additional`;
+
+                    this.addItem({
+                        realStepIndex: stepIndex - 1, 
+                        uid: uid,
+                        variantId: null,
+                        title: null,
+                        shortName: null,
+                        quantity: 0,
+                        price: 0,
+                        option1: null,
+                        option2: null,
+                        option3: null,
+                        thumbnail: null,
+                        });
+
+                    // Event: When Selected Variant Dropdown value is changed
+                    selectedAdditionalVariant.addEventListener('change', (event) => {
+                        //console.log('this has been called');
+                        // Lets update the price element under the product title
+                        additionalPrice.textContent = event.target.options[event.target.selectedIndex].dataset.priceFormatted;
+
+                        // Lets update the colour element
+                        let colourDataOption = `data-option${colour.dataset.optionId}`;
+                        colour.textContent = event.target.options[event.target.selectedIndex].getAttribute(colourDataOption);
+
+                        let stockNumber = parseInt(event.target.options[event.target.selectedIndex].dataset.inventory);
+
+                        //let instock_indicator = form.querySelector('.instock');
+                        let outstock_indicator = form.querySelector('.outstock');
+
+                        if (stockNumber > 0) {
+                            //instock_indicator.classList.remove('hide');
+                            outstock_indicator.classList.add('hide');
+                        } else {
+                            //instock_indicator.classList.add('hide');
+                            outstock_indicator.classList.remove('hide');
+                        }
+                    });
+                    
+                    // Event: When Quantity Dropdown value is changed
+                    quantityDropdown.addEventListener('change', (event) => {
+                        //form.setAttribute(`data-selected-quantity`, event.target.value);
+                        this.handleFormAdditionalUpdate(realStepIndex, uid);
+                    });
+    
+                    // Let's set the default quantity to the first value which is always 0
+                    form.setAttribute(`data-selected-quantity`, quantityDropdown.options[0].value);
+    
+                    // If an option is changed (not the swatch though!)
+                    options.forEach((option) => {
+    
+                        form.setAttribute(`data-selected-option${option.dataset.optionId}`, option.value);
+    
+                        option.addEventListener('change', (event) => {
+                            this.handleFormAdditionalUpdate(realStepIndex, uid);
+                            //form.setAttribute(`data-selected-option${event.currentTarget.dataset.optionId}`, event.currentTarget.options[event.currentTarget.selectedIndex].value);
+                            //updateAdditionalVariant();
+                        });
+                    });
+
+                    control.addEventListener('click', () => {
+                        if (element.classList.contains('is-active')) {
+                            element.classList.remove('is-active');
+
+                            let amount = 0;
+
+                            this.updateQuantity(`step-${stepIndex}-additional`, amount);
+                            this.updateItem(`step-${stepIndex}-additional`, {quantity: amount});
+                            
+                        } else {
+                            element.classList.add('is-active');
+                        }
+
+                        this.handleFormAdditionalUpdate(realStepIndex, uid);
+                    });
+
+                    // Lets just run this to keep everything in sync.
+                    this.handleFormAdditionalUpdate(realStepIndex, uid);
+    
+                });
+
+            });
+
+        });
+
+        // Add To Checkout Button Event
+        this.addToCheckout.addEventListener('click', () => {
+
+            let dataItems = [];
+            let self = this;
+
+            this.items.forEach((item) => {
+
+                if (item.quantity > 0) {
+
+                    dataItems.push({
+                        id: item.variantId,
+                        quantity: item.quantity,
+                    });
+                }
+
+            });
+
+            $.ajax({
+                url: `/cart/add.js`,
+                dataType: 'json',
+                type: 'post',
+                data: {
+                    items: dataItems,
+                },
+                success: function (response) {
+
+                    self.close();
+
+                    updateMiniCartContents();
+
+                    window.setTimeout(function () {
+                        $('.ajax-cart').addClass('active');
+                    }, 2000);
+
+
+                }
+            });
+
+
+
+        });
+    }
+
+    start() {
+        this.container.classList.add('is-active');
+        this.started = true;
+    }
+
+    close() {
+        this.reset();
+
+        this.goToStep(1);
+        this.updateTotals();
+    }
+
+    reset() {
+        // Lets close the container
+        this.container.classList.remove('is-active');
+        this.started = false;
+        this.canContinue = false;
+        this.showSummaryScreen = false;
+
+        this.summaryScreen.classList.remove('is-active');
+        this.stepsScreen.classList.add('is-active');
+        this.disableNextButton();
+
+        // Lets loop through all the steps
+        this.steps.forEach((step, index) => {
+            let realStepIndex = index;
+            let stepIndex = realStepIndex + 1;
+            let theForms = step.querySelectorAll('.pbb-form');
+            let additionalForms = this.steps[realStepIndex].querySelectorAll('.pbb-form-additional');
+
+            // Loop through the forms and reset the data attributes which we will then update the various inputs.
+            theForms.forEach((form) => {
+
+                let selectedVariant = form.querySelector('.pbb-form-id'),
+                    swatches = form.querySelectorAll('.pbb-swatch'),
+                    options = form.querySelectorAll('.pbb-product-option-select'),
+                    quantityDropdown = form.querySelector('.pbb-product-option-quantity');
+
+                form.setAttribute('data-selected-quantity', 0);
+                
+                this.updateItem(`step-${stepIndex}`, {
+                    variantId: null,
+                    title: null,
+                    shortName: null,
+                    quantity: 0,
+                    price: 0,
+                    thumbnail: null,
+                    option1: null,
+                    option2: null,
+                    option3: null,
+                });
+            });
+
+            additionalForms.forEach((form) => {
+
+                form.setAttribute('data-selected-quantity', 0);
+
+                this.updateItem(`step-${stepIndex}-additional`, {
+                    variantId: null,
+                    title: null,
+                    shortName: null,
+                    quantity: 0,
+                    price: 0,
+                    thumbnail: null,
+                    option1: null,
+                    option2: null,
+                    option3: null,
+                });
+            });
+
+            
+
+        });
+    }
+
+    enabledNextButton() {
+        this.canContinue = true;
+        this.nextButton.classList.remove('is-disabled');
+    }
+
+    disableNextButton() {
+        this.canContinue = false;
+        this.nextButton.classList.add('is-disabled');
+    }
+
+    enableSkipButton() {
+        this.skipButton.classList.remove('hide');
+    }
+
+    disableSkipButton() {
+        this.skipButton.classList.add('hide');
+    }
+
+    goToStep(step) {
+        this.currentStep = step;
+
+        this.steps.forEach((step, index) => {
+            let realStepIndex = index;
+            let stepIndex = index + 1;
+            if (stepIndex == this.currentStep) {
+                // make it so
+                step.classList.add('is-active');
+            } else {
+                // let's hide it
+                step.classList.remove('is-active');
+            }
+
+        });
+    }
+
+    skipStep() {
+        let realStepIndex = this.currentStep - 1;
+        let forms = this.steps[realStepIndex].querySelectorAll('.pbb-form');
+
+        forms.forEach((form) => {
+            let { selectedQuantity } = form.dataset;
+            form.setAttribute('data-selected-quantity', 0);
+            this.canContinue = true;
+            this.nextStep();
+
+        });
+
+    }
+
+    handleFormUpdate(realStepIndex, uid) {
+        //console.log('Ok, we need to get all the values from the step');
+        // Let's grab the step
+
+        let step = this.steps[realStepIndex];
+        let item = this.items.find((element, index) => {
+            return element.uid == uid;
+        });
+        let form = step.querySelector('.pbb-form');
+
+        let selectedVariant = form.querySelector('.pbb-form-id')
+        let quantityDropdown = form.querySelector('.pbb-product-option-quantity');
+        let swatchDropdown = form.querySelector('.pbb-product-swatch-select');
+        let swatches = form.querySelectorAll('.pbb-swatch');
+        let optionDropdowns = form.querySelectorAll('.pbb-product-option-select');
+
+        // Update the quantity
+        form.setAttribute('data-selected-quantity', quantityDropdown.value);
+
+        if (quantityDropdown.value > 0) {
+            this.canContinue = true;
+            this.enabledNextButton();
+        } else {
+            this.canContinue = false;
+            this.disableNextButton();
+        }
+
+        // Is this the last step?
+        if (this.steps.length === realStepIndex + 1) {
+            this.nextButton.textContent = this.nextButton.dataset.lastStepText;
+        } else {
+            this.nextButton.textContent = this.nextButton.dataset.nextStepText;
+        }
+
+
+        // Update the swatch option
+        form.setAttribute(`data-selected-option${swatchDropdown.dataset.optionId}`, swatchDropdown.value);
+
+        // Update the other options
+        optionDropdowns.forEach((option) => {
+            form.setAttribute(`data-selected-option${option.dataset.optionId}`, option.value);
+        });
+
+        // Lets update the selected variant field
+        let { selectedOption1, selectedOption2 } = form.dataset;
+
+        Array.from(selectedVariant.options).forEach((variant) => {
+            let { option1Slug, option2Slug } = variant.dataset;
+            if (option1Slug == selectedOption1 && option2Slug == selectedOption2) {
+                selectedVariant.value = variant.value;
+            }
+        });
+
+
+        let selectedVariantDetails = selectedVariant.options[selectedVariant.selectedIndex].dataset;
+        
+        // Lets update the item
+        this.updateItem(`step-${this.currentStep}`, {
+            variantId: parseInt(selectedVariant.value),
+            title: selectedVariantDetails.productTitle,
+            shortName: selectedVariantDetails.productShortName,
+            quantity: parseInt(quantityDropdown.value),
+            price: parseInt(selectedVariantDetails.price),
+            thumbnail: selectedVariantDetails.image,
+            option1: selectedVariantDetails.option1,
+            option2: selectedVariantDetails.option2,
+            option3: selectedVariantDetails.option3,
+        });
+
+        selectedVariant.dispatchEvent(new Event('change'));
+
+    }
+
+    handleFormAdditionalUpdate(realStepIndex, uid) {
+        //console.log('Ok, we need to get all the values from the step additional');
+        // Let's grab the step
+
+        let step = this.steps[realStepIndex];
+        let item = this.items.find((element, index) => {
+            return element.uid == uid;
+        });
+        let additionalWrapper = step.querySelector('.pbb-add-additional');
+        let additionalAllowed = additionalWrapper.classList.contains('is-active');
+        let form = step.querySelector('.pbb-form-additional');
+
+        //console.log(`allowed? ${additionalAllowed}`);
+
+        let selectedVariant = form.querySelector('.pbb-form-additional-id')
+        let quantityDropdown = form.querySelector('.pbb-product-option-quantity');
+        let optionDropdowns = form.querySelectorAll('.pbb-product-option-select');
+
+        // Update the quantity
+        form.setAttribute('data-selected-quantity', (additionalAllowed ? quantityDropdown.value : 0));
+
+        if (quantityDropdown.value > 0) {
+            //this.canContinue = true;
+            //this.enabledNextButton();
+        } else {
+            //this.canContinue = false;
+            //this.disableNextButton();
+        }
+
+
+        // Update the other options
+        optionDropdowns.forEach((option) => {
+            form.setAttribute(`data-selected-option${option.dataset.optionId}`, option.value);
+        });
+
+        // Lets update the selected variant field
+        let { selectedOption1, selectedOption2 } = form.dataset;
+
+        Array.from(selectedVariant.options).forEach((variant) => {
+            let { option1Slug, option2Slug } = variant.dataset;
+            if (option1Slug == selectedOption1 && option2Slug == selectedOption2) {
+                selectedVariant.value = variant.value;
+            }
+        });
+
+
+        let selectedVariantDetails = selectedVariant.options[selectedVariant.selectedIndex].dataset;
+        
+        // Lets update the item
+        this.updateItem(uid, {
+            variantId: parseInt(selectedVariant.value),
+            title: selectedVariantDetails.productTitle,
+            shortName: selectedVariantDetails.productShortName,
+            quantity: parseInt((additionalAllowed ? quantityDropdown.value : 0)),
+            price: parseInt(selectedVariantDetails.price),
+            thumbnail: selectedVariantDetails.image,
+            option1: selectedVariantDetails.option1,
+            option2: selectedVariantDetails.option2,
+            option3: selectedVariantDetails.option3,
+        });
+
+        selectedVariant.dispatchEvent(new Event('change'));
+    }
+
+    nextStep() {
+        let realStepIndex = this.currentStep - 1;
+        let forms = this.steps[realStepIndex].querySelectorAll('.pbb-form');
+
+        if (this.canContinue != true) {
+            //Ok let's grab the quanity field and mark it as required...
+            forms.forEach((form) => {
+                let quantitySelectElement = form.querySelector('.pbb-product-option-quantity');
+                quantitySelectElement.classList.add('is-required');
+
+            });
+            return;
+        }
+
+        this.currentStep++;
+
+        realStepIndex = this.currentStep - 1;
+
+        this.steps.forEach((step, index) => {
+            let stepIndex = index + 1;
+            if (stepIndex == this.currentStep) {
+                // make it so
+                step.classList.add('is-active');
+            } else {
+                // let's hide it
+                step.classList.remove('is-active');
+            }
+        });
+
+        if (this.currentStep > this.maxSteps) {
+            this.showSummaryScreen = true;
+            this.summaryScreen.classList.add('is-active');
+            this.stepsScreen.classList.remove('is-active');
+        } else {
+            if (this.steps[realStepIndex].dataset.bundleCanSkip == 'true') {
+                this.enableSkipButton();
+            } else {
+                this.disableSkipButton();
+            }
+            this.handleFormUpdate(realStepIndex, `step-${this.currentStep}`);
+        }
+    }
+
+    goBack() {
+
+        if (this.currentStep == 1) {
+            return this.close();
+        }
+
+        this.currentStep = this.currentStep - 1;
+
+        this.steps.forEach((step, index) => {
+            let realIndex = index + 1;
+            if (realIndex == this.currentStep) {
+                // make it so
+                step.classList.add('is-active');
+            } else {
+                // lets hide it
+                step.classList.remove('is-active');
+            }
+
+        });
+
+        if (this.currentStep <= this.maxSteps) {
+            this.handleFormUpdate(this.currentStep - 1, `step-${this.currentStep}`);
+            //this.handleFormAdditionalUpdate(this.currentStep - 1, `step-${uid}`);
+            this.showSummaryScreen = false;
+            this.summaryScreen.classList.remove('is-active');
+            this.stepsScreen.classList.add('is-active');
+        }
+    }
+
+    addItem(item) {
+        this.items = [...this.items, item];
+
+        // Lets create a summary item as well.
+        let summaryItem = document.createElement('div');
+
+        summaryItem.classList.add('pbb-summary-item');
+
+        summaryItem.setAttribute(`data-uid`, item.uid);
+
+        let htmlTemplate = `<div class="pbb-summary-item-details">
+                <div class="pbb-summary-item-start">
+                    <div class="pbb-summary-item-img">
+                        <img src="" alt="" loading="lazy" width="90" height="90" class="pbb-summary-item-img-image"/>
+                    </div>
+                </div>
+                <div class="pbb-summary-item-center">
+                    <div class="pbb-summary-item-title">Royfort De Luxe Blanket Cover</div>
+                    <div class="pbb-summary-item-option option-1">135cm x 135cm</div>
+                    <div class="pbb-summary-item-option option-2">White</div>
+                    <div class="pbb-summary-item-option option-3"></div>
+                </div>
+                <div class="pbb-summary-item-end">
+                    <div class="pbb-summary-item-price">£200.00</div>
+                </div>
+            </div>
+            <div class="pbb-summary-item-actions">
+                <div class="pbb-summary-item-actions-qty">
+                    <span role="button" class="minus">
+                        <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><rect stroke="#D9D9D9" fill="#FFF" x=".5" y=".5" width="17" height="17" rx="8.5"></rect><path d="M5 9h8" stroke="#4D4F50"></path></g></svg>
+                    </span>
+                    <span class="amount">1</span>
+                    <span role="button" class="plus">
+                        <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><rect stroke="#D9D9D9" fill="#FFF" x=".5" y=".5" width="17" height="17" rx="8.5"></rect><g stroke="#4D4F50"><path d="M4 9h10M9 4v10"></path></g></g></svg>
+                    </span>
+                </div>
+                <div class="pbb-summary-item-actions-remove">
+                    <svg width="20" height="22" viewBox="0 0 20 22" xmlns="http://www.w3.org/2000/svg"><g stroke="#4D4F50" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"><path d="M1 5.444h18M7.75 9.889v6.667M12.25 9.889v6.667M2.125 5.444L3.25 18.778C3.25 20.005 4.257 21 5.5 21h9c1.243 0 2.25-.995 2.25-2.222l1.125-13.334"></path><path d="M6.625 5.444V2.111C6.625 1.497 7.129 1 7.75 1h4.5c.621 0 1.125.497 1.125 1.111v3.333"></path></g></svg>
+                </div>
+            </div>`;
+        
+        summaryItem.innerHTML = htmlTemplate;
+        
+        this.summaryList.appendChild(summaryItem);
+        this.summaryListItems = [...this.summaryListItems, summaryItem];
+
+        // Lets set some basic details
+        let title = summaryItem.querySelector('.pbb-summary-item-title');
+        title.textContent = item.title;
+
+        let option1 = summaryItem.querySelector('.option-1');
+        option1.textContent = item.option1;
+
+        let option2 = summaryItem.querySelector('.option-2');
+        option2.textContent = item.option2;
+
+        let option3 = summaryItem.querySelector('.option-3');
+        option3.textContent = item.option3;
+
+        let quanityActions = summaryItem.querySelector('.pbb-summary-item-actions-qty');
+        let quantityAmount = quanityActions.querySelector('.amount');
+        quantityAmount.textContent = item.quantity;
+
+        // Increase Quantity
+        let quantityPlus = quanityActions.querySelector('.plus');
+        quantityPlus.addEventListener('click', () => {
+
+            let theItem = this.items.find((element, index) => {
+                return element.uid == item.uid;
+            });
+
+            let newQuantity = theItem.quantity + 1;
+            this.updateQuantity(theItem.uid, (newQuantity > 10 ? 10 : newQuantity));
+        });
+
+        // Decrease Quantity
+        let quantityMinus = quanityActions.querySelector('.minus');
+        quantityMinus.addEventListener('click', () => {
+
+            let theItem = this.items.find((element, index) => {
+                return element.uid == item.uid;
+            });
+
+            let newQuantity = theItem.quantity - 1;
+            this.updateQuantity(theItem.uid, newQuantity);
+        });
+
+        // Remove Item
+        let removeButton = summaryItem.querySelector('.pbb-summary-item-actions-remove');
+
+        removeButton.addEventListener('click', () => {
+            //alert(`lets remove it: ${summaryItem.dataset.uid}`);
+            this.updateQuantity(summaryItem.dataset.uid, 0);
+        });
+
+        this.updateSummaryItem(item.uid);
+
+        this.updateTotals();
+    }
+
+    updateItem(uid, data) {
+
+        const newItems = [...this.items];
+
+        this.items.forEach((item, index) => {
+            if (item.uid == uid) {
+                let newItem = {...item, ...data }
+                newItem.totalPrice = (newItem.quantity * newItem.price);
+                newItems[index] = newItem;
+            }
+        });
+
+        this.items = newItems;
+
+        let theStep = this.items.find((item) => {
+            return item.uid == uid;
+        })
+
+        this.updateStepItem(theStep.realStepIndex);
+        this.updateSummaryItem(uid);
+        this.updateTotals();
+    }
+
+    updateStepItem(realStepIndex) {
+
+
+        let theStepItem = this.items.find((item) => {
+            return item.realStepIndex == realStepIndex;
+        });
+
+        let forms = this.steps[theStepItem.realStepIndex].querySelectorAll('.pbb-form');
+
+        forms.forEach((form) => {
+            let quantityDropdown = form.querySelector('.pbb-product-option-quantity');
+            quantityDropdown.value = theStepItem.quantity;
+        });
+
+    }
+
+    updateSummaryItem(uid) {
+        let theSummaryItem = this.summaryListItems.find((item) => {
+            return item.dataset.uid == uid;
+        });
+
+        let theItem = this.items.find((item) => {
+            return item.uid == uid;
+        });
+
+        //Lets set some basic details
+        let title = theSummaryItem.querySelector('.pbb-summary-item-title');
+        title.textContent = theItem.title;
+
+        let option1 = theSummaryItem.querySelector('.option-1');
+        option1.textContent = theItem.option1;
+
+        let option2 = theSummaryItem.querySelector('.option-2');
+        option2.textContent = theItem.option2;
+
+        let option3 = theSummaryItem.querySelector('.option-3');
+        option3.textContent = theItem.option3;
+
+        let price = theSummaryItem.querySelector('.pbb-summary-item-price');
+        price.textContent = Intl.NumberFormat(`en-${this.locale}`, {
+            style: 'currency',
+            currency: this.currencyCode,
+            minimumFractionDigits: 2,
+        }).format(theItem.totalPrice / 100);
+
+        let quanityActions = theSummaryItem.querySelector('.pbb-summary-item-actions-qty');
+        let quantityAmount = quanityActions.querySelector('.amount');
+        quantityAmount.textContent = theItem.quantity;
+
+        let image = theSummaryItem.querySelector('.pbb-summary-item-img-image');
+        image.setAttribute('src', theItem.thumbnail);
+        image.setAttribute('alt', theItem.title);
+
+        if (theItem.quantity  < 1) {
+            theSummaryItem.classList.add('is-hidden');
+        } else {
+            theSummaryItem.classList.remove('is-hidden');
+        }
+
+    }
+
+    updateQuantity(uid, amount) {
+        this.updateItem(uid, {quantity: amount});
+    }
+
+    removeItem() {
+
+    }
+
+    updateTotals() {
+        this.subtotal = 0;
+
+        this.subtotalOverview.innerHTML = ``;
+
+        this.items.forEach((item, index, array) => {
+            this.subtotal += (item.quantity * item.price);
+
+            let isLast = (index === array.length - 1);
+            
+            if (item.quantity > 0) {
+                // Lets add an entry to the overview
+                let entry = document.createElement('span');
+
+                let price = Intl.NumberFormat(`en-${this.locale}`, {
+                    style: 'currency',
+                    currency: this.currencyCode,
+                    minimumFractionDigits: 2,
+                }).format(item.quantity * item.price / 100);
+
+                entry.textContent = `${item.quantity}x ${item.shortName} (${price})`;
+
+                this.subtotalOverview.appendChild(entry);
+            }
+
+        });
+
+        this.subtotalFormatted = Intl.NumberFormat(`en-${this.locale}`, {
+            style: 'currency',
+            currency: this.currencyCode,
+            minimumFractionDigits: 2,
+        }).format(this.subtotal / 100);
+
+        this.subtotalElement.textContent = this.subtotalFormatted;
+        this.summarySubTotal.textContent = this.subtotalFormatted;
+
+    }
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    let $productBuilderGalleries = document.querySelectorAll('.pbb-product-gallery-images-container');
+
+    $productBuilderGalleries.forEach((element) => {
+        let thumbnails = element.querySelector('.pbb-product-gallery-thumbnails');
+        let images = element.querySelector('.pbb-product-gallery-images');
+
+        $(images).slick({
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            adaptiveHeight: true,
+            dots: true,
+            infinite: false,
+            arrows: false,
+            touchThreshold: 8,
+            draggable: false,
+            touchMove: false,
+            swipe: true,
+            swipeToSlide: true,
+            mobileFirst:true,
+            speed: 300,
+            asNavFor: thumbnails,
+            responsive: [
+                {
+                    breakpoint: 992,
+                    settings: {
+                        speed: 0,
+                        draggable: false,
+                        touchMove: false,
+                        swipe: false,
+                        swipeToSlide: false,
+                    }
+                }
+            ]
+       });
+    
+       $(thumbnails).slick({
+            slidesToShow: 7,
+            slidesToScroll: 1,
+            prevArrow: `<span role="button" class="pbb-product-gallery-thumbnails-arrow pbb-product-gallery-thumbnails-arrow-prev"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+          </svg></span>`,
+            nextArrow:`<span role="button" class="pbb-product-gallery-thumbnails-arrow pbb-product-gallery-thumbnails-arrow-next""><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg></span>`,
+            arrows:true,
+            asNavFor: images,
+            focusOnSelect: true,
+            centerMode: false,
+            infinite: false,
+            mobileFirst: true,
+            vertical: true,
+            verticalSwiping: true,
+            speed: 300,
+            draggable: false,
+            touchMove: false,
+            swipe: false,
+            swipeToSlide: false,
+            // responsive: [
+            //     {
+            //         breakpoint: 992,
+            //         settings: 'unslick'
+            //     }
+            // ]
+        });
+    
+    });
+
+});
+
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    let $productBundleBuilder = document.querySelectorAll('.product-bundle-builder');
+
+    $productBundleBuilder.forEach((element) => {
+        let builder = new ProductBundleBuilder(element);
+        builder.init();
+    });
+
+});
+//TPC:Ive made it clearer the old bundle code is for when there is multiple products acting as one and labelled it as combined rather than bundle to cause less confusion
+//TPC:I've also made the bundle code that acts with product-bundle work along this code a bit better rather than using edge cases
+function quickHandle(string)
+{
+    return string.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-$/, '').replace(/^-/, '')
+}
+
+function combinedProductFunc(classPrefix = '')
+{
+    var selected_option = $('[name="combined-colour-'+classPrefix+'"]:checked').first()
+    if(selected_option.length == 0){
+        selected_option = $('[name="combined-colour-'+classPrefix+'"]').first()
+    }
+
+    //TPC: Save product selected so can reuse standard code for option selecting
+    window['combinedProduct'+classPrefix] = selected_option.val()
+
+    var color_name = selected_option.attr('data-name')
+    $('.product-options-combined-sub-'+classPrefix).addClass('hide')
+    $('.product-options-combined-sub-'+classPrefix+'-'+window['combinedProduct'+classPrefix]).removeClass('hide')
+    $('.combined-option-selector-label-'+classPrefix).removeClass('active')
+    selected_option.parent().addClass('active')
+    $('.swatch-title-combined-'+classPrefix).text(color_name)
+    $('.swatch-value.color-'+quickHandle(color_name)).trigger('click')
+
+    //Triggering collecting options data so to set the correct variant
+    productSwatch(classPrefix,true)
+}
+
+/*
+* TPC: Reworked variant updating code using hidden selector to filter out variant details. Used for standard and combined products
+*/
+function updateVariant(classPrefix = '', useCombined = false) {
+    var selected_option = $('.'+classPrefix+'product-variant-selector option:selected')
+    var quantity_selector = $('.' + classPrefix + 'product-quantity')
+    //console.log('updateVariant')
+
+    var price_area = $('.'+classPrefix+'product-price > .money')
+    var original_price_area = $('.'+classPrefix+'product-price > .original-price')
+    var basket_button = $('.' + classPrefix + '-basket')
+
+    var basket_button_dummy = $('.dummy-'+classPrefix+'-basket')
+    var instock_indicator = $('.'+classPrefix+'-instock')
+    var outstock_indicator = $('.' + classPrefix + '-outstock')
+
+    // var under_cart_message = $('.under-cart-message')
+    // var variant_title_instock = under_cart_message.data('instock')
+    // var variant_title_outofstock = under_cart_message.data('outofstock')
+    var price_display = slate.Currency.formatMoney(selected_option.attr('data-price-unformated'), window.theme.moneyFormat)
+
+    price_area.html(price_display)
+    if(parseInt(selected_option.attr('data-show-compare'))){
+        original_price_area.text(selected_option.attr('data-compare'))
+    }
+    else {
+
+        original_price_area.text('')
+    }
+
+    //console.log('price_display: ' + price_display)
+
+    if(useCombined == true){
+        $('.product-title').text(selected_option.attr('data-title'))
+    }
+
+    var max_inventory = selected_option.attr('data-inventory')
+    quantity_selector.attr('max', max_inventory)
+    //console.log (quantity_selector.val())
+    if(quantity_selector.val() >= max_inventory){
+        quantity_selector.val(max_inventory)
+    }
+    if(quantity_selector.val() < 1){
+        quantity_selector.val(1)
+    }
+
+    var button_disable = false
+    var button_text = ''
+    if (selected_option.val() >= 0) {
+        if (max_inventory == 0) {
+            button_text = basket_button.attr('data-sold-out-text')
+            quantity_selector.prop("disabled", true);
+            instock_indicator.hide()
+            outstock_indicator.show()
+            //under_cart_message.text(variant_title_outofstock)
+            button_disable = true
+        }
+        else {
+            button_text = basket_button.attr('data-add-to-cart-text')
+            quantity_selector.prop("disabled", false);
+            instock_indicator.show()
+            outstock_indicator.hide()
+            //under_cart_message.text(variant_title_instock)
+        }
+    }
+    else{
+        button_text = basket_button.attr('data-unavailable-text')
+        quantity_selector.prop("disabled", true);
+        instock_indicator.hide()
+        outstock_indicator.show()
+        //under_cart_message.text(variant_title_outofstock)
+        button_disable = true
+    }
+    basket_button.html(button_text)
+    basket_button.attr('disabled', button_disable)
+    if(basket_button_dummy.length){
+        basket_button_dummy.html(button_text)
+        basket_button_dummy.attr('disabled',button_disable)
+    }
+    quantity_selector.trigger("change")
+
+    //TPC: Triggers image changing either based on variant or colour if no variant available
+    if(selected_option.val() >= 0){
+        $('.'+classPrefix+'var-img-'+selected_option.val()).trigger('click')
+    }
+    else{
+        $('.'+classPrefix+'col-img-'+window[classPrefix+'lastColor']).trigger('click')
+    }
+}
+
+/*
+* TPC: Listens for option selectors, changes variant by matching to options. If no options found gives a generic unavailable option
+*/
+function productSwatch(classPrefix = '', useCombined = false) {
+    //console.log('productSwatch');
+    var option1 = '';
+    var option2 = '';
+    var option3 = '';
+    var option1_query = '[name="'+classPrefix+'option1"]';
+    var option2_query = '[name="'+classPrefix+'option2"]';
+    var option3_query = '[name="'+classPrefix+'option3"]';
+    if(useCombined == true){
+        option1_query = '.product-options-combined-sub--'+window['combinedProduct'+classPrefix] +' '+option1_query;
+        option2_query = '.product-options-combined-sub--'+window['combinedProduct'+classPrefix] +' '+option2_query;
+        option3_query = '.product-options-combined-sub--'+window['combinedProduct'+classPrefix] +' '+option3_query;
+    }
+    var option1_selector = $(option1_query);
+    var option2_selector = $(option2_query);
+    var option3_selector = $(option3_query);
+    var default_color = '';
+
+    if(option1_selector.length){
+        //If is a swatch click changes swatch title and checks for checked radio
+        if(option1_selector.hasClass('swatch-value')){
+            option1 = $(option1_query+':checked').val()
+            default_color = option1
+            $('.'+classPrefix+'option1-selector-label').removeClass('active')
+            $(option1_query+':checked').parent().addClass('active')
+            $('.'+classPrefix+'swatch-title-1').text(option1)
+            window[classPrefix+'lastColor'] = quickHandle(option1)
+        }
+        else{
+            option1 = option1_selector.val()
+        }
+    }
+    if(option2_selector.length){
+        //If is a swatch click changes swatch title and checks for checked radio
+        if(option2_selector.hasClass('swatch-value')){
+            option2 = $(option2_query+':checked').val()
+            default_color = option2
+            $('.'+classPrefix+'option2-selector-label').removeClass('active')
+            $(option2_query+':checked').parent().addClass('active')
+            $('.'+classPrefix+'swatch-title-2').text(option2)
+            window[classPrefix+'lastColor'] = quickHandle(option2)
+        }
+        else{
+            option2 = option2_selector.val()
+        }
+    }
+    if(option3_selector.length){
+        //If is a swatch click changes swatch title and checks for checked radio
+        if(option3_selector.hasClass('swatch-value')){
+            option3 = $(option3_query+':checked').val()
+            default_color = option3
+            $('.'+classPrefix+'option3-selector-label').removeClass('active')
+            $(option3_query+':checked').parent().addClass('active')
+            $('.'+classPrefix+'swatch-title-3').text(option3)
+            window[classPrefix+'lastColor'] = quickHandle(option3)
+        }
+        else{
+            option3 = option3_selector.val()
+        }
+    }
+
+    //Find variant based on options
+    var selector = '.'+classPrefix+'product-variant-selector > option[data-option1="'+option1+'"][data-option2="'+option2+'"][data-option3="'+option3+'"]'
+    if(useCombined == true){
+        selector += '[data-product="'+window['combinedProduct'+classPrefix]+'"]'
+    }
+    var newval = $(selector)
+    if(!newval.length){
+        //Generic Unavailable fall back
+        newval = $('.'+classPrefix+'product-variant-selector > option[value="-1"]')
+    }
+
+    //Doing this will trigger the above function updateVariant with the new variant selected
+    $('.'+classPrefix+'product-variant-selector').val(newval.val())
+    updateVariant(classPrefix,useCombined)
+    set_thumbnail_by_color(default_color)
+}
+
+function productQuantityHandler(classPrefix = '')
+{
+    ////console.log ('function productQuantityHandler')
+    $('.' + classPrefix + 'product-quantity').change(function (e) {
+        ////console.log ('function productQuantityHandler change')
+        var max = parseInt($(this).attr('max'))
+        var val = parseInt($(this).val())
+        if($(this).val() > max){
+            $(this).val(max)
+            val = max
+        }
+        if($(this).val() < 1){
+            $(this).val(1)
+        }
+        //dont comment out necessary for add to cart to work
+        $('.' + classPrefix + 'form-quantity').val(val)
+
+
+        var moneyFormat = window.theme.moneyFormat;
+
+       // //console.log('.ajax-cart .' + classPrefix + ' .additional-product-price>money');
+
+        // For ajax cart
+
+        if (typeof classPrefix !== false && classPrefix !== '') {
+
+        //    //console.log('.' + classPrefix + 'product-variant-selector option:selected');
+
+                 var mainVariant = $('.'+classPrefix+'product-variant-selector option:selected')
+
+          //  //console.log('running ajax');
+
+            if (typeof val !== 'undefined' && val !== false && val > 0) {
+
+                var totalPrice = parseInt(mainVariant.attr('data-price-unformated')) * val
+            } else {
+
+                var totalPrice = parseInt(mainVariant.attr('data-price-unformated'))
+            }
+
+
+            if (typeof totalPrice !== 'undefined' && totalPrice !== false) {
+                $('.ajax-cart .' + classPrefix + ' .additional-product-price .price-current').html(slate.Currency.formatMoney(totalPrice, moneyFormat))
+              //  //console.log('??' . moneyFormat, slate.Currency.formatMoney(totalPrice, moneyFormat));
+            }
+
+            var priceCompare = $(mainVariant).attr('data-compare-at-price');
+
+            if (typeof priceCompare !== 'undefined' && priceCompare !== false) {
+                var totalComparePrice = parseInt(priceCompare) * val
+                $('.ajax-cart .' + classPrefix + ' .additional-product-price .original-price').html(slate.Currency.formatMoney(totalComparePrice, moneyFormat))
+            }
+        } else {
+
+            ////console.log('running product');
+            // For product page
+                 var mainVariant = $('.product-variant-selector option:selected')
+
+            if (typeof val !== 'undefined' && val !== false && val > 0) {
+
+                var totalPrice = parseInt(mainVariant.attr('data-price-unformated')) * val
+            } else {
+
+                var totalPrice = parseInt(mainVariant.attr('data-price-unformated'))
+            }
+
+            var priceCompare = $(mainVariant).attr('data-compare-at-price');
+
+            // if (typeof totalPrice !== 'undefined' && totalPrice !== false) {
+            //     $('.product-col-right .product-price .price-current').html(slate.Currency.formatMoney(totalPrice, moneyFormat))
+            // }
+
+            // var priceCompare = $(mainVariant).attr('data-compare-at-price');
+
+            // if (typeof priceCompare !== 'undefined' && priceCompare !== false) {
+            //     var totalComparePrice = parseInt(priceCompare) * val
+            //     $('.product-col-right .product-price .original-price').html(slate.Currency.formatMoney(totalComparePrice, moneyFormat))
+            // }
+            if (totalPrice < parseInt(priceCompare)){
+                if (typeof totalPrice !== 'undefined' && totalPrice !== false) {
+                    if (val == 0){
+                        var totalComparePrice = parseInt(priceCompare) * 1
+                    } else {
+                        var totalComparePrice = parseInt(priceCompare) * val
+                    }
+    
+                    // $('.product-col-right .product-price .price-current').html(slate.Currency.formatMoney(totalPrice, moneyFormat))
+                    $('.product-col-right .product-price .price-current').html(slate.Currency.formatMoney(totalComparePrice, moneyFormat))
+                //    //console.log('!!'. moneyFormat, slate.Currency.formatMoney(totalPrice, moneyFormat));
+                }
+    
+    
+                if (typeof priceCompare !== 'undefined' && priceCompare !== false) {
+                    var totalComparePrice = parseInt(priceCompare) * val
+                    // $('.product-col-right .product-price .original-price').html(slate.Currency.formatMoney(totalComparePrice, moneyFormat))
+                    $('.product-col-right .product-price .original-price').html(slate.Currency.formatMoney(totalPrice, moneyFormat))
+                }
+            } else {
+                
+                if(priceCompare){
+                    if (typeof totalPrice !== 'undefined' && totalPrice !== false) {
+                        // $('.product-col-right .product-price .price-current').html(slate.Currency.formatMoney(totalPrice, moneyFormat))
+                        //console.log('!!'. moneyFormat, slate.Currency.formatMoney(totalPrice, moneyFormat));
+    
+                        var totalComparePrice = parseInt(priceCompare) * val
+                        $('.product-col-right .product-price .price-current').html(slate.Currency.formatMoney(totalComparePrice, moneyFormat))
+                        
+                        //sticky cart update
+                        $('.product-bottom-bar .product-price .money:nth-child(1)').text(slate.Currency.formatMoney(totalComparePrice, moneyFormat)) 
+                    }
+                    
+                    
+                    if (typeof priceCompare !== 'undefined' && priceCompare !== false) {
+                        // var totalComparePrice = parseInt(priceCompare) * val
+                        // $('.product-col-right .product-price .original-price').html(slate.Currency.formatMoney(totalComparePrice, moneyFormat))
+                        
+                        
+                        $('.product-col-right .product-price .original-price').html(slate.Currency.formatMoney(totalPrice, moneyFormat))
+    
+                        //sticky cart update
+                        $('.product-bottom-bar .product-price .money:nth-child(2)').text(slate.Currency.formatMoney(totalPrice, moneyFormat))
+                    }
+
+                     
+                    
+                } else {
+             
+                     
+                    if (typeof totalPrice !== 'undefined' && totalPrice !== false) {
+                        $('.product-col-right .product-price .price-current').html(slate.Currency.formatMoney(totalPrice, moneyFormat))
+                        //console.log('!!'. moneyFormat, slate.Currency.formatMoney(totalPrice, moneyFormat));
+    
+                        // var totalComparePrice = parseInt(priceCompare) * val
+                        // $('.product-col-right .product-price .price-current').html(slate.Currency.formatMoney(totalComparePrice, moneyFormat))
+                        
+                        //sticky cart update
+                        // $('.product-bottom-bar .product-price .money:nth-child(1)').text(slate.Currency.formatMoney(totalComparePrice, moneyFormat)) 
+                        $('.product-bottom-bar .product-price .money:nth-child(1)').text(slate.Currency.formatMoney(totalPrice, moneyFormat)) 
+                    }
+                }
+            }
+        }
+
+    })
+}
+
+function tabSwitching()
+{
+    $('.tab-selector').click(function(){
+        $('.tab-selector').removeClass('active')
+        $(this).addClass('active')
+        $('.tab').removeClass('active')
+        $('.tab-'+$(this).attr('data-tab')).addClass('active')
+    })
+}
+
+function startVariantHandlers(classPrefix = '',useCombined = false)
+{
+    //console.log('startVariantHandlers')
+    //Class Prefix is there so that multiple forms can be on one page without interference and reuse the code.
+    if(useCombined == true){
+        combinedProductFunc(classPrefix)
+        $('.combined-option-selector-'+classPrefix).change(function(){
+            combinedProductFunc(classPrefix)
+        })
+    }
+    else{
+        productSwatch(classPrefix,false)
+    }
+    $('.'+classPrefix+'option-selector').on('change',function(){
+        //SH: We want the value of selected option
+        window.selectedPrice = $(this).find('option:selected').attr('data-price-unformated')
+        //console.log('window.selectedPrice: ' + window.selectedPrice)
+        productSwatch(classPrefix,useCombined)
+    })
+    $('.'+classPrefix+'product-variant-selector').on('change', function(){
+        updateVariant(classPrefix,useCombined)
+    })
+
+
+    $('.' + classPrefix + 'quantity-selector').on('change', function () {
+          //console.log ('running productQuantityHandler')
+        productQuantityHandler(classPrefix);
+    })
+
+
+    productQuantityHandler(classPrefix);
+    //Dummy button for fixed bottom
+    $('.bottom-fixed-button').on('click', function(){
+        $('.'+$(this).attr('data-dummy')).trigger('click');
+    })
+}
+
+/**
+ * BG: Define which images should have product zoom, and when
+ * @param {*} image - Parent container of the image (should sit above ratio div) (string)
+ * @param {*} variantImage - name of the variant, should be all lowercase, and replacing spaces with underscores. should be prefixed with '.variant-' to find the correct image (string)
+ * @param {*} destroy -  destroy the zoom or not. (boolean)
+ */
+function productZoom(image, variantImage, destroy) {
+
+    if (destroy == false) {
+        if ($(window).width() >= screenLG) {
+            //Desktop Image
+            if (variantImage == false) {
+                var imageZoom = image.find('img').attr('data-zoom-desktop');
+            } else {
+                var imageZoom = image.find(variantImage).attr('data-zoom-desktop');
+            }
+        } else {
+            //Mobile Image
+            if (variantImage == false) {
+                var imageZoom = image.find('img').attr('data-zoom-mobile');
+            } else {
+                var imageZoom = image.find(variantImage).attr('data-zoom-mobile');
+            }
+        }
+        image.zoom({
+            on: 'click',
+            url: imageZoom,
+            onZoomIn: function(){
+                //when zoom is active, disable the following slick options on the main image
+                $('.product-images').slick("slickSetOption", "draggable", false, false);
+                $('.product-images').slick("slickSetOption", "touchMove", false, false);
+                $('.product-images').slick("slickSetOption", "swipe", false, false);
+            },
+            onZoomOut: function(){
+                //when zoom is not active, enable the following slick options on the main image
+                $('.product-images').slick("slickSetOption", "draggable", true, false);
+                $('.product-images').slick("slickSetOption", "touchMove", true, false);
+                $('.product-images').slick("slickSetOption", "swipe", true, false);
+            }
+        });
+    } else {
+        image.trigger('zoom.destroy')
+    }
+}
+
+/**
+ * BG: Native Slick Lazy Load doesn't support picture or srcset, but this script does.
+ */
+function slickLazyLoad() {
+    //fires after lazyloading the image, this event only occurs once per slick slide. It doesn't re-fire after the image has been lazyloaded.
+    $('.product-images').on('lazyLoaded', function(event, slick, $img) {
+        //console.log('Loaded lazy images');
+        $img
+            // Find the parent <picture> tag of img
+            .closest('picture')
+            // Find <source> tags with data-lazy-srcset attribute
+            .find('source[data-lazy-srcset]')
+            // Copy data-lazy-srcset to srcset
+            .each(function (i, source) {
+                $source = $(source);
+                $source.attr('srcset', $source.data('lazy-srcset'));
+            });
+
+
+        //give the image time to finish loading before triggering the zoom.
+        window.setTimeout(function () {
+            var currentSlide = slick.currentSlide + 1;
+            var zoomimage = $('.large-image[data-image-position="'+currentSlide+'"]');
+            productZoom(zoomimage, false, false);
+        }, 500);
+
+    });
+}
+
+/**
+ * BG: when the page first loads, we capture the init of slick, and fire the product zoom, but just on the first image.
+ */
+function initProductImage() {
+    $('.product-images').on('init', function(event, slick, direction) {
+
+        //check if the first available variant (it will have the selected class on) has an attached variant image, if so, we show this and trigger the zoom on that image.
+        var firstVariantImage = $('.product-swatch-item.selected').attr('data-variant-image'),
+            firstVariantHandle = $('.product-swatch-item.selected').attr('data-variant-name'),
+            firstImage = $('.large-image[data-image-position="1"]');
+
+            window.thumbnailPosition = 1;
+            //console.log('First Image: ' + firstVariantImage);
+
+            productZoom(firstImage, false, false);
+
+        //  We no longer want to swap to a lifestyle image on load.
+        // if (typeof firstVariantImage !== typeof undefined && firstVariantImage !== false) {
+        // //    variantImageSwitch(firstVariantImage,firstVariantHandle);
+        // } else {
+        //     productZoom(firstImage, false, false);
+        // }
+
+    });
+}
+
+/*
+BG: if the product image count is above the threshold, we trigger slick as intended.
+*/
+function productSlickStandard() {
+    $('.product-images').slick({
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        adaptiveHeight: true,
+        dots: true,
+        infinite: false,
+        prevArrow: slickPrevArrow,
+        nextArrow: slickNextArrow,
+        arrows: true,
+        touchThreshold: 8,
+        draggable: false,
+        touchMove: false,
+        swipe: true,
+        swipeToSlide: true,
+        mobileFirst: true,
+        speed: 300,
+        asNavFor: '#product-thumbnails',
+        responsive: [
+            {
+                breakpoint: 992,
+                settings: {
+                    speed: 0,
+                    draggable: true,
+                    touchMove: true,
+                    swipe: true,
+                    swipeToSlide: false,
+                    mobileFirst: true,
+              }
+            }
+        ]
+   });
+
+   $('#product-thumbnails').slick({
+        slidesToShow: 5,
+        slidesToScroll: 1,
+        prevArrow: "<button class='slick-previous slick-arrow' aria-label='Next' type='button'><svg viewBox='0 0 16 14' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M6.59077 6.07471e-05L7.60197 1.07405L2.73958 6.23836L16 6.23836L16 7.76176L2.73958 7.76176L7.60197 12.9261L6.59077 14.0001L3.0598e-07 7.00006L6.59077 6.07471e-05Z' /></svg></button>",
+        nextArrow: "<button class='slick-next slick-arrow' aria-label='Next' type='button'><svg viewBox='0 0 16 14' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M6.59077 6.07471e-05L7.60197 1.07405L2.73958 6.23836L16 6.23836L16 7.76176L2.73958 7.76176L7.60197 12.9261L6.59077 14.0001L3.0598e-07 7.00006L6.59077 6.07471e-05Z' /></svg></button>",
+        arrows:true,
+        asNavFor: '.product-images',
+        focusOnSelect: true,
+        centerMode: false,
+        infinite: false,
+        mobileFirst: true,
+        vertical: true,
+        verticalSwiping: true,
+        speed: 300,
+        draggable: false,
+        touchMove: false,
+        swipe: false,
+        swipeToSlide: false,
+        responsive: [
+            {
+                breakpoint: 992,
+                settings: 'unslick'
+            }
+        ]
+    });
+
+
+    // Vince: temporary fix for intermediary browser resize issues with slick
+    const INITIAL_SCREEN_WIDTH = window.innerWidth;
+    let HIT_MOBILE_BREAKPOINT = window.innerWidth < 992 ? true : false;
+
+    //console.log(INITIAL_SCREEN_WIDTH);
+
+    window.addEventListener('resize', () => {
+        let breakpoint = 992;
+        //console.log(HIT_MOBILE_BREAKPOINT);
+
+        // HIT mobile breakpoint previously and now we are going to desktop
+        if (HIT_MOBILE_BREAKPOINT && window.innerWidth >= breakpoint) {
+            return window.location.reload();
+        }
+
+        // Was Desktop sized and now mobile, we need to flag its hit the mobile breakpoint so next time we resize past desktop it will reload.
+        if (window.innerWidth < breakpoint) {
+            HIT_MOBILE_BREAKPOINT = true;
+        }
+
+    });
+
+
+
+    /*
+    $('#product-thumbnails').on('afterChange', function (event, slick, currentSlide) {
+        console.log('afterChange, currentSlide: ', currentSlide);
+    });
+    */
+
+    $('.product-images').on('beforeChange', function(event, slick, currentSlide, nextSlide){
+        if ($(window).width() > 992) {
+        } else {
+            //console.log('Next Slide: ' + nextSlide);
+            //$('.product-images .large-image picture').css({transform: 'scale(1,1)'});
+        }
+    });
+ 
+
+    
+    //SH: Keep thumbnails positioned when clicked (desktop only)
+    //Important: Does not fire when variant/swatch selected is unavailable/disabled ('Set Thumbnail By Colour' is next envoked)
+    //if ($(window).width() > 992) {
+        $('#product-thumbnails .thumbnail-image').on('click', function(e)  {
+            if ($(window).width() > 992) {
+
+                var pos = $(this).attr('data-thumb-position');
+                var swatch = $(this).closest("[data-swatch]").attr('data-swatch');
+                //console.log('Desktop Thumbnail Image Clicked: ' + pos + ' (' + swatch + ' / ' + pos + ')');
+
+                // Set images to not show
+                //$('.product-images .large-image').css('display', 'none');
+                //$('.product-images').css('display', 'none');
+                $('.product-images .large-image').hide();
+
+                // Set image with matching position to show
+                //$(`.product-images.slick-initialized .slick-list .slick-track .large-image[data-image-position="${pos}"]`).css('display', 'block');
+                //$(`.product-images[data-swatch-group="${swatch}"]`).show();
+
+                $('#product-thumbnails .thumbnail-image').removeClass('slick-active');
+                $(this).addClass('slick-active');
+
+                $(`.product-images .large-image[data-image-position="${pos}"]`).show();
+                //$(`.product-images[data-swatch-group="${swatch}"]`).slick('slickGoTo', pos);
+
+            } else {
+
+                var pos = $(this).attr('data-image-position');
+                //var col = $(this).attr('data-swatch');
+                var swatch = $(this).closest("[data-swatch]").attr('data-swatch');
+                //console.log('Mobile Thumbnail Image Clicked: ' + pos + ' (' + swatch + ')');
+
+
+                //$('.product-images .large-image picture').css({transform: 'scale(0.9,0.9)'});
+
+                // Set images to not show
+                //$('.product-images .large-images').css('display', 'none');
+                //$('.product-images').css('display', 'none');
+
+                // Set image with matching position to show
+                //$(`.product-images .large-images[data-colour-group="${col}"]`).css('display', 'block');
+                //$(`.product-images[data-swatch-group="${swatch}"]`).css('display', 'block');
+
+                $('#product-thumbnails .thumbnail-image').removeClass('slick-active');
+                $(this).addClass('slick-active');
+            }
+
+        });
+    //}
+
+
+}
+
+/*
+BG: use this function if the product image count is below the threshold, in which case we just trigger slick for the main product.
+We also allow the thumbnails to control the slick position
+*/
+function productSlickPrimary() {
+    $('.product-images').slick({
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        adaptiveHeight: true,
+        dots: true,
+        infinite: false,
+        arrows: false
+    });
+
+    /*
+    $('.thumbnail-image').on('click',function() {
+        var position = $(this).attr('data-image-position');
+        position--;
+        $('.product-images').slick('slickGoTo',position);
+    });
+    */
+    
+}
+
+/*
+BG: We need to determine which elements we slick, depending on the amount of images.
+*/
+function productSlick() {
+
+    //Needs to be defined before init slick.
+    initProductImage();
+
+    //Grab the total amount of images.
+    var productImageCount = $('.product-images .large-image').length;
+
+    //if greater than two, trigger the standard slick product
+    if (productImageCount >= 2) {
+        //console.log('2 or more variants');
+        productSlickStandard();
+    } else {
+    //if less than five, only trigger slick on the primary image, and not thumbnails as it causes issues.
+        //console.log('Less than 2 variants');
+        productSlickPrimary();
+    }
+
+   // slickLazyLoad();
+   
+}
+
+/*
+* BG: Once countdown has finished, hide it.
+*/
+
+function deliveryCTA(parent) {
+    $(parent).addClass('d-none');
+}
+
+/**
+ * BG: Clicking the star widget, will scroll to the reviews.
+ */
+function yotpoReviewScroll() {
+    $('.yotpo.bottomLine').on('click', function(){
+
+        $('.accordion-item').removeClass('active');
+        $('.accordion-item .accordion-content').hide();
+        $('#review-tab').addClass('active');
+        $('#review-tab .accordion-content').show();
+
+        $('html, body').animate({
+            scrollTop: $("#review-tab").offset().top
+        }, 2000);
+
+    })
+}
+
+/**
+ * BG: This function comes into play when the #variant-shades list is populated. The list is populated if the product alt text on the image contains shade_[variant_name]. It links the second variant image to the variant.
+ */
+
+function shadeImages() {
+
+    var shadeImages = $('#variant-shades li');
+
+    if (shadeImages.length) {
+        //loop through the shades
+        shadeImages.each(function(){
+            var shadeName = $(this).attr('data-variant-name'),
+                shadeImage = $(this).attr('data-variant-image');
+
+            //match the shade name to the variant name and add the image as an attribute.
+            $('.product-swatch-item[data-variant-name="'+shadeName+'"]').attr('data-variant-image',shadeImage);
+
+        })
+    }
+}
+
+function getCookie(name) {
+    // Split cookie string and get all individual name=value pairs in an array
+    var cookieArr = document.cookie.split(";");
+    // Loop through the array elements
+    for(var i = 0; i < cookieArr.length; i++) {
+        var cookiePair = cookieArr[i].split("=");
+        /* Removing whitespace at the beginning of the cookie name
+        and compare it with the given string */
+        if(name == cookiePair[0].trim()) {
+            // Decode the cookie value and return
+            return cookiePair[1];
+        }
+    }
+    return null;
+}
+
+
+
+function handleBottomBar() {
+    var p = $('#product-detail');
+    var position = p.offset();
+    const addtocartButtonY = position.top + $('#product-detail').height() - 140;
+
+    //console.log('Top: ' + position.top);
+
+   // $('.product-bottom-bar').hide();
+    //var viewportBottom = $(window).scrollTop() + $(window).height()
+    //var elementBottom = $('.row.product-detail-row').outerHeight() + $(window).height()
+    //console.log(viewportBottom, elementBottom);
+    //console.log(addtocartButtonY + ' / ' + window.scrollY);
+
+    if (window.scrollY < addtocartButtonY) { 
+        $('.product-bottom-bar').slideUp(250)
+    } else {
+        $('.product-bottom-bar').slideDown(250)
+    }
+
+}
+
+if ($('#product-detail-page').length) {
+    //console.log('Product Detail Page Confirmed');
+    shadeImages();
+    productSlick();
+    tabSwitching()
+    //Move product title
+    //productZoom();
+    //mobileQuantityModal();
+    //QuantityControl();
+    //countdownTimer('.product-delivery-cta .countdown-timer', '.product-delivery-cta', true, deliveryCTA);
+    //yotpoReviewScroll();
+    productReviewsStamped.get()
+    handleBottomBar()
+    $(window).scroll(handleBottomBar)
+    $(window).resize(handleBottomBar)
+
+
+
+
+
+}
+
+//BG: When using the theme customiser, making changes performs a callback, which we can listen for, and execute functions again
+$(document).on('shopify:section:load', function(event){
+
+    //only fire for header-usp
+    if (event.detail.sectionId === "product") {
+        countdownTimer('.product-delivery-cta .countdown-timer', '.product-delivery-cta', true, deliveryCTA);
+    }
+
+});
+
+/**
+ * BG: Pass in a collection URL.
+ * We're looking to load just the collection-main from the collection page, and appending it to the current collection page.
+ * href (string) - relative url to load
+ * AddToHistory (boolean) - add to history or not
+ * Misc - Can be used by multiple functions, that
+ * Top (optional) - scroll the user back to the top
+ */
+
+function ajaxLoadContent(href, addToHistory, top, filtersOpen) {
+
+    //add href to browser url, only if addToHistory is true
+    if (addToHistory == true) {
+        history.pushState(null, null, href);
+    }
+
+
+    //BG: check to see which accordion is open, if it's just one, then pass this over to the collectionFilter when getting the new content, so it's open by default.
+    var accordion = "";
+    if ($('.accordion-item.active').length == 1) {
+        var accordion = $('.accordion-item.active').attr('data-prefix');
+    } else if ($('.accordion-item.default').length == 1) {
+        var accordion = $('.accordion-item.default').attr('data-prefix');
+    }
+
+    //BG: This param is passed over via the mobile filters. We apply a class to the div we load the content in, to force the filters menu to stop open and active.
+    if (filtersOpen == true) {
+        $('.collection-listing-container').addClass('filter-open');
+    } else {
+        $('.collection-listing-container').removeClass('filter-open');
+    }
+
+
+    //first element is what we're loading the data into, the second part is the page url and a specific div and element(s) to grab and drop into the first element
+    $(".collection-listing-container").load(href + ' .collection-listing-container > *', function() {
+
+        //if present, scroll the user back to the top of the page
+        if (top == true) {
+            $("html, body").animate({ scrollTop: 0 }, 0);
+        }
+
+        //BG: Apply open class to collection and sidebar
+        if (filtersOpen == true) {
+            $('.btn-collection-menu').addClass('active');
+            $('.collection-sidebar').addClass('active');
+        }
+
+        /* BG: Once successful, we re-triger various JS functions to allow the page to function as normal. */
+
+        //Re-enable - Aspect Ratio
+        productListingRatio();
+
+        //Re-enable Quantity Controls
+        quantityControl();
+        mobileQuantityModal();
+
+        //Re-enable Ajax Cart.
+        $('form[action="/cart/add"]').submit(function (e) {
+            e.preventDefault();
+            submitForm($(this));
+        });
+
+        //Re-enable Collection JS functions
+        collectionTagCount();
+        collectionShadeImages();
+        collectionHover();
+        collectionProductImage();
+        productSwatchCollection();
+        collectionSortBy();
+        collectionPagination();
+        accordionToggle();
+        collectionFilter(accordion);
+
+    });
+}
+
+/**
+ * BG: - would like the ability to change the main image (and thumbnail) to reflect the variant choosen. It should be a lifestyle/product photo, and not the swatch image.
+ */
+function collectionVariantImageSwitch(productID, imagePath, variantTitle) {
+
+    //if variant title is present, create variant handle (lowercase and spaces are replaced with underscores).
+    if (variantTitle) {
+        var variantClassName = variantTitle.replace(/ /g,"_").toLowerCase();
+    }
+
+    //for each product listing (the same product may appear more than once on the same page, related or recently viewed etc)
+    var productListing = $('.product-listing[data-product-id='+productID+']');
+
+    productListing.each(function(){
+
+        var productImage = $(this).find('.product-image > a');
+
+        //if image has been supplied, the variant has an assiocated image, so we place it within the first thumbnail & main image. We don't replace it, as it will make an additional image request. We simply add it to the first image, and hide the original and show the variant.
+        if (imagePath) {
+
+            //image already exists
+            if ($(this).find('.product-image img.variant-'+variantClassName).length) {
+
+                productImage.find('img.default').removeClass('d-block').addClass('d-none');
+                productImage.find('img.variantMain').removeClass('d-block').addClass('d-none');
+                productImage.find('img.variant-'+variantClassName).removeClass('d-none').addClass('d-block');
+
+
+            //if not, let's make it
+            } else {
+                var imageHTML = '';
+                if(productListing.hasClass('klevuProduct')){
+                    imageHTML += '<img class="img-fluid variantMain variant-'+variantClassName+'" alt="'+variantTitle+'" src="'+imagePath+'">'
+                }
+                else{
+                    imageHTML += '<img class="img-fluid variantMain variant-'+variantClassName+'" alt="'+variantTitle+'" src="'+slate.Image.getSizedImageUrl(imagePath,'400x')+'" data-src="'+slate.Image.getSizedImageUrl(imagePath,'600x')+'" data-srcset="'+slate.Image.getSizedImageUrl(imagePath,'600x')+' 600w" data-sizes="auto">';
+                }
+
+                productImage.append(imageHTML);
+                productImage.find('img.default').addClass('d-none');
+                productImage.find('img.variantMain').addClass('d-none');
+                productImage.find('img.variant-'+variantClassName).addClass('d-block');
+            }
+
+        //If no image is present, we assume the variant does not have an assiocated image, and we flip back to the original, hiding any images that have been added.
+        } else {
+            productImage.find('img.variantMain').removeClass('d-block').addClass('d-none');
+            productImage.find('img.default').removeClass('d-none').addClass('d-block');
+        }
+
+    });
+
+}
+
+
+/**
+ * BG: when the page first loads, we check to see if the first product has a variant life style image, if it does, display it.
+ */
+function collectionProductImage() {
+    // var productListing = $('.product-listing');
+
+    // productListing.each(function(){
+    //     var productID = $(this).attr('data-product-id'),
+    //         firstVariantImage = $(this).find('.product-swatch-item.selected').attr('data-variant-image'),
+    //         firstVariantHandle = $('.product-swatch-item.selected').attr('data-variant-name');
+
+    //     if (typeof firstVariantImage !== typeof undefined && firstVariantImage !== false) {
+    //         collectionVariantImageSwitch(productID, firstVariantImage,firstVariantHandle);
+    //     }
+    // })
+}
+
+/**
+ * BG: if the product has more than one image, show the second image upon hovering on the product image.
+ */
+function collectionHover() {
+
+    var productListing = $('.product-listing');
+
+    productListing.each(function(){
+        var thisProduct = $(this).find('.product-image.product-image-hover');
+
+            var secondaryImagePath = thisProduct.find('.default').attr('data-second-image');
+
+                //console.log(secondaryImagePath);
+
+            thisProduct.off("mouseenter").on("mouseenter", function(){
+                //console.log('enter');
+                secondaryImage = $(this).find('.secondary-image');
+
+                //check to see if the second image has already been added, if not create it.
+                if (secondaryImage.length) {
+                    //console.log('image already exists');
+                    //show secondary
+                    secondaryImage.addClass('active');
+
+                } else {
+                    //console.log('its new make it');
+                    //create secondary
+                    var imageHTML = '';
+                    if(productListing.hasClass('klevuProduct')){
+                        imageHTML += '<img class="img-fluid secondary-image active" src="'+secondaryImagePath+'">'
+                    }
+                    else{
+                        imageHTML += '<img class="img-fluid secondary-image active" src="'+slate.Image.getSizedImageUrl(secondaryImagePath,'400x')+'" data-src="'+slate.Image.getSizedImageUrl(secondaryImagePath,'600x')+'" data-srcset="'+slate.Image.getSizedImageUrl(secondaryImagePath,'600x')+' 600w" data-sizes="auto">';
+                    }
+
+                    thisProduct.find('a').append(imageHTML);
+                }
+
+            });
+
+            thisProduct.off("mouseleave").on("mouseleave", function(){
+                //console.log('leave image');
+                $(this).find('.secondary-image').removeClass('active');
+            });
+
+
+    });
+}
+
+/*
+* BG: Upon selecting a variant, this function should be run, and will update the various elements.
+* This function can be called via productSwatch
+*
+*/
+function updateVariantCollection(productID, variantID, slick) {
+
+    var productListing = $('.product-listing[data-product-id='+productID+']'),
+        dropdownCurrent = productListing.find('.product-swatch-dropdown .current-swatch'),
+        formInputVariant = productListing.find('.variant-id'),
+        formInputQuantity = productListing.find('.product-quantity'),
+        formInputBagBtn = productListing.find('.btn-basket');
+
+        //BG: if slick is true, we can assume the product listing is within slick, so the variantItem and inputQuantityMobile location is different.
+        if (slick === true) {
+            var variantItem = $('.product-swatch-listing[data-product-id='+productID+'] .product-swatch-item[data-variant-id="'+variantID+'"]'),
+                formInputQuantityMobile = $('.quantity-mobile-modal[data-product-id='+productID+'] .mobile-quantity-input');
+                //console.log(formInputQuantityMobile);
+        } else {
+            var variantItem = productListing.find('.product-swatch-dropdown .product-swatch-item[data-variant-id="'+variantID+'"]'),
+                formInputQuantityMobile = productListing.find('.mobile-quantity-input');
+        }
+
+    //If variant exisits.
+    if (variantItem.length) {
+
+        //create variant Object
+        var variant = {id: variantItem.attr('data-variant-id'), position: variantItem.attr('data-position'), title: variantItem.find('.swatch-title').first().text(), image: variantItem.find('.swatch-image img').attr('src'), available: variantItem.attr('data-available'), quantity: variantItem.attr('data-quantity'), inventoryStatus: variantItem.attr('data-inventory-status'), price: variantItem.attr('data-price'), CompareAtPrice: variantItem.attr('data-compare-at-price')};
+
+        //Update the current dropdown option.
+        dropdownCurrent.attr('data-available',variant.available).attr('data-quantity',variant.quantity);
+        dropdownCurrent.find('img').attr('src',variant.image).attr('title',variant.title);
+        dropdownCurrent.find('.swatch-title').text(variant.title);
+
+
+        //update dropdown list
+        //BG: if slick is true, we can assume the product listing is within slick, so the product-swatch-item location is different.
+        if (slick === true) {
+            $('.product-list-container > .product-swatch-listing[data-product-id='+productID+'] .product-swatch-item').removeClass('selected');
+            $('.product-list-container > .product-swatch-listing[data-product-id='+productID+'] .product-swatch-item[data-variant-id="'+variantID+'"]').addClass('selected');
+        } else {
+            productListing.find('.product-swatch-item').removeClass('selected');
+            productListing.find('.product-swatch-item[data-variant-id="'+variant.id+'"]').addClass('selected');
+        }
+
+
+        //Update the price
+        productListing.find('.product-price .money:not(.original-price)').text(slate.Currency.formatMoney(variant.price, theme.moneyFormat));
+
+        //find percentage label
+        var percentageLabel = productListing.find('.label-right');
+
+        //Check to see if compare at price is available, if not, remove it.
+        if (variant.CompareAtPrice !== undefined) {
+            productListing.find('.product-price .original-price').text(slate.Currency.formatMoney(variant.CompareAtPrice, theme.moneyFormat));
+
+            //calculate the percentage saved, and display it
+            if (variant.CompareAtPrice > variant.price) {
+
+                //Calculate percentage off
+                var decrease = variant.CompareAtPrice - variant.price;
+                var newNumber = decrease / variant.CompareAtPrice * 100;
+                var roundPercentageOff = Math.round(newNumber);
+
+
+                //if the label exists, amend it
+                if (percentageLabel.length) {
+                    percentageLabel.text(roundPercentageOff + '% off');
+                } else {
+                    //if not available, create it
+                    productListing.find('.product-image > a').append('<span class="label-right percentage">'+roundPercentageOff+'% off</span>');
+                }
+
+            }
+
+        } else {
+            productListing.find('.product-price .original-price').text('');
+
+            //if it does exist, remove it, won't be needed if no percentage can be calculated
+            if (percentageLabel.length) {
+                percentageLabel.remove();
+            }
+        }
+
+
+        //update main image, if variant has life style image.
+        var variantImage = variantItem.attr('data-variant-image');
+        if (typeof variantImage !== typeof undefined && variantImage !== false) {
+            collectionVariantImageSwitch(productID, variantImage, variant.title);
+        //variant has no image, so lets revert back to the default image
+        } else {
+            collectionVariantImageSwitch(productID);
+        }
+
+        //Quantity check, if user has select a quantity amount greater than the variant amount, then match max quantity.
+        var currentQuantity = formInputQuantity.val();
+        if (currentQuantity > parseInt(variant.quantity)) {
+            if (variant.available == "true") {
+                formInputQuantity.val(variant.quantity);
+
+                //update mobile quantity modal.
+                productListing.find('.product-quantity-mobile .current-quantity .quantity-value').text(variant.quantity);
+
+                //BG: if slick is true, we can assume the product listing is within slick, so the quantity listing location is different.
+                if (slick === true) {
+                    $('.product-list-container > .quantity-mobile-modal[data-product-id='+productID+'] .quantity-listing .quantity-item').removeClass('selected');
+                    $('.product-list-container > .quantity-mobile-modal[data-product-id='+productID+'] .quantity-listing .quantity-item:nth-child('+variant.quantity+')').addClass('selected');
+                } else {
+                    productListing.find('.quantity-listing .quantity-item').removeClass('selected');
+                    productListing.find('.quantity-listing .quantity-item:nth-child('+variant.quantity+')').addClass('selected');
+                }
+            } else {
+                formInputQuantity.val(1);
+            }
+        }
+
+        //BG: if slick is true, we can assume the product listing is within slick, so the quantity listing location is different.
+        if (slick === true) {
+            var productQuantityItems = $('.product-list-container > .quantity-mobile-modal[data-product-id='+productID+'] .quantity-listing .quantity-item');
+        } else {
+            var productQuantityItems = productListing.find('.quantity-listing .quantity-item');
+        }
+
+        //Mobile Quantity Modal Limit if quantity amount below 10.
+        if (parseInt(variant.quantity) < 11) {
+            var counter = 0;
+            productQuantityItems.removeClass('d-none');
+            productQuantityItems.each(function(i) {
+                if (i % 11 == 0) {
+                    counter = 1;
+                } else {
+                    counter++;
+                }
+                if (counter > variant.quantity) {
+                    $(this).addClass('d-none');
+                }
+            });
+        } else {
+            productQuantityItems.removeClass('d-none');
+        }
+
+
+        //if variant is available...
+        if (variant.available == "true") {
+            //update the hidden form field
+            formInputVariant.attr('value',variant.id);
+
+            //enable the add to bag button, and update text.
+            var BtnText = formInputBagBtn.attr('data-add-to-cart-text');
+            formInputBagBtn.text(BtnText);
+            formInputBagBtn.prop("disabled", false);
+
+            //set max quantity
+            formInputQuantity.attr('max', variant.quantity);
+            formInputQuantityMobile.attr('max', variant.quantity);
+            formInputQuantity.prop("disabled", false);
+
+            //update mobileQuantityModal
+            productListing.find('.product-quantity-mobile').removeClass('disable');
+
+
+        } else {
+            //update hidden form field to remove any previous value
+            formInputVariant.attr('value','');
+
+            //disable the add to bag button, and update text.
+           // var BtnText = formInputBagBtn.attr('data-sold-out-text');
+            formInputBagBtn.text(BtnText);
+            formInputBagBtn.prop("disabled", true);
+
+            //restrict quantity
+            formInputQuantity.attr('max', 1);
+            formInputQuantityMobile.attr('max', 1);
+            formInputQuantity.prop("disabled", true);
+            productListing.find('.product-quantity-mobile .current-quantity .quantity-value').text(1);
+
+            //update mobileQuantityModal
+            productListing.find('.product-quantity-mobile').addClass('disable');
+
+
+        }
+    }
+}
+
+
+/**
+ * BG: Open and closes the product swatch, and passes over the data to a secondary function.
+ */
+function productSwatchCollection() {
+    console.log('hello');
+
+    var productListing = $('.product-listing');
+    //console.log('Product Listing');
+
+    productListing.each(function(){
+
+        var productID = $(this).attr('data-product-id'),
+            productSwatchDropdown = $(this).find('.product-swatch-dropdown .current-swatch'),
+            dropdownItem = $(this).find('.product-swatch-dropdown .product-swatch-item'),
+            productImage = $(this).find('.img-fluid'),
+            siteOverlay = $('#site-overlay');
+
+
+        //function to toggle visibility.
+        function openClose(element, close) {
+            if (close === true) {
+                element.removeClass('active');
+                siteOverlay.removeClass('mobileVariantControl active');
+            } else {
+                element.toggleClass('active');
+                siteOverlay.toggleClass('mobileVariantControl active');
+            }
+        }
+
+        siteOverlay.on('click', function() {
+            if ($(this).hasClass('mobileVariantControl')) {
+                $('.product-swatch-listing').removeClass('active');
+                $(this).removeClass('mobileVariantControl active');
+            }
+        });
+
+        //toggle dropdown visibility
+        productSwatchDropdown.on('click', function(){
+            var swatchListing = $(this).next('.product-swatch-listing');
+            openClose(swatchListing);
+
+            //now set up an event listener so that clicking anywhere outside will close the element
+            $('html').off('click').on('click', function(event) {
+                //check up the tree of the click target to check whether user has clicked outside of element
+                if ($(event.target).parents('.product-listing .product-swatch-dropdown').length==0) {
+
+                    openClose(swatchListing, true);
+
+                    //this event listener has done its job so we can unbind it.
+                    $(this).off('click');
+                }
+
+            })
+        });
+
+        dropdownItem.on('click', function() {
+            //remove selected class from all dropdown items
+            dropdownItem.removeClass('selected');
+            //apply to choosen element
+            $(this).addClass('selected');
+
+            //define dropdown list
+            var parent = $(this).closest('.product-swatch-listing');
+
+            //close dropdown upon selecting item.
+            openClose(parent, close);
+            //BG: Not needed as the productSWatchDropdown click captures the close event
+
+            //pass over variantID to updateVariant function
+            updateVariantCollection(productID, $(this).attr('data-variant-id'));
+        });
+
+        //SH: Swap swatch images
+        var productSwatches = $(this).find('.swatch-element');
+        var firstSwatch = productSwatches.first();
+
+
+
+        //console.log('First Swatch: ' + firstSwatch);
+        firstSwatch.addClass('active');
+        productSwatches.each(function( index ){
+            var swatchBtn = $(this);
+            var swatchURL = $(this).data('swatchurl');
+
+
+            if(index >= 4){
+                swatchBtn.addClass('hide-swatch')
+            }
+
+            swatchBtn.css('cursor', 'pointer');
+            swatchBtn.hover(function(){
+                console.log('hover');
+                // changeSwatch(swatchBtn,this, swatchURL);
+            });
+
+            $('.mini-swatch .swatch-element:first-child .circle-around').addClass('circle-around-active')
+
+            swatchBtn.on('click', function() {
+                // window.location = swatchURL;
+                $('.circle-around-fade').removeClass('circle-around-fade') 
+                $(this).parent().find('.circle-around-active').addClass('circle-around-fade') 
+                
+                $(this).parent().find('.circle-around').removeClass('circle-around-active') 
+
+
+                $(this).find('.circle-around').addClass('circle-around-active') 
+                changeSwatch(swatchBtn,this, swatchURL);
+            });
+            var plusSwatchesNumber = $(this).parent().find('.hide-swatch').length
+            
+            if (plusSwatchesNumber > 0){
+                $(this).parent().find('.mobilePlusMore').text('+'+ plusSwatchesNumber) 
+            }
+             
+
+            $(this).parent().find('.mobilePlusMore').on('click', function() {
+                window.location = $(this).parent().find('.active').attr('data-swatchurl')
+                // console.log($(this).parent().find('.active').attr('data-swatchurl'), 'm')
+            })
+
+        });
+        function changeSwatch(swatchBtn,param, swatchURL) {
+            var swatchImg = $(param).data('swatchimg');
+            productImage.attr('src', swatchImg);
+            productImage.parent().attr('href', swatchURL);
+            //console.log('Selected: ' + swatchImg);
+            productSwatches.removeClass('active');
+            swatchBtn.addClass('active');
+        };
+
+    });
+}
+
+
+/**
+ * BG: I've had to create a seperate function for the product swatch for items within slick.
+ */
+function slickMobileProductSwatch() {
+
+    //find the product-list-row with slick.
+    var productListingParent = $('.product-list-row.inline-slick'),
+        siteOverlay = $('#site-overlay');
+
+    //for each product list with slick.
+    productListingParent.each(function(){
+        var thisParent = $(this),
+            greatParent = $(this).parent('.product-list-container');
+
+        //function to toggle visibility.
+        function openClose(close, productID) {
+            if (productID) {
+                greatParent.find('.product-swatch-listing[data-product-id="'+productID+'"]').toggleClass('active');
+                siteOverlay.toggleClass('mobileVariantControl active');
+            }
+            if (close === true) {
+                siteOverlay.removeClass('mobileVariantControl active');
+                $('.product-list-container .product-swatch-listing').removeClass('active');
+            }
+        }
+
+        //find product listings within this product-list-row that are not slick cloned.
+        var productListing = $(this).find('.product-listing:not(.slick-cloned)');
+
+        productListing.each(function(){
+            var thisProduct = $(this),
+                productID = thisProduct.attr('data-product-id');
+
+            //Add product ID as a data attribute to both the current swatch selector and the modal, we'll use this ID to make the connection between them when opening the modal window.
+            thisProduct.find('.product-swatch-dropdown .current-swatch').attr('data-product-id', productID);
+            thisProduct.find('.product-swatch-dropdown .product-swatch-listing').attr('data-product-id', productID);
+
+            //grab the HTML (including parent)
+            var mobileProductSwatchModal = thisProduct.find('.product-swatch-dropdown .product-swatch-listing');
+
+            //output the markup outside of slick, and only if it's not already present.
+            if (!greatParent.children('.product-swatch-listing[data-product-id="'+productID+'"]').length > 0) {
+
+                mobileProductSwatchModal.clone().insertAfter(thisParent);
+            }
+        })
+
+        var productSwatchDropdown = thisParent.find('.product-listing .product-swatch-dropdown .current-swatch'),
+            modalClose = greatParent.find('.product-swatch-listing .modal-label'),
+            dropdownItem = greatParent.find('.product-swatch-listing .product-swatch-item');
+
+
+        productSwatchDropdown.off('click').on('click', function(){
+            var productID = $(this).attr('data-product-id');
+            openClose(false, productID);
+
+            //now set up an event listener so that clicking anywhere outside will close the element
+            $('html').off('click').on('click', function(event) {
+                //check up the tree of the click target to check whether user has clicked outside of element
+                if ($(event.target).parents('.product-listing[data-product-id="'+productID+'"] .product-swatch-dropdown').length==0) {
+
+                    openClose(true);
+
+                    //this event listener has done its job so we can unbind it.
+                    $(this).off('click');
+                }
+
+            })
+        });
+
+        modalClose.off('click').on('click', function(){
+            openClose(true);
+        });
+
+        siteOverlay.off('click').on('click', function() {
+            if ($(this).hasClass('mobileVariantControl')) {
+                openClose(true);
+            }
+        });
+
+        dropdownItem.off('click').on('click', function() {
+            var productID = $(this).parent('.product-swatch-listing').attr('data-product-id');
+            //remove selected class from all dropdown items
+            dropdownItem.removeClass('selected');
+            //apply to choosen element
+            $(this).addClass('selected');
+
+            //close dropdown upon selecting item.
+            openClose(true);
+
+            //pass over variantID to updateVariant function
+            updateVariantCollection(productID, $(this).attr('data-variant-id'), true);
+        });
+
+    });
+
+}
+
+/**
+ * BG: This function comes into play when the #variant-shades list is populated. The list is populated if the product alt text on the image contains shade_[variant_name]. It links the second variant image to the variant.
+ */
+
+function collectionShadeImages() {
+
+    var productListing = $('.product-listing');
+
+
+    productListing.each(function(){
+        var shadeImages = $(this).find('.variant-shades li'),
+            thisProduct = $(this);
+
+        if (shadeImages.length) {
+            //loop through the shades
+            shadeImages.each(function(){
+                var shadeName = $(this).attr('data-variant-name'),
+                    shadeImage = $(this).attr('data-variant-image');
+
+                //match the shade name to the variant name and add the image as an attribute.
+                thisProduct.find('.product-swatch-item[data-variant-name="'+shadeName+'"]').attr('data-variant-image',shadeImage);
+
+            })
+        }
+    });
+}
+
+
+/**
+ * BG: Collection Sort by using Ajax.
+ */
+function collectionSortBy() {
+    var currentSortBy = $('.sort-by-selected'),
+        sortByMenu = $('.sort-by-menu'),
+        sortByOptions = $('.sort-by-menu li'),
+        sortByTitle = $('.sort-by-menu li.current').text();
+
+
+    //Show the user friendly name instead
+    $('.collection-sort-by .sort-by-selected .name').text(sortByTitle);
+
+    function openClose() {
+        sortByMenu.toggleClass('active');
+    }
+
+    currentSortBy.on('click', function(){
+        openClose();
+
+        //now set up an event listener so that clicking anywhere outside will close the element
+        $('html').off('click').on('click', function(event) {
+            //check up the tree of the click target to check whether user has clicked outside of element
+            if ($(event.target).parents('.collection-sort-by').length==0) {
+
+                openClose();
+
+                //this event listener has done its job so we can unbind it.
+                $(this).off('click');
+            }
+
+        })
+    });
+
+    sortByOptions.on('click', function(){
+        var sortByValue = $(this).attr('data-url');
+
+        openClose();
+
+
+        // //BG: get the URL params
+        // var queryString = window.location.search,
+        //     urlParams = new URLSearchParams(queryString);
+
+        // //Does the URL have params?
+        // if (queryString != "") {
+        //     //It does!
+        //     //get the page param (triggered via pagination)
+        //     var page = urlParams.get('page')
+        //     if (page != null) {
+        //         //if it's present, include it within the newURL.
+        //         //console.log('page value');
+        //         var newURL = window.location.pathname + "?page="+page+"&sort_by=" + sortByValue;
+        //     } else {
+        //         //if it's null, don't include within the newURL
+        //         //console.log('no page value');
+        //         var newURL = window.location.pathname + "?sort_by=" + sortByValue;
+        //     }
+        // } else {
+        //     //No params, build the new url
+        //     //build newURL based on current path and apply sort by param.
+        //     var newURL = window.location.pathname + "?sort_by=" + sortByValue;
+        // }
+
+        /* UPDATE
+        * BG: I personal think it's better that if they change the sort order, it resets them back to the first page, so not to miss any products. The above method, kept the current page, and sorted that.
+        */
+        var newURL = window.location.pathname + "?sort_by=" + sortByValue;
+
+        //load the content
+        ajaxLoadContent(newURL, true);
+
+    });
+}
+
+/**
+ * BG: Ajax based pagination on colleciton page.
+ */
+function collectionPagination() {
+    var paginationLink = $('.collection-pagination .pagination-items a');
+
+    paginationLink.on('click', function(e) {
+        e.preventDefault();
+
+        var href = $(this).attr('href');
+
+        //ajax load content
+        ajaxLoadContent(href, true, true);
+
+    });
+}
+
+
+/**
+ * BG: Ajax based collection filter, we only allow the user to select one tag from each section(block)
+ */
+function collectionFilter(accordion) {
+
+    //if this param is present, we've loaded content via ajax, so we need to open the accordion that was previously open before the new content loaded in.
+    if (accordion) {
+        $('.accordion-item[data-prefix="'+accordion+'"]').addClass('default');
+    }
+
+    //BG: on initial page load, find any active tags (defined by url)
+    var filterActive = $('.filter-tags .filter-item.active');
+
+    //if we have active tags...
+    if (filterActive.length) {
+        //apply a disable class to sibling elements.
+        filterActive.siblings(":not(.active)").addClass('disabled');
+    }
+
+    var filterMenuBtn = $('.btn-collection-menu'),
+        filterMenu = $('.collection-sidebar');
+
+    filterMenuBtn.on('click', function(){
+        $('.collection-listing-container').removeClass('filter-open');
+        if ($(this).hasClass('active')) {
+            filterMenu.removeClass('active force-show');
+            filterMenuBtn.removeClass('active');
+        } else {
+            filterMenu.addClass('active');
+            filterMenuBtn.addClass('active');
+        }
+    });
+
+
+    //define the filter tags
+    var filterTags = $('.filter-tags .filter-item a, .current-tags a, .clear-filters');
+
+    //on filter tag click
+    filterTags.off('click').on('click', function(e){
+        e.preventDefault();
+        var parent = $(this).parent(),
+            href = $(this).attr('href');
+
+        //check it's not disabled, and load new content. otherwise if it's disabled, do nothing.
+        if (!parent.hasClass('disabled')) {
+            //if on smaller screen, pass over additional params that keeps the filters open on mobile, and scrolls the user to the top of the page.
+            if (screenSizeCheck() <= screenLG) {
+                ajaxLoadContent(href, true, true, true);
+            } else {
+                ajaxLoadContent(href, true);
+            }
+        }
+    });
+}
+
+/**
+ * BG: Ajax query to count collection tags (not limited by pagination)
+ */
+function collectionTagCount() {
+
+    //Get the current collection URL (this includes applied tags)
+    var collectionURL = $('.collection-main').attr('data-collection-url');
+
+    if (collectionURL) {
+
+    $.ajax({
+        type: 'GET',
+        url: collectionURL + '?view=tag_count',
+        success: function (data) {
+            if(data) {
+                try {
+                    var json = JSON.parse(data);
+                } catch(e) {
+                    var json = null; // meh
+                }
+            }
+            //if Json is sucessful
+            if (json) {
+                //loop through tags
+                for (var key in json.tags) {
+                    //get the tag name and count
+                    var tagName = json.tags[key]['tag'],
+                        tagCount = json.tags[key]['tag_count'];
+
+                    //output the result.
+                    $('[data-tag-handle="'+tagName+'"]:not(.disabled) > a').append('<span class="tag-count">('+tagCount+')</span>');
+                }
+                //outputColourSwatchProducts(json,currentProductID);
+            }
+        }
+    });
+
+    }
+}
+
+
+if ($('body.template-collection').length || $('body.template-index').length || $('body.template-product').length) {
+
+    //Capture when the user hits the "back" or "forward" button on the browser.
+    $(window).bind("popstate", function(e) {
+
+        //Browser remembers the path, and will update the URL, we capture the URL and load it via ajax.
+        var oldURL = window.location.pathname + window.location.search;
+
+        ajaxLoadContent(oldURL, false);
+
+    });
+
+    collectionTagCount();
+    collectionShadeImages();
+    collectionHover();
+    collectionProductImage();
+    productSwatchCollection();
+    collectionSortBy();
+    collectionPagination();
+    collectionFilter();
+
+}
+
+//search template
+if ($('body.template-search').length) {
+    collectionShadeImages();
+    collectionHover();
+    collectionProductImage();
+    productSwatchCollection();
+    collectionPagination();
+}
+
+//category template
+if ($('body.template-category').length || $('body.template-reviews').length || $('body.template-about-us').length ) {
+    collectionShadeImages();
+    collectionHover();
+    collectionProductImage();
+    productSwatchCollection();
+    collectionPagination();
+}
+
+//BG: When using the theme customiser, making changes performs a callback, which we can listen for, and execute functions again
+$(document).on('shopify:section:load', function(event){
+
+    //only fire for header-usp
+    if (event.detail.sectionId === "collection") {
+        //Re-enable - Aspect Ratio
+        productListingRatio();
+
+        //Re-enable Quantity Controls
+        quantityControl();
+        mobileQuantityModal();
+
+        //Re-enable Ajax Cart.
+        $('form[action="/cart/add"]').submit(function (e) {
+            e.preventDefault();
+            submitForm($(this));
+        });
+
+        //Re-enable Collection JS functions
+        collectionTagCount();
+        collectionShadeImages();
+        collectionHover();
+        collectionProductImage();
+        productSwatchCollection();
+        collectionSortBy();
+        collectionPagination();
+        accordionToggle();
+        collectionFilter();
+    }
+
+});
+
+/**
+ * BG: Truncate Content areas.
+ */
+function truncateContent() {
+
+    var truncateContent = $('.truncate-content .rte'),
+        truncateContentHeight = truncateContent.height(),
+        truncateToggle = $('.truncate-content .truncate-toggle'),
+        truncateShowMore = truncateToggle.attr('data-show-more'),
+        truncateShowLess = truncateToggle.attr('data-show-less');
+
+
+        //On clicking the button
+		truncateToggle.off('click').on('click', function(e){
+            
+            //if it's already active, animate to original height
+            if (truncateToggle.hasClass('active')) {
+
+                truncateContent.removeClass('active');
+                truncateContent.animate({
+                    height: truncateContentHeight
+                }, 1000, function(){
+                    truncateToggle.removeClass('active');
+                });
+
+                truncateToggle.text(truncateShowMore);
+
+            // animate to full height
+            } else {
+
+                truncateContent.addClass('active');
+                truncateContent.animate({
+                    height: truncateContent.get(0).scrollHeight
+                }, 1000, function(){
+                    $(this).height('auto');
+                    truncateToggle.addClass('active');
+                });
+
+                truncateToggle.text(truncateShowLess);
+
+            }
+
+	    });
+}
+
+truncateContent();
+/*
+* BG: Display forgotten password content & form.
+*/
+function resetPasswordForm() {
+
+    var passwordFormToggle = $('.RecoverPasswordToggle'),
+        loginForm = $('#CustomerLoginForm'),
+        passwordForm = $('#RecoverPasswordForm'),
+        urlHash = window.location.hash;
+
+    function toggleResetPassword() {
+        if (passwordForm.hasClass('hide')) {
+            passwordForm.removeClass('hide');
+            loginForm.addClass('hide');
+
+            //Scroll to top
+            $("html, body").animate({ scrollTop: 0 }, 0);
+
+            //Update URL
+            //Get the current URL without links
+            var currentURLWithoutParams = window.location.href.split('#')[0];
+            //update the page url with link
+            history.pushState(null, null, currentURLWithoutParams+'#recover');
+
+
+        } else {
+            passwordForm.addClass('hide');
+            loginForm.removeClass('hide');
+
+             //Update URL
+            //Get the current URL without links
+            var currentURLWithoutParams = window.location.href.split('#')[0];
+            //update the page url with link
+            history.pushState(null, null, currentURLWithoutParams);
+        }
+    }
+
+    if (urlHash === '#recover') {
+        toggleResetPassword();
+    }
+
+    passwordFormToggle.on('click', function(e){
+        e.preventDefault();
+        toggleResetPassword();
+    });
+}
+
+function resetPasswordFormSuccess() {
+	var resetPasswordSuccess = $('#RecoverPasswordForm .reset-password-success');
+
+	if (resetPasswordSuccess.length) {
+        $('#CustomerLoginForm').addClass('hide');
+        $('#RecoverPasswordForm').removeClass('hide');
+	}
+}
+
+/**
+ * BG: If the url contains params, lets populate the form so it's quicker for a customer to make an account.
+ */
+function populateForm() {
+    //Get the params
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+
+    //if params exist, then lets get the specific ones we're looking for, and add them to the register form.
+    if (queryString.length) {
+        //get FirstName Param
+        const firstname = urlParams.get('firstname');
+        if (firstname.length) {
+            $('#FirstName').val(firstname);
+        }
+
+        //get LastName Param
+        const lastname = urlParams.get('lastname');
+        if (lastname.length) {
+            $('#LastName').val(lastname);
+        }
+
+        //get email param
+        const email = urlParams.get('email');
+        if (email.length) {
+            $('#Email').val(email);
+        }
+    }
+}
+
+if ($('body.template-login').length) {
+    resetPasswordForm();
+    resetPasswordFormSuccess();
+}
+
+if ($('body.template-register').length) {
+    populateForm();
+}
+function addressDelete() {
+    $('.address-delete').on('click', function() {
+        var $el = $(this);
+        var formId = $el.data('form-id');
+        var confirmMessage = $el.data('confirm-message');
+        if (confirm(confirmMessage || 'Are you sure you wish to delete this address?')) {
+            Shopify.postLink('/account/addresses/' + formId, {parameters: {_method: 'delete'}});
+        }
+    });
+}
+
+function addressNew() {
+    $('.address-new-toggle').on('click', function() {
+        $('.address-container').addClass('active');
+        $('.new-address-wrapper').addClass('active'); 
+        $("html, body").animate({ scrollTop: 0 }, 1000);
+    });
+
+    $('.address-new-toggle-back').on('click', function() {
+        $('.address-container').removeClass('active');
+        $('.new-address-wrapper').removeClass('active'); 
+        $("html, body").animate({ scrollTop: 0 }, 1000);
+    });
+}
+
+function addressEdit(){
+    $('.customer-address').each(function(){
+        var edit = $(this).find('.edit-address');
+        var editID = $(edit).attr('data-form-id');
+
+        $(edit).on('click', function() {
+            $('.address-container').addClass('active');
+            $('.edit-address-wrapper[data-address="' + editID + '"]').addClass('active'); 
+            $("html, body").animate({ scrollTop: 0 }, 1000);
+        });
+
+        $('.cancel__edit').on('click', function() {
+            $('.edit-address-wrapper').removeClass('active');
+            $('.address-container').removeClass('active');
+            $("html, body").animate({ scrollTop: 0 }, 1000);
+        });
+
+    })
+
+    $('.edit-address-wrapper').each(function(){
+        var addressCountryOption = $(this).find('.address-country-option');
+
+        $(addressCountryOption).each(function() {
+            var formId = $(this).data('form-id');
+            var countrySelector = 'AddressCountry_' + formId;
+            var provinceSelector = 'AddressProvince_' + formId;
+            var containerSelector = 'AddressProvinceContainer_' + formId;
+        
+            new Shopify.CountryProvinceSelector(countrySelector, provinceSelector, {
+                hideElement: containerSelector
+              });
+        });
+    });
+
+    if($('body').hasClass('.template-addresses ')) {
+        new Shopify.CountryProvinceSelector('AddressCountryNew', 'AddressProvinceNew', {
+            hideElement: 'AddressProvinceContainerNew'
+        });
+    }
+}
+
+function orderShow() {
+    $('.account-orders-row').each(function(){
+        var orderNumber = $(this).find('.order-number'),
+            orderDetails = $(this).find('.order-details-wrapper');
+        
+        $(orderNumber).on('click', function(){
+            if($(this).hasClass('active')) {
+                $(this).removeClass('active');
+                $(orderDetails).removeClass('active');
+            } else {
+                $('.order-details-wrapper').removeClass('active');
+
+                $(this).addClass('active');
+                $(orderDetails).addClass('active');
+            }
+        });
+    }); 
+}
+
+if ($('body.template-account').length) {
+    orderShow();
+}
+
+if ($('body.template-addresses').length) {
+    addressDelete();
+    addressNew();
+    addressEdit();
+}
+
+/**
+ * BG: all functions related to the contact us template
+ */
+function contactUsTemplate() {
+
+    //BG: just a design tweak, we move a section based on it being desktop or mobile.
+    var contactMethods = $('#contact-methods');
+    if (contactMethods.length) {
+        moveMarkup('#contact-methods','#contact-method-mobile','#contact-method-desktop',screenLG);
+    }
+
+    if ($('#contact_form').length) {
+        passwordCheck('ContactFormEmail', 'ConfirmFormEmail');
+    }
+}
+
+
+//BG: Only run on the template-page
+if ($('body.template-page').length) {
+    contactUsTemplate();
+
+    $(window).on('resize',function() {
+        contactUsTemplate();
+    });
+}
+function categoryToggle() {
+	var blogMenu = $('.blog-menu'),
+		blogTags = $('.blog-tag-children');
+	
+	if ($(window).width() <= screenLG) {
+		
+		blogMenu.off('click').on('click', function(){
+			if ($(this).hasClass('active')) {
+				$(this).removeClass('active');
+				blogTags.slideUp();
+			} else {
+				$(this).addClass('active');
+				blogTags.slideDown();
+			}
+		});
+		
+	} else {
+		blogMenu.off('click');
+		blogTags.css('display', '');
+	}
+}
+
+function returnToBlog() {
+	var blogTags = $('.blog-tags li a');
+
+	if ($(blogTags).hasClass('active')) {
+		$('.return-to-blog').removeClass('d-none');
+	}
+}
+
+categoryToggle();
+returnToBlog();
+
+$(window).on('resize',function() {
+    categoryToggle();
+});
+if ($('body.template-cart').length) {
+    //Move product title
+    moveMarkup('.continue-shopping','#mobile-continue-shopping','#desktop-continue-shopping',screenLG);
+
+
+    $(window).on('resize',function() {
+        //move product title on resize
+        moveMarkup('.continue-shopping','#mobile-continue-shopping','#desktop-continue-shopping',screenLG);
+    });
+}
+/**
+ * BG: For really large screens, the account menu needs to sit in the correct position, so we adjust it with JS.
+ */
+function accountMenu() {
+    var siteHeader = $('.site-header').outerWidth(),
+        headerRow = $('#header-row').outerWidth(),
+        positionRight = (siteHeader - headerRow) / 2;
+        $('.header-account-dropdown').css('right', positionRight);
+}
+
+/**
+ * BG: Navigation favours mobile, and loads in position on mobile and moves position on desktop.
+ */
+function moveNavigation() {
+
+    /*var siteNavigation = $('#site-navigation'),
+        desktopPosition = $('#header-navigation-desktop'),
+        mobilePosition = $('#header-navigation-mobile');
+	if ($(window).width() >= screenLG) {
+        desktopPosition.append(siteNavigation);
+        desktopPosition.removeClass('empty');
+	} else {
+        mobilePosition.append(siteNavigation);
+	}*/
+}
+
+
+/**
+ * BG: Move the footer links into the mobile navigation
+ * will only move the navigation if it has the 'visible-mobile' class, which can be determined by the client.
+ */
+function footerLinks() {
+    /*var footerLinks = $('.footer-links-parent.visible-mobile'),
+        mobilePosition = $('#site-navigation'),
+        desktopPosition = $('#footer-links-mobile');
+    if ($(window).width() <= screenLG) {
+        footerLinks.removeClass('col-lg');
+        mobilePosition.append(footerLinks);
+    } else {
+        footerLinks.addClass('col-lg');
+        desktopPosition.append(footerLinks);
+    }*/
+}
+
+//$('#footer-columns .row').append($('#footer-columns .footer-links-parent.visible-mobile'));
+
+/**
+ * BG: Desktop Navigation. Mouseover based.
+ */
+function desktopNavigation() {
+	var mainNavigation = $('#site-navigation'),
+        firstLevel = mainNavigation.find('.first-level-listing.has-children'),
+        secondLevel = mainNavigation.find('.second-level-listing'),
+        thirdLevel = mainNavigation.find('.third-level-listing.has-children');
+	
+    //console.log('Screen LG & Greater');
+    
+    //We only have a mouse over function, as the second-level nav will always display on desktop.
+    firstLevel.on("mouseover", function(e) {
+        $('#site-navigation .first-level-listing.has-children').removeClass('active');  
+        $(this).addClass('active');
+        
+        //BG: for performance reasons, we are now going to load the images within the mega menu when the user hovers on the menu.
+        var navigationImages = $(this).find('.navigation-featured-menu img');
+        navigationImages.each(function(){
+            var imageURL = $(this).attr('data-image-path')
+            if (imageURL) {
+                $(this).attr('src',imageURL);
+            }
+        });
+    });
+    firstLevel.on("mouseleave", function(e) {
+        $('#site-navigation .first-level-listing.has-children').removeClass('active');  
+    })
+
+    //if second level is interacted with, remove active class from third level
+    secondLevel.on("mouseover", function(){
+        $('#site-navigation .third-level-listing.has-children').removeClass('active');
+    });
+
+    //apply active class to third level, to ensure the fourth menu stays open if the user interacts with the featured menu
+    thirdLevel.on("mouseover", function(){
+        $('#site-navigation .third-level-listing.has-children').removeClass('active');
+        $(this).addClass('active');
+    });  
+}
+
+/**
+ * BG: Mobile navigation. Clicking a parent, will open the child menu.
+ */
+function mobileNavigation() {
+    var mainNavigation = $('#header-navigation-mobile'),
+    parentLink = mainNavigation.find('li.has-children > a'),
+    returnToParent = mainNavigation.find('.mobile-navigate-back'),
+    footerLink = mainNavigation.find('.footer-link-title');
+    //On clicking a parent link.
+    parentLink.on('click', function(e){
+        e.preventDefault();
+        var parentTitle = $(this).text();
+
+
+        // update the mobile navigation title with the selected option, and show the child menu.
+        // if parent has second-level-listing...
+        if ($(this).parent('li').hasClass('second-level-listing')) {
+            $(this).next('.site-navigation-megamenu').find('.third-level .mobile-navigation-header .mobile-navigation-title').text(parentTitle);
+            $(this).next('.site-navigation-megamenu').find('.third-level').addClass('active');
+        } else {
+            $(this).next('ul').find('.mobile-navigation-header .mobile-navigation-title').text(parentTitle);
+            $(this).next('ul').addClass('active');
+        }
+
+        
+    });
+
+    //return to parent level
+    returnToParent.on('click', function(){
+        $(this).closest("ul.active").removeClass('active');
+    });
+
+    //Footer links are appended to the mobile navigation from the Footer
+    footerLink.on('click', function(){
+        var parentTitle = $(this).text();
+        $(this).next('ul').find('.mobile-navigation-header .mobile-navigation-title').text(parentTitle);
+        $(this).next('ul').addClass('active');
+    });
+    
+}
+
+/**
+ * BG: Toggle the open and close of the mobile navigation
+ */
+function mobileNavigationToggle() {
+	var menuIcon = $('#header-nav-toggle'),
+		siteNavigation = $('#header-navigation-mobile'),
+		siteOverlay = $('#site-overlay');
+
+	menuIcon.click(function(){
+		if ($(this).hasClass('active')) {
+			$(this).removeClass('active');
+			siteNavigation.removeClass('active');
+			siteOverlay.removeClass('active siteNavigation');  
+            // un-lock scroll position
+            var html = jQuery('html');
+            var scrollPosition = html.data('scroll-position');
+            html.css('overflow', html.data('previous-overflow'));
+            window.scrollTo(scrollPosition[0], scrollPosition[1])
+
+		} else {
+			$(this).addClass('active');
+			siteNavigation.addClass('active');
+			siteOverlay.addClass('active siteNavigation');
+            // lock scroll position, but retain settings for later
+            var scrollPosition = [
+                self.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft,
+                self.pageYOffset || document.documentElement.scrollTop  || document.body.scrollTop
+            ];
+            var html = jQuery('html'); // it would make more sense to apply this to body, but IE7 won't have that
+            html.data('scroll-position', scrollPosition);
+            html.data('previous-overflow', html.css('overflow'));
+            html.css('overflow', 'hidden');
+            window.scrollTo(scrollPosition[0], scrollPosition[1]);
+		}
+	});
+
+	siteOverlay.click(function() {
+        if ($(this).hasClass('siteNavigation')) {
+            $(this).removeClass('active siteNavigation');
+            siteNavigation.removeClass('active');
+            menuIcon.removeClass('active');
+        }
+	})
+}
+
+/**
+ * BG: I noticed on really large screen sizes, the second and third level navigation just sits to the left. The idea of this function is to align the navigation to the site container. This funciton will only come into play at 1550px and greater.
+ */
+function paddingBigDesktop() {
+
+    if ($(window).width() >= 1550) {
+        //Get the width of the Window, and Container width.
+        var windowWidth = $('.site-header').width(),
+            containerWidth = $('.site-header #header-row').width();
+
+        //console.log(windowWidth);
+        //console.log(containerWidth);
+        
+        //substract the window width from container width and divide by 2 to get the padding value for one side.
+        var paddingValue = (windowWidth - containerWidth) / 2;
+        //console.log(paddingValue);
+
+        //apply padding value to second and third level navigation on desktop
+        /*$('#site-navigation .second-level').css('padding-left', paddingValue);
+        $('#site-navigation .second-level').css('padding-right', paddingValue);*/
+        $('#site-navigation .site-navigation-megamenu').css('padding-left', paddingValue);
+        $('#site-navigation .site-navigation-megamenu').css('padding-right', paddingValue);
+        //console.log('greater than 1550px');
+    } else {
+        //remove added values on normal screensizes, and allow CSS to do the work. 
+        $('#site-navigation .second-level').css('padding-left', '');
+        $('#site-navigation .second-level').css('padding-right', '');
+        $('#site-navigation .site-navigation-megamenu').css('padding-left', '');
+        $('#site-navigation .site-navigation-megamenu').css('padding-right', '');
+        //console.log('less than 1550px');
+    }
+}
+
+
+/*
+* BG: Once the USP countdown has finished, get the finished text, and replace the countdown timer. If no text is present, then remove the slide.
+*/
+function uspCountdown(parent) {
+    var finishedText = $(parent).attr('data-finished-text'),
+        slickIndex = parseInt($(parent).attr('data-slick-index'));
+    if (typeof finishedText !== typeof undefined && finishedText !== false && finishedText.length > 0) {
+        $(parent).html(finishedText);
+    } else {
+        $('.header-usp-list.inline-slick').slick('slickRemove', slickIndex);
+    }
+}
+
+
+$(document).ready(function() {
+    desktopNavigation();
+    mobileNavigation();
+    mobileNavigationToggle();
+    paddingBigDesktop();
+    countdownTimer('.header-usp-item.usp-countdown .countdown-timer', '.header-usp-item.usp-countdown', false, uspCountdown);
+    //accountMenu();
+});
+
+//BG: When using the theme customiser, making changes performs a callback, which we can listen for, and execute functions again 
+$(document).on('shopify:section:load', function(event){
+
+    //only fire for header-usp 
+    if (event.detail.sectionId === "header-usp") {
+        countdownTimer('.header-usp-item.usp-countdown .countdown-timer', '.header-usp-item.usp-countdown', false, uspCountdown);
+    }
+
+});
+
+
+//BG: Resize instantly 
+$(window).on('resize',function() {
+    //desktopNavigation();
+});
+
+
+//BG: A done resizing event.
+var resizeTimer;
+$(window).on('resize', function (e) {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+
+        // Run code here, resizing has "stopped"
+        paddingBigDesktop();
+        //accountMenu();
+
+    }, 200);
+});
+
+/*
+VH: App - Countdown Timer Bar - Fix for overlap issues from header to content
+*/
+
+let bannerInterval;
+
+let countdownTimerBarFix = () => {
+    let mainContent = document.querySelector('#MainContent');
+    let epbContainer = document.querySelector('#epb_container');
+
+    if (epbContainer !== null && epbContainer.offsetHeight > 0) {
+        console.log(epbContainer.offsetHeight);
+        console.log(mainContent);
+        mainContent.style.marginTop = `${epbContainer.offsetHeight}px`;
+
+        clearInterval(bannerInterval);
+
+    }
+}
+
+window.addEventListener('resize', () => {
+    //countdownTimerBarFix();
+});
+
+window.addEventListener('load', () => {
+
+    // countdownTimerBarFix();
+
+    // // Needs this couple of seconds as the contadown container is not yet loaded.
+    // setTimeout(() => {
+    //    countdownTimerBarFix();
+    // }, 1000)
+
+    bannerInterval = setInterval(countdownTimerBarFix, 100);
+
+
+
+});
+// Used with sections/header-text-features.liquid
+function textFeaturesSlick() {	
+	$slick_slider = $('.text-features-slick');
+	slicksettings = {
+		slidesToShow: 3,
+		slidesToScroll: 1,
+		infinite: true,
+		arrows: true,
+		prevArrow: slickPrevArrow,
+		nextArrow: slickNextArrow,
+		responsive: [
+		  {
+			breakpoint: 768,
+			settings: {
+			  slidesToShow: 2
+			}
+		  },
+		  {
+			breakpoint: 576,
+			settings: {
+			  slidesToShow: 1
+			}
+		  }
+		]
+	}
+	  
+	if ($(window).width() < screenLG) {
+		$slick_slider.slick(slicksettings);
+	}
+  
+	// reslick only if it's not slick()
+	$(window).on('resize', function() {
+	   if ($(window).width() > screenLG) {
+	 	if ($slick_slider.hasClass('slick-initialized')) {
+	 	  $slick_slider.slick('unslick');
+	 	}
+	 	return
+	   } else {
+	 	  if (!$slick_slider.hasClass('slick-initialized')) {
+	 		return $slick_slider.slick(slicksettings);
+	 	  }
+	   }
+	});
+}
+
+$(document).ready(function() {	
+    //textFeaturesSlick();
+});
+/**
+ * BG: Basic function to increase and decrease quantity. Consider the max variant quantity too.
+ */
+function quantityControl() {
+
+    var desktopQuantityContainer = $('.product-quantity-desktop');
+
+    desktopQuantityContainer.each(function(){
+
+    var thisOne = $(this),
+        btnDecrease = $(this).find('.btn-quantity-decrease'),
+        btnIncrease = $(this).find('.btn-quantity-increase'),
+        quantityField = $(this).find('.product-quantity'),
+        quantity = quantityField.val(),
+        cartPosition = $(this).closest('.basket-item').index();
+
+         //This function should only run, if the user is on the cart page. 
+        function ajaxCart(quantity, quantityFunction, quantityChange) {
+            if ($('body').hasClass('template-cart')) {
+
+                var variantID = thisOne.attr('data-variant-id'),
+                feedbackOutput = '.ajax-feedback[data-variant-id="'+variantID+'"]';
+                //console.log({feedbackOutput});
+                
+                updateCart(variantID, quantity, 'quantityChange', '', feedbackOutput, cartPosition, quantityFunction, null, null, quantityChange);
+
+            }
+        }
+
+        btnDecrease.off('click').on('click', function(){
+            quantity = quantityField.val();
+
+
+            //ensure quantity cannot be less than 1.
+            if (quantity > 1) {
+                quantity--;
+                quantityField.val(quantity);
+                ajaxCart(quantity, 'decrease',-1);
+            } 
+        });
+        
+        btnIncrease.off('click').on('click', function(){
+                quantity = quantityField.val(),
+                maxQuantity = parseInt(quantityField.attr('max'));
+
+
+            //Ensure quantity cannot be greater than maxQuantity
+            if (quantity < maxQuantity) {
+                quantity++;
+                quantityField.val(quantity);
+                ajaxCart(quantity, 'increase', 1);
+            }    
+        });
+
+        quantityField.on('change', function() {
+            var currentQuantity = quantity;
+            quantity = $(this).val();
+
+            if(currentQuantity < quantity) {
+              ajaxCart(quantity, 'increase',quantity-currentQuantity);
+            } else {
+              ajaxCart(quantity, 'decrease',quantity-currentQuantity);
+            }
+        });
+
+
+    });
+}
+
+/**
+ * BG: I've had to change how the mobile quantity works, when the products appear in a slick slider. The reason being is that the modal window is fixed, however as slick uses a defined width and height, the position fixed respects the div, and is lost/out of view.
+ * The purpose of this function, is to move the modal outside of the slick slider.
+ */
+function slickMobileQuantityModal() {
+
+    //find the product-list-row with slick.
+    var productListingParent = $('.product-list-row.inline-slick'),
+        siteOverlay = $('#site-overlay');
+
+    //for each product list with slick.
+    productListingParent.each(function(){
+        var thisParent = $(this),
+            greatParent = $(this).parents('.product-list-container');
+
+        //Toggle open/close of quantity modal
+        function openClose(close, productID) {
+            //console.log('fire');
+
+            if (close === true) {
+                siteOverlay.removeClass('mobileQuantityControl active');
+                greatParent.find('.quantity-mobile-modal').removeClass('active');  
+            } else {
+                if (productID) {
+                    //console.log({greatParent});
+                    greatParent.find('.quantity-mobile-modal[data-product-id="'+productID+'"]').toggleClass('active');
+                }
+                siteOverlay.addClass('mobileQuantityControl active');
+            }
+        }
+
+        //update quantity values
+        function updateQuantity(quantity, maxQuantity, productID) {
+
+            
+            //update quantity 
+            function quantityListUpdate(value) {
+
+                //update fake dropdown
+                thisParent.find('.current-quantity[data-product-id="'+productID+'"] .quantity-value').text(value);
+
+                //update main form element
+                thisParent.find('.product-listing[data-product-id="'+productID+'"] .product-quantity').val(value);
+
+                //if less or equal to 10, update the quantity item (mobile quantity list)
+                if (value <= 10) {
+                    greatParent.find('.quantity-mobile-modal[data-product-id="'+productID+'"] .quantity-listing .quantity-item').removeClass('selected');
+                    greatParent.find('.quantity-mobile-modal[data-product-id="'+productID+'"] .quantity-listing .quantity-item:nth-child('+value+')').addClass('selected');
+                } else {
+                    greatParent.find('.quantity-mobile-modal[data-product-id="'+productID+'"] .quantity-listing .quantity-item').removeClass('selected');
+                }
+            }
+
+            //if quantity is less than maxQuantity, update with desired value
+            if (quantity <= maxQuantity) {
+                quantityListUpdate(quantity);
+
+            //if maxQuantity has been exceed, set the quantity to the maximum
+            } else {
+                quantityListUpdate(maxQuantity);
+            }
+        }
+
+        //find product listings within this product-list-row that are not slick cloned.
+        productListing = $(this).find('.product-listing:not(.slick-cloned)');
+
+        productListing.each(function(){
+            var thisProduct = $(this),
+                productID = thisProduct.attr('data-product-id');
+    
+            //Add product ID as a data attribute to both the current quantity selector and the modal, we'll use this ID to make the connection between them when opening the modal window.
+            thisProduct.find('.product-quantity-mobile .current-quantity').attr('data-product-id', productID);
+            thisProduct.find('.product-quantity-mobile .quantity-mobile-modal').attr('data-product-id', productID);
+    
+            //grab the HTML (including parent)
+            //var mobileQuantityModal = thisProduct.find('.product-quantity-mobile .quantity-mobile-modal').get(0).outerHTML;
+    
+            //output the markup outside of slick
+            if (!greatParent.children('.quantity-mobile-modal[data-product-id="'+productID+'"]').length > 0) {
+                thisParent.after(mobileQuantityModal);
+            }
+    
+        })
+
+        //Define some more variables.
+        var modalOpen = thisParent.find('.product-listing .current-quantity'),
+            quantityItem = greatParent.find('.quantity-mobile-modal .quantity-item'),
+            modalLabel = greatParent.find('.quantity-mobile-modal .modal-label'),
+            modalClose = greatParent.find('.quantity-mobile-modal .mobile-quantity-action > .btn');
+
+            modalOpen.off('click').on('click', function(){
+                var productID = $(this).attr('data-product-id');
+        
+                // console.log('modalOpen');
+                // console.log({productID});
+                //Only open if disable class is not present
+                if (!$(this).parent().hasClass('disable')) {
+                    openClose(false, productID);
+                }
+            });
+        
+            modalLabel.off('click').on('click', function(){
+                // console.log('modalLabel');
+                openClose(true);
+            });
+        
+            quantityItem.off('click').on('click', function(){
+                //console.log('selected');
+                var productID = parseInt($(this).parents('.quantity-mobile-modal').attr('data-product-id')),
+                    maxQuantity = parseInt(greatParent.find('.quantity-mobile-modal[data-product-id="'+productID+'"] .mobile-quantity-input').attr('max')),
+                    quantityValue = parseInt($(this).find('.quantity-value').text());
+        
+                quantityItem.removeClass('selected');
+                $(this).addClass('selected');
+                updateQuantity(quantityValue, maxQuantity, productID);
+                openClose(true, productID);
+            });
+        
+            modalClose.off('click').on('click', function(){
+                var productID = parseInt($(this).parents('.quantity-mobile-modal').attr('data-product-id')),
+                    maxQuantity = parseInt($(this).prev('.mobile-quantity-input').attr('max')),
+                    quantityValue = parseInt($(this).prev('.mobile-quantity-input').val());
+
+                //console.log('done button');
+                //console.log('Quantity: ' + quantityValue + ' Max Quantity: ' + maxQuantity + ' ProductID: ' + productID);
+                updateQuantity(quantityValue, maxQuantity, productID);
+                openClose(true, productID);
+            });
+
+    });
+
+    $('.mobile-quantity-input').off('focusout').on('focusout', function(){
+        var productID = parseInt($(this).parents('.quantity-mobile-modal').attr('data-product-id')),
+            maxQuantity = parseInt($(this).attr('max')),
+            quantityValue = parseInt($(this).val());
+
+        updateQuantity(quantityValue, maxQuantity, productID);
+        openClose(true, productID);
+    })
+
+}
+
+/**
+ * BG: The client has a modal popup when selecting a quantity on mobile.
+ */
+function mobileQuantityModal(element) {
+
+    //var mobileQuantityContainer = $('.product-quantity-container');
+    var mobileQuantityContainer = $(element);
+
+
+    mobileQuantityContainer.each(function(){
+
+        var thisOne = $(this),
+            quantityMobile = $(this).find('.product-quantity-mobile'),
+            modalOpen =  quantityMobile.find('.current-quantity'),
+            modalClose = quantityMobile.find('.mobile-quantity-action > .btn'),
+            quantityModal = quantityMobile.find('.quantity-mobile-modal'),
+            modalLabel = quantityMobile.find('.modal-label'),
+            quantityItem = quantityMobile.find('.quantity-item'),
+            siteOverlay = $('#site-overlay'),
+            cartPosition = $(this).closest('.basket-item').index();
+
+
+            //Toggle open/close of quantity modal
+            function openClose(close) {
+                if (close === true) {
+                    quantityModal.removeClass('active');
+                    siteOverlay.removeClass('mobileQuantityControl active');
+                } else {
+                    quantityModal.addClass('active');
+                    siteOverlay.addClass('mobileQuantityControl active');
+                }
+            }
+
+            //This function should only run, if the user is on the cart page. 
+            function ajaxCart(quantity, quantityFunction) {
+            if ($('body').hasClass('template-cart')) {
+
+                //console.log('run');
+
+                var variantID = quantityMobile.attr('data-variant-id'),
+                feedbackOutput = '.ajax-feedback[data-variant-id="'+variantID+'"]';
+
+                //console.log('Variant ID' + variantID);
+                //console.log('Feedback Selector' + feedbackOutput);
+                
+                //updateCart(variantID, quantity, 'quantityChange', '', feedbackOutput);
+                updateCart(variantID, quantity, 'quantityChange', '', feedbackOutput, cartPosition, quantityFunction);
+
+            }
+            }
+
+            //update quantity values
+            function updateQuantity(quantity) {
+                
+                //get the maxQuantity applied to the input field
+                var maxQuantity = parseInt(quantityMobile.find('.mobile-quantity-input').attr('max')),
+                    originalQuantity = parseInt(quantityMobile.find('.current-quantity .quantity-value').text());
+
+                //update quantity 
+                function quantityListUpdate(value, originalQuantity) {
+                    //update fake dropdown
+                    quantityMobile.find('.current-quantity .quantity-value').text(value);
+                    //update main form element
+                    thisOne.find('.product-quantity').val(value);
+
+                    //if less or equal to 10, update the quantity item (mobile quantity list)
+                    if (value <= 10) {
+                        quantityMobile.find('.quantity-listing .quantity-item').removeClass('selected');
+                        quantityMobile.find('.quantity-listing .quantity-item:nth-child('+value+')').addClass('selected');
+                    } else {
+                        quantityMobile.find('.quantity-listing .quantity-item').removeClass('selected');
+                    }
+
+                    if (value > originalQuantity) {
+                        ajaxCart(value, 'increase');
+                    } else {
+                        ajaxCart(value, 'decrease');
+                    }
+
+                }
+
+                //if quantity is less than maxQuantity, update with desired value
+                if (quantity <= maxQuantity) {
+                    quantityListUpdate(quantity, originalQuantity);
+
+                //if maxQuantity has been exceed, set the quantity to the maximum
+                } else {
+                    quantityListUpdate(maxQuantity, originalQuantity);
+                }
+
+            }
+
+            
+
+        modalOpen.on('click', function(){
+            //console.log('open');
+            openClose(false);
+
+            $('#site-overlay').off('click').on('click', function(){
+                //console.log('close');
+                quantityModal.removeClass('active');
+                siteOverlay.removeClass('mobileQuantityControl active');
+            });
+        });
+
+        modalLabel.on('click', function(){
+            //console.log('modalLabel Close');
+            openClose(true);
+        });
+
+        modalClose.on('click', function(){
+            var quantityValue = quantityMobile.find('.mobile-quantity-input').val();
+            //console.log('done button clicked, close');
+            updateQuantity(quantityValue);
+            openClose(true);
+        });
+
+        quantityItem.on('click', function(){
+            var quantityValue = parseInt($(this).find('.quantity-value').text());
+            quantityItem.removeClass('selected');
+            $(this).addClass('selected');
+            //console.log('quantity selected, close');
+            updateQuantity(quantityValue);
+            openClose(true);
+        });
+
+        $('.mobile-quantity-input').on('focusout', function(){
+            var quantityValue = quantityMobile.find('.mobile-quantity-input').val();
+            updateQuantity(quantityValue);
+            openClose(true);
+        })
+    });
+}
+
+
+/**
+ * BG: when on the cart template, update the mobile quantity selector to reflect current quantity items.
+ */
+function cartTemplate() {
+
+var basketItem = $('.basket-item');
+
+basketItem.each(function(){
+    var currentQuantity = $(this).find('.product-quantity').val();
+
+    if (currentQuantity <= 10) {
+        $(this).find('.quantity-listing .quantity-item').removeClass('selected');
+        $(this).find('.quantity-listing .quantity-item:nth-child('+currentQuantity+')').addClass('selected');
+    } else {
+        $(this).find('.quantity-listing .quantity-item').removeClass('selected');
+    }
+
+});
+
+}
+
+
+quantityControl();
+slickMobileQuantityModal()
+//mobileQuantityModal();
+
+if ($('body').hasClass('template-product')) {
+    mobileQuantityModal('.product-key-actions .product-quantity-container');
+}
+
+if ($('body').hasClass('template-collection') || $('body').hasClass('template-search')) {
+    mobileQuantityModal('.collection-listing .product-quantity-container');
+}
+
+if ($('body').hasClass('template-category')) {
+    mobileQuantityModal('.product-list-row .product-quantity-container');
+}
+
+//var mobileQuantityContainer = $('.product-quantity-container');
+
+if ($('body').hasClass('template-cart')) {
+    cartTemplate();
+    mobileQuantityModal('#basket-main .basket-item');
+}
+/**
+ * BG: Related Products API
+ * https://shopify.dev/docs/themes/ajax-api/reference/product-recommendations
+ */
+function relatedProductsAPI() {
+    var productID = parseInt($('.product-list-container.related-products').attr('data-product-id'));
+    
+    //Make the JSON request to the recommendations API, pass over the current product ID.
+    $.getJSON('/recommendations/products.json?product_id='+productID+'&limit=4', function(data) {
+        //loop through the results.
+        $.each(data.products,function(i, product) {
+
+            i++;
+            
+            //for each product, use the handle to view the product.listing template (which is just the product-listing snippet)
+            $.ajax({
+                type: 'GET',
+                url: '/products/' + product.handle+'/?view=listing',
+                success: function (data) {
+                    //output the markup
+                    //$('.product-list-container.related-products .product-list-row').append(data);
+
+                    //output the markup and add it to slick
+                    $('.product-list-container.related-products .product-list-row.inline-slick').slick('slickAdd',data);
+
+                },
+                complete: function() {
+                    //end of loop - On complete, and after a slight delay....
+                    if (i === 4) {
+                        window.setTimeout(function () {
+
+                        //Re-enable essential js functions that the product-listing relies on.
+
+                        //Re-enable - Aspect Ratio
+                        productListingRatio();
+
+                        //Re-enable Quantity Controls
+                        quantityControl();
+                        //BG: we replace mobileQuantityModal with slickMobileQuantityModal as products will sit within slick
+                        //mobileQuantityModal();
+                        slickMobileQuantityModal();
+
+                        //UPDATE - BG:, no longer needed, as ajax-cart now covers this - (ajax-cart.js - line 403)
+                        //Re-enable Ajax Cart.
+                        // $('form[action="/cart/add"]').submit(function (e) {
+                        //     e.preventDefault();
+                        //     submitForm($(this));
+                        // });
+
+                        //Re-enable Collection JS functions
+                        collectionShadeImages();
+                        collectionHover();
+                        collectionProductImage();
+                        productSwatchCollection();
+                        slickMobileProductSwatch();
+
+                        }, 500);
+                    }
+                }
+            }); 
+
+        });
+    });
+}
+
+//BG: Grab the recently viewed products array, and loop through the products and output them.
+function retrieveRecentlyViewedProducts(array,outputLocation,maxProducts) {
+
+    var arrayTotal = array.length;
+    
+    // loop for the array, and output the products.
+    $.each(array,function(i, product) {
+        i++;
+            
+        //for each product, use the handle to view the product.listing template (which is just the product-listing snippet)
+        $.ajax({
+            type: 'GET',
+            url: '/products/' + product +'/?view=listing',
+            success: function (data) {
+
+                // SK - It is possible that a disbaled product gets redirected to another page. 
+                // We check the returned sting to make sure it does not no contain a '<html' element
+                if( data.indexOf("<html") !== -1 ){
+                    //console.log('did not return expected html snippit');
+                    return;
+                }
+                $('.product-list-container.recently-viewed-products .product-list-row.inline-slick').slick('slickAdd',data);
+                
+            },
+            complete: function() {
+                //end of loop - On complete, and after a slight delay....
+                if (i === arrayTotal) {
+
+                    // We check if any products have been added to the relevant container remove the hidden class if they have
+                    productList = $('.product-list-container.recently-viewed-products .product-list-row.inline-slick .product-listing');
+                    if( productList && productList.length > 0 ) {
+                        $(outputLocation).removeClass('d-none');
+                    }
+
+                    window.setTimeout(function () {
+
+                    //Re-enable essential js functions that the product-listing relies on.
+
+                    //Re-enable - Aspect Ratio
+                    productListingRatio();
+
+                    //Re-enable Quantity Controls
+                    quantityControl();
+                    //BG: we replace mobileQuantityModal with slickMobileQuantityModal as products will sit within slick
+                    //mobileQuantityModal();
+                    slickMobileQuantityModal();
+
+                    //UPDATE - BG:, no longer needed, as ajax-cart now covers this - (ajax-cart.js - line 403)
+                    //Re-enable Ajax Cart.
+                    // $('form[action="/cart/add"]').submit(function (e) {
+                    //     e.preventDefault();
+                    //     submitForm($(this));
+                    // });
+
+                    //Re-enable Collection JS functions
+                    collectionShadeImages();
+                    collectionHover();
+                    collectionProductImage();
+                    //productSwatchCollection();
+                    slickMobileProductSwatch();
+
+                    }, 500);
+                }
+            }
+        }); 
+	});
+}
+
+//BG: Add current product to the recently viewed array
+function addNewProduct(array,productHandle,maxProducts) {
+
+    
+  
+    //BG: only add the product to the array, if it doesn't already exist
+    if(array.indexOf(productHandle) == -1) {
+        array.push(productHandle);
+    }
+    //BG: Update localStorage
+    localStorage.setItem("recentProducts", JSON.stringify(array));
+  
+  }
+
+/*
+BG: Using localStorage, we create an array based on the products the user has been viewing. When they visit a product page, it stores the product handle.
+*/ 
+function recentlyViewedProducts() {
+    //Retrieve localstorage for recentproducts(if it exists)
+    var savedRecentProducts = JSON.parse(localStorage.getItem("recentProducts")),
+        outputLocation = ".product-list-container.recently-viewed-products",
+        newProduct = $(outputLocation).attr('data-product-handle');
+        maxProducts = 4;
+
+    //if localstorage exists, retrieve the list and output it
+    if (savedRecentProducts) {
+        //BG: if array is greater than the maxProducts, then delete the first item in the array
+        if (savedRecentProducts.length > maxProducts) {
+            savedRecentProducts.shift();
+        }
+        retrieveRecentlyViewedProducts(savedRecentProducts,outputLocation,maxProducts);
+        if (newProduct !== undefined) {
+            addNewProduct(savedRecentProducts,newProduct,maxProducts);
+        }
+    } else {
+        if (newProduct !== undefined) {
+        //First time user has visited a product page, so let's create the new local storage.
+            //console.log('doesn\'t exist, let\'s make a new array');
+            var recentProducts = [];
+            addNewProduct(recentProducts,newProduct,maxProducts);
+        }
+    }
+}
+
+//only run if the related products section is available
+if ($('.product-list-container.related-products').length) {
+    relatedProductsAPI();
+}
+
+//only run if the recently viewed products section is available
+if ($('.product-list-container.recently-viewed-products').length) {
+    recentlyViewedProducts();
+}
+
+//only run if the featured products section is available
+if ($('.product-list-container.featured-products').length) {
+    //Re-enable - Aspect Ratio
+    productListingRatio();
+
+    //Re-enable Quantity Controls
+    quantityControl();
+    //BG: we replace mobileQuantityModal with slickMobileQuantityModal as products will sit within slick
+    //mobileQuantityModal();
+    slickMobileQuantityModal();
+
+    //UPDATE - BG:, no longer needed, as ajax-cart now covers this - (ajax-cart.js - line 403)
+    //Re-enable Ajax Cart.
+    // $('form[action="/cart/add"]').submit(function (e) {
+    //     e.preventDefault();
+    //     submitForm($(this));
+    // });
+
+    //Re-enable Collection JS functions
+    collectionShadeImages();
+    collectionHover();
+    collectionProductImage();
+    //productSwatchCollection();
+    slickMobileProductSwatch();
+}
+(function () {
+
+    var storeRedirect = $('.store-redirect');
+
+    if (storeRedirect.length) {
+        geoLocation();
+        redirectClose();
+    }
+
+    // HM: Helpers to create cookie with specific name, value and expiry
+    function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        var expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + "domain=royfort./ ;path=/;";
+    }
+
+    function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
+    // HM: Simplified logic, simply prompt user with a popup if they on the wrong domain. Don't show popup for 1 year if user chooses not to visit correct domain
+    function geoLocation() {
+
+        var geoPopup = getCookie('geoPopup'),
+            storeAddress = $('.store-redirect').attr('data-store-address'),
+            redirectPopup = $('.redirect-popup'),
+            redirectOverlay = $('.redirect-overlay'),
+            redirectTargetCountry = $('.redirect-content .target-country'),
+            redirectButtonLink = $('.redirect-content .btn-redirect');
+
+        if (geoPopup == "") {
+            //console.log('preference not set');
+
+            $.ajax({
+                url: '//api.ipstack.com/check?access_key=0c62d80a1f3cbd01a4c08c467ce96f15',
+                dataType: 'json',
+                success: function (json) {
+                    let redirectButtonLinkURL = null;
+
+                    //If customer is from UK
+                    switch (json.country_code) {
+                        case "CH":
+                            //Check to see if store is also DE
+                            if (storeAddress === 'royfort.ch') {
+                                setCookie("geoPopup", "false", 365);
+                            } else {
+                                redirectButtonLinkURL = 'https://royfort.ch';
+                            }
+                            
+                            break;
+                    }
+
+                    if( redirectButtonLinkURL !== null ){
+                        //show redirect popup - with option to redirect to UK.
+                        $(redirectTargetCountry).html('UK');
+                        $(redirectButtonLink).attr('href', redirectButtonLinkURL);
+                        $(redirectPopup).addClass('active');
+                        $(redirectOverlay).addClass('active');
+                    }
+
+                }
+            });
+        }
+    }
+
+
+    // HM: Click and close popup, don't show it again for 1 year
+    function redirectClose() {
+        $('.redirect-close').off('click').on('click', function () {
+
+            $('.redirect-popup').removeClass('active');
+            $('.redirect-overlay').removeClass('active');
+
+            setCookie("geoPopup", "false", 365);
+
+        });
+    }
+}
+)()
+$(document).ready(function() {
+    var sections = new slate.Sections();
+    sections.register('product', theme.Product);
+
+    // Common a11y fixes
+    slate.a11y.pageLinkFocus($(window.location.hash));
+
+    $('.in-page-link').on('click', function(evt) {
+      slate.a11y.pageLinkFocus($(evt.currentTarget.hash));
+    });
+
+    // Target tables to make them scrollable
+    var tableSelectors = '.rte table';
+
+    slate.rte.wrapTable({
+      $tables: $(tableSelectors),
+      tableWrapperClass: 'rte__table-wrapper',
+    });
+
+    // Target iframes to make them responsive
+    var iframeSelectors =
+      '.rte iframe[src*="youtube.com/embed"],' +
+      '.rte iframe[src*="player.vimeo"]';
+
+    slate.rte.wrapIframe({
+      $iframes: $(iframeSelectors),
+      iframeWrapperClass: 'rte__video-wrapper'
+    });
+
+    // Apply a specific class to the html element for browser support of cookies.
+    if (slate.cart.cookiesEnabled()) {
+      document.documentElement.className = document.documentElement.className.replace('supports-no-cookies', 'supports-cookies');
+    }
+  });
+
+  /* ==========================================================================
+  #Custom Velstar
+  ========================================================================== */
+
+
+  //product page swatch change
+  $('.swatch :radio').change(function() {
+      var optionIndex = $(this).closest('.swatch').attr('data-option-index');
+      var optionValue = $(this).val();
+      $(this).closest('form').find('.single-option-selector').eq(optionIndex).val(optionValue).trigger('change');
+  });
+
+  // $('#create_customer button').on('click', function() {
+  //   if($(this).closest('form').find(':invalid').length === 0) {
+  //     window.dataLayer = window.dataLayer || [];
+  //     dataLayer.push({
+  //       'event': 'registration_success'
+  //     });
+  //   }
+  // });
+
+  $('.site-search-form').on('click', '.result-item', function() {
+    var searchTerm = $(this).find('h3').text();
+    dataLayer.push({
+      'search_type': 'Suggested',
+      'search_term': searchTerm,
+      'event' : 'onsite_search'
+    });
+  });
+
+  
+  $('body').on('click','.scroll-to',function(){
+      var header = $('#shopify-section-header').outerHeight()
+      var to = $($(this).attr('data-to')).offset().top
+    var speed = $(this).attr('data-speed')
+
+      $('html, body').animate({
+          scrollTop: (to-header)
+      },(speed ?? 1000));
+  })
+
+// BMK: Feel free to point and laugh but I cant think of a cleaner way to collapse these on mobile without getting into detecting viewports and other rubbish
+  $('.touchevents .footer-links-parent details').removeAttr("open");
+
+
+
+$('.stamped-toggle').on('click', () => {
+  $('html, body').animate({
+    scrollTop: $('#shopify-section-site-reviews').offset().top
+},(1000));
+});
+
+
+// SH: Scroll paginated review to somewhere we want, rather than beneath the sticky header
+$('.stamped-pagination .page a').on('click', () => {
+  $('html, body').animate({
+    scrollTop: $('#shopify-section-product-reviews').offset().top - 110
+},(1000));
+});
