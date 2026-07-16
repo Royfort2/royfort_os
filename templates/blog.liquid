@@ -1,0 +1,12 @@
+{% if blog.handle == 'careers' %}
+    {% render 'full-breadcrumbs' %}
+    <h1 class="d-none">{{ page.title }}</h1>
+    {% comment %} {% section 'careers-hero' %} {% endcomment %}
+    {% section 'careers-hp-hero' %}
+    {% section 'careers-content' %}{% comment %}{% endcomment %}
+    {% section 'careers-positions' %}
+{% else %}
+    {% render 'full-breadcrumbs' %}
+    {% section 'blog-hero' %}
+    {% section 'blog' %}
+{% endif %}

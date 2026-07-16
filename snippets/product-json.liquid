@@ -1,0 +1,47 @@
+{%- unless product == empty -%}
+{
+    "id": {{ product.id }},
+    "title": "{{ product.title }}",
+    "handle": "{{ product.handle }}",
+    "published_at": "{{ product.published_at }}",
+    "created_at": "{{ product.created_at }}",
+    "status": "{{ product.status }}",
+    "vendor": "{{ product.vendor }}",
+    "type": "{{ product.type }}",
+    "tags": {{ product.tags | json }},
+    "price": {{ product.price }},
+    "price_min": {{ product.price_min }},
+    "price_max": {{ product.price_max }},
+    "available": {{ product.available }},
+    "price_varies": {{ product.price_varies }},
+    "compare_at_price": {{ product.compare_at_price | json }},
+    "compare_at_price_min": {{ product.compare_at_price_min | json }},
+    "compare_at_price_max": {{ product.compare_at_price_max | json }},
+    "compare_at_price_varies": {{ product.compare_at_price_varies | json }},
+    "media": {{ product.media | json }},
+    "images": {{ product.images | json }},
+    "featured_image": "{{ product.featured_image | img_url: master }}",
+    "options": {{ product.options | json }},
+    "variants": [
+    {%- for variant in product.variants -%}
+    {
+        "id": {{ variant.id }},
+        "title": "{{ variant.title }}",
+        "options": {{ variant.options | json }},
+        "price": {{ variant.price }},
+        "image": "{{ variant.image | img_url: master }}",
+        "featured_image": {{ variant.featured_image | json }},
+        "weight": {{ variant.weight }},
+        "compare_at_price": {{ variant.compare_at_price | json }},
+        "inventory_management": "{{ variant.inventory_management }}",
+        "inventory_policy": "{{ variant.inventory_policy }}",
+        "inventory_quantity": {{ variant.inventory_quantity }},
+        "available": {{ variant.available }},
+        "requires_shipping": {{ variant.requires_shipping }},
+        "taxable": {{ variant.taxable }}
+    }{%- if forloop.last == false -%},{%- endif -%}
+    {%- endfor -%}
+    ],
+	"url": "{{ product.url }}"
+}
+{%- endunless -%}

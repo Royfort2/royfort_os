@@ -1,0 +1,40 @@
+<div class="container-fluid">
+    <div id="main-reviews" class="section-main-reviews">
+        <template data-template="stamped-review-product-main">
+            <div class="product-review">
+                <div>
+                    <div class="rating">@ratingStars</div>
+                    <div class="title">@title</div>
+                    <div class="name">@name @verified - @date</div>
+                    <div class="content">@content</div>
+                </div>
+                <div class="product">@product</div>
+            </div>
+        </template>
+        <div class="main">
+            <h3 class="text-center">{{ section.settings.title }}</h3>
+            <div class="summary">
+                <p class="total"><span></span> {{ 'general.reviews.reviews' | t }}</p>
+                <p class="total-rating"></p>
+                <p class="total-stars"><span></span> / {{ 'general.reviews.5_stars' | t }}</p>
+            </div>
+            <!--Stamped - Begin Main Widget -->
+            <div 
+            id="stamped-main-widget"   
+            data-product-id="{{ product.id }}"   
+            data-name="{{ product.title | escape }}"   
+            data-url="{{ shop.url }}{{ product.url }}"   
+            data-image-url="{{ product.featured_image | product_img_url: "large" |replace: '?', '%3F' | replace: '&','%26'}}" 
+            data-description="{{ product.description | escape }}"   
+            data-product-sku="{{product.handle}}"
+            data-product-title="{{product.title}}" 
+            data-product-type="{{product.type}}" 
+            data-widget-language="{{shop.locale}}" 
+            data-offset="300" 
+            data-offset-mobile="300">   
+            
+            </div>
+            <!-- Stamped - End Main Widget -->
+        </div>
+    </div>
+</div>

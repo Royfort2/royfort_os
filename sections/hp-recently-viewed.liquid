@@ -1,0 +1,63 @@
+<section class="product-list-container recently-viewed-products d-none" data-image-ratio="{{section.settings.ratio}}">
+    {% if section.settings.title != blank %}<h3>{{section.settings.title}}</h3>{% endif %}
+    <div class="product-list-row inline-slick" data-slick='{"slidesToShow": 1.4, "slidesToScroll": 1, "touchThreshold": 15, "dots":false, "arrows":false, "mobileFirst": true, "infinite": false, "responsive":[{"breakpoint": 767,"settings":{"slidesToShow": 3, "slidesToScroll": 1 }},{"breakpoint": 992,"settings":{"slidesToShow": 4, "slidesToScroll": 1 }}]}'>
+    </div>
+</section>
+
+{% schema %}
+{
+    "name": "Recently Viewed",
+    //"tag": "section",
+    //"class": "product-list-container recently-viewed-products d-none",
+    "settings": [
+        {
+            "type": 	"header",
+            "content": 	"Recently Viewed Products"
+        },
+        {
+            "type": 	"paragraph",
+            "content": 	"This section will only appear if the user has visited product pages. It will display the last four products."
+        },
+        {
+            "type":      "text",
+            "id":        "title",
+            "label":     "Title"
+        },
+        {
+            "type":         "select",
+            "id":           "ratio",
+            "label":        "Fixed Ratio?",
+            "options": [
+                {
+                    "value": "fixed-ratio square-crop",
+                    "label": "Square (4x4 Cropped)"
+                },
+                {
+                    "value": "fixed-ratio square",
+                    "label": "Square (4x4)"
+                },
+                {
+                    "value": "fixed-ratio portrait-crop",
+                    "label": "Portrait (4x5 Cropped)"
+                },
+                {
+                    "value": "fixed-ratio portrait",
+                    "label": "Portrait (4x5)"
+                },
+                {
+                    "value": "",
+                    "label": "No Set Ratio"
+                }
+            ],
+            "default":   "fixed-ratio square"
+        }
+	],
+	"presets": [
+    {
+      "name": "Recently Viewed",
+      "category": "Product"
+    }
+  ]
+	
+}
+{% endschema %}

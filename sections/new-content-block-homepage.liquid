@@ -1,0 +1,54 @@
+<div class="product-detail-row">
+    <div class="section-background new-content-block">
+        <div class="{{section.settings.usp_section_container}} py-lg-3" style="background-color:{{section.settings.usp_section_container_bg}};">
+            <div class="main-block d-flex flex-direction-row flex-wrap justify-content-between">
+        {% for block in section.blocks %}
+        {% case block.type %}
+        {% when 'new_block' %}
+          
+                <div class="single-block {{section.settings.usp_icon_placement}}">
+                                <div class="block-content">
+                                    {% if block.settings.title != blank %}<h2 style="color:{{section.settings.usp_title_main_color}};" class="text-18 mb-3">{{block.settings.title}}</h2>{% endif %}
+                                {% if block.settings.richtext != blank %}<div class="rte text-12">{{block.settings.richtext}}</div>{% endif %}
+                                </div>
+                    </div>
+     
+        {% endcase %}
+        {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% schema %}
+{
+    "name": "New Block Content",
+    "tag": "div",
+    "class": "site-usp-large",
+    "blocks": [
+        {
+            "type": "new_block",
+            "name": "New Block",
+            "settings": [
+                {
+                    "type":      "text",
+                    "id":        "title",
+                    "label":     "Title"
+                },
+                {
+                    "type":      "richtext",
+                    "id":        "richtext",
+                    "label":     "Content"
+                }
+            ]
+        }
+    ],
+    "presets": [
+    {
+        "name": "New Block Content",
+        "category": "Images"
+    }
+    ]
+
+}
+{% endschema %}

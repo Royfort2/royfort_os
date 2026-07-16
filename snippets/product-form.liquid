@@ -1,0 +1,250 @@
+{% assign current_variant = product.selected_or_first_available_variant %}
+{% assign current_inventory = current_variant.inventory_quantity %}
+
+{% if current_variant.inventory_policy == 'continue' %}
+  {% assign current_inventory = 999 %}
+{% endif %}
+{% if current_inventory == blank %}
+  {% assign current_inventory = 0 %}
+{% endif %}
+{% if use_instock_indicator == true %}
+  {% assign presale_message = product.metafields.product.pre_sale_message %}
+  {% assign presale_message_size = presale_message | size %}
+
+  {% capture instock_indicator_style %}
+        {% if current_variant.inventory_quantity > 0 or current_variant.inventory_quantity == 0 and current_variant.inventory_policy == "continue" %}
+            display:none;
+        {% endif %}
+    {% endcapture %}
+
+  {% if presale_message_size > 0 %}
+    <div class="{{ prefix }}-instock instock-indicator presale-indicator" style="{{ instock_indicator_style }}">
+      <span></span>{{ product.metafields.product.pre_sale_message }}
+    </div>
+  {% else %}
+    <div class="{{ prefix }}-instock instock-indicator" style="{{ instock_indicator_style }}">
+      <span></span>{{ 'products.product.variant_instock' | t }}
+    </div>
+  {% endif %}
+  <div class="product-options-bundle-total default-product-price  d-flex flex-wrap justify-content-between">
+    <div class="product-subtotal h4">{{ 'cart.general.subtotal' | t }}</div>
+    <div style="display: flex">
+      <div
+        class="product-subtotal-price"
+        data-bundle-subtotal="{{ current_variant.price }}"
+        data-main-product-price="{{ current_variant.price }}"
+      >
+        {{ current_variant.price | money }}
+      </div>
+      <div
+        class="product-subtotal-compare-price compare-at-price"
+        data-bundle-subtotal="{{ current_variant.compare_at_price }}"
+        data-main-product-compare-price="{{ current_variant.compare_at_price }}"
+      >
+        {{ current_variant.compare_at_price | money }}
+      </div>
+      <div class="product-subtotal discount-perc text-16 title-font">
+        {% if current_variant.compare_at_price > current_variant.price %}
+          -
+          {{-
+            current_variant.compare_at_price
+            | minus: current_variant.price
+            | times: 100.0
+            | divided_by: current_variant.compare_at_price
+            | money_without_currency
+            | times: 100
+            | remove: '.0'
+          -}}
+          %
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% assign shortname = product.metafields.my_fields.short_name %}
+  <template class="main-product-bottom">
+    <small class="main-product">
+      <span class="items-count">@Count</span>x
+      {% if shortname != blank %}
+        {{ shortname }}
+      {% else %}
+        {{ product.title -}}
+      {%- endif %}
+      (<span class="money">@Price</span>)</small
+    >
+  </template>
+
+  <div class="product-options-bundle-bottom default-product-product-title">
+    {{ product.title }} ({{ current_variant.price | money }})
+  </div>
+  <div class="you-saved" data-text="{{ 'products.product.savings' | t }}">
+    ({{ 'products.product.savings' | t }}
+    {{ current_variant.compare_at_price | minus: current_variant.price | money }})
+  </div>
+
+  {% capture outstock_indicator_style %}
+        {% if current_variant.inventory_quantity == 0 %}
+            display:none;
+        {% endif %}
+    {% endcapture %}
+
+  {% if presale_message_size > 0 %}
+    <div class="{{ prefix }}-outstock outofstock-indicator presale-indicator" style="{{ outstock_indicator_style }}">
+      <span></span>{{ product.metafields.product.pre_sale_message }}
+    </div>
+  {% else %}
+    <div class="{{ prefix }}-outstock outofstock-indicator" style="{{ outstock_indicator_style }}">
+      <span></span>{{ 'products.product.variant_out_of_stock' | t }}
+    </div>
+  {% endif %}
+
+  <button
+    class="trigger btn btn-secondary w-full btn-slim {{ prefix }}-back-in-stock-btn"
+    data-modal-trigger="trigger-1234567"
+  >
+    {{ 'products.product.backInStock.notifyButton' | t }}
+  </button>
+
+  <div class="modal modal-box-open" id="modalKlaviyo" data-modal="trigger-1234567">
+    <article class="content-wrapper">
+      <div class="close-box">
+        <button class="close"></button>
+      </div>
+      <div id="back-in-stock-container" class="container modal-box">
+        <div class="row flex-row-reverse-xs row-box">
+          <div class="col-lg-2 col-md-2  col-sm-0 px-0 col-box"></div>
+          <div class="col-lg-8 col-md-8 main-content col-sm-12 px-0 col-box">
+            <h3>{{ 'products.product.backInStock.modalTitle' | t }}</h3>
+            <p>{{ 'products.product.backInStock.modalDescription' | t }}</p>
+            <form onsubmit="subscribeBackInStock(event, '{{ settings.current.public_key_klaviyo }}')">
+              <input placeholder="E-Mail Adresse" type="email" name="email">
+              <p class="subscribe-bis-error"></p>
+              <button
+                type="submit"
+                data-button-text="{{ 'products.product.backInStock.modalButton' | t  }}"
+                data-subscribed-success="{{ 'products.product.add_to_cart_success' | t }}"
+                class="btn btn-primary w-full submit-btn"
+              >
+                {{ 'products.product.backInStock.modalButton' | t }}
+              </button>
+            </form>
+            <p class="success-message-bis">{{ 'products.product.backInStock.successMessage' | t }}</p>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-0 px-0 col-box"></div>
+        </div>
+      </div>
+      <style>
+        .modal-box-open {
+            z-index: 9999;
+        }
+
+        @media screen and (max-width:767px) {
+            .col-box {
+                height: 100%;
+            }
+        }
+
+        .close {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.25rem;
+            height: 2.25rem;
+            color: rgb(30, 48, 110);
+            border: none;
+            cursor: pointer;
+            opacity: 1;
+            box-shadow: rgb(0 0 0 / 7%) 0px 0.3125rem 0.9375rem 0px, rgb(0 0 0 / 5%) 0px 0px 0px 0.0625rem, rgb(0 0 0 / 7%) 0px 0.0625rem 0px 0px, rgb(0 0 0 / 3%) 0px 0.0625rem 0.1875rem 0px;
+            border-radius: 100%;
+            transition: opacity 0.15s ease-out 0s;
+        }
+      </style>
+    </article>
+  </div>
+
+  {% comment %}
+    <div class="{{ prefix }}-instock instock-indicator" {% if current_inventory > 0 %}style="display:none"{% endif %}><span></span>{{ 'products.product.variant_instock' | t }}</div>
+
+    {% if presale_message_size > 0 %}
+        <div class="{{ prefix }}-outstock outofstock-indicator presale-indicator" {% if current_inventory == 0 %}style="display:none"{% endif %}><span></span>{{ product.metafields.product.pre_sale_message }}</div>
+    {% else %}
+        <div class="{{ prefix }}-outstock outofstock-indicator" {% if current_inventory == 0 %}style="display:none"{% endif %}><span></span>{{ 'products.product.variant_out_of_stock' | t }}</div>
+    {% endif %}
+  {% endcomment %}
+{% endif %}
+{% if add_to_cart_override == blank %}
+  {% assign add_to_cart_override = 'products.product.add_to_cart' | t %}
+{% endif %}
+{% form 'product', product %}
+  {% if product.has_only_default_variant %}
+    <input type="hidden" name="id" class="{{ prefix }}variant-id" value="{{ current_variant.id }}">
+  {% else %}
+    <select class="{{ prefix }}product-variant-selector hide" name="id" class="">
+      {% for variant in product.variants %}
+        {% assign variant_inventory = variant.inventory_quantity %}
+        {% if variant.inventory_policy == 'continue' %}
+          {% assign variant_inventory = 999 %}
+        {% endif %}
+        {% if variant_inventory == blank %}
+          {% assign variant_inventory = 0 %}
+        {% endif %}
+        <option
+          value="{{ variant.id }}"
+          data-product="{{ product.id }}"
+          data-option1="{{ variant.option1 }}"
+          data-option2="{{ variant.option2 }}"
+          data-option3="{{ variant.option3 }}"
+          data-compare="{{ variant.compare_at_price }}"
+          data-price="{{ variant.price | money }}"
+          data-price-unformated="{{ variant.price }}"
+          data-inventory="{{ variant_inventory }}"
+          {%- if variant.compare_at_price > variant.price -%}
+            data-compare-at-price="{{variant.compare_at_price}}"
+          {%- endif -%}
+          data-show-compare="{% if variant.compare_at_price > variant.price %}1{% else %}0{% endif %}"
+        >
+          {{ variant.title }}
+        </option>
+      {% endfor %}
+      <option
+        value="-1"
+        data-product=""
+        data-option1=""
+        data-option2=""
+        data-option3=""
+        data-compare=""
+        data-price="N/A"
+        data-inventory="0"
+        data-show-compare="0"
+      >
+        {{ 'products.product.unavailable' | t }}
+      </option>
+    </select>
+  {% endif %}
+  <input type="hidden" name="quantity" class="{{ prefix }}form-quantity" value="1">
+  <div class="ajax-feedback product-page-feedback"></div>
+
+  <div class="product-key-actions">
+    <button
+      type="submit"
+      class="{{ prefix }}-basket btn-basket btn btn-primary w-full btn-slim"
+      data-unavailable-text="{{ 'products.product.unavailable' | t }}"
+      data-add-to-cart-text="{{ add_to_cart_override }}"
+      data-add-to-cart-status="{{ 'products.product.add_to_cart_status' | t }}"
+      data-added-to-cart-text="{{ 'products.product.add_to_cart_success' | t }}"
+      data-sold-out-text="{{ 'products.product.sold_out' | t }}"
+      data-preorder-text="{{ 'products.product.preorder' | t }}"
+      data-feedback-output=".product-page-feedback"
+      {% if current_inventory <= 0 %}
+        disabled
+      {% endif %}
+    >
+      {% if current_inventory > 0 %}{{ add_to_cart_override }}{% else %}{{ 'products.product.sold_out' | t }}{% endif %}
+    </button>
+  </div>
+{% endform %}
+<script>
+  document.addEventListener("DOMContentLoaded", function(){
+      //console.log ('DOMContentLoaded')
+      startVariantHandlers('{{ prefix }}')
+  })
+</script>

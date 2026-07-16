@@ -1,0 +1,214 @@
+{% assign current_variant = product.selected_or_first_available_variant %}
+{% assign current_inventory = current_variant.inventory_quantity %}
+
+{% if current_variant.inventory_policy == 'continue' %}
+  {% assign current_inventory = 999 %}
+{% endif %}
+{% if current_inventory == blank %}
+  {% assign current_inventory = 0 %}
+{% endif %}
+{% if use_instock_indicator == true %}
+  {% assign presale_message = product.metafields.product.pre_sale_message %}
+  {% assign presale_message_size = presale_message | size %}
+
+  {% capture instock_indicator_style %}
+        {% if current_variant.inventory_quantity > 0 or current_variant.inventory_quantity == 0 and current_variant.inventory_policy == "continue" %}
+            display:none;
+        {% endif %}
+    {% endcapture %}
+
+  {% if presale_message_size > 0 %}
+    <div class="{{ prefix }}-instock instock-indicator presale-indicator" style="{{ instock_indicator_style }}">
+      <span></span>{{ product.metafields.product.pre_sale_message }}
+    </div>
+  {% else %}
+    <div class="{{ prefix }}-instock instock-indicator" style="{{ instock_indicator_style }}">
+      <span></span>{{ 'products.product.variant_instock' | t }}
+    </div>
+  {% endif %}
+
+  {% capture outstock_indicator_style %}
+        {% if current_variant.inventory_quantity == 0 %}
+            display:none;
+        {% endif %}
+    {% endcapture %}
+
+  {% if presale_message_size > 0 %}
+    <div class="{{ prefix }}-outstock outofstock-indicator presale-indicator" style="{{ outstock_indicator_style }}">
+      <span></span>{{ product.metafields.product.pre_sale_message }}
+    </div>
+  {% else %}
+    <div class="{{ prefix }}-outstock outofstock-indicator" style="{{ outstock_indicator_style }}">
+      <span></span>{{ 'products.product.variant_out_of_stock' | t }}
+    </div>
+  {% endif %}
+
+  <button
+    class="trigger btn btn-secondary w-full btn-slim {{ prefix }}-back-in-stock-btn"
+    data-modal-trigger="trigger-123456"
+  >
+    {{ 'products.product.backInStock.notifyButton' | t }}
+  </button>
+
+  <div class="modal modal-box-open" id="modalKlaviyo" data-modal="trigger-123456">
+    <article class="content-wrapper">
+      <div class="close-box">
+        <button class="close"></button>
+      </div>
+      <div id="back-in-stock-container" class="container modal-box">
+        <div class="row flex-row-reverse-xs row-box">
+          <div class="col-lg-2 col-md-2  col-sm-0 px-0 col-box"></div>
+          <div class="col-lg-8 col-md-8 main-content col-sm-12 px-0 col-box">
+            <h3>{{ 'products.product.backInStock.modalTitle' | t }}</h3>
+            <p>{{ 'products.product.backInStock.modalDescription' | t }}</p>
+            <form onsubmit="subscribeBackInStock(event, '{{ settings.public_key_klaviyo }}')">
+              <input placeholder="E-Mail Adresse" type="email" name="email">
+              <p class="subscribe-bis-error"></p>
+              <button
+                type="submit"
+                data-button-text="{{ 'products.product.backInStock.modalButton' | t  }}"
+                data-subscribed-success="{{ 'products.product.add_to_cart_success' | t }}"
+                class="btn btn-primary w-full btn-slim submit-btn"
+              >
+                {{ 'products.product.backInStock.modalButton' | t }}
+              </button>
+            </form>
+            <p class="success-message-bis">{{ 'products.product.backInStock.successMessage' | t }}</p>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-0 px-0 col-box"></div>
+        </div>
+      </div>
+      <style>
+         .modal-box-open {
+            z-index: 9999;
+        }
+
+        @media screen and (max-width:767px) {
+            .col-box {
+                height: 100%;
+            }
+        }
+
+        .close {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.25rem;
+            height: 2.25rem;
+            color: rgb(30, 48, 110);
+            border: none;
+            cursor: pointer;
+            opacity: 1;
+            box-shadow: rgb(0 0 0 / 7%) 0px 0.3125rem 0.9375rem 0px, rgb(0 0 0 / 5%) 0px 0px 0px 0.0625rem, rgb(0 0 0 / 7%) 0px 0.0625rem 0px 0px, rgb(0 0 0 / 3%) 0px 0.0625rem 0.1875rem 0px;
+            border-radius: 100%;
+            transition: opacity 0.15s ease-out 0s;
+        }
+      </style>
+    </article>
+  </div>
+  {% comment %}
+    <div class="{{ prefix }}-instock instock-indicator" {% if current_inventory > 0 %}style="display:none"{% endif %}><span></span>{{ 'products.product.variant_instock' | t }}</div>
+
+    {% assign presale_message = product.metafields.product.pre_sale_message %}
+    {% assign presale_message_size = presale_message | size %}
+
+    {% if presale_message_size > 0 %}
+        <div class="{{ prefix }}-outstock outofstock-indicator presale-indicator" {% if current_inventory == 0 %}style="display:none"{% endif %}><span></span>{{ product.metafields.product.pre_sale_message }}</div>
+    {% else %}
+        <div class="{{ prefix }}-outstock outofstock-indicator" {% if current_inventory == 0 %}style="display:none"{% endif %}><span></span>{{ 'products.product.variant_out_of_stock' | t }}</div>
+    {% endif %}
+  {% endcomment %}
+
+  {% comment %}
+    <div class="{{ prefix }}-instock instock-indicator" {% if current_inventory > 0 %}style="display:none"{% endif %}><span></span>{{ 'products.product.variant_instock' | t }}</div>
+    <div class="{{ prefix }}-outstock outofstock-indicator" {% if current_inventory == 0 %}style="display:none"{% endif %}><span></span>{{ 'products.product.variant_out_of_stock' | t }}</div>
+  {% endcomment %}
+{% endif %}
+{% if add_to_cart_override == blank %}
+  {% assign add_to_cart_override = 'products.product.add_to_cart' | t %}
+{% endif %}
+{% if add_to_cart_override_item == blank %}
+  {% assign add_to_cart_override_item = 'products.product.add_to_cart_item' | t %}
+{% endif %}
+{% if bundle_from == blank %}
+  {% assign bundle_from = 'products.product.bundle_from' | t %}
+{% endif %}
+{% if add_to_cart_short == blank %}
+  {% assign add_to_cart_short = 'products.product.add_to_cart_short' | t %}
+{% endif %}
+{% render 'product-bundle', shop: shop, product: product, current_variant: current_variant %}
+{% form 'product', product %}
+  {% if product.has_only_default_variant %}
+    <input type="hidden" name="id" class="{{ prefix }}variant-id" value="{{ current_variant.id }}">
+  {% else %}
+    <select class="{{ prefix }}product-variant-selector hide" name="id" class="">
+      {% for variant in product.variants %}
+        {% assign variant_inventory = variant.inventory_quantity %}
+        {% if variant.inventory_policy == 'continue' %}
+          {% assign variant_inventory = 999 %}
+        {% endif %}
+        {% if variant_inventory == blank %}
+          {% assign variant_inventory = 0 %}
+        {% endif %}
+        <option
+          value="{{ variant.id }}"
+          data-option1="{{ variant.option1 }}"
+          data-option2="{{ variant.option2 }}"
+          data-option3="{{ variant.option3 }}"
+          data-compare="{{ variant.compare_at_price }}"
+          data-compare-at-price="{{ variant.compare_at_price }}"
+          data-price-unformated="{{ variant.price }}"
+          data-price="{{ variant.price | money }}"
+          data-inventory="{{ variant_inventory }}"
+          data-show-compare="{% if variant.compare_at_price > variant.price %}1{% else %}0{% endif %}"
+        >
+          {{ variant.title }}
+        </option>
+      {% endfor %}
+      <option
+        value="-1"
+        data-option1=""
+        data-option2=""
+        data-option3=""
+        data-compare=""
+        data-price="N/A"
+        data-inventory="0"
+        data-show-compare="0"
+      >
+        {{ 'products.product.unavailable' | t }}
+      </option>
+    </select>
+  {% endif %}
+  <input type="hidden" name="quantity" class="{{ prefix }}form-quantity main-product-form-quantity" value="1">
+  <div class="ajax-feedback product-page-feedback"></div>
+
+  <div class="product-key-actions bundle-product-key-actions">
+    <button
+      class="{{ prefix }}-basket btn-basket btn btn-primary w-full btn-slim"
+      {% if current_inventory <= 0 %}
+        disabled
+      {% endif %}
+      data-unavailable-text="{{ 'products.product.unavailable' | t }}"
+      data-sold-out-text="{{ 'products.product.sold_out' | t }}"
+      data-add-to-cart-text="{% if current_inventory > 0 %}<span class='mr-1'>{{ add_to_cart_override }}</span> (<span class='items-count mx-0' data-item-count='1'>1</span> <span class='mr-0'>{{ add_to_cart_override_item }}</span>){% else %}{% endif %}"
+      data-add-to-cart-status="{{ 'products.product.add_to_cart_status' | t }}"
+      data-added-to-cart-text="{{ 'products.product.add_to_cart_success' | t }}"
+    >
+      <div>
+        {% if current_inventory > 0 -%}
+          <span class="mr-2">{{ add_to_cart_override }}</span>(<span class="items-count mx-0" data-item-count="1"
+            >1</span
+          >
+          <span class="mr-0">{{ add_to_cart_override_item }}</span>)
+        {%- else -%}
+          {{- 'products.product.sold_out' | t -}}
+        {%- endif %}
+      </div>
+    </button>
+  </div>
+{% endform %}
+<script>
+  document.addEventListener("DOMContentLoaded", function(){
+      startVariantHandlers('{{ prefix }}')
+  })
+</script>

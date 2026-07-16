@@ -1,0 +1,65 @@
+{% render 'full-breadcrumbs' %}
+
+<div class="account-wrapper login-wrapper">
+
+    <div id="activateAccount">
+
+      {% form 'activate_customer_password' %}
+
+        {% assign passwordEmpty = false %}
+        {% assign passwordConfirmEmpty = false %}
+        {% if form.errors %}
+          <div class="form-error">
+            <div class="title">{{'customer.login.error' | t }}</div>
+            {% for field in form.errors %}
+              {% if form.errors.translated_fields[field] contains 'password confirmation' and form.errors.messages[field] contains "blank" %}
+                <div class="message">{{'customer.activate_account.double_password_error' | t }}</div>
+                {% assign passwordEmpty = true %}
+                {% assign passwordConfirmEmpty = true %}
+              {% elsif form.errors.translated_fields[field] contains 'password confirmation' %}
+                <div class="message">{{'customer.activate_account.password_confirm_error' | t }}</div>
+                {% assign passwordEmpty = true %}
+                {% assign passwordConfirmEmpty = true %}
+              {% else %}
+                <div class="message">{{'customer.activate_account.empty_password_error' | t }}</div>
+                {% assign passwordEmpty = true %}
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <h1>{{ 'customer.activate_account.title' | t }}</h1>
+        <p class="reset-text">{{ 'customer.activate_account.subtext' | t }}</p>
+      
+        <div class="inner-form-wrapper">
+          <div class="form-group">
+            <label for="CustomerPassword" class="label-hidden">
+              {{ 'customer.activate_account.password' | t }}
+            </label>
+            <input type="password"
+              name="customer[password]"
+              id="CustomerPassword"
+              class="{% if passwordEmpty == true %}input-error{% endif %}"
+              placeholder="{{ 'customer.activate_account.password' | t }}">
+          </div>
+        
+          <div class="form-group">
+            <label for="CustomerPasswordConfirmation" class="label-hidden">
+              {{ 'customer.activate_account.password_confirm' | t }}
+            </label>
+            <input type="password"
+              name="customer[password_confirmation]"
+              id="CustomerPasswordConfirmation"
+              class="{% if passwordConfirmEmpty == true %}input-error{% endif %}"
+              placeholder="{{ 'customer.activate_account.password_confirm' | t }}">
+          </div>
+        
+          <div class="button-wrapper">
+            <input type="submit" class="btn btn-account" value="{{ 'customer.activate_account.submit' | t }}">
+            <input type="submit" class="btn btn-account" name="decline" value="{{ 'customer.activate_account.cancel' | t }}">
+          </div>
+        </div>
+      {% endform %}
+    </div>
+</div>
+

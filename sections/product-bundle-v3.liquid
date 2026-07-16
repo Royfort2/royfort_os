@@ -1,0 +1,201 @@
+{% assign swatch_translation_title = 'swatch_option.title' | t %}
+{% assign swatch_translation_slug = 'swatch_option.slug' | t %}
+
+<div class="container-fluid">
+    <div class="row product-detail-row">
+        <div class=" product-col-left">
+            <div class="pbb-product-gallery-images-container" >
+
+            <div class="pbb-product-gallery-thumbnails">
+
+                {% if product.metafields.bundle.bundle_gallery_image_1 == blank %}
+                    {% for image in product.images %}
+                        {% render 'product-bundle-builder__product_gallery_thumbnail', image: image %}
+                    {% endfor %}
+                {% else %}
+                    {% render 'product-bundle-builder__product_gallery_thumbnail', image: product.metafields.bundle.bundle_gallery_image_1 %}
+
+                    {% if product.metafields.bundle.bundle_gallery_image_2 != blank %}
+                        {% render 'product-bundle-builder__product_gallery_thumbnail', image: product.metafields.bundle.bundle_gallery_image_2 %}
+                    {% endif %}
+
+                    {% if product.metafields.bundle.bundle_gallery_image_3 != blank %}
+                        {% render 'product-bundle-builder__product_gallery_thumbnail', image: product.metafields.bundle.bundle_gallery_image_3 %}
+                    {% endif %}
+
+                    {% if product.metafields.bundle.bundle_gallery_image_4 != blank %}
+                        {% render 'product-bundle-builder__product_gallery_thumbnail', image: product.metafields.bundle.bundle_gallery_image_4 %}
+                    {% endif %}
+
+                    {% if product.metafields.bundle.bundle_gallery_image_5 != blank %}
+                        {% render 'product-bundle-builder__product_gallery_thumbnail', image: product.metafields.bundle.bundle_gallery_image_5 %}
+                    {% endif %}
+
+                    {% if product.metafields.bundle.bundle_gallery_image_6 != blank %}
+                        {% render 'product-bundle-builder__product_gallery_thumbnail', image: product.metafields.bundle.bundle_gallery_image_6 %}
+                    {% endif %}
+
+                    {% if product.metafields.bundle.bundle_gallery_image_7 != blank %}
+                        {% render 'product-bundle-builder__product_gallery_thumbnail', image: product.metafields.bundle.bundle_gallery_image_7 %}
+                    {% endif %}
+
+                {% endif%}
+            </div><!-- product-thumbnails -->
+
+            <div class="pbb-product-gallery-images">
+
+                {% if product.metafields.bundle.bundle_gallery_image_1 == blank %}
+                    {% for image in product.images %}
+                        {% render 'product-bundle-builder__product_gallery_image', image: image %}
+                    {% endfor %}
+                {% else %}
+                    {% render 'product-bundle-builder__product_gallery_image', image: product.metafields.bundle.bundle_gallery_image_1 %}
+
+                    {% if product.metafields.bundle.bundle_gallery_image_2 != blank %}
+                        {% render 'product-bundle-builder__product_gallery_image', image: product.metafields.bundle.bundle_gallery_image_2 %}
+                    {% endif %}
+
+                    {% if product.metafields.bundle.bundle_gallery_image_3 != blank %}
+                        {% render 'product-bundle-builder__product_gallery_image', image: product.metafields.bundle.bundle_gallery_image_3 %}
+                    {% endif %}
+
+                    {% if product.metafields.bundle.bundle_gallery_image_4 != blank %}
+                        {% render 'product-bundle-builder__product_gallery_image', image: product.metafields.bundle.bundle_gallery_image_4 %}
+                    {% endif %}
+
+                    {% if product.metafields.bundle.bundle_gallery_image_5 != blank %}
+                        {% render 'product-bundle-builder__product_gallery_image', image: product.metafields.bundle.bundle_gallery_image_5 %}
+                    {% endif %}
+
+                    {% if product.metafields.bundle.bundle_gallery_image_6 != blank %}
+                        {% render 'product-bundle-builder__product_gallery_image', image: product.metafields.bundle.bundle_gallery_image_6 %}
+                    {% endif %}
+
+                    {% if product.metafields.bundle.bundle_gallery_image_7 != blank %}
+                        {% render 'product-bundle-builder__product_gallery_image', image: product.metafields.bundle.bundle_gallery_image_7 %}
+                    {% endif %}
+
+                {% endif %}
+
+            </div><!-- product-large-images -->
+            </div><!-- product-images-container -->
+        </div>
+        <div class="product-col-right zsticky-top">
+            <div class="pbb-product-details">
+                {% render 'product-bundle-builder', product: product %}
+            </div><!-- product-detail -->
+        </div>
+    </div><!-- row -->
+    {% if product.metafields.product.usp_title.size > 0 and product.metafields.product.usp_title[0] != blank %}
+        <div class="section-background product-usp-upper">
+            <div class="container-fluid">
+                <div class="site-usp-container product-unique-usp icon-above" >
+                    {% for usp_title in product.metafields.product.usp_title %}
+                    <div class="usp-item icon-above">
+                        <div class="usp-icon">
+                            {% assign usp_image = product.metafields.product.usp_image[forloop.index0] %}
+                            <div class="">
+                                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{{ usp_image }}" class="lazyload" alt="{{usp_title}}" />
+                            </div><!-- fixed-ratio square -->
+                        </div><!-- usp-icon-->
+                        <div class="usp-content">
+                            <h4 style="color:{{section.settings.usp_content_color}};" class="mb-0 text-14">{{usp_title}}</h4>
+                        </div><!-- usp-content -->
+                    </div><!-- usp-item -->
+                {% endfor %}
+                </div><!-- site-usp-container-->
+            </div><!-- container -->
+        </div><!-- section-background-->
+    {% endif %}
+</div>
+<div class="position-relative">
+    <div class="product-overlay">
+        {% render 'Star_Asset_White' %}
+    </div>
+</div>
+<div class="container-fluid">
+    {% render 'product-tabs' %}
+    {% if media == " " %}
+    <div class="product-video py-5 py-lg-0">
+        {% for media in product.media %}
+            {% if media.media_type == 'external_video' or media.media_type == 'video' %}
+                {{ media | video_tag }}
+            {% endif %}
+        {% endfor %}
+    </div>
+        {% endif %}
+    {% comment %} {% render 'product-reviews-carousel' %} {% endcomment %}
+</div>
+
+{% schema %}
+  {
+    "name": "Product pages",
+        "settings": [
+            {
+                "type": 		"header",
+                "content": 		"Main Image"
+            },
+            {
+                "type":         "select",
+                "id":           "main_ratio",
+                "label":        "Main Image - Fixed Ratio?",
+                "options": [
+                    {
+                        "value": "fixed-ratio square-crop",
+                        "label": "Square (4x4 Cropped)"
+                    },
+                    {
+                        "value": "fixed-ratio square",
+                        "label": "Square (4x4)"
+                    },
+                    {
+                        "value": "",
+                        "label": "No Set Ratio"
+                    }
+                ],
+                "default":   "fixed-ratio square"
+            },
+            {
+                "type": 		"header",
+                "content": 		"Thumbnail Image"
+            },
+            {
+                "type":         "select",
+                "id":           "thumbnail_ratio",
+                "label":        "Thumbnail Image - Fixed Ratio?",
+                "options": [
+                    {
+                        "value": "fixed-ratio square-crop",
+                        "label": "Square (4x4 Cropped)"
+                    },
+                    {
+                        "value": "fixed-ratio square",
+                        "label": "Square (4x4)"
+                    },
+                    {
+                        "value": "",
+                        "label": "No Set Ratio"
+                    }
+                ],
+                "default":   "fixed-ratio square"
+            },
+            {
+                "type": "text",
+                "id": "under_button_message",
+                "label": "Under add to cart message",
+                "default": "*Kostenloser Versand*"
+            },
+            {
+                "type": "color",
+                "id": "pdc_color",
+                "label": "Product discount code font color",
+                "default": "#000000"
+            },
+            {
+                "type": "text",
+                "id": "product_discount_code",
+                "label": "Product discount code (visible on all PDPs)"
+                }
+	    ]
+    }
+{% endschema %}

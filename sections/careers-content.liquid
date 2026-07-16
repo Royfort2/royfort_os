@@ -1,0 +1,64 @@
+ 
+<div class="careers-content">
+    <div class="left-block">
+        {% if section.settings.title_block_one %}<div class="title">{{section.settings.title_block_one}}</div>{% endif %}
+        {% if section.settings.text_block_one %}<div class="description rte">{{section.settings.text_block_one}}</div>{% endif %}
+    </div>
+    <div class="centre-block">
+        <div class="mobile-image">
+            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{{ section.settings.mobile_image | img_url: '760x' }}" class="lazyload img-fluid" alt="{{ section.settings.mobile_image.alt }}">
+        </div>
+        <div class="inner-image-wrapper">
+            <picture>
+                <source media="(min-width: 760px)" data-srcset="{{ section.settings.desktop_image | img_url: '760x' }}">
+                <source media="(min-width: 992px)" data-srcset="{{ section.settings.desktop_image | img_url: '720x' }}">
+                <source media="(min-width: 1440px)" data-srcset="{{ section.settings.desktop_image | img_url: '960x' }}">
+                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{{ section.settings.desktop_image | img_url: '960x' }}" class="lazyload img-fluid" alt="{{ section.settings.desktop_image.alt }}">
+            </picture>
+        </div>
+    </div>
+    <div class="right-block">
+        {% if section.settings.title_block_two %}<div class="title">{{section.settings.title_block_two}}</div>{% endif %}
+        {% if section.settings.text_block_two %}<div class="description rte">{{section.settings.text_block_two}}</div>{% endif %}
+    </div>
+</div>
+
+{% schema %}
+{
+"name":   "Content Block",
+"settings": [
+    {
+        "type": 		"text",
+        "id": 			"title_block_one",
+        "label": 		"Title Block 1"
+    },
+    {
+		"type": 		"richtext",
+		"id": 			"text_block_one",
+      	"label": 		"Text Block 1"
+    },
+    {
+        "type": 		"text",
+        "id": 			"title_block_two",
+        "label": 		"Title Block 2"
+    },
+    {
+		"type": 		"richtext",
+		"id": 			"text_block_two",
+      	"label": 		"Text Block 2"
+    },
+    {
+        "type": "image_picker",
+        "id": "desktop_image",
+        "label": "Desktop Image",
+        "info": "Image aspect ratio should be 1:1"
+    },
+    {
+        "type": "image_picker",
+        "id": "mobile_image",
+        "label": "Mobile Image - Content Block",
+        "info": "Image aspect ratio should be 1:1. This appears amongst content blocks at mobile."
+    }
+]
+}
+{% endschema %}

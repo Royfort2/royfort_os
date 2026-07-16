@@ -1,0 +1,49 @@
+<div class="container-fluid">
+    <div id="main-reviews" class="section-main-reviews">
+        <template data-template="stamped-review-product-main">
+            <div class="product-review">
+                <div>
+                    <div class="rating">@ratingStars</div>
+                    <div class="title">@title</div>
+                    <div class="name">@name @verified - @date</div>
+                    <div class="content">@content</div>
+                </div>
+                <div class="product">@product</div>
+            </div>
+        </template>
+        <div class="main">
+            <h3 class="text-center">{{ section.settings.title }}</h3>
+            <div class="summary">
+                <p class="total"><span></span> {{ 'general.reviews.reviews' | t }}</p>
+                <p class="total-rating"></p>
+                <p class="total-stars"><span></span> / {{ 'general.reviews.5_stars' | t }}</p>
+            </div>
+            <div id="stamped-reviews-widget" data-widget-type="full-page" data-take="2"></div>
+            <!-- <div class="reviews" style="display:block"></div> -->
+            <!-- <div id="stamped-reviews-widget" data-widget-type="full-page" data-take="2"></div> -->
+            <!-- <div class="text-center">
+                <div class="btn btn-hollow reviews-fetch btn-reviews-fetch-more">{{ 'general.reviews.read_more' | t }}</div>
+                <div id="pagination_link"></div>
+            </div> -->
+        </div>
+    </div>
+</div>
+
+{% schema %}
+{
+    "name": "Main Review Section",
+    "settings": [
+        {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+        }
+    ],
+	"presets": [
+        {
+        "name": "Main Review Section",
+        "category": "Reviews"
+        }
+    ]
+}
+{% endschema %}

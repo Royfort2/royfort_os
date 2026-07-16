@@ -1,0 +1,20 @@
+<div id="product-detail-page">
+  {% section 'product-3d' %}
+
+    <div class="yotpo yotpo-main-widget"
+         data-product-id="{{ product.id }}"
+         data-name="{{ product.title | escape }}"
+         data-url="{{ shop.url }}{{ product.url }}"
+         data-image-url="{{ product.featured_image | product_img_url: 'large' |replace: '?', '%3F' | replace: '&','%26'}}"
+         data-price="{{ variant.price | money_without_currency }}"
+         data-currency="{{ shop.currency }}"
+         data-description="{{ product.description | escape }}">
+    </div>
+    {% section 'mattress-shared' %}
+    {% section 'mattress-usp' %}
+    {% section 'product-reviews' %}
+    {% section 'product-footer' %}
+
+</div><!-- product-detail-page -->
+{% render 'product-bottom-fixed' %}
+{% section 'new-content-block-product' %}

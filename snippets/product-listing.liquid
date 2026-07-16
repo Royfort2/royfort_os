@@ -1,0 +1,866 @@
+{% comment %}
+  BG: Here we are determining which product labels to show (if any).
+{% endcomment %}
+
+{% if product.variants.size > 1 %}
+  {% for option in product.options %}
+    {% if option == "Shade" or option == "shade" %}
+      {% assign labelLeftClass = "colour-options" %}
+      {% capture labelLeftContent %}
+        <span class="colour-text">{{'collections.general.more_colours' | t}}</span>
+        {% render 'icon-colour-wheel'%}{% endcapture %}
+    {% endif %}
+  {% endfor %}
+{% endif%}
+
+
+{% for tag in product.tags %}
+  {% if tag contains 'label_right' %}
+    {% assign labelRightContent = tag | remove: "label_right_" | replace: "_", " " | capitalize %}
+    {% assign labelRightClass = tag | remove: "label_right_" | downcase %}
+  {% endif %}
+  {% if tag contains 'label_left' %}
+    {% assign labelLeftContent = tag | remove: "label_left_" | replace: "_", " " | capitalize %}
+    {% assign labelLeftClass = tag | remove: "label_left_" | downcase %}
+  {% endif %}
+{% endfor %}
+
+{% if product.metafields.global["label_left"] %}
+  {% assign labelLeftContent = product.metafields.global["label_left"] %}
+  {% assign labelLeftClass = "text" %}
+{% endif %}
+
+{% if product.metafields.exhibitor.image != blank %}
+ {% assign exhibitorImagecontent = product.metafields.exhibitor.image %}
+{% else %}
+
+{% if product.metafields.exhibitor.video !=  blank %}
+
+ {% assign exhibitorImagecontent = product.metafields.exhibitor.video %}
+
+{% else %}
+
+ {% assign exhibitorImagecontent = product.metafields.exhibitor.background_color %}
+
+{% endif %}
+{% endif %}
+
+
+
+{% if product.compare_at_price > product.price %}
+
+
+
+  {%- comment -%}
+    {% capture labelRightContent %}-{{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | money_without_currency | times: 100 | remove: '.0'}}%{% endcapture%}
+  {%- endcomment -%}
+
+  {% capture labelRightContent %}-{{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | remove: '.0' | round}}%{% endcapture%}
+
+
+
+  {% assign labelRightClass = "percentage" %}
+{% endif %}
+
+{% comment %}
+  BG: Here we are determine if the product has more than one image, and if a variant has a lifestyle image.
+{% endcomment %}
+{% assign shadeImages = '' %}
+{% assign shadeNames = ''%}
+{% for image in product.images %}
+  {% if image.alt contains 'shade_' %}
+    {% assign name = image.alt | downcase| replace: " ", "" | remove: "shade_" %}
+    {% assign shadeNames = shadeNames | append: name | append: ',' %}
+    {% assign smallImage = image | img_url: 'master' %}
+    {% assign shadeImages = shadeImages | append: smallImage | append: ','%}
+  {% endif %}
+{% endfor %}
+
+
+ 
+  {% if product.images.size > 1 %}
+  {% assign imageHover = "product-image-hover"%}
+  {% else %}
+  {% assign imageHover = "" %}
+  {% endif %} 
+
+{% if exhibitor == true %}
+
+{% if product.metafields.exhibitor.image != blank or product.metafields.exhibitor.video !=  blank or product.metafields.exhibitor.background_color !=  blank %}
+
+{% for exhibitorImage in exhibitorImagecontent%}
+                            {% assign exhibitor_index = forloop.index0 %}
+                              {% if product.metafields.exhibitor.left_product[exhibitor_index] contains 'true' %}
+                        <div class="product-listing">
+                        {% if product.metafields.exhibitor.video[exhibitor_index] !=  blank %}
+                        			<div class="video-button">
+		                        <video autoplay="" playsinline="" muted="" loop="" class="w-full my-video" class="video-exhibitor-{{product.id}}-{{exhibitor_index}}">
+                        <source src="{{product.metafields.exhibitor.video[exhibitor_index]}}" 	type="video/mp4"/>
+                        </video>
+				<span class="button-container"><div class="Play_Pause-{{product.id}}-{{exhibitor_index}}" role="button" aria-label="Play video" class="w-large h-large rounded-full flex items-center bg-surface justify-center border-0 text-center">
+					<img class="play-button-{{product.id}}-{{exhibitor_index}}" style="cursor: pointer" src="{{ 'playbutton.svg' | asset_url }}" width="20" height="20" />
+				    <img class="pause-button-{{product.id}}-{{exhibitor_index}}" style="cursor: pointer" src="{{ 'pauseButton.svg' | asset_url }}" width="20" height="20" />
+				</div></span>
+                <script>
+window.addEventListener ("DOMContentLoaded",handleWindowLoad) 
+function handleWindowLoad ()
+{
+    let Video = document.getElementById( "video-exhibitor-{{product.id}}-{{exhibitor_index}}" );
+    let PlayButton = document.getElementById( "Play_Pause-{{product.id}}-{{exhibitor_index}}" );
+	let playBtn = document.querySelector(".play-button-{{product.id}}-{{exhibitor_index}}");
+	let pauseBtn = document.querySelector(".pause-button-{{product.id}}-{{exhibitor_index}}");
+    PlayButton.addEventListener ( "click", Play_Pause_Video ) ;
+    function Play_Pause_Video () {
+        if (Video.paused === true)
+        {
+            Video.play();
+			playBtn.style.display = "flex"
+			pauseBtn.style.display = "none";
+        }
+        else
+        {
+            Video.pause();
+			playBtn.style.display = "none"
+			pauseBtn.style.display = "flex";
+        }
+    }
+}
+</script>
+				</div>
+
+                                              {% else %}
+                        {% if product.metafields.exhibitor.background_color[exhibitor_index] !=  blank %}
+                          <div class="exhibitor-box-collection-{{exhibitor_index}}">
+                                  {% if product.metafields.exhibitor.button_link[exhibitor_index] !=blank %}
+                         <a href="{{product.metafields.exhibitor.button_link[exhibitor_index]}}" class="exhibitor-text" style="height: 100%;">
+                        {% endif %}
+                        <div class="exhibitor-content exhibitor-collection-{{exhibitor_index}}">
+               
+                        <div class="desktop-text">
+                        {% if product.metafields.exhibitor.title[exhibitor_index] != blank %}
+                        {{product.metafields.exhibitor.title[exhibitor_index]}} 
+                        {% endif %}
+                        {% if product.metafields.exhibitor.text[exhibitor_index] != blank %}
+                        {{product.metafields.exhibitor.text[exhibitor_index]}}
+                         {% endif %}
+                        </div>
+                        <div class="mobile-text">
+                        {% if product.metafields.exhibitor.title_mobile[exhibitor_index] != blank %}
+                        {{product.metafields.exhibitor.title_mobile[exhibitor_index]}} 
+                        {% endif %}
+                        {% if product.metafields.exhibitor.text_mobile[exhibitor_index] != blank %}
+                        {{product.metafields.exhibitor.text_mobile[exhibitor_index]}}
+                         {% endif %}
+                        </div>
+                            {% if product.metafields.exhibitor.button[exhibitor_index] != blank and product.metafields.exhibitor.disable_button[exhibitor_index] contains 'true' %}
+                            {% if product.metafields.exhibitor.white_button[exhibitor_index] %}
+                        <button class="btn btn btn-custom btn-secondary">
+                       {{product.metafields.exhibitor.button[exhibitor_index]}}
+                        </button>
+                        {% else %}
+                    <button class="btn btn btn-tertiary btn-custom-1">
+                       {{product.metafields.exhibitor.button[exhibitor_index]}}
+                        </button>
+                        {% endif %}
+                               {% endif %}
+                          {% if product.metafields.exhibitor.stars[exhibitor_index] contains 'true' %}
+                        <div style="display: flex;" class="exhibitor-stars">
+                        <i aria-hidden="true" class="stamped-fa fa-star"></i>
+                        <i aria-hidden="true" class="stamped-fa fa-star"></i>
+                        <i aria-hidden="true" class="stamped-fa fa-star"></i>
+                        <i aria-hidden="true" class="stamped-fa fa-star"></i>
+                        <i aria-hidden="true" class="stamped-fa fa-star"></i>
+                        </div>
+                           {% endif%}
+                        </div>
+                                {% if product.metafields.exhibitor.button_link[exhibitor_index] !=blank %}
+                        </a>
+                        {% endif %}
+                        <style>
+
+                @media (max-width: 768px) {
+                        .desktop-text {
+                          display: none;
+
+                        }
+                        .mobile-text {
+                          display: block;
+                          margin: 1.5rem 0 0 0;
+
+                        }
+                        
+                    }
+                  @media (min-width: 768px) {
+                        .mobile-text {
+                          display: none;
+                          margin: 0;
+
+                        }
+                    .desktop-text {
+                          display: block;
+
+                        }
+                  }
+                        .btn-custom {
+                          border: unset;
+                        }
+                        .exhibitor-collection-{{exhibitor_index}} p {
+                          color: {{product.metafields.exhibitor.text_color[exhibitor_index]}};
+                        }
+                    .exhibitor-box-collection-{{exhibitor_index}} {
+                        background-color: {{product.metafields.exhibitor.background_color[exhibitor_index]}};
+                        height: 100%;
+                        background-size: 100% 100%;
+                        background-repeat: no-repeat;
+                    }
+                    .exhibitor-content {
+                        display: flex;
+                        flex-direction: column;
+                        width: 80%;
+                        margin: auto;
+                        align-items: center;
+                        justify-content: center;
+                        align-content: center;
+                        height: 100%;
+                        text-align: center;
+                        color: white;
+                    }
+                    .exhibitor-content a {
+                        text-decoration: none !important;
+                        color: white !important;
+                    }
+                    .exhibitor-text {
+                        text-decoration: none !important;
+                    }
+                    .exhibitor-text:hover {
+                        text-decoration: none !important;
+                        color: unset !important;
+                    }
+                    .exhibitor-content a:hover {
+                        text-decoration: none !important;
+                    }
+                    .exhibitor-content button:hover {
+                        text-decoration: none !important;
+                    }
+                    .btn-custom-1:hover {
+                      background-color: unset !important;
+                      color: #333 !important;
+                    }
+                    .exhibitor-stars {
+                      margin: .8rem 0;
+                    }
+                    </style>
+             
+                        {% else %}
+                        {% for image in product.metafields.exhibitor.image[exhibitor_index] %}
+                        <div class="exhibitor-img-collection-{{product.id}}-{{exhibitor_index}}">
+                                {% if product.metafields.exhibitor.button_link[exhibitor_index] !=blank %}
+                         <a href="{{product.metafields.exhibitor.button_link}}" class="exhibitor-text" style="height: 100%;">
+                         {% endif %}
+                        <div class="exhibitor-content exhibitor-collection-{{exhibitor_index}} ">
+                        <div class="desktop-text">
+                        {% if product.metafields.exhibitor.title[exhibitor_index] != blank %}
+                        {{product.metafields.exhibitor.title[exhibitor_index]}} 
+                        {% endif %}
+                        {% if product.metafields.exhibitor.text[exhibitor_index] != blank %}
+                        {{product.metafields.exhibitor.text[exhibitor_index]}}
+                         {% endif %}
+                        </div>
+                        <div class="mobile-text">
+                        {% if product.metafields.exhibitor.title_mobile[exhibitor_index] != blank %}
+                        {{product.metafields.exhibitor.title_mobile[exhibitor_index]}} 
+                        {% endif %}
+                        {% if product.metafields.exhibitor.text_mobile[exhibitor_index] != blank %}
+                        {{product.metafields.exhibitor.text_mobile[exhibitor_index]}}
+                         {% endif %}
+                        </div>
+                            {% if product.metafields.exhibitor.button != blank and product.metafields.exhibitor.disable_button contains 'true' %}
+                            {% if product.metafields.exhibitor.white_button[exhibitor_index] %}
+                        <button class="btn btn btn-custom btn-secondary">
+                       {{product.metafields.exhibitor.button[exhibitor_index]}}
+                        </button>
+                        {% else %}
+                    <button class="btn btn btn-tertiary btn-custom-1">
+                       {{product.metafields.exhibitor.button[exhibitor_index]}}
+                        </button>
+                        {% endif %}
+                               {% endif %}
+                        {% if product.metafields.exhibitor.stars[exhibitor_index] contains 'true' %}
+                        <div style="display: flex;" class="exhibitor-stars">
+                        <i aria-hidden="true" class="stamped-fa fa-star"></i>
+                        <i aria-hidden="true" class="stamped-fa fa-star"></i>
+                        <i aria-hidden="true" class="stamped-fa fa-star"></i>
+                        <i aria-hidden="true" class="stamped-fa fa-star"></i>
+                        <i aria-hidden="true" class="stamped-fa fa-star"></i>
+                        </div>
+                           {% endif%}
+                        </div>
+                                {% if product.metafields.exhibitor.button_link[exhibitor_index] !=blank %}
+                        </a>
+                        {% endif %}
+                        <style>
+                    .btn-custom {
+                          border: unset;
+                        }
+                    .exhibitor-collection-{{exhibitor_index}}  {
+                          color: {{product.metafields.exhibitor.text_color[exhibitor_index]}};
+                        }
+                        .exhibitor-collection-{{exhibitor_index}} p {
+                          color: {{product.metafields.exhibitor.text_color[exhibitor_index]}};
+                        }
+
+                @media (max-width: 768px) {
+                        .desktop-text {
+                          display: none;
+
+                        }
+                        .mobile-text {
+                          display: block;
+                          margin: 1.5rem 0 0 0;
+
+                        }
+                        
+                    }
+                  @media (min-width: 768px) {
+                        .mobile-text {
+                          display: none;
+                          margin: 0;
+
+                        }
+                    .desktop-text {
+                          display: block;
+
+                        }
+                  }
+                    .exhibitor-img-collection-{{product.id}}-{{exhibitor_index}} {
+                        background-image: url('{{exhibitorImage[0].src}}');
+                        height: 100%;
+                        background-size: cover;
+                        background-repeat: no-repeat;
+                    }
+                    .exhibitor-content {
+                        display: flex;
+                        flex-direction: column;
+                        width: 80%;
+                        margin: auto;
+                        align-items: center;
+                        justify-content: center;
+                        align-content: center;
+                        height: 100%;
+                        text-align: center;
+           
+                    }
+                    .exhibitor-content a {
+                        text-decoration: none !important;
+                        color: white !important;
+                    }
+                    .exhibitor-text {
+                        text-decoration: none !important;
+                    }
+                    .exhibitor-text:hover {
+                        text-decoration: none !important;
+                        color: unset !important;
+                    }
+                    .exhibitor-content a:hover {
+                        text-decoration: none !important;
+                    }
+                    .exhibitor-content button:hover {
+                        text-decoration: none !important;
+                    }
+
+                    .exhibitor-stars {
+                      margin: .8rem 0;
+                    }
+                    .btn-custom-1:hover {
+                      background-color: unset !important;
+                    color: #333 !important;
+                    }
+                    </style>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+            {% endif %}
+
+            <style>
+                .pause-button-{{product.id}}-{{exhibitor_index}} {
+                    display: none;
+                    cursor: pointer;
+                }
+                .video-button {
+                    position: relative;
+                }
+                .button-container {
+                    position: absolute;
+                    bottom: 15px;
+                    left: 5px;
+                    display: block;
+                }
+                .rounded-full {
+                    width: 40px;
+                    height: 40px;
+                    background: white;
+                    border-radius: 50%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+                </style>
+                     </div>
+                     {% endif %}
+                                    {% endfor %}
+
+                        {% endif %}
+                             {% endif %}
+
+<div class="product-listing" data-product-id="{{product.id}}" data-test="{{product.type}}">
+
+  {%comment%}
+    BG: We use the below markup to find additional variant images, and create a list with the shade name and image path, we then use JS to append it to the assiocated variant list within the prodct swatch listing
+  {% endcomment %}
+  {% assign variantShadeImages = shadeImages | split: ','%}
+  {% assign variantShadeNames = shadeNames | split: ','%}
+  {% if variantShadeNames != blank %}
+    <div class="variant-shades d-none">
+      <ul>
+        {% for shade in variantShadeNames %}
+          <li data-variant-name="{{shade}}" data-variant-image="{{ variantShadeImages[forloop.index0] }}"></li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+  <div class="product-image {{imageHover}}">
+           <a href="{{ product.url }}" 
+          onclick="trackSelectItem({
+          item_id: '{{product.selected_or_first_available_variant.sku}}',
+          item_name: '{{product.title}}',
+          affiliation: '{{shop.name}}',
+          currency: '{{ shop.currency }}',
+          index: {{ index }},
+          item_brand: '{{shop.name}}', 
+          item_category   : '{{collection.title}}',
+          item_variant    : '{{product.selected_or_first_available_variant.title}}',
+          price           : {{product.price | money_without_currency | remove: "," }},
+          image_url       : 'https:{{product.featured_image.src|img_url: 'grande'}}', 
+          stock           : {{product.selected_or_first_available_variant.inventory_quantity}},
+          item_product_id : '{{product.id}}',
+          item_shopify_id : 'shopify_' + '{{request.locale.iso_code | upcase}}' + '_' + '{{product.id}}' + '_' + '{{product.selected_or_first_available_variant.id}}',
+          item_variant_id : '{{product.selected_or_first_available_variant.id}}',
+          quantity        : 1
+          })">
+      <img class="img-fluid lazyload default" data-src="{{ product.featured_image.src | img_url: '365x' }}" {% if imageHover == "product-image-hover" %}data-second-image="{{ product.images[1].src | img_url: 'master' }}"{% endif %} alt="{{ product.title }}" width="600" heigh="600">
+      {% if labelLeftContent != blank  %}
+        <span class="label-left {{labelLeftClass}}">
+          <span class="clamp">{{labelLeftContent}}</span>
+        </span>
+      {% endif %}
+      {% if labelRightContent != blank %}
+        <span class="label-right {{labelRightClass}}">{{labelRightContent}}</span>
+      {% endif %}
+    </a>
+  </div>
+  <!-- product-image -->
+  <div class="product-details">
+
+    <p class="product-title text-secondary text-left">
+      <a class="" href="{{ product.url }}" title="{{ product.title }}">{{ product.title }}</a>
+    </p>
+    {% render 'product-min-swatch' with product as product %}
+    {% if product.metafields.global["offer"] != blank %}
+      <span class="product-offer-text" title="{{product.metafields.global["offer"]}}">{{product.metafields.global["offer"] | truncatewords: 10}}</span>
+    {% endif %}
+    {% assign additional_price = product.metafields.bundle.price %}
+    {% assign discount_price = product.metafields.bundle.discountedprice %}
+    <div class="product-price-container">
+      {% if additional_price != blank %}
+        <div class="">
+          {% if discount_price != blank %}
+            {% if product.price_varies %}
+              <span class="additional-money-new-style money">{{'products.product.from_price' | t}}</span>
+            {% endif %}
+            <span class="additional-money-new-style money" style="text-decoration: line-through">{{ cart.currency.symbol | strip }} {{ additional_price | strip }}</span>
+            <span class="original-price money " style="text-decoration: unset">{{ cart.currency.symbol | strip }} {{discount_price | strip }}</span>
+          {% else %}
+            {% if product.price_varies %}
+              <span class="additional-money-new-style money">{{'products.product.from_price' | t}}</span>
+            {% endif %}
+            <span class="additional-money-new-style money">{{ cart.currency.symbol | strip }} {{ additional_price | strip }}</span>
+          {% endif %}
+        </div>
+        <!-- product-price -->
+        <span class="price-per-ml">{{ product.metafields.global["price_per"] }}</span>
+      {% else %}
+        <div class="">
+          {% if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}
+            <span class="money ">
+              {% if product.price_varies %}
+                {{'products.product.from_price' | t}}
+              {% endif %}
+              {% if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}
+                <span style="text-decoration: line-through">
+                  {{product.selected_or_first_available_variant.compare_at_price | money }}
+                </span>
+              {% endif %}
+              <span class="original-price money " style="text-decoration: unset;">
+                {{ product.selected_or_first_available_variant.price | money }}</span>
+
+            </span>
+          {%- else -%}
+
+
+            <span class="money ">
+              {% if product.price_varies %}
+                {{'products.product.from_price' | t}}
+              {% endif %}
+              {{ product.selected_or_first_available_variant.price | money }}</span>
+            <span class="original-price money ">
+              {% if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}
+                {{product.selected_or_first_available_variant.compare_at_price | money }}{% endif %}
+            </span>
+
+          {% endif %}
+        </div>
+        <!-- product-price -->
+        <span class="price-per-ml">{{ product.metafields.global["price_per"] }}</span>
+      {% endif %}
+
+    </div>
+    <!-- product-price-container -->
+
+    {% comment %}
+      BG: Due to limitations with the mbcBundle app, we have to remove the product actions on the PLP.
+    {% endcomment %}
+
+  </div>
+  <!-- product-details -->
+</div>
+<!-- product-single -->
+{% if exhibitor == true %}
+
+{% if product.metafields.exhibitor.image != blank or product.metafields.exhibitor.video != blank or product.metafields.exhibitor.background_color != blank %}
+
+{% for exhibitorImage in exhibitorImagecontent %}
+                            {% assign exhibitor_index = forloop.index0 %}
+                             {% if product.metafields.exhibitor.left_product[exhibitor_index] contains 'true' %}
+                             {% else %}
+                        <div class="product-listing" >
+                        {% if product.metafields.exhibitor.video[exhibitor_index] !=  blank %}
+                        			<div class="video-button">
+		                        <video autoplay="" playsinline="" muted="" loop="" class="w-full my-video" id="video-exhibitor-{{product.id}}-{{exhibitor_index}}">
+                        <source src="{{product.metafields.exhibitor.video[exhibitor_index]}}" 	type="video/mp4"/>
+                        </video>
+				<span class="button-container"><div id="Play_Pause-{{product.id}}-{{exhibitor_index}}" role="button" aria-label="Play video" class="w-large h-large rounded-full flex items-center bg-surface justify-center border-0 text-center">
+					<img class="play-button-{{product.id}}-{{exhibitor_index}}" style="cursor: pointer" src="{{ 'playbutton.svg' | asset_url }}" width="20" height="20" />
+				    <img class="pause-button-{{product.id}}-{{exhibitor_index}}" style="cursor: pointer" src="{{ 'pauseButton.svg' | asset_url }}" width="20" height="20" />
+				</div></span>
+                <script>
+              window.addEventListener ("DOMContentLoaded",handleWindowLoad) 
+              function handleWindowLoad ()
+              {
+                  let Video = document.getElementById( "video-exhibitor-{{product.id}}-{{exhibitor_index}}" );
+                  let PlayButton = document.getElementById( "Play_Pause-{{product.id}}-{{exhibitor_index}}" );
+                let playBtn = document.querySelector(".play-button-{{product.id}}-{{exhibitor_index}}");
+                let pauseBtn = document.querySelector(".pause-button-{{product.id}}-{{exhibitor_index}}");
+                  PlayButton.addEventListener ( "click", Play_Pause_Video ) ;
+                  function Play_Pause_Video () {
+                      if (Video.paused === true)
+                      {
+                          Video.play();
+                    playBtn.style.display = "flex"
+                    pauseBtn.style.display = "none";
+                      }
+                      else
+                      {
+                          Video.pause();
+                    playBtn.style.display = "none"
+                    pauseBtn.style.display = "flex";
+                      }
+                  }
+              }
+              </script>
+				</div>
+
+                                              {% else %}
+                        {% if product.metafields.exhibitor.background_color[exhibitor_index] !=  blank %}
+                          <div class="exhibitor-box-collection-{{exhibitor_index}}">
+                                  {% if product.metafields.exhibitor.button_link[exhibitor_index] !=blank %}
+                         <a href="{{product.metafields.exhibitor.button_link[exhibitor_index]}}" class="exhibitor-text" style="height: 100%;">
+                        {% endif %}
+                        <div class="exhibitor-content exhibitor-collection-{{exhibitor_index}}">
+                        <div class="desktop-text">
+                        {% if product.metafields.exhibitor.title[exhibitor_index] != blank %}
+                        {{product.metafields.exhibitor.title[exhibitor_index]}} 
+                        {% endif %}
+                        {% if product.metafields.exhibitor.text[exhibitor_index] != blank %}
+                        {{product.metafields.exhibitor.text[exhibitor_index]}}
+                         {% endif %}
+                        </div>
+                        <div class="mobile-text">
+                        {% if product.metafields.exhibitor.title_mobile[exhibitor_index] != blank %}
+                        {{product.metafields.exhibitor.title_mobile[exhibitor_index]}} 
+                        {% endif %}
+                        {% if product.metafields.exhibitor.text_mobile[exhibitor_index] != blank %}
+                        {{product.metafields.exhibitor.text_mobile[exhibitor_index]}}
+                         {% endif %}
+                        </div>
+              
+                            {% if product.metafields.exhibitor.button[exhibitor_index] != blank and product.metafields.exhibitor.disable_button[exhibitor_index] contains 'true' %}
+                            {% if product.metafields.exhibitor.white_button[exhibitor_index] %}
+                        <button class="btn btn btn-custom btn-secondary">
+                       {{product.metafields.exhibitor.button[exhibitor_index]}}
+                        </button>
+                        {% else %}
+                    <button class="btn btn btn-tertiary btn-custom-1">
+                       {{product.metafields.exhibitor.button[exhibitor_index]}}
+                        </button>
+                        {% endif %}
+                               {% endif %}
+                          {% if product.metafields.exhibitor.stars[exhibitor_index] contains 'true' %}
+                        <div style="display: flex;" class="exhibitor-stars">
+                        <i aria-hidden="true" class="stamped-fa fa-star"></i>
+                        <i aria-hidden="true" class="stamped-fa fa-star"></i>
+                        <i aria-hidden="true" class="stamped-fa fa-star"></i>
+                        <i aria-hidden="true" class="stamped-fa fa-star"></i>
+                        <i aria-hidden="true" class="stamped-fa fa-star"></i>
+                        </div>
+                           {% endif%}
+                        </div>
+                                {% if product.metafields.exhibitor.button_link[exhibitor_index] !=blank %}
+                        </a>
+                        {% endif %}
+                        <style>
+
+                @media (max-width: 768px) {
+                        .desktop-text {
+                          display: none;
+
+                        }
+                        .mobile-text {
+                          display: block;
+                          margin: 1.5rem 0 0 0;
+
+                        }
+                        
+                    }
+                  @media (min-width: 768px) {
+                        .mobile-text {
+                          display: none;
+                          margin: 0;
+
+                        }
+                    .desktop-text {
+                          display: block;
+
+                        }
+                  }
+                        .btn-custom {
+                          border: unset;
+                        }
+                        .exhibitor-collection-{{exhibitor_index}} p {
+                          color: {{product.metafields.exhibitor.text_color[exhibitor_index]}};
+                        }
+                    .exhibitor-box-collection-{{exhibitor_index}} {
+                        background-color: {{product.metafields.exhibitor.background_color[exhibitor_index]}};
+                        height: 100%;
+                        background-size: 100% 100%;
+                        background-repeat: no-repeat;
+                    }
+                    .exhibitor-content {
+                        display: flex;
+                        flex-direction: column;
+                        width: 80%;
+                        margin: auto;
+                        align-items: center;
+                        justify-content: center;
+                        align-content: center;
+                        height: 100%;
+                        text-align: center;
+                        color: white;
+                    }
+                    .exhibitor-content a {
+                        text-decoration: none !important;
+                        color: white !important;
+                    }
+                    .exhibitor-text {
+                        text-decoration: none !important;
+                    }
+                    .exhibitor-text:hover {
+                        text-decoration: none !important;
+                        color: unset !important;
+                    }
+                    .exhibitor-content a:hover {
+                        text-decoration: none !important;
+                    }
+                    .exhibitor-content button:hover {
+                        text-decoration: none !important;
+                    }
+                    .btn-custom-1:hover {
+                      background-color: unset !important;
+                      color: #333 !important;
+                    }
+                    .exhibitor-stars {
+                      margin: .8rem 0;
+                    }
+                    </style>
+             
+                        {% else %}
+                        {% for image in product.metafields.exhibitor.image[exhibitor_index] %}
+                        <div class="exhibitor-img-collection-{{product.id}}-{{exhibitor_index}}">
+                                {% if product.metafields.exhibitor.button_link[exhibitor_index] !=blank %}
+                         <a href="{{product.metafields.exhibitor.button_link}}" class="exhibitor-text" style="height: 100%;">
+                         {% endif %}
+                        <div class="exhibitor-content exhibitor-collection-{{exhibitor_index}}">
+                             <div class="desktop-text">
+                        {% if product.metafields.exhibitor.title[exhibitor_index] != blank %}
+                        {{product.metafields.exhibitor.title[exhibitor_index]}} 
+                        {% endif %}
+                        {% if product.metafields.exhibitor.text[exhibitor_index] != blank %}
+                        {{product.metafields.exhibitor.text[exhibitor_index]}}
+                         {% endif %}
+                        </div>
+                        <div class="mobile-text">
+                        {% if product.metafields.exhibitor.title_mobile[exhibitor_index] != blank %}
+                        {{product.metafields.exhibitor.title_mobile[exhibitor_index]}} 
+                        {% endif %}
+                        {% if product.metafields.exhibitor.text_mobile[exhibitor_index] != blank %}
+                        {{product.metafields.exhibitor.text_mobile[exhibitor_index]}}
+                         {% endif %}
+                        </div>
+                            {% if product.metafields.exhibitor.button != blank and product.metafields.exhibitor.disable_button contains 'true' %}
+                            {% if product.metafields.exhibitor.white_button[exhibitor_index] %}
+                        <button class="btn btn-custom btn-secondary">
+                       {{product.metafields.exhibitor.button[exhibitor_index]}}
+                        </button>
+                        {% else %}
+                    <button class="btn btn-tertiary btn-custom-1">
+                       {{product.metafields.exhibitor.button[exhibitor_index]}}
+                        </button>
+                        {% endif %}
+                               {% endif %}
+                        {% if product.metafields.exhibitor.stars[exhibitor_index] contains 'true' %}
+                        <div style="display: flex;" class="exhibitor-stars">
+                        <i aria-hidden="true" class="stamped-fa fa-star"></i>
+                        <i aria-hidden="true" class="stamped-fa fa-star"></i>
+                        <i aria-hidden="true" class="stamped-fa fa-star"></i>
+                        <i aria-hidden="true" class="stamped-fa fa-star"></i>
+                        <i aria-hidden="true" class="stamped-fa fa-star"></i>
+                        </div>
+                           {% endif%}
+                        </div>
+                                {% if product.metafields.exhibitor.button_link[exhibitor_index] !=blank %}
+                        </a>
+                        {% endif %}
+                        <style>
+
+
+                @media (max-width: 768px) {
+                        .desktop-text {
+                          display: none;
+
+                        }
+                        .mobile-text {
+                          display: block;
+                          margin: 1.5rem 0 0 0;
+
+                        }
+                        
+                    }
+                  @media (min-width: 768px) {
+                        .mobile-text {
+                          display: none;
+                          margin: 0;
+
+                        }
+                    .desktop-text {
+                          display: block;
+
+                        }
+                  }
+                    .btn-custom {
+                          border: unset;
+                        }
+                    .exhibitor-collection-{{exhibitor_index}}  {
+                          color: {{product.metafields.exhibitor.text_color[exhibitor_index]}};
+                        }
+                        .exhibitor-collection-{{exhibitor_index}} p {
+                          color: {{product.metafields.exhibitor.text_color[exhibitor_index]}};
+                        }
+                    .exhibitor-img-collection-{{product.id}}-{{exhibitor_index}} {
+                        background-image: url('{{exhibitorImage[0].src}}');
+                        height: 100%;
+                        background-size: cover;
+                        background-repeat: no-repeat;
+                    }
+                    .exhibitor-content {
+                        display: flex;
+                        flex-direction: column;
+                        width: 80%;
+                        margin: auto;
+                        align-items: center;
+                        justify-content: center;
+                        align-content: center;
+                        height: 100%;
+                        text-align: center;
+           
+                    }
+                    .exhibitor-content a {
+                        text-decoration: none !important;
+                        color: white !important;
+                    }
+                    .exhibitor-text {
+                        text-decoration: none !important;
+                    }
+                    .exhibitor-text:hover {
+                        text-decoration: none !important;
+                        color: unset !important;
+                    }
+                    .exhibitor-content a:hover {
+                        text-decoration: none !important;
+                    }
+                    .exhibitor-content button:hover {
+                        text-decoration: none !important;
+                    }
+
+                    .exhibitor-stars {
+                      margin: .8rem 0;
+                    }
+                    .btn-custom-1:hover {
+                      background-color: unset !important;
+                    color: #333 !important;
+                    }
+                    </style>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+            {% endif %}
+
+            <style>
+                .pause-button-{{product.id}}-{{exhibitor_index}} {
+                    display: none;
+                    cursor: pointer;
+                }
+                .video-button {
+                    position: relative;
+                }
+                .button-container {
+                    position: absolute;
+                    bottom: 15px;
+                    left: 5px;
+                    display: block;
+                }
+                .rounded-full {
+                    width: 40px;
+                    height: 40px;
+                    background: white;
+                    border-radius: 50%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+                </style>
+                     </div>
+                 
+                      {% endif %}
+                                    {% endfor %}
+
+                        {% endif %}
+                             {% endif %}

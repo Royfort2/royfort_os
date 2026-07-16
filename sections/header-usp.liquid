@@ -1,0 +1,565 @@
+{% case section.settings.block_show %}
+    {% when 1 %}
+        {% assign blockShow = "blocks-one" %}
+    {% when 2 %}
+        {% assign blockShow = "blocks-two" %}
+    {% else %}
+        {% assign blockShow = "blocks-three" %}
+{% endcase %}
+<div id="header-usp" style="background-color:{{section.settings.background_color}};">
+<div class="container-fluid">
+<ul class="header-usp-list inline-slick {{blockShow}}" style="color:{{section.settings.text_color}};" data-slick='{"slidesToShow": {{section.settings.block_show_mobile}}, "slidesToScroll": 1, "dots":false, "infinite": {{section.settings.slide_wraparound}}, "arrows":{{section.settings.slide_arrows}}, "mobileFirst": true, "autoplay":{{section.settings.slide_autoplay}}, "autoplaySpeed":{{section.settings.slide_speed}}0, "responsive":[{"breakpoint": 992,"settings":{"slidesToShow": {{section.settings.block_show}}, "slidesToScroll": 1, "arrows":{{section.settings.slide_arrows }}, "autoplay":{{section.settings.slide_autoplay}}, "autoplaySpeed": {{section.settings.slide_speed}}0, "infinite": {{section.settings.slide_wraparound}}}}]}'>
+    {% for block in section.blocks %}
+    {% case block.type %}
+    {% when 'usp_text' %}
+        <li class="header-usp-item usp-text" data-shopify-section-id="{{section.id}}" {{block.shopify_attributes}}>
+        {% if block.settings.link_type == "whole" and block.settings.link != blank %}
+            <a href="{{block.settings.link}}" class="whole">
+        {% endif %}
+
+            {% if block.settings.image != blank %}
+                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{{ block.settings.image | img_url: '50x' }}" class="lazyload usp-icon" alt="{{block.settings.title}}" />
+            {% endif %}
+            {{block.settings.title}}
+            {% if block.settings.cta_text != blank %}
+                <span class="cta-text">{% if block.settings.link_type == "cta" and block.settings.link != blank %}<a href="{{block.settings.link}}" class="cta-link">{% endif %}{{block.settings.cta_text}}{% if block.settings.link_type == "cta" and block.settings.link != blank %}</a>{% endif %}</span>
+            {% endif %}
+
+        {% if block.settings.link_type == "whole" and block.settings.link != blank %}
+            </a>
+        {% endif %}
+        </li>
+    {% when 'usp_button' %}
+        <li class="header-usp-item usp-button" data-shopify-section-id="{{section.id}}" {{block.shopify_attributes}}>
+        {% if block.settings.left_link != blank %}
+        <span class="left-button"><a href="{{block.settings.left_link}}" class="usp-button-link" style="background-color:{{block.settings.background_color}}; border-color:{{block.settings.border_color}}; color:{{block.settings.text_color}};">{{block.settings.left_title}}</a>
+        </span>
+        {% endif %}
+        <div class="usp-text">
+            {% if block.settings.title != blank %}<span class="mobile-large-text">{{block.settings.title}}</span>{% endif %}
+            {% if block.settings.small_title %}<span class="mobile-small-text">{{block.settings.small_title}}</span>{% endif %}
+            {% if block.settings.desktop_title %}<span class="desktop-text">{{block.settings.desktop_title}}</span>{% endif %}
+        </div>
+        {% if block.settings.right_link != blank %}
+        <span class="right-button"><a href="{{block.settings.right_link}}" class="usp-button-link" style="background-color:{{block.settings.background_color}}; border-color:{{block.settings.border_color}}; color:{{block.settings.text_color}};">{{block.settings.right_title}}</a>
+        </span>
+        {% endif %}
+        </li>
+    {% when 'usp_countdown' %}
+        <li class="header-usp-item usp-countdown" data-finished-text="{{block.settings.finshed_text}}" data-shopify-section-id="{{section.id}}" {{block.shopify_attributes}}>
+            {% if block.settings.title != blank %}<span class="text-before">{{block.settings.title}}</span>{% endif %}
+            <span class="countdown-timer" data-date="{{block.settings.date}}" data-month="{{block.settings.month}}" data-year="{{block.settings.year}}" data-hours="{{block.settings.hour_range}}" data-minutes="{{block.settings.minute_range}}"></span>
+            {% if block.settings.cta_text != blank %}<span class="text-after">{% if block.settings.link != blank %}<a href="{{block.settings.link}}">{% endif %}{{block.settings.cta_text}}</span>{% if block.settings.link != blank %}</a>{% endif %}{% endif %}
+        </li>
+    {% endcase %}
+    {% endfor %}
+    </ul>
+</div><!-- container -->
+</div><!-- header-usp-->
+{% schema %}
+{
+    "name": "Header USP",
+    "settings": [
+       	{
+		    "type": "header",
+			"content": "Header USP Options"
+        },
+        {
+            "type": "color",
+            "id": "background_color",
+            "label": "Background color",
+            "default": "#702283"
+        },
+        {
+            "type": "color",
+            "id": "text_color",
+            "label": "Text color",
+            "default": "#fff"
+        },
+        {
+			"type": "range",
+			"id": "block_show",
+			"label": "Blocks to show - Desktop",
+			"min": 1,
+			"max": 3,
+			"step": 1,
+			"default": 3,
+			"info": "Applies to screensizes above 992px in width."
+        },
+        {
+			"type": "range",
+			"id": "block_show_mobile",
+			"label": "Blocks to show - Tablet/Mobile",
+			"min": 1,
+			"max": 3,
+			"step": 1,
+			"default": 1,
+			"info": "Applies to Tablet / Mobile, anything below 992px"
+        },
+        {
+		    "type": "header",
+			"content": "Slider Options"
+        },
+		{
+			"type": "checkbox",
+			"id": "slide_arrows",
+			"label": "Show Arrows?",
+            "default": true,
+            "info": "Arrows will display if there are more blocks available than the display amount"
+        },
+        {
+			"type": "checkbox",
+			"id": "slide_wraparound",
+			"label": "Wrap Around?",
+            "default": true,
+            "info": "At the end of blocks, wrap-around to the other end for infinite scrolling."
+        },
+        {
+			"type": "checkbox",
+			"id": "slide_autoplay",
+			"label": "Autoplay Carousel?",
+            "default": true,
+            "info": "Automatically scroll through blocks?"
+        },
+        {
+			"type": "range",
+			"id": "slide_speed",
+			"label": "Autoplay Speed",
+			"min": 150,
+			"max": 2000,
+			"step": 50,
+			"default": 500,
+			"info": "100 = 1 Second"
+        }
+	],
+    "blocks": [
+		{
+			"type": "usp_text",
+			"name": "Text / Link",
+            "settings": [
+                {
+                    "type": "image_picker",
+                    "id": "image",
+                    "label": "Icon",
+                    "info": "If left empty, will not render"
+                },
+				{
+                    "type":     "text",
+				    "id":       "title",
+				    "label":    "Text"
+                },
+                {
+                    "type": "header",
+                    "content": "Link Options"
+                },
+                {
+                    "type":      "select",
+                    "id":        "link_type",
+                    "label":     "Link Type",
+                    "options": [
+                      {
+                        "value": "whole",
+                        "label": "Block"
+                      },
+                      {
+                        "value": "cta",
+                        "label": "CTA Text"
+                      }
+                    ],
+                    "default":   "whole",
+                    "info":      "Block represents the entire block, CTA text means that will trigger the link"
+                },
+                {
+                    "type":     "text",
+                    "id":       "cta_text",
+                    "label":    "CTA Text"
+                },
+                {
+                    "type":     "url",
+                    "id":       "link",
+                    "label":    "Link"
+                }
+			]
+        },
+        {
+			"type": "usp_button",
+			"name": "Buttons",
+            "settings": [
+                {
+                    "type": "header",
+                    "content": "Button Appearance"
+                },
+                {
+                    "type": "color",
+                    "id": "background_color",
+                    "label": "Background color",
+                    "default": "#000"
+                },
+                {
+                    "type": "color",
+                    "id": "border_color",
+                    "label": "Border color",
+                    "default": "#000"
+                },
+                {
+                    "type": "color",
+                    "id": "text_color",
+                    "label": "Text color",
+                    "default": "#fff"
+                },
+                {
+                    "type": "header",
+                    "content": "Left Button"
+                },
+				{
+                    "type":     "text",
+				    "id":       "left_title",
+				    "label":    "Button text"
+                },
+                {
+                    "type":     "url",
+                    "id":       "left_link",
+                    "label":    "Button Link"
+                },
+                {
+                    "type": "header",
+                    "content": "Right Button"
+                },
+				{
+                    "type":     "text",
+				    "id":       "right_title",
+				    "label":    "Button text"
+                },
+                {
+                    "type":     "url",
+                    "id":       "right_link",
+                    "label":    "Button Link"
+                },
+                {
+                    "type": "header",
+                    "content": "Center Content"
+                },
+                {
+                    "type":     "text",
+				    "id":       "title",
+                    "label":    "Large Center Text",
+                    "info":     "Used on mobile"
+                },
+                {
+                    "type":     "text",
+				    "id":       "small_title",
+                    "label":    "Small Center Text",
+                    "info":     "Used on mobile, sits below large text."
+                },
+                {
+                    "type":     "text",
+				    "id":       "desktop_title",
+                    "label":    "Desktop Text",
+                    "info":     "Used on desktop screens, and replaces both mobile text fields."
+                }
+			]
+        },
+        {
+			"type": "usp_countdown",
+            "name": "Countdown",
+            "limit": 1,
+            "settings": [
+                {
+                    "type": "header",
+                    "content": "Countdown Options"
+                },
+                {
+                    "type": "paragraph",
+                    "content": "Please select a date to countdown too."
+                },
+                {
+                    "type":      "select",
+                    "id":        "date",
+                    "label":     "Date",
+                    "options": [
+                        {
+                            "value": "01",
+                            "label": "01"
+                        },
+                        {
+                            "value": "02",
+                            "label": "02"
+                        },
+                        {
+                            "value": "03",
+                            "label": "03"
+                        },
+                        {
+                            "value": "04",
+                            "label": "04"
+                        },
+                        {
+                            "value": "05",
+                            "label": "05"
+                        },
+                        {
+                            "value": "06",
+                            "label": "06"
+                        },
+                        {
+                            "value": "07",
+                            "label": "07"
+                        },
+                        {
+                            "value": "08",
+                            "label": "08"
+                        },
+                        {
+                            "value": "09",
+                            "label": "09"
+                        },
+                        {
+                            "value": "10",
+                            "label": "10"
+                        },
+                        {
+                            "value": "11",
+                            "label": "11"
+                        },
+                        {
+                            "value": "12",
+                            "label": "12"
+                        },
+                        {
+                            "value": "13",
+                            "label": "13"
+                        },
+                        {
+                            "value": "14",
+                            "label": "14"
+                        },
+                        {
+                            "value": "15",
+                            "label": "15"
+                        },
+                        {
+                            "value": "16",
+                            "label": "16"
+                        },
+                        {
+                            "value": "17",
+                            "label": "17"
+                        },
+                        {
+                            "value": "18",
+                            "label": "18"
+                        },
+                        {
+                            "value": "19",
+                            "label": "19"
+                        },
+                        {
+                            "value": "20",
+                            "label": "20"
+                        },
+                        {
+                            "value": "21",
+                            "label": "21"
+                        },
+                        {
+                            "value": "22",
+                            "label": "22"
+                        },
+                        {
+                            "value": "23",
+                            "label": "23"
+                        },
+                        {
+                            "value": "24",
+                            "label": "24"
+                        },
+                        {
+                            "value": "25",
+                            "label": "25"
+                        },
+                        {
+                            "value": "26",
+                            "label": "26"
+                        },
+                        {
+                            "value": "27",
+                            "label": "27"
+                        },
+                        {
+                            "value": "28",
+                            "label": "28"
+                        },
+                        {
+                            "value": "29",
+                            "label": "29"
+                        },
+                        {
+                            "value": "30",
+                            "label": "30"
+                        },
+                        {
+                            "value": "31",
+                            "label": "31"
+                        }
+                    ],
+                    "default":  "15"
+                },
+                {
+                    "type":      "select",
+                    "id":        "month",
+                    "label":     "Month",
+                    "options": [
+                        {
+                            "value": "00",
+                            "label": "January"
+                        },
+                        {
+                            "value": "01",
+                            "label": "February"
+                        },
+                        {
+                            "value": "02",
+                            "label": "March"
+                        },
+                        {
+                            "value": "03",
+                            "label": "April"
+                        },
+                        {
+                            "value": "04",
+                            "label": "May"
+                        },
+                        {
+                            "value": "05",
+                            "label": "June"
+                        },
+                        {
+                            "value": "06",
+                            "label": "July"
+                        },
+                        {
+                            "value": "07",
+                            "label": "August"
+                        },
+                        {
+                            "value": "08",
+                            "label": "September"
+                        },
+                        {
+                            "value": "09",
+                            "label": "October"
+                        },
+                        {
+                            "value": "10",
+                            "label": "November"
+                        },
+                        {
+                            "value": "11",
+                            "label": "December"
+                        }
+                    ],
+                    "default":   "10"
+                },
+                {
+                    "type":      "select",
+                    "id":        "year",
+                    "label":     "Year",
+                    "options": [
+                        {
+                            "value": "2020",
+                            "label": "2020"
+                        },
+                        {
+                            "value": "2021",
+                            "label": "2021"
+                        },
+                        {
+                            "value": "2022",
+                            "label": "2022"
+                        },
+                        {
+                            "value": "2023",
+                            "label": "2023"
+                        },
+                        {
+                            "value": "2024",
+                            "label": "2024"
+                        },
+                        {
+                            "value": "2025",
+                            "label": "2025"
+                        },
+                        {
+                            "value": "2026",
+                            "label": "2026"
+                        },
+                        {
+                            "value": "2027",
+                            "label": "2027"
+                        },
+                        {
+                            "value": "2028",
+                            "label": "2028"
+                        },
+                        {
+                            "value": "2029",
+                            "label": "2029"
+                        },
+                        {
+                            "value": "2030",
+                            "label": "2030"
+                        }
+                    ],
+                    "default":   "2020"
+                },
+                {
+                    "type":      "range",
+                    "id":        "hour_range",
+                    "min":        1,
+                    "max":        24,
+                    "step":       1,
+                    "label":     "Hour",
+                    "default":   16
+                },
+                {
+                    "type":      "range",
+                    "id":        "minute_range",
+                    "min":        0,
+                    "max":        59,
+                    "step":       1,
+                    "label":     "Minute",
+                    "default":   0
+                },
+                {
+                    "type": "header",
+                    "content": "Text / Link options"
+                },
+                {
+                    "type":     "text",
+				    "id":       "title",
+                    "label":    "Text before countdown",
+                    "info":     "E.g. 50% off ends in"
+                },
+                {
+                    "type":     "text",
+				    "id":       "cta_text",
+                    "label":    "CTA Text",
+                    "default":  "Shop now",
+                    "info":     "Sits after countdown"
+                },
+                {
+                    "type":     "url",
+                    "id":       "link",
+                    "label":    "Link"
+                },
+                {
+                    "type":     "text",
+				    "id":       "finshed_text",
+                    "label":    "Finshed Text",
+                    "info":     "Text will display after countdown has finished. If no text is present, the block will be removed once countdown has finished."
+                }
+			]
+		}
+	]
+}
+{% endschema %}

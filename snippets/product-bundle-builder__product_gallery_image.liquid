@@ -1,0 +1,22 @@
+{% comment %} <div class="pbb-product-gallery-images-image">
+    <picture>
+        <source media="(max-width: 767px)" srcset="{{ image | img_url: '70x' }}">
+        <source media="(min-width: 768px)" srcset="{{ image | img_url: '140x' }}">
+        <img src="{{ image | img_url: '140x' }}" class="" loading="lazy" alt="{{ image.alt }}" />
+    </picture>
+</div> {% endcomment %}
+
+<div class="pbb-product-gallery-images-image">
+    <div class="aspect-square">
+        <picture>
+            <source media="(max-width: 400px)" srcset="{{ image | img_url: '400x' }}">
+            <source media="(min-width: 768px) and (max-width: 1199px)"
+                srcset="{{ image | img_url: '650x' }}">
+            <source media="(min-width: 1200px)" srcset="{{ image | img_url: '900x' }}">
+            <source srcset="{{ image | img_url: '650x' }}">
+            <img data-lazy="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                data-zoom-desktop="{{ image | img_url: '1200x' }}" data-zoom-mobile="{{ image | img_url: '800x' }}"
+                class="img-fluid" alt="{{ image.alt }}">
+        </picture>
+    </div>
+</div>

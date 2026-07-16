@@ -1,0 +1,65 @@
+
+{% if shop.metafields.gift_hero.giftcards.active and product.gift_card? %}
+  <div id="sc-giftcard-builder">
+{% endif %}
+<div id="product-detail-page">
+    {% section 'product' %}
+
+    <div class="yotpo yotpo-main-widget"
+    data-product-id="{{ product.id }}"
+    data-name="{{ product.title | escape }}"
+    data-url="{{ shop.url }}{{ product.url }}"
+    data-image-url="{{ product.featured_image | product_img_url: 'large' |replace: '?', '%3F' | replace: '&','%26'}}"
+    data-price="{{ variant.price | money_without_currency }}"
+    data-currency="{{ shop.currency }}"
+    data-description="{{ product.description | escape }}">
+    </div>
+    
+    {% section 'product-shared' %}
+    {% comment %} {% section 'site-reviews' %} {% endcomment %}
+    {% section 'product-reviews' %}
+    {% section 'product-shared-bottom' %}
+    {% section 'product-footer' %}
+
+    <div class="product-faqs-bottom">
+        <div class="product-faqs-left-side">
+          <!--
+          <h2>Sie können uns alles fragen</h2>
+          <p>Sind Sie immer noch neugierig? Wir erzählen Ihnen gerne mehr.</p>
+          <a href="/a/faq" target="_blank">Weitere FAQs lesen</a> -->
+          <h2>{{ "products.product_faqs.product_faqs_title" | t }}</h2> 
+          <p>{{ "products.product_faqs.product_faqs_text" | t }}</p>
+          <a href="/a/faq" target="_blank">{{ "products.product_faqs.product_faqs_button" | t }}</a>
+        </div>
+    </div>
+
+</div><!-- product-detail-page -->
+{% render 'product-bottom-fixed' %}
+{% section 'new-content-block-product' %}
+
+<script>
+
+  var checkDiv = setInterval(function() {
+
+    var my_div_width = $(".faq-content-div:first").width(); // find width
+
+    if (my_div_width > 0) {
+      clearInterval(checkDiv);
+      aTestFunction();
+    } else {
+      $('.product-faqs-bottom').css('display','none')
+    }
+
+    
+    $('.faq-content-div').each(function() {
+      $(this).insertAfter($('.product-faqs-left-side'));
+    });
+  }, 10);
+
+  function aTestFunction() {
+  //  console.log('called')
+  }
+</script>
+{% if shop.metafields.gift_hero.giftcards.active and product.gift_card? %}
+  </div>
+{% endif %}

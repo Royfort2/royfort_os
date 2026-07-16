@@ -1,0 +1,107 @@
+{% render 'full-breadcrumbs' %}
+<script>
+  window.onload = (e) => trackUserLogin();
+</script>
+<div class="account-outer-wrapper">
+
+    <h1>{{'customer.account.title' | t }}</h1>
+    <a class="log-out" href="/account/logout">{{'customer.account.log_out' | t }}</a>
+
+    <section class="account-main">
+
+        <aside class="account-sidebar">
+            {% render 'account-sidebar' %}
+        </aside>
+
+        {% if customer.orders.size != 0 %}
+            <div class="order-content">
+                <div class="title">{{'customer.orders.title' | t }}</div>
+                <p>{{'customer.orders.description' | t }}</p>
+            </div>
+            <div class="account-orders">
+                <div class="account-orders-body">
+                {% for order in customer.orders %}
+                    <div class="account-orders-row">
+                        <div class="item order-number" data-column="{{'customer.orders.order_number' | t }}"><button type="button" aria-label="{{'customer.order.order_detail_button' | t }}">{{ order.order_number }}</button></div>
+                        <div class="item" data-column="{{'customer.orders.order_date' | t }}">{{ order.created_at | date: '%d/%m/%Y' }}</div>
+                        <div class="item" data-column="{{'customer.orders.order_amount' | t }}">{{ order.total_price | money }}</div>
+                        <div class="item" data-column="{{'customer.orders.order_status' | t }}">{% if order.cancelled %}{{order.cancel_reason_label}}{% else %}{{ order.fulfillment_status_label }}{% endif %}</div>
+
+                        <div class="order-details-wrapper">
+                            <div class="item-extras">
+                                <div class="item item-extras-shipping-address" data-column="{{ 'customer.order.order_shipping_address' | t }}">
+                                    {{ order.shipping_address | format_address }}
+                                </div>
+                                <div class="item item-extras-billing-address" data-column="{{ 'customer.order.order_billing_address' | t }}">
+                                    {{ order.shipping_address | format_address }}
+                                </div>
+                                <div class="item shipping-method" data-column="{{ 'customer.order.order_shipping_method' | t }}">
+                                    <p>{% for shipping_method in order.shipping_methods %}{{ shipping_method.title }}{% endfor %}</p>
+                                </div>
+                            </div>
+
+                            <div class="order-products">
+                                {% for line_item in order.line_items %}
+                                    <div class="account-order-product">
+                                        <div class="image">
+                                            <div class="fixed-ratio square">
+                                                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{{ line_item.image | img_url: '300x' }}" class="lazyload img-fluid" alt="{{ line_item.image.alt }}">
+                                            </div>
+                                        </div>
+                                        {%- case shop.permanent_domain -%}
+
+                                        {%- comment %}
+                                        DE store
+                                        {% endcomment -%}
+                                        {%- when 'bw2016.myshopify.com' -%}
+                                        {%- assign duvetcover = ' Deckenbezug' -%}
+                    
+                                        {%- comment %}
+                                        CH store
+                                        {% endcomment -%}
+                                        {%- when 'royfort-ch.myshopify.com' -%}
+                                        {%- assign duvetcover = ' Deckenbezug' -%}
+                    
+                                        {%- comment %}
+                                        Other store
+                                        {% endcomment -%}
+                                        {%- else -%}
+                                        {%- assign duvetcover = ' Duvet Cover' -%}
+                                        {%- endcase -%}
+
+                                        {%- capture product_title %}{{ line_item.product.title }}{% endcapture -%}
+                                        {%- if product_title contains ' Set' %}{% assign product_title = product_title | replace: ' Set', duvetcover %}{% endif -%}
+
+                                        <div class="title">{{ product_title }}</div>
+                
+                                        {% unless line_item.product.has_only_default_variant %}
+                                            {% for option in line_item.options_with_values %}
+                                               <div class="option"><span>{{option.name}}:</span> {{ option.value }}</div>
+                                            {% endfor %}
+                                        {% endunless %}
+                
+                                        <div class="option"><span>{{'customer.order.quantity' | t }}</span> {{ line_item.quantity }}</div>
+    
+                                        <div class="price">
+                                            {% if line_item.product.compare_at_price > line_item.price %}<span class="product-price-original"><span class="money">{{ line_item.product.compare_at_price | money }}</span></span>{% endif %}
+                                            <span class="money bold">{{ line_item.price | money }}</span>
+                                        </div>
+                
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+
+        {% else %}
+            <div class="order-content">
+                <div class="title">{{'customer.orders.title' | t }}</div>
+                <p>{{ 'customer.orders.none' | t }}</p>
+            </div>
+        {% endif %}
+
+    </section>
+</div>

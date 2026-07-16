@@ -1,0 +1,223 @@
+{% assign current_variant = product.selected_or_first_available_variant %}
+{% assign swatch_library = shop.metafields.swatches.swatch_colour_title %}
+
+{% assign swatch_translation_title = 'swatch_option.title' | t %}
+{% assign swatch_translation_slug = 'swatch_option.slug' | t %}
+{% assign pbb_swatch_html = '' %}
+{% assign pbb_options_html = '' %}
+{% assign product_title = product.title %}
+{% assign product_short_name = product.title %}
+{% assign product_bundle_can_skip = false %}
+
+{% if product.metafields.product.full_name != blank %}
+    {% assign product_title = product.metafields.product.full_name %}
+{% endif %}
+
+{% if product.metafields.my_fields.short_name != blank %}
+    {% assign product_short_name = product.metafields.my_fields.short_name %}
+{% endif %}
+
+{% if product.metafields.bundle.bundle_is_optional == true %}
+    {% assign product_bundle_can_skip = true %}
+{% endif %}
+
+<div class="pbb-step" data-product-short-name="{{ product_short_name }}" data-bundle-can-skip="{{ product_bundle_can_skip }}">
+    <div class="pbb-step-inner">
+        <div class="pbb-step-breadcrumb">{{ "pdp.bundle.step_prefix" | t }} <span class="pbb-current-step">1</span> {{ "pdp.bundle.step_of" | t }}  <span class="pbb-max-steps">3</span></div>
+        <h2 class="pbb-step-title"><span class="pbb-current-step">1</span>. {{ "pdp.bundle.add_your" | t | replace: "%s", product_short_name }}</h2>
+        {% render "product-bundle-builder__step__gallery", {product: product, ab_images: ab_images }%}
+        <div class="pbb-product-title">{{ product_title }}</div>
+        <div class="pbb-product-price">{{ product.price | money }}</div>
+        <span class="stamped-toggle stamped-product-reviews-badge stamped-main-badge" data-id="{{ product.id }}" data-product-sku="{{ product.handle }}" style="display: inline-block;"></span>
+
+        {% assign formID = product.id | prepend: 'pbb-form-' %}
+
+        {% form 'product', product, id: formID, class: 'pbb-form' %}
+
+            {% if product.has_only_default_variant %}
+                <input type="hidden" name="id" class="pbb-form-id" value="{{ current_variant.id }}" />
+            {% else %}
+                <select name="id" class="hide pbb-form-id">
+                    {% for variant in product.variants %}
+                        {% assign variant_inventory = variant.inventory_quantity %}
+                        {% if variant.inventory_policy == 'continue' %}
+                            {% assign variant_inventory = 999 %}
+                        {% endif %}
+                        {% if variant_inventory == blank %}
+                            {% assign variant_inventory = 0 %}
+                        {% endif %}
+
+                        <option
+                            value="{{ variant.id }}"
+                            data-product-title="{{ product_title }}"
+                            data-product-short-name="{{ product_short_name }}"
+                            data-option1="{{ variant.option1 }}"
+                            data-option1-slug="{{ variant.option1 | handleize }}"
+                            data-option2="{{ variant.option2 }}"
+                            data-option2-slug="{{ variant.option2 | handleize }}"
+                            data-option3="{{ variant.option3 }}"
+                            data-option3-slug="{{ variant.option3 | handleize }}"
+                            data-compare="{{ variant.compare_at_price | money }}"
+                            data-price-formatted="{{ variant.price | money }}"
+                            data-price="{{ variant.price }}"
+                            data-image="{{ variant.image | img_url: '180x180' }}"
+                            data-inventory="{{ variant_inventory }}"
+                            data-show-compare="{% if variant.compare_at_price > variant.price %}true{% else %}false{% endif %}">
+                            {{ variant.title }}
+                        </option>
+                    {% endfor %}
+                </select>
+            {% endif %}
+            
+            <div class="pbb-product-options-wrapper">
+                <div class="pbb-product-options">
+                    {% render "product-bundle-builder__step__product_options", product: product %}
+
+                    <div class="pbb-product-option">
+                        <label>{{ "pdp.bundle.quantity" | t }}:</label>
+                        <div class="pbb-select-container">
+                            <select name="quantity" class="pbb-product-option-quantity pbb-select">    
+                                <option value="0">{{ "pdp.bundle.please_select" | t }}</option>
+                                {% for i in (1..10) %}
+                                    <option value="{{ i }}">{{ i }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% assign presale_message = product.metafields.product.pre_sale_message %}
+            {% assign presale_message_size = presale_message | size %}
+
+            {% capture instock_indicator_style %}
+                {% if current_variant.inventory_quantity > 0 or current_variant.inventory_quantity == 0 and current_variant.inventory_policy == "continue" %}
+                    hide
+                {% endif %}
+            {% endcapture %}
+            
+
+            {% if presale_message_size > 0 %}
+                <div class="instock instock-indicator presale-indicator {{ instock_indicator_style }}"><span></span>{{ product.metafields.product.pre_sale_message }}</div>
+            {% else %}
+                <div class="instock instock-indicator {{ instock_indicator_style }}"><span></span>{{ 'products.product.variant_instock' | t }}</div>
+            {% endif %}
+
+            {% capture outstock_indicator_style %}
+                {% if current_variant.inventory_quantity == 0 %}
+                    hide
+                {% endif %}
+            {% endcapture %}
+
+            {% if presale_message_size > 0 %}
+                <div class="outstock outofstock-indicator presale-indicator {{ outstock_indicator_style }}"><span></span>{{ product.metafields.product.pre_sale_message }}</div>
+            {% else %}
+                <div class="outstock outofstock-indicator {{ outstock_indicator_style }}"><span></span>{{ 'products.product.variant_out_of_stock' | t }}</div>
+            {% endif %}
+
+        {% endform %}
+
+        {% if product.metafields.bundle.add_additional == true %}
+            <div class="pbb-add-additional">
+                <div class="pbb-add-additional-header">
+                    <h4>{{ "pdp.bundle.add_more" | t | replace: '%s', product_short_name }}</h4>
+                    <div role="button" class="pbb-add-additional-control"></div>
+                </div>
+                <div class="pbb-add-additional-body">
+
+                    <div class="pbb-additional-product-price">{{ product.price | money }}</div>
+                
+                    {% assign formID = product.id | append: '-additional' %}
+
+                    {% form 'product', product, id: formID, class: 'pbb-form-additional' %}
+            
+                        {% if product.has_only_default_variant %}
+                            <input type="hidden" name="id" class="pbb-form-additional-id" value="{{ current_variant.id }}" />
+                        {% else %}
+                            <select name="id" class="hide pbb-form-additional-id">
+                                {% for variant in product.variants %}
+                                    {% assign variant_inventory = variant.inventory_quantity %}
+                                    {% if variant.inventory_policy == 'continue' %}
+                                        {% assign variant_inventory = 999 %}
+                                    {% endif %}
+                                    {% if variant_inventory == blank %}
+                                        {% assign variant_inventory = 0 %}
+                                    {% endif %}
+            
+                                    <option
+                                        value="{{ variant.id }}"
+                                        data-product-title="{{ product_title }}"
+                                        data-product-short-name="{{ product_short_name }}"
+                                        data-option1="{{ variant.option1 }}"
+                                        data-option1-slug="{{ variant.option1 | handleize }}"
+                                        data-option2="{{ variant.option2 }}"
+                                        data-option2-slug="{{ variant.option2 | handleize }}"
+                                        data-option3="{{ variant.option3 }}"
+                                        data-option3-slug="{{ variant.option3 | handleize }}"
+                                        data-compare="{{ variant.compare_at_price | money }}"
+                                        data-price-formatted="{{ variant.price | money }}"
+                                        data-price="{{ variant.price }}"
+                                        data-image="{{ variant.image | img_url: '180x180' }}"
+                                        data-inventory="{{ variant_inventory }}"
+                                        data-show-compare="{% if variant.compare_at_price > variant.price %}true{% else %}false{% endif %}">
+                                        {{ variant.title }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        {% endif %}
+                        
+                        <div class="pbb-product-options-wrapper">
+                            <div class="pbb-product-options">
+                                {% render "product-bundle-builder__step__product_options_additional", product: product %}
+            
+                                <div class="pbb-product-option py w-full">
+                                    <label class="sr-only">{{ "pdp.bundle.quantity" | t }}:</label>
+                                    <div class="pbb-select-container">
+                                        <select name="quantity" class="pbb-product-option-quantity pbb-select">
+                                            {% for i in (1..10) %}
+                                                <option value="{{ i }}">{{ i }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% assign presale_message = product.metafields.product.pre_sale_message %}
+                        {% assign presale_message_size = presale_message | size %}
+
+                        {% comment %} {% capture instock_indicator_style %}
+                            {% if current_variant.inventory_quantity > 0 or current_variant.inventory_quantity == 0 and current_variant.inventory_policy == "continue" %}
+                                hide
+                            {% endif %}
+                        {% endcapture %}
+                        
+
+                        {% if presale_message_size > 0 %}
+                            <div class="instock instock-indicator presale-indicator {{ instock_indicator_style }}"><span></span>{{ product.metafields.product.pre_sale_message }}</div>
+                        {% else %}
+                            <div class="instock instock-indicator {{ instock_indicator_style }}"><span></span>{{ 'products.product.variant_instock' | t }}</div>
+                        {% endif %} {% endcomment %}
+
+                        {% capture outstock_indicator_style %}
+                            {% if current_variant.inventory_quantity == 0 %}
+                                hide
+                            {% endif %}
+                        {% endcapture %}
+
+                        {% if presale_message_size > 0 %}
+                            <div class="outstock outofstock-indicator presale-indicator {{ outstock_indicator_style }}"><span></span>{{ product.metafields.product.pre_sale_message }}</div>
+                        {% else %}
+                            <div class="outstock outofstock-indicator {{ outstock_indicator_style }}"><span></span>{{ 'products.product.variant_out_of_stock' | t }}</div>
+                        {% endif %}
+            
+                    {% endform %}
+                
+                
+                
+                
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>

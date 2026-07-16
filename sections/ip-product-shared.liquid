@@ -1,0 +1,228 @@
+<div class="">
+   <div class="product-detail-row two-columns-module">
+	    {% for block in section.blocks %}
+        {% case block.type %}
+        {% when 'product_shared' %}
+       
+        <div class="content-section{% if block.settings.alternate_image %} alternate-image{% endif %} single-box {%if block.settings.alternate_image_mobile %} alternate-image-mobile {% endif %}">
+            <div class="tiles_grid">
+                <div class="product-banner-v2">
+                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{{ block.settings.image | img_url: 'master' }}" class="lazyload" alt="{{block.settings.title}}" />
+                </div>
+            </div>
+
+
+            <div class="tiles_grid">
+                <div class="generic-block">
+                    <div class="title-main">
+                        <h3 class="title-main__primary header_color mobile-font-{{section.settings.mobile_header_font_size}} desktop-font-{{section.settings.desktop_header_font_size}}">{{block.settings.title}}</h3>
+                        <div class="simple-text cms-content text_color mobile-font-{{section.settings.mobile_text_font_size}} mt-3 mb-3 desktop-font-{{section.settings.desktop_text_font_size}}">{{block.settings.richtext}}</div>
+                        {% if block.settings.cta_link != blank and block.settings.cta_label != blank %}<div class="pt-3 pt-lg-0 text-center mt-3 mb-3 text-md-left"><a href="{{block.settings.cta_link}}" class="btn btn-invert m-center">{{block.settings.cta_label}}</a></div>{% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <style>
+
+            .title-main {
+                padding: unset;
+            }
+                .product-banner-v2 {
+
+                    height: 400px;
+                    width: 100%;
+                    
+                }
+
+                .product-banner-v2 img {
+                    height: 100%;
+                    width: 100%;
+                    object-fit: cover;
+                }
+                      
+                @media screen and (max-width: 767px) {
+
+            .title-main {
+                padding: 0 1rem;
+            }
+
+                .product-banner-v2 {
+
+                    height: 250px;
+                    width: 100%;
+                    
+                }
+
+                .product-banner-v2 img {
+                    height: 100%;
+                    width: 100%;
+                    object-fit: cover;
+                }
+ 
+                }
+
+              .simple-text > * {
+                  font-size: unset;
+                  line-height: 1.6;
+              }
+
+              .simple-text li {
+                  font-size: unset;
+                  line-height: 1.6;
+                  padding: 3px 0 0  7px
+              }
+
+              .cms-content > ul {
+                  padding: 0 0 0 25px;
+                  list-style-position: outside;
+              }
+
+            </style>
+            </div>
+
+                            {% endcase %}
+            {%endfor%}   
+                         
+
+           <style>
+
+            .single-box {
+               width: 100%
+            }
+
+            .header_color {color: {{section.settings.header_color}}}
+            .text_color {color: {{section.settings.text_color}}}
+
+            .simple-text > * {
+                font-size: unset;
+                line-height: 1.6;
+            }
+
+            .simple-text li {
+                font-size: unset;
+                line-height: 1.6;
+                padding: 3px 0 0  7px
+            }
+
+
+              .cms-content > ul {
+                  padding: 0 0 0 25px;
+                  list-style-position: outside;
+              }
+
+            </style>
+        </div>
+
+        {%render 'pdp-video-columns' %}
+            
+    </div> <!-- sectionv2-background -->
+
+</div>
+
+{% schema %}
+{
+    "name": "Product Shared",
+    "settings": [
+        {
+            "type": "header",
+            "content": "Two columns"
+        },
+        {
+            "type": "range",
+            "id": "desktop_header_font_size",
+            "label": "Desktop Header font size",
+            "min": 14,
+            "max": 60,
+            "step": 1,
+            "default": 30
+        }, 
+        {
+            "type": "range",
+            "id": "desktop_text_font_size",
+            "label": "Desktop Text font size",
+            "min": 14,
+            "max": 60,
+            "step": 1,
+            "default": 15
+        }, 
+        {
+            "type": "range",
+            "id": "mobile_header_font_size",
+            "label": "Mobile Header font size",
+            "min": 14,
+            "max": 60,
+            "step": 1,
+            "default": 20
+        }, 
+        {
+            "type": "range",
+            "id": "mobile_text_font_size",
+            "label": "Mobile Text font size",
+            "min": 14,
+            "max": 60,
+            "step": 1,
+            "default": 14
+        }, 
+        {
+            "type": "color",
+            "id": "header_color",
+            "label": "Header Colour",
+            "default": "#000000"
+        }, 
+        {
+            "type": "color", 
+            "id": "text_color", 
+            "label": "Text Colour", 
+            "default": "#000000"
+
+        }
+    ], 
+       "blocks": [
+        {
+            "type": "product_shared",
+            "name": "Product Shared",
+            "settings": [
+                {
+                    "type": "image_picker",
+                    "id": "image",
+                    "label": "Image"
+                },
+                {
+                    "type":      "text",
+                    "id":        "title",
+                    "label":     "Title"
+                },
+                {
+                    "type":      "richtext",
+                    "id":        "richtext",
+                    "label":     "Content"
+                },
+                {
+                    "id": "cta_link",
+                    "type": "url",
+                    "label": "CTA Link"
+                }, 
+                {
+                    "id": "cta_label",
+                    "type": "text",
+                    "label": "CTA Label"
+                }, 
+                {
+                    "type": "checkbox",
+                    "id": "alternate_image",
+                    "label": "Alternate image/video to the right",
+                    "default": false,
+                    "info": "if checked, the image will appear on right side."
+                 }, 
+                {
+                    "type": "checkbox",
+                    "id": "alternate_image_mobile",
+                    "label": "Alternate image/video to the bottom - Mobile",
+                    "default": false,
+                    "info": "if checked, the image will appear bottom of the text."
+                }
+            ]
+        }
+       ]
+}
+{% endschema %}

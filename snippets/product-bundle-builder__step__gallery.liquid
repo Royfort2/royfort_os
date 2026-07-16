@@ -1,0 +1,21 @@
+{% assign swatch_library = shop.metafields.swatches.swatch_colour_title %}
+{% assign swatch_translation_title = 'swatch_option.title' | t %}
+{% assign swatch_translation_slug = 'swatch_option.slug' | t %}
+{% assign product_images = product.images %}
+
+{% for product_option in product.options_with_values %}
+    {% assign option_index = product_option.position %}
+
+    {% if product_option.name == swatch_translation_title or product_option.name == swatch_translation_slug %} 
+        {% for value in product_option.values %}
+            {% assign colour_slug = value | handleize %}
+            {% assign is_first = forloop.first %}
+            <div class="pbb-image-slider {% if is_first %}is-active{% endif %}" data-swatch-slider="{{ colour_slug }}" data-swatch-slider-first="{{ is_first }}">
+                {% for image in product.images %}
+                    {% render 'product-bundle-builder__step__gallery_image', { colour_slug: colour_slug, image: image, ab_images: ab_images } %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+{% endfor %}

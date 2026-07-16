@@ -1,0 +1,141 @@
+{% render 'full-breadcrumbs' %}
+<div class="account-wrapper login-wrapper">
+
+    <div id="CustomerLoginForm">
+        {% form 'customer_login' %}
+
+        {% assign emailError = false %}
+        {% assign passwordError = false %}
+
+        {% if form.errors %}
+            <div class="form-error">
+                <div class="title">{{'customer.login.error' | t }}</div>
+                {% for field in form.errors %}
+                    {% if form.errors.messages[field] contains "email" and form.errors.messages[field] contains "password" %}
+                        <div class="message">{{'customer.login.email_password_error' | t }}</div>
+                        {% assign emailError = true %}
+                        {% assign passwordError = true %}
+                        {% break %}
+                    {% elsif form.errors.messages[field] contains "email" %}
+                        <div class="message">{{'customer.login.email_error' | t }}</div>
+                        {% assign emailError = true %}
+                        {% break %}
+                    {% elsif form.errors.messages[field] contains "password" %}
+                        <div class="message">{{'customer.login.password_error' | t }}</div>
+                        {% assign passwordError = true %}
+                        {% break %}
+                    {% endif %}
+                {% endfor %}
+                <div class="message">{{'customer.login.default_error_message' | t }}</div>
+            </div>
+        {% endif %}
+
+        <div class="inner-form-wrapper">
+
+            <h1>{{'customer.login.sign_in' | t }}</h1>
+
+            <div class="form-group">
+                <label for="CustomerEmail" class="uppercase bold">
+                    {{ 'customer.login.email' | t }}
+                </label>
+                <input type="email"
+                        name="customer[email]"
+                        id="CustomerEmail"
+                        class="{% if emailError == true %}input-error{% endif %}"
+                        spellcheck="false"
+                        autocomplete="off"
+                        autocapitalize="off"
+                        placeholder="{{ 'customer.login.email' | t }}"
+                        autofocus>
+            </div>
+
+            {% if form.password_needed %}
+                <div class="form-group">
+                <label for="CustomerPassword" class="uppercase bold">
+                {{ 'customer.login.password' | t }}
+                </label>
+                <input type="password"
+                    name="customer[password]"
+                    id="CustomerPassword"
+                    placeholder="{{ 'customer.login.password' | t }}"
+                    class="{% if passwordError == true %}input-error{% endif %}">
+            </div>
+            {% endif %}
+
+            <div class="button-wrapper">
+                <button type="submit" class="btn btn-account">{{ 'customer.login.action' | t }}</button>
+                <a href="/account/register">{{ 'customer.register.submit' | t }}</a>
+                <a href="#recover" id="RecoverPassword" class="RecoverPasswordToggle show-forgot-password">{{ 'customer.login.forgot_password' | t }}</a>
+            </div>
+
+        </div>
+
+    {% endform %}
+    </div>
+
+    <div id="RecoverPasswordForm" class="hide">
+        {% form 'recover_customer_password' %}
+
+            {% assign passwordResetError = false %}
+
+            {% if form.errors %}
+                <div class="form-error">
+                    <div class="title">{{'customer.login.error' | t }}</div>
+                    {% for field in form.errors %}
+                        {% if form.errors.messages[field] contains "email" %}
+                            <div class="message">{{'customer.recover_password.recover_password_message' | t }}</div>
+                            {% assign passwordResetError = true %}
+                            {% break %}
+                        {% endif %}
+                    {% endfor %}
+                    <div class="message">{{'customer.recover_password.default_error_message' | t }}</div>
+                </div>
+            {% endif %}
+
+            <div class="inner-form-wrapper">
+
+            <h2>{{ 'customer.recover_password.title' | t }}</h2>
+
+                {% if form.posted_successfully? %}
+                    <p class="success-message reset-password-success">{{ 'customer.recover_password.success' | t }}</p>
+                {% else %}
+                    <div class="form-group">
+                        <label for="RecoverEmail" class="uppercase bold">
+                            {{ 'customer.recover_password.email' | t }}
+                        </label>
+                        <input type="email"
+                                name="email"
+                                id="RecoverEmail"
+                                spellcheck="false"
+                                autocomplete="off"
+                                placeholder="{{ 'customer.login.email' | t }}"
+                                autocapitalize="off"
+                                class="{% if passwordResetError == true %}input-error{% endif %}">
+                    </div>
+                {% endif %}
+
+                <div class="button-wrapper">
+                    <button type="submit" class="btn btn-account"> {{ 'customer.recover_password.submit' | t }} </button>
+                    <a href="#signin" class="RecoverPasswordToggle hide-forgot-password">{{ 'customer.recover_password.cancel' | t }}</a>
+                </div>
+            </div>
+        {% endform %}
+    </div>
+
+    <div class="inner-form-wrapper">
+
+        {% if shop.checkout.guest_login %}
+            <div id="guestAccount">
+                <h2>{{ 'customer.login.guest_title' | t }}</h2>
+                {% form 'guest_login' %}
+                    <div class="button-wrapper">
+                        <button type="submit" class="btn btn-account">{{ 'customer.login.guest_continue' | t }} </button>
+                    </div>
+                {% endform %}
+            </div>
+
+        {% endif %} 
+
+    </div>
+
+</div>

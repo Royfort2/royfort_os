@@ -1,0 +1,103 @@
+
+
+{%- assign target_tags = "jewellery,fashion,furniture" | split: "," -%}
+{%- assign bucket_name = "growmexampleclient" -%}
+{%- assign cloudfront_url = "https://d1kemlkva5bpmc.cloudfront.net" -%}
+{%- assign product_sku = product.selected_or_first_available_variant.sku -%}
+
+{%- assign product_tags_array = product.tags -%}
+{%- assign product_tags = product_tags_array | json -%}
+
+{%- assign product_variants_json = product.variants | map: "sku" | json -%}
+{%- assign detailed_variants = "" -%}
+
+{%- assign option_count = product.options.size | minus: 1 -%}
+{%- for variant in product.variants -%}
+  {%- capture variant_json -%}
+  {
+    "sku": "{{ variant.sku }}",
+    "price": "{{ variant.price | money_without_currency }}",
+    "sale_price": "{{ variant.compare_at_price | money_without_currency }}",
+    "regular_price": "{{ variant.price | money_without_currency }}",
+    "weight": "{{ variant.weight }}",
+    "dimensions": {
+      "width": "{{ variant.width }}",
+      "height": "{{ variant.height }}",
+      "depth": "{{ variant.depth }}"
+    },
+    "attributes": {
+       {%- for option_index in (0..option_count) -%}
+      "{{ product.options[option_index] }}": "{{ variant.options[option_index]}}"
+      {%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+    {% comment %}
+        "attributes": {{ variant.options | json }}
+    {% endcomment %}
+
+    }
+  }
+  {%- endcapture -%}
+  {%- assign detailed_variants = detailed_variants | append: variant_json -%}
+  {%- unless forloop.last -%}
+    {%- assign detailed_variants = detailed_variants | append: "," -%}
+  {%- endunless -%}
+{%- endfor -%}
+
+{%- assign product_variants_json_test = "[" | append: detailed_variants | append: "]" -%}
+
+<div 
+  id="model-viewer-threejs"
+  data-customer-bucket-name="{{ bucket_name }}"
+  data-cloudfront-url="{{ cloudfront_url }}"
+  data-product-sku="{{ product_sku }}"
+  data-product-variants='{{ product_variants_json }}'
+  data-product-variants-test='{{ product_variants_json_test }}'
+  data-product-tags='{{ product_tags }}'
+>
+</div>
+
+<!--Growm_ProductViewer_Header_Script-->
+    <link rel="stylesheet" href="{{ 'product-viewer.css' | asset_url }}">
+    <script>
+    window.ASSET_BASE_URL = "{{ '3D.png' | asset_url | split: '?' | first | replace: '3D.png', '' | replace: '/$', '' }}";
+    if (window.ASSET_BASE_URL.endsWith('/')) {
+      window.ASSET_BASE_URL = window.ASSET_BASE_URL.slice(0, -1);
+    }
+    </script>
+<!--End_Growm_ProductViewer_Header_Script-->
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    if (window.initializeReactApp) {
+      window.initializeReactApp("model-viewer-threejs");
+    }
+    const modelViewer = document.getElementById("model-viewer-threejs");
+    const productLight = document.querySelector(".product-info"); // This contains the variant selector
+
+    if (!modelViewer || !productLight) return;
+
+    // Parse the product variants JSON stored in model-viewer-threejs
+    const productVariants = JSON.parse(modelViewer.getAttribute("data-product-variants-test") || "[]");
+
+    productLight.addEventListener("change", function (event) {
+      const select = event.target.closest("select");
+      if (!select || !select.name.includes("option")) return; // Only target option selectors
+
+      const selectedValue = select.options[select.selectedIndex].value.trim(); // Get selected option text
+
+      // Find the SKU by matching attributes[0] with the selected option value
+      const selectedVariant = productVariants.find(v => v.attributes[0] === selectedValue);
+      
+      if (selectedVariant && selectedVariant.sku) {
+        modelViewer.setAttribute("data-product-sku", selectedVariant.sku);
+
+        // Check if React has a function to update SKU
+        if (window.updateReactApp) {
+          window.updateReactApp("model-viewer-threejs", { sku: selectedVariant.sku });
+        } 
+      }
+    });
+  });
+
+  
+</script>

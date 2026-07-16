@@ -1,0 +1,6 @@
+<ul class="payment-icons">
+    {% assign my_icons = 'amazon_payments,american_express,apple_pay,google_pay,maestro,master,paypal,visa' | split: ',' %}
+    {% for type in my_icons %} 
+        <li><img width="40" src="{{ type | payment_type_img_url }}" alt="{{ type | replace: '_',' '}}" /></li>
+    {% endfor %}
+</ul>

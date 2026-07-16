@@ -1,0 +1,61 @@
+{% schema %}
+  {
+    "name": "Productviewer",
+    "settings": []
+  }
+{% endschema %}
+
+{%- assign target_tags = "jewellery,fashion,furniture" | split: "," -%}
+{%- assign bucket_name = "growmexampleclient" -%}
+{%- assign cloudfront_url = "https://d1kemlkva5bpmc.cloudfront.net" -%}
+{%- assign product_sku = product.selected_or_first_available_variant.sku -%}
+{%- assign variations = product.variants -%}
+
+{%- assign product_tags_array = product.tags -%}
+{%- assign product_tags = product_tags_array | json -%}
+
+{%- assign product_variants_json = product.variants | map: "sku" | json -%}
+{%- assign detailed_variants = "" -%}
+
+{%- for variant in product.variants -%}
+  {%- capture variant_json -%}
+  {
+    "sku": "{{ variant.sku }}",
+    "price": "{{ variant.price | money_without_currency }}",
+    "sale_price": "{{ variant.compare_at_price | money_without_currency }}",
+    "regular_price": "{{ variant.price | money_without_currency }}",
+    "weight": "{{ variant.weight }}",
+    "dimensions": {
+      "width": "{{ variant.width }}",
+      "height": "{{ variant.height }}",
+      "depth": "{{ variant.depth }}"
+    },
+    "attributes": {{ variant.options | json }}
+  }
+  {%- endcapture -%}
+  {%- assign detailed_variants = detailed_variants | append: variant_json -%}
+  {%- unless forloop.last -%}
+    {%- assign detailed_variants = detailed_variants | append: "," -%}
+  {%- endunless -%}
+{%- endfor -%}
+
+{%- assign product_variants_json_test = "[" | append: detailed_variants | append: "]" -%}
+
+<div 
+  id="model-viewer-threejs"
+  data-customer-bucket-name="{{ bucket_name }}"
+  data-cloudfront-url="{{ cloudfront_url }}"
+  data-product-sku="{{ product_sku }}"
+  data-product-variants='{{ product_variants_json }}'
+  data-product-variants-test='{{ product_variants_json_test }}'
+  data-product-tags='{{ product_tags }}'
+>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    if (window.initializeReactApp) {
+      window.initializeReactApp("model-viewer-threejs");
+    }
+  });
+</script>

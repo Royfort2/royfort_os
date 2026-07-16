@@ -1,0 +1,83 @@
+<div class="position-relative">
+
+    <header class="page-header-page">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    {% render 'full-breadcrumbs' %}
+                </div>
+            </div>
+            <div class="p-relative py-4 py-lg-0 mb-lg-5 row align-items-end">
+                <div class="col-12">
+                    <h1 class="page-title text-center">{{page.title}}</h1>
+                </div>
+            </div>
+        </div>
+    </header>
+
+	<div id="template-page" class="mb-5 mt-3 mt-lg-5">
+
+		<section class="sidebar-content col-lg-4 mb-5 mb-lg-0">
+			<div class="side">
+				<div class="side-content">
+					{% for menu_item in section.settings.sidebar_menu.links %}
+						{% if menu_item.url == page.url %}
+							<div class="active">
+						{% endif %}
+						<a href="{{ menu_item.url }}">{{ menu_item.title }}</a>
+						{% if menu_item.url == page.url %}
+							</div>
+						{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+		</section>
+	
+		<section class="col-lg-8 main-body-content page-template-section">
+			{% if page.metafields.content_page.page_content_title != blank %}
+				<h2 class="text-primary mb-5">{{ page.metafields.content_page.page_content_title }}</h2>
+			{% endif %}
+			<div class="page-container rte">
+
+				{% if page.metafields.faq.question != blank %}
+				<h2>Häufig gestellte Fragen</h2>
+				<div class="accordion-container">
+					{% for question in page.metafields.faq.question %} 
+
+					<div class="accordion-item">
+						<div class="accordion-title">
+						<h3>{{ question }}</h3>
+						<span class="icon-plusminus"></span>
+						</div>
+						<div class="accordion-content">
+						<p>{{ page.metafields.faq.answer[forloop.index0] }}</p>
+						</div>
+					</div>
+
+					{% endfor %} 
+				</div>
+				{% endif %}
+
+
+
+			</div>
+		</section><!-- main-body-content -->
+	
+	</div>
+
+</div>
+
+
+
+{% schema %}
+{
+  "name": "FAQ Page",
+	"settings": [
+        {
+            "type": "link_list",
+            "id": "sidebar_menu",
+            "label": "Sidebar Menu"
+        }
+    ]
+}
+{% endschema %}

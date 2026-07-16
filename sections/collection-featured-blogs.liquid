@@ -1,0 +1,50 @@
+{% assign collection = collections[section.settings.collection] %}
+<section class="product-list-container featured-products featured-blogs pb-lg-2 pt-5 pt-lg-0" data-image-ratio="{{section.settings.ratio}}">
+    {% if section.settings.title != blank %}<p class="my-2 text-secondary text-center text-20">{{section.settings.title}}</p>{% endif %}
+    <div class="product-list-row inline-slick" data-slick='{"slidesToShow": 1, "slidesToScroll": 1, "centerMode": true, "centerPadding": "70px", "dots": false, "arrows": true, "mobileFirst": true, "infinite": true, "responsive":[{"breakpoint": 767,"settings":{"slidesToShow": 3, "slidesToScroll": 1, "centerMode": false, "centerPadding": "0px" }},{"breakpoint": 992,"settings":{"slidesToShow": 4, "slidesToScroll": 1 }}]}'>
+    {% for block in section.blocks %}
+        <div class="navigation-featured-menu" data-aos-delay="{{ 200 |times: forloop.index0 }}">
+            <a href="{{block.settings.featured_blog.url}}">
+                <img src="{{block.settings.featured_blog.image | img_url: '320x'}}" class="img-fluid" data-image-path="" title="{{block.settings.image.alt}}">
+                <span class="featured-menu-title title-font">{{block.settings.featured_blog.title}}</span>
+                <span class="featured-menu-cta">{{block.settings.featured_blog.excerpt}}</span>
+                <span class="featured-menu-date text-secondary">{% render 'date', article: block.settings.featured_blog %}</span>
+            </a>
+        </div><!-- site-navigation-featured-menu -->
+    {% endfor %}
+    </div>
+</section>
+
+{% schema %}
+{
+"name":   "Featured Blogs",
+//"class":  "product-list-container featured-products",
+//"tag":    "section",
+"settings": [
+    {
+		"type": 		"text",
+		"id": 			"title",
+      	"label": 		"Title"
+    }
+],
+"blocks": [
+    {
+        "type": "blog_post",
+        "name": "Blog Post",
+        "settings": [
+            {
+                "type": "article",
+                "id": "featured_blog",
+                "label": "Featured blog"
+            }
+        ]
+    }
+],
+"presets": [
+    {
+		"name": 		"Featured Blogs",
+		"category": 	"Blogs"
+    }
+]
+}
+{% endschema %}

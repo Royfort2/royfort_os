@@ -1,0 +1,46 @@
+{% if use_instock_indicator == true %}
+    <div class="{{ prefix }}-instock instock-indicator" {% if current_inventory > 0 %}style="display:none"{% endif %}><span></span>{{ 'products.product.variant_instock' | t }}</div>
+    <div class="{{ prefix }}-outstock outofstock-indicator" {% if current_inventory == 0 %}style="display:none"{% endif %}><span></span>{{ 'products.product.variant_out_of_stock' | t }}</div>
+{% endif %}
+{% if add_to_cart_override == blank %}
+    {% assign add_to_cart_override = 'products.product.add_to_cart' | t %}
+{% endif %}
+<form method="post" action="/cart/add" id="product_form_combined" accept-charset="UTF-8" class="shopify-product-form" enctype="multipart/form-data">
+    <input type="hidden" name="form_type" value="product">
+    <input type="hidden" name="utf8" value="✓">
+
+    <select class="{{ prefix }}product-variant-selector hide" name="id" class="">
+        {% for handle in combo_products %}
+            {% assign product = all_products[handle] %}
+            {% for variant in product.variants %}
+                {% assign variant_inventory = variant.inventory %}
+                {% if variant.inventory_policy == 'continue' %}
+                    {% assign variant_inventory = 999 %}
+                {% endif %}
+                {% if variant_inventory == blank %}
+                    {% assign variant_inventory = 0 %}
+                {% endif %}
+                <option value="{{ variant.id }}" data-title="{{ product.title }}" data-product="{{ product.id }}" data-option1="{{ variant.option1 }}" data-option2="{{ variant.option2 }}" data-option3="{{ variant.option3 }}" data-compare="{{ variant.compare_at_price }}" data-price="{{ variant.price | money }}" data-inventory="{{ variant_inventory }}" data-show-compare="{% if variant.compare_at_price > variant.price %}1{% else %}0{% endif %}">{{ variant.title }}</option>
+            {% endfor %}
+        {% endfor %}
+        <option value="-1" data-option1="" data-option2="" data-option3="" data-compare="" data-price="N/A" data-inventory="0" data-show-compare="0">{{ 'products.product.unavailable' | t }}</option>
+    </select>
+    <input type="hidden" name="quantity" class="form-quantity" value="1">
+    <div class="ajax-feedback product-page-feedback"></div>
+
+    <div class="product-key-actions">
+        <button type="submit" class="{{ prefix }}-basket btn-combined btn-basket btn btn-primary w-full btn-slim" 
+        data-unavailable-text="{{ 'products.product.unavailable' | t }}" 
+        data-add-to-cart-text="{{ 'products.product.add_to_cart' | t }}" 
+        data-add-to-cart-status="{{ 'products.product.add_to_cart_status' | t }}" 
+        data-added-to-cart-text="{{ 'products.product.add_to_cart_success' | t }}" 
+        data-sold-out-text="{{ 'products.product.sold_out' | t }}" 
+        data-preorder-text="{{ 'products.product.preorder' | t }}" 
+        data-feedback-output=".product-page-feedback" disabled>{{ 'products.product.combined_loading' | t }}</button>
+    </div>
+</form>
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+        startVariantHandlers('',true);
+    })
+</script>

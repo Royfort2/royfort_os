@@ -1,0 +1,74 @@
+{% render 'product-main' %}
+
+{% schema %}
+{
+  "name": "Product pages",
+      "settings": [
+          {
+              "type": 		"header",
+              "content": 		"Main Image"
+          },
+          {
+              "type":         "select",
+              "id":           "main_ratio",
+              "label":        "Main Image - Fixed Ratio?",
+              "options": [
+                  {
+                      "value": "fixed-ratio square-crop",
+                      "label": "Square (4x4 Cropped)"
+                  },
+                  {
+                      "value": "fixed-ratio square",
+                      "label": "Square (4x4)"
+                  },
+                  {
+                      "value": "",
+                      "label": "No Set Ratio"
+                  }
+              ],
+              "default":   "fixed-ratio square"
+          },
+          {
+              "type": 		"header",
+              "content": 		"Thumbnail Image"
+          },
+          {
+              "type":         "select",
+              "id":           "thumbnail_ratio",
+              "label":        "Thumbnail Image - Fixed Ratio?",
+              "options": [
+                  {
+                      "value": "fixed-ratio square-crop",
+                      "label": "Square (4x4 Cropped)"
+                  },
+                  {
+                      "value": "fixed-ratio square",
+                      "label": "Square (4x4)"
+                  },
+                  {
+                      "value": "",
+                      "label": "No Set Ratio"
+                  }
+              ],
+              "default":   "fixed-ratio square"
+          },
+          {
+              "type": "text",
+              "id": "under_button_message",
+              "label": "Under add to cart message",
+              "default": "*Kostenloser Versand*"
+          },
+          {
+              "type": "color",
+              "id": "pdc_color",
+              "label": "Product discount code font color",
+              "default": "#000000"
+          },
+          {
+              "type": "text",
+              "id": "product_discount_code",
+              "label": "Product discount code (visible on all PDPs)"
+          }
+   ]
+  }
+{% endschema %}

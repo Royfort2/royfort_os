@@ -1,0 +1,182 @@
+<div class="section-background" {% if section.settings.usp_block_animation == true %}{% endif %}>
+  <div class="{{section.settings.usp_section_container}} {{ section.settings.usp_container_css_class }} site-usp-homepage" style="background-color:{{section.settings.usp_section_container_bg}};">
+    <h2 style="color:{{section.settings.usp_title_main_color}};" class="text-title text-center mb-2">{{ section.settings.usp_title_main }}</h2>
+    <div class="site-usp-container {% if section.settings.usp_block_slide == true %} inline-slick{% endif %} {{section.settings.usp_icon_placement}}" data-slick='{"slidesToShow": 1, "slidesToScroll": 1, "dots": {{ section.settings.usp_block_show_dots }}, "arrows": {{ section.settings.usp_block_show_arrows }}, "adaptiveHeight": true, "autoplay":{{section.settings.usp_block_autoplay}}, "autoplaySpeed": {{section.settings.usp_block_speed}}0, "mobileFirst": true, "responsive":[{"breakpoint": 767,"settings":{"slidesToShow": 3, "slidesToScroll": 1 }}]}'>
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'site_usp' %}
+          <div class="usp-item {{section.settings.usp_icon_placement}}">
+            {% if block.settings.usp_link != blank %}
+              <a href="{{block.settings.usp_link}}" title="{{block.settings.title}}">
+              {% endif %}
+              <img
+                src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                data-src="{{ block.settings.image | img_url: '500x'  }}"
+                class="lazyload"
+                alt="{{block.settings.title}}" />
+              <div class="usp-content">
+                {% if block.settings.title != blank %}
+                  <h3 style="color:{{section.settings.usp_title_main_color}};" class="text-18 mb-3">{{ block.settings.title }}</h3>
+                {% endif %}
+                {% if block.settings.richtext != blank %}
+                  <div class="rte text-12">{{ block.settings.richtext }}</div>
+                {% endif %}
+              </div>
+              <!-- usp-content -->
+              {% if block.settings.usp_link != blank %}
+              </a>
+            {% endif %}
+          </div>
+          <!-- usp-item -->
+        {% endcase %}
+      {% endfor %}
+    </div>
+    <!-- site-usp-container-->
+  </div>
+  <!-- container -->
+</div>
+<!-- section-background-->
+
+{% schema %}
+  {
+    "name": "Site USP Large",
+    "tag": "div",
+    "class": "site-usp-large",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Layout / Appearance"
+      },
+      {
+        "type": "paragraph",
+        "content": "Choose whether or not this section will be full width, or contained to the guttering of the website."
+      },
+      {
+        "type": "select",
+        "id": "usp_section_container",
+        "label": "Container",
+        "options": [
+          {
+            "value": "container-full",
+            "label": "Full Width"
+          }, {
+            "value": "container-fluid",
+            "label": "Contained"
+          }
+        ],
+        "default": "container-full"
+      },
+      {
+        "type": "text",
+        "id": "usp_container_css_class",
+        "label": "Container CSS Class"
+      }, {
+        "type": "checkbox",
+        "id": "usp_block_animation",
+        "label": "Use fade up animation on scroll",
+        "default": true,
+        "info": "If checked, the content will fade in and up as the user scrolls down the page."
+      }, {
+        "type": "text",
+        "id": "usp_title_main",
+        "label": "Main Title"
+      }, {
+        "type": "color",
+        "id": "usp_title_main_color",
+        "label": "Title Colour",
+        "default": "#000000"
+      }, {
+        "type": "color",
+        "id": "usp_section_container_bg",
+        "label": "Background Colour",
+        "default": "#FFFFFF"
+      }, {
+        "type": "select",
+        "id": "usp_icon_placement",
+        "label": "Icon Placement",
+        "options": [
+          {
+            "value": "icon-above",
+            "label": "Icon above text"
+          }, {
+            "value": "icon-inline",
+            "label": "Icon inline with text"
+          }, {
+            "value": "icon-inline-slim",
+            "label": "Icon inline with just title"
+          }
+        ],
+        "default": "icon-above"
+      }, {
+        "type": "header",
+        "content": "Mobile Carousel"
+      }, {
+        "type": "checkbox",
+        "id": "usp_block_slide",
+        "label": "Apply Carousel to the blocks?",
+        "default": true,
+        "info": "if unchecked, the content will simply stack upon each other."
+      }, {
+        "type": "checkbox",
+        "id": "usp_block_autoplay",
+        "label": "Autoplay Carousel?",
+        "default": true,
+        "info": "Automatically scroll through blocks?"
+      }, {
+        "type": "range",
+        "id": "usp_block_speed",
+        "label": "Autoplay Speed",
+        "min": 150,
+        "max": 2000,
+        "step": 50,
+        "default": 500,
+        "info": "100 = 1 Second"
+      }, {
+        "type": "checkbox",
+        "id": "usp_block_show_dots",
+        "label": "Display slide navigation?",
+        "default": true,
+        "info": "Display dots/buttons at the bottom of slide to allow user navigation through the slides?"
+      }, {
+        "type": "checkbox",
+        "id": "usp_block_show_arrows",
+        "label": "Display slider arrows?",
+        "default": true,
+        "info": "Display arrows at the sides of each slide?"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "site_usp",
+        "name": "USP",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Icon"
+          }, {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          }, {
+            "type": "richtext",
+            "id": "richtext",
+            "label": "Content"
+          }, {
+            "id": "usp_link",
+            "type": "url",
+            "label": "USP Link",
+            "info": "Optional link"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Site USP large",
+        "category": "Images"
+      }
+    ]
+
+  }
+{% endschema %}

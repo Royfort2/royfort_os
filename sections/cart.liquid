@@ -1,0 +1,348 @@
+<header class="page-header">
+    <div class="container-fluid">
+        <div class="row align-items-end">
+            <div class="col-12 text-center">
+                <h1>{{ 'cart.general.title' | t }}</h1>
+                <span class="cart-bag-count">{{ cart.item_count }} {{ cart.item_count | pluralize: 'item', 'items' }}</span>
+            </div>
+        </div>
+    </div>
+</header>
+<script>
+  window.onload = (event) => {
+  trackViewCart();
+};
+</script>
+<div class="container-fluid">
+    <form action="/cart" method="post">
+    <div class="row">
+
+        {% assign freeDeliveryThreshold = section.settings.freedelivery_threshold | times: 100 %}
+        {% assign remaining = freeDeliveryThreshold | minus: cart.total_price %}
+        <div id="mobile-quick-checkout" class="col-12 d-lg-none">
+            {% render 'cart-free-delivery', freeDeliveryThreshold: freeDeliveryThreshold, freedelivery_qualified: section.settings.freedelivery_qualified, freedelivery_first: section.settings.freedelivery_first, freedelivery_last: section.settings.freedelivery_last, cartTotal: cart.total_price, remaining: remaining %}
+
+            <div class="mobile-total-and-checkout">
+            {% render 'cart-total-and-checkout', cartTotal: cart.total_price, freeDeliveryThreshold: freeDeliveryThreshold %}
+            </div>
+
+
+        </div>
+
+        <section id="basket-main" class="col-12 col-lg-8">
+        {% if cart.item_count > 0 %}
+        {% for item in cart.items %}
+
+            <div class="basket-item" data-product-id="{{item.product_id}}" data-variant-id="{{item.variant.id}}">
+                <div class="basket-item-image">
+                    <a href="{{ item.url }}" class="{{section.settings.ratio}}">
+                        {% comment %}
+                        The code below is used to find the assiocated variant image. Not to be confused with the image assigned to the actual variant, but an image upload to the product, that beings with shade_ and ends with the variant title in lowercase, and spaces are replaced with a underscore.
+                        {% endcomment %}
+                        {% assign variantHandle = item.variant.title | downcase| replace: " ", "_" | prepend: "shade_" %}
+                        {% assign variantImageAvailable = false %}
+                        {% for image in item.product.images %}
+                        {% unless image.attached_to_variant? %}
+                        {% if image.alt contains variantHandle %}
+                            {% assign variantImageAvailable = true %}
+                            {% assign variantImage = image %}
+                        {% endif %}
+                        {% endunless %}
+                        {% endfor %}
+
+                        {% if variantImageAvailable %}
+                            {% assign cartImage = variantImage %}
+                        {% else %}
+                            {% assign cartImage = item.product.featured_image %}
+                        {% endif %}
+
+                        <picture>
+                            <source media="(max-width: 1199px)" srcset="{{ cartImage | img_url: '144x' }}">
+                            <source media="(min-width: 1200px)" srcset="{{ cartImage | img_url: '288x' }}">
+                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{{ cartImage | img_url: '288x' }}" class="lazyload" alt="{{ item.product.title }}">
+                        </picture>
+                    </a>
+                </div><!-- basket-item-image-->
+                <div class="basket-item-details">
+                    <h3 class="product-title"><a href="{{ item.url }}">{{ item.product.title }}</a></h3>
+                    {% unless item.product.has_only_default_variant %}
+                    <div class="product-variant">
+                        <span class="variant-image{% if item.variant.image == blank %} no-variant-image{% endif %}">
+                            {% if item.variant.image != blank %}
+                                <img src="{{ item.variant.image | img_url: 'x25' }}" title="{{item.variant.title | escape}}">
+                            {% endif %}
+                        </span>
+                        <span class="variant-title">{{item.variant.title}}</span>
+                    </div><!-- product-variant-->
+                    {% endunless %}
+                    <button type="button" class="btn btn-plain btn-remove" data-variant-id="{{item.variant.id}}" data-remove-warning="{{'cart.general.remove_warning' | t}}" aria-label="Remove from bag">{% render 'icon-delete'%}</button>
+                    <div class="product-quantity-price">
+                        <div class="product-quantity-container">
+                        <div class="product-quantity-desktop" data-variant-id="{{item.variant.id}}">
+                          	{% if item.variant.inventory_management != blank and item.variant.inventory_policy == 'deny' %}
+                      			{% assign max_qty = item.variant.inventory_quantity %}
+                            {% else %}
+                                {% assign max_qty = 9999 %}
+                            {% endif %}
+
+                            <span class="btn-plain btn-quantity-decrease">{% render 'icon-minus'%}</span>
+                            <input type="number" id="Quantity" class="product-quantity" name="quantity" value="{{item.quantity}}" min="1" max="{{max_qty}}">
+                            <span class="btn-plain btn-quantity-increase">{% render 'icon-plus'%}</span>
+                        </div><!-- product-quantity-desktop -->
+                        <div class="product-quantity-mobile" data-variant-id="{{item.variant.id}}">
+                            <div class="current-quantity">
+                                <span class="quantity-value">{{item.quantity}}</span>
+                                {% render 'icon-chevron-down' %}
+                            </div><!-- current-quantity -->
+                            <div class="quantity-mobile-modal">
+                                <span class="modal-label">
+                                    {% render 'icon-close' %}
+                                    <span class="label">{{'products.actions.quantity_label' | t}}</span>
+                                </span>
+                                <ul class="quantity-listing">
+                                    {% for i in (1..10) %}
+                                        <li class="quantity-item{% if forloop.first == true %} selected{% endif %}">
+                                            <span class="custom-ratio"></span>
+                                            <span class="quantity-value">{{i}}</span>
+                                        </li>
+                                    {% endfor %}
+                                        <li>
+                                            <div class="mobile-quantity-action">
+                                                <input type="number" class="mobile-quantity-input" placeholder="{{'products.actions.quantity_input' | t}}" pattern="[0-9]*" min="1" max="{{item.variant.inventory_quantity}}">
+                                                <span class="btn btn-primary">Done</span>
+                                            </div>
+                                        </li>
+                                </ul><!-- quantity-listing-->
+                            </div><!-- quantity-mobile-modal -->
+                        </div><!-- product-quantity-mobile -->
+                        </div><!-- product-quantity-container -->
+                            <div class="product-price-container">
+                                <span class="Makebecool-theme-hook-DO-NOT-DELETE makebecool_cart_item_price" data-item-key="{{item.key}}" style="display:none !important;"></span>
+                                <div class="product-price">
+                                        <span class="money">{{ item.variant.price | money }}</span>
+                                        <span class="original-price money">{% if item.product.compare_at_price > item.variant.price %}{{item.variant.compare_at_price | money }}{% endif %}</span>
+                                </div><!-- product-price -->
+
+                            {% if item.product.metafields.global["price_per"] != blank %}
+                                <span class="price-per-ml">{{ item.product.metafields.global["price_per"] }}</span>
+                            {% endif %}
+                        </div><!-- product-price-container -->
+                    </div><!-- product-quantity-price-->
+                    <div class="ajax-feedback cart-page" data-variant-id="{{item.variant.id}}"></div>
+
+                </div><!-- basket-item-details -->
+
+            </div><!-- basket-item -->
+
+        {% endfor %}
+        {% else  %}
+            <p>{{ 'cart.general.empty' | t }}</p>
+        {% endif %}
+
+        <span id="desktop-continue-shopping"></span>
+        </section>
+
+        <aside id="basket-sidebar" class="col-12 col-lg-4">
+            <div class="basket-sidebar-background">
+            {% render 'cart-free-delivery', freeDeliveryThreshold: freeDeliveryThreshold, freedelivery_qualified: section.settings.freedelivery_qualified, freedelivery_first: section.settings.freedelivery_first, freedelivery_last: section.settings.freedelivery_last, cartTotal: cart.total_price, remaining: remaining %}
+
+            <h2 class="sidebar-title">{{ 'cart.general.sidebar_title' | t }}</h2>
+
+            <ul class="basket-breakdown{% if cart.total_price >= freeDeliveryThreshold %} visible{% endif %}">
+                <li><span class="label">{{'cart.general.subtotal' | t}}</span><span class="subtotal value">{{cart.original_total_price | money}}</span></li>
+                <li><span class="label">{{'cart.general.free_delivery_name' | t}}</span><span class="value">FREE</span></li>
+            </ul><!-- basket-breakdown-->
+
+            {% render 'cart-total-and-checkout', cartTotal: cart.total_price, freeDeliveryThreshold: freeDeliveryThreshold %}
+
+            {% if section.settings.promo_text != blank %}
+            <span class="promo-message">{{section.settings.promo_text}}</span>
+            {% endif %}
+
+            {% if settings.payment_paypal or settings.payment_visa or settings.payment_mastercard or settings.payment_applepay %}
+            <ul class="payment-icons">
+                {% if settings.payment_paypal %}
+                <li class="payment-paypal" title="Checkout using PayPal">{% render 'icon-payment-colour-paypal'%}</li>
+                {% endif %}
+                {% if settings.payment_mastercard %}
+                <li class="payment-mastercard" title="Checkout using Mastercard">{% render 'icon-payment-colour-mastercard'%}</li>
+                {% endif %}
+                {% if settings.payment_maestro %}
+                <li class="payment-maestro" title="Checkout using Maestro">{% render 'icon-payment-colour-maestro'%}</li>
+                {% endif %}
+                {% if settings.payment_visa %}
+                <li class="payment-visa" title="Checkout using Visa">{% render 'icon-payment-colour-visa'%}</li>
+                {% endif %}
+                {% if settings.payment_applepay %}
+                <li class="payment-applepay" title="Checkout using ApplePay">{% render 'icon-payment-colour-applepay'%}</li>
+                {% endif %}
+            </ul>
+            {% endif %}
+        </div><!-- basket-sidebar-background -->
+        </aside>
+
+        <span id="mobile-continue-shopping"><a href="javascript:history.back();" class="continue-shopping">{% render 'icon-arrow-left' %} {{ 'cart.general.continue_shopping' | t }}</a></span>
+    </div>
+    </form>
+
+    <div class="row">
+        <div id="site-usps" class="col-12">
+            <div class="site-usp-container">
+            {% for block in section.blocks %}
+            {% case block.type %}
+            {% when 'product_usp' %}
+            {% if block.settings.show_usp %}
+                <div class="usp-item icon-above">
+                    {% if block.settings.usp_link != blank %}
+                    <a href="{{block.settings.usp_link}}" title="{{block.settings.title}}">
+                    {% endif %}
+                    <div class="usp-icon">
+                        <div class="fixed-ratio square">
+                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{{ block.settings.image | img_url: '60x' }}" class="lazyload" alt="{{block.settings.title}}" />
+                        </div><!-- fixed-ratio square -->
+                    </div><!-- usp-icon-->
+                    <div class="usp-content">
+                        <h4>{{block.settings.title}}</h4>
+                        <div class="rte">{{block.settings.richtext}}</div>
+                    </div><!-- usp-content -->
+                    {% if block.settings.usp_link != blank %}
+                    </a>
+                    {% endif %}
+                </div><!-- usp-item -->
+            {% endif %}
+            {% endcase %}
+            {% endfor %}
+            </div><!-- site-usp-container-->
+        </div>
+    </div>
+</div><!-- container-fluid-->
+
+
+{% schema %}
+{
+  "name": "Bag",
+  "settings": [
+    {
+      	"type": 		"header",
+      	"content": 		"Basket Image Ratio"
+	},
+    {
+        "type":         "select",
+        "id":           "ratio",
+        "label":        "Fixed Ratio?",
+        "options": [
+            {
+                "value": "fixed-ratio square-crop",
+                "label": "Square (4x4 Cropped)"
+            },
+            {
+                "value": "fixed-ratio square",
+                "label": "Square (4x4)"
+            },
+            {
+                "value": "fixed-ratio portrait-crop",
+                "label": "Portrait (4x5 Cropped)"
+            },
+            {
+                "value": "fixed-ratio portrait",
+                "label": "Portrait (4x5)"
+            },
+            {
+                "value": "",
+                "label": "No Set Ratio"
+            }
+        ],
+        "default":   "fixed-ratio square"
+    },
+    {
+        "type": 		"header",
+        "content": 		"Free Delivery Threshold"
+    },
+    {
+        "type": 		"paragraph",
+        "content": 		"If the customers bag is equal or greater than the value defined below, they qualify for free delivery. Please be sure to update the delivery settings within the Shopify Admin too."
+    },
+    {
+        "type":      "range",
+        "id":        "freedelivery_threshold",
+        "min":        1,
+        "max":        60,
+        "step":       1,
+        "label":     "Free Delivery Threshold",
+        "default":   60,
+        "info": "1 = €1"
+    },
+    {
+        "type": "text",
+        "id": "freedelivery_qualified",
+        "default": "You qualified for FREE standard delivery.",
+        "label": "Qualified for free delivery ",
+        "info": "Will only appear if the user has qualified for free delivery."
+    },
+    {
+        "type": "text",
+        "id": "freedelivery_first",
+        "default": "Add",
+        "label": "Not Qualified for free delivery - first part ",
+        "info": "The remaining value needed to qualify for free delivery will be inserted after this message"
+    },
+    {
+        "type": "text",
+        "id": "freedelivery_last",
+        "default": "to qualify for FREE standard delivery.",
+        "label": "Not Qualified for free delivery - first part ",
+        "info": "The remaining value needed to qualify for free delivery will be inserted after this message"
+    },
+    {
+        "type": 		"header",
+        "content": 		"Promo Code Text"
+    },
+    {
+        "type": "text",
+        "id": "promo_text",
+        "default": "Promotional code? Add it within the Checkout.",
+        "label": "Promo Code Message",
+        "info": "If left blank, will not display"
+    }
+    ],
+    "blocks": [
+
+        {
+			"type": "product_usp",
+			"name": "Cart USP",
+            "limit": 3,
+            "settings": [
+                {
+                    "type": "checkbox",
+                    "id": "show_usp",
+                    "label": "Show USP?",
+                    "info": "Rather than removing the block, you can simply hide it",
+                    "default": true
+                },
+                {
+                    "type": "image_picker",
+                    "id": "image",
+                    "label": "Icon"
+                },
+				{
+				    "type":      "text",
+				    "id":        "title",
+				    "label":     "Title"
+                },
+                {
+                    "id": "usp_link",
+                    "type": "url",
+                    "label": "USP Link",
+                    "info": "Optional link"
+                },
+				{
+				    "type":      "richtext",
+				    "id":        "richtext",
+				    "label":     "Content",
+				    "default":   "<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem nam eius voluptates vel molestias, ipsa labore esse ab doloribus. Nam.</p>"
+				}
+			]
+        }
+	]
+}
+{% endschema %}

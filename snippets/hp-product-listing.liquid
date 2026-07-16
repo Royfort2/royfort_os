@@ -1,0 +1,115 @@
+{% comment %}
+BG: Here we are determining which product labels to show (if any).
+{% endcomment %}
+
+{% if product.variants.size > 1 %}
+    {% for option in product.options %}
+        {% if option == "Shade" or option == "shade" %}
+            {% assign labelLeftClass = "colour-options" %}
+            {% capture labelLeftContent %}<span class="colour-text">{{'collections.general.more_colours' | t}}</span> {% render 'icon-colour-wheel'%}{% endcapture %}
+        {% endif %}
+    {% endfor %}
+{% endif%}
+
+{% for tag in product.tags %}
+    {% if tag contains 'label_right' %}
+        {% assign labelRightContent = tag | remove: "label_right_" | replace: "_", " " | capitalize %}
+        {% assign labelRightClass = tag | remove: "label_right_" | downcase %}
+    {% endif %}
+    {% if tag contains 'label_left' %}
+        {% assign labelLeftContent = tag | remove: "label_left_" | replace: "_", " " | capitalize %}
+        {% assign labelLeftClass = tag | remove: "label_left_" | downcase %}
+    {% endif %}
+{% endfor %}
+
+{% if product.metafields.global["label_left"] %}
+    {% assign labelLeftContent = product.metafields.global["label_left"] %}
+    {% assign labelLeftClass = "text" %}
+{% endif %}
+
+{% if product.compare_at_price > product.price %}
+    {% capture labelRightContent %}-{{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | money_without_currency | times: 100 | remove: '.0'}}%{% endcapture%}
+    {% assign labelRightClass = "percentage" %}
+{% endif %}
+
+{% comment %}
+BG: Here we are determine if the product has more than one image, and if a variant has a lifestyle image.
+{% endcomment %}
+{% assign shadeImages = '' %}
+{% assign shadeNames = ''%}
+{% for image in product.images %}
+{% if image.alt contains 'shade_' %}
+    {% assign name = image.alt | downcase| replace: " ", "" | remove: "shade_" %}
+    {% assign shadeNames = shadeNames | append: name | append: ',' %}
+    {% assign smallImage = image | img_url: 'master' %}
+    {% assign shadeImages = shadeImages | append: smallImage | append: ','%}
+{% endif %}
+{% endfor %}
+
+{% comment %}
+{% if product.images.size > 1 %}
+    {% assign imageHover = "product-image-hover"%}
+{% else %}
+    {% assign imageHover = "" %}
+{% endif %}
+{% endcomment %}
+
+<div class="product-listing" data-product-id="{{product.id}}" data-test="{{product.type}}" data-aos="fade-up" data-aos-delay="{{ 200 |times: index }}">
+
+    {%comment%}
+    BG: We use the below markup to find additional variant images, and create a list with the shade name and image path, we then use JS to append it to the assiocated variant list within the prodct swatch listing
+    {% endcomment %}
+    {% assign variantShadeImages = shadeImages | split: ','%}
+    {% assign variantShadeNames = shadeNames | split: ','%}
+    {% if variantShadeNames != blank %}
+    <div class="variant-shades d-none">
+        <ul>
+        {% for shade in variantShadeNames %}
+        <li data-variant-name="{{shade}}" data-variant-image="{{ variantShadeImages[forloop.index0] }}"></li>
+        {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    <div class="product-image {{imageHover}}">
+        <a href="{{ product.url }}">
+            <img class="img-fluid lazyload default" data-src="{{ product.featured_image.src | img_url: '520x' }}" {% if imageHover == "product-image-hover" %}data-second-image="{{ product.images[1].src | img_url: 'master' }}"{% endif %} alt="{{ product.title }}" width="600" heigh="600">
+            {% if labelLeftContent != blank  %}
+                <span class="label-left {{labelLeftClass}}"><span class="clamp">{{labelLeftContent}}</span></span>
+            {% endif %}
+            {% if labelRightContent != blank %}
+                <span class="label-right {{labelRightClass}}">{{labelRightContent}}</span>
+            {% endif %}
+        </a>
+    </div><!-- product-image -->
+    <div class="product-details">
+        
+        <h3 class="product-title "><a class="" href="{{ product.url }}" title="{{ product.title }}">{{ product.title }}</a></h3>
+        {% render 'product-min-swatch' with product as product %}
+        {% if product.metafields.global["offer"] != blank %}
+        <span class="product-offer-text" title="{{product.metafields.global["offer"]}}">{{product.metafields.global["offer"] | truncatewords: 10}}</span>
+        {% endif %}
+        {% assign additional_price = product.metafields.bundle.price %}
+        {% assign discounted_price = product.metafields.bundle.discountedprice %}
+        <div class="product-price-container">
+            {% if additional_price != blank %}
+            <div class="product-price">
+           
+                <span class="additional-money money">{{'products.product.from_price' | t}}  {%if discounted_price != blank %} {{ cart.currency.symbol | strip }} {{ discounted_price | strip }}{% endif %} </span>  <span class="additional-money {%if discounted_price != blank %} original-price {% endif %}  money">{{ cart.currency.symbol | strip }} {{ additional_price | strip }}</span>
+            </div><!-- product-price -->
+            <span class="price-per-ml">{{ product.metafields.global["price_per"] }}</span>
+            {% else %}
+            <div class="product-price">
+                <span class="money">{% if product.price_varies %}{{'products.product.from_price' | t}}&nbsp;{% endif %} {{ product.selected_or_first_available_variant.price | money }}</span>
+                <span class="original-price money">{% if product.selected_or_first_available_variant.compare_at_price %}{{product.selected_or_first_available_variant.compare_at_price | money }}{% endif %}</span>
+            </div><!-- product-price -->
+            <span class="price-per-ml">{% if product.metafields.global["price_per"] != blank %}{{ product.metafields.global["price_per"] }}{% endif %}</span>
+            {% endif %}
+            
+        </div><!-- product-price-container -->
+
+        {% comment %}
+        BG: Due to limitations with the mbcBundle app, we have to remove the product actions on the PLP.
+        {% endcomment %}
+
+    </div><!-- product-details -->
+</div><!-- product-single -->

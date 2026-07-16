@@ -1,0 +1,68 @@
+/* BMK: I think the font face for the body is actully a light one comparing to the invision, of course its paid for so this is as close as I can get it for right now */
+
+@font-face {
+  font-family: "avenir";
+  src: url(" //cdn.shopify.com/s/files/1/1610/3585/t/42/assets/AvenirLTPro-Light.woff2?v=16509807779223791956 ");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "avenir";
+  src: url(" //cdn.shopify.com/s/files/1/1610/3585/t/42/assets/Avenir-BookOblique-02.ttf?v=9371943174382410607 ");
+  font-weight: normal;
+  font-style: oblique;
+}
+
+/* @font-face {
+  font-family: "avenir";
+  src: url(" //cdn.shopify.com/s/files/1/1610/3585/t/42/assets/Avenir-Black-03.ttf?v=1643263646911680331 ");
+  font-weight: 800;
+  font-style: normal;
+}
+@font-face {
+  font-family: "avenir";
+  src: url(" //cdn.shopify.com/s/files/1/1610/3585/t/42/assets/Avenir-BlackOblique-04.ttf?v=16735838707883940253 ");
+  font-weight: 800;
+  font-style: oblique;
+}*/
+
+@font-face {
+  font-family: "avenir";
+  src: url(" //cdn.shopify.com/s/files/1/1610/3585/t/42/assets/Avenir-Heavy-05.ttf?v=9142779481427796377 ");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "avenir";
+  src: url(" //cdn.shopify.com/s/files/1/1610/3585/t/42/assets/Avenir-HeavyOblique-06.ttf?v=4539666483780558015 ");
+  font-weight: 700;
+  font-style: oblique;
+}
+@font-face {
+  font-family: "avenir";
+  src: url(" //cdn.shopify.com/s/files/1/1610/3585/t/42/assets/AvenirLTPro-Light.woff2?v=16509807779223791956 ");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "avenir";
+  src: url(" //cdn.shopify.com/s/files/1/1610/3585/t/42/assets/Avenir-LightOblique-08.ttf?v=1445930102160875326 ");
+  font-weight: 300;
+  font-style: oblique;
+}
+
+@font-face {
+  font-family: "avenir";
+  src: url(" //cdn.shopify.com/s/files/1/1610/3585/t/42/assets/Avenir-Medium-09.ttf?v=1724344873691844263 ");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "avenir";
+  src: url(" //cdn.shopify.com/s/files/1/1610/3585/t/42/assets/AvenirLTPro-Medium.ttf?v=12295721029955049138 ");
+  font-weight: bold;
+  font-style: oblique;
+}

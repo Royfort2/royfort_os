@@ -1,0 +1,72 @@
+{% paginate blog.articles by section.settings.articles_per_page %}
+
+<div class="blog-container">
+
+    {% if section.settings.text != blank %}
+    <div class="intro-content text-center rte">{{section.settings.text}}</div>
+    {% endif %}
+
+    <div class="blog-listing-container">
+    {% for article in blog.articles %}
+        {% render 'blog-article' with article as article %}
+    {% endfor %}
+    </div>
+
+</div><!-- blog-container -->
+
+{% comment %}
+<div class="container-fluid">
+    <div class="row">
+        {% for article in blog.articles %}
+            {% render 'blog-article' %}
+        {% endfor %}
+    </div>
+</div>
+{% endcomment %}
+
+{% if paginate.pages > 1 %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-12 text-center mt-5 mb-5">
+		    {% render 'pagination' %}
+		</div>
+	</div>
+</div>
+{% endif %}
+	
+{% endpaginate %}
+</div>
+
+{% schema %}
+{
+  "name": "Blog Listing",
+    "settings": [
+        {
+            "type": 		"header",
+            "content": 		"Page Content"
+        },
+        {
+            "type":      "richtext",
+            "id":        "text",
+            "label":     "Intro text"
+        },
+        {
+            "type": 		"header",
+            "content": 		"Pagination"
+        },
+        {
+            "type": 	"paragraph",
+            "content": 	"How many articles should be displayed per page?."
+        },
+        {
+            "type":      "range",
+            "id":        "articles_per_page",
+            "min":       6,
+            "max":       42,
+            "step":      3,
+            "label":     "Articles Per Page",
+            "default":   12
+        }
+	]
+}
+{% endschema %}

@@ -1,0 +1,67 @@
+{% if section.settings.show_section %}
+
+    {% assign collection = collections[section.settings.collection] %}
+    <section class="product-list-container featured-products about-us-featured-products pb-5" data-image-ratio="{{section.settings.ratio}}">
+        {% if section.settings.title != blank %}<h2 class="my-5 text-secondary text-center  text-20">{{section.settings.title}}</h2>{% endif %}
+        <div class="product-list-row inline-slick" data-slick='{"slidesToShow": 1, "slidesToScroll": 1, "centerMode": true, "centerPadding": "70px", "dots": false, "arrows": true, "mobileFirst": true, "infinite": true, "responsive":[{"breakpoint": 767,"settings":{"slidesToShow": 3, "slidesToScroll": 1, "centerMode": false, "centerPadding": "0px" }},{"breakpoint": 992,"settings":{"slidesToShow": 4, "slidesToScroll": 1 }}]}'>
+        {% for product in collection.products limit:4 %}
+            {% render 'hp-product-listing' with product as product %}
+        {% endfor %}
+        </div>
+    </section>
+
+{% endif %}
+
+{% schema %}
+{
+"name":   "Featured products",
+//"class":  "product-list-container featured-products",
+//"tag":    "section",
+"settings": [
+    {
+        "type": "checkbox",
+        "id": "show_section",
+        "label": "Show section",
+        "default": true
+    },
+    {
+		"type": 		"text",
+		"id": 			"title",
+      	"label": 		"Title"
+    },
+    {
+		"id": 			"collection",
+		"type": 		"collection",
+		"label": 		"Collection"
+    },
+    {
+        "type":         "select",
+        "id":           "ratio",
+        "label":        "Fixed Ratio?",
+        "options": [
+            {
+                "value": "fixed-ratio square-crop",
+                "label": "Square (4x4 Cropped)"
+            },
+            {
+                "value": "fixed-ratio square",
+                "label": "Square (4x4)"
+            },
+            {
+                "value": "fixed-ratio portrait-crop",
+                "label": "Portrait (4x5 Cropped)"
+            },
+            {
+                "value": "fixed-ratio portrait",
+                "label": "Portrait (4x5)"
+            },
+            {
+                "value": "",
+                "label": "No Set Ratio"
+            }
+        ],
+        "default":   "fixed-ratio square"
+    }
+]
+}
+{% endschema %}

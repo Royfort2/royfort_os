@@ -1,0 +1,391 @@
+{% assign raw_amount = gift_card.initial_value | money_without_trailing_zeros %}
+{% assign amount_number = raw_amount | remove: '€' | strip %}
+{% assign display_amount = amount_number | append: '€' %}
+<!doctype html>
+<html lang="de">
+  <head>
+    <title>Dein Royfort Geschenkgutschein</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="/assets/notifications/styles.css">
+    <style type="text/css">
+      @font-face {
+        font-family: 'GT America';
+        src: url('https://cdn.shopify.com/s/files/1/1610/3585/files/GT-America-Standard-Regular.woff2?v=1765217321') format('woff2'),
+              url('https://cdn.shopify.com/s/files/1/1610/3585/files/GT-America-Standard-Regular.woff?v=1765217322') format('woff');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'GT America';
+        src: url('https://cdn.shopify.com/s/files/1/1610/3585/files/GT-America-Standard-Bold.woff2?v=1765217322') format('woff2'),
+              url('https://cdn.shopify.com/s/files/1/1610/3585/files/GT-America-Standard-Bold.woff?v=1765217321') format('woff');
+        font-weight: bold;
+        font-style: normal;
+        font-display: swap;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #FFFFFF;
+      }
+      .giftcard-wrapper {
+        width: 100%;
+        background-color: #FFFFFF;
+      }
+      .giftcard-container {
+        max-width: 900px;
+        margin: 0 auto;
+        background-color: #FFFFFF;
+      }
+      @media print {
+        .giftcard-container {
+          max-width: 100%;
+          width: 100%;
+          height: 100vh;
+        }
+      }
+      .giftcard-layout {
+        width: 100%;
+        border-collapse: collapse;
+        height: 100%;
+      }
+      .giftcard-layout td {
+        vertical-align: top;
+      }
+      .giftcard-image-desktop {
+        width: 50%;
+        vertical-align: top;
+        height: 100%;
+      }
+      .giftcard-image-desktop img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        vertical-align: top;
+        object-fit: cover;
+      }
+      .giftcard-content {
+        padding: 5px;
+        text-align: center;
+        font-family: 'GT America', -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+        color: #000000;
+      }
+      .giftcard-content-wrapper {
+        width: 100%;
+        height: 100%;
+      }
+      .giftcard-logo {
+        margin-bottom: 38px;
+        padding: 10px;
+      }
+
+      @media print {
+        .giftcard-logo {
+          margin-bottom: 55px;
+        }
+      }
+
+      .giftcard-logo img {
+        display: block;
+        margin: 0 auto;
+        width: 100%;
+        height: auto;
+      }
+      .giftcard-heading {
+        font-size: 14.3px; /* 11px * 1.3 */
+        text-transform: uppercase;
+        margin-bottom: 8px;
+        font-weight: bold;
+      }
+      .giftcard-amount {
+        font-size: 36.4px; /* 28px * 1.3 */
+        font-weight: bold;
+        margin-bottom: 8px;
+      }
+      /* Gutscheincode nur fett darstellen */
+      .giftcard-code {
+        font-size: 15.6px; /* 12px * 1.3 */
+        text-transform: uppercase;
+        margin-bottom: 38px;
+        font-weight: bold;
+      }
+      .giftcard-text {
+        font-size: 13px; /* 10px * 1.3 */
+        line-height: 1.7;
+        text-align: center;
+        margin: 0 auto 10px auto;
+        max-width: 360px;
+
+      }
+      .giftcard-text-wrapper {
+        padding: 0px 25px 0px 25px;
+      }
+      .giftcard-print-link {
+        text-align: center;
+        margin-top: 15px;
+        margin-bottom: 0;
+      }
+      .giftcard-print-link a {
+        font-size: 14.3px; /* 11px * 1.3 */
+        text-transform: uppercase;
+        text-decoration: none;
+        color: #2e3192;
+        letter-spacing: 0.1em;
+        font-weight: bold;
+      }
+      /* Footer: zentriert, aber linker/rechter Text separat */
+      .giftcard-footer-wrapper {
+        width: 100%;
+      }
+      .giftcard-footer-wrapper td {
+        padding-left: 5px;
+        padding-right: 5px;
+        padding-bottom: 5px;
+      }
+      .giftcard-footer {
+        font-size: 11.7px; /* 9px * 1.3 */
+        font-weight: bold;
+        text-transform: uppercase;
+        width: 100%;
+      }
+      .giftcard-footer td {
+        padding-top: 4px;
+      }
+      .giftcard-footer-left {
+        text-align: left;
+        white-space: nowrap;
+        width: auto;
+      }
+      .giftcard-footer-spacer {
+        width: 100%;
+      }
+      .giftcard-footer-right {
+        text-align: right;
+        white-space: nowrap;
+        width: auto;
+      }
+      .giftcard-footer a {
+        font-size: 11.7px; /* 9px * 1.3 */
+        text-decoration: none;
+        color: #000000;
+      }
+      /* Mobile styles */
+      .mobile-only {
+        display: none;
+      }
+      @media only screen and (max-width: 640px) {
+        .desktop-only {
+          display: none !important;
+          max-height: 0 !important;
+          overflow: hidden !important;
+        }
+        .mobile-only {
+          display: flex !important;
+          justify-content: center;
+        }
+        .giftcard-container {
+          max-width: 500px !important;
+          width: 100% !important;
+        }
+        .giftcard-content {
+          padding: 5px !important;
+          max-width: 500px !important;
+          box-sizing: border-box !important;
+        }
+        .giftcard-logo {
+          margin-bottom: 32px !important;
+        }
+        .giftcard-logo img {
+          max-width: 100% !important;
+          width: 100% !important;
+          box-sizing: border-box !important;
+        }
+        .giftcard-text {
+          max-width: 100%;
+          margin-bottom: 20px !important;
+        }
+        .giftcard-print-link {
+          margin-top: 15px !important;
+          margin-bottom: 40px !important;
+        }
+        .giftcard-footer {
+          width: 260px;
+        }
+      }
+      .giftcard-footer tr {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        align-items: center;
+      }
+    </style>
+    {% comment %} {{ content_for_header }} {% endcomment %}
+  </head>
+  <body>
+    {% comment %} {{ content_for_layout }} {% endcomment %}
+    <table class="giftcard-wrapper" align="center" cellpadding="0" cellspacing="0" role="presentation">
+      <tr>
+        <td>
+          <table class="giftcard-container" align="center" cellpadding="0" cellspacing="0" role="presentation">
+            <!-- Desktop: Bild links, Inhalt rechts -->
+            <tr class="desktop-only">
+              <td>
+                <table class="giftcard-layout" role="presentation" style="height: 100%;">
+                  <tr style="height: 100%;">
+                    <td class="giftcard-image-desktop" width="50%" style="vertical-align: top; height: 100%;">
+                      <!-- Desktop-Bild -->
+                      <img
+                        src="https://cdn.shopify.com/s/files/1/1610/3585/files/25-08-Royfort-0375_f9e01325-83f2-45e0-9005-fb2d1fcd3f8b.jpg?v=1765219733"
+                        alt="Geschenkgutschein"
+                        border="0"
+                      >
+                    </td>
+                    <td width="50%" style="vertical-align: top; height: 100%;">
+                      <table
+                        class="giftcard-content-wrapper"
+                        cellpadding="0"
+                        cellspacing="0"
+                        role="presentation"
+                        style="width: 100%; height: 100%;"
+                      >
+                        <tr>
+                          <td style="vertical-align: top; padding: 0;">
+                            <div class="giftcard-content">
+                              <!-- Logo -->
+                              <div class="giftcard-logo">
+                                <img
+                                  src="https://cdn.shopify.com/s/files/1/1610/3585/files/ROYFORT_Logo-Large_Medium_Black.png?v=1765219732"
+                                  alt="Royfort"
+                                  border="0"
+                                >
+                              </div>
+                              <div class="giftcard-heading">GUTSCHEIN</div>
+                              <div class="giftcard-amount">
+                                {{ display_amount }}
+                              </div>
+                              <div class="giftcard-code">
+                                {{ gift_card.code | format_code }}
+                              </div>
+                              <div class="giftcard-text-wrapper">
+                                <div class="giftcard-text">
+                                  DER GUTSCHEINCODE KANN AUF ROYFORT.DE EINGELÖST WERDEN – EINFACH IM WARENKORB EINGEBEN
+                                  UND DEN WERT DIREKT AUF DIE BESTELLUNG ANRECHNEN LASSEN.<br>
+                                  <br>
+                                  DER GUTSCHEIN IST FÜR DAS GESAMTE SORTIMENT GÜLTIG, NICHT MIT ANDEREN GUTSCHEINEN
+                                  KOMBINIERBAR. EINE BARAUSZAHLUNG IST AUSGESCHLOSSEN UND ER UNTERLIEGT DER GESETZLICHEN
+                                  GÜLTIGKEITSDAUER VON 3 JAHREN.
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="height: 100%; padding: 0; font-size: 1px; line-height: 1px;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td style="vertical-align: bottom; padding: 0;">
+                            <table
+                              class="giftcard-footer-wrapper"
+                              cellpadding="0"
+                              cellspacing="0"
+                              role="presentation"
+                              style="width: 100%;"
+                            >
+                              <tr>
+                                <td>
+                                  <table
+                                    class="giftcard-footer"
+                                    cellpadding="0"
+                                    cellspacing="0"
+                                    role="presentation"
+                                    style="width: 100%;"
+                                  >
+                                    <tr>
+                                      <td class="giftcard-footer-left">THE LUXURY OF SLEEP.</td>
+                                      <td class="giftcard-footer-spacer" style="width: 100%;">&nbsp;</td>
+                                      <td class="giftcard-footer-right">
+                                        <a href="{{ shop.url }}">ROYFORT.DE</a>
+                                      </td>
+                                    </tr>
+                                  </table>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <!-- Mobile: Bild oben, Inhalt darunter -->
+            <tr class="mobile-only">
+              <td style="padding: 0; width: 100%; max-width: 500px;">
+                <!-- Mobiles Bild -->
+                <img
+                  src="https://cdn.shopify.com/s/files/1/1610/3585/files/25-08-Royfort-0375_f9e01325-83f2-45e0-9005-fb2d1fcd3f8b.jpg?v=1765219733"
+                  alt="Geschenkgutschein"
+                  border="0"
+                  style="display:block; width:100% !important; max-width:500px !important; height:auto; margin:0; padding:0; box-sizing:border-box;"
+                >
+              </td>
+            </tr>
+            <tr class="mobile-only">
+              <td style="width: 100%; max-width: 500px;">
+                <div class="giftcard-content">
+                  <!-- Logo -->
+                  <div class="giftcard-logo">
+                    <img
+                      src="https://cdn.shopify.com/s/files/1/1610/3585/files/ROYFORT_Logo-Large_Medium_Black.png?v=1765219732"
+                      alt="Royfort"
+                      border="0"
+                    >
+                  </div>
+                  <div class="giftcard-heading">GUTSCHEIN</div>
+                  <div class="giftcard-amount">
+                    {{ display_amount }}
+                  </div>
+                  <div class="giftcard-code">
+                    {{ gift_card.code | format_code }}
+                  </div>
+                  <div class="giftcard-text">
+                    DER GUTSCHEINCODE KANN AUF ROYFORT.DE EINGELÖST WERDEN – EINFACH IM WARENKORB EINGEBEN UND DEN WERT
+                    DIREKT AUF DIE BESTELLUNG ANRECHNEN LASSEN.<br>
+                    <br>
+                    DER GUTSCHEIN IST FÜR DAS GESAMTE SORTIMENT GÜLTIG, NICHT MIT ANDEREN GUTSCHEINEN KOMBINIERBAR. EINE
+                    BARAUSZAHLUNG IST AUSGESCHLOSSEN UND ER UNTERLIEGT DER GESETZLICHEN GÜLTIGKEITSDAUER VON 3 JAHREN.
+                  </div>
+
+                  <table class="giftcard-footer-wrapper" cellpadding="0" cellspacing="0" role="presentation">
+                    <tr>
+                      <td>
+                        <table
+                          class="giftcard-footer"
+                          cellpadding="0"
+                          cellspacing="0"
+                          role="presentation"
+                          style="width: 100%;"
+                        >
+                          <tr>
+                            <td class="giftcard-footer-left">THE LUXURY OF SLEEP.</td>
+                            <td class="giftcard-footer-spacer" style="width: 100%;">&nbsp;</td>
+                            <td class="giftcard-footer-right">
+                              <a href="{{ shop.url }}">ROYFORT.DE</a>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

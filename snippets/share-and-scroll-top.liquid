@@ -1,0 +1,69 @@
+{% unless template.name contains "search" %}
+{% if settings.show_scroll_to_top %}
+<button id="site-scroll-top" class="btn-plain">
+    {% render 'icon-arrow-up' %}
+</button>
+{% endif %}
+
+{% if settings.show_social_share %}
+<div id="site-social-share">
+    {% if template == 'index' or template == 'cart' or template == 'list-collections' %}
+
+        {% assign pageTitle  = "the homepage" %}
+        {% assign pageURL = "/" %}
+		
+    {% elsif template contains 'page' %}
+    
+        {% assign pageTitle = page.title %}
+        {% assign pageURL = page.url %}
+
+    {% elsif template contains 'product' %}
+    
+        {% assign pageTitle = product.title %}
+        {% assign pageURL = product.url %}
+
+    {% elsif template contains 'collection' and collection.handle %}
+    
+        {% assign pageTitle = collection.title %}
+        {% assign pageURL = collection.url %}
+
+    {% elsif template == 'blog' %}
+
+        {% assign pageTitle = blog.title %}
+        {% assign pageURL = blog.url %}
+
+    {% elsif template == 'article' %}
+    
+        {% assign pageTitle = article.title %}
+        {% assign pageURL = article.url %}
+
+	{% endif %}
+
+    {% capture message %}{{settings.social_text_one}} {{pageTitle}} {{settings.social_text_two}} {{shop.url}}{{ pageURL }}{% endcapture %}
+
+    <ul>
+        {% if settings.share_tumblr %}
+        <li class="tumblr"><a href="http://tumblr.com/widgets/share/tool?canonicalUrl={{shop.url}}{{ pageURL }}" target="_blank">{% render 'icon-social-tumblr' %}</a></li>
+        {% endif %}
+        {% if settings.share_twitter %}
+        <li class="twitter"><a class="twitter-share-button" href="https://twitter.com/intent/tweet?text={{ message | | url_param_escape}}" target="_blank">{% render 'icon-social-twitter' %}</a></li>
+        {% endif %}
+        {% if settings.share_facebook %}
+        <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u={{shop.url}}{{ pageURL }}" target="_blank">{% render 'icon-social-facebook' %}</a></li>
+        {% endif %}
+        {% if settings.share_whatsapp %}
+        <li class="whatsapp d-none"><a href="whatsapp://send?text={{ message | | url_param_escape }}" target="_blank">{% render 'icon-social-whatsapp' %}</a></li>
+        {% endif %}
+        {% if settings.share_email %}
+        <li class="email">
+        <a href="mailto:?&subject={{shop.name}} - {{pageTitle}}&body={{ message | | url_param_escape }}" target="_blank">{% render 'icon-social-mail' %}</a>
+        {% endif %}
+        </li>
+    </ul>
+<button id="social-share-trigger" class="btn-plain">
+    {% render 'icon-social-share' %}
+    {% render 'icon-close' %}
+</button>
+</div><!-- social-share-->
+{% endif %}
+{% endunless %}

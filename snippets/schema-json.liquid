@@ -1,0 +1,94 @@
+{% comment %}
+BG: The only field that we need to edit is the Logo/Image in the first script (Organization type). Aside from that, everything else will be dynamic.
+{% endcomment %}
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "url": "{{shop.url}}",
+    "name": "{{shop.name}}",
+    {% if shop.description != blank %}"description": "{{shop.description}}",{% endif%}
+    "logo": "https:{{ 'logo-desktop-new.png' | asset_img_url: 'master' }}",
+    "image": "https:{{ 'logo-desktop-new.png' | asset_img_url: 'master' }}",
+    {% if shop.address.street != blank or shop.address.city != blank or shop.address.province != blank or shop.address.zip != blank or shop.address.country != blank %}
+    "address": {
+        "@type": "PostalAddress",
+        {% if shop.address.street != blank %}"streetAddress": "{{shop.address.street}}",{%endif%}
+        {% if shop.address.city != blank %}"addressLocality": "{{shop.address.city}}",{%endif%}
+        {% if shop.address.province != blank %}"addressRegion": "{{shop.address.province}}",{%endif%}
+        {% if shop.address.zip != blank %}"postalCode": "{{shop.address.zip}}",{%endif%}
+        {% if shop.address.country != blank %}"addressCountry": "{{shop.address.country}}"{%endif%}
+    }
+    {% endif %}
+}
+</script>
+ {% if template == "product" %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": "{{product.title}}",
+    {% if product.images.size > 0 %}
+    "image": [
+        {% for image in product.images %}
+            {% if forloop.last == true %}
+                "https:{{ image.src | img_url: 'master' }}"
+            {% else %}
+                "https:{{ image.src | img_url: 'master' }}",
+            {% endif %}
+        {% endfor %}
+    ],
+    {% endif%}
+    {% if product.description != blank %}
+    "description": "{{ product.description | strip_html | escape }}",
+    {% endif %}
+    {% if product.vendor != blank %}
+    "brand": {
+        "@type": "Brand",
+        "name": "{{product.vendor}}"
+    },
+    {% endif%}
+
+    {% if product.has_only_default_variant %}
+    "offers": {
+        "@type": "Offer",
+        "sku": "{{ product.selected_or_first_available_variant.sku }}",
+        "price": "{{ product.selected_or_first_available_variant.price | money_without_currency | remove: ',' }}",
+        "priceCurrency": "{{ cart.currency.symbol }}",
+        "itemCondition": "https://schema.org/NewCondition",
+        "name": "{{product.title}} {{product.selected_or_first_available_variant.title}}",
+        "url": "{{ shop.url }}{{ product.selected_or_first_available_variant.url }}",
+        {% if product.available %}
+        "availability": "https://schema.org/InStock"
+        {% else %}
+        "availability": "https://schema.org/OutOfStock"
+        {% endif %}
+
+    }
+    {% else %}
+    "offers": [{
+        {% for variant in product.variants %}
+                "@type": "Offer",
+                "sku": "{{variant.sku}}",
+                "price": {{ variant.price | money_without_currency | remove: ',' }},
+                "priceCurrency": "{{ cart.currency.symbol }}",
+                "itemCondition": "https://schema.org/NewCondition",
+                "name": "{{product.title}} {{variant.title}}",
+                "url": "{{ shop.url }}{{ variant.url }}",
+                {% if variant.available %}
+                "availability": "https://schema.org/InStock"
+                {% else %}
+                "availability": "https://schema.org/OutOfStock"
+                {% endif %}
+        {% if forloop.last == true %}
+        }]
+        {% else %}
+        },{
+        {% endif %}
+        {% endfor %}
+
+    {% endif %}
+}
+</script>
+{% endif %}

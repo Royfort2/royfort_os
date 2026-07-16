@@ -1,0 +1,38 @@
+{% assign current_variant = product.selected_or_first_available_variant %}
+{% assign current_inventory = current_variant.inventory %}
+{% if current_variant.inventory_policy == 'continue' %}
+  {% assign current_inventory = 999 %}
+{% endif %}
+{% if current_inventory == blank %}
+  {% assign current_inventory = 0 %}
+{% endif %}
+<div class="product-bottom-bar" style="display:none">
+  <div class="container-fluid">
+    <div class="d-flex flex-row flex-md-column justify-content-between">
+      <h2 class="product-title main-product-title">{{product.title}}</h2>
+      <p class="additional"></p>
+      <div class="product-price">
+
+        <span class="money title-font text-primary">{{ current_variant.price | money }}</span>
+        <span class="compare-price-bottom original-price money title-font">
+          {% if current_variant.compare_at_price > current_variant.price %}
+            {{current_variant.compare_at_price | money }}{% endif %}
+        </span>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="product-price">
+
+        {% if current_variant.compare_at_price > current_variant.price %}
+          <span class="money title-font text-primary" style="text-decoration: line-through">{{current_variant.compare_at_price | money }}</span>
+          <span class="compare-price-bottom title-font" style="margin-left: 10px; color: #FFC42F !important">{{current_variant.price | money }}</span>
+        {% else %}
+          <span class="money title-font text-primary">{{ current_variant.price | money }}</span>
+          <span class="compare-price-bottom title-font" style="margin-left: 10px; color: #FFC42F !important"></span>
+        {% endif %}
+      </div>
+      <button type="button" class="dummy-main--basket bottom-fixed-button btn btn-primary" data-dummy="main--basket"></button>
+    </div>
+  </div>
+</div>

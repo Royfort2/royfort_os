@@ -1,0 +1,150 @@
+<!-- BUNDLE OPTION -->
+{% assign current_variant = product.selected_or_first_available_variant %}
+{% assign current_inventory = current_variant.inventory %}
+{% if current_variant.inventory_policy == 'continue' %}
+    {% assign current_inventory = 999 %}
+{% endif %}
+{% if current_inventory == blank %}
+    {% assign current_inventory = 0 %}
+{% endif %}
+{% if also_product == blank %}
+    {% assign also_product = false %}
+{% endif %}
+<div class="product-options">
+    {% assign swatch_html = '' %}
+    {% assign options_html = '' %}
+    {% unless product.has_only_default_variant %}
+        {% for product_option in product.options_with_values %}
+            {% assign option_index = product_option.position %}
+
+            {% assign swatch_translation_title = 'swatch_option.title' | t %}
+            {% assign swatch_translation_slug = 'swatch_option.slug' | t %}
+            
+            {% if product_option.name == swatch_translation_title or product_option.name == swatch_translation_slug %}
+                {% capture swatch_capture %}
+                    {% if also_product == false %}
+                        <div class="product-swatch" style="display: none;">
+                            <h4 class="text-secondary text-14">{{ product_option.name }}: <span class="{{ prefix }}swatch-title-{{ option_index }}">{{ product_option.selected_value }}</span></h4>
+                            {% assign n = 0 %}
+                            {% for value in product_option.values %}
+                                {% assign n = n | plus: 1 %}
+                                {% assign checked = '' %}
+                                {% assign checked_class = '' %}
+                                {% if option_index == 1 %}
+                                    {% if current_variant.option1 == value %}
+                                        {% assign checked = 'checked=true' %}
+                                        {% assign checked_class = 'active' %}
+                                    {% endif %}
+                                {% elsif option_index == 2 %}
+                                    {% if current_variant.option2 == value %}
+                                        {% assign checked = 'checked=true' %}
+                                        {% assign checked_class = 'active' %}
+                                    {% endif %}
+                                {% elsif option_index == 3 %}
+                                    {% if current_variant.option3 == value %}
+                                        {% assign checked = 'checked=true' %}
+                                        {% assign checked_class = 'active' %}
+                                    {% endif %}
+                                {% endif %}
+                                {% assign colour_value = '#fff' %}
+                                {% assign swatches_array = '' %}
+                                {% for swatch_value in shop.metafields.swatches.swatch_colour_title %}
+                                    {% if swatch_value == value %}
+                                        
+                                        {% comment %}
+                                        SH: Check that there is no duplication of swatch names/labels
+                                        {% endcomment %}
+                                        {% unless swatches_array contains swatch_value %}
+                                            {% assign colour_value = shop.metafields.swatches.swatch_colour[forloop.index0] %}
+                                            {% assign colour_img = shop.metafields.swatches.swatch_sample[forloop.index0] %}
+                                            {% if colour_img == blank %}{% assign colour_img = '' %}{% else %}{% capture colour_img %}background-image: url('{{ colour_img | file_img_url: '30x30' }}');background-position: center;{% endcapture %}{% endif %}
+                                        {% endunless %}
+                                        {% assign swatches_array = swatches_array | append: swatch_value | append: ', '  %}
+
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% comment %}
+                                SH: Brute hack for inconsistent handle output
+                                {% endcomment %}
+                                {% assign colorhandle = value | handleize %}
+                                {% assign colorhandle = colorhandle | replace: 'sanftgrun', 'sanftgruen' %}
+
+                                <label data-pos="{{ n }}" class="{{ prefix }}option{{ option_index }}-selector-label color-{{ colorhandle }} {{ checked_class }}"><div class="swatch-image" style="background-color: {{ colour_value }};{{ colour_img }}"></div><input type="radio" class="{{ prefix }}option-selector hide swatch-value" name="{{ prefix }}option{{ option_index }}" value="{{ value }}" {{ checked }}></label>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="product-option-container">
+                            <div class="select-container">
+                                <select class="{{ prefix }}option-selector" name="{{ prefix }}option{{ option_index }}">
+                                    {% for value in product_option.values %}
+                                        {% assign checked = '' %}
+                                        {% if option_index == 1 %}
+                                            {% if current_variant.option1 == value %}
+                                                {% assign checked = 'selected=true' %}
+                                            {% endif %}
+                                        {% elsif option_index == 2 %}
+                                            {% if current_variant.option2 == value %}
+                                                {% assign checked = 'selected=true' %}
+                                            {% endif %}
+                                        {% elsif option_index == 3 %}
+                                            {% if current_variant.option3 == value %}
+                                                {% assign checked = 'selected=true' %}
+                                            {% endif %}
+                                        {% endif %}
+                                        <option value="{{ value }}" {{ checked }} >{{ product_option.name }} {{ value }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endcapture %}
+                {% assign swatch_html = swatch_html | append: swatch_capture %}
+            {% else %}
+                {% capture option_capture %}
+                    <div class="product-option-container {{ prefix }}product-option-container">
+                        {% if also_product == false %}
+                            <h4 class="text-secondary text-14">{{ product_option.name }}:</h4>
+                        {% endif %}
+                        <div class="select-container">
+                            <select class="{{ prefix }}option-selector" name="{{ prefix }}option{{ option_index }}">
+                                {% for value in product_option.values %}
+                                    {% assign checked = '' %}
+                                    {% if option_index == 1 %}
+                                        {% if current_variant.option1 == value %}
+                                            {% assign checked = 'selected=true' %}
+                                        {% endif %}
+                                    {% elsif option_index == 2 %}
+                                        {% if current_variant.option2 == value %}
+                                            {% assign checked = 'selected=true' %}
+                                        {% endif %}
+                                    {% elsif option_index == 3 %}
+                                        {% if current_variant.option3 == value %}
+                                            {% assign checked = 'selected=true' %}
+                                        {% endif %}
+                                    {% endif %}
+                                    <option value="{{ value }}" {{ checked }} >{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                {% endcapture %}
+                {% assign options_html = options_html | append: option_capture %}
+            {% endif %}
+        {% endfor %}
+    {% endunless %}
+    {{ swatch_html }}
+    {{ options_html }}
+    {% if also_product == false %}
+        <div class="product-option-container {{ prefix }}product-option-container">
+            <h4 class="text-secondary text-14">{{ 'products.product.quantity' | t }}</h4>
+            <div class="select-container">
+                <select class="{{ prefix }}product-quantity" max="{{current_inventory}}" {% if current_inventory <= 0 %} disabled {% endif %}>
+                    {% for i in (1..10) %}
+                        <option value={{i}}>{{i}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div><!-- product-quantity-container -->
+    {% endif %}
+</div>

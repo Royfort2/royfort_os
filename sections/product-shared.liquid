@@ -1,0 +1,433 @@
+{% assign lower_usp_image = product.metafields.product.lower_usp_image %}
+{% assign lower_usp_title = product.metafields.product.lower_usp_title %}
+{% assign lower_usp_content = product.metafields.product.lower_usp_content %}
+{% assign lower_usp_url = product.metafields.product.lower_usp_url %}
+
+{% assign banner_background_image = product.metafields.product_banner.background_image %}
+{% assign banner_background_image_mobile = product.metafields.product_banner.background_image_mobile %}
+{% assign banner_title = product.metafields.product_banner.title %}
+{% assign banner_post_title = product.metafields.product_banner.post_title %}
+{% assign banner_content = product.metafields.product_banner.content %}
+{% assign banner_cta = product.metafields.product_banner.cta %}
+{% assign banner_link = product.metafields.product_banner.link %}
+
+{% assign alternate_image = product.metafields.banner.alternate_imagevideo %}
+
+{% assign banner_background_image_v2 = product.metafields.banner.banner_desktop_v2 %}
+{% comment %} {% assign banner_background_image_mobile_v2 = product.metafields.banner.banner_mobile_v2 %} {% endcomment %}
+
+<div class="container-fluid">
+    {% if lower_usp_image.size > 0 %}
+        <div class="row">
+            <div class="section-background product-shared-usp-desktop">
+                <div class="{{section.settings.usp_section_container}} py-lg-3" style="background-color:{{section.settings.usp_section_container_bg}};">
+                    <div class="site-usp-container {% if section.settings.usp_block_slide == true %} inline-slick{% endif %} {{section.settings.usp_icon_placement}}" data-slick='{"slidesToShow": 1, "slidesToScroll": 1, "dots":false, "arrows":false, "adaptiveHeight": true, "autoplay":{{section.settings.usp_block_autoplay}}, "autoplaySpeed": {{section.settings.usp_block_speed}}0, "mobileFirst": true, "responsive":[{"breakpoint": 767,"settings":{"slidesToShow": 4, "slidesToScroll": 1 }}]}'>
+
+                        {% for usp_title in lower_usp_image %}
+                            {% assign usp_index = forloop.index0 %}
+
+                            <div class="usp-item {{section.settings.usp_icon_placement}}">
+                                {% if lower_usp_url[usp_index] != blank %}
+                                    <a href="{{lower_usp_url[usp_index]}}" title="{{lower_usp_title[usp_index]}}">
+                                {% endif %}
+                                        <div class="usp-icon">
+                                            <div class="fixed-ratio square">
+                                                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{{ lower_usp_image[usp_index] }}" class="lazyload" alt="{{lower_usp_title[usp_index]}}" />
+                                            </div><!-- fixed-ratio square -->
+                                        </div><!-- usp-icon-->
+
+                                        <div class="usp-content">
+                                            {% if lower_usp_title[usp_index] != blank %}<p style="color:{{section.settings.usp_title_main_color}};" class="text-18 mb-3">{{lower_usp_title[usp_index]}}</p>{% endif %}
+                                            {% if lower_usp_content[usp_index] != blank %}<div class="rte text-12">{{lower_usp_content[usp_index]}}</div>{% endif %}
+                                        </div><!-- usp-content -->
+                                {% if lower_usp_url[usp_index] != blank %}
+                                    </a>
+                                {% endif %}
+                            </div><!-- usp-item -->
+
+                        {% endfor %}
+
+                    </div><!-- site-usp-container-->
+                </div><!-- container -->
+            </div><!-- section-background-->
+        </div>
+
+        <div class="section-background product-shared-usp-mobile">
+            <h2 class="text-center my-5 text-23 text-secondary">{{ section.settings.usp_title_main }}</h2>
+            <div class="accordion-container">
+                {% for usp_title in lower_usp_image %}
+                    {% assign usp_index = forloop.index0 %}
+
+                    <div class="accordion-parent" style="background-color:{{section.settings.usp_section_container_bg}};" data-group="shared-usp">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{{ lower_usp_image[usp_index] }}" class="lazyload" alt="{{lower_usp_title[usp_index]}}" />
+                        <div class="accordion-item" data-group="shared-usp">
+                            <div class="accordion-title" data-group="shared-usp">
+                                <h3>{{lower_usp_title[usp_index]}}</h3>
+                                <span class="icon-plusminus"></span>
+                            </div><!-- accordion-title -->
+                            <div class="accordion-content" data-group="shared-usp">
+                                <div class="rte">
+                                    {{lower_usp_content[usp_index]}}
+                                </div>
+                            </div><!-- accordion-content -->
+                        </div><!-- accordion-item -->
+                    </div>
+
+                {% endfor %}
+            </div><!-- accordion-container -->
+        </div>
+    {% endif %}
+
+    {% if banner_background_image.size > 0 %}
+        <div class="section-background product-content-strip" style="display:none">
+            <div class="content-slick{% if banner_background_image.size > 1 %} inline-slick{% endif %}" data-slick='{"slidesToShow": 1, "slidesToScroll": 1, "adaptiveHeight": true,  "arrows":{{section.settings.slide_arrows}}, "autoplay":{{section.settings.slide_autoplay}}, "autoplaySpeed": {{section.settings.slide_speed}}0, "dots": false, "infinite": {{section.settings.slide_wraparound}}}'>
+                {% for banner_image in banner_background_image %}
+                    {% assign banner_index = forloop.index0 %}
+
+                    <div class="content-strip-item text-center product-strip-item product-banner-{{ banner_index }} content-strip-standard" data-position="{{forloop.index}}" data-shopify-section-id="{{section.id}}">
+                        <div class="block-content p-md-5 px-lg-10 no-link text-left">
+                            {% if banner_title[banner_index] != blank  %}<h3 class="title text-md-50 mb-3 text-center text-md-left text-primary text-uppercase">{{banner_title[banner_index] | remove: "<p>" | remove: "</p>" | replace: "<strong>", "<span class='accent-highlight-one'>" | replace: "</strong>","</span>" | replace: "<em>","<span class='accent-highlight-two'>" | replace: "</em>","</span>"}}</h3>{% endif %}
+                            {% if banner_post_title[banner_index] != blank %}<p class="banner-post-title text-center text-md-left w-lg-50-pc text-primary">{{banner_post_title[banner_index] | remove: "<p>" | remove: "</p>" | replace: "<strong>", "<span class='accent-highlight-one'>" | replace: "</strong>","</span>" | replace: "<em>","<span class='accent-highlight-two'>" | replace: "</em>","</span>"}}</p>{% endif %}
+                            {% if banner_content[banner_index] != blank %}<p class="paragraph text-lg-14 mb-3 text-center text-md-left w-lg-50-pc text-primary">{{banner_content[banner_index] | remove: "<p>" | remove: "</p>" | replace: "<strong>", "<span class='accent-highlight-one'>" | replace: "</strong>","</span>" | replace: "<em>","<span class='accent-highlight-two'>" | replace: "</em>","</span>"}}</p>{% endif %}
+                            {% if banner_cta[banner_index] != blank and banner_link[banner_index] != blank %}<div class="pt-3 pt-lg-0 text-center text-md-left"><a href="{{ banner_link[banner_index] }}" class="btn btn-invert m-center">{{banner_cta[banner_index]}}</a></div>{% endif %}
+                        </div><!-- hero-content -->
+                    </div><!-- content-strip-item -->
+                    <style>
+                            .product-banner-{{ banner_index }}{
+                            background-image:url('{{ banner_background_image[banner_index] }}');
+                        }
+                        {% if banner_background_image_mobile[banner_index] != blank %}
+                            @media only screen and (max-width: 767px) {
+                                .product-banner-{{ banner_index }}{
+                                    background-image:url('{{ banner_background_image_mobile[banner_index] }}');
+                                }
+                            }
+                        {% endif %}
+                    </style>
+                {% endfor %}
+            </div><!-- content-slick -->
+        </div><!-- section-background -->
+    {% endif %}
+
+   {% if banner_background_image_v2.size > 0 %}
+   <div class="product-detail-row two-columns-module">
+	{% for banner_image in banner_background_image_v2 %}
+        {% assign bannerv2_index = forloop.index0 %}
+        <div class="content-section{% if alternate_image[bannerv2_index] contains 'true' %} alternate-image{% endif %} single-box">
+        {%if banner_image[0].media_type == "image" %}
+            <div class="tiles_grid">
+                <div class="product-banner-v2-{{ bannerv2_index }}"></div>
+            </div>
+
+
+            <div class="tiles_grid">
+                <div class="generic-block">
+                    <div class="title-main">
+                        <h3 class="title-main__primary header_color mobile-font-{{section.settings.mobile_header_font_size}} desktop-font-{{section.settings.desktop_header_font_size}}">{{banner_title[bannerv2_index]}}</h3>
+                        <div class="simple-text cms-content text_color mobile-font-{{section.settings.mobile_text_font_size}} mt-3 mb-3 desktop-font-{{section.settings.desktop_text_font_size}}">{{banner_content[bannerv2_index]}}</div>
+                        {% if banner_cta[bannerv2_index] != blank and banner_link[bannerv2_index] != blank %}<div class="pt-3 pt-lg-0 text-center mt-3 mb-3 text-md-left"><a href="{{ banner_link[bannerv2_index] }}" class="btn btn-invert m-center">{{banner_cta[bannerv2_index]}}</a></div>{% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <style>
+                .product-banner-v2-{{bannerv2_index}} {
+                    background-image:url('{{ banner_image[0].src }}');
+                    width: 100%;
+                    height: 400px;
+                    background-repeat:no-repeat;
+                    background-size:cover;
+                    background-position:center;
+                }
+                      
+                @media only screen and (max-width: 767px) {
+                    .product-banner-v2-{{bannerv2_index}} {
+                        background-image:url('{{ banner_image[0].src }}');
+                        width: 100%;
+                        height: 250px;
+                        background-repeat:no-repeat;
+                        background-size:cover;
+                        background-position:center;
+                    }
+                }
+
+              .simple-text > * {
+                  font-size: unset;
+                  line-height: 1.6;
+              }
+
+              .simple-text li {
+                  font-size: unset;
+                  line-height: 1.6;
+                  padding: 3px 0 0  7px
+              }
+
+              .cms-content > ul {
+                  padding: 0 0 0 25px;
+                  list-style-position: outside;
+              }
+
+            </style>
+            </div>
+        
+
+      {% else %}
+        <div class="tiles_grid">
+
+        {% if banner_background_image_v2 %}
+         {% comment %} Desktop {% endcomment %}
+          <video class="banner-video" width="100%" height="400" playsinline autoplay muted loop>
+            <source src={{banner_image[0].src}} type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+            {%endif%}
+        </div>
+
+        <div class="tiles_grid">
+            <div class="generic-block">
+                <div class="title-main two-columns-module">
+                    <h3 class="title-main__primary header_color mobile-font-{{section.settings.mobile_header_font_size}} desktop-font-{{section.settings.desktop_header_font_size}}">{{banner_title[bannerv2_index] }}</h3>
+                    <div class="simple-text cms-content text_color mt-3 mb-3 mobile-font-{{section.settings.mobile_text_font_size}} desktop-font-{{section.settings.desktop_text_font_size}}">{{banner_content[bannerv2_index]}}</div>
+                        {% if banner_cta[bannerv2_index] != blank and banner_link[bannerv2_index] != blank %}<div class="pt-3 pt-lg-0 text-center mt-3 mb-3 text-md-left"><a href="{{ banner_link[bannerv2_index] }}" class="btn btn-invert m-center">{{banner_cta[bannerv2_index]}}</a></div>{% endif %}
+                   </div>
+                </div>
+            </div>
+            <style> 
+             </style>
+
+            </div>
+            {%endif%}
+            {%endfor%}                
+
+           <style>
+
+            .single-box {
+               width: 100%
+            }
+
+            .header_color {color: {{section.settings.header_color}}}
+            .text_color {color: {{section.settings.text_color}}}
+
+            .simple-text > * {
+                font-size: unset;
+                line-height: 1.6;
+            }
+
+            .simple-text li {
+                font-size: unset;
+                line-height: 1.6;
+                padding: 3px 0 0  7px
+            }
+
+
+              .cms-content > ul {
+                  padding: 0 0 0 25px;
+                  list-style-position: outside;
+              }
+
+            </style>
+        </div>
+
+        {%render 'pdp-video-columns' %}
+            
+    </div> <!-- sectionv2-background -->
+
+   {%endif%}
+
+{% comment %} <script>
+var mainVideo = document.querySelector('.banner-video');
+var mobileSrc = "{% for banner_image in banner_background_image_mobile_v2 %} {{ banner_image[0].src }} {%endfor%}";
+var desktopSrc = "{% for banner_image in banner_background_image_v2 %} {{ banner_image[0].src }} {%endfor%}";
+ 
+if (window.innerWidth < 768) {
+     mainVideo.src = mobileSrc;
+} else {
+     mainVideo.src = desktopSrc
+}
+</script> {% endcomment %}
+
+
+{% schema %}
+{
+    "name": "Product Shared",
+    "settings": [
+        {
+            "type": "header",
+            "content": "USPs"
+        },
+        {
+            "type": "header",
+            "content": "Layout / Appearance"
+        },
+        {
+            "type": "paragraph",
+            "content": "Choose whether or not this section will be full width, or contained to the guttering of the website."
+        },
+        {
+            "type": "text",
+            "id": "usp_title_main",
+            "label": "Main Title"
+        },
+        {
+            "type": "color",
+            "id": "usp_title_main_color",
+            "label": "Title Colour",
+            "default": "#000000"
+        },
+        {
+            "type": "color",
+            "id": "usp_section_container_bg",
+            "label": "Background Colour",
+            "default": "#FFFFFF"
+        },
+        {
+            "type":      "select",
+            "id":        "usp_icon_placement",
+            "label":     "Icon Placement",
+            "options": [
+                {
+                    "value": "icon-above",
+                    "label": "Icon above text"
+                },
+                {
+                    "value": "icon-inline",
+                    "label": "Icon inline with text"
+                },
+                {
+                    "value": "icon-inline-slim",
+                    "label": "Icon inline with just title"
+                }
+                ],
+                "default":   "icon-above"
+        },
+        {
+            "type": "header",
+            "content": "Mobile Carousel"
+        },
+        {
+            "type": "checkbox",
+            "id": "usp_block_slide",
+            "label": "Apply Carousel to the blocks?",
+            "default": true,
+            "info": "if unchecked, the content will simply stack upon each other."
+        },
+        {
+            "type": "checkbox",
+            "id": "usp_block_autoplay",
+            "label": "Autoplay Carousel?",
+            "default": true,
+            "info": "Automatically scroll through blocks?"
+        },
+        {
+            "type": "range",
+            "id": "usp_block_speed",
+            "label": "Autoplay Speed",
+            "min": 150,
+            "max": 2000,
+            "step": 50,
+            "default": 500,
+            "info": "100 = 1 Second"
+        },
+        {
+            "type": "header",
+            "content": "Content Strip"
+        },
+        {
+            "type": "header",
+            "content": "Layout"
+        },
+        {
+            "type": "paragraph",
+            "content": "Choose whether or not this content section will be full width, or contained to the guttering of the website."
+        },
+        {
+            "type": "header",
+            "content": "Slider Options"
+        },
+        {
+            "type": "checkbox",
+            "id": "slide_arrows",
+            "label": "Show Arrows?",
+            "default": true,
+            "info": "Arrows will display if there are more than one block"
+        },
+        {
+            "type": "checkbox",
+            "id": "slide_wraparound",
+            "label": "Wrap Around?",
+            "default": true,
+            "info": "At the end of blocks, wrap-around to the other end for infinite scrolling."
+        },
+        {
+            "type": "checkbox",
+            "id": "slide_autoplay",
+            "label": "Autoplay Carousel?",
+            "default": true,
+            "info": "Automatically scroll through blocks?"
+        },
+        {
+            "type": "range",
+            "id": "slide_speed",
+            "label": "Autoplay Speed",
+            "min": 150,
+            "max": 2000,
+            "step": 50,
+            "default": 500,
+            "info": "100 = 1 Second"
+        },
+        {
+            "type": "header",
+            "content": "Two columns"
+        },
+        {
+            "type": "range",
+            "id": "desktop_header_font_size",
+            "label": "Desktop Header font size",
+            "min": 14,
+            "max": 60,
+            "step": 1,
+            "default": 30
+        }, 
+        {
+            "type": "range",
+            "id": "desktop_text_font_size",
+            "label": "Desktop Text font size",
+            "min": 14,
+            "max": 60,
+            "step": 1,
+            "default": 15
+        }, 
+        {
+            "type": "range",
+            "id": "mobile_header_font_size",
+            "label": "Mobile Header font size",
+            "min": 14,
+            "max": 60,
+            "step": 1,
+            "default": 20
+        }, 
+        {
+            "type": "range",
+            "id": "mobile_text_font_size",
+            "label": "Mobile Text font size",
+            "min": 14,
+            "max": 60,
+            "step": 1,
+            "default": 14
+        }, 
+        {
+            "type": "color",
+            "id": "header_color",
+            "label": "Header Colour",
+            "default": "#4D4F50"
+        }, 
+        {
+            "type": "color", 
+            "id": "text_color", 
+            "label": "Text Colour", 
+            "default": "#4D4F50"
+
+        }
+    ]
+}
+{% endschema %}

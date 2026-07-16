@@ -1,0 +1,134 @@
+{% assign current_variant = product.selected_or_first_available_variant %}
+{% assign additional_price = product.metafields.bundle.price %}
+{% assign swatch_library = shop.metafields.swatches.swatch_colour_title %}
+{% assign available_colours_count = 0 %}
+{% assign step_count = 1 %}
+
+{% for product_option in product.options_with_values %}
+    {% assign option_index = product_option.position %}
+    {% assign swatch_translation_title = 'swatch_option.title' | t %}
+    {% assign swatch_translation_slug = 'swatch_option.slug' | t %}
+
+    {% if product_option.name == swatch_translation_title or product_option.name == swatch_translation_slug %} 
+        {% capture pbb_swatch_capture %}
+            {% for value in product_option.values %}
+                {% assign colour_value = '#fff' %}
+                {% assign border_color = '#b3b3b3' %}
+                {% for swatch_value in swatch_library %}
+                    {% if swatch_value == value %}
+                        {% assign colour_value = shop.metafields.swatches.swatch_colour[forloop.index0] %}
+                    {% endif %}
+                {% endfor %}
+
+                {% comment %}test comment{% endcomment %}
+
+                {% assign downcase_colour_val = colour_value | downcase %}
+
+                {% if downcase_colour_val == '#ffffff' or downcase_colour_val == '#fff' or downcase_colour_val == blank %}
+                    
+                {% else %}
+                    {% assign border_color = downcase_colour_val %}
+                {% endif %}
+
+                <div class="pbb-swatch" style="cursor: default;">
+                    <div class="pbb-swatch-image" style="background-color: {{ downcase_colour_val }}; border-color: {{ border_color }};" title="{{ value }}"></div>
+                    <span class="sr-only">{{ value }}</span>
+                </div>
+                
+                {% assign available_colours_count = available_colours_count | plus: 1 %}
+
+            {% endfor %}
+        {% endcapture %}
+
+        {% assign pbb_swatch_html = pbb_swatch_html | append: pbb_swatch_capture %}
+
+    {% endif %}
+
+{% endfor %}
+
+{% for tag in product.tags %}
+    {% if tag contains "bundle_" %}
+        {% assign step_count = step_count | plus: 1 %}
+    {% endif %}
+{% endfor %}
+
+
+<div class="product-bundle-builder" data-shop-currency="{{ shop.currency }}" data-shop-locale="{{ shop.locale }}">
+    <h1 class="pbb-main-product-title">{{ product.title }}</h1>
+    <div class="pbb-main-product-from-price">{{ "pdp.bundle.price_from" | t }} {{ current_variant.price | money }}</div>
+
+    <span class="stamped-toggle stamped-product-reviews-badge stamped-main-badge" data-id="{{ product.id }}" data-product-sku="{{ product.handle }}" style="display: inline-block;"></span>
+
+    <p class="pbb-available-in">{{ "pdp.bundle.available_in" | t | replace: "%s", available_colours_count }}</p>
+
+    <div class="pbb-swatches -my-2">
+        {{ pbb_swatch_html }}
+    </div>
+
+    <p class="pbb-create-your-bundle">{{ "pdp.bundle.create_your_bundle_in" | t | replace: "%s", step_count }}</p>
+    {% comment %} <p class="pbb-create-your-bundle">Create your bundle in {{ step_count }} easy steps</p> {% endcomment %}
+    <button type="button" class="btn btn-primary w-full btn-slim pbb-start">{{ "pdp.bundle.get_started" | t }}</button>
+
+    <div class="">
+        <a href="#" class="pbb-learn-more" data-target=".product-usp-upper">
+            <span>{{ "pdp.bundle.learn_more" | t }}</span>
+            <i class="icon-down-arrow"></i>
+        </a>
+    </div>
+
+    <div class="pbb-container">
+        <div class="pbb-sheet">
+
+            <div class="pbb-screen pbb-steps-screen is-active">
+                <div class="pbb-screen-top">
+                    <span role="button" class="pbb-close">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </span>
+                    <span role="button" class="pbb-back">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </span>
+                    
+                    <div class="pbb-steps">
+
+                        {% render "product-bundle-builder__step", { product: product, ab_images: true } %}
+
+                        {% for tag in product.tags %}
+                            {% if tag contains "bundle_" %}
+                                {% assign tag_split = tag | split: '_' %}
+                                {% assign productFromTag = all_products[tag_split[1]] %}
+                                {% render "product-bundle-builder__step", { product: productFromTag, ab_images: false } %}
+                            {% endif %}
+                        {% endfor %}
+
+                    </div>
+                </div>
+                
+                <div class="" style="width:100%; border-top: 1px solid black; padding: 10px 0;">
+                    <div class="pbb-subtotal">
+                        <div>{{ "pdp.bundle.subtotal" | t }}</div>
+                        <div class="pbb-subtotal-amount">£0.00</div>
+                    </div>
+                    <div class="pbb-subtotal-overview"></div>
+                    <div class="pbb-next-wrapper">
+                        <button type="button"
+                            class="btn btn-primary w-full btn-slim pbb-next"
+                            data-next-step-text="{{ 'pdp.bundle.continue' | t }}"
+                            data-last-step-text="{{ 'pdp.bundle.continue_to_summary' | t }}"
+                        >{{ "pdp.bundle.continue" | t }}</button>
+                    </div>
+                    <div class="pbb-skip-wrapper">
+                        <button type="button" class="btn btn-primary w-full btn-slim pbb-skip">{{ "pdp.bundle.skip" | t}}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pbb-screen pbb-summary-screen">
+                {% render "product-bundle-builder__summary" %}
+            </div>
+        </div>
+    </div>
+</div>

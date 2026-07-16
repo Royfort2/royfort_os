@@ -1,0 +1,11 @@
+<div class="basket-total">
+    <div class="total-price">
+        <span class="label" data-subtotal-label="{{'cart.general.subtotal' | t}}" data-total-label="{{'cart.general.total' | t}}">{% if cartTotal >= freeDeliveryThreshold %}{{'cart.general.total' | t}}{% else %}{{'cart.general.subtotal' | t}}{% endif %}
+        </span>
+        <span class="total-price-info" data-inc-vat="{{'cart.general.inc_vat' | t}}" data-exc-delivery=", {{'cart.general.excluding_delivery' | t}}">({{'cart.general.inc_vat' | t}}{% if cartTotal < freeDeliveryThreshold %}, {{'cart.general.excluding_delivery' | t}}{% endif %})</span>
+        <span class="Makebecool-theme-hook-DO-NOT-DELETE makebecool_cart_total" style="display:none !important;"></span>
+        <span class="value" data-total-value="{{cartTotal}}">{{cartTotal | money }}</span>
+    </div>
+</div><!-- basket-total-->
+
+<button onclick="trackBeginCheckout()" type="submit" class="btn btn-primary btn-checkout" name="checkout">{{ 'cart.general.checkout_btn' | t }}</button>

@@ -1,0 +1,9 @@
+ {%if product.metafields.product.product_discount_code %}
+
+    <div class="product-discount-code">{{product.metafields.product.product_discount_code}}</div>
+ {%else%}
+ 
+    <div style="color:{{section.settings.pdc_color}}" class="product-discount-code">{{section.settings.product_discount_code}}</div>
+
+{%endif%}
+ 

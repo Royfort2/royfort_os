@@ -1,0 +1,474 @@
+{% include 'shogun-content-handler' %}
+<!doctype html>
+<!--[if ie 9]> <html class="ie9 no-js supports-no-cookies" lang="{{ shop.locale }}"> <![endif]-->
+<!-- [if (gt ie 9)|!(ie)]><! -->
+<html
+  data-transitions="true"
+  class="no-js supports-no-cookies {% if template == 'index' %} index {% endif %}"
+  lang="{{ shop.locale }}"
+  {% if customer %}
+    data-customer-logged-in="true"
+  {% endif %}
+>
+  <!-- <![endif] -->
+
+  <!-- lm: 10/01/22 post purchase checkout upsell snippet -->
+  {% render 'spurit_uac_meta_snippet' %}
+  <head>
+ {%- render 'ecom_header' -%}
+    {% render 'pandectes-rules' %}
+    <meta property="og:image" content="https://cdn.shopify.com/s/files/1/1610/3585/files/Royfort_Logo.png?v=1661862533">
+    <script>
+      if(document.location.href.indexOf('https://royfort.de/collections/all?sort_by=best-selling') > -1) {
+      document.location.href = 'https://royfort.de/collections/royfort-all-products-collection';
+      }
+    </script>
+
+    <!-- Google Tag Manager -->
+    <script>
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-PQRRW3J');
+    </script>
+    <!-- End Google Tag Manager -->
+
+    <script defer src="//trck.linkster.co/trck/etms/eatms.js?campaign_id=232"></script>
+
+    {% if shop.permanent_domain == 'bw2016.myshopify.com' %}
+      <!-- anti-flicker snippet (recommended) -->
+      <style>
+        .async-hide { opacity: 0 !important}
+      </style>
+      <script>
+        (function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
+        h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
+        (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
+        })(window,document.documentElement,'async-hide','dataLayer',4000,
+        {'OPT-WMC4H7W':true});
+      </script>
+      <script defer src="https://www.googleoptimize.com/optimize.js?id=OPT-WMC4H7W"></script>
+    {% endif %}
+
+    {% render 'pagefly-head' %}
+    <!-- lm: 10/01/22 post purchase checkout upsell snippet -->
+    {% render 'spurit_uac_open_graph_snippet' %}
+    <meta charset="utf-8">
+    {% if shop.domain contains '.myshopify'
+      or current_tags
+      or handle contains 'newsletter-sign-up'
+      or handle contains 'sign-up-confirmation'
+      or template contains 'search'
+    %}
+      <meta name="robots" content="noindex">
+    {% else %}
+      <meta name="robots" content="index,follow">
+    {% endif %}
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    <!-- brand font -->
+    <link rel="stylesheet" href="{{ 'avenir.css' | asset_url }}">
+    <link rel="stylesheet" href="{{ 'quador.css' | asset_url }}">
+    <link rel="stylesheet" href="{{ 'fonts.css' | asset_url }}">
+    <!-- <link rel="stylesheet" href="https://use.typekit.net/zuo5uim.css"> -->
+
+    {% if settings.favicon != blank %}
+      <link
+        rel="shortcut icon"
+        href="{{ settings.favicon | image_url: width: '32', height: '32' }}"
+        media="(prefers-color-scheme: light)"
+        type="image/webp"
+      >
+    {% endif %}
+
+    {% if settings.favicon_dark != blank %}
+      <link
+        rel="shortcut icon"
+        href="{{ settings.favicon_dark | image_url: width: '32', height: '32' }}"
+        media="(prefers-color-scheme: dark)"
+        type="image/webp"
+      >
+    {% endif %}
+
+    {% if template == 'list-collections' %}
+      {% assign seo_title = 'royfort' %}
+    {% elsif template == 'search' %}
+      {% capture seo_title %}
+            search results for '{{ search.terms }}'
+        {% endcapture %}
+    {% else %}
+      {% capture seo_title %}
+            {{ page_title }}
+            {% if current_tags %}
+                {%- assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags -}}
+            {% endif %}
+            {% if current_page != 1 %}
+                &ndash; {{ 'general.meta.page' | t: page_number: current_page }}
+            {% endif %}
+        {% endcapture %}
+    {% endif %}
+
+    <title>{{ seo_title }}</title>
+
+    {% if template == 'list-collections' %}
+      <meta name="description" content="">
+    {% elsif page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+
+    {% render 'social-meta-tags' %}
+
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
+    <link rel="stylesheet" href="https://cdn1.stamped.io/files/widget.min.css">
+
+    {{ 'theme.min.css' | asset_url | stylesheet_tag }}
+
+    {% render 'javascript-tags-head' %}
+
+    {{ content_for_header }}
+    <!-- Global site tag (gtag.js) - Google Ads: 826601846 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-826601846"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'AW-826601846');
+    </script>
+
+    {{ 'paymentfont.scss.css' | asset_url | stylesheet_tag }}
+
+    <!-- {% render 'gsf-conversion-pixels' %} -->
+    {% render 'ufe-offer' %}
+  <!--Gem_Page_Header_Script-->
+{% render 'gem-app-header-scripts' %}
+<!--End_Gem_Page_Header_Script-->
+    <!--Growm_ProductViewer_Header_Script-->
+    <link rel="stylesheet" href="https://d2taawj78f4uw3.cloudfront.net/main.css">
+    <script>
+    window.ASSET_BASE_URL = "{{ '3D.png' | asset_url | split: '?' | first | replace: '3D.png', '' | replace: '/$', '' }}";
+    if (window.ASSET_BASE_URL.endsWith('/')) {
+      window.ASSET_BASE_URL = window.ASSET_BASE_URL.slice(0, -1);
+    }
+    </script>
+<!--End_Growm_ProductViewer_Header_Script-->
+</head>
+
+  <body
+    id="{{ page_title | handleize }}"
+    class="{% if template.suffix contains "category" %}template-category{% elsif template.suffix contains "about" %}template-about-us{% elsif template.suffix contains "reviews" %}template-reviews{% else %}template-{{ template.name | handleize }}{% endif %}"
+  >
+    <div class="transitions-container">
+      <div class="transition-logo pulse">
+        <img src="{{ 'favicon.webp' | asset_url }}" width="70" height="70" style="height: 62px; width: auto">
+      </div>
+    </div>
+
+    {% section 'header' %}
+
+    <main id="MainContent">
+      {{ content_for_layout }}
+    </main>
+
+    {% section 'footer' %}
+
+    <div id="site-overlay"></div>
+
+    {% render 'javascript-tags-footer' %}
+
+    {% render 'schema-json' %}
+    {%- case shop.permanent_domain -%}
+        {%- comment %}
+          de store
+        {%- endcomment %}
+      {%- when 'bw2016.myshopify.com' -%}
+        {%- assign api_key = 'pubkey-b4c4nywud8ft6z4kmnufy1gkq86kl7' -%}
+        {%- assign verified_buyer = 'verifizierter käufer' -%}
+        {%- assign based_on = 'Basierend auf' -%}
+        {%- assign ratings = 'rezensionen' -%}
+        {%- assign reviews = 'Bewertungen' -%}
+        <script
+          async
+          src="https://scripting.tracify.ai/tracifyv2.js?csid=b9feaf37-480d-42c4-aeb6-4c67c08f5633"
+        ></script>
+
+        {%- comment %}
+          ch store
+        {%- endcomment %}
+      {%- when 'royfort-ch.myshopify.com' -%}
+        {%- assign api_key = 'pubkey-xwx6q09z40nyhitjzzmtk92234z8o3' -%}
+        {%- assign verified_buyer = 'verifizierter käufer' -%}
+        {%- assign based_on = 'basierend auf' -%}
+        {%- assign ratings = 'rezensionen' -%}
+        {%- assign reviews = 'bewertungen' -%}
+        <script
+          async
+          src="https://scripting.tracify.ai/tracifyv2.js?csid=3fce1e7b-d736-450f-83ba-814a8f092c92"
+        ></script>
+
+        {%- comment %}
+          uk store
+        {%- endcomment %}
+      {%- when 'royfort-uk.myshopify.com' -%}
+        {%- assign api_key = 'pubkey-6smo4cj0y0z4j3e3wthm8u04015vhg' -%}
+        <script
+          async
+          src="https://scripting.tracify.ai/tracifyv2.js?csid=e574a3bc-8ef1-465b-942b-20468056eb79"
+        ></script>
+
+        {%- comment %}
+          fr store
+        {%- endcomment %}
+      {%- when 'royfort-fr.myshopify.com' -%}
+        <script
+          async
+          src="https://scripting.tracify.ai/tracifyv2.js?csid=93114405-342d-485a-bce8-c65cfe823bb4"
+        ></script>
+    {%- endcase -%}
+
+    {%- comment %}
+      default is english, no need to translate if english
+    {%- endcomment %}
+
+    <!-- Stamped - Begin script -->
+    <script>
+      window.stamped_disable_font = true;
+    </script>
+    <script
+      async
+      type="text/javascript"
+      id="stamped-script-widget"
+      data-api-key="pubkey-B4c4NYWuD8FT6z4kMNufy1gKq86KL7"
+      src="https://cdn1.stamped.io/files/widget.min.js"
+    ></script>
+
+    <!-- Stamped - End script -->
+
+    <style>
+      span.stamped-verified-badge{
+        font-size:0px;
+      }
+      span.stamped-verified-badge::before{
+        font-size:13px;
+        {% if verified_buyer %}content:' {{ verified_buyer }}';{% endif %}
+      }
+      #stamped-main-widget #stamped-reviews-tab .stamped-review .stamped-review-header .review-location span {
+        font-size:0px;
+      }
+      #stamped-main-widget #stamped-reviews-tab .stamped-review .stamped-review-header .review-location {
+        display: none;
+      }
+      {% if verified_buyer %}
+      #stamped-reviews-widget[data-widget-type="full-page"] .stamped-verified-label[data-verified-type="2"]:after {
+        content: ' \e904 {{ verified_buyer }}' !important;
+      }
+      #stamped-reviews-widget[data-widget-type="full-page"]:not([data-label-subtitle]) .stamped-widget-text:before {
+        content: "{{ based_on }} ";
+      }
+      {% endif %}
+      {% if reviews %}
+      .stamped-badge-caption {
+        position: relative !important;
+        color: transparent !important;
+        overflow: hidden !important;
+      }
+      .stamped-badge-caption:before {
+        content: attr(data-reviews) ' ' attr(data-label);
+        color: #000000 !important;
+      }
+      #stamped-reviews-widget[data-widget-type="full-page"]:not([data-label-subtitle]) .stamped-widget-text:after {
+        content: " {{ reviews }}";
+      }
+      {% endif %}
+      .review-location span[data-location] {
+        display: none;
+      }
+    </style>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-PQRRW3J"
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"
+      ></iframe
+    ></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    {% section 'redirect' %}
+
+    <!-- end stamped -->
+    <!-- =========================================Footer========================================= -->
+    <!-- google dynamic remarketing tag for theme.liquid -->
+    {% if template contains 'product' %}
+      <script type="text/javascript">
+        var json_product = {{ product | json }};
+      </script>
+      <script>
+        var ecomm_prodid=[];
+        for(var i=0;i<json_product.variants.length;i++)
+          ecomm_prodid.push('shopify_DE_{{product.id}}_'+json_product.variants[i].id);
+      </script>
+      <script type="text/javascript">
+        var google_tag_params = {
+          ecomm_prodid: ecomm_prodid,
+          ecomm_pagetype: 'product',
+          ecomm_totalvalue: parseFloat('{{ product.price | money_without_currency | remove: ","}}')
+        };
+      </script>
+    {% elsif template contains 'collection' %}
+      <script type="text/javascript">
+        var google_tag_params = {
+          ecomm_pagetype: 'category'
+        };
+      </script>
+    {% elsif template contains 'cart' %}
+      <script type="text/javascript">
+        var id = new Array();
+        {% for item in cart.items %}
+        id.push('shopify_DE_{{item.product.id}}_{{item.variant.id}}');
+         {% endfor %}
+
+         var google_tag_params = {
+           ecomm_prodid: id,
+           ecomm_pagetype: 'cart',
+           ecomm_totalvalue: parseFloat('{{ cart.total_price | money_without_currency | remove: ","}}')
+         };
+      </script>
+    {% elsif template contains 'search' %}
+      <script type="text/javascript">
+        var google_tag_params = {
+          ecomm_pagetype: 'searchresults'
+        };
+      </script>
+    {% elsif template contains 'index' %}
+      <script type="text/javascript">
+        var google_tag_params = {
+          ecomm_pagetype: 'home'
+        };
+      </script>
+    {% else %}
+      <script type="text/javascript">
+        var google_tag_params = {
+          ecomm_pagetype: 'other'
+        };
+      </script>
+    {% endif %}
+    <script>
+      window.addEventListener('load',function(){
+        setTimeout(function(){
+          $(document).ajaxSuccess(function(event, xhr, settings) {
+            var id = new Array();
+            var total;
+            if (settings.url == "/cart/add.js" || settings.url == "/cart/update.js") {
+              $.getJSON('/cart.js', function(data) {
+                id = data.items.map(function(item) {
+                  return 'shopify_DE_'+item.product_id +'_'+ item.variant_id;
+                });
+                total = data.total_price;
+
+                gtag('event', 'page_view', {'send_to': 'AW-826601846',
+                                            'ecomm_prodid':id,
+                                            'ecomm_pagetype': 'cart',
+                                            'ecomm_totalvalue':total / 100
+                                           });
+              });
+            }
+          });
+        },1500)
+      })
+    </script>
+    <script>
+      gtag('event', 'page_view', {'send_to': 'AW-826601846',
+                                  'ecomm_prodid':window.google_tag_params.ecomm_prodid,
+                                  'ecomm_pagetype': window.google_tag_params.ecomm_pagetype,
+                                  'ecomm_totalvalue':window.google_tag_params.ecomm_totalvalue
+                                 });
+    </script>
+    {% render 'dataLayer' %}
+
+    <style>
+        #stamped-reviews-widget[data-widget-type="full-page"] .stamped-widget-title {
+          display: none;}
+        span.stamped-verified-badge::before {
+          font-size: 13px;
+          content: ' verifiziert' !important;
+      }
+       #stamped-reviews-widget[data-widget-type="full-page"] .stamped-verified-label[data-verified-type="2"]:after {
+          content: ' \e904 verifiziert' !important;
+      }
+         @media(max-width: 767px){
+      div#shopify-section-product-reviews {
+          margin-top: -39px;
+      }
+      }
+        span.stamped-verified-badge::before {
+          font-size: 13px;
+          content: ' \e904 verifiziert' !important;
+          font-family: 'stamped-font', 'FontAwesome', 'Open Sans';
+          word-spacing: -5px;
+          font-weight: normal;
+      }
+    </style>
+    {% if request.path contains '/products' %}
+      <style>
+           #main-reviews > div > div.summary{
+        display: none;}
+
+          media only screen and (max-width: 991px){
+        .section-main-reviews {
+            padding: 1.5rem 2rem 0 2rem !important;
+        }
+          }
+
+          .pb-10.section-background {
+            padding-bottom: 20px !important;
+        }
+      </style>
+    {% endif %}
+    <script>
+        setTimeout(function()
+        {
+        const searchQuestionElement = document.querySelector('[aria-label="Search questions input"]');
+          if (searchQuestionElement) {
+            document.querySelector('[aria-label="Search questions input"]').placeholder='Fragen durchsuchen';
+          }
+      }, 3000);
+    </script>
+  {%- render "ecom_footer"-%}<!--Gem_Page_Footer_Script-->
+  {%- liquid
+    assign gpTemplateSuffix = template.suffix
+    assign arrSplitSuffix = gpTemplateSuffix | split: '-'
+    if gpTemplateSuffix contains 'gem-' and gpTemplateSuffix contains '-template' and arrSplitSuffix.size == 3
+      assign isV6GpTemplate = true
+    endif
+    assign gpShopMeta = shop.metafields.gempages
+    if gpShopMeta
+      if gpShopMeta['productV6-default'] == 'true' and request.page_type == 'product'
+        assign isProductDefault = true
+      endif
+      if gpShopMeta['collectionV6-default'] == 'true' and request.page_type == 'collection'
+        assign isCollectionDefault = true
+      endif
+      if gpShopMeta['indexV6-default'] == 'true' and request.page_type == 'index'
+        assign isIndexDefault = true
+      endif
+      if isProductDefault or isCollectionDefault or isIndexDefault or isPreviewV6
+        assign isV6GpTemplate = true
+      endif
+    endif
+  %}
+  {% if isV6GpTemplate %}
+    {% render 'gem-app-footer-scripts', GEM_FOOTER_SCRIPT: GEM_FOOTER_SCRIPT %}
+  {% endif %}
+<!--End_Gem_Page_Footer_Script-->
+    
+<!--Growm_ProductViewer_Footer_Script-->
+<script src="https://d2taawj78f4uw3.cloudfront.net/main.46045735.js" defer></script>
+<script src="https://d2taawj78f4uw3.cloudfront.net/416.7ed012c8.chunk.js" defer></script>
+<!--End_Growm_ProductViewer_Footer_Script-->
+    
+</body>
+</html>

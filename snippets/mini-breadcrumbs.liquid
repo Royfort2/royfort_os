@@ -1,0 +1,98 @@
+{% comment %}
+
+UPDATE: Shopify's breadcrumbs don't support hierarchy, so we're implementing a JS one based on the main site navigation
+
+
+
+BG: Mini Breadcrumbs. Only shows the page before the present one (but not the homepage). Won't include structured schema so no duplicate content. {% endcomment %}
+{% comment %}
+{% assign t = template | split: '.' | first %}
+<nav class="mini-breadcrumbs">
+    <ol>
+        
+    {% case t %}
+    {% when 'page' %}
+
+    <li>
+        <a href="{{ page.url }}" title="{{page.title}}"><span aria-hidden="true">{% render 'icon-arrow-left' %}</span>{{ page.title }}</a>
+    </li>
+
+    {% when 'product' %}
+
+    {% if collection.url %}
+        <li>
+            <a href="{{ collection.url }}" title="{{collection.title}}"><span aria-hidden="true">{% render 'icon-arrow-left' %}</span>{{ collection.title }}</a>
+        </li>
+    {% endif %}
+
+    {% when 'collection' and collection.handle %}
+
+    {% if current_tags %}
+        <li>
+            <a href="{{ collection.url }}" title="{{collection.title}}"><span aria-hidden="true">{% render 'icon-arrow-left' %}</span>{{ collection.title }}</a>
+        </li>
+    {% endif %}
+
+    {% when 'blog' %}
+
+    {% if current_tags %}
+ 
+        <li>
+            <a href="{{ blog.url }}" title="{{blog.title}}"><span aria-hidden="true">{% render 'icon-arrow-left' %}</span>{{ blog.title }}</a>
+        </li>
+        
+    {% endif %}
+
+    {% when 'article' %}
+
+        <li>
+            <a href="{{ blog.url }}" title="{{blog.title}}"><span aria-hidden="true">{% render 'icon-arrow-left' %}</span>{{ blog.title }}</a>
+        </li>
+
+    {% endcase %}
+
+    </ol>
+</nav>
+{% endcomment %}
+
+
+
+
+{% comment %}
+SH: Removed as not wanted
+{% assign breakdown = '' %}
+
+{% assign collection_base = blank %}
+{% if template contains 'product' %}
+    {% for tag in product.tags %}
+        {% if tag contains 'mc_' %}
+            {% assign cleaned_tag = tag | remove: 'mc_' %}
+            {% assign collection_base = collections[cleaned_tag] %}
+            {% break %}
+        {% endif %}
+    {% endfor %}
+{% elsif template contains 'collection' %}
+        {% assign collection_base = collection %}
+{% endif %}
+{% assign attach = collection_base.handle  | append: '|' %}
+{% assign breakdown = breakdown | prepend: attach %}
+{% for i in (1..10) %}
+    {% assign collection_base = collections[collection_base.metafields.collection.Parent] %}
+    {% if collection_base != blank %}
+        {% assign attach = collection_base.handle  | append: '|' %}
+        {% assign breakdown = breakdown | prepend: attach %}
+    {% else %}
+        {% break %}
+    {% endif %}
+{% endfor %}
+{% assign breakdown = breakdown | split: '|' %}
+<a href="/" class="text-secondary remove-decoration">Home</a>
+-
+{% for handle in breakdown %}
+    {% assign collection_bread = collections[handle] %}
+    <a href="{{ collection_bread.url }}" class="text-secondary remove-decoration">{{ collection_bread.title }}</a>
+    {% unless forloop.last == true %}
+    -
+    {% endunless %}
+{% endfor %}
+{% endcomment %}

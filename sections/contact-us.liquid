@@ -1,0 +1,99 @@
+<div class="contact-us__options">
+
+    <div class="contact-us__faq">
+        <div class="contact-us-image">
+            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{{ section.settings.image | img_url: 'master' }}" class="lazyload" alt="{{section.settings.title}}" />
+        </div>
+    </div>
+
+    <div class="contact-us__form">
+        <div>
+
+            {% form 'contact' %}
+
+                <h2>{{ section.settings.form_title }}</h2>
+                <p>{{ section.settings.form_description }}</p>
+
+                <div class="form-feedback">{% if form.posted_successfully? %}{{ 'contact.form.post_success' | t }}{% else %}{{ form.errors | default_errors }}{% endif %}</div><!-- form-feedback -->
+
+                <div class="form-group-name">
+                <div class="form-group">
+                    <label for="ContactFormName" class="required">{{ 'contact.form.name' | t }}</label>
+                    <input type="text" name="contact[name]" id="ContactFormName" placeholder="{{ 'contact.form.name' | t }}" value="{% if form[name] %}{{ form[name] }}{% elsif customer %}{{ customer.name }}{% endif %}" required>
+                </div><!-- form-group-->
+
+                <div class="form-group">
+                    <label for="ContactFormEmail" class="required">{{ 'contact.form.email' | t }}</label>
+                    <input type="email" name="contact[email]" id="ContactFormEmail" placeholder="{{ 'contact.form.email' | t }}" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" spellcheck="false" autocapitalize="off" required>
+                </div>
+
+                <div class="form-group">
+                <label for="ContactFormMessage">{{ 'contact.form.message' | t }}</label>
+                    <textarea rows="10" name="contact[body]" id="ContactFormMessage" placeholder="{{'contact.form.message' | t }}">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+                </div>
+
+                <div class="form-group-actions text-center">
+                    <button type="submit" class="btn btn-tertiary">{{ 'contact.form.send' | t }}</button>
+                </div>
+
+            {% endform %}
+            <style>
+
+            .contact-us__faq { 
+                padding: 0 !important;
+            }
+
+            .contact-us-image {
+                width: 100%;
+                height: 100%;
+                
+            }
+
+            .contact-us-image img{
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                
+            }
+            </style>
+            
+        </div>
+    </div>
+
+</div>
+
+
+{% schema %}
+{
+    "name": "Contact Us",
+    "class": "contact-us",
+    "settings": [
+        {
+            "type": 	"header",
+            "content": 	"Contact us"
+        },
+        {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+        },
+        {
+            "type": 	"header",
+            "content": 	"Contact Form"
+        },
+        {
+            "type":      "text",
+            "id":        "form_title",
+            "label":     "Title",
+            "default":   "Do you have a question for us?"
+        },
+        {
+            "type":      "text",
+            "id":        "form_description",
+            "label":     "Title",
+            "default":   "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cu sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus."
+        }
+    ],
+    "blocks": []
+}
+{% endschema %}

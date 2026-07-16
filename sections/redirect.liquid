@@ -1,0 +1,30 @@
+{% if section.settings.enable_auto_redirect == true %}
+    <div class="store-redirect d-none" data-store-address="{{ shop.domain }}"></div>
+
+    <div class="redirect-popup">
+        <div class="redirect-content">
+            <p>{{ "apps.geolocation.message_html" | t }}</p>
+            <a class="btn btn-primary btn-redirect">{{ "apps.geolocation.button_html" | t }}</a>
+            <a href="#" class="redirect-close">{{ "apps.geolocation.stay" | t }}</a>
+        </div>
+    </div>
+    <div class="redirect-overlay"></div>
+{% endif %}
+
+{% schema %}
+{
+    "name": "Store Redirect",
+	"settings": [
+        {
+            "type": 	"header",
+            "content": 	"Logic"
+        },
+		{
+			"type": "checkbox",
+			"id": "enable_auto_redirect",
+			"default": true,
+			"label": "Enable auto redirect?"
+		} 
+	]
+}
+{% endschema %}

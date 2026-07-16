@@ -1,0 +1,14 @@
+<article class="blog-listing">
+    <a href="{{ article.url }}" class="article-link">
+    <div class="blog-listing-content">
+
+        <header><h3>{{ article.title }}</h3></header>
+
+        {% if article.metafields.careers.location != blank %}
+        <p class="blog-location">{{ article.metafields.careers.location }}</p>
+        {% endif %}
+
+    </div>
+    <span class="icon-plusminus"></span>
+    </a>
+</article>

@@ -1,0 +1,669 @@
+/* Table of Contents
+==================================================
+
+    #Global
+    #Sign In
+    #Signed in
+    #Breadcrumbs
+    #Form Fields
+    #Sidebar - Product Row
+    #Sidebar - Order Summary
+    #Product Table
+    #Contact Information
+    #Shipping Address
+    #Footer Previous Link
+    #Review Table
+    #Review Order
+    #Order Status
+
+==================================================
+*/
+
+/* ==========================================================================
+#Global
+========================================================================== */
+
+
+h1,h2,h3,h4,h5,h6,p,span,div {
+    font-family: 'Montserrat', DejaVu Sans, Verdana, sans‑serif !important;
+}
+
+
+.logo__image--small {
+    max-width:110px;
+}
+
+
+
+.main h2 {
+    font-size:16px;
+    font-weight:600;
+    color:#000000;
+}
+
+.main h3 {
+    font-weight:600;
+}
+
+@media (min-width: 750px) {
+    .section__header {
+        margin-bottom: 1em;
+    }
+}
+
+.btn {
+    border-radius:2px;
+}
+
+.main .content-box {
+    border-color:#E3E3E3;
+}
+
+.accept-terms-messaging {
+    display:block;
+    margin-top:50px;
+    text-align:center;
+}
+
+.accept-terms-messaging a {
+    color:#000;
+    text-decoration: underline;
+}
+
+/* ==========================================================================
+#Sign in
+========================================================================== */
+
+.section--contact-information .section__header .layout-flex {
+    flex-direction:column
+}
+
+.section--contact-information .section__header .custom_section_title {
+    display:block;
+    width:100%;
+    font-size:24px;
+    font-weight:600;
+    text-align:center;
+    margin-top:20px;
+    margin-bottom:30px;
+}
+
+.section--contact-information .section__header .layout-flex > a {
+    display:inline-block;
+    color:#fff;
+    background-color:#000;
+    font-weight:600;
+    font-size:14px;
+    text-align:center;
+    border-radius:2px;
+    padding:1.2em 2.8em;
+    margin-bottom:2em;
+    align-self:center;
+}
+
+.section--contact-information .section__header .layout-flex__item:not(.section__title) {
+    display:flex;
+    flex-direction:column;
+    order:-1;
+    width:100%;
+    text-align:center;
+}
+
+.section--contact-information .section__header .layout-flex__item:not(.section__title) .guest-checkout-title {
+    padding-bottom:25px;
+    text-transform:uppercase;
+    font-size:14px;
+    color:#5C4B61;
+    font-weight:500;
+}
+
+.section--contact-information .section__header .layout-flex__item:not(.section__title) span[aria-hidden] {
+    display:none;
+}
+
+.section--contact-information .section__header .layout-flex__item:not(.section__title) a {
+    display:inline-block;
+    color:#fff;
+    background-color:#000;
+    font-weight:600;
+    font-size:14px;
+    text-align:center;
+    border-radius:2px;
+    padding:1.2em 2.8em;
+    margin-bottom:2em;
+    align-self:center;
+}
+
+/* ==========================================================================
+#Signed in
+========================================================================== */
+
+.logged-in-customer-information__avatar-wrapper .logged-in-customer-information__avatar.gravatar {
+    display:none;
+}
+
+.logged-in-customer-information__avatar-wrapper {
+    vertical-align: top;
+}
+
+.logged-in-customer-information__avatar-wrapper:before {
+    display:block;
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background-image: url(https://cdn.shopify.com/s/files/1/0327/1498/1421/files/user-icon.png?v=1605694760);
+    background-repeat:no-repeat;
+    background-size:24px 24px;
+    background-position:center center;
+    background-color:#000;
+    content:'';
+}
+
+.logged-in-customer-information__paragraph a {
+    color:#702283;
+    font-weight:600;
+    font-size:14px;
+    text-decoration: underline;
+}
+
+.logged-in-customer-newsletter .checkbox-wrapper {
+    border:1px solid #E3E3E3;
+    border-radius:4px;
+    padding:1.9em 1.8em;
+    margin-top:25px;
+}
+
+
+
+/* ==========================================================================
+#Breadcrumbs
+========================================================================== */
+
+ul.breadcrumb li.breadcrumb__item svg {
+    width:7px;
+    margin:0 1em;
+}
+
+ul.breadcrumb li.breadcrumb__item .breadcrumb__text, ul.breadcrumb li.breadcrumb__item .breadcrumb__link {
+    color:#5C4B61;
+}
+
+ul.breadcrumb li.breadcrumb__item.breadcrumb__item--current {
+    font-weight:700;
+}
+
+/* ==========================================================================
+#Form Fields
+========================================================================== */
+
+.field__input {
+    border-color:#E3E3E3 !important;
+    border-radius:1px;
+}
+
+.floating-labels .main .section--shipping-address .field__label, .floating-labels .main .section--billing-address .field__label, .floating-labels .main .section--contact-information .field__label {
+    position:static;
+    padding:0;
+    margin:0.4285714286em 0 .5em;
+    opacity:1;
+    transform: translateY(0px);
+    font-size:14px;
+    font-weight:500;
+    color:#000000;
+}
+
+.floating-labels .section--shipping-address .field--show-floating-label .field__input, .floating-labels .section--billing-address .field--show-floating-label .field__input, .floating-labels .section--contact-information .field--show-floating-label .field__input {
+    padding:0.9285714286em 0.7857142857em;
+}
+
+.section--shipping-address .field__caret, .section--billing-address .field__caret {
+    top:66%;
+}
+
+.section--shipping-address .field__icon, .section--billing-address .field__icon {
+    top:10px;
+}
+
+.field--required label:after {
+    display: inline-block;
+    margin-left: 5px;
+    color: #702283;
+    content: '*';
+}
+
+.field__input:focus, .field__input-wrapper--flag-focus .field__input {
+    outline: none;
+    border-color: #702283;
+    -webkit-box-shadow: 0 0 0 1px #702283;
+    box-shadow: 0 0 0 1px #702283;
+}
+
+.section--contact-information .fieldset-description[data-buyer-accepts-marketing] {
+    border:1px solid #E3E3E3;
+    border-radius:4px;
+    padding:1.9em 1.8em;
+    margin-top:25px;
+}
+
+.main .input-checkbox {
+    width:24px;
+    height:24px;
+    border-radius:1px;
+}
+
+.main .input-checkbox:checked {
+    box-shadow:0 0 0 12px #702283 inset;
+}
+
+.main .input-checkbox:focus {
+    outline-color:#702283;
+}
+
+.main .checkbox__input {
+    padding-right:1.2em;
+}
+
+#continue_button:disabled {
+    cursor: not-allowed;
+    background-color: #a9a9a9;
+}
+
+.input-radio {
+    width:24px;
+    height:24px;
+}
+
+.input-radio:checked {
+    box-shadow:0 0 0 7px #fff inset;
+    border-color:#702283;
+}
+
+.section--payment-method .card-fields-iframe {
+    height:44px !important;
+}
+
+/* ==========================================================================
+#Sidebar - Product Row
+========================================================================== */
+
+#sidebar-product-container {
+    margin-top: 0.75em;
+    margin-bottom: 1.5em;
+}
+
+#sidebar-product-container .product-row {
+    display:flex;
+    flex-direction:row;
+    align-items: center;
+}
+
+#sidebar-product-container .product-row + .product-row {
+    margin-top:1.2em;
+}
+
+#sidebar-product-container .product-row .product-row-image {
+    position: relative;
+    width:4.6em;
+    height:4.6em;
+    background-color:#fff;
+}
+
+#sidebar-product-container .product-row .product-row-image .product-row-image-wrapper {
+    position: relative;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    border-radius:8px;
+    border:1px solid #E3E3E3;
+}
+
+#sidebar-product-container .product-row .product-row-image .product-row-quantity {
+    position: absolute;
+    top:0;
+    right:0;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width:21px;
+    height:21px;
+    background-color:#702283;
+    color:#fff;
+    font-size:12px;
+    font-weight:500;
+    border-radius:50%;
+    transform:translateX(50%) translateY(-50%);
+}
+
+#sidebar-product-container .product-row .product-row-image img {
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    max-width:100%;
+    max-height:100%;
+    margin:auto;
+}
+
+#sidebar-product-container .product-row .product-row-detail {
+    width:60%;
+    padding-left:1em;
+}
+
+#sidebar-product-container .product-row .product-row-detail .product-title {
+    display:block;
+    font-size:14px;
+    font-weight:500;
+    color:#000;
+}
+
+#sidebar-product-container .product-row .product-row-detail .variant-title {
+    display:block;
+    font-size:12px;
+    color:#717171;
+}
+
+#sidebar-product-container .product-row .product-row-detail .product-discount {
+    display:block;
+    margin-top:5px;
+    color:#717171;
+    text-transform: uppercase;
+}
+
+#sidebar-product-container .product-row .product-row-detail .product-discount svg {
+    display:inline-block;
+    margin-right:5px;
+    display:none !important;
+}
+
+#sidebar-product-container .product-row .product-row-price {
+    margin-left:auto;
+    font-weight:600;
+    color:#000;
+    text-align:right;
+}
+
+@media (min-width: 1000px) {
+    #sidebar-product-container .product-row .product-row-price {
+        font-size:16px;
+        align-self:start;
+    }
+}
+
+#sidebar-product-container .product-row .product-row-price .discount-value {
+    display:block;
+    font-size:12px;
+    text-decoration:line-through;
+    color:#717171;
+}
+
+.reduction-code svg {
+    display:none;
+}
+
+/* ==========================================================================
+#Sidebar - Order Summary
+========================================================================== */
+
+.order-summary__section.order-summary__section--total-lines .total-line__name {
+    font-weight:600;
+}
+
+@media (min-width: 1000px) {
+    .order-summary__section.order-summary__section--total-lines .total-line__name {
+        font-size:16px;
+    }
+}
+
+.order-summary__section.order-summary__section--total-lines .total-line__price, .order-summary__section.order-summary__section--total-lines .total-line__price span {
+    font-weight:600;
+}
+
+
+@media (min-width: 1000px) {
+    .order-summary__section.order-summary__section--total-lines .total-line__price {
+        font-size:16px;
+    }
+}
+
+.order-summary__section.order-summary__section--total-lines .total-line__price .order-summary__small-text {
+    opacity:.5;
+}
+
+.order-summary__section.order-summary__section--total-lines .total-line-table__footer .total-line__name.payment-due-label .payment-due-label__taxes.order-summary__small-text {
+    font-weight:400;
+}
+
+@media (min-width: 1000px) {
+    .order-summary__section.order-summary__section--total-lines .total-line-table__footer .total-line__name.payment-due-label .payment-due-label__total {
+        font-size:16px;
+    }
+
+    .order-summary__section.order-summary__section--total-lines .total-line-table__footer .total-line__name.payment-due-label .payment-due-label__taxes.order-summary__small-text  {
+        font-size:12px; 
+        font-weight:400;
+    }
+}
+
+@media (min-width: 1000px) {
+    .order-summary__section.order-summary__section--total-lines .total-line-table__footer .total-line__price.payment-due .payment-due__price {
+        font-size:24px;
+    }
+}
+
+
+.order-summary__section.order-summary__section--total-lines .total-line.total-line--reduction .reduction-code {
+    display:block;
+    margin-left:0;
+    font-size:12px;
+    font-weight:400;
+}
+
+
+/* ==========================================================================
+#Product Table
+========================================================================== */
+
+/* BG: Hidding the original product table via CSS as we can't access the markup in the liquid */
+
+aside.sidebar table.product-table {
+    display:none;
+}
+
+.order-summary__scroll-indicator {
+    display:none;
+}
+
+/* ==========================================================================
+#Contact Information
+========================================================================== */
+
+
+/* ==========================================================================
+#Shipping Address
+========================================================================== */
+
+.section--shipping-address .checkbox-wrapper {
+    border: 1px solid #E3E3E3;
+    border-radius: 4px;
+    padding: 1.7em 1.8em;
+    margin-top: 15px;
+}
+
+/* ==========================================================================
+#Footer Previous Link
+========================================================================== */
+
+.step__footer__previous-link svg {
+    display:none;
+}
+
+.step__footer__previous-link {
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+}
+
+.step__footer__previous-link:before {
+    content:'';
+    display:block;
+    width:15px;
+    height:12px;
+    background-position: center;
+    background-image: url(https://cdn.shopify.com/s/files/1/0327/1498/1421/files/icon-arrow-previous.png?v=1603880784);
+    background-repeat: no-repeat;
+    background-size: contain;
+    margin-right:15px;
+}
+
+.main__footer .policy-list__item a {
+    color:#5C4B61;
+    text-decoration: underline;
+}
+
+/* ==========================================================================
+#Review Table
+========================================================================== */
+
+.step__sections .review-block .review-block__label {
+    font-weight:600;
+    color:#000;
+}
+
+.step__sections .review-block .review-block__link a {
+    color:#702283;
+    font-weight:600;
+    text-decoration: underline;
+}
+
+.step__sections .review-block .review-block__label {
+    flex:0.2 1 5em;
+}
+
+
+/* ==========================================================================
+#Review Order
+========================================================================== */
+
+
+.main .total-line__name {
+    font-weight:600;
+    color:#000;
+}
+
+@media (min-width: 1000px) {
+    .main .total-line__name {
+        /* font-size:16px; */
+    }
+}
+
+.main .total-line__price, .main .total-line__price span {
+    font-weight:600;
+}
+
+
+@media (min-width: 1000px) {
+    .main .total-line__price {
+        /* font-size:16px; */
+    }
+}
+
+.main .total-line__name.payment-due-label .payment-due-label__taxes.order-summary__small-text {
+    font-weight:400;
+}
+
+@media (min-width: 1000px) {
+    .main .payment-due-label__total {
+        /* font-size:16px; */
+    }
+
+    .main .payment-due-label__taxes.order-summary__small-text  {
+        font-size:12px; 
+        font-weight:400;
+    }
+}
+
+@media (min-width: 1000px) {
+    .main .payment-due__price {
+        font-size:24px;
+    }
+}
+
+
+/* ==========================================================================
+#Order Status - Thank You
+========================================================================== */
+
+
+.step[data-step^="thank"] .section__header svg {
+    display:none;
+}
+
+.step[data-step^="thank"] .section__header .os-header__heading {
+    display:flex;
+    flex-direction:column;
+}
+
+.step[data-step^="thank"] .section__header .os-header__heading .os-header__title {
+    order:-1;
+    font-size:24px;
+    font-weight:600;
+    padding-bottom:3px;
+}
+
+.step[data-step^="thank"] .section__header .os-header__heading .os-order-number {
+    color:#000000;
+    font-weight:500;
+}
+
+@media (min-width: 1000px) {
+    .step[data-step^="thank"] .tracking-info__number {
+        display:flex;
+        flex-direction:row;
+    }
+}
+
+.step[data-step^="thank"] .tracking-info__number strong {
+    font-weight:600;
+    color:#000;
+}
+
+@media (min-width: 1000px) {
+.step[data-step^="thank"] .tracking-info__number p {
+    display:inline-block;
+    margin-left:15px;
+}
+}
+
+.step[data-step^="thank"] .tracking-info__number p a {
+    color:#702283;
+    text-decoration: underline;
+}
+
+@media (min-width: 1000px) {
+.step[data-step^="thank"] .step__footer {
+    display:flex;
+    flex-direction:row;
+    justify-content: space-between;
+}
+}
+
+.step[data-step^="thank"] .step__footer .step__footer__continue-btn {
+    order:2;
+}
+
+.step[data-step^="thank"] .step__footer .step__footer__info {
+    font-weight:500;
+}
+
+.step[data-step^="thank"] .step__footer .step__footer__info a {
+    color:#702283;
+    text-decoration: underline;
+}
+
+.main-image-blog {
+    height: 400px;
+    width: 90%;
+    margin: auto;
+}

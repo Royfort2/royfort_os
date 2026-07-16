@@ -1,0 +1,67 @@
+
+
+                {% capture thumbnails %}
+                    {%- assign pos = 0 -%}
+                    {% for image in product.images %}
+                        {% assign newcolour = 'yes' %}
+                        
+                        {% assign pos = pos | plus: 1 %}
+
+                        {%- assign image_vars = '' -%}
+                        {%- assign image_colours = '' -%}
+                        {%- assign color_index = 0 -%}
+                        {% for product_option in product.options_with_values %}
+                        
+                            {%- assign swatch_translation_title = 'swatch_option.title' | t -%}
+                            {%- assign swatch_translation_slug = 'swatch_option.slug' | t -%}
+                            
+                            {% if product_option.name == swatch_translation_title or product_option.name == swatch_translation_slug %}
+                                {%- assign color_index = product_option.position -%}
+                            {% endif %}
+                        {% endfor %}
+                        {% for variant in image.variants %}
+
+                            {%- assign image_vars = image_vars | append: imgpre | append: 'var-img-' | append: variant.id | append: ' ' -%}
+
+                            {% if color_index == 1 %}
+                                {%- assign color_handle = variant.option1 | handleize -%}
+                            {% elsif color_index == 2 %}
+                                {%- assign color_handle = variant.option2 | handleize -%}
+                            {% elsif color_index == 3 %}
+                                {%- assign color_handle = variant.option3 | handleize -%}
+                            {% endif %}
+
+                            {% if color_index == 1 or color_index == 2 or color_index == 3 %}
+                                {% comment %}
+                                SH: Brute hack for inconsistent handle output
+                                {% endcomment %}
+                                {%- assign color_handle = color_handle | replace: 'sanftgrun', 'sanftgruen' -%}
+                                {%- assign image_colours = image_vars | append: imgpre | append: 'col-img-' | append: color_handle | append: ' ' -%}
+                            {% endif %}
+
+                        {% endfor %}
+                        {% if image_colours != '' %}
+                            {%- assign swatch_data = 'data-swatch="' | append: color_handle | append: '"' -%}
+                            {% comment %}
+                            {% assign newcolour = 'no' %}
+                            {% endcomment %}
+                        {% endif %}
+                        <div data-image-position="{{forloop.index }}" data-thumb-position="{{ pos }}" {{ swatch_data }} class="thumbnail-image{% if forloop.first == true %} default-thumbnail{% endif %} {{ image_vars }} {{ image_colours }}">
+                            <div class="{{section.settings.thumbnail_ratio}}">
+                            <picture>
+                                <source media="(max-width: 767px)" srcset="{{ image | img_url: '70x' }}">
+                                <source media="(min-width: 768px)" srcset="{{ image | img_url: '140x' }}">
+                                <img src="{{ image | img_url: '140x' }}" class="img-fluid{% if forloop.first == true %} default{% endif %}" alt="{{ image.alt }}">
+                            </picture>
+                            </div>
+                        </div>
+                        {% comment %}
+                        {% if newcolour == 'no' %}
+                            {%- assign pos = 0 -%}
+                        {% endif %}
+                        {% endcomment %}
+                    {% endfor %}
+
+                {% endcapture %}
+
+                {{ thumbnails }}

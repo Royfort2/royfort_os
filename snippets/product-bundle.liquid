@@ -1,0 +1,530 @@
+<script>
+  var slate = {
+    moneyFormat: {{ shop.money_format | json }},
+    moneyFormatWithCurrency: {{ shop.money_with_currency_format | json }}
+  }
+</script>
+{% assign assign_order = '' %}
+{% assign ordered_tags = '' %}
+
+{% for tag in product.tags %}
+  {% if tag contains 'bundle_' %}
+    {% assign tag_split = tag | split: '_' %}
+    {% assign ordered_tags = ordered_tags | append: tag_split[1] | append: '|' %}
+    {% if tag_split.size > 2 %}
+      {% assign assign_order = assign_order | append: tag_split[2] | append: '|' %}
+    {% else %}
+      {% assign assign_order = assign_order | append: '100' | append: '|' %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+{% assign assign_order = assign_order | split: '|' %}
+{% assign ordered_tags = ordered_tags | split: '|' %}
+
+{% if product.metafields.bundle.checked %}
+  <script>
+    let bundleChecked = {{product.metafields.bundle.checked}}
+  </script>
+{% else %}
+  <script>
+    let bundleChecked = false;
+  </script>
+{% endif %}
+
+{% assign used_handles = '' %}
+<div class="product-options product-options-bundle" id="product-options-bundle">
+  {% for i in (1..100) %}
+    {% for tag in ordered_tags %}
+      {% assign test_index = assign_order[forloop.index0] | plus: 0 %}
+      {% if test_index == i %}
+        {% unless used_handles contains tag %}
+          {% assign bundleProduct = all_products[tag] %}
+          {% assign current_variant_bundle = bundleProduct.selected_or_first_available_variant %}
+          {% assign current_inventory_bundle = current_variant_bundle.inventory %}
+          {% assign prefix = bundleProduct.id | append: '-' %}
+          {% assign shortname = bundleProduct.metafields.my_fields.short_name %}
+          <div
+            class="product-options-bundle-sub product-options-{{ bundleProduct.id }} {% if bundleProduct.id == 6598897532983 or bundleProduct.id == 6598885703735 or bundleProduct.id == 6598888521783 or bundleProduct.id == 7053623197857 or bundleProduct.id == 7085440991393 or bundleProduct.id == 7085646315681 or bundleProduct.id == 7022574043303  %} active {%endif%}"
+            data-container="{{ bundleProduct.id }}"
+            data-product-type="{%- if shortname != blank -%}{{ shortname }}{%- else -%}{{ bundleProduct.type }}{%- endif -%}"
+            data-bundle-product-price="{{ bundleProduct.price }}"
+            data-product-title="{{ bundleProduct.title }}"
+            data-index="product-{{forloop.index}}"
+            data-bundle-active="{% if bundleProduct.id == 6598897532983 or bundleProduct.id == 6598885703735 or bundleProduct.id == 6598888521783 or bundleProduct.id == 7053623197857 or bundleProduct.id == 7085440991393 or bundleProduct.id == 7085646315681 or bundleProduct.id == 7022574043303  %} active {%endif%} "
+          >
+            <div class="product-options-bundle-top">
+              <h4 class="product-type align-text text-secondary text-14 trigger">
+                {% comment %} Bundle modal {% endcomment %}
+                <div class="modal modal-box-open" data-modal="trigger-{{bundleProduct.id}}">
+                  <article class="content-wrapper">
+                    <div class="close-box">
+                      <button class="close"></button>
+                    </div>
+                    <div class="container modal-box">
+                      <div class="row flex-row-reverse-xs row-box">
+                        <div class="col-lg-6 col-md-6  col-sm-12 px-0 col-box">
+                          <header class="modal-content modal-content-box">
+                            <div>{{ bundleProduct.metafields.bundle_modal.bundle_modal_content }}</div>
+                          </header>
+                        </div>
+                        <div class="col-lg-6 col-md-6  col-sm-12 px-0 col-box">
+                          {% for image in bundleProduct.metafields.bundle_modal.bundle_modal_image %}
+                            {% if image[0] != blank %}
+                              <img
+                                class="modal-image"
+                                src="{{image[0].src }}"
+                                alt="{{image[0].alt}}"
+                              >
+                            {% else %}
+                              <img
+                                class="modal-image"
+                                src="{{image.src }}"
+                                alt="{{image.alt}}"
+                              >
+                            {% endif %}
+                          {% endfor %}
+                        </div>
+                      </div>
+                    </div>
+                    <style>
+                      .align-text {
+                        display: flex;
+                      }
+
+                      .modal-box-open {
+                        z-index: 9999;
+                      }
+
+                      @media screen and (max-width:767px) {
+
+                        .col-box {
+                          height: 100%;
+                        }
+
+                      }
+
+                      .modal-image {
+                        object-fit: cover;
+                        height: 100%;
+                      }
+
+                      .close {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 2.25rem;
+                        height: 2.25rem;
+                        color: rgb(30, 48, 110);
+                        border: none;
+                        cursor: pointer;
+                        opacity: 1;
+                        box-shadow: rgb(0 0 0 / 7%) 0 0.3125rem 0.9375rem 0, rgb(0 0 0 / 5%) 0 0 0 0.0625rem, rgb(0 0 0 / 7%) 0 0.0625rem 0 0, rgb(0 0 0 / 3%) 0 0.0625rem 0.1875rem 0;
+                        border-radius: 100%;
+                        transition: opacity 0.15s ease-out 0s;
+                      }
+
+                      .unerlined-text {
+                        text-decoration: underline;
+                      }
+                    </style>
+                  </article>
+                </div>
+                {% comment %} Bundle modal {% endcomment %}
+                <div class="bundle-name-and-modal">
+                  {% if shortname != blank %}
+                    <span class="bundle-name">
+                      {{- bundleProduct.metafields.my_fields.name_prefix }}
+                      {{ shortname }}
+                      {{ bundleProduct.metafields.my_fields.name_suffix -}}
+                    </span>
+                  {% else %}
+                    <span class="bundle-name">
+                      {{- bundleProduct.metafields.my_fields.name_prefix }}
+                      {{ bundleProduct.title }}
+                      {{ bundleProduct.metafields.my_fields.name_suffix -}}
+                    </span>
+                  {% endif %}
+                  {% if bundleProduct.metafields.bundle_modal.enable_bundle_modal %}
+                    <span class="trigger unerlined-text" data-modal-trigger="trigger-{{bundleProduct.id}}">
+                      {{- bundleProduct.metafields.bundle_modal.bundle_modal_text -}}
+                    </span>
+                  {% endif %}
+                </div>
+
+                <style>
+                  .bundle-name {
+                    margin: 0 5px 0 0;
+                  }
+
+                  .bundle-name-and-modal {
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: wrap;
+
+                  }
+                </style>
+
+                <label class="control control--checkbox">
+                  <input
+                    type="checkbox"
+                    id="bundle-option"
+                    class="bundle-option"
+                    name="bundle-option"
+                  >
+                  <div class="control__indicator"></div>
+                </label>
+              </h4>
+              <!-- <small class="product__title">{{ bundleProduct.title }}</small> -->
+              <div
+                class="{{ prefix }}product-price product-price mt-1 text-14 text-primary"
+                data-price="{{ current_variant_bundle.price }}"
+              >
+                {{ 'products.product.from_price' | t }}
+                <span class="text-14 money text-primary current-price">{{ current_variant_bundle.price | money }}</span>
+                <span class="original-price compare-at-price text-14 text-primary">
+                  {% if current_variant_bundle.compare_at_price > current_variant_bundle.price %}
+                    {{ current_variant_bundle.compare_at_price | money -}}
+                  {%- endif %}
+                </span>
+                {% if current_variant_bundle.compare_at_price > current_variant_bundle.price %}
+                  <span class="discount-perc text-14"
+                    >-
+                    {{-
+                      current_variant_bundle.compare_at_price
+                      | minus: current_variant_bundle.price
+                      | times: 100.0
+                      | divided_by: current_variant_bundle.compare_at_price
+                      | money_without_currency
+                      | times: 100
+                      | remove: '.0'
+                    -}}
+                    %
+                  </span>
+                {% endif %}
+              </div>
+              <!-- product-price -->
+            </div>
+            {% form 'product', bundleProduct, id: 'bundle-form', class: 'bundle-form' %}
+              {% if bundleProduct.has_only_default_variant %}
+                <input
+                  type="hidden"
+                  name="id"
+                  class="{{ prefix }}variant-id"
+                  value="{{ current_variant_bundle.id }}"
+                >
+              {% else %}
+                <select
+                  class="{{ prefix }}product-variant-selector bundle-variant-select hide"
+                  name="id"
+                  class=""
+                >
+                  {% for variant in bundleProduct.variants %}
+                    {% assign variant_inventory = variant.inventory_quantity %}
+                    {% if variant.inventory_policy == 'continue' %}
+                      {% assign variant_inventory = 999 %}
+                    {% endif %}
+                    {% if variant_inventory == blank %}
+                      {% assign variant_inventory = 0 %}
+                    {% endif %}
+                    <option
+                      value="{{ variant.id }}"
+                      data-option1="{{ variant.option1 }}"
+                      data-option2="{{ variant.option2 }}"
+                      data-option3="{{ variant.option3 }}"
+                      data-compare="{{ variant.compare_at_price }}"
+                      data-price-at-compare="{{ variant.compare_at_price }}"
+                      data-price="{{ variant.price | money }}"
+                      data-price-unformated="{{ variant.price }}"
+                      data-inventory="{{ variant_inventory }}"
+                      data-show-compare="{% if variant.compare_at_price > variant.price %}1{% else %}0{% endif %}"
+                    >
+                      {{ variant.title }}
+                    </option>
+                  {% endfor %}
+                  <option
+                    value="-1"
+                    data-option1=""
+                    data-option2=""
+                    data-option3=""
+                    data-compare=""
+                    data-price="N/A"
+                    data-inventory="0"
+                    data-show-compare="0"
+                  >
+                    {{ 'products.product.unavailable' | t }}
+                  </option>
+                </select>
+              {% endif %}
+              <input
+                id="qty"
+                data-variant-id="{{ current_variant_bundle.id }}"
+                type="hidden"
+                name="quantity"
+                class="{{ prefix }}form-quantity bundle-form-quantity"
+                value="1"
+                disabled="true"
+              >
+              <div class="ajax-feedback product-page-feedback"></div>
+              <template class="bottom-bar-template">
+                <small class="product-.">
+                  <span class="items-count">@Count</span>x
+                  {% if shortname != blank %}
+                    {{ shortname }}
+                  {% else %}
+                    {{ bundleProduct.title -}}
+                  {%- endif %}
+                  (<span class="money">@Price</span>)</small
+                >
+              </template>
+            {% endform %}
+            <script>
+              document.addEventListener("DOMContentLoaded", function() {
+                startVariantHandlers('{{ prefix }}')
+              })
+            </script>
+            <div class="product-options-bundle-middle">
+              {% assign swatch_html = '' %}
+              {% assign options_html = '' %}
+              {% unless bundleProduct.has_only_default_variant %}
+                {% for product_option in bundleProduct.options_with_values %}
+                  {% assign option_index = product_option.position %}
+                  {% comment %}
+                    SH: We need spellings for all option names that include sizes (important to ensure size dropdowns are 100% width on own row) - presently all stores are using German spellings
+                  {% endcomment %}
+                  {% assign option_name = product_option.name | handleize %}
+                  {% if option_name == 'size'
+                    or option_name == 'größe'
+                    or option_name == 'kissenbezug'
+                    or option_name == 'spannbettlaken'
+                    or option_name == 'deckenbezug'
+                    or option_name == 'taille'
+                  %}
+                    {% capture swatch_capture %}
+
+                      <div class="product-option-container size-option">
+                        <div class="select-container">
+                          <select class="{{ prefix }}option-selector size-option-selecter option-selector" name="{{ prefix }}option{{ option_index }}">
+                            <!-- <option selected disabled>Select a size</option> -->
+                            {% for value in product_option.values %}
+                              {% assign checked = '' %}
+                              {% if option_index == 1 %}
+                                {% if current_variant.option1 == value %}
+                                  {% assign checked = 'selected=true' %}
+                                {% endif %}
+                              {% elsif option_index == 2 %}
+                                {% if current_variant.option2 == value %}
+                                  {% assign checked = 'selected=true' %}
+                                {% endif %}
+                              {% elsif option_index == 3 %}
+                                {% if current_variant.option3 == value %}
+                                  {% assign checked = 'selected=true' %}
+                                {% endif %}
+                              {% endif %}
+                              <option value="{{ value }}" {% if value.available %}available{%endif%}>{{ value }}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                      </div>
+                    {% endcapture %}
+                    {% assign swatch_html = swatch_html | append: swatch_capture %}
+                  {% else %}
+                    {% capture option_capture %}
+                      <div class="product-option-container">
+                        <div class="select-container">
+                          <!-- Select Name: {{ product_option.name }} -->
+                          <select class="{{ prefix }}option-selector option-selector" name="{{ prefix }}option{{ option_index }}">
+                            {% for value in product_option.values %}
+                              {% assign checked = '' %}
+                              {% if option_index == 1 %}
+                                {% if current_variant.option1 == value %}
+                                  {% assign checked = 'selected=true' %}
+                                {% endif %}
+                              {% elsif option_index == 2 %}
+                                {% if current_variant.option2 == value %}
+                                  {% assign checked = 'selected=true' %}
+                                {% endif %}
+                              {% elsif option_index == 3 %}
+                                {% if current_variant.option3 == value %}
+                                  {% assign checked = 'selected=true' %}
+                                {% endif %}
+                              {% endif %}
+
+                              {% comment %}
+                              SH: Brute hack for incoMnsistent handle output
+                              {% endcomment %}
+                              {% assign colorhandle = value | handleize %}
+                              {% assign colorhandle = colorhandle | replace: 'sanftgrun', 'sanftgruen' %}
+
+                              <option
+                                value="{{ value }}"
+                                {{ checked }}
+                                data-color-name="color-{{ colorhandle }}">{{ value }}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                      </div>
+                    {% endcapture %}
+                    {% assign options_html = options_html | append: option_capture %}
+                  {% endif %}
+                {% endfor %}
+              {% endunless %}
+              {{ swatch_html }}
+              {{ options_html }}
+              {% if bundleProduct.available %}
+                <div class="product-option-container quantity-bundle-{{ prefix }}">
+                  <div class="select-container">
+                    <select class="{{ prefix }}product-quantity quantity-selector" max="{{current_inventory_bundle}}">
+                      {% for i in (1..10) %}
+                        <option value="{{i}}">{{ i }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <!-- product-quantity-container -->
+                <div class="product-option-container out-of-stock-bundle-{{ prefix }}" style="display:none">
+                  <div class="outofstock-indicator">
+                    <span></span>
+                    {{ 'products.product.variant_out_of_stock' | t }}
+                  </div>
+                </div>
+                <button
+                  class="trigger btn btn-secondary w-full btn-slim {{ prefix }}-back-in-stock-btn"
+                  is-bundle="true"
+                  data-modal-trigger="trigger-bundle"
+                >
+                  {{ 'products.product.backInStock.notifyButton' | t }}
+                </button>
+              {% else %}
+                <div class="product-option-container out-of-stock-bundle-{{ prefix }}">
+                  <div class="outofstock-indicator">
+                    <span></span>
+                    {{ 'products.product.variant_out_of_stock' | t }}
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          {% assign used_handles = used_handles | join: '|' %}
+          {% assign used_handles = used_handles | append: tag | append: '|' %}
+          {% assign used_handles = used_handles | split: '|' %}
+        {% endunless %}
+      {% endif %}
+    {% endfor %}
+  {% endfor %}
+  {% assign additional_price = product.metafields.bundle.price %}
+  {% assign shortname = product.metafields.my_fields.short_name %}
+  <div class="product-options-bundle-total d-flex flex-wrap justify-content-between">
+    <div class="product-subtotal h4">{{ 'cart.general.subtotal' | t }}</div>
+    <div style="display: flex">
+      <div
+        class="product-subtotal-price"
+        data-bundle-subtotal="{{ current_variant.price }}"
+        data-main-product-price="{{ current_variant.price }}"
+      >
+        {{ current_variant.price | money }}
+      </div>
+      <div
+        class="product-subtotal-compare-price compare-at-price"
+        data-bundle-subtotal="{{ current_variant.compare_at_price }}"
+        data-main-product-compare-price="{{ current_variant.compare_at_price }}"
+      >
+        {{ current_variant.compare_at_price | money }}
+      </div>
+      <div class="product-subtotal discount-perc text-16 title-font">
+        {% if current_variant.compare_at_price > current_variant.price %}
+          -
+          {{-
+            current_variant.compare_at_price
+            | minus: current_variant.price
+            | times: 100.0
+            | divided_by: current_variant.compare_at_price
+            | money_without_currency
+            | times: 100
+            | remove: '.0'
+          -}}
+          %
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="modal modal-box-open"
+    id="modalKlaviyo"
+    data-modal="trigger-bundle"
+  >
+    <article class="content-wrapper" id="bundle-content-wrapper">
+      <div class="close-box">
+        <button class="close"></button>
+      </div>
+      <div id="back-in-stock-container" class="container modal-box">
+        <div class="row flex-row-reverse-xs row-box">
+          <div class="col-lg-2 col-md-2  col-sm-0 px-0 col-box"></div>
+          <div class="col-lg-8 col-md-8 main-content col-sm-12 px-0 col-box">
+            <h3>{{ 'products.product.backInStock.modalTitle' | t }}</h3>
+            <p>{{ 'products.product.backInStock.modalDescription' | t }}</p>
+            <form onsubmit="subscribeBackInStock(event, '{{ settings.public_key_klaviyo }}', true)">
+              <input
+                placeholder="E-Mail Adresse"
+                type="email"
+                name="email"
+              >
+              <p class="subscribe-bis-error"></p>
+              <button
+                type="submit"
+                data-button-text="{{ 'products.product.backInStock.modalButton' | t  }}"
+                data-subscribed-success="{{ 'products.product.add_to_cart_success' | t }}"
+                class="btn btn-primary w-full submit-btn"
+              >
+                {{ 'products.product.backInStock.modalButton' | t }}
+              </button>
+            </form>
+            <p class="success-message-bis">{{ 'products.product.backInStock.successMessage' | t }}</p>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-0 px-0 col-box"></div>
+        </div>
+      </div>
+      <style>
+        .modal-box-open {
+          z-index: 9999;
+        }
+
+        @media screen and (max-width:767px) {
+          .col-box {
+            height: 100%;
+          }
+        }
+
+        .close {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 2.25rem;
+          height: 2.25rem;
+          color: rgb(30, 48, 110);
+          border: none;
+          cursor: pointer;
+          opacity: 1;
+          box-shadow: rgb(0 0 0 / 7%) 0 0.3125rem 0.9375rem 0, rgb(0 0 0 / 5%) 0 0 0 0.0625rem, rgb(0 0 0 / 7%) 0 0.0625rem 0 0, rgb(0 0 0 / 3%) 0 0.0625rem 0.1875rem 0;
+          border-radius: 100%;
+          transition: opacity 0.15s ease-out 0s;
+        }
+      </style>
+    </article>
+  </div>
+
+  <template class="main-product-bottom">
+    <small class="main-product">
+      <span class="items-count">@Count</span>x
+      {% if shortname != blank %}
+        {{ shortname }}
+      {% else %}
+        {{ product.title -}}
+      {%- endif %}
+      (<span class="money">@Price</span>)</small
+    >
+  </template>
+  <div class="product-options-bundle-bottom"></div>
+  <div class="you-saved" data-text="{{ 'products.product.savings' | t }}"></div>
+</div>

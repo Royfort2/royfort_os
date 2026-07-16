@@ -1,0 +1,102 @@
+{% comment %}
+UPDATE: Shopify's breadcrumbs don't support hierarchy, so we're implementing a JS one based on the main site navigatio
+BG: Full breadcrumbs. Supports all levels and is scheme structured using microdata.
+{% endcomment %}
+
+
+
+{% comment %}
+SH: removed as not wanted
+{% unless template == 'index' or template == 'cart' or template == 'list-collections' or template == '404' %}
+{% assign t = template | split: '.' | first %}
+<nav class="breadcrumbs" role="navigation" aria-label="breadcrumbs">
+    <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a href="/" itemprop="item" title="Home"><span itemprop="name">Home</span></a>
+        <meta itemprop="position" content="1" />
+    </li>
+
+    {% case t %}
+    {% when 'page' %}
+
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a href="{{ page.url }}" itemprop="item" title="{{page.title}}" aria-current="page"><span itemprop="name">{{ page.title }}</span></a>
+        <meta itemprop="position" content="2" />
+    </li>
+
+    {% when 'product' %}
+
+    {% if collection.url %}
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{{collection.url}}" itemprop="item" title="{{collection.title}}"><span itemprop="name">{{ collection.title }}</span></a>
+            <meta itemprop="position" content="2" />
+        </li>
+    {% endif %}
+
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a href="{{ product.url }}" itemprop="item" title="{{product.title}}" aria-current="page"><span itemprop="name">{{ product.title }}</span></a>
+        <meta itemprop="position" content="{% if collection.url %}3{% else %}2{% endif %}" />
+    </li>
+
+    {% when 'collection' and collection.handle %}
+
+    {% if current_tags %}
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{{collection.url}}" itemprop="item" title="{{collection.title}}"><span itemprop="name">{{ collection.title }}</span></a>
+            <meta itemprop="position" content="2" />
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            {% capture tag_url %}{{ collection.url }}/{{ current_tags | join: "+"}}{% endcapture %}
+            <a href="{{ tag_url }}" itemprop="item" title="{{current_tags | join: " + "}}" aria-current="page"><span itemprop="name">{{ current_tags | join: " + "}}</span></a>
+            <meta itemprop="position" content="3" />
+        </li>
+    {% else %}
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{{collection.url}}" itemprop="item" title="{{collection.title}}" aria-current="page"><span itemprop="name">{{ collection.title }}</span></a>
+            <meta itemprop="position" content="2" />
+        </li>
+    {% endif %}
+
+    {% when 'blog' %}
+
+    {% if current_tags %}
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{{blog.url}}" itemprop="item" title="{{blog.title}}"><span itemprop="name">{{ blog.title }}</span></a>
+            <meta itemprop="position" content="2" />
+        </li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            {% capture tag_url %}{{blog.url}}/tagged/{{ current_tags | join: "+" }}{% endcapture %}
+            <a href="{{ tag_url }}" itemprop="item" title="{{ current_tags | join: " + " }}" aria-current="page"><span itemprop="name">{{ current_tags | join: " + " }}</span></a>
+            <meta itemprop="position" content="3" />
+        </li>
+    {% else %}
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a href="{{blog.url}}" itemprop="item" title="{{blog.title}}" aria-current="page"><span itemprop="name">{{ blog.title }}</span></a>
+        <meta itemprop="position" content="2" />
+    </li>
+    {% endif %}
+
+    {% when 'article' %}
+
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a href="{{blog.url}}" itemprop="item" title="{{blog.title}}"><span itemprop="name">{{ blog.title }}</span></a>
+        <meta itemprop="position" content="2" />
+    </li>
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a href="{{ article.url }}" itemprop="item" title="{{article.title}}" aria-current="page"><span itemprop="name">{{ article.title }}</span></a>
+        <meta itemprop="position" content="3" />
+    </li>
+
+    {% else %}
+
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">
+        <a href="{{ request.path }}" itemprop="item" title="{{page_title}}" aria-current="page"><span itemprop="name">{{ page_title }}</span></a>
+        <meta itemprop="position" content="2" />
+    </li>
+
+    {% endcase %}
+
+    </ol>
+</nav>
+{% endunless %}
+{% endcomment %}

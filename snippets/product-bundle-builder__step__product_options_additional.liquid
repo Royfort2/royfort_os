@@ -1,0 +1,27 @@
+{% assign swatch_library = shop.metafields.swatches.swatch_colour_title %}
+
+{% assign swatch_translation_title = 'swatch_option.title' | t %}
+{% assign swatch_translation_slug = 'swatch_option.slug' | t %}
+{% assign pbb_swatch_html = '' %}
+{% assign pbb_options_html = '' %}
+
+{% for product_option in product.options_with_values %}
+    {% assign option_index = product_option.position %}
+
+    {% capture pbb_option_capture %}
+        <div class="pbb-product-option py">
+            <label class="sr-only">{{ product_option.name }}:</label>
+            <div class="pbb-select-container">
+                <select name="option-{{ option_index }}" class="pbb-product-option-select pbb-select" data-option-id="{{ option_index }}">
+                    {% for value in product_option.values %}
+                        <option value="{{ value | handleize }}">{{ value }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    {% endcapture %}
+    {% assign pbb_options_html = pbb_options_html | append: pbb_option_capture %}
+
+{% endfor %}
+
+{{ pbb_options_html }}

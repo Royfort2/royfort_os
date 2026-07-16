@@ -1,0 +1,75 @@
+{% assign swatch_library = shop.metafields.swatches.swatch_colour_title %}
+
+{% assign swatch_translation_title = 'swatch_option.title' | t %}
+{% assign swatch_translation_slug = 'swatch_option.slug' | t %}
+{% assign pbb_swatch_html = '' %}
+{% assign pbb_swatch_select_html = '' %}
+{% assign pbb_options_html = '' %}
+
+{% for product_option in product.options_with_values %}
+    {% assign option_index = product_option.position %}
+
+    {% if product_option.name == swatch_translation_title or product_option.name == swatch_translation_slug %} 
+        {% capture pbb_swatch_capture %}
+
+        <div class="pbb-colour">{{ product_option.name }}: <span class="pbb-selected-colour" data-option-id="{{ option_index }}"></span></div>
+
+        {% for value in product_option.values %}
+            {% assign colour_value = '#fff' %}
+            {% assign border_color = '#b3b3b3' %}
+            {% for swatch_value in swatch_library %}
+                {% if swatch_value == value %}
+                    {% assign colour_value = shop.metafields.swatches.swatch_colour[forloop.index0] %}
+                {% endif %}
+            {% endfor %}
+
+            {% assign downcase_colour_val = colour_value | downcase %}
+
+            {% if downcase_colour_val == '#ffffff' or downcase_colour_val == '#fff' or downcase_colour_val == blank %}
+                
+            {% else %}
+                {% assign border_color = downcase_colour_val %}
+            {% endif %}
+
+            <label class="pbb-swatch {% if forloop.index == 1 %}is-active{% endif %}" data-option-id="{{ option_index }}" data-swatch-colour="{{ value }}" data-swatch-colour-slug="{{ value | handleize }}">
+                <div class="pbb-swatch-image" style="background-color: {{ downcase_colour_val }}; border-color: {{ border_color }};"></div>
+                <input type="radio" class="pbb-swatch-value" name="option-{{ option_index }}" value="{{ value }}" data-option-id="{{ option_index }}" />
+            </label>
+            
+            {% assign available_colours_count = available_colours_count | plus: 1 %}
+        {% endfor %}
+        {% endcapture %}
+
+        {% capture pbb_swatch_select_html %}
+            <select name="option-{{ option_index }}" class="pbb-product-swatch-select pbb-select hide" data-option-id="{{ option_index }}">
+                {% for value in product_option.values %}
+                    <option value="{{ value | handleize }}" data-option-name="{{ value }}">{{ value }}</option>
+                {% endfor %}
+            </select>
+        {% endcapture %}
+
+        {% assign pbb_swatch_html = pbb_swatch_html | append: pbb_swatch_capture %}
+    {% else %}
+        {% capture pbb_option_capture %}
+            <div class="pbb-product-option">
+                <label>{{ product_option.name }}:</label>
+                <div class="pbb-select-container">
+                    <select name="option-{{ option_index }}" class="pbb-product-option-select pbb-select" data-option-id="{{ option_index }}">
+                        {% for value in product_option.values %}
+                            <option value="{{ value | handleize }}">{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        {% endcapture %}
+        {% assign pbb_options_html = pbb_options_html | append: pbb_option_capture %}
+    {% endif %}
+
+{% endfor %}
+
+<div class="pbb-swatches">
+    {{ pbb_swatch_html }}
+</div>
+{{ pbb_swatch_select_html }}
+
+{{ pbb_options_html }}

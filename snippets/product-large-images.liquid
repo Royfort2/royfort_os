@@ -1,0 +1,273 @@
+{%- assign swatch_translation_title = 'swatch_option.title' | t -%}
+{%- assign swatch_translation_slug = 'swatch_option.slug' | t -%}
+
+{%- assign product_images = product.images -%}
+    
+
+
+
+
+
+
+    {% comment %}
+    {%- assign swatches = 'no' -%}
+
+
+    {%- assign color_index = 0 -%}
+    {% for product_option in product.options_with_values %}
+        {% if product_option.name == swatch_translation_title or product_option.name == swatch_translation_slug %}
+            {%- assign color_index = product_option.position -%}
+        {% endif %}
+    {% endfor %}
+
+    {% assign all_variant_colors = '' %}
+    {% assign variant_colors = '' %}
+    {% assign color_count = 0 %}
+    {% assign color_counter = '' %}
+    {% for variant in product.variants %}
+        {% assign color_count = color_count | plus: 1 %}
+        {% if color_index == 1 %}
+            {% assign temp = variant.option1 | append: color_counter | append:'||' %}
+        {% elsif color_index == 2 %}
+            {% assign temp = variant.option2 | append: color_counter | append:'||' %}
+        {% elsif color_index == 3 %}
+            {% assign temp = variant.option3 | append: color_counter | append:'||' %}
+        {% endif %}
+        {% unless variant_colors contains temp %}
+            {% assign variant_colors = variant_colors | append:temp %}
+        {% endunless %}
+        {% assign all_variant_colors = all_variant_colors | append:temp %}
+    {% endfor %}
+    <!-- Colours: {{ variant_colors | split:'||' | join:', ' }} -->
+
+    {% assign colors_arr = all_variant_colors | split: '||' %}
+    {% for color in colors_arr %}
+        {% assign stringToFind = color %}
+        {% assign splitString = all_variant_colors | split: stringToFind  %}
+
+        <!-- Count of "{{ stringToFind  }}" = {{ splitString.size | minus: 1 }} -->
+
+    {% endfor %}
+
+
+    {% for product_option in product.options_with_values %}
+        {%- assign counter = 0 -%}
+        {%- assign option_index = product_option.position -%}
+
+        {% if product_option.name == swatch_translation_title or product_option.name == swatch_translation_slug %} 
+
+            {%- assign swatches = 'yes' -%} 
+
+            {% for value in product_option.values %}
+                
+                {%- assign colour_slug = value | handleize -%}
+                {%- assign is_first = forloop.first %}
+
+                <div class="large-images" data-colour-group="{{ colour_slug }}" data-option-pos="{{ option_index }}">
+
+                {% for image in product_images %}
+                    {% assign counter = counter | plus: 1 -%}
+
+                    {% assign image_alt_tag = image.alt | handleize %}
+                    {% if image_alt_tag == colour_slug %}
+
+                        <div alt="{{ image_alt_tag }}" class="large-image{% if forloop.first == true %} default-image{% endif %}" data-image-position="{{forloop.index}}" data-images-pos="{{ counter }}" data-image-colour="{{ colour_slug }}">
+
+                            <div class="{{section.settings.main_ratio}} img-wrap">
+                                {% if forloop.first == true %}
+                                    <!-- BG: Don't lazy load the first image, but lazy load every image after. -->
+                                    <picture>
+                                        <source media="(max-width: 400px)" srcset="{{ image | img_url: '400x' }}">
+                                        <source media="(min-width: 768px) and (max-width: 1199px)" srcset="{{ image | img_url: '650x' }}">
+                                        <source media="(min-width: 1200px)" srcset="{{ image | img_url: '900x' }}">
+                                        <img src="{{ image | img_url: '650x' }}" data-zoom-desktop="{{ image | img_url: '1200x' }}"
+                                            data-zoom-mobile="{{ image | img_url: '800x' }}"
+                                            class="img-fluid{% if forloop.first == true %} default{% endif %}" alt="{{ image.alt }}">
+                                    </picture>
+                                {% else %}
+                                    <picture>
+                                        <source media="(max-width: 400px)" srcset="{{ image | img_url: '400x' }}">
+                                        <source media="(min-width: 768px) and (max-width: 1199px)" srcset="{{ image | img_url: '650x' }}">
+                                        <source media="(min-width: 1200px)" srcset="{{ image | img_url: '900x' }}">
+                                        <source srcset="{{ image | img_url: '650x' }}">
+                                        <img data-lazy="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-zoom-desktop="{{ image | img_url: '1200x' }}" data-zoom-mobile="{{ image | img_url: '800x' }}" class="img-fluid" alt="{{ image.alt }}">
+                                    </picture>
+                                {% endif %}
+                            </div>
+
+                        </div>
+
+                    {% endif %}
+                
+                {% endfor %}
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endfor %}
+
+
+    {% if swatches == 'no' %}
+        {% for image in product_images %}
+            <div class="large-image{% if forloop.first == true %} default-image{% endif %}" data-image-position="{{forloop.index}}">
+                <div class="{{section.settings.main_ratio}} img-wrap">
+                    {% if forloop.first == true %}
+                        <!-- BG: Don't lazy load the first image, but lazy load every image after. -->
+                        <picture>
+                            <source media="(max-width: 400px)" srcset="{{ image | img_url: '400x' }}">
+                            <source media="(min-width: 768px) and (max-width: 1199px)" srcset="{{ image | img_url: '650x' }}">
+                            <source media="(min-width: 1200px)" srcset="{{ image | img_url: '900x' }}">
+                            <img src="{{ image | img_url: '650x' }}" data-zoom-desktop="{{ image | img_url: '1200x' }}"
+                                data-zoom-mobile="{{ image | img_url: '800x' }}"
+                                class="img-fluid{% if forloop.first == true %} default{% endif %}" alt="{{ image.alt }}">
+                        </picture>
+                    {% else %}
+                        <picture>
+                            <source media="(max-width: 400px)" srcset="{{ image | img_url: '400x' }}">
+                            <source media="(min-width: 768px) and (max-width: 1199px)" srcset="{{ image | img_url: '650x' }}">
+                            <source media="(min-width: 1200px)" srcset="{{ image | img_url: '900x' }}">
+                            <source srcset="{{ image | img_url: '650x' }}">
+                            <img data-lazy="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-zoom-desktop="{{ image | img_url: '1200x' }}" data-zoom-mobile="{{ image | img_url: '800x' }}" class="img-fluid" alt="{{ image.alt }}">
+                        </picture>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% endcomment %}
+
+
+    {% assign imagepos = 1 %}
+            
+    {% assign imagecount = 0 %}
+    {% for product_option in product.options_with_values %}
+    {% assign option_index = product_option.position %}
+
+    {% comment %} 
+    SH: Swatches only 
+    {% endcomment %}
+        {% if product_option.name == swatch_translation_title or product_option.name == swatch_translation_slug %} 
+
+        {% for value in product_option.values %}
+
+            {% comment %}
+            SH: Brute hack for inconsistent handle output
+            {% endcomment %}
+            {%- assign colour_slug = value | handleize -%}
+            {%- assign colour_slug = colour_slug | replace: 'sanftgrun', 'sanftgruen' -%}
+
+            {% assign is_first = forloop.first %}
+
+            <div id="product-large-images-{{ forloop.index }}" class="product-images{% if product_images.size > 1 %} slick-incoming{% endif%}" data-swatch-group="{{ colour_slug }}">
+            
+            {% for image in product_images %}
+
+                {% comment %}
+                SH: Brute hack for inconsistent handle output
+                {% endcomment %}
+                {% comment %} {% assign image_alt_tag = image.alt | handleize %}
+                {%- assign image_alt_tag = image_alt_tag | replace: 'sanftgrun', 'sanftgruen' -%} {% endcomment %}
+
+                {% comment %}
+                    VH: The alt tag of the image will consist of either the COLOUR or COLOUR | b
+                    | b is to mark an image to show for the B test only if ab_images is set to true on the step liquid page.
+
+                    We will split the alt_tag using the | as the splitter.
+
+                    The | b will only be used on the top level of the bundle, so the duvet really.
+
+                    We will only use the colour here as this is the A test so we don't need to worry about the B flag.
+                {% endcomment %}
+
+                {% assign image_alt_tag = image.alt | split: '|' %}
+                {% assign alt_colour = image_alt_tag[0] | handleize %}
+
+                {% if alt_colour == colour_slug %}
+
+                {% assign imagecount = imagecount | plus: 1 %}
+                {% assign imagepos = imagecount %}
+
+                <div data-image-position="{{ imagepos }}" data-slick-index="{{ imagepos | minus: 1 }}" class="large-image{% if forloop.first == true %} default-image{% endif %}">
+
+                    <div class="{{ section.settings.main_ratio }} img-wrap">
+                        {% if forloop.first == true %}
+                            <!-- BG: Don't lazy load the first image, but lazy load every image after. -->
+                            <picture>
+                                <source media="(max-width: 540px)" data-srcset="{{ image | img_url: '540x' }}">
+                                <source media="(max-width: 768px)" data-srcset="{{ image | img_url: '768x' }}">
+                                <source media="(min-width: 768px) and (max-width: 1199px)" srcset="{{ image | img_url: '650x' }}">
+                                <source media="(min-width: 1200px)" srcset="{{ image | img_url: '900x' }}">
+                                <img src="{{ image | img_url: '650x' }}" data-zoom-desktop="{{ image | img_url: '1200x' }}"
+                                    data-zoom-mobile="{{ image | img_url: '800x' }}"
+                                    class="img-fluid{% if forloop.first == true %} default{% endif %}" alt="{{ image.alt }}">
+                            </picture>
+                        {% else %}
+                            <picture>
+                                <source media="(max-width: 540px)" data-srcset="{{ image | img_url: '540x' }}">
+                                <source media="(max-width: 768px)" data-srcset="{{ image | img_url: '768x' }}">
+                                <source media="(min-width: 768px) and (max-width: 1199px)" srcset="{{ image | img_url: '650x' }}">
+                                <source media="(min-width: 1200px)" srcset="{{ image | img_url: '900x' }}">
+                                <source srcset="{{ image | img_url: '650x' }}">
+                                <img data-lazy="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-zoom-desktop="{{ image | img_url: '1200x' }}" data-zoom-mobile="{{ image | img_url: '800x' }}" class="img-fluid" alt="{{ image.alt }}">
+                            </picture>
+                        {% endif %}
+                    </div>
+
+                </div>
+
+                {% assign imagepos = imagepos | plus: 1 %}
+
+                {% endif %}
+
+            {% endfor %}
+
+            </div>
+
+        {% endfor %}
+        {% assign swatchproducts = 'yes' %}
+    {% endif %}
+
+    {% endfor %}
+
+
+
+
+
+
+{% unless swatchproducts == 'yes' %}
+    {% comment %} 
+    SH: No swatches
+    {% endcomment %}
+    <div id="product-large-images" class="product-images{% if product_images.size > 1 %} slick-incoming{% endif%}">
+        {% for image in product_images %}
+            <div class="large-image{% if forloop.first == true %} default-image{% endif %}" data-image-position="{{forloop.index}}">
+                <div class="{{section.settings.main_ratio}} img-wrap">
+                    {% if forloop.first == true %}
+                        <!-- BG: Don't lazy load the first image, but lazy load every image after. -->
+                        <picture>
+                            <source media="(max-width: 540px)" data-srcset="{{ image | img_url: '540x' }}">
+                            <source media="(max-width: 768px)" data-srcset="{{ image | img_url: '768x' }}">
+                            <source media="(min-width: 768px) and (max-width: 1199px)" srcset="{{ image | img_url: '650x' }}">
+                            <source media="(min-width: 1200px)" srcset="{{ image | img_url: '900x' }}">
+                            <img src="{{ image | img_url: '650x' }}" data-zoom-desktop="{{ image | img_url: '1200x' }}"
+                                data-zoom-mobile="{{ image | img_url: '800x' }}"
+                                class="img-fluid{% if forloop.first == true %} default{% endif %}" alt="{{ image.alt }}">
+                        </picture>
+                    {% else %}
+                        <picture>
+                            <source media="(max-width: 540px)" data-srcset="{{ image | img_url: '540x' }}">
+                            <source media="(max-width: 768px)" data-srcset="{{ image | img_url: '768x' }}">
+                            <source media="(min-width: 768px) and (max-width: 1199px)" srcset="{{ image | img_url: '650x' }}">
+                            <source media="(min-width: 1200px)" srcset="{{ image | img_url: '900x' }}">
+                            <source srcset="{{ image | img_url: '650x' }}">
+                            <img data-lazy="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-zoom-desktop="{{ image | img_url: '1200x' }}" data-zoom-mobile="{{ image | img_url: '800x' }}" class="img-fluid" alt="{{ image.alt }}">
+                        </picture>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endunless %}

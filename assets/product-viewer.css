@@ -1,0 +1,1278 @@
+@media all and (max-width: 229px) {
+    /* put your css styles in here */
+     .mainProductViewer {
+         /* height: 600px; */
+         display: inline-flex;
+         align-items: center;
+         flex-direction: column;
+      margin-right: 0px;
+         /* float: left; */
+    }
+    .sc-eqUzNf img {
+      /*width: 90vw!important;
+      height: 86vw!important;*/
+      object-fit: fill;
+    }
+  
+  /*.react-360-viewer-container {
+      height: 86vw;
+  }*/
+    .container360 {
+      position: relative!important;
+      width: max-content!important;
+      /*height: auto!important;*/
+    }
+    /*.iiz {
+      width: 90vw !important;
+      height: 86vw !important;
+    }
+    .innerImageZoom {
+      width: 90vw !important;
+      height: 86vw !important;
+    }
+    .modelViewerContainer model-viewer {
+      width: 90vw !important;
+      height: 86vw !important;
+    }*/
+  .otherbuttonssection {
+      display: inline-flex;
+    }
+    .previewCarousel {
+      width: 100%;
+    }
+    .button-dim{
+      width: 30px;
+      height: 30px;
+    }
+    .button-dim>img {
+      width: 15px;
+      height: 15px;
+    }
+    
+    .ar-button{
+      width: 30px;
+      height: 30px;  
+    }
+    .qr-code{
+    width: 60px;
+    height: 60px;
+    }
+    .button-anim{
+      width: 30px;
+      height: 30px;
+    }
+    .button-ar{
+      width: 30px;
+      height: 30px;
+    }
+  }
+  
+  @media all and (min-width: 230px) and (max-width: 329px) {
+    /* put your css styles in here */
+     .mainProductViewer {
+         /* height: 600px; */
+         display: inline-flex;
+         align-items: center;
+         flex-direction: column;
+      margin-right: 0px;
+         /* float: left; */
+    }
+    .sc-eqUzNf img {
+      /*width: 90vw!important;
+      height: 86vw!important;*/
+      object-fit: fill;
+    }
+  
+  /*.react-360-viewer-container {
+      height: 86vw;
+  }*/
+    .container360 {
+      position: relative!important;
+      width: max-content!important;
+      /*height: auto!important;*/
+    }
+    /*.iiz {
+      width: 90vw !important;
+      height: 86vw !important;
+    }
+    .innerImageZoom {
+      width: 90vw !important;
+      height: 86vw !important;
+    }
+    .modelViewerContainer model-viewer {
+      width: 90vw !important;
+      height: 86vw !important;
+    }*/
+  .otherbuttonssection {
+      display: inline-flex;
+    }
+    .previewCarousel {
+      width: 100%;
+    }
+    .button-dim{
+      width: 40px;
+      height: 40px;
+    }
+    .button-dim>img {
+      width: 20px;
+      height: 20px;
+    }
+    .ar-button{
+      width: 40px;
+      height: 40px;  
+    }
+    .qr-code{
+    width: 70px;
+    height: 70px;
+    }
+    .button-anim{
+      width: 40px;
+      height: 40px;
+    }
+    .button-ar{
+      width: 40px;
+      height: 40px;
+    }
+  }
+  
+  @media all and (min-width:330px) and (max-width: 409px) {
+     .mainProductViewer {
+         display: inline-flex;
+         align-items: center;
+         flex-direction: column;
+      margin-right: 0px;
+         /* float: left; */
+    }
+    .sc-eqUzNf img {
+      object-fit: fill;
+    }
+  
+    .container360 {
+      position: relative!important;
+      width: max-content!important;
+      /*height: auto!important;*/
+    }
+  .otherbuttonssection {
+      display: inline-flex;
+    }
+    .previewCarousel {
+      width: 100%;
+    }
+    .button-dim{
+      width: 50px;
+      height: 50px;
+    }
+    .button-dim>img {
+      width: 25px !important;
+      height: 25px !important;
+    }  
+    .ar-button{
+      width: 50px;
+      height: 50px;  
+    }
+    .qr-code{
+    width: 80px;
+    height: 80px;
+    }
+    .button-anim{
+      width: 50px;
+      height: 50px;
+    }
+    .button-ar{
+      width: 50px;
+      height: 50px;
+    }
+  }
+  
+  @media all and (min-width:410px) and (max-width: 480px) {
+    /* put your css styles in here */
+     .mainProductViewer {
+         /* height: 600px; */
+         display: inline-flex;
+         align-items: center;
+         flex-direction: column;
+      margin-right: 0px;
+         /* float: left; */
+    }
+    .sc-eqUzNf img {
+      /*width: 90vw!important;
+      height: 86vw!important;*/
+      object-fit: fill;
+    }
+  
+  /*.react-360-viewer-container {
+      height: 86vw;
+  }*/
+    .container360 {
+      position: relative!important;
+      width: max-content!important;
+      /*height: auto!important;*/
+    }
+    /*.iiz {
+      width: 90vw !important;
+      height: 86vw !important;
+    }
+    .innerImageZoom {
+      width: 90vw !important;
+      height: 86vw !important;
+    }
+    .modelViewerContainer model-viewer {
+      width: 90vw !important;
+      height: 86vw !important;
+    }*/
+  .otherbuttonssection {
+      display: inline-flex;
+    }
+    .previewCarousel {
+      width: 100%;
+    }
+    .button-dim{
+      width: 60px;
+      height: 60px;
+    }
+    .button-dim>img {
+      width: 30px;
+      height: 30px;
+    }  
+    .ar-button{
+      width: 60px;
+      height: 60px;  
+    }
+    .qr-code{
+    width: 90px;
+    height: 90px;
+    }
+    .button-anim{
+      width: 60px;
+      height: 60px;
+    }
+    .button-ar{
+      width: 60px;
+      height: 60px;
+    }
+  }
+  
+  
+  @media all and (min-width:481px) and (max-width: 649px) {
+    /* put your css styles in here */
+     .mainProductViewer {
+         /* height: 600px; */
+         display: inline-flex;
+         align-items: center;
+         flex-direction: column;
+      margin-right: 0px;
+         /* float: left; */
+    }
+    .sc-eqUzNf img {
+      /*width: 90vw!important;
+      height: 86vw!important;*/
+      object-fit: fill;
+    }
+  
+  /*.react-360-viewer-container {
+      height: 86vw;
+  }*/
+    .container360 {
+      position: relative!important;
+      width: max-content!important;
+      /*height: auto!important;*/
+    }
+    /*.iiz {
+      width: 90vw !important;
+      height: 86vw !important;
+    }
+    .innerImageZoom {
+      width: 90vw !important;
+      height: 86vw !important;
+    }
+    .modelViewerContainer model-viewer {
+      width: 90vw !important;
+      height: 86vw !important;
+    }*/
+  .otherbuttonssection {
+      display: inline-flex;
+    }
+    .previewCarousel {
+      width: 100%;
+    }
+    .button-dim{
+      width: 70px;
+      height: 70px;
+    }
+    .button-dim>img {
+      width: 35px;
+      height: 35px;
+    }  
+    .ar-button{
+      width: 70px;
+      height: 70px;  
+    }
+    .qr-code{
+    width: 100px;
+    height: 100px;
+    }
+    .button-anim{
+      width: 70px;
+      height: 70px;
+    }
+    .button-ar{
+      width: 70px;
+      height: 70px;
+    }
+  }
+  
+  @media all and (min-width:650px) {
+    /* put your css styles in here */
+   .mainProductViewer {
+          /*width: 600px;
+          height: 630px;*/
+         display: inline-flex;
+          align-items: center;
+          flex-direction: column;
+      margin-right: 0px;
+      float: left;
+    }
+    .sc-eqUzNf img {
+      /*width: 500px;
+      height: 500px;*/
+      object-fit: fill;
+    }
+  
+  /*.react-360-viewer-container {
+      height: 500px;
+  }*/
+    .container360 {
+      position: relative;
+      /*max-width: 500px;
+      max-height: 500px;*/
+    }
+    /*.innerImageZoom{
+      width: 500px;
+      height: 500px;
+    }
+    .modelViewerContainer model-viewer {
+      width: 500px;
+      height: 500px;
+    }*/
+  .otherbuttonssection {
+      display: inline-flex;
+    }
+    .previewCarousel {
+      width: 100%;
+    }
+    .button-dim{
+      width: 80px;
+      height: 80px;
+    }
+    .button-dim>img {
+      width: 40px;
+      height: 40px;
+    }  
+    .ar-button{
+      width: 80px;
+      height: 80px;  
+    }
+    .qr-code{
+    width: 110px;
+    height: 110px;
+    }
+    .button-anim{
+      width: 80px;
+      height: 80px;
+    }
+    .button-ar{
+      width: 80px;
+      height: 80px;
+    }
+  }
+  
+  @media all and (min-width:820px) {
+    /* put your css styles in here */
+   .mainProductViewer {
+          /*width: 800px;
+          height: 830px;*/
+         display: inline-flex;
+          align-items: center;
+          flex-direction: column;
+      margin-right: 20px;
+      float: left;
+    }
+    .sc-eqUzNf img {
+      /*width: 700px;
+      height: 700px;*/
+      object-fit: fill;
+    }
+  
+  /*.react-360-viewer-container {
+      height: 700px;
+  }*/
+    /*.innerImageZoom {
+      max-width: 700px;
+      max-height: 700px;
+    }*/
+    .container360 {
+      position: relative;
+      /*max-width: 700px;
+      max-height: 700px;*/
+    }
+    .innerImageZoom{
+      /*width: 700px;
+      height: 700px;*/
+    }
+    /*.modelViewerContainer model-viewer {
+      width: 700px;
+      height: 700px;
+    }*/
+    .otherbuttonssection {
+      display: inline-flex;
+    }
+    .previewCarousel {
+      width: 100%;
+    }
+  }
+  
+  @media all and (min-width:1000px) {
+    /* put your css styles in here */
+   .mainProductViewer {
+          /*width: 1050px;
+          height: 1080px;*/
+         display: inline-flex;
+          align-items: center;
+          flex-direction: column;
+      margin-right: 20px;
+      float: left;
+    }
+    .sc-eqUzNf img {
+      /*width: 900px;
+      height: 900px;*/
+      object-fit: fill;
+    }
+  /*.react-360-viewer-container {
+      height: 900px;
+  }*/
+    .container360 {
+      position: relative;
+      /*width: 900px;
+      height: 900px;
+      max-width: 1000px;
+      max-height: 1000px;*/
+    }
+    .innerImageZoom{
+      /*width: 900px;
+      height: 900px;*/
+    }
+    /*.modelViewerContainer model-viewer {
+      width: 900px;
+      height: 900px;
+    }*/
+  .modelViewerContainer Loader {
+      width: 900px;
+      height: 900px;
+    }
+    .otherbuttonssection {
+      display: inline-flex;
+    }
+    .previewCarousel {
+      width: 100%;
+    }
+  /*
+  
+  @media all and (min-width:321px) and (max-width: 849px) {
+    /*.innerImageZoom {
+      width: 90vw !important;
+      height: 86vw !important;
+    }*/
+  }
+  */
+  
+  .growmProductImage {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+  
+  .growmProductImage.verticalLayout {
+    margin-bottom: 0px;
+    /* width: 520px;
+    height: 520px; */
+    box-sizing: border-box;
+  }
+  
+  .mainProductViewer {
+      margin-bottom: 30px;
+  }
+  
+  .mainProductViewer .growmProductImage {
+      margin-bottom: 0px;
+      
+  }
+  
+  .mainProductViewer.verticalLayout {
+    /*position: absolute; */
+    display: inline-flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    margin-bottom: 0px;
+  }
+  
+  .sc-eqUzNf {
+      padding: 0 !important; /* Overwrite padding */
+  }
+  
+  .innerImageZoom{
+    padding: 5px;
+    margin-left: 0px;
+  }
+  
+  .otherbuttonssection {
+      display: inline-flex;
+     /* width: 100%;*/
+      flex-wrap: nowrap;
+  }
+  
+  .otherbuttonssection.verticalLayout {
+        display: flex;
+        height: 100%;
+  }
+  
+      
+  .previewCarousel {
+      width: 100%;
+      overflow-x: hidden;
+      display: inline-flex;;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+  }
+  
+  .previewCarousel.verticalPreview {
+      height: 100%;
+      flex-direction: column;
+      /*justify-content: flex-start;
+      align-items: flex-start;*/
+  }
+  
+  .Loader{
+      height: 500px;
+      width: 500px;
+      position: fixed;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background-color: white;
+      top: 50%;
+      left: 50%;
+      transform: translate(-80%, -80%);
+  }
+
+  .modelviewer-label-small {
+    position: absolute;
+    color: black;
+    background-color: white;
+    padding: 6px;
+    border-radius: 10px;
+    font-family: Futura, sans-serif;
+    white-space: nowrap;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+  }
+  .modelviewer-label-small-inverse {
+    position: absolute;
+    color: black;
+    background-color: white;
+    padding: 6px;
+    border-radius: 10px;
+    font-family: Futura, sans-serif;
+    white-space: nowrap;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+  }
+  
+  .buttonViewer  {
+      border: 0px !important;
+      margin: 0px 0px;
+      background-color: transparent;
+      cursor: pointer;
+      padding: 0px;
+  }
+  
+  .buttonViewer.verticalButton {
+      margin: 0px;
+      background-color: transparent;
+      padding: 0px;
+      max-height: 85px;
+      max-width: 85px;
+      margin-bottom: 8px;
+      margin-top: 8px;
+  }
+  
+  .buttonViewer .rotateUp {
+      transform: rotate(90deg);
+      max-height: 85px;
+      max-width: 85px;
+  }
+  
+  .buttonViewer .rotateDown {
+      transform: rotate(90deg);
+      max-height: 85px;
+      max-width: 85px;
+  }
+  
+  .viewer360 {
+        margin-bottom: 25px;
+      /*display: flex;*/
+      align-items: center;
+      justify-content: center;
+      /*height: 520px;
+      width: 520px;*/
+  }
+  
+  .viewer360.verticalLayout {
+    margin-bottom: 0px;
+  }
+  
+  .viewer360Loader {
+      position: relative;
+        display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      font-size: 44px;
+      text-align: center;
+  }
+  
+  .ast-single-product-payments {
+    display: none;
+  }
+
+  .previewItem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-right: 5px;
+  }
+
+  .previewItem.verticalButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-bottom: 8px;
+    margin-top: 8px;
+    margin-right: 0px;
+  }
+  
+  .previewItem>img {
+    cursor: pointer;
+    object-fit: contain;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-color: #f4f4f4;
+    object-fit: cover;
+    max-width: 85px;
+    max-height: 85px;
+  }
+  
+  .sc-eqUzNf img {
+    object-fit: fill;
+    height: revert-layer !important;
+  }
+  
+      
+  .otherbuttonssection button {
+    overflow: hidden;
+    flex: 0 1 auto;
+  }
+  .woocommerce-js div.product .woocommerce-tabs {
+      padding-top: 4em;
+  }
+  
+  .otherbuttonssection button img {
+    object-fit: cover;
+  }
+  
+  .model-viewer {
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    /*margin-bottom: 25px!important;*/
+  }
+  
+  .modelViewerContainer {
+    position: relative;
+  }
+    
+  .hotspot {
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    border: none;
+    box-sizing: border-box;
+    pointer-events: none;
+    background-color: black;
+    padding: 0;
+    display: none;
+  }
+  
+  .hotspotText {
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 8px;
+    border: none;
+    box-sizing: border-box;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    vertical-align: middle;
+    font-family: Arial, Helvetica Neue, sans-serif;
+    font-size: 1em;
+    font-weight: 700;
+    max-width: 128px;
+    overflow-wrap: break-word;
+    padding: 0.5em 1em;
+    position: absolute;
+    width: max-content;
+    height: max-content;
+    transform: translate3d(-60px, 15px, 0);
+    pointer-events: none;
+  }
+  
+  .controls-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 5px; /* Add padding inside the border */
+    border-radius: 8px;
+    display: inline-block; /* Make the border wrap around the content */
+    vertical-align: middle;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+  }
+  
+  .controls-label {
+    color: #fff;
+    margin-bottom: 5px; /* Add space between checkboxes and labels */
+    font-family: Arial, Helvetica Neue, sans-serif;
+  }
+  
+  .controls-input {
+      margin-right: 5px; /* Add space between checkbox and label */
+  }
+  
+  .controls {
+      vertical-align: middle;
+      justify-content: space-between;
+      background: transparent;
+      color: #fff;
+      font-family: Arial, Helvetica Neue, sans-serif;
+      font-size: 1em;
+      font-weight: 500;
+      overflow-wrap: break-word;
+      width: max-content;
+      height: max-content;
+  }
+  
+  .dot {
+      display: none;
+  }
+  
+  .dim {
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 8px;
+      border: none;
+      box-sizing: border-box;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      vertical-align: middle;
+      font-family: Arial, Helvetica Neue, sans-serif;
+      font-size: 1em;
+      font-weight: 700;
+      max-width: 128px;
+      overflow-wrap: break-word;
+      padding: 0.5em 1em;
+      position: absolute;
+      width: max-content;
+      height: max-content;
+      transform: translate3d(-50%, -50%, 0);
+      pointer-events: none;
+      display: none;
+  }
+  
+  .dimRow {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      flex: 1;
+      /* Ensure rows stretch to fill the container */
+      gap: 10px;
+      /* Add spacing within the row */
+  }
+  
+  .dimensionLineContainer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+  }
+  
+  .dimensionLine {
+      stroke: rgba(0, 0, 0, 0.8);
+      stroke-linecap: round;
+      stroke-width: 2;
+      stroke-dasharray: 3;
+      stroke-linejoin: round;
+      display: none;
+  }
+  
+  .modelViewerContainer model-viewer {
+      flex-grow: 1;
+        justify-content: center;
+        align-items: center;
+      outline-width: 0px;
+      outline-style: none;
+  }
+  
+  .model-viewer-ar {
+      display: none;
+      padding: 5px;
+  }
+  
+  
+  .container360 {
+    position: relative;
+    display: flex;
+    /*justify-content: center;*/
+    align-items: center;
+  }
+  
+  .buttonZoom {
+    position: absolute;
+    z-index: 1000; /* Ensure it's above the 360 viewer */
+    right: 10px;
+    bottom: 10px;
+    background: rgba(255, 255, 255, 0.8);
+    width: 40px;
+    height: 40px;
+    border: none;
+    outline: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.3s ease; /* Add transition for smooth visibility change */
+  }
+  
+  .buttonZoom::before {
+    content: "";
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 19.9 19.9'%3E%3Cpath d='M13.9 7.4C13.9 3.8 11 .9 7.4.9S.9 3.8.9 7.4s2.9 6.5 6.5 6.5 6.5-2.9 6.5-6.5zm5.3 12.5l-6.7-7.2c-1.4 1.3-3.2 2.1-5.1 2.1-4.1 0-7.4-3.3-7.4-7.4S3.3 0 7.4 0s7.4 3.3 7.4 7.4c0 1.7-.6 3.4-1.7 4.7l6.8 7.2-.7.6z' fill='%23000222'/%3E%3C/svg%3E");
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+    display: block;
+  }
+  
+  .innerImageZoom{
+    padding: 5px;
+    margin-left: 0px;
+  }
+  
+  /* {
+    box-sizing: border-box;
+  } */
+  
+  canvas {
+    display: block;
+  }
+  
+  .gGmXfz {
+    padding: 0px !important;
+    display: block !important;
+    object-fit: cover;
+  }
+  
+  .qiems {
+    padding: 0px !important;
+    display: block !important;
+  }
+  
+  
+  .model-viewer-container{
+    position: relative;
+  }
+  
+  .modelviewer-label {
+    position: absolute;
+    /* color: white;
+    background-color: black; */
+    color: black;
+    background-color: white;
+    padding: 8px;
+    border-radius: 10px;
+    font-family: Futura, sans-serif;
+    white-space: nowrap;
+    transform: translate(-50%, -50%);
+  }
+  
+  /* Custom control panel styling */
+  .model-viewer-button {
+    position: absolute;
+    background-color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 25px;
+    color: #000000;
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  }
+  
+  button:hover {
+    background-color: #dbdbdb;
+  }
+  
+  button.active {
+    /*background-color: black;
+    color: white;*/
+    box-shadow: 0 0 10px #00137a;
+  }
+  
+  button.disabled {
+    display: none;
+  }
+  
+  .button-dim{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 25px;
+    color: #000000;
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  }
+  
+  .ar-button{
+    top: 20px;
+    right: 20px;
+    display: flex;
+    position: absolute;
+    background-color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 25px;
+    color: #000000;
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  }
+  
+  .qr-code-text {
+    /* top: 5px; */
+    /* right: 20px; */
+    /* position: absolute; */
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .qr-code-container {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .qr-code{
+    width: auto;
+    height: auto;
+    max-width: 200px;
+    max-height: 200px;
+    background-color: white;
+    border: none;
+    color: #000000;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  .modal-content {
+    position: relative; /* Allows the close button to position itself relative to the modal */
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .close-button-qr {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    background: none;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* cursor: pointer; */
+    width: 50px;
+    height: 50px;
+  }
+  
+  .icon-360-spin {
+    top: 2%;
+    z-index: 1000;
+    position: absolute;
+  }
+  
+  .icon-qr {
+    width: 30px !important;
+    height: 30px !important;
+    max-width: 30px !important;
+  }
+  
+  
+  .close-button-qr:hover img {
+    filter: invert(1); /* Inverts the colors of the image */
+    transition: filter 0.2s ease-in-out; /* Smooth transition for the effect */
+  }
+  
+  .close-button-qr:hover {
+    background: none; /* Prevent background change on hover */
+  }
+  
+  .close-button-qr:focus {
+    outline: none; /* Removes focus outline when the button is clicked */
+  }
+  
+  .close-button-qr:active {
+    background: none; /* Ensures no background color on active click */
+  }
+  
+  @keyframes spinner-line-fade-quick {
+    0%, 39%, 100% {
+      opacity: 0.25; /* minimum opacity */
+    }
+    40% {
+      opacity: 1;
+    }
+  }
+  
+  .button-anim{
+    background-color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 25px;
+    color: #000000;
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  .button-ar{
+    bottom: 20px;
+    right: 20px;
+    position: absolute;
+    background-color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 25px;
+    color: #000000;
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  }
+  
+  .button-anim.button.disabled{
+    display: none;
+  }
+  
+  .growmIcon {
+    width: 50px;
+    height: 50px;
+    fill: black; /* Line color for SVG paths */
+  }
+  
+  button.active .icon {
+    fill: white; /* Change color when button is active */
+  }
+  
+  .hGAHfq {
+    padding: 0px !important;
+    display: inline !important;
+  }
+  
+  
+  .kztWMt {
+    padding: 0px !important;
+    display: inline !important;
+  }
+  
+  
+  /*Zoom css*/
+  .iiz {
+    /*max-width: 900px;*/
+    /*max-height: 900px;*/
+    padding: 0px;
+    margin: 0;
+    margin-left: 0px;
+    /* margin-bottom: 30px; */
+    position: relative;
+    overflow: hidden;
+    display: block;
+    cursor: -webkit-zoom-in;
+    cursor: zoom-in;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .iiz--drag .iiz__zoom-img--visible {
+    cursor: -webkit-grab;
+    cursor: grab;
+    /*max-width: 900px;*/
+    /*max-height: 500px;*/
+  }
+  
+  .iiz__img {
+    height: auto !important; /* Do not force height */
+    max-width: 100%; /* Prevent overflowing the container */
+    max-height: 100%;
+    object-fit: contain; /* Ensure the image looks good if resized */
+    display: block;
+    pointer-events: none;
+    visibility: visible;
+    opacity: 1;
+    object-fit: cover;
+  }
+  
+  .iiz__img--hidden {
+    visibility: hidden;
+    opacity: 0;
+  }
+  
+  .iiz__img--abs {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+  }
+  
+  .iiz__zoom-img {
+    width: auto !important;
+    max-width: none !important;
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    display: block;
+    object-fit: cover;
+  }
+  
+  .iiz__zoom-img--visible {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    cursor: -webkit-zoom-out;
+    cursor: zoom-out;
+    -ms-touch-action: none;
+    touch-action: none;
+    object-fit: cover;
+  }
+  
+  .iiz__zoom-portal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 10000;
+  }
+  
+  .iiz__btn {
+    background: rgba(255, 255, 255, 0.8);
+    width: 40px;
+    height: 40px;
+    border: none;
+    outline: none;
+    padding: 0;
+    position: absolute;
+    text-decoration: none;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  
+  .iiz__btn:before {
+    content: " ";
+    background-position: center;
+    background-repeat: no-repeat;
+    display: block;
+  }
+  
+  .iiz__hint {
+    /* bottom: 10px;*/
+    right: 10px;
+    pointer-events: none;
+  }
+  
+  .iiz__hint:before {
+    content: " ";
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 19.9 19.9'%3E%3Cpath d='M13.9 7.4C13.9 3.8 11 .9 7.4.9S.9 3.8.9 7.4s2.9 6.5 6.5 6.5 6.5-2.9 6.5-6.5zm5.3 12.5l-6.7-7.2c-1.4 1.3-3.2 2.1-5.1 2.1-4.1 0-7.4-3.3-7.4-7.4S3.3 0 7.4 0s7.4 3.3 7.4 7.4c0 1.7-.6 3.4-1.7 4.7l6.8 7.2-.7.6z' fill='%23000222'/%3E%3C/svg%3E");
+    width: 20px;
+    height: 20px;
+  }
+  
+  .iiz__close {
+    top: 10px;
+    right: 10px;
+    visibility: hidden;
+    opacity: 0;
+  }
+  
+  .iiz__close--visible {
+    visibility: visible;
+    opacity: 1;
+    cursor: pointer;
+  }
+  
+  .iiz__close::before {
+    content: " ";
+    width: 29px;
+    height: 29px;
+    background-image:
+      -webkit-gradient(linear, left top, left bottom, from(#222), to(#222)),
+      -webkit-gradient(linear, left top, left bottom, from(#222), to(#222));
+    background-image: linear-gradient(#222, #222), linear-gradient(#222, #222);
+    background-size: 100% 1px, 1px 100%;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }

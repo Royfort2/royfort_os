@@ -1,0 +1,45 @@
+{% comment %}
+    The alt tag of the image will consist of either the COLOUR or COLOUR | b
+    | b is to mark an image to show for the B test only if ab_images is set to true on the step liquid page.
+
+    We will split the alt_tag using the | as the splitter.
+
+    The | b will only be used on the top level of the bundle, so the duvet really.
+{% endcomment %}
+
+{% assign image_alt_tag = image.alt | split: '|' %}
+{% assign alt_colour = image_alt_tag[0] | handleize %}
+{% assign ab_version = image_alt_tag[1] %}
+
+{% comment %} If B test and testing is allowed and the colour slug matches the alt_colour {% endcomment %}
+{% if ab_version != blank and ab_images == true and alt_colour == colour_slug %}
+<div class="img-wrap">
+    <picture>
+        <source media="(max-width: 400px)" srcset="{{ image | img_url: '400x' }}">
+        <source media="(min-width: 768px) and (max-width: 1199px)"
+            srcset="{{ image | img_url: '650x' }}">
+        <source media="(min-width: 1200px)" srcset="{{ image | img_url: '900x' }}">
+        <source srcset="{{ image | img_url: '650x' }}">
+        <img data-lazy="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+            data-zoom-desktop="{{ image | img_url: '1200x' }}" data-zoom-mobile="{{ image | img_url: '800x' }}"
+            class="img-fluid" alt="{{ image.alt }}">
+    </picture>
+</div>
+{% endif %}
+
+{% comment %} If AB testing is not allowed and the colour slug matches the alt_colour{% endcomment %}
+{% if ab_images == false and alt_colour == colour_slug %}
+
+<div class="img-wrap">
+    <picture>
+        <source media="(max-width: 400px)" srcset="{{ image | img_url: '400x' }}">
+        <source media="(min-width: 768px) and (max-width: 1199px)"
+            srcset="{{ image | img_url: '650x' }}">
+        <source media="(min-width: 1200px)" srcset="{{ image | img_url: '900x' }}">
+        <source srcset="{{ image | img_url: '650x' }}">
+        <img data-lazy="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+            data-zoom-desktop="{{ image | img_url: '1200x' }}" data-zoom-mobile="{{ image | img_url: '800x' }}"
+            class="img-fluid" alt="{{ image.alt }}">
+    </picture>
+</div>
+{% endif %}

@@ -1,0 +1,111 @@
+
+<div class="position-relative">
+
+
+            {% unless blog.handle == 'careers' %}
+        <div class="container-fluid blog-text-container">
+            <div class="row">
+                <div class="col-12 px-0">
+                    {% render 'full-breadcrumbs' %}
+                </div>
+            </div>
+            <div class="p-relative py-1 py-md-4 row align-items-end">
+                <div class="col-12 px-0">
+                    <h1 class="blog-title text-center {% if blog.handle == 'careers' %}text-center{% endif %}">{{article.title}}</h1>
+                    {% if blog.handle == 'careers' and article.metafields.careers.location != blank %}
+                    <p class="blog-location text-center">{{ article.metafields.careers.location }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            {% unless blog.handle == 'careers' %}
+            <div class="row">
+                <div class="col-12 px-0 text-center {% if blog.handle == 'careers' %}text-center{% endif %}">
+                    {% capture date %}{% render 'date', article: article %}{% endcapture %}
+                    {% capture dateDetailed %}{{ article.published_at | date: "%Y-%m-%d %H:%M" }}{% endcapture %}
+                      
+                    <time class="text-secondary remove-decoration text-small date-blogs {% if blog.handle == 'careers' %}text-center{% endif %}" datetime="{{dateDetailed}}">{{ date }}</time>
+                </div>
+            </div>
+            {% endunless %}
+
+        </div>
+             {% endunless %}
+    <header class="{% if blog.handle == 'careers' %}page-header-page blog-header{% else %}page-header main-image-blog blog-header{% endif %}"{% unless blog.handle == 'careers' %} style="background-image: url('{{ article.image.src | img_url: '1920x'}}')"{% endunless %}>
+   {% if blog.handle == "careers"%}
+           <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    {% render 'full-breadcrumbs' %}
+                </div>
+            </div>
+            <div class="p-relative py-1 py-md-4 row align-items-end">
+                <div class="col-12">
+                    <h1 class="blog-title {% if blog.handle == 'careers' %}text-center{% endif %}">{{article.title}}</h1>
+                    {% if blog.handle == 'careers' and article.metafields.careers.location != blank %}
+                    <p class="blog-location text-center">{{ article.metafields.careers.location }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            {% unless blog.handle == 'careers' %}
+            <div class="row">
+                <div class="col-12 {% if blog.handle == 'careers' %}text-center{% endif %}">
+                    {% capture date %}{% render 'date', article: article %}{% endcapture %}
+                    {% capture dateDetailed %}{{ article.published_at | date: "%Y-%m-%d %H:%M" }}{% endcapture %}
+                      
+                    <time class="text-secondary remove-decoration text-small date-blogs {% if blog.handle == 'careers' %}text-center{% endif %}" datetime="{{dateDetailed}}">{{ date }}</time>
+                </div>
+            </div>
+            {% endunless %}
+
+        </div>
+   {% endif%}
+   
+    </header>
+</div>
+
+<div class="blog-container">
+
+    <article class="article-detail{% if blog.handle == 'careers' %} job-article{% endif %}" role="article" itemscope itemtype="http://schema.org/Article">
+        <div class="rte" itemprop="articleBody">
+            {% if blog.handle == 'careers' %}
+                {% if article.metafields.careers.overview != blank %}
+                    {{ article.metafields.careers.overview }}
+                {% endif %}
+
+                {% if article.metafields.careers.title_1 != blank %}
+                    <h2>{{ article.metafields.careers.title_1 }}</h2>
+                {% endif %}
+                {% if article.metafields.careers.roles_responsibilities != blank %}
+                    {{ article.metafields.careers.roles_responsibilities }}
+                {% endif %}
+
+                {% if article.metafields.careers.title_2 != blank %}
+                    <h2>{{ article.metafields.careers.title_2 }}</h2>
+                {% endif %}
+                {% if article.metafields.careers.skills_required != blank %}
+                    {{ article.metafields.careers.skills_required }}
+                {% endif %}
+
+                <div class="applications">
+                    {% if article.metafields.careers.title_3 != blank %}
+                        <h2>{{ article.metafields.careers.title_3 }}</h2>
+                    {% endif %}
+                    {% if article.metafields.careers.application != blank %}
+                        {{ article.metafields.careers.application }}
+                    {% endif %}
+                </div>
+
+            {% else %}
+                {{ article.content }}
+            {% endif %}
+        </div>
+  
+    </article>
+
+</div><!-- blog-container -->
+
+{% if blog.handle == 'careers' %}
+{% section 'careers-positions' %}
+{% endif %}

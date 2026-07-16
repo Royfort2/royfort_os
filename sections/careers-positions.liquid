@@ -1,0 +1,62 @@
+{% if blog.articles_count > 0 %}
+{% paginate blog.articles by section.settings.articles_per_page %}
+
+<div class="blog-container careers">
+
+    {% if section.settings.title != blank %}
+    <h2 class="text-center">{{section.settings.title}}</h2>
+    {% endif %}
+
+    {% if section.settings.text != blank %}
+    <div class="intro-content text-center rte">{{section.settings.text}}</div>
+    {% endif %}
+
+    <div class="blog-listing-container">
+    {% for article in blog.articles %}
+        {% render 'careers-article' with article as article %}
+    {% endfor %}
+    </div>
+
+</div><!-- blog-container -->
+
+{% endpaginate %}
+{% endif %}
+
+{% schema %}
+{
+  "name": "Career Positions",
+    "settings": [
+        {
+            "type": 		"header",
+            "content": 		"Page Content"
+        },
+        {
+            "type":      "text",
+            "id":        "title",
+            "label":     "Title"
+        },
+        {
+            "type":      "richtext",
+            "id":        "text",
+            "label":     "Intro text"
+        },
+        {
+            "type": 		"header",
+            "content": 		"Pagination"
+        },
+        {
+            "type": 	"paragraph",
+            "content": 	"How many articles should be displayed per page?."
+        },
+        {
+            "type":      "range",
+            "id":        "articles_per_page",
+            "min":       6,
+            "max":       42,
+            "step":      3,
+            "label":     "Articles Per Page",
+            "default":   12
+        }
+	]
+}
+{% endschema %}

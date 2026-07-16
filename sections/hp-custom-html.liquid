@@ -1,0 +1,63 @@
+<div class="{{section.settings.block_container}}">
+    {% capture sectionID %}#shopify-section-{{section.id}} .client-html .{% endcapture%}
+    <div class="client-html">
+        {{section.settings.html_area}}
+    </div>
+    <style scoped>
+        {{section.settings.css_area | replace: '.', sectionID }}
+    </style>
+</div>
+{% schema %}
+{
+    "name": "HTML",
+    "tag": "div",
+    "class": "custom-html",
+    "settings": [
+        {
+            "type": "header",
+            "content": "Layout"
+        },
+        {
+            "type": "paragraph",
+            "content": "Choose whether or not this section will be full width, or contained to the guttering of the website."
+        },
+        {
+            "type":      "select",
+            "id":        "block_container",
+            "label":     "Container",
+               "options": [
+                {
+                    "value": "container-full",
+                    "label": "Full Width"
+                },
+                {
+                    "value": "container-fluid",
+                    "label": "Contained"
+                }
+                ],
+                "default":   "container-full"
+        },
+        {
+            "type": "html",
+            "id": "html_area",
+            "label": "Custom HTML",
+            "default": "<div class='example'><p>Some HTML content</p></div>",
+            "info": "Please avoid using IDs, and also avoid using Classes already used within the page markup"
+        },
+        {
+            "type": "html",
+            "id": "css_area",
+            "label": "Custom CSS",
+            "default": ".example { color:red; }",
+            "info": "Please refrain from using ID Selectors, and only use Class selectors"
+        }
+	],
+	"presets": [
+    {
+      "name": "Custom HTML/CSS",
+      "category": "HTML"
+    }
+  ]
+	
+}
+{% endschema %}

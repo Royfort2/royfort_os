@@ -1,0 +1,39 @@
+<div class="bundle-slideout">
+    <div class="close-bundle-slideout">{% render 'icon-close' %}</div>
+    <h3 class="text-18 text-secondary">Do you need any extras?</h3>
+    {% assign additional_handles = page.metafields.bundle.bundle_subproducts | split: '|' %}
+    {% for additional_handle in additional_handles %}
+        {% assign additional_product = all_products[additional_handle] %}
+        {% if additional_product != blank %}
+            {% assign prefix = 'bundle-add-' | append: additional_product.id %}
+            <div class="additional-products my-3 p-3">
+                <div class="d-flex w-full">
+                    <div class="top">
+                        <h4 class="text-secondary">Add a {{ additional_product.title }}</h4>
+                        <div class="additional-product-price">
+                            <span class="money text-14 title-font text-primary">{{ current_variant.price | money }}</span>
+                            <span class="original-price money text-14 title-font text-secondary">{% if current_variant.compare_at_price > current_variant.price %}{{current_variant.compare_at_price | money }}{% endif %}</span>
+                        </div><!-- product-price -->
+                    </div>
+                    <div class="top">
+                        <script>console.log({{ product | json }})</script>
+                        {% render 'product-form', product: additional_product, prefix: prefix %}
+                    </div>
+                </div>
+                {% render 'product-options', product: additional_product, prefix: prefix %}
+            </div>
+        {% endif %}
+    {% endfor %}
+    <div class="slideout-bottom">
+        <div class="subtotal-slideout pb-3">
+            <h4>{{ 'general.minicart.subtotal' | t }}</h4>
+            <div class="subtotal-slideout-value text-primary title-font"></div>
+        </div>
+        <div class="addition-list pb-3">
+
+        </div>
+        <div class="">
+            <a href="/checkout" class="btn btn-primary">{{ 'products.product.bundle_checkout' | t }}</a>
+        </div>
+    </div>
+</div>

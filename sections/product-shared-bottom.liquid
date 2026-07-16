@@ -1,0 +1,90 @@
+<div class="container-fluid">
+    {% if section.settings.show_related_products %}
+    <div class="row py-2">
+        <section class="product-list-container related-products" data-product-id="{{product.id}}" data-image-ratio="{{section.settings.related_products_ratio}}">
+            <h3 class="my-5 text-secondary text-center  text-23">{{section.settings.related_products_title}}</h3>
+            <div class="product-list-row inline-slick" data-slick='{"slidesToShow": 2, "slidesToScroll": 1, "touchThreshold": 15, "dots":false, "arrows":true, "mobileFirst": true, "infinite": true, "responsive":[{"breakpoint": 767,"settings":{"slidesToShow": 3, "slidesToScroll": 1 }},{"breakpoint": 992,"settings":{"slidesToShow": 4, "slidesToScroll": 1 }}]}'>
+            </div>
+        </section>
+    </div><!-- row -->
+    {% endif %}
+
+    {% if section.settings.show_recently_products %}
+    <div class="row mt-5">
+        <section class="product-list-container recently-viewed-products d-none" data-product-handle="{{product.handle}}" data-image-ratio="{{section.settings.related_products_ratio}}">
+            <h3>{{section.settings.recently_viewed_products_title}}</h3>
+            <div class="product-list-row inline-slick" data-slick='{"slidesToShow": 2, "slidesToScroll": 1, "touchThreshold": 15, "dots":false, "arrows":true, "mobileFirst": true, "infinite": true, "responsive":[{"breakpoint": 767,"settings":{"slidesToShow": 3, "slidesToScroll": 1 }},{"breakpoint": 992,"settings":{"slidesToShow": 4, "slidesToScroll": 1 }}]}'>
+            </div>
+        </section>
+    </div><!-- row -->
+    {% endif %}
+</div>
+
+{% schema %}
+{
+    "name": "Product Shared",
+    "settings": [
+		{
+			"type": 	"header",
+			"content": 	"Related & Recently Viewed Products"
+        },
+        {
+			"type": 	"paragraph",
+			"content": 	"Currently the related products is generated automatically using [Shopify's Recommended Products API](https://shopify.dev/tutorials/develop-theme-recommended-products#recommendation-logic). Recently viewed products is exactly what it says on the tin, and is unique to the user."
+		},
+        {
+            "type": "text",
+            "id": "related_products_title",
+            "default": "You may also like",
+            "label": "Related Products Title"
+        },
+        {
+            "type": "text",
+            "id": "recently_viewed_products_title",
+            "default": "Recently Viewed",
+            "label": "Recently Viewed Products Title"
+        },
+		{
+        	"type":         "select",
+        	"id":           "related_products_ratio",
+        	"label":        "Related & Recently Viewed Products - Fixed Ratio?",
+        	"options": [
+            	{
+                	"value": "fixed-ratio square-crop",
+                	"label": "Square (4x4 Cropped)"
+            	},
+            	{
+                	"value": "fixed-ratio square",
+                	"label": "Square (4x4)"
+            	},
+            	{
+                	"value": "fixed-ratio portrait-crop",
+                	"label": "Portrait (4x5 Cropped)"
+            	},
+            	{
+                	"value": "fixed-ratio portrait",
+                	"label": "Portrait (4x5)"
+            	},
+            	{
+                	"value": "",
+                	"label": "No Set Ratio"
+            	}
+        	],
+        	"default":   "fixed-ratio square"
+    	},
+        {
+			"type": "checkbox",
+			"id": "show_related_products",
+			"label": "Show related products?",
+			"default": true
+        },
+        {
+			"type": "checkbox",
+			"id": "show_recently_products",
+			"label": "Show recently products?",
+			"default": true
+		}
+        
+    ]
+}
+{% endschema %}

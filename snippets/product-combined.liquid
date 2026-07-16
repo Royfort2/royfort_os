@@ -1,0 +1,172 @@
+<div class="container-fluid">
+    <div class="row product-detail-row">
+        <div class=" product-col-left">
+            <div id="product-images-container">
+
+            <div id="product-thumbnails">
+                {% for handle in combo_products %}
+                    {% assign product = all_products[handle] %}
+
+                    {% render 'product-thumbnails', product: product, imgpre: '', combo_products: combo_products %}
+
+                {% endfor %}
+            </div><!-- product-thumbnails -->
+
+            {% render 'product-large-images', product: product %}
+        </div><!-- product-images-container -->
+
+        {% for handle in combo_products %}
+        {% assign product = all_products[combo_products.first] %}
+        {% assign current_variant = product.selected_or_first_available_variant %}
+            {% if current_variant != blank %}
+                {% break %}
+            {% endif %}
+        {% endfor %}
+        </div>
+        <div class="product-col-right  sticky-top">
+        <div id="product-detail">
+
+            <h1 class="product-title main-product-title text-secondary text-46">{{product.title}}</h1>
+
+            <div class="product-price-container">
+                <div class="product-price">
+                    <span class="price-current money text-18 title-font">{{ current_variant.price | money }}</span>
+                    <span class="original-price money text-18 title-font">{% if current_variant.compare_at_price >
+                        current_variant.price %}{{current_variant.compare_at_price | money }}{% endif %}</span>
+                </div><!-- product-price -->
+            </div><!-- product-price-container -->
+
+            <span class="stamped-toggle stamped-product-reviews-badge stamped-main-badge" data-id="{{ product.id }}" data-product-sku="{{ product.handle }}" style="display: inline-block;"></span>
+
+            <div class="product-form-main">
+                <div id="product-swatch-desktop">
+                    {% render 'product-options-combined', product: product, prefix: '', combo_products: combo_products, color_tags: color_tags %}
+                </div><!-- product-swatch-desktop -->
+                {% if product.metafields.out_of_stock.show_stock_notice %}
+                {% render 'product-form-combined', product: product, prefix: '', use_instock_indicator: true, combo_products: combo_products, color_tags: color_tags %}
+                {% else %}
+                {% render 'product-form-combined', product: product, prefix: '', use_instock_indicator: false, combo_products: combo_products, color_tags: color_tags %}
+                {% endif %}
+
+                {%- comment -%}
+                SH: Message under add to cart button now set per product
+                {%- endcomment -%}
+                {% capture under_cart_message %}{{ product.metafields.product.under_button_message }}{% endcapture %}
+                <div class="under-cart-message" data-instock="{{ section.settings.under_button_message | escape }}" data-outofstock="{{ product.metafields.out_of_stock.add_to_cart_footnote | escape }}">{{ under_cart_message }}</div>
+            </div>
+
+            {% assign additional_product = all_products[product.metafields.product.additional_product] %}
+            {% if additional_product != blank %}
+                <div class="additional-products my-5 p-3" data-aos="fade-up">
+                    <div class="d-flex w-full">
+                        <div class=""><img src="{{ additional_product.featured_image | img_url }}"></div>
+                        <div class="top">
+                            <h4 class="text-secondary">Add a {{ additional_product.title }}</h4>
+                            <div class="product-description">{{ additional_product.description | strip_html | truncate: 50 }}</div>
+                            <div class="additional-product-price">
+                                <span class="money text-14 title-font text-secondary">{{ current_variant.price | money }}</span>
+                                <span class="original-price money text-14 title-font text-secondary">{% if current_variant.compare_at_price > current_variant.price %}{{current_variant.compare_at_price | money }}{% endif %}</span>
+                            </div><!-- product-price -->
+                        </div>
+                        <div class="top d-flex justify-content-end">
+                            {% assign add_to_cart_short = 'products.product.add_to_cart_short' | t  %}
+                            {% render 'product-form', product: additional_product, prefix: 'additional-', add_to_cart_override: add_to_cart_short %}
+                        </div>
+                    </div>
+                    {% render 'product-options', product: additional_product, prefix: 'additional-' %}
+                </div>
+            {% endif %}
+
+        </div><!-- product-detail -->
+    </div><!-- row -->
+    {% if product.metafields.product.usp_title.size > 0 and product.metafields.product.usp_title[0] != blank %}
+        <div class="section-background product-usp-upper" >
+            <div class="container-fluid">
+                <div class="site-usp-container product-unique-usp icon-above" >
+                    {% for usp_title in product.metafields.product.usp_title %}
+                    <div class="usp-item icon-above">
+                        <div class="usp-icon">
+                            {% assign usp_image = product.metafields.product.usp_image[forloop.index0] %}
+                            <div class="fixed-ratio square">
+                                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{{ usp_image }}" class="lazyload" alt="{{usp_title}}" />
+                            </div><!-- fixed-ratio square -->
+                        </div><!-- usp-icon-->
+                        <div class="usp-content">
+                            <h4 style="color:{{section.settings.usp_content_color}};" class="usp_title">{{usp_title}}</h4>
+                        </div><!-- usp-content -->
+                    </div><!-- usp-item -->
+                {% endfor %}
+                </div><!-- site-usp-container-->
+            </div><!-- container -->
+        </div><!-- section-background-->
+    {% endif %}
+</div>
+<div class="position-relative">
+    <div class="product-overlay">
+        {% render 'Star_Asset_White' %}
+    </div>
+</div>
+<div class="container-fluid" data-aos="fade-up">
+    <div class="product-tabs-desktop">
+        <div class="tab-titles">
+            <div class="tab-selector active" data-tab="1">{{ 'products.product_tabs.product_description' | t }}</div>
+            {% for tab in product.metafields.product.tab_title %}
+                {% assign tab_index = forloop.index | plus: 1 %}
+                <div class="tab-selector" data-tab="{{ tab_index }}">{{ tab }}</div>
+            {% endfor %}
+        </div>
+        <div class="tab-content">
+            <div class="tab tab-1 active">
+                <div class="rte">
+                    {{product.description}}
+                </div>
+            </div>
+            {% for tab in product.metafields.product.tab_content %}
+                {% assign tab_index = forloop.index | plus: 1 %}
+                <div class="tab tab-{{ tab_index }}">
+                    <div class="rte">
+                        {{tab}}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div><!-- product-tabs -->
+    <div class="product-tabs-mobile">
+        <div class="accordion-container">
+            <div class="accordion-item active" data-group="description">
+                <div class="accordion-title" data-group="description">
+                    <h3>{{ 'products.product_tabs.product_description' | t }}</h3>
+                    <span class="icon-plusminus"></span>
+                </div><!-- accordion-title -->
+                <div class="accordion-content" data-group="description">
+                    <div class="rte">
+                        {{product.description}}
+                    </div>
+                </div><!-- accordion-content -->
+            </div><!-- accordion-item -->
+            {% for tab_title in product.metafields.product.tab_title %}
+                <div class="accordion-item " data-group="description">
+                    <div class="accordion-title" data-group="description">
+                        <h3>{{ tab_title }}</h3>
+                        <span class="icon-plusminus"></span>
+                    </div><!-- accordion-title -->
+                    <div class="accordion-content" data-group="description">
+                        <div class="rte">
+                            {{ product.metafields.product.tab_content[forloop.index0] }}
+                        </div>
+                    </div><!-- accordion-content -->
+                </div><!-- accordion-item -->
+            {% endfor %}
+        </div><!-- accordion-container -->
+    </div><!-- product-tabs -->
+    {% if media == " " %}
+    <div class="product-video py-5 py-lg-0">
+        {% for media in product.media %}
+            {% if media.media_type == 'external_video' or media.media_type == 'video' %}
+                {{ media | video_tag }}
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% comment %} {% render 'product-reviews-carousel' %} {% endcomment %}
+</div>

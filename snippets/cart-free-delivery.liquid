@@ -1,0 +1,7 @@
+<span class="free-delivery-message" data-delivery-threshold="{{freeDeliveryThreshold}}" data-delivery-qualified="{{freedelivery_qualified}}" data-delivery-message-first="{{freedelivery_first}}" data-delivery-message-last="{{freedelivery_last}}">
+    {% if cartTotal >= freeDeliveryThreshold %}
+    {{freedelivery_qualified}}
+    {% else %}
+    {{freedelivery_first}} {{remaining | money }} {{freedelivery_last}}
+    {% endif %}
+</span>

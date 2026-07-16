@@ -1,0 +1,210 @@
+{% comment %}
+  Set the extension of your color files below. Use 'png', 'jpeg', 'jpg' or 'gif'.
+{% endcomment %}
+
+
+{% comment %}
+  {% assign current_variant = product.selected_or_first_available_variant %}
+  {% assign current_inventory = current_variant.inventory %}
+  {% if current_variant.inventory_policy == 'continue' %}
+  {% assign current_inventory = 999 %}
+  {% endif %}
+  {% if current_inventory == blank %}
+  {% assign current_inventory = 0 %}
+  {% endif %}
+  {% if also_product == blank %}
+  {% assign also_product = false %}
+  {% endif %}
+
+  <div class="mini-swatch">
+  {% assign swatch_html = '' %}
+  {% assign options_html = '' %}
+  {% unless product.has_only_default_variant %}
+  {% for product_option in product.options_with_values %}
+  {% assign option_index = product_option.position %}
+
+  {% assign swatch_translation_title = 'swatch_option.title' | t %}
+  {% assign swatch_translation_slug = 'swatch_option.slug' | t %}
+
+  {% if product_option.name == swatch_translation_title or product_option.name == swatch_translation_slug %}
+  {% capture swatch_capture %}
+  {% if also_product == false %}
+
+  {% for value in product_option.values %}
+  {% assign checked_class = '' %}
+  {% assign colour_img = '' %}
+  {% assign colour_value = '#fff' %}
+  {% assign swatches_array = '' %}
+  {% for swatch_value in shop.metafields.swatches.swatch_colour_title %}
+  {% if swatch_value == value %}
+
+  {% unless swatches_array contains swatch_value %}
+  {% assign colour_value = shop.metafields.swatches.swatch_colour[forloop.index0] %}
+  {% assign colour_img = shop.metafields.swatches.swatch_sample[forloop.index0] %}
+  {% if colour_img == blank %}{% assign colour_img = '' %}{% else %}{% capture colour_img %}background-image: url('{{ colour_img | file_img_url: '30x30' }}');background-position: center;{% endcapture %}{% endif %}
+  {% endunless %}
+  {% assign swatches_array = swatches_array | append: swatch_value | append: ', '  %}
+
+  {% endif %}
+  {% endfor %}
+  {% assign border_circle = '' %}
+  {% assign downcase_colour_val = colour_value | downcase %}
+  {% if downcase_colour_val == '#ffffff' or downcase_colour_val == '#fff' or downcase_colour_val == blank %}
+  {% assign border_circle = 'border-color: #b3b3b3' %}
+  {% else %}
+  {% assign border_circle = 'border-color: ' | append: colour_value %}
+  {% endif %}
+  <div class="swatch-element" style="background-color: {{ colour_value }};{{ colour_img }}{{ border_circle }}"></div>
+  {% endfor %}
+
+  {% endif %}
+  {% endcapture %}
+  {% assign swatch_html = swatch_html | append: swatch_capture %}
+  {% endif %}
+  {% endfor %}
+  {% endunless %}
+  {{ swatch_html }}
+  </div>{% endcomment %}
+
+
+
+{% assign found_option = false %}
+{% assign option_index = 0 %}
+{% assign swatch_translation_title = 'swatch_option.title' | t %}
+{% assign swatch_translation_slug = 'swatch_option.slug' | t %}
+
+{% for option in product.options %}
+  {% assign downcased_option = option | downcase %}
+  {% if downcased_option contains swatch_translation_title or downcased_option contains swatch_translation_slug %}
+    {% assign found_option = true %}
+    {% assign option_index = forloop.index0 %}
+  {% endif %}
+{% endfor %}
+
+{% if found_option %}
+  <div class="mini-swatch" data-option-index="{{ option_index }}">
+  {%- comment -%} <div class="mini-swatch mini-swatch-desktop" data-option-index="{{ option_index }}"> {%- endcomment -%}
+    {% assign values = '' %}
+
+
+    {% for variant in product.variants %}
+      {% assign value = variant.options[option_index] %}
+      {% unless values contains value %}
+        {% assign values = values | append: value | append: ',' %}
+                {% assign colour_value = '#fff' %}
+
+        {% for swatch_value in shop.metafields.swatches.swatch_colour_title %}
+          {% if swatch_value == value %}
+
+            {% unless swatches_array contains swatch_value %}
+              {% assign colour_value = shop.metafields.swatches.swatch_colour[forloop.index0] %}
+              {% assign colour_img = shop.metafields.swatches.swatch_sample[forloop.index0] %}
+              {% if colour_img == blank %}
+                {% assign colour_img = '' %}
+              {% else %}
+                {% capture colour_img %}background-image: url('{{ colour_img | file_img_url: '30x30' }}
+                  ');background-position: center;{% endcapture %}
+              {% endif %}
+            {% endunless %}
+            {% assign swatches_array = swatches_array | append: swatch_value | append: ', '  %}
+
+          {% endif %}
+        {% endfor %}
+
+        <div class="swatch-element" style="position: relative; background-color: {{ colour_value }};{{ colour_img }}" data-productcolor="{{ variant.image.alt}}" data-swatchimg="{{ variant.image.src | img_url: '365x' }}" data-swatchurl="{{ variant.url }}">
+          <svg class="circle-around "  viewBox="0 0 29 29" class="swatch__svg" data-v-47bb104f=""><path fill="none" stroke="#979797" stroke-width="1" d="M 5.661165235168157 23.338834764831844 A 12.5 12.5 0 0 0 27 14.5" class="swatch__arc1" data-v-47bb104f=""></path> <path fill="none" stroke="#979797" stroke-width="1" d="M 23.338834764831844 5.661165235168154 A 12.5 12.5 0 0 0 2 14.500000000000002" class="swatch__arc2" data-v-47bb104f=""></path></svg>
+        </div>
+      {% endunless %}
+    {% endfor %}
+
+    <p class="mobilePlusMore" ></p>
+  </div>
+
+   
+{% endif %}
+
+{% comment %}
+
+
+
+  
+{% endcomment %}
+
+<style>
+  @media screen and (min-width: 769px) {
+    .mobilePlusMore{
+      display: none;
+    }
+  }
+
+   
+
+  .circle-around {
+    {%- comment -%} display: none; {%- endcomment -%}
+    opacity: 0;
+    transform: scale(1.4);
+    position: absolute;
+ 
+    height: 22px;
+    margin-top: -1px;
+    margin-left: -1px; 
+
+    top: 0;
+ 
+
+  }
+
+  
+
+  .circle-around-active {
+    transform: scale(1.4) rotate(60deg);
+    {%- comment -%} display: unset; {%- endcomment -%}
+    opacity: 100;
+
+    animation: ani 0.2s linear;
+  }
+
+  
+  .circle-around-fade{
+    animation: a1 0.2s linear;
+  }
+
+  @keyframes a1 {
+    0% {
+      transform: scale(1.4) rotate(60deg);
+      opacity: 100%
+    }
+    100% {
+      transform: scale(1.4);
+      opacity: 0%;
+    }
+  }
+
+   
+
+ 
+  @keyframes ani {
+    0% {
+      transform: scale(1.4);
+    }
+    100% {
+      transform: scale(1.4) rotate(60deg);
+    }
+  }
+ 
+
+  @media screen and (max-width: 769px){
+    .hide-swatch{
+      display: none;
+    }
+
+    .mobilePlusMore{
+      margin: 0;
+      font-size: 14px; 
+      margin-left: 2px;
+      line-height: 23px; 
+    }
+    
+    
+  }
+</style> 

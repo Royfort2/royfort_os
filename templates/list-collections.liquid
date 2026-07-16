@@ -1,0 +1,56 @@
+{% comment %}
+  This page represents the /collections and /products pages.
+{% endcomment %}
+
+<header class="page-header mt-3 mt-md-5">
+	<div class="container">
+		<div class="row align-items-center">
+			<div class="col-12 mb-md-0 col-md-8 col-lg-6 mx-auto text-center">
+				<h1>{{ page_title }}</h1>
+			</div>
+		</div><!-- row -->
+	</div>
+</header>
+
+<div class="container-fluid mt-3 mt-md-5">
+	<div class="row">
+		<div class="col-12">
+      <div class="row">
+      {% for collection in collections %}
+        {% unless collection.handle == 'frontpage' %}
+          <div class="col-12 col-md-3 mb-4" data-aos="fade-up">
+          <a href="{{ collection.url }}" title="{{ 'collections.general.link_title' | t: title: title }}" class="fixed-ratio portrait-crop">
+            {% if collection.image != blank %}
+              {{ collection | img_url: '480x' | img_tag: collection.title, 'img-fluid' }}
+            {% elsif collection.products.first != blank %}
+              {{ collection.products.first | img_url: '480x' | img_tag: collection.title, 'img-fluid' }}
+            {% else %}
+              {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+              {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg placeholder-svg--small' }}
+            {% endif %}
+          </a>
+
+          <p class="py-3 text-center collection-list-links">
+            <a href="{{ collection.url }}" title="{{ 'collections.general.link_title' | t: title: title }}">{{ collection.title }}</a>
+          </p> 
+          </div>
+        {% endunless %}
+      {% endfor %}
+      </div>
+		</div><!-- col -->
+
+    <div class="col-12">
+      <div class="collection-description truncate-content">
+
+        <div class="text-center">
+            <div class="rte">
+              <p>Shop all our latest collections in one place</p>
+            </div>
+            <button type="button" class="btn btn-link truncate-toggle" data-show-more="{{ 'general.phrases.show_more' | t }}" data-show-less="{{ 'general.phrases.show_less' | t }}">{{ 'general.phrases.show_more' | t }}</button>
+        </div><!-- collection-description-row -->
+
+      </div><!-- collection-description -->
+    </div><!-- col -->
+
+	</div><!-- row -->
+</div><!-- container -->

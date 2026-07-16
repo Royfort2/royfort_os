@@ -1,0 +1,16 @@
+<nav class="blog-tags">
+    <div class="blog-menu">
+        <span class="menu-burger"></span>
+        <span class="blog-menu-title">{{ 'blogs.general.menu' | t }}</span>
+    </div>
+    <div class="blog-tag-children">
+        <a href="{{blog.url}}" class="blog-tag-link{% if current_tags.size == blank %} active{% endif %}">All</a>
+        {% for tag in blog.all_tags %}
+        {% if current_tags contains tag %}
+            <a href="{{blog.url}}/tagged/{{tag | handleize }}" class="blog-tag-link active">{{tag}}</a>
+        {% else %}
+            <a href="{{blog.url}}/tagged/{{tag | handleize }}" class="blog-tag-link">{{tag}}</a>
+        {% endif %}
+        {% endfor %}
+    </div><!-- blog-tag-children -->
+</nav><!-- blog-tags -->

@@ -1,0 +1,723 @@
+<div class="section-background" style="background-color:{{section.settings.hero_container_bg}};">
+  <div class="{{section.settings.hero_container}}">
+    <div
+      class="hero-slick inline-slick"
+      data-slick='{"adaptiveHeight": true, "slidesToShow": 1, "slidesToScroll": 1, "arrows":{{section.settings.hero_slide_arrows}}, "autoplay":{{section.settings.hero_slide_autoplay}}, "autoplaySpeed": {{section.settings.hero_slide_speed}}0, "dots": false, "infinite": {{section.settings.hero_slide_wraparound}}}'
+    >
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'full_2' %}
+            <div
+              class="hero-item hero-full hero-full--2 about-us-hero {{block.settings.hero_layout_mobile}} {{block.settings.hero_layout_desktop}}"
+              data-position="{{forloop.index}}"
+              data-shopify-section-id="{{section.id}}"
+              {{ block.shopify_attributes }}
+            >
+              {% if block.settings.hero_link != blank %}
+                <a class="hero-link" href="{{block.settings.hero_link}}">
+              {% endif %}
+              <div class="hero-overlay">
+                {% render 'Star_Asset_Blue' %}
+              </div>
+              {% if block.settings.hero_background_choice == 'background-image' %}
+                <div class="hero-image">
+                  {% if block.settings.hero_label_text_left != blank %}
+                    <span class="hero-label left">{{ block.settings.hero_label_text_left }}</span>
+                  {% endif %}
+
+                  {% if block.settings.hero_label_text_right != blank %}
+                    <span class="hero-label right">{{ block.settings.hero_label_text_right }}</span>
+                  {% endif %}
+
+                  <picture>
+                    <source
+                      media="(max-width: 767px)"
+                      srcset="{{ block.settings.hero_mobile_image | img_url: '767x' }}"
+                    >
+                    <source
+                      media="(min-width: 768px) and (max-width:1399px)"
+                      srcset="{{ block.settings.hero_desktop_image | img_url: '1440x' }}"
+                    >
+                    <source
+                      media="(min-width: 1400px)"
+                      srcset="{{ block.settings.hero_desktop_image | img_url: '1920x' }}"
+                    >
+                    <img
+                      src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                      data-src="{{ block.settings.hero_desktop_image | img_url: '1440x' }}"
+                      class="lazyload img-full"
+                      alt="{{ block.settings.title }}"
+                    >
+                  </picture>
+                </div>
+                <!-- hero-image -->
+              {% elsif block.settings.hero_background_choice == 'background-colour' %}
+                <div class="hero-bg-colour" style="background-color:{{block.settings.hero_background_color}};">
+                  {% if block.settings.hero_label_text_left != blank %}
+                    <span class="hero-label left">{{ block.settings.hero_label_text_left }}</span>
+                  {% endif %}
+
+                  {% if block.settings.hero_label_text_right != blank %}
+                    <span class="hero-label right">{{ block.settings.hero_label_text_right }}</span>
+                  {% endif %}
+                </div>
+                <!-- hero-bg-colour -->
+              {% endif %}
+
+              <div class="hero-content {{ block.settings.content_alignment_desktop }} {{block.settings.vertical_alignment_desktop}} {{ block.settings.content_alignment_mobile }}">
+                <style>
+                  #shopify-section-{{section.id}} .hero-item.hero-full[data-position="{{forloop.index}}"] .hero-content {
+                      {% if block.settings.hero_layout_mobile == "content-below-image-mobile"%}
+                          background-color: {{block.settings.background_color_mobile}};
+                      {% else %}
+                          background-color: transparent;
+                      {% endif %}
+                      color: {{ block.settings.text_color_mobile }}
+                  }
+                  #shopify-section-{{section.id}} .hero-item.hero-full[data-position="{{forloop.index}}"] .hero-content .post-title {
+                      color: {{ block.settings.description_text_color_mobile }}
+                  }
+                  @media only screen and (min-width: 768px) {
+                      #shopify-section-{{section.id}} .hero-item.hero-full[data-position="{{forloop.index}}"] .hero-content {
+                          {% if block.settings.hero_layout_desktop == "content-below-image-desktop"%}
+                              background-color: {{block.settings.background_color_desktop}};
+                          {% else %}
+                              background-color: transparent;
+                          {% endif %}
+                          color: {{ block.settings.text_color_desktop }}
+                      }
+                      #shopify-section-{{section.id}} .hero-item.hero-full[data-position="{{forloop.index}}"] .hero-content .post-title {
+                          color: {{ block.settings.description_text_color_desktop }}
+                      }
+                  }
+                </style>
+
+                {% if block.settings.hero_pre_title != blank %}
+                  <div class="pre-title mobile-font-{{block.settings.mobile_pre_font_size}} desktop-font-{{block.settings.desktop_pre_font_size}}">
+                    {{
+                      block.settings.hero_pre_title
+                      | replace: '<strong>', "<span class='accent-highlight-one'>"
+                      | replace: '</strong>', '</span>'
+                      | replace: '<em>', "<span class='accent-highlight-two'>"
+                      | replace: '</em>', '</span>'
+                    }}
+                  </div>
+                {% endif %}
+                {% if block.settings.title != blank %}
+                  <h2 class="hero-title desktop-font-{{block.settings.desktop_title_font_size}} hide block-lg">
+                    {{
+                      block.settings.title
+                      | replace: '<strong>', "<span class='accent-highlight-one'>"
+                      | replace: '</strong>', '</span>'
+                      | replace: '<em>', "<span class='accent-highlight-two'>"
+                      | replace: '</em>', '</span>'
+                    }}
+                  </h2>
+                  <h2 class="hero-title mobile-font-{{block.settings.mobile_title_font_size}} hide-lg">
+                    {{
+                      block.settings.title_mobile
+                      | replace: '<strong>', "<span class='accent-highlight-one'>"
+                      | replace: '</strong>', '</span>'
+                      | replace: '<em>', "<span class='accent-highlight-two'>"
+                      | replace: '</em>', '</span>'
+                    }}
+                  </h2>
+                {% endif %}
+                {% if block.settings.hero_post_title != blank %}
+                  <div class="post-title mobile-font-{{block.settings.mobile_post_font_size}} desktop-font-{{block.settings.desktop_post_font_size}}">
+                    {{
+                      block.settings.hero_post_title
+                      | replace: '<strong>', "<span class='accent-highlight-one'>"
+                      | replace: '</strong>', '</span>'
+                      | replace: '<em>', "<span class='accent-highlight-two'>"
+                      | replace: '</em>', '</span>'
+                    }}
+                  </div>
+                {% endif %}
+                {% if block.settings.hero_price != blank %}
+                  <div class="hero-price mobile-font-{{block.settings.mobile_price_font_size}} desktop-font-{{block.settings.desktop_price_font_size}}">
+                    {{
+                      block.settings.hero_price
+                      | replace: '<strong>', "<span class='accent-highlight-one'>"
+                      | replace: '</strong>', '</span>'
+                      | replace: '<em>', "<span class='accent-highlight-two'>"
+                      | replace: '</em>', '</span>'
+                    }}
+                  </div>
+                {% endif %}
+                {% if block.settings.hero_cta_text != blank and block.settings.hero_link != blank -%}
+                  <button type="button" class="{{block.settings.hero_button_style}}">
+                    {{ block.settings.hero_cta_text }}
+                  </button>
+                {%- endif %}
+
+                <div class="more-arrow">{% render 'icon-about-us' %}</div>
+              </div>
+              <!-- hero-content -->
+              {% if block.settings.hero_link != blank %}
+                </a>
+              {% endif %}
+
+              {% if block.settings.hero_accent_style_one != blank or block.settings.hero_accent_style_two != blank %}
+                <style>
+                  {% if block.settings.hero_accent_style_one != blank %}
+                  #shopify-section-{{section.id}} .hero-item.hero-full[data-position="{{forloop.index}}"] .pre-title .accent-highlight-one,
+                  #shopify-section-{{section.id}} .hero-item.hero-full[data-position="{{forloop.index}}"] .hero-title .accent-highlight-one,
+                  #shopify-section-{{section.id}} .hero-item.hero-full[data-position="{{forloop.index}}"] .post-title .accent-highlight-one,
+                  #shopify-section-{{section.id}} .hero-item.hero-full[data-position="{{forloop.index}}"] .hero-price .accent-highlight-one {
+                      display:inline-block;
+                      {% case block.settings.hero_accent_style_one %}
+                      {% when 'text-bg' %}
+                      padding:5px;
+                      background-color:{{block.settings.hero_accent_color_one}};
+                      {% when 'text-color' %}
+                      color:{{block.settings.hero_accent_color_one}};
+                      {% when 'text-shadow' %}
+                      text-shadow:0px 3px 0px {{block.settings.hero_accent_color_one}};
+                      {% endcase %}
+                  }
+                  {% endif %}
+                  {% if block.settings.hero_accent_style_two != blank %}
+                  #shopify-section-{{section.id}} .hero-item.hero-full[data-position="{{forloop.index}}"] .pre-title .accent-highlight-two,
+                  #shopify-section-{{section.id}} .hero-item.hero-full[data-position="{{forloop.index}}"] .hero-title .accent-highlight-two,
+                  #shopify-section-{{section.id}} .hero-item.hero-full[data-position="{{forloop.index}}"] .post-title .accent-highlight-two,
+                  #shopify-section-{{section.id}} .hero-item.hero-full[data-position="{{forloop.index}}"] .hero-price .accent-highlight-two {
+                      display:inline-block;
+                      {% case block.settings.hero_accent_style_two %}
+                      {% when 'text-bg' %}
+                      padding:5px;
+                      background-color:{{block.settings.hero_accent_color_two}};
+                      {% when 'text-color' %}
+                      color:{{block.settings.hero_accent_color_two}};
+                      {% when 'text-shadow' %}
+                      text-shadow:0px 3px 0px {{block.settings.hero_accent_color_two}};
+                      {% endcase %}
+                  }
+                  {% endif %}
+                </style>
+              {% endif %}
+            </div>
+            <!-- hero-item hero-full-2.0 -->
+        {% endcase %}
+      {% endfor %}
+    </div>
+    <!-- hero slick -->
+  </div>
+  <!-- container -->
+</div>
+<!-- section-background -->
+
+{% schema %}
+{
+  "name": "Hero",
+  "tag": "section",
+  "class": "hero",
+  "max_blocks": 3,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "paragraph",
+      "content": "Choose whether or not this hero section will be full width, or contained to the guttering of the website."
+    },
+    {
+      "type": "select",
+      "id": "hero_container",
+      "label": "Hero Container",
+      "options": [
+        {
+          "value": "container-full",
+          "label": "Full Width"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Contained"
+        }
+      ],
+      "default": "container-full"
+    },
+    {
+      "type": "color",
+      "id": "hero_container_bg",
+      "label": "Hero BG Colour",
+      "default": "transparent"
+    },
+    {
+      "type": "header",
+      "content": "Slider Options"
+    },
+    {
+      "type": "checkbox",
+      "id": "hero_slide_arrows",
+      "label": "Show Arrows?",
+      "default": true,
+      "info": "Arrows will display if there are more than one block"
+    },
+    {
+      "type": "checkbox",
+      "id": "hero_slide_wraparound",
+      "label": "Wrap Around?",
+      "default": true,
+      "info": "At the end of blocks, wrap-around to the other end for infinite scrolling."
+    },
+    {
+      "type": "checkbox",
+      "id": "hero_slide_autoplay",
+      "label": "Autoplay Carousel?",
+      "default": true,
+      "info": "Automatically scroll through blocks?"
+    },
+    {
+      "type": "range",
+      "id": "hero_slide_speed",
+      "label": "Autoplay Speed",
+      "min": 150,
+      "max": 2000,
+      "step": 50,
+      "default": 500,
+      "info": "100 = 1 Second"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "full_2",
+      "name": "Full Width 2.0",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Layout Mobile"
+        },
+        {
+          "type": "paragraph",
+          "content": "Mobile styles only: Choose whether the content sits on top of the background image, or below it. Text sitting below the image will be a smaller size."
+        },
+        {
+          "type": "select",
+          "id": "hero_layout_mobile",
+          "label": "Mobile Content Position",
+          "options": [
+            {
+              "value": "content-on-image",
+              "label": "On Background Image"
+            },
+            {
+              "value": "content-below-image-mobile",
+              "label": "Below Background Image"
+            }
+          ],
+          "default": "content-on-image"
+        },
+        {
+          "type": "color",
+          "id": "background_color_mobile",
+          "label": "Mobile Background Colour",
+          "default": "#290B30"
+        },
+        {
+          "type": "color",
+          "id": "text_color_mobile",
+          "label": "Mobile Text colour",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "description_text_color_mobile",
+          "label": "Mobile Description colour",
+          "default": "#000000"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment_mobile",
+          "label": "Mobile Content Alignment",
+          "options": [
+            {
+              "value": "text-left-mobile",
+              "label": "Left"
+            },
+            {
+              "value": "text-center-mobile",
+              "label": "Center"
+            },
+            {
+              "value": "text-right-mobile",
+              "label": "Right"
+            },
+            {
+              "value": "text-right-left-mobile",
+              "label": "Right, with left aligned text"
+            }
+          ],
+          "default": "text-left-mobile"
+        },
+        {
+          "type": "header",
+          "content": "Layout Desktop"
+        },
+        {
+          "type": "paragraph",
+          "content": "Desktop styles only: Choose whether the content sits on top of the background image, or below it. Text sitting below the image will be a smaller size."
+        },
+        {
+          "type": "select",
+          "id": "hero_layout_desktop",
+          "label": "Desktop Content Position",
+          "options": [
+            {
+              "value": "content-on-image",
+              "label": "On Background Image"
+            },
+            {
+              "value": "content-below-image-desktop",
+              "label": "Below Background Image"
+            }
+          ],
+          "default": "content-on-image"
+        },
+        {
+          "type": "color",
+          "id": "background_color_desktop",
+          "label": "Desktop Background Colour",
+          "default": "#290B30"
+        },
+        {
+          "type": "color",
+          "id": "text_color_desktop",
+          "label": "Desktop Text colour",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "description_text_color_desktop",
+          "label": "Desktop Description colour",
+          "default": "#000000"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment_desktop",
+          "label": "Desktop Content Alignment",
+          "options": [
+            {
+              "value": "text-left-desktop",
+              "label": "Left"
+            },
+            {
+              "value": "text-center-desktop",
+              "label": "Center"
+            },
+            {
+              "value": "text-right-desktop",
+              "label": "Right"
+            },
+            {
+              "value": "text-right-left-desktop",
+              "label": "Right, with left aligned text"
+            }
+          ],
+          "default": "text-left-desktop"
+        },
+        {
+          "type": "select",
+          "id": "vertical_alignment_desktop",
+          "label": "Desktop Vertical Alignment",
+          "options": [
+            {
+              "value": "vertical-top",
+              "label": "Top"
+            },
+            {
+              "value": "vertical-center",
+              "label": "Center"
+            },
+            {
+              "value": "vertical-bottom",
+              "label": "Bottom"
+            }
+          ],
+          "default": "vertical-center"
+        },
+        {
+          "type": "header",
+          "content": "Background & Images"
+        },
+        {
+          "type": "select",
+          "id": "hero_background_choice",
+          "label": "Background Image or Colour?",
+          "options": [
+            {
+              "value": "background-image",
+              "label": "Image"
+            },
+            {
+              "value": "background-colour",
+              "label": "Colour"
+            }
+          ],
+          "default": "background-image"
+        },
+        {
+          "type": "image_picker",
+          "id": "hero_desktop_image",
+          "label": "Desktop Image",
+          "info": "Image aspect ratio should be 16:5"
+        },
+        {
+          "type": "image_picker",
+          "id": "hero_mobile_image",
+          "label": "Mobile Image",
+          "info": "Image aspect ratio should be 5:9"
+        },
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "richtext",
+          "id": "hero_pre_title",
+          "label": "Pre Title",
+          "default": "<p>Hero pre title text</p>"
+        },
+        {
+          "type": "range",
+          "id": "mobile_pre_font_size",
+          "min": 1,
+          "max": 84,
+          "step": 1,
+          "unit": "px",
+          "label": "Mobile pre Font size",
+          "default": 14
+        },
+        {
+          "type": "range",
+          "id": "desktop_pre_font_size",
+          "min": 1,
+          "max": 84,
+          "step": 1,
+          "unit": "px",
+          "label": "Desktop Pre Font size",
+          "default": 14
+        },
+        {
+          "type": "richtext",
+          "id": "title",
+          "label": "Title",
+          "default": "<p>Large Hero Title</p>"
+        },
+        {
+          "type": "range",
+          "id": "desktop_title_font_size",
+          "min": 1,
+          "max": 84,
+          "step": 1,
+          "unit": "px",
+          "label": "Desktop Title Font size",
+          "default": 48
+        },
+        {
+          "type": "richtext",
+          "id": "title_mobile",
+          "label": "Title Mobile",
+          "default": "<p>Large Hero Title</p>"
+        },
+        {
+          "type": "range",
+          "id": "mobile_title_font_size",
+          "min": 1,
+          "max": 84,
+          "step": 1,
+          "unit": "px",
+          "label": "Mobile Title Font size",
+          "default": 40
+        },
+        {
+          "type": "richtext",
+          "id": "hero_post_title",
+          "label": "Post Title",
+          "default": "<p>Small post title text</p>"
+        },
+        {
+          "type": "range",
+          "id": "mobile_post_font_size",
+          "min": 1,
+          "max": 84,
+          "step": 1,
+          "unit": "px",
+          "label": "Mobile Post Font size",
+          "default": 13
+        },
+        {
+          "type": "range",
+          "id": "desktop_post_font_size",
+          "min": 1,
+          "max": 84,
+          "step": 1,
+          "unit": "px",
+          "label": "Desktop Post Font size",
+          "default": 14
+        },
+        {
+          "type": "richtext",
+          "id": "hero_price",
+          "label": "Price",
+          "default": "<p>Only €3</p>"
+        },
+        {
+          "type": "range",
+          "id": "mobile_price_font_size",
+          "min": 1,
+          "max": 84,
+          "step": 1,
+          "unit": "px",
+          "label": "Mobile Price Font size",
+          "default": 18
+        },
+        {
+          "type": "range",
+          "id": "desktop_price_font_size",
+          "min": 1,
+          "max": 84,
+          "step": 1,
+          "unit": "px",
+          "label": "Desktop Price Font size",
+          "default": 24
+        },
+        {
+          "type": "text",
+          "id": "hero_cta_text",
+          "label": "CTA / Button Text",
+          "default": "Shop"
+        },
+        {
+          "type": "url",
+          "id": "hero_link",
+          "label": "CTA / Button Link"
+        },
+        {
+          "type": "header",
+          "content": "Content Apperance"
+        },
+        {
+          "type": "select",
+          "id": "hero_button_style",
+          "label": "CTA / Button Apperance",
+          "options": [
+            {
+              "value": "btn btn-hero-white",
+              "label": "White BG, black text"
+            },
+            {
+              "value": "btn btn-hero-black",
+              "label": "Black BG, white text"
+            },
+            {
+              "value": "btn btn-hero-transparent",
+              "label": "Transparent BG, white text & border"
+            },
+            {
+              "value": "btn btn-link btn-link-white",
+              "label": "white text, with underline"
+            },
+            {
+              "value": "btn btn-link btn-link-black",
+              "label": "Black text, with underline"
+            }
+          ],
+          "default": "btn btn-hero-white"
+        },
+        {
+          "type": "header",
+          "content": "Accent Style / Colour - Bold"
+        },
+        {
+          "type": "paragraph",
+          "content": "This accent style and colour is applied to word(s) that use bold in the content section. We override the default italic styling to the selected option below."
+        },
+        {
+          "type": "select",
+          "id": "hero_accent_style_one",
+          "label": "Accent Style",
+          "options": [
+            {
+              "value": "",
+              "label": "None"
+            },
+            {
+              "value": "text-bg",
+              "label": "Text Background Colour"
+            },
+            {
+              "value": "text-color",
+              "label": "Text Colour"
+            },
+            {
+              "value": "text-shadow",
+              "label": "Text Shadow"
+            }
+          ],
+          "default": ""
+        },
+        {
+          "type": "color",
+          "id": "hero_accent_color_one",
+          "label": "Accent Colour",
+          "default": "#702283"
+        },
+        {
+          "type": "header",
+          "content": "Accent Style / Colour - Italic"
+        },
+        {
+          "type": "paragraph",
+          "content": "This accent style and colour is applied to word(s) that use italics in the content section. We override the default italic styling to the selected option below."
+        },
+        {
+          "type": "select",
+          "id": "hero_accent_style_two",
+          "label": "Accent Style",
+          "options": [
+            {
+              "value": "",
+              "label": "None"
+            },
+            {
+              "value": "text-bg",
+              "label": "Text Background Colour"
+            },
+            {
+              "value": "text-color",
+              "label": "Text Colour"
+            },
+            {
+              "value": "text-shadow",
+              "label": "Text Shadow"
+            }
+          ],
+          "default": ""
+        },
+        {
+          "type": "color",
+          "id": "hero_accent_color_two",
+          "label": "Accent Colour",
+          "default": "#702283"
+        },
+        {
+          "type": "header",
+          "content": "Labels"
+        },
+        {
+          "type": "text",
+          "id": "hero_label_text_left",
+          "label": "Label Text - Left"
+        },
+        {
+          "type": "text",
+          "id": "hero_label_text_right",
+          "label": "Label Text - Right"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

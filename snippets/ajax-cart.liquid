@@ -1,0 +1,26 @@
+<div class="ajax-cart">
+
+  <div class="ajax-cart__title">
+    <span class="text-18 text-secondary text-bold-500">{{ 'general.minicart.your_bag' | t }}
+      <span class="ajax-cart__count">({{ cart.item_count }})</span>
+    </span>
+    <div class="ajax-cart__close">{% render 'icon-close' %}</div>
+  </div>
+
+  <div class="ajax-cart__content">
+    <div class="ajax-cart__main">
+      {% render 'ajax-cart-actions', cart: cart %}
+
+      {% if cart.item_count > 0 %}
+        <div class="ajax-cart__items">
+          {% for item in cart.items %}
+            {% render 'ajax-cart-item', item: item %}
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="ajax-cart__items ajax-cart__items--empty"></div>
+      {% endif %}
+    </div>
+  </div>
+
+</div>

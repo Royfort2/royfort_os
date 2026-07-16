@@ -1,0 +1,601 @@
+<div class="section-background {{section.settings.content_custom_class}}">
+    <div class="{{section.settings.content_container}}">
+    <div class="content-slick{% if section.blocks.size > 1 %} inline-slick{% endif %}" data-slick='{"slidesToShow": 1, "slidesToScroll": 1, "adaptiveHeight": true,  "arrows":{{section.settings.slide_arrows}}, "autoplay":{{section.settings.slide_autoplay}}, "autoplaySpeed": {{section.settings.slide_speed}}0, "dots": false, "infinite": {{section.settings.slide_wraparound}}}'>
+    {% for block in section.blocks %}
+        {% case block.type %}
+
+        {% when 'full' %}
+
+        <div
+            class="content-strip-item text-center {{block.settings.content_style}}"
+            data-position="{{forloop.index}}"
+            data-shopify-section-id="{{section.id}}"
+            style="{% if block.settings.background_color != 'rgba(0,0,0,0)' %}background-color: {{block.settings.background_color}};{% endif %}"
+            {{block.shopify_attributes}}>
+
+            {% if block.settings.link != blank %}
+                <a class="block-link" href="{{block.settings.link}}">
+            {% endif %}
+
+            <div class="block-content {% if block.settings.link == blank %} no-link{% endif %}" style="color:{{block.settings.text_color}};">
+
+                {% if block.settings.title != blank  %}<h3 class="title">{{block.settings.title | remove: "<p>" | remove: "</p>" | replace: "<strong>", "<span class='accent-highlight-one'>" | replace: "</strong>","</span>" | replace: "<em>","<span class='accent-highlight-two'>" | replace: "</em>","</span>"}}</h3>{% endif %}
+                {% if block.settings.post_title != blank %}<p class="post-title">{{block.settings.post_title | remove: "<p>" | remove: "</p>" | replace: "<strong>", "<span class='accent-highlight-one'>" | replace: "</strong>","</span>" | replace: "<em>","<span class='accent-highlight-two'>" | replace: "</em>","</span>"}}</p>{% endif %}
+                {% if block.settings.paragraph != blank %}<p class="paragraph">{{block.settings.paragraph | remove: "<p>" | remove: "</p>" | replace: "<strong>", "<span class='accent-highlight-one'>" | replace: "</strong>","</span>" | replace: "<em>","<span class='accent-highlight-two'>" | replace: "</em>","</span>"}}</p>{% endif %}
+
+            </div><!-- hero-content -->
+            {% if block.settings.link != blank %}
+                </a>
+            {% endif %}
+        {% if block.settings.background_image_mobile or block.settings.background_image_desktop or block.settings.accent_style_one != blank or block.settings.accent_style_two != blank %}
+        <style>
+            {% if block.settings.background_image_mobile %}
+            #shopify-section-{{section.id}} .content-strip-item[data-position="{{forloop.index}}"] {
+                background-image:url('{{block.settings.background_image_mobile | img_url: '1920x'}}');
+            }
+            {% endif %}
+            {% if block.settings.background_image_desktop %}
+            @media screen and (min-width: 720px) {
+                #shopify-section-{{section.id}} .content-strip-item[data-position="{{forloop.index}}"] {
+                    background-image:url('{{block.settings.background_image_desktop | img_url: '1920x'}}')};
+                }
+            }
+            {% endif %}
+
+            {% if block.settings.accent_style_one != blank %}
+            #shopify-section-{{section.id}} .content-strip-item[data-position="{{forloop.index}}"] .title .accent-highlight-one,
+            #shopify-section-{{section.id}} .content-strip-item[data-position="{{forloop.index}}"] .post-title .accent-highlight-one,
+            #shopify-section-{{section.id}} .content-strip-item[data-position="{{forloop.index}}"] .paragraph .accent-highlight-one {
+                display:inline-block;
+                {% case block.settings.accent_style_one %}
+                {% when 'text-bg' %}
+                padding:5px;
+                background-color:{{block.settings.accent_color_one}};
+                {% when 'text-color' %}
+                color:{{block.settings.accent_color_one}};
+                {% when 'text-shadow' %}
+                text-shadow:0px 3px 0px {{block.settings.accent_color_one}};
+                {% endcase %}
+            }
+            {% endif %}
+            {% if block.settings.accent_style_two != blank %}
+            #shopify-section-{{section.id}} .content-strip-item[data-position="{{forloop.index}}"] .title .accent-highlight-two,
+            #shopify-section-{{section.id}} .content-strip-item[data-position="{{forloop.index}}"] .post-title .accent-highlight-two,
+            #shopify-section-{{section.id}} .content-strip-item[data-position="{{forloop.index}}"] .paragraph .accent-highlight-two {
+                display:inline-block;
+                {% case block.settings.accent_style_two %}
+                {% when 'text-bg' %}
+                padding:5px;
+                background-color:{{block.settings.accent_color_two}};
+                {% when 'text-color' %}
+                color:{{block.settings.accent_color_two}};
+                {% when 'text-shadow' %}
+                text-shadow:0px 3px 0px {{block.settings.accent_color_two}};
+                {% endcase %}
+            }
+            {% endif %}
+        </style>
+        {% endif %}
+
+        </div><!-- content-strip-item -->
+
+        {% when 'split-content' %}
+    {% if block.settings.link != blank %}
+    <a class="block-link" href="{{block.settings.link}}">
+        {% endif %}
+        <div
+            class="content-strip-item text-center split-content {{block.settings.content_style}}"
+            data-position="{{forloop.index}}"
+            data-shopify-section-id="{{section.id}}"
+            style="{% if block.settings.background_color != 'rgba(0,0,0,0)' %}background-color: {{block.settings.background_color}};{% endif %}"
+            {{block.shopify_attributes}}>
+
+            {% if block.settings.background_image_mobile or block.settings.background_image_desktop %}
+                <div class="block-content-image {{ block.settings.which_side }}"></div>
+            {% endif %}
+
+
+
+            <div class="block-content {{block.settings.which_side}} text-left{% if block.settings.link == blank %} no-link{% endif %}" style="color:{{block.settings.text_color}};">
+                {% if block.settings.title != blank  %}<h2 class="title text-white">{{block.settings.title | remove: "<p>" | remove: "</p>" | replace: "<strong>", "<span class='accent-highlight-one'>" | replace: "</strong>","</span>" | replace: "<em>","<span class='accent-highlight-two'>" | replace: "</em>","</span>"}}</h2>{% endif %}
+                {% if block.settings.post_title != blank %}<h3 class="post-title text-white mb-5">{{block.settings.post_title | remove: "<p>" | remove: "</p>" | replace: "<strong>", "<span class='accent-highlight-one'>" | replace: "</strong>","</span>" | replace: "<em>","<span class='accent-highlight-two'>" | replace: "</em>","</span>"}}</h3>{% endif %}
+                {% if block.settings.paragraph != blank %}<p class="paragraph text-white mb-5">{{block.settings.paragraph | remove: "<p>" | remove: "</p>" | replace: "<strong>", "<span class='accent-highlight-one'>" | replace: "</strong>","</span>" | replace: "<em>","<span class='accent-highlight-two'>" | replace: "</em>","</span>"}}</p>{% endif %}
+                {% if block.settings.block_cta_text != blank and block.settings.block_link != blank %}<div class="cta-btn-container"><button type="button" class="btn btn-grey">{{block.settings.block_cta_text}}</button></div>{% endif %}
+            </div><!-- hero-content -->
+
+        {% if block.settings.background_image_mobile or block.settings.background_image_desktop or block.settings.accent_style_one != blank or block.settings.accent_style_two != blank %}
+        <style>
+            {% if block.settings.background_image_mobile %}
+            #shopify-section-{{section.id}} .content-strip-item[data-position="{{forloop.index}}"] .block-content-image {
+                background-image:url('{{block.settings.background_image_mobile | img_url: '1920x'}}');
+            }
+            {% endif %}
+            {% if block.settings.background_image_desktop %}
+            @media screen and (min-width: 720px) {
+                #shopify-section-{{section.id}} .content-strip-item[data-position="{{forloop.index}}"] .block-content-image {
+                    background-image:url('{{block.settings.background_image_desktop | img_url: '1920x'}}')};
+                }
+            }
+            {% endif %}
+
+            {% if block.settings.accent_style_one != blank %}
+            #shopify-section-{{section.id}} .content-strip-item[data-position="{{forloop.index}}"] .title .accent-highlight-one,
+            #shopify-section-{{section.id}} .content-strip-item[data-position="{{forloop.index}}"] .post-title .accent-highlight-one,
+            #shopify-section-{{section.id}} .content-strip-item[data-position="{{forloop.index}}"] .paragraph .accent-highlight-one {
+                display:inline-block;
+                {% case block.settings.accent_style_one %}
+                {% when 'text-bg' %}
+                padding:5px;
+                background-color:{{block.settings.accent_color_one}};
+                {% when 'text-color' %}
+                color:{{block.settings.accent_color_one}};
+                {% when 'text-shadow' %}
+                text-shadow:0px 3px 0px {{block.settings.accent_color_one}};
+                {% endcase %}
+            }
+            {% endif %}
+            {% if block.settings.accent_style_two != blank %}
+            #shopify-section-{{section.id}} .content-strip-item[data-position="{{forloop.index}}"] .title .accent-highlight-two,
+            #shopify-section-{{section.id}} .content-strip-item[data-position="{{forloop.index}}"] .post-title .accent-highlight-two,
+            #shopify-section-{{section.id}} .content-strip-item[data-position="{{forloop.index}}"] .paragraph .accent-highlight-two {
+                display:inline-block;
+                {% case block.settings.accent_style_two %}
+                {% when 'text-bg' %}
+                padding:5px;
+                background-color:{{block.settings.accent_color_two}};
+                {% when 'text-color' %}
+                color:{{block.settings.accent_color_two}};
+                {% when 'text-shadow' %}
+                text-shadow:0px 3px 0px {{block.settings.accent_color_two}};
+                {% endcase %}
+            }
+            {% endif %}
+        </style>
+        {% endif %}
+
+        </div><!-- content-strip-item -->
+{% if block.settings.link != blank %}
+</a>
+{% endif %}
+        {% endcase %}
+    {% endfor %}
+    </div><!-- content-slick -->
+
+    </div><!-- container -->
+</div><!-- section-background -->
+
+{% schema %}
+{
+    "name": "Content Strip",
+    "tag": "section",
+    "class": "content-strip",
+    "max_blocks": 3,
+    "settings": [
+        {
+            "type": "header",
+            "content": "Layout"
+        },
+        {
+            "type": "paragraph",
+            "content": "Choose whether or not this content section will be full width, or contained to the guttering of the website."
+        },
+        {
+            "type":      "select",
+            "id":        "content_container",
+            "label":     "Container",
+                "options": [
+                {
+                    "value": "container-full",
+                    "label": "Full Width"
+                },
+                {
+                    "value": "container-fluid",
+                    "label": "Contained"
+                }
+                ],
+                "default":   "container-full"
+        },
+        {
+            "type":     "text",
+            "id":       "content_custom_class",
+            "label":    "Custom CSS class"
+        },
+        {
+            "type": "header",
+            "content": "Slider Options"
+        },
+        {
+            "type": "checkbox",
+            "id": "slide_arrows",
+            "label": "Show Arrows?",
+            "default": true,
+            "info": "Arrows will display if there are more than one block"
+        },
+        {
+            "type": "checkbox",
+            "id": "slide_wraparound",
+            "label": "Wrap Around?",
+            "default": true,
+            "info": "At the end of blocks, wrap-around to the other end for infinite scrolling."
+        },
+        {
+            "type": "checkbox",
+            "id": "slide_autoplay",
+            "label": "Autoplay Carousel?",
+            "default": true,
+            "info": "Automatically scroll through blocks?"
+        },
+        {
+            "type": "range",
+            "id": "slide_speed",
+            "label": "Autoplay Speed",
+            "min": 150,
+            "max": 2000,
+            "step": 50,
+            "default": 500,
+            "info": "100 = 1 Second"
+        }
+    ],
+    "blocks": [
+        {
+            "type": "full",
+            "name": "Content Strip",
+            "settings": [
+            {
+                "type": 	"header",
+                "content": 	"Style"
+            },
+            {
+                "type": 	"paragraph",
+                "content": 	"Choose the style of the content strip, standard or slim. Slim has reduced font size and padding."
+            },
+            {
+                "type":      "select",
+                "id":        "content_style",
+                "label":     "Content Style",
+                    "options": [
+                    {
+                        "value": "content-strip-standard",
+                        "label": "Standard"
+                    },
+                    {
+                        "value": "content-strip-slim",
+                        "label": "Slim"
+                    }
+                    ],
+                    "default":   "content-strip-standard"
+            },
+            {
+                "type": 	"header",
+                "content": 	"Background & Images"
+            },
+            {
+                "type": "image_picker",
+                "id": "background_image_mobile",
+                "label": "Background image for mobile"
+            },
+            {
+                "type": "image_picker",
+                "id": "background_image_desktop",
+                "label": "Background image for desktop"
+            },
+            {
+                "type": "color",
+                "id": "background_color",
+                "label": "Background Colour",
+                "default": "transparent"
+            },
+            {
+                "type": 	"header",
+                "content": 	"Content"
+            },
+            {
+                "type":      "richtext",
+                "id":        "title",
+                "label":     "Title"
+            },
+            {
+                "type":      "richtext",
+                "id":        "post_title",
+                "label":     "Post Title"
+            },
+            {
+                "type":      "richtext",
+                "id":        "paragraph",
+                "label":     "Paragraph"
+            },
+            {
+                "type":      "url",
+                "id":        "link",
+                "label":     "Link",
+                "info":      "Applies to the whole content strip"
+            },
+            {
+                "type": 	"header",
+                "content": 	"Content Apperance"
+            },
+            {
+                "type": "color",
+                "id": "text_color",
+                "label": "Text colour",
+                "default": "#fff"
+            },
+            {
+                "type": 	"header",
+                "content": 	"Accent Style / Colour - Bold"
+            },
+            {
+                "type": 	"paragraph",
+                "content": 	"This accent style and colour is applied to word(s) that use bold in the content section. We override the default italic styling to the selected option below."
+            },
+            {
+                "type":      "select",
+                "id":        "accent_style_one",
+                "label":     "Accent Style",
+                    "options": [
+                    {
+                        "value": "",
+                        "label": "None"
+                    },
+                    {
+                        "value": "text-bg",
+                        "label": "Text Background Colour"
+                    },
+                    {
+                        "value": "text-color",
+                        "label": "Text Colour"
+                    },
+                    {
+                        "value": "text-shadow",
+                        "label": "Text Shadow"
+                    }
+                    ],
+                    "default":   ""
+            },
+            {
+                "type": "color",
+                "id": "accent_color_one",
+                "label": "Accent Colour",
+                "default": "#702283"
+            },
+            {
+                "type": 	"header",
+                "content": 	"Accent Style / Colour - Italic"
+            },
+            {
+                "type": 	"paragraph",
+                "content": 	"This accent style and colour is applied to word(s) that use italics in the content section. We override the default italic styling to the selected option below."
+            },
+            {
+                "type":      "select",
+                "id":        "accent_style_two",
+                "label":     "Accent Style",
+                    "options": [
+                    {
+                        "value": "",
+                        "label": "None"
+                    },
+                    {
+                        "value": "text-bg",
+                        "label": "Text Background Colour"
+                    },
+                    {
+                        "value": "text-color",
+                        "label": "Text Colour"
+                    },
+                    {
+                        "value": "text-shadow",
+                        "label": "Text Shadow"
+                    }
+                    ],
+                    "default":   ""
+            },
+            {
+                "type": "color",
+                "id": "accent_color_two",
+                "label": "Accent Colour",
+                "default": "#702283"
+            }
+            ]
+        },
+        {
+            "type": "split-content",
+            "name": "Split Content Strip",
+            "settings": [
+            {
+                "type": 	"header",
+                "content": 	"Style"
+            },
+            {
+                "type": 	"paragraph",
+                "content": 	"Choose the style of the content strip, standard or slim. Slim has reduced font size and padding."
+            },
+            {
+                "type":      "select",
+                "id":        "content_style",
+                "label":     "Content Style",
+                    "options": [
+                    {
+                        "value": "content-strip-standard",
+                        "label": "Standard"
+                    },
+                    {
+                        "value": "content-strip-slim",
+                        "label": "Slim"
+                    }
+                    ],
+                    "default":   "content-strip-standard"
+            },
+            {
+                "type":      "select",
+                "id":        "which_side",
+                "label":     "Content Side",
+                   "options": [
+                    {
+                        "value": "side-right",
+                        "label": "Content to the right"
+                    },
+                    {
+                        "value": "side-left",
+                        "label": "Content to the left"
+                    }
+                    ],
+                    "default":   "side-right"
+            },
+            {
+                "type": 	"header",
+                "content": 	"Background & Images"
+            },
+            {
+                "type": "image_picker",
+                "id": "background_image_mobile",
+                "label": "Background image for mobile"
+            },
+            {
+                "type": "image_picker",
+                "id": "background_image_desktop",
+                "label": "Background image for desktop"
+            },
+            {
+                "type": "color",
+                "id": "background_color",
+                "label": "Background Colour",
+                "default": "transparent"
+            },
+            {
+                "type": 	"header",
+                "content": 	"Content"
+            },
+            {
+                "type":      "richtext",
+                "id":        "title",
+                "label":     "Title"
+            },
+            {
+                "type":      "richtext",
+                "id":        "post_title",
+                "label":     "Post Title"
+            },
+            {
+                "type":      "richtext",
+                "id":        "paragraph",
+                "label":     "Paragraph"
+            },
+            {
+                "type":      "url",
+                "id":        "link",
+                "label":     "Link",
+                "info":      "Applies to the whole content strip"
+            },
+            {
+                "type":      "text",
+                "id":        "block_cta_text",
+                "label":     "CTA / Button Text"
+            },
+            {
+                "type":      "url",
+                "id":        "block_link",
+                "label":     "Block Link"
+            },
+            {
+                "type": 	"header",
+                "content": 	"Content Apperance"
+            },
+            {
+                "type": "color",
+                "id": "bg_color",
+                "label": "Background colour"
+            },
+            {
+                "type": "color",
+                "id": "text_color",
+                "label": "Text colour",
+                "default": "#fff"
+            },
+            {
+                "type": 	"header",
+                "content": 	"Accent Style / Colour - Bold"
+            },
+            {
+                "type": 	"paragraph",
+                "content": 	"This accent style and colour is applied to word(s) that use bold in the content section. We override the default italic styling to the selected option below."
+            },
+            {
+                "type":      "select",
+                "id":        "accent_style_one",
+                "label":     "Accent Style",
+                    "options": [
+                    {
+                        "value": "",
+                        "label": "None"
+                    },
+                    {
+                        "value": "text-bg",
+                        "label": "Text Background Colour"
+                    },
+                    {
+                        "value": "text-color",
+                        "label": "Text Colour"
+                    },
+                    {
+                        "value": "text-shadow",
+                        "label": "Text Shadow"
+                    }
+                    ],
+                    "default":   ""
+            },
+            {
+                "type": "color",
+                "id": "accent_color_one",
+                "label": "Accent Colour",
+                "default": "#702283"
+            },
+            {
+                "type": 	"header",
+                "content": 	"Accent Style / Colour - Italic"
+            },
+            {
+                "type": 	"paragraph",
+                "content": 	"This accent style and colour is applied to word(s) that use italics in the content section. We override the default italic styling to the selected option below."
+            },
+            {
+                "type":      "select",
+                "id":        "accent_style_two",
+                "label":     "Accent Style",
+                    "options": [
+                    {
+                        "value": "",
+                        "label": "None"
+                    },
+                    {
+                        "value": "text-bg",
+                        "label": "Text Background Colour"
+                    },
+                    {
+                        "value": "text-color",
+                        "label": "Text Colour"
+                    },
+                    {
+                        "value": "text-shadow",
+                        "label": "Text Shadow"
+                    }
+                    ],
+                    "default":   ""
+            },
+            {
+                "type": "color",
+                "id": "accent_color_two",
+                "label": "Accent Colour",
+                "default": "#702283"
+            }
+            ]
+        }
+    ],
+    "presets": [
+    {
+        "name": "Content Strip",
+        "category": "Content"
+    }
+    ]
+}
+{% endschema %}

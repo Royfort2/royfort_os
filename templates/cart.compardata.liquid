@@ -1,0 +1,9 @@
+{% layout none %}
+[
+{% for item in cart.items %}
+    {
+        "id": {{item.variant.id}},
+        "compare_at_price": {% if item.variant.compare_at_price != blank %}{{ item.variant.compare_at_price }}{% else %}""{% endif %}
+    }{% unless forloop.last == true %},{% endunless %}
+{% endfor %}
+]

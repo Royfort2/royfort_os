@@ -1,0 +1,84 @@
+@font-face {
+  font-family: "quador";
+  src: url(" //cdn.shopify.com/s/files/1/1610/3585/t/42/assets/Quador-Regular.ttf?v=7740272192344238453 ");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "quador";
+  src: url(" //cdn.shopify.com/s/files/1/1610/3585/t/42/assets/Quador-Italic.ttf?v=3383620611442645546 ");
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: "quador";
+  src: url(" //cdn.shopify.com/s/files/1/1610/3585/t/42/assets/Quador-SemiBold.ttf?v=1839940178639469665 ");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "quador";
+  src: url(" //cdn.shopify.com/s/files/1/1610/3585/t/42/assets/Quador-SemiBold-Italic.ttf?v=681828334710110201 ");
+  font-weight: 600;
+  font-style: italic;
+}
+@font-face {
+  font-family: "quador";
+  src: url(" //cdn.shopify.com/s/files/1/1610/3585/t/42/assets/Quador-Bold.ttf?v=9859463150436732389 ");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "quador";
+  src: url(" //cdn.shopify.com/s/files/1/1610/3585/t/42/assets/Quador-Bold-Italic.ttf?v=10996296952391531966 ");
+  font-weight: 700;
+  font-style: italic;
+}
+@font-face {
+  font-family: "quador";
+  src: url(" //cdn.shopify.com/s/files/1/1610/3585/t/42/assets/Quador-ExtraBold.ttf?v=4891295287688750874 ");
+  font-weight: 800;
+  font-style: normal;
+}
+@font-face {
+  font-family: "quador";
+  src: url(" //cdn.shopify.com/s/files/1/1610/3585/t/42/assets/Quador-ExtraBold-Italic.ttf?v=16691585736046885675 ");
+  font-weight: 800;
+  font-style: italic;
+}
+@font-face {
+  font-family: "quador";
+  src: url(" //cdn.shopify.com/s/files/1/1610/3585/t/42/assets/Quador-UltraBold.ttf?v=14239418769382593853 ");
+  font-weight: 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: "quador";
+  src: url(" //cdn.shopify.com/s/files/1/1610/3585/t/42/assets/Quador-UltraBold-Italic.ttf?v=11649807442745035971 ");
+  font-weight: 900;
+  font-style: italic;
+}
+@font-face {
+  font-family: "quador";
+  src: url(" //cdn.shopify.com/s/files/1/1610/3585/t/42/assets/Quador-Light.ttf?v=18379085960992976858 ");
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: "quador";
+  src: url(" //cdn.shopify.com/s/files/1/1610/3585/t/42/assets/Quador-Light-Italic.ttf?v=12681223353678984701 ");
+  font-weight: 300;
+  font-style: italic;
+}
+@font-face {
+  font-family: "quador";
+  src: url(" //cdn.shopify.com/s/files/1/1610/3585/t/42/assets/Quador-Bold.ttf?v=9859463150436732389 ");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "quador";
+  src: url(" //cdn.shopify.com/s/files/1/1610/3585/t/42/assets/Quador-Bold-Italic.ttf?v=10996296952391531966 ");
+  font-weight: bold;
+  font-style: italic;
+}

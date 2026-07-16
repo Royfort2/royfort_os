@@ -1,0 +1,56 @@
+<div class="about-us-contact">
+    {% if section.settings.title %}<div class="title">{{section.settings.title}}</div>{% endif %}
+    {% if section.settings.description %}<div class="description rte">{{section.settings.description}}</div>{% endif %}
+
+    <div class="contact-us-options">
+        {% for block in section.blocks %}
+            <div class="contact-option">
+                {% if block.settings.title %}<div class="title">{{block.settings.title}}</div>{% endif %}
+                {% if block.settings.description %}<div class="description rte">{{block.settings.description}}</div>{% endif %}
+                {% if block.settings.small_text %}<div class="small-text">{{block.settings.small_text}}</div>{% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% schema %}
+{
+"name":   "Contact Us Options",
+"max_blocks": 3,
+"settings": [
+    {
+		"type": 		"text",
+		"id": 			"title",
+      	"label": 		"Title"
+    },
+    {
+		"type": 		"richtext",
+		"id": 			"description",
+      	"label": 		"Description"
+    }
+],
+"blocks": [
+    {
+        "type": "contact_option",
+        "name": "Contact Option",
+        "settings": [
+            {
+                "type": 		"text",
+                "id": 			"title",
+                "label": 		"Title"
+            },
+            {
+                "type": 		"richtext",
+                "id": 			"description",
+                  "label": 		"Description"
+            },
+            {
+                "type": 		"richtext",
+                "id": 			"small_text",
+                  "label": 		"Small Text"
+            }
+        ]
+    }
+]
+}
+{% endschema %}

@@ -1,0 +1,52 @@
+<div class="product-tabs-desktop">
+    <div class="tab-titles">
+        <div class="tab-selector active" data-tab="1">{{ 'products.product_tabs.product_description' | t }}</div>
+        {% for tab in product.metafields.product.tab_title %}
+            {% assign tab_index = forloop.index | plus: 1 %}
+            <div class="tab-selector" data-tab="{{ tab_index }}">{{ tab }}</div>
+        {% endfor %}
+    </div>
+    <div class="tab-content">
+        <div class="tab tab-1 active">
+            <div class="rte">
+                {{product.description}}
+            </div>
+        </div>
+        {% for tab in product.metafields.product.tab_content %}
+            {% assign tab_index = forloop.index | plus: 1 %}
+            <div class="tab tab-{{ tab_index }}">
+                <div class="rte">
+                    {{tab}}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div><!-- product-tabs -->
+<div class="product-tabs-mobile">
+    <div class="accordion-container">
+        <div class="accordion-item active" data-group="description">
+            <div class="accordion-title" data-group="description">
+                <h3>{{ 'products.product_tabs.product_description' | t }}</h3>
+                <span class="icon-plusminus"></span>
+            </div><!-- accordion-title -->
+            <div class="accordion-content" data-group="description">
+                <div class="rte">
+                    {{product.description}}
+                </div>
+            </div><!-- accordion-content -->
+        </div><!-- accordion-item -->
+        {% for tab_title in product.metafields.product.tab_title %}
+            <div class="accordion-item " data-group="description">
+                <div class="accordion-title" data-group="description">
+                    <h3>{{ tab_title }}</h3>
+                    <span class="icon-plusminus"></span>
+                </div><!-- accordion-title -->
+                <div class="accordion-content" data-group="description">
+                    <div class="rte">
+                        {{ product.metafields.product.tab_content[forloop.index0] }}
+                    </div>
+                </div><!-- accordion-content -->
+            </div><!-- accordion-item -->
+        {% endfor %}
+    </div><!-- accordion-container -->
+</div><!-- product-tabs -->

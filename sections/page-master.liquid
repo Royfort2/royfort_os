@@ -1,0 +1,56 @@
+<header class="page-header-page">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                {% render 'full-breadcrumbs' %}
+            </div>
+        </div>
+        <div class="row content align-items-end">
+            <div class="col-12 text-center">
+                <h1>{{page.title}}</h1>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div id="template-page" class="mb-5 mt-3 mt-lg-5">
+
+    <section class="sidebar-content col-lg-4 mb-5 mb-lg-0">
+        <div class="side">
+            <div class="side-content">
+                {% for menu_item in section.settings.sidebar_menu.links %}
+                    {% if menu_item.url == page.url %}
+                        <div class="active">
+                    {% endif %}
+                    <a href="{{ menu_item.url }}">{{ menu_item.title }}</a>
+                    {% if menu_item.url == page.url %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section class="col-lg-8 main-body-content page-template-section">
+        {% if page.metafields.content_page.page_content_title != blank %}
+            <h2 class="text-primary mb-5">{{ page.metafields.content_page.page_content_title }}</h2>
+        {% endif %}
+        <div class="page-container rte">
+            {{page.content}}
+        </div>
+    </section><!-- main-body-content -->
+
+</div>
+
+{% schema %}
+{
+  "name": "Page Master",
+	"settings": [
+        {
+            "type": "link_list",
+            "id": "sidebar_menu",
+            "label": "Sidebar Menu"
+        }
+    ]
+}
+{% endschema %}

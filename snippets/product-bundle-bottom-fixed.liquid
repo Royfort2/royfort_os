@@ -1,0 +1,25 @@
+{% assign product_bundle = page.metafields.bundle.product | first %}
+{% assign product = all_products[product_bundle] %}
+{% assign current_variant_loop = product.selected_or_first_available_variant %}
+{% assign current_inventory = current_variant_loop.inventory %}
+{% if current_variant_loop.inventory_policy == 'continue' %}
+  {% assign current_inventory = 999 %}
+{% endif %}
+{% if current_inventory == blank %}
+  {% assign current_inventory = 0 %}
+{% endif %}
+<div class="product-bottom-bar">
+
+  <h2 class="product-title main-product-title">{{product.title}}</h2>
+
+  <div class="product-price">
+    <span class="money title-font text-primary">{{ current_variant.price | money }}</span>
+    <span class="original-price money title-font">
+      {% if current_variant.compare_at_price > current_variant.price %}
+        {{current_variant.compare_at_price | money }}{% endif %}
+    </span>
+  </div>
+
+  <button type="button" class="dummy--basket bottom-fixed-button btn btn-primary" data-dummy="-basket"></button>
+
+</div>

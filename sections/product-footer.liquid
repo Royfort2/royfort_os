@@ -1,0 +1,90 @@
+{% if settings.hide_contact_banner == false %}
+<div class="container-fluid">
+    <div class="product-footer py-5">
+        <div class="product-footer-row">
+            <h3 class="mb-3 text-secondary text-center text-20">{{section.settings.product_footer_title}}</h3>
+            <p class="mb-5 text-secondary text-center text-12">{{section.settings.product_footer_undertitle}}</p>
+            <div class="row">
+                {% for block in section.blocks %}
+                    {% case block.type %}
+                        {% when 'product-footer' %}
+                        <div class="product-footer-block">
+                            <h4 class="text-secondary">{{block.settings.title}}</h4>
+                            <div class="rte">{{ block.settings.content }}</div>
+                        </div>
+                    {% endcase %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!--
+<script>
+window.addEventListener('DOMContentLoaded', function(){
+
+    //SH: Keep thumbnails positioned when clicked
+    $('#product-thumbnails .thumbnail-image').click(function(e) {
+        setActiveThumb();
+    });
+
+    //SH: Swatches
+    $('.product-swatch .swatch-value').click(function(e) {
+        getActiveThumb();
+    });
+
+    //SH: check for currently active thumbnail position, wait for current pos
+    function getActiveThumb(){
+        window.setTimeout(function () {
+            window.thumbnailPosition = $('#product-thumbnails .thumbnail-image.slick-active:not(.delete-from-mobile)').filter(':first').attr('data-image-position');
+            console.log('Active Pos: ' + window.thumbnailPosition); 
+        }, 100);
+    }
+
+    //SH: Keep thumbnails positioned when clicked
+    function setActiveThumb(){ 
+        console.log('Clicked Pos: ' + window.thumbnailPosition);
+        //$('#product-thumbnails').slick('slickGoTo',window.thumbnailPosition);      
+    }
+
+});
+</script>
+-->
+
+
+{% schema %}
+{
+    "name": "Grey Footer",
+    "settings": [
+        {
+            "type": "text",
+            "id": "product_footer_title",
+            "label": "Footer Title"
+        },
+        {
+            "type": "text",
+            "id": "product_footer_undertitle",
+            "label": "Footer Undertitle"
+        }
+    ],
+    "blocks": [
+        {
+            "type": "product-footer",
+            "name": "Product Footer Block",
+            "settings": [
+                {
+                    "type":      "text",
+                    "id":        "title",
+                    "label":     "Title"
+                },
+                {
+                    "type":      "richtext",
+                    "id":        "content",
+                    "label":     "Content"
+                }
+            ]
+        }
+    ]
+}
+{% endschema %}

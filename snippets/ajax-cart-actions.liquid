@@ -1,0 +1,100 @@
+<div class="ajax-cart__actions">
+
+  <p class="ajax-cart__delivery-message">{{ 'general.minicart.delivery_message' | t }}</p>
+
+  <div class="ajax-cart__total" style="align-items: unset">
+    <span class="text-18 text-secondary title-font text-bold-500">{{ 'general.minicart.subtotal' | t }}:</span>
+    <span class="text-18 text-primary title-font ajax-cart__price" style="text-align: right">{{ cart.total_price | money }} <br/>
+
+
+
+    </span>
+
+    {% assign total_cart_item_price = 0 %}
+    {% assign total_cart_compare_price = 0 %}
+
+
+    {%- assign totalPr = 0 -%}
+
+    {% for item in cart.items%}
+
+
+      {% assign total_cart_item_price = total_cart_item_price | plus: item.price %}
+
+      {% if item.variant.compare_at_price  > item.price  %}
+
+        {% assign compare_price = item.variant.compare_at_price | times: item.quantity %}
+        {% assign totalPr = totalPr | plus: compare_price %}
+
+      {%- else -%}
+
+        {% assign added = item.price | times: item.quantity %}
+        {% assign totalPr = totalPr | plus: added %}
+
+      {%- endif -%}
+
+
+
+    {% endfor %}
+
+    {% assign saving = totalPr | minus: cart.total_price  | times: 100 | divided_by: totalPr %}
+
+    {% assign percentage = saving | at_least: percentage %}
+
+  </div>
+
+  <div style="display: flex; justify-content: flex-end;">
+    <span class="total-compare-price compare-at-price" style='font-family: "ArizonaMix", serif !important'>
+      {%- if totalPr == cart.total_price -%}
+        {%- else -%}
+          {{totalPr | money}}
+      {%- endif -%}
+    </span>
+    {%- comment -%}
+      <span style="color: #FFC42F; margin-left: 20px" class="prova-percentage">
+      {%- if totalPr == cart.total_price -%}
+      {%- else -%}
+      - {{percentage}}%
+      {%- endif -%}
+      </span>
+    {%- endcomment -%}
+  </div>
+
+
+  <div class="ajax-cart__total">
+    <span class="text-12 text-secondary body-font">{{ 'general.minicart.shipping' | t }}:</span>
+    <span class="text-12 text-secondary body-font">{{ 'general.minicart.calculated_at_checkout' | t }}</span>
+  </div>
+
+  <a href="/checkout" class="btn btn-primary btn-100">{{ 'general.minicart.proceed' | t }}</a>
+  <br>
+
+
+  {% if settings.hide_coupon_box_cart == false %}
+
+    <div class="cart-promo">
+      <input type="text" id="devPromo" placeholder="{{ 'custom.coupon' | t }}">
+      <a href="#" id="redeemBtn">{{ 'custom.submit_coupont' | t }}</a>
+    </div>
+    <script>
+      document.querySelector('#redeemBtn').addEventListener('click', function(event) {
+        event.preventDefault();
+        redirectWithCoupon()
+      });
+      document.querySelector('#devPromo').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          redirectWithCoupon();
+        }
+      });
+      function redirectWithCoupon() {
+        var theUrl = '/checkout?discount=';
+        var theDiscount = document.querySelector('#devPromo').value;
+        var toRedirect = theUrl + theDiscount;
+        window.location.href = toRedirect;
+      }
+    </script>
+
+  {%endif%}
+
+
+</div>

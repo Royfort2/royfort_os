@@ -1,0 +1,471 @@
+<header class="page-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                {% render 'full-breadcrumbs' %}
+            </div>
+        </div>
+        <div class="row align-items-end">
+            <div class="d-none d-lg-block col-lg-3">
+                {% render 'mini-breadcrumbs' %}
+            </div>
+            <div class="col-12 col-lg-6 text-center">
+                <h1>{{page.title}}</h1>
+            </div>
+            <div class="d-none d-lg-block col-lg-3"></div>
+        </div>
+    </div>
+</header>
+
+<div id="template-page-order">
+
+{% if section.settings.show_content_section %}
+<section class="main-body-content page-template-section" style="order:{{section.settings.content_position}};">
+    <div class="page-container rte">
+        {{page.content}}
+    </div>
+</section><!-- main-body-content -->
+{% endif %}
+
+{% if section.settings.show_faq_section %}
+<section id="page-faqs" class="page-container page-template-section" style="order:{{section.settings.faq_position}};">
+    <div class="accordion-container">
+    {% if section.settings.faq_title != blank %}<h2 class="sub-title">{{section.settings.faq_title}}</h2>{% endif %}
+    {% if section.settings.intro_faq != blank %}<div class="intro-faq rte">{{section.settings.intro_faq }}</div>{% endif %}
+
+    {% for block in section.blocks %}
+    {% case block.type %}
+    {% when 'faq' %}
+
+    <div class="accordion-item">
+        <div class="accordion-title">
+            <h3>{{block.settings.title}}</h3>
+            <span class="icon-plusminus"></span>
+        </div><!-- accordion-title -->
+        <div class="accordion-content">
+            <div class="rte">
+                {{block.settings.richtext}}
+            </div>
+        </div><!-- accordion-content -->
+    </div><!-- accordion-item -->
+
+    {% endcase %}
+    {% endfor %}
+
+    </div><!-- accordion-container -->
+</section><!-- page-faqs -->
+{% endif %}
+
+{% if section.settings.show_split_section %}
+<section id="split-content" class="page-template-section{% if section.settings.sc_section_background_colour != "rgba(0,0,0,0)" %} background-padding{% endif %}" style="order:{{section.settings.split_position}}; background-color:{{section.settings.sc_section_background_colour}}">
+    <div class="page-container">
+        {% for block in section.blocks %}
+        {% case block.type %}
+        {% when 'split-content' %}
+
+        <div class="split-content-item {{block.settings.block_layout}}{% unless block.settings.image %} no-image{% endunless %}">
+            {% if block.settings.image %}
+            <div class="image">
+                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{{block.settings.image | img_url: '550x'}}" class="lazyload img-fluid" title="{{block.settings.title}}">
+            </div><!-- image -->
+            {% endif %}
+            <div class="content">
+                {% if block.settings.title != blank %}<h3>{{block.settings.title}}</h3>{% endif %}
+                <div class="rte">
+                    {{block.settings.content}}
+                </div><!-- rte -->
+            </div><!-- content -->
+        </div>
+
+        {% endcase %}
+        {% endfor %}
+    </div><!-- page-container -->
+</section><!-- split-content -->
+{% endif %}
+
+
+{% if section.settings.show_logolisting_section %}
+<section id="logo-listing" class="page-template-section" style="order:{{section.settings.logolisting_position}};">
+    <div class="page-container">
+        {% if section.settings.logolisting_title != blank %}<h3 class="logo-listing-title">{{section.settings.logolisting_title}}</h3>{% endif %}
+        <div class="logo-listing-container">
+
+        {% for block in section.blocks %}
+        {% case block.type %}
+        {% when 'logolisting' %}
+            <div class="logo-listing-item">
+            {% if block.settings.url != blank %}<a href="{{block.settings.url}}" class="listing-link">{% else %}<div class="listing-link">{% endif %}
+                <div class="image">
+                    <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{{block.settings.image | img_url: '150x'}}" class="lazyload img-fluid" title="{{block.settings.title}}">
+                </div>
+                {% if block.settings.title != blank %}<span class="item-title">{{block.settings.title}}</span>{% endif %}
+            {% if block.settings.url != blank %}</a>{% else %}</div>{% endif %}
+            </div>
+        {% endcase %}
+        {% endfor %}
+    
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% if section.settings.show_recentlyviewed_section %}
+<section class="product-list-container recently-viewed-products d-none page-template-section" style="order:{{section.settings.recentlyviewed_position}};" data-image-ratio="{{section.settings.ratio}}">
+    <h3>{{section.settings.recently_viewed_products_title}}</h3>
+    <div class="product-list-row inline-slick" data-slick='{"slidesToShow": 2, "slidesToScroll": 1, "touchThreshold": 15, "dots":false, "arrows":true, "mobileFirst": true, "infinite": true, "responsive":[{"breakpoint": 767,"settings":{"slidesToShow": 3, "slidesToScroll": 1 }},{"breakpoint": 992,"settings":{"slidesToShow": 4, "slidesToScroll": 1 }}]}'>
+    </div>
+</section>
+{% endif %}
+
+{% if section.settings.show_content_two_section %}
+<section class="main-body-content page-template-section" style="order:{{section.settings.content_two_position}};">
+    <div class="page-container rte">
+        {{section.settings.html_content_two}}
+    </div>
+</section><!-- main-body-content -->
+{% endif %}
+
+{% if section.settings.show_content_three_section %}
+<section class="main-body-content page-template-section" style="order:{{section.settings.content_three_position}};">
+    <div class="page-container rte">
+        {{section.settings.html_content_three}}
+    </div>
+</section><!-- main-body-content -->
+{% endif %}
+
+{% if section.settings.show_content_four_section %}
+<section class="main-body-content page-template-section" style="order:{{section.settings.content_four_position}};">
+    <div class="page-container rte">
+        {{section.settings.html_content_four}}
+    </div>
+</section><!-- main-body-content -->
+{% endif %}
+
+</div>
+
+
+{% schema %}
+{
+  "name": "Page Delivery",
+	"settings": [
+        {
+            "type": 		"header",
+            "content": 		"Section Position & Visibility"
+        },
+        {
+            "type": 	"paragraph",
+            "content": 	"The below options will determine were the sections will sit within the Page."
+        },
+        {
+            "type":      "range",
+            "id":        "content_position",
+            "min":       1,
+            "max":       10,
+            "step":      1,
+            "unit":      "pos",
+            "label":     "Page content position",
+            "default":   1
+        },
+        {
+            "type": "checkbox",
+            "id": "show_content_section",
+            "default": true,
+            "label": "Show page content?"
+        },
+        {
+            "type":      "range",
+            "id":        "faq_position",
+            "min":       1,
+            "max":       10,
+            "step":      1,
+            "unit":      "pos",
+            "label":     "FAQ position",
+            "default":   2
+        },
+        {
+            "type": "checkbox",
+            "id": "show_faq_section",
+            "default": true,
+            "label": "Show FAQ?"
+        },
+        {
+            "type":      "range",
+            "id":        "split_position",
+            "min":       1,
+            "max":       10,
+            "step":      1,
+            "unit":      "pos",
+            "label":     "Split content position",
+            "default":   3
+        },
+        {
+            "type": "checkbox",
+            "id": "show_split_section",
+            "default": true,
+            "label": "Show split content?"
+        },
+        {
+            "type":      "range",
+            "id":        "logolisting_position",
+            "min":       1,
+            "max":       10,
+            "step":      1,
+            "unit":      "pos",
+            "label":     "Logo listing position",
+            "default":   4
+        },
+        {
+            "type": "checkbox",
+            "id": "show_logolisting_section",
+            "default": true,
+            "label": "Show logo listing?"
+        },
+        {
+            "type":      "range",
+            "id":        "recentlyviewed_position",
+            "min":       1,
+            "max":       10,
+            "step":      1,
+            "unit":      "pos",
+            "label":     "Recently viewed position",
+            "default":   5
+        },
+        {
+            "type": "checkbox",
+            "id": "show_recentlyviewed_section",
+            "default": true,
+            "label": "Show Recently Viewed?",
+            "info": "If user has not viewed any products, this will remain hidden to the user"
+        },
+        {
+            "type":      "range",
+            "id":        "content_two_position",
+            "min":       1,
+            "max":       10,
+            "step":      1,
+            "unit":      "pos",
+            "label":     "HTML Content 2 position",
+            "default":   6
+        },
+        {
+            "type": "checkbox",
+            "id": "show_content_two_section",
+            "default": false,
+            "label": "Show HTML Content 2?"
+        },
+        {
+            "type":      "range",
+            "id":        "content_three_position",
+            "min":       1,
+            "max":       10,
+            "step":      1,
+            "unit":      "pos",
+            "label":     "HTML Content 3 position",
+            "default":   7
+        },
+        {
+            "type": "checkbox",
+            "id": "show_content_three_section",
+            "default": false,
+            "label": "Show HTML Content 3?"
+        },
+        {
+            "type":      "range",
+            "id":        "content_four_position",
+            "min":       1,
+            "max":       10,
+            "step":      1,
+            "unit":      "pos",
+            "label":     "HTML Content 4 position",
+            "default":   8
+        },
+        {
+            "type": "checkbox",
+            "id": "show_content_four_section",
+            "default": false,
+            "label": "Show HTML Content 4?"
+        },
+        {
+            "type": 	"header",
+            "content": 	"FAQs options"
+        },
+        {
+            "type":      "text",
+            "id":        "faq_title",
+            "label":     "FAQ Title",
+            "default":   "FAQ's"
+        },
+        {
+            "type": "richtext",
+            "id": "intro_faq",
+            "label": "FAQ intro "
+        },
+        {
+            "type": 	"header",
+            "content": 	"Split content options"
+        },
+        {
+            "type": "color",
+            "id": "sc_section_background_colour",
+            "label": "Split content BG Colour",
+            "default": "#FDF7FA"
+        },
+        {
+            "type": 		"header",
+            "content": 		"Logo Listing Options"
+        },
+        {
+            "type": "text",
+            "id": "logolisting_title",
+            "default": "Here are the charities we support",
+            "label": "Logo Listing Title"
+        },
+        {
+            "type": 		"header",
+            "content": 		"Recently Viewed Options"
+        },
+        {
+            "type": "text",
+            "id": "recently_viewed_products_title",
+            "default": "Recently Viewed",
+            "label": "Recently Viewed Products Title"
+        },
+        {
+            "type": 		"header",
+            "content": 		"Product Images Ratio"
+        },
+        {
+            "type": 	"paragraph",
+            "content": 	"Apply a fixed image ratio to the Product Listing"
+        },
+        {
+            "type":         "select",
+            "id":           "ratio",
+            "label":        "Fixed Ratio?",
+            "options": [
+                {
+                    "value": "fixed-ratio square-crop",
+                    "label": "Square (4x4 Cropped)"
+                },
+                {
+                    "value": "fixed-ratio square",
+                    "label": "Square (4x4)"
+                },
+                {
+                    "value": "fixed-ratio portrait-crop",
+                    "label": "Portrait (4x5 Cropped)"
+                },
+                {
+                    "value": "fixed-ratio portrait",
+                    "label": "Portrait (4x5)"
+                },
+                {
+                    "value": "",
+                    "label": "No Set Ratio"
+                }
+            ],
+            "default":   "fixed-ratio square"
+        },
+        {
+            "type": 		"header",
+            "content": 		"Additional HTML Content"
+        },
+        {
+            "type": "html",
+            "id": "html_content_two",
+            "label": "HTML Content Two"
+        },
+        {
+            "type": "html",
+            "id": "html_content_three",
+            "label": "HTML Content Three"
+        },
+        {
+            "type": "html",
+            "id": "html_content_four",
+            "label": "HTML Content Four"
+        }
+	],
+    "blocks": [
+        {
+            "type": "faq",
+            "name": "FAQ",
+            "settings": [
+                {
+                    "type":      "text",
+                    "id":        "title",
+                    "label":     "Title"
+                },
+                {
+                    "type":      "richtext",
+                    "id":        "richtext",
+                    "label":     "Content"
+                }
+            ]
+        },
+        {
+            "type": "logolisting",
+            "name": "Logo Listing",
+            "settings": [
+                {
+                    "type": "image_picker",
+                    "id": "image",
+                    "label": "Logo"
+                },
+                {
+                    "type":      "text",
+                    "id":        "title",
+                    "label":     "Title"
+                },
+                {
+                    "id": "url",
+                    "type": "url",
+                    "label": "Link"
+                }
+            ]
+        },
+        {
+            "type": "split-content",
+            "name": "Split content",
+            "settings": [
+                {
+                    "type": 	"header",
+                    "content": 	"Block apperance"
+                },
+                {
+                    "type":      "select",
+                    "id":        "block_layout",
+                    "label":     "Layout",
+                    "options": [
+                        {
+                            "value": "image_content",
+                            "label": "Image / Content"
+                        },
+                        {
+                            "value": "content_image",
+                            "label": "Content / Image"
+                        }
+                    ],
+                    "default":   "image_content"
+                },
+                {
+                    "type": "image_picker",
+                    "id": "image",
+                    "label": "Image",
+                    "info": "If image is not present, the content will render at full width"
+                },
+                {
+                    "type":      "text",
+                    "id":        "title",
+                    "label":     "Title"
+                },
+                {
+                    "type":      "richtext",
+                    "id":        "content",
+                    "label":     "Content"
+                }
+            ]
+        }
+    ]
+}
+{% endschema %}

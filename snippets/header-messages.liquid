@@ -1,0 +1,85 @@
+{% assign is_there_a_message = 0 %}
+{% for block in section.blocks %}
+  {% case block.type %}
+    {% when 'text_message' %}
+    {% assign is_there_a_message = is_there_a_message | plus: 1 %}
+  {% endcase %}
+{% endfor %}
+{% if is_there_a_message > 0 %}
+  <div class="header__message">
+    <div class="container">
+
+      <div class="slick header__message-container inline-slick" data-slick='{
+                          "slidesToShow": 2,
+                          "slidesToScroll": 1,
+                          "dots": false,
+                          "arrows": false,
+                          "autoplay": {{ section.settings.slide_autoplay }},
+                          "autoplaySpeed": {{ section.settings.slide_speed_seconds | times: 1000 }},
+                          "infinite": {{ section.settings.slide_infinite }},
+                          "responsive": [
+                            {
+                              "breakpoint": 768,
+                              "settings": {
+                                "slidesToShow": 2
+                              }
+                            },
+                          ]
+                        }'>
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'text_message' %}
+            <div class="header__message-text {% if block.settings.show_on_mobile == false %}d-none{% endif%}">
+              {{ block.settings.featured_heading }}
+            </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+
+    </div>
+    {% if settings.hide_currency_language == false %}
+      {% assign currency_blocks = section.blocks | where: 'type', 'currency_select' %}
+      {% assign locale_blocks = section.blocks | where: 'type', 'locale_select' %}
+      {% if currency_blocks.size > 0 or locale_blocks.size > 0 %}
+        <div class="currency-locale-selector">
+          <div class="select-container">
+            <select class="currency-selector">
+              {% for block in currency_blocks %}
+                {% if block.type == 'currency_select' %}
+                  <option value="{{ block.settings.code }}">{{ block.settings.label }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+          <div class="select-container">
+            <select class="locale-selector">
+              {% for block in locale_blocks %}
+                {% if block.type == 'locale_select' %}
+                  <option value="{{ block.settings.code }}">{{ block.settings.label }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+{% else %}
+  <style>
+    .product-detail-row {
+      margin-top: 15px;
+    }
+
+    @media only screen and (min-width: 992px) {
+      .sticky-top {
+        top: 20px;
+      }
+    }
+
+    @media only screen and (max-width: 991px) {
+      .product-detail-row {
+        margin-top: -25px;
+      }
+    }
+  </style>
+{% endif %}

@@ -1,0 +1,206 @@
+
+<div class="position-relative">
+    <header class="page-header blog-header" style="background-image: linear-gradient(90deg, rgba(246,246,246,1) 0%, rgba(246,246,246,1) 30%, rgba(246,246,246,0) 90%), url('{{ section.settings.header_image.src | img_url: '1920x'}}')">
+        <div class="container-fluid fill-parent">
+            <div class="breadcrumbs">{% render 'full-breadcrumbs' %}</div>
+            <div class="reviews-header-content row">
+                <div class="col-12">
+                    <h1 class="reviews-page-title text-left text-uppercase">{{page.title}}</h1>
+                    <p class="undertitle">{{ section.settings.undertitle }}</p>
+                </div>
+            </div>
+        </div>
+    </header>
+</div>
+
+<div class="container-fluid">
+    <div id="main-reviews-page" class="section-main-reviews" style="padding:0;">
+        <template data-template="stamped-review-product-main">
+            <div class="product-review">
+                <div>
+                    <div class="rating">@ratingStars</div>
+                    <div class="title">@title</div>
+                    <div class="name">@name @verified - @date</div>
+                    <div class="content">@content</div>
+                </div>
+                <div class="product">@product</div>
+            </div>
+        </template>
+        <div class="main">
+            <h3 class="text-center">{{ section.settings.title }}</h3>
+            <div class="summary">
+                <p class="total"><span></span> {{ 'general.reviews.reviews' | t }}</p>
+                <p class="total-rating"></p>
+                <p class="total-stars"><span></span> / {{ 'general.reviews.5_stars' | t }}</p>
+            </div>
+            <div id="stamped-main-widget"></div>
+            <!-- <div class="reviews" style="display:block"></div> -->
+            <!-- <div class="text-center">
+                <div class="btn btn-hollow reviews-fetch btn-reviews-fetch-more">{{ 'general.reviews.read_more' | t }}</div>
+                <div id="pagination_link"></div>
+            </div> -->
+        </div>
+    </div>
+</div>
+
+{% comment %} <div class="container-fluid">
+    <div id="main-reviews-page" class="section-main-reviews-page">
+        <template data-template="stamped-review-product-main">
+            <div class="product-review">
+                <div>
+                    <div class="rating">@ratingStars</div>
+                    <div class="title">@title</div>
+                    <div class="name">@name @verified - @date</div>
+                    <div class="content">@content</div>
+                </div>
+                <div class="product">@product</div>
+            </div>
+        </template>
+        <div class="main">
+            <h3 class="text-center">{{ section.settings.title }}</h3>
+            <div class="summary">
+                <p class="total"><span></span> {{ 'general.reviews.reviews' | t }}</p>
+                <p class="total-rating"></p>
+                <p class="total-stars"><span></span> / {{ 'general.reviews.5_stars' | t }}</p>
+            </div>
+            <div class="reviews"></div>
+            <div class="text-center">
+                <div class="btn btn-hollow reviews-fetch btn-reviews-fetch-more">{{ 'general.reviews.read_more' | t }}</div>
+            </div>
+        </div>
+    </div>
+</div> {% endcomment %}
+
+<div class="container-fluid company-blocks">
+    {% for block in section.blocks %}
+        {% if block.type == 'review_company_block' %}
+            <div class="company-block">
+                <a href="{{block.settings.company_link}}">
+                    <img src="{{block.settings.main_image | img_url: '500x'}}" class="img-fluid main-image" data-image-path="" title="{{block.settings.image.alt}}">
+                    <div class="company-logo-wrapper">
+                        <img src="{{block.settings.company_logo | img_url: '300x'}}" class="img-fluid company-logo" data-image-path="" title="{{block.settings.image.alt}}">
+                    </div>
+                    <p>{{block.settings.company_under_logo}}</p>
+                    {% if block.settings.company_cta != blank %}
+                        <span class="featured-menu-cta">{{block.settings.company_cta}}</span>
+                    {% endif %}
+                </a>
+            </div><!-- site-navigation-featured-menu -->
+        {% endif %}
+    {% endfor %}
+</div>
+
+<div class="container-fluid recommended-review">
+    <div class="row py-5">
+        <section class="product-list-container" data-product-id="{{product.id}}" data-image-ratio="{{section.settings.related_products_ratio}}">
+            <h3 class="my-5 text-secondary text-center  you-may-also">{{section.settings.related_products_title}}</h3>
+            <div class="product-list-row inline-slick" data-slick='{"slidesToShow": 2, "slidesToScroll": 1, "touchThreshold": 15, "dots":false, "arrows":true, "mobileFirst": true, "infinite": true, "responsive":[{"breakpoint": 767,"settings":{"slidesToShow": 3, "slidesToScroll": 1 }},{"breakpoint": 992,"settings":{"slidesToShow": 3, "slidesToScroll": 1 }}]}'>
+                {% for block in section.blocks %}
+                    {% if block.type == 'recommended_product' %}
+                        {% render 'product-listing' product: all_products[block.settings.product] %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </section>
+    </div><!-- row -->
+</div>
+
+{% schema %}
+    {
+        "settings": [
+            {
+                "type": "image_picker",
+                "id": "header_image",
+                "label": "Header Image"
+            },
+            {
+                "type": "text",
+                "id": "title",
+                "label": "Title"
+            },
+            {
+                "type": "text",
+                "id": "undertitle",
+                "label": "Undertitle"
+            },
+            {
+                "type": "text",
+                "id": "related_products_title",
+                "default": "You may also like",
+                "label": "Related Products Title"
+            },
+            {
+                "type":         "select",
+                "id":           "related_products_ratio",
+                "label":        "Related & Recently Viewed Products - Fixed Ratio?",
+                "options": [
+                    {
+                        "value": "fixed-ratio square-crop",
+                        "label": "Square (4x4 Cropped)"
+                    },
+                    {
+                        "value": "fixed-ratio square",
+                        "label": "Square (4x4)"
+                    },
+                    {
+                        "value": "fixed-ratio portrait-crop",
+                        "label": "Portrait (4x5 Cropped)"
+                    },
+                    {
+                        "value": "fixed-ratio portrait",
+                        "label": "Portrait (4x5)"
+                    },
+                    {
+                        "value": "",
+                        "label": "No Set Ratio"
+                    }
+                ],
+                "default":   "fixed-ratio square"
+            }
+        ],
+        "blocks": [
+            {
+                "type": "recommended_product",
+                "name": "Recommended Product",
+                "settings": [
+                    {
+                        "type": "product",
+                        "id": "product",
+                        "label": "Product"
+                    }
+                ]
+            },
+            {
+                "type": "review_company_block",
+                "name": "Company Block",
+                "settings": [
+                    {
+                        "type": "image_picker",
+                        "id": "main_image",
+                        "label": "Main Image"
+                    },
+                    {
+                        "type": "image_picker",
+                        "id": "company_logo",
+                        "label": "Company logo"
+                    },
+                    {
+                        "type": "text",
+                        "id": "company_under_logo",
+                        "label": "Company under logo"
+                    },
+                    {
+                        "type": "text",
+                        "id": "company_cta",
+                        "label": "Company CTA"
+                    },
+                    {
+                        "type": "url",
+                        "id": "company_link",
+                        "label": "Company link"
+                    }
+                ]
+            }
+        ]
+    }
+{% endschema %}

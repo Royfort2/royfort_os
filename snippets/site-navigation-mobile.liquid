@@ -1,0 +1,152 @@
+<nav id="site-navigation">
+    <ul class="first-level">
+    {% for block in blocks %}
+        {% if block.type == 'top_level' or block.type == 'top_level_mobile' %}
+
+        <li class="first-level-listing{%if block.settings.submenu != blank %} has-children{% endif %}{% if forloop.first == true %} active{% endif %}">
+            <a href="{{block.settings.first_level_url}}" class="{%if block.settings.submenu != blank %} js-no-transition{% endif %} {% if block.settings.image_mobile != blank %}nav-image-block{% endif %}">
+                {{block.settings.title}}
+                <svg class="icon icon-chevron-right" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.20339 10L0 8.74558L3.60169 5L0 1.25442L1.20339 0L6 5L1.20339 10Z" /></svg>
+                {% if block.settings.image_mobile != blank %}<span class="mobile-image"><img src="{{ block.settings.image_mobile | img_url: '160x120'  }}" data-src="{{ block.settings.image_mobile | img_url: '320x240' }}" class="lazyload"></span>{% endif %}
+            </a>
+            {% if block.settings.submenu != blank %}
+                <ul class="second-level">
+                    <li class="mobile-navigation-header">
+                        <div class="mobile-navigate-back">{% render 'icon-chevron-left' %} {{ 'layout.general.back' | t }}</div>
+                        <span class="mobile-navigation-title"></span>
+                    </li>
+                    {% for second_level in linklists[block.settings.submenu].links %}
+                        <li class="second-level-listing{% if second_level.links != blank%} has-children{% endif %}{% if second_level.active %} current{% endif %}">
+                            {% assign parts = second_level.title | split: "||" %}
+                            {% assign secondLevelTitle = parts[0] %}
+                            <a href="{{ second_level.url }}" class="text-14 {%if second_level.submenu != blank %} js-no-transition{% endif %}">
+                                {{ secondLevelTitle }}
+                                {% if parts[1] %}<span class="nav-description">{{ parts[1] }}</span>{% endif %}
+                                {% if parts[2] %}<span class="nav-label">{{ parts[2] }}</span>{% endif %}
+                                {% render 'icon-chevron-down' %}
+                            </a>
+
+                            {% if second_level.links != blank %}
+                                <div class="site-navigation-megamenu {{second_level.title | handleize}}">
+                                    <ul class="third-level">
+                                        <li class="mobile-navigation-header">
+                                            <span class="mobile-navigate-back"><svg class="icon icon-arrow-left" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.59077 6.07471e-05L7.60197 1.07405L2.73958 6.23836L16 6.23836L16 7.76176L2.73958 7.76176L7.60197 12.9261L6.59077 14.0001L3.0598e-07 7.00006L6.59077 6.07471e-05Z" /></svg></span>
+                                            <span class="mobile-navigation-title"></span>
+                                        </li>
+                                        <li class="third-level-listing"><a href="{{second_level.url}}">All {{second_level.title}}</a></li>
+                                        {% for third_level in second_level.links %}
+                                        <li class="third-level-listing{% if third_level.links != blank %} has-children js-no-transition{% endif %}{% if third_level.active %} current{% endif %}">
+                                            <a href="{{third_level.url}}" class="text-14 {%if third_level.submenu != blank %} js-no-transition{% endif %}">
+                                                {{ third_level.title }}
+                                                {% if third_level.links != blank %}
+                                                <svg class="icon icon-chevron-right" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.20339 10L0 8.74558L3.60169 5L0 1.25442L1.20339 0L6 5L1.20339 10Z" /></svg>
+                                                {% endif %}
+                                            </a>
+                                            {% if third_level.links != blank %}
+                                            {% assign secondLevelCount = second_level.links.size %}
+                                            {% assign thirdLevelCount = third_level.links.size | plus: 1%}
+                                            {% if thirdLevelCount > secondLevelCount %}
+                                                {% assign linksPerColumn = 6 %}
+                                            {% else %}
+                                                {% assign linksPerColumn = secondLevelCount %}
+                                            {% endif %}
+                                            {% if third_level.links.size > linksPerColumn %}
+                                                {% assign menuClass = ' two-column' %}
+                                            {% else %}
+                                                {% assign menuClass = '' %}
+                                            {% endif %}
+                                            <ul class="fourth-level{{menuClass}}">
+                                                <li class="mobile-navigation-header">
+                                                    <span class="mobile-navigate-back"><svg class="icon icon-arrow-left" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.59077 6.07471e-05L7.60197 1.07405L2.73958 6.23836L16 6.23836L16 7.76176L2.73958 7.76176L7.60197 12.9261L6.59077 14.0001L3.0598e-07 7.00006L6.59077 6.07471e-05Z" /></svg></span>
+                                                    <span class="mobile-navigation-title"></span>
+                                                </li>
+                                                <li class="fourth-level-listing"><a href="{{third_level.url}}">All {{third_level.title}}</a></li>
+                                                {% for fourth_level in third_level.links %}
+                                                <li class="fourth-level-listing{% if fourth_level.active %} current{% endif %}">
+                                                    <a href="{{fourth_level.url}}">{{fourth_level.title}}</a>
+                                                </li>
+                                                {% endfor %}
+                                            </ul>
+                                            {% endif %}
+
+                                        </li>
+                                        {% endfor %}
+                                    </ul><!-- third-level-->
+                                    {% if block.settings.display_featured_menu != blank %}
+                                        <div class="navigation-featured-menu">
+                                            <a href="{{block.settings.featured_menu_link}}">
+                                                <img src="{{ 'empty-image.gif' | asset_img_url: '1x' }}" data-image-path="{{block.settings.image | img_url: '320x'}}" class="img-fluid" data-image-path="" title="{{block.settings.image.alt}}">
+                                                <span class="featured-menu-title">{{block.settings.featured_menu_title}}</span>
+                                                {% if block.settings.featured_menu_cta != blank %}
+                                                <span class="featured-menu-cta">{{block.settings.featured_menu_cta}}</span>
+                                                {% endif %}
+                                            </a>
+                                        </div><!-- site-navigation-featured-menu -->
+                                    {% endif %}
+                                </div><!-- site-navigation-megamenu-->
+                            {% endif %}
+
+                        </li><!-- second-level-listing-->
+                    {% endfor %}
+
+                    {% if block.settings.menu_link_button and block.settings.menu_title_button %}
+                        <div class="text-center mt-5">
+                            <a href="{{ block.settings.menu_link_button }}" class="btn btn-primary">{{ block.settings.menu_title_button }}</a>
+                        </div>
+                    {% endif %}
+
+                </ul><!-- second-level -->
+            {% endif %}
+        </li><!-- top-level-listing -->
+
+        {% endif %}
+    {% endfor %}
+    </ul>
+    <ul class="extra-nav">
+        <li class="d-flex d-flex-wrap">
+            {% for block in blocks %}
+            {% case block.type %}
+                {% when 'mobile_below' %}
+                <div class="w-50 p-2">
+                    <a class="btn btn-secondary btn-slim-wide" href="{{block.settings.first_level_url}}">{{ block.settings.title }}</a>
+                </div>
+            {% endcase %}
+            {% endfor %}
+        </li>
+    </ul>
+    {% assign currency_blocks = section.blocks | where: 'type', 'currency_select' %}
+    {% assign locale_blocks = section.blocks | where: 'type', 'locale_select' %}
+
+    <ul id="mobile-navigation-account">
+        {% if settings.hide_account_icons == false %}
+        {% if customer %}
+            <li><a href="/account">Account</a></li>
+        {% else %}
+            <li><a href="/account">Login</a></li>
+        {% endif %}
+        <li>
+            <div class="select-container">
+                <select class="currency-selector">
+                  {% for block in currency_blocks %}
+                    {% if block.type == 'currency_select' %}
+                      <option value="{{ block.settings.code }}">{{ block.settings.label }}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+              </div>
+        </li>
+        <li>
+            <div class="select-container">
+                <select class="locale-selector">
+                  {% for block in locale_blocks %}
+                    {% if block.type == 'locale_select' %}
+                      <option value="{{ block.settings.code }}">{{ block.settings.label }}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+              </div>
+        </li>
+        {% endif %}
+    </ul>
+
+</nav>

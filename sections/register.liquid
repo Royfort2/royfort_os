@@ -1,0 +1,93 @@
+{% render 'full-breadcrumbs' %}
+
+
+<div class="account-wrapper login-wrapper register-wrapper">
+    <div id="createAccount">
+    <form method="post" action="/account" id="create_customer" accept-charset="UTF-8">
+
+            {% if form.errors %}
+                <div class="form-error">
+                    <div class="title">{{'customer.login.error' | t }}</div>
+                    {% for field in form.errors %}
+                        {% if field == 'form' %}
+                            <div class="message">{{ form.errors.messages[field] }}</div>
+                        {% else %}
+                            <div class="message">{{ form.errors.translated_fields[field] }} - {{ form.errors.messages[field] }}</div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <h1>{{ 'customer.register.title' | t }}</h1>
+
+            <div class="inner-form-wrapper">
+
+                <div class="form-group">
+                    <label for="FirstName" class="uppercase bold">
+                    {{ 'customer.register.first_name' | t }}
+                    </label>
+                    <input type="text" name="customer[first_name]" required id="FirstName" placeholder="{{ 'customer.register.first_name' | t }}" autofocus {% if form.first_name %}value="{{ form.first_name }}"{% endif %}>
+                </div>
+
+                <div class="form-group">
+                    <label for="LastName" class="uppercase bold required">
+                    {{ 'customer.register.last_name' | t }}
+                    </label>
+                    <input type="text" name="customer[last_name]" required id="LastName" placeholder="{{ 'customer.register.last_name' | t }}" {% if form.last_name %}value="{{ form.last_name }}"{% endif %}>
+                </div>
+
+                <div class="form-group">
+                    <label for="Email" class="uppercase bold">
+                    {{ 'customer.register.email' | t }}
+                    </label>
+                    <input type="email" name="customer[email]" required id="Email" placeholder="{{ 'customer.register.email' | t }}" class="{% if form.errors contains 'email' %}input-error{% endif %}" value="{% if form.email %}{{ form.email }}{% endif %}" spellcheck="false" autocomplete="off" autocapitalize="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="Password" class="">{{ 'customer.register.password' | t }}</label>
+                    <input type="password" name="customer[password]" required id="Password" placeholder="{{ 'customer.register.password' | t }}">
+                </div>
+
+                <div class="form-group checkbox-input d-none">
+                    <input type="hidden" name="customer[accepts_marketing]" value="" />
+                    <input type="checkbox" id="customer_marketing" name="customer[accepts_marketing]" />
+                    <label for="customer_marketing" class="checkbox-label">{{ 'customer.register.sign_up' | t }}</label>
+                </div>
+
+            <div class="button-wrapper">
+                <input type="submit" value="{{ 'customer.register.action' | t }}" class="btn btn-account">
+                <a href="/account/login">{{ 'customer.register.cancel' | t }}</a>
+            </div>	
+
+            </div>
+            
+        </div>
+    </form>
+    </div>
+</div>
+
+<script>
+  document.getElementById("create_customer").addEventListener("submit", async (e) => {
+      const first_name = $("#FirstName").val();
+      const last_name = $("#LastName").val();
+      const email = $("#Email").val();
+      dataLayer.push({ ecommerce: null });
+      dataLayer.push({
+        event: "dl_registration",
+        customer: {
+          customer_id: undefined,
+          email,
+          first_name,
+          last_name,
+          phone: undefined,
+          order_count: undefined,
+          total_spent: undefined,
+          customer_id_hash: undefined,
+          first_name_hash: await sha256(first_name),
+          last_name_hash: await sha256(last_name),
+          email_hash: await sha256(email),
+          phone_hash: undefined,
+        }
+      })
+    })
+</script>

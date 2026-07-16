@@ -1,0 +1,99 @@
+{% if section.settings.show_section %}
+
+    <div class="about-featured-images" style="background:{{section.settings.background_colour}}">
+        {% if section.settings.title != blank %} <div class="title">{{section.settings.title}}</div>{% endif %}
+        {% if section.settings.description != blank %} <div class="description rte">{{section.settings.description}}</div>{% endif %}
+
+        <div class="featured-images-wrapper inline-slick" data-slick='{"slidesToShow": 1.1, "slidesToScroll": 1, "touchThreshold": 15, "dots":{% if section.blocks.size < 2%}false{% else %}true{% endif%}, "arrows":true, "mobileFirst": true, "infinite": false, "responsive":[{"breakpoint": 992,"settings":{% if section.settings.desktop_carousel == true %}{"slidesToShow": 1, "slidesToScroll": 1 }{% else %}"unslick"{% endif %}}]}'>
+            {% for block in section.blocks %}
+                <div class="featured-image">
+                    <div class="inner-featured-image">
+                        {% if block.settings.title %}<div class="title">{{block.settings.title}}</div>{% endif %}
+                        <div class="image-wrapper">
+                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{{ block.settings.image | img_url: '600x' }}" class="lazyload img-fluid" alt="{{ block.settings.image.alt }}">
+                        </div>
+                        {% if block.settings.description %}<div class="description rte">{{block.settings.description}}</div>{% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="slide-count {% if section.settings.desktop_carousel == true %}d-lg-flex{% else %}d-lg-none{% endif %} {% if section.blocks.size < 2%}d-none{% endif%}"></div>
+
+        {% if section.settings.cta_text != blank and section.settings.cta_link != blank %}
+            <a class="btn btn-account" href="{{section.settings.cta_link}}">{{section.settings.cta_text}}</a>
+        {% endif %}
+    </div>
+
+{% endif %}
+
+{% schema %}
+{
+"name":   "Featured Images",
+"settings": [
+    {
+        "type": "checkbox",
+        "id": "show_section",
+        "label": "Show section",
+        "default": true
+    },
+    {
+        "type": "color",
+        "id": "background_colour",
+        "label": "Background Colour",
+        "default": "#fff"
+    },
+    {
+		"type": 		"text",
+		"id": 			"title",
+      	"label": 		"Title"
+    },
+    {
+		"type": 		"richtext",
+		"id": 			"description",
+      	"label": 		"Description"
+    },
+    {
+        "type": "checkbox",
+        "id": "desktop_carousel",
+        "label": "Desktop Carousel?",
+        "default": false
+    },
+    {
+        "type":      "text",
+        "id":        "cta_text",
+        "label":     "CTA Text",
+        "default":   "Shop"
+    },
+    {
+        "type":      "url",
+        "id":        "cta_link",
+        "label":     "CTA Link"
+    }
+],
+"blocks": [
+    {
+        "type": "featured_item",
+        "name": "Featured Item",
+        "settings": [
+            {
+                "type": 		"text",
+                "id": 			"title",
+                "label": 		"Title"
+            },
+            {
+                "type": "image_picker",
+                "id": "image",
+                "label": "Image",
+                "info": "Image aspect ratio should be 2:1"
+            },
+            {
+                "type": 		"richtext",
+                "id": 			"description",
+                  "label": 		"Description"
+            }
+        ]
+    }
+]
+}
+{% endschema %}

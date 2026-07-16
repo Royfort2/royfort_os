@@ -1,0 +1,5 @@
+<ul class="account-sidebar-navigation">
+    {% for link in linklists.account-sidebar.links %}
+        <li><a href="{{link.url}}" class="btn {% if link.active %}btn-primary{% else %}btn-account{% endif %}">{{link.title}}</a></li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,124 @@
+{% assign combo_products = '' %}
+
+{% assign color_tags = '' %}
+{% assign collection_combined = null %}
+
+{% assign color_tag = null %}
+
+{% for collection in product.collections %}
+    {% if collection.template_suffix == 'combo-product' %}
+        {% assign collection_combined = collection %}
+        {% break %}
+    {% endif %}
+{% endfor %}
+{% for tag in product.tags %}
+    {% if tag contains 'farbe_' %}
+        {% assign color_tag = tag | split: '_' | last %}
+        {% break %}
+    {% endif %}
+{% endfor %}
+{% if color_tag == null %}
+    {% assign collection_combined = null %}
+{% endif %}
+{% if collection_combined != null %}
+    {% for combo_product in collection_combined.products  %}
+        {% assign color_tag = null %}
+        {% for tag in combo_product.tags %}
+            {% if tag contains 'farbe_' %}
+                {% assign color_tag = tag | split: '_' | last %}
+                {% break %}
+            {% endif %}
+        {% endfor %}
+        {% if color_tag != null %}
+            {% assign combo_products = combo_products | append: combo_product.handle | append: '|' %}
+            {% assign color_tags = color_tags | append: color_tag | append: '|' %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+{% if combo_products == '' or color_tags == '' %}
+    {% render 'product-main' %}
+{% else %}
+    {% assign combo_products = combo_products | split: '|' %}
+    {% assign color_tags = color_tags | split: '|' %}
+    {% render 'product-combined' %}
+    {% for handle in combo_products %}
+        {% assign combo_product = all_products[handle] %}
+        {% if combo_product.tags contains 'combined-description' %}
+            {% assign product = combo_product %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Product pages",
+        "settings": [
+            {
+                "type": 		"header",
+                "content": 		"Main Image"
+            },
+            {
+                "type":         "select",
+                "id":           "main_ratio",
+                "label":        "Main Image - Fixed Ratio?",
+                "options": [
+                    {
+                        "value": "fixed-ratio square-crop",
+                        "label": "Square (4x4 Cropped)"
+                    },
+                    {
+                        "value": "fixed-ratio square",
+                        "label": "Square (4x4)"
+                    },
+                    {
+                        "value": "",
+                        "label": "No Set Ratio"
+                    }
+                ],
+                "default":   "fixed-ratio square"
+            },
+            {
+                "type": 		"header",
+                "content": 		"Thumbnail Image"
+            },
+            {
+                "type":         "select",
+                "id":           "thumbnail_ratio",
+                "label":        "Thumbnail Image - Fixed Ratio?",
+                "options": [
+                    {
+                        "value": "fixed-ratio square-crop",
+                        "label": "Square (4x4 Cropped)"
+                    },
+                    {
+                        "value": "fixed-ratio square",
+                        "label": "Square (4x4)"
+                    },
+                    {
+                        "value": "",
+                        "label": "No Set Ratio"
+                    }
+                ],
+                "default":   "fixed-ratio square"
+            },
+            {
+                "type": "text",
+                "id": "under_button_message",
+                "label": "Under add to cart message",
+                "default": "*Kostenloser Versand*"
+            },
+                {
+                "type": "color",
+                "id": "pdc_color",
+                "label": "Product discount code font color",
+                "default": "#000000"
+            },
+            {
+                "type": "text",
+                "id": "product_discount_code",
+                "label": "Product discount code (visible on all PDPs)"
+            }
+	    ]
+    }
+{% endschema %}

@@ -1,0 +1,62 @@
+{% render 'full-breadcrumbs' %}
+
+<div class="account-outer-wrapper">
+
+	<h1>{{'customer.orders.order_number' | t }} {{ order.name }}</h1> <a class="log-out" href="/account/logout">{{'customer.account.log_out' | t }}</a>
+
+	<section class="account-main">
+
+		<aside class="account-sidebar"> {% render 'account-sidebar' %} </aside>
+
+		<div class="order-details">
+
+			<div class="item" data-column="{{'customer.orders.order_date' | t }}">{{ order.created_at | date: '%d/%m/%Y' }}</div>
+			<div class="item" data-column="{{'customer.orders.order_items' | t }}">{{ order.line_items.size }}</div>
+			<div class="item" data-column="{{'customer.orders.order_status' | t }}">{% if order.cancelled %}{{order.cancel_reason_label}}{% else %}{{ order.fulfillment_status_label }}{% endif %}</div>
+			<div class="item" data-column="{{'customer.orders.order_tracking' | t }}"><a href="{{order.order_status_url}}">{{ order.order_number }}</a></div>
+			<div class="item" data-column="{{'customer.orders.shipping' | t }}">{{ order.shipping_address | format_address }}</div>
+			<div class="item" data-column="{{'customer.orders.shipping_method' | t }}">{{ order.shipping_methods }}</div>
+			<div class="item" data-column="{{'customer.order.subtotal' | t }}">{{ order.subtotal_price | minus: order.tax_price | money }}</div>
+			<div class="item" data-column="{{'customer.order.shipping' | t }}">{{ order.shipping_price | money }}</div>
+			<div class="item" data-column="{{'customer.order.tax' | t }}">{{ order.tax_price | money }}</div>
+			<div class="item" data-column="{{'customer.order.total' | t }}">{{order.total_price | money}}</div>
+
+			<div class="order-products"> {% for line_item in order.line_items %}
+				<div class="account-order-product">
+					<div class="image">
+						<div class="fixed-ratio portrait"> <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{{ line_item.image | img_url: '300x' }}" class="lazyload img-fluid" alt="{{ line_item.image.alt }}"> </div>
+					</div>
+					{%- case shop.permanent_domain -%}
+
+					{%- comment %}
+					DE store
+					{% endcomment -%}
+					{%- when 'bw2016.myshopify.com' -%}
+					{%- assign duvetcover = ' Deckenbezug' -%}
+
+					{%- comment %}
+					CH store
+					{% endcomment -%}
+					{%- when 'royfort-ch.myshopify.com' -%}
+					{%- assign duvetcover = ' Deckenbezug' -%}
+
+					{%- comment %}
+                    Other store
+                    {% endcomment -%}
+                    {%- else -%}
+					{%- assign duvetcover = ' Duvet Cover' -%}
+					{%- endcase -%}
+
+                    {%- capture product_title %}{{ line_item.product.title }}{% endcapture -%}
+                    {%- if product_title contains ' Set' %}{% assign product_title = product_title | replace: ' Set', duvetcover %}{% endif -%}
+
+					<div class="title">{{ product_title }}</div> {% unless line_item.product.has_only_default_variant %} {% for option in line_item.options_with_values %}
+					<div class="option"><span>{{option.name}}:</span> {{ option.value }}</div> {% endfor %} {% endunless %}
+					<div class="option"><span>{{'customer.order.quantity' | t }}</span> {{ line_item.quantity }}</div>
+					<div class="price"> {% if line_item.product.compare_at_price > line_item.price %}<span class="product-price-original"><span class="money">{{ line_item.product.compare_at_price | money }}</span></span>{% endif %} <span class="money bold">{{ line_item.price | money }}</span> </div>
+				</div> {% endfor %} </div>
+		</div>
+
+	</section>
+
+</div>

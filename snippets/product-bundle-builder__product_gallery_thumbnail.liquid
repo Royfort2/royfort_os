@@ -1,0 +1,9 @@
+<div class="pbb-product-gallery-thumbnails-thumbs">
+    <div class="aspect-square">
+        <picture>
+            <source media="(max-width: 767px)" srcset="{{ image | img_url: '70x' }}">
+            <source media="(min-width: 768px)" srcset="{{ image | img_url: '140x' }}">
+            <img src="{{ image | img_url: '140x' }}" class="" alt="{{ image.alt }}" />
+        </picture>
+    </div>
+</div>

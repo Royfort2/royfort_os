@@ -1,0 +1,24 @@
+<section class="newsletter-section">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-md-6 mx-auto">
+            {% if settings.newsletter_title != blank %}<h3>{{settings.newsletter_title}}</h3>{% endif %}
+            <form name="UK-CUST-ShopifyNewsletterSignUp-637456953038387010" class="elq-form" id="form114" action="https://s1782160512.t.eloqua.com/e/f2" method="POST">
+                <input type="hidden" name="elqFormName" value="UK-CUST-ShopifyNewsletterSignUp-637456953038387010">
+                <input name="elqSiteId" type="hidden" value="1782160512">
+                <input type="hidden" name="elqCustomerGUID" value="">
+                <input type="hidden" name="elqCookieWrite" value="0">
+                <input name="elqCampaignId" type="hidden">
+
+                <label for="emailAddress">{{'general.newsletter.label' | t }}</label>
+                <input type="email" name="emailAddress" class="elq-item-input" id="fe915" placeholder="{{'general.newsletter.placeholder' | t}}" required>
+                <button type="submit" class="btn btn-primary">{{'general.newsletter.button' | t }}</button>
+
+                <input name="hiddenField" id="fe921" type="hidden" value="United Kingdom">
+                <input name="hiddenField2" id="fe923" type="hidden" value="Shopify SignUp">
+            </form>
+            {% if settings.newsletter_terms != blank %}<div class="newsletter-info">{{settings.newsletter_terms}}</div>{% endif %}
+            </div><!-- col -->
+        </div><!-- row -->
+    </div><!-- container-fluid -->
+</section>

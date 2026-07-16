@@ -1,0 +1,157 @@
+{% paginate search.results by section.settings.products_per_page %}
+
+<header class="page-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                {% render 'full-breadcrumbs' %}
+            </div>
+        </div>
+        <div class="row align-items-end">
+            <div class="d-none d-lg-block col-lg-3">
+                {% render 'mini-breadcrumbs' %}
+            </div>
+            <div class="col-12 col-lg-6 text-center">
+                <h1>{{ 'general.search.title' | t }}</h1>
+                <span class="search-term">{{search.results_count}} results for "{{ search.terms | escape }}"</span>
+            </div>
+            <div class="d-none d-lg-block col-lg-3"></div>
+        </div>
+    </div>
+</header>
+
+<div class="collection-listing-container">
+	<div class="container-fluid">
+        <section id="collection-main" class="collection-main search-main">
+            <div class="collection-listing search-listing" data-image-ratio="{{section.settings.ratio}}" data-soldout-text="{{'products.product.sold_out' | t}}" data-lowstock-text="{{'products.product.low_stock' | t}}">
+                {% for product in search.results %}
+                    {% render 'product-listing' with product as product %}
+                {% else %}
+                    <p>{{ 'collections.general.no_matches' | t }}</p>
+                {% endfor %}
+            </div><!-- row -->
+            {% render 'pagination' with paginate as paginate, class: 'pagination-bottom' %}
+        </section><!-- col -->
+	</div><!-- container-fluid -->
+</div><!-- Collection Listing -->
+
+{% endpaginate %}
+
+
+
+{% schema %}
+{
+  "name": "Collection",
+  "settings": [
+    {
+        "type": 		"header",
+        "content": 		"Pagination"
+    },
+    {
+        "type": 	"paragraph",
+        "content": 	"How many products should be displayed per page?."
+    },
+    {
+        "type":      "range",
+        "id":        "products_per_page",
+        "min":       6,
+        "max":       42,
+        "step":      3,
+        "label":     "Products Per Page",
+        "default":   30
+    },
+    {
+        "type": 		"header",
+        "content": 		"Filter(s)"
+    },
+    {
+        "type": "select",
+        "id": "filters_open",
+        "options": [
+            { "value": "first", "label": "Open First"},
+            { "value": "open", "label": "Open All"},
+            { "value": "close", "label": "Close All"}
+        ],
+        "label": "Filter Accordion Behaviour"
+    },
+    {
+      	"type": 		"header",
+      	"content": 		"Image Ratio"
+		},
+    {
+        "type": 	"paragraph",
+        "content": 	"Determine the aspect ratio of the product images"
+    },
+    {
+        "type":         "select",
+        "id":           "ratio",
+        "label":        "Fixed Ratio?",
+        "options": [
+            {
+                "value": "fixed-ratio square-crop",
+                "label": "Square (4x4 Cropped)"
+            },
+            {
+                "value": "fixed-ratio square",
+                "label": "Square (4x4)"
+            },
+            {
+                "value": "fixed-ratio portrait-crop",
+                "label": "Portrait (4x5 Cropped)"
+            },
+            {
+                "value": "fixed-ratio portrait",
+                "label": "Portrait (4x5)"
+            },
+            {
+                "value": "",
+                "label": "No Set Ratio"
+            }
+        ],
+        "default":   "fixed-ratio square"
+    }
+    ],
+    "blocks": [
+		{
+			"type": "tag_filters",
+			"name": "Tag Filters",
+			"settings": [
+				{
+				   "type":      "text",
+				   "id":        "title",
+				   "label":     "Filter Name"
+                },
+				{
+                    "type": "textarea",
+                    "id": "filter_tags",
+                    "default": "product_tag_one, product_tag_two",
+                    "label": "Filter Tags",
+                    "info": "List the product tag(s) in full above. Seperate each tag with a comma. This also determines the order of the tags."
+                },
+                {
+                    "type": 		"header",
+                    "content": 		"Tag Appearance"
+                },
+                {
+                    "type": 	"paragraph",
+                    "content": 	"Let's make the tags more user friendly, specify the shared tag prefix below, and we'll remove it. We'll also replace the underscores with spaces. For example, product_tag_smudge_free would simply become 'Smudge Free', if we defined the prefix as 'product_tag_'."
+                },
+                {
+                    "type":      "text",
+                    "id":        "prefix_tag",
+                    "label":     "Tag Prefix",
+                    "default":   "product_tag_"
+                },
+                {
+                    "type": 		"header",
+                    "content": 		"Important"
+                },
+                {
+                    "type": 	"paragraph",
+                    "content": 	"If none of the products from the collection match the tags entered in 'Filter Tags', then this filter will not display."
+                }
+			]
+        }
+    ]
+}
+{% endschema %}

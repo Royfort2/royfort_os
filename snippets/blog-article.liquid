@@ -1,0 +1,35 @@
+<article class="blog-listing">
+    <a href="{{ article.url }}" class="article-link">
+    <div class="blog-listing-image">
+        {% if article.image %}
+            <img class="img-fluid lazyload" src="{{article.image.src | img_url: '330x' }}" data-src="{{ article.image.src | img_url: '600x' }}" data-srcset="{{ article.image.src | img_url: '600x' }} 600w" data-sizes="auto" alt="{{ article.title }}">
+        {% else %}
+            {{ 'image' | placeholder_svg_tag: 'd-block image-placeholder img-fluid' }}
+        {% endif %}
+    </div>
+
+    <div class="blog-listing-content">
+
+        {% if article.tags.size > 0 %}
+        <ul class="blog-listing-tags">
+        {% for tag in article.tags %}
+        <li>{{ tag }}{% unless forloop.last %}, {% endunless %}</li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+
+        <header><h3>{{ article.title }}</h3></header>
+
+        <div class="excerpt rte">
+        {% if article.excerpt.size > 0 %}
+            {{ article.excerpt | strip_html | truncatewords: 15 }}
+        {% else %}
+            {{ article.content | strip_html | truncatewords: 15 }}
+        {% endif %}
+        </div>
+
+        <div class="published rte">{% render 'date', article: article %}</div>
+
+    </div>
+    </a>
+</article>

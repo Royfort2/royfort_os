@@ -1,0 +1,226 @@
+<header class="page-header">
+    <div class="container-fluid p-relative">
+        {% render 'full-breadcrumbs' %}
+        <div class="row">
+            <div class="col-12">
+                <h1 class="mb-3 text-center">{{ page.title }}</h1>
+                <h4 class="body-font text-center text-secondary">{{ section.settings.subtitle }}</h4>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container-fluid product-footer">
+
+    <h3 class="mb-3 text-secondary text-center text-2 text-uppercase">{{ section.settings.methods_title }}</h3>
+    <p class="mb-5 text-secondary text-center text-12">{{ section.settings.methods_description }}</p>
+
+    <div class="row">
+
+        <div class="product-footer-block">
+            <h3 class="text-secondary">{{ section.settings.method1_title }}</h3>
+            <a href="{% if section.settings.method1_url %}{{ section.settings.method1_url }}{% else %}#{% endif %}">{{ section.settings.method1_link }}</a>
+            <br/>
+            <div class="rte">{{ section.settings.method1_description }}</div>
+        </div>
+
+        <div class="product-footer-block">
+            <h3 class="text-secondary">{{ section.settings.method2_title }}</h3>
+            <a href="{% if section.settings.method2_url %}{{ section.settings.method2_url }}{% else %}#{% endif %}">{{ section.settings.method2_link }}</a>
+            <br/>
+            <div class="rte">{{ section.settings.method2_description }}</div>
+        </div>
+
+        <div class="product-footer-block">
+            <h3 class="text-secondary">{{ section.settings.method3_title }}</h3>
+            <div class="rte">{{ section.settings.method3_description }}</div>
+        </div>
+
+    </div>
+</div>
+    
+<div class="contact-us__options">
+
+    <div class="contact-us__faq">
+        <div>
+            {% render 'icon-help' %}
+            <h2>{{ section.settings.faq_title }}</h2>
+            <p>{{ section.settings.faq_description }}</p>
+            <a href="{% if section.settings.faq_url %}{{ section.settings.faq_url }}{% else %}#{% endif %}" class="btn btn-grey">{{ section.settings.faq_link }}</a>
+        </div>
+    </div>
+
+    <div class="contact-us__form">
+        <div>
+
+            {% form 'contact' %}
+
+                <h2>{{ section.settings.form_title }}</h2>
+                <p>{{ section.settings.form_description }}</p>
+
+                <div class="form-feedback">{% if form.posted_successfully? %}{{ 'contact.form.post_success' | t }}{% else %}{{ form.errors | default_errors }}{% endif %}</div><!-- form-feedback -->
+
+                <div class="form-group-name">
+                <div class="form-group">
+                    <label for="ContactFormName" class="required">{{ 'contact.form.name' | t }}</label>
+                    <input type="text" name="contact[name]" id="ContactFormName" placeholder="{{ 'contact.form.name' | t }}" value="{% if form[name] %}{{ form[name] }}{% elsif customer %}{{ customer.name }}{% endif %}" required>
+                </div><!-- form-group-->
+
+                <div class="form-group">
+                    <label for="ContactFormEmail" class="required">{{ 'contact.form.email' | t }}</label>
+                    <input type="email" name="contact[email]" id="ContactFormEmail" placeholder="{{ 'contact.form.email' | t }}" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" spellcheck="false" autocapitalize="off" required>
+                </div>
+
+                <div class="form-group">
+                <label for="ContactFormMessage">{{ 'contact.form.message' | t }}</label>
+                    <textarea rows="10" name="contact[body]" id="ContactFormMessage" placeholder="{{'contact.form.message' | t }}">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+                </div>
+
+                <div class="form-group-actions text-center">
+                    <button type="submit" class="btn btn-tertiary">{{ 'contact.form.send' | t }}</button>
+                </div>
+
+            {% endform %}
+            
+        </div>
+    </div>
+
+</div>
+
+
+{% schema %}
+{
+    "name": "Contact Us",
+    "class": "contact-us",
+    "settings": [
+        {
+            "type": 	"header",
+            "content": 	"Page Title"
+        },
+        {
+            "type":      "text",
+            "id":        "subtitle",
+            "label":     "Page Sub Title",
+            "default":   "Need some help? Why not contact us, our helpers are available 24/7."
+        },
+        {
+            "type": 	"header",
+            "content": 	"Contact Methods"
+        },
+        {
+            "type":      "text",
+            "id":        "methods_title",
+            "label":     "Title",
+            "default":   "Lorem ipsum dolor sit amet"
+        },
+        {
+            "type":      "text",
+            "id":        "methods_description",
+            "label":     "Description",
+            "default":   "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa."
+        },
+        {
+            "type":      "text",
+            "id":        "method1_title",
+            "label":     "Method 1 Title",
+            "default":   "Chat Us"
+        },
+        {
+            "type":      "text",
+            "id":        "method1_link",
+            "label":     "Method 1 Link Title",
+            "default":   "Live Chat"
+        },
+        {
+            "type":      "url",
+            "id":        "method1_url",
+            "label":     "Method 1 URL"
+        },
+        {
+            "type":      "richtext",
+            "id":        "method1_description",
+            "label":     "Method 1 Description",
+            "default":   "<p>Anytime between<br/>0am - 0pm</p>"
+        },
+        {
+            "type":      "text",
+            "id":        "method2_title",
+            "label":     "Method 2 Title",
+            "default":   "Call Us"
+        },
+        {
+            "type":      "text",
+            "id":        "method2_link",
+            "label":     "Method 2 Link Title",
+            "default":   "+49 / (0) 30 2332 7430"
+        },
+        {
+            "type":      "url",
+            "id":        "method2_url",
+            "label":     "Method 2 URL"
+        },
+        {
+            "type":      "richtext",
+            "id":        "method2_description",
+            "label":     "Method 2 Description",
+            "default":   "<p>Anytime between<br/>0am - 0pm</p>"
+        },
+        {
+            "type":      "text",
+            "id":        "method3_title",
+            "label":     "Method 3 Title",
+            "default":   "Our Headquarters"
+        },
+        {
+            "type":      "richtext",
+            "id":        "method3_description",
+            "label":     "Method 3 Description",
+            "default":   "<p>Royfort UG (limited liability)<br/>Ebertystrasse 27<br/>10249 Berlin</p>"
+        },
+        {
+            "type": 	"header",
+            "content": 	"FAQ"
+        },
+        {
+            "type":      "text",
+            "id":        "faq_title",
+            "label":     "Title",
+            "default":   "Having trouble?"
+        },
+        {
+            "type":      "text",
+            "id":        "faq_description",
+            "label":     "Description",
+            "default":   "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cu sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus."
+        },
+        {
+            "type":      "text",
+            "id":        "faq_link",
+            "label":     "Link Title",
+            "default":   "FAQ’s"
+        },
+        {
+            "type":      "url",
+            "id":        "faq_url",
+            "label":     "Link"
+        },
+        {
+            "type": 	"header",
+            "content": 	"Contact Form"
+        },
+        {
+            "type":      "text",
+            "id":        "form_title",
+            "label":     "Title",
+            "default":   "Do you have a question for us?"
+        },
+        {
+            "type":      "text",
+            "id":        "form_description",
+            "label":     "Title",
+            "default":   "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cu sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus."
+        }
+    ],
+    "blocks": []
+}
+{% endschema %}

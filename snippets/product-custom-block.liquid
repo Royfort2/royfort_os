@@ -1,0 +1,26 @@
+<div id="{{css_id}}" class="product-custom-block">
+    <div class="product-block">
+    {% if url != blank %}
+        <a href="{{url}}">
+    {% endif %}
+    <style scoped>
+        {{css | replace: '.', '.product-custom-block .' }}
+    </style>
+    {% if image_position == "start" and image != blank %}
+       
+        <div class="product-block-image">
+            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{{ image | img_url: '900x' }}" class="lazyload img-fluid" alt="{{image.alt}}" />
+        </div>
+    {% endif %}
+    {{html}}
+    {% if image_position == "end" and image != blank %}
+
+    <div class="product-block-image">
+        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{{ image | img_url: '900x' }}" class="lazyload img-fluid" alt="{{image.alt}}" />
+    </div>
+    {% endif %}
+    {% if url != blank %}
+        </a>
+    {% endif %}
+</div>
+</div>
