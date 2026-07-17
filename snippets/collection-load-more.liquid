@@ -1,13 +1,14 @@
 <div class="collection-load-more text-center mt-5" data-collection-load-more>
   {%- if paginate.next.is_link -%}
-    <button
-      type="button"
-      class="btn btn-primary collection-load-more__button"
+    <div
+      class="collection-load-more__sentinel"
       data-next-url="{{ paginate.next.url }}"
-      aria-live="polite"
-    >
-      {{ 'collections.general.load_more' | t }}
-    </button>
+      aria-hidden="true"
+    ></div>
+    <div class="collection-load-more__status" aria-live="polite" hidden>
+      <span class="collection-load-more__spinner" aria-hidden="true"></span>
+      <span class="visually-hidden">{{ 'collections.general.load_more' | t }}</span>
+    </div>
   {%- endif -%}
 </div>
 
@@ -22,9 +23,37 @@
     padding: 1rem 0 3rem;
   }
 
-  .collection-load-more__button[disabled] {
-    opacity: 0.6;
-    cursor: wait;
+  .collection-load-more__sentinel {
+    width: 100%;
+    height: 1px;
+    pointer-events: none;
+  }
+
+  .collection-load-more__status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.5rem;
+    margin-top: 1rem;
+  }
+
+  .collection-load-more__status[hidden] {
+    display: none;
+  }
+
+  .collection-load-more__spinner {
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 2px solid rgba(0, 0, 0, 0.15);
+    border-top-color: currentColor;
+    border-radius: 50%;
+    animation: collection-load-more-spin 0.7s linear infinite;
+  }
+
+  @keyframes collection-load-more-spin {
+    to {
+      transform: rotate(360deg);
+    }
   }
 </style>
 

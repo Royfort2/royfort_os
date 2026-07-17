@@ -1,52 +1,84 @@
 (function () {
+  var isLoading = false;
+  var observer = null;
+
   function initCollectionLoadMore() {
-    var buttons = document.querySelectorAll('.collection-load-more__button[data-next-url]');
+    var sentinel = document.querySelector('.collection-load-more__sentinel[data-next-url]');
+    if (!sentinel) return;
 
-    buttons.forEach(function (button) {
-      if (button.dataset.loadMoreBound === 'true') return;
-      button.dataset.loadMoreBound = 'true';
+    if (observer) {
+      observer.disconnect();
+      observer = null;
+    }
 
-      button.addEventListener('click', function (event) {
-        event.preventDefault();
+    observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting || isLoading) return;
+          loadNextPage(sentinel);
+        });
+      },
+      {
+        root: null,
+        rootMargin: '200px 0px',
+        threshold: 0,
+      }
+    );
 
-        var nextUrl = button.getAttribute('data-next-url');
-        if (!nextUrl || button.disabled) return;
+    observer.observe(sentinel);
+  }
 
-        var originalLabel = button.textContent;
-        button.disabled = true;
-        button.setAttribute('aria-busy', 'true');
+  function loadNextPage(sentinel) {
+    var nextUrl = sentinel.getAttribute('data-next-url');
+    if (!nextUrl || isLoading) return;
 
-        fetch(nextUrl, { credentials: 'same-origin' })
-          .then(function (response) {
-            if (!response.ok) throw new Error('Failed to load more products');
-            return response.text();
-          })
-          .then(function (html) {
-            var parser = new DOMParser();
-            var doc = parser.parseFromString(html, 'text/html');
-            appendProducts(doc);
+    isLoading = true;
+    setLoadingState(true);
 
-            var nextButton = doc.querySelector('.collection-load-more__button[data-next-url]');
-            var nextPageUrl = nextButton ? nextButton.getAttribute('data-next-url') : null;
+    fetch(nextUrl, { credentials: 'same-origin' })
+      .then(function (response) {
+        if (!response.ok) throw new Error('Failed to load more products');
+        return response.text();
+      })
+      .then(function (html) {
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(html, 'text/html');
+        appendProducts(doc);
 
-            if (nextPageUrl) {
-              button.setAttribute('data-next-url', nextPageUrl);
-              button.disabled = false;
-              button.removeAttribute('aria-busy');
-            } else {
-              var container = button.closest('[data-collection-load-more]');
-              if (container) container.remove();
-            }
+        var nextSentinel = doc.querySelector('.collection-load-more__sentinel[data-next-url]');
+        var nextPageUrl = nextSentinel ? nextSentinel.getAttribute('data-next-url') : null;
 
-            reinitializeCollectionProducts();
-          })
-          .catch(function () {
-            button.disabled = false;
-            button.removeAttribute('aria-busy');
-            button.textContent = originalLabel;
-          });
+        if (nextPageUrl) {
+          sentinel.setAttribute('data-next-url', nextPageUrl);
+          isLoading = false;
+          setLoadingState(false);
+        } else {
+          if (observer) {
+            observer.disconnect();
+            observer = null;
+          }
+          var container = sentinel.closest('[data-collection-load-more]');
+          if (container) container.remove();
+          isLoading = false;
+        }
+
+        reinitializeCollectionProducts();
+      })
+      .catch(function () {
+        isLoading = false;
+        setLoadingState(false);
       });
-    });
+  }
+
+  function setLoadingState(loading) {
+    var status = document.querySelector('.collection-load-more__status');
+    if (!status) return;
+
+    if (loading) {
+      status.removeAttribute('hidden');
+    } else {
+      status.setAttribute('hidden', '');
+    }
   }
 
   function appendProducts(doc) {
