@@ -1144,11 +1144,35 @@ function ajaxFeedbackCart(status,html,output) {
 
 //Update the button apperance during the various stages. Adding, added, and back to add.
 function updateBtnText($button, label, icon) {
+	if (!$button || !$button.length) return;
+	if (label == null) label = '';
+
+	// Bundle ATC labels store HTML (spans for item count). Never use .text() for those —
+	// it dumps raw markup into a nowrap button and blows out page width.
+	var labelIsHtml = typeof label === 'string' && /<[a-z][\s\S]*>/i.test(label);
+
 	if (icon) {
-		$button.val(label).html(label + icon);
+		$button.html((labelIsHtml ? label : String(label)) + icon);
+		if (!labelIsHtml) $button.val(label);
+	} else if (labelIsHtml) {
+		$button.html(label);
 	} else {
 		$button.val(label).text(label);
 	}
+}
+
+function restoreAddToCartBtn($button, fallbackLabel) {
+	if (!$button || !$button.length) return;
+
+	if ($button.hasClass('main--basket') && typeof bundle_product_loop === 'function') {
+		bundle_product_loop();
+		return;
+	}
+
+	var restoreLabel = $button.attr('data-add-to-cart-text') || fallbackLabel;
+	updateBtnText($button, restoreLabel);
+
+	if (typeof updateDummy === 'function') updateDummy();
 }
 
 //Format the money
@@ -1471,8 +1495,8 @@ function addToCart(form) {
 					window.setTimeout(function () {
 						$addToCartBtn.prop('disabled', false).removeClass('btn-added');
 						$fakeAddToCartBtn.prop('disabled', false).removeClass('btn-added');
-						updateBtnText($addToCartBtn, addToCartBtnText);
-						updateBtnText($fakeAddToCartBtn, addToCartBtnText);
+						restoreAddToCartBtn($addToCartBtn, addToCartBtnText);
+						restoreAddToCartBtn($fakeAddToCartBtn, addToCartBtnText);
 					}, config.returnBtnToNormal);
 
 				updateMiniCartContents();
@@ -1501,9 +1525,9 @@ function addToCart(form) {
 				} else {
 					ajaxFeedback('error', '<i class="fa fa-warning"></i> ' + response, $addToCartForm);
 					$addToCartBtn.prop('disabled', false).removeClass('disabled');
-					updateBtnText($addToCartBtn, addToCartBtnText);
 					$fakeAddToCartBtn.prop('disabled', false).removeClass('disabled');
-					updateBtnText($fakeAddToCartBtn, addToCartBtnText);
+					restoreAddToCartBtn($addToCartBtn, addToCartBtnText);
+					restoreAddToCartBtn($fakeAddToCartBtn, addToCartBtnText);
 				}
 
 			}
@@ -1545,8 +1569,8 @@ function add_to_cart_bundle(form) {
 					window.setTimeout(function () {
 						$addToCartBtn.prop('disabled', false).removeClass('btn-added');
 						$fakeAddToCartBtn.prop('disabled', false).removeClass('btn-added');
-						updateBtnText($addToCartBtn, addToCartBtnText);
-						updateBtnText($fakeAddToCartBtn, addToCartBtnText);
+						restoreAddToCartBtn($addToCartBtn, addToCartBtnText);
+						restoreAddToCartBtn($fakeAddToCartBtn, addToCartBtnText);
 					}, config.returnBtnToNormal);
 
 				add_bundle_to_cart();
@@ -1576,9 +1600,9 @@ function add_to_cart_bundle(form) {
 				} else {
 					ajaxFeedback('error', '<i class="fa fa-warning"></i> ' + response, $addToCartForm);
 					$addToCartBtn.prop('disabled', false).removeClass('disabled');
-					updateBtnText($addToCartBtn, addToCartBtnText);
 					$fakeAddToCartBtn.prop('disabled', false).removeClass('disabled');
-					updateBtnText($fakeAddToCartBtn, addToCartBtnText);
+					restoreAddToCartBtn($addToCartBtn, addToCartBtnText);
+					restoreAddToCartBtn($fakeAddToCartBtn, addToCartBtnText);
 				}
 
 			}

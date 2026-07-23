@@ -22178,6 +22178,7 @@ body.template-password #site-navigation-right a.showcase-button {
 #stamped-main-widget .stamped-pagination {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   gap: 10px;
@@ -22197,7 +22198,7 @@ body.template-password #site-navigation-right a.showcase-button {
 }
 #stamped-main-widget .stamped-pagination li a {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   height: inherit;
@@ -22208,6 +22209,16 @@ body.template-password #site-navigation-right a.showcase-button {
   border: none !important;
   padding: 0 !important;
   text-decoration: none !important;
+  background: transparent !important;
+  white-space: nowrap;
+}
+/* Stamped "continue" mode injects "Load More Reviews" via ::before into the next
+   control. Keep next as a chevron-only control so it matches prev/first/last. */
+#stamped-main-widget .stamped-pagination li.next a::before,
+div[data-load-type="continue"] ul.stamped-pagination li.next a::before,
+div[data-widget-load-type="continue"] ul.stamped-pagination li.next a::before {
+  content: none !important;
+  display: none !important;
 }
 
 .section-main-reviews .stamped-widget-buttons .stamped-full-page-tabs {
