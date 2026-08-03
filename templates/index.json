@@ -84,8 +84,8 @@
         "featured_collection_LxAGT4": {
           "type": "featured_collection",
           "settings": {
-            "collection": "kaschmir-kollektion",
-            "image": "shopify://shop_images/Featured_Category_Kaschmir_New.jpg",
+            "collection": "musselin-kollektion",
+            "image": "shopify://shop_images/Featured_Category_Musselin_New.jpg",
             "title": "Baumwolle-Kaschmir",
             "description": ""
           }
