@@ -14,7 +14,6 @@
       "blocks": {
         "free_shipping_goal_W8bXKE": {
           "type": "free_shipping_goal",
-          "disabled": true,
           "settings": {}
         },
         "cart_note_qpALBg": {
@@ -50,6 +49,7 @@
     },
     "featured_collection_Y4GDWA": {
       "type": "featured-collection",
+      "disabled": true,
       "settings": {
         "color_scheme": "",
         "header_layout": "vertical",
