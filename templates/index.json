@@ -200,18 +200,6 @@
         "custom_class": ""
       }
     },
-    "we_stamped_carousel_JX6Df9": {
-      "type": "we-stamped-carousel",
-      "name": "[we] Stamped Carousel",
-      "settings": {
-        "title": "Das sagen unsere Kund:innen",
-        "take": 30,
-        "background": "#ffffff",
-        "opacity": 1,
-        "padding_top": 40,
-        "padding_bottom": 40
-      }
-    },
     "video_hero_qjxhUU": {
       "type": "video-hero",
       "blocks": {
@@ -433,6 +421,99 @@
         "custom_class": ""
       }
     },
+    "multicolumn_dGdzNX": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_433Ff7": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image": "shopify://shop_images/falstaff_logo.jpg",
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
+            "image_width": "full",
+            "title": "",
+            "heading_size": "h4",
+            "text": "",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_xexFQc": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image": "shopify://shop_images/zeit_logo.jpg",
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
+            "image_width": "full",
+            "title": "",
+            "heading_size": "h4",
+            "text": "",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_mTiiwn": {
+          "type": "column",
+          "settings": {
+            "show_image": true,
+            "image": "shopify://shop_images/suddeutschzeitung_logo.jpg",
+            "video_url": "",
+            "video_autoplay": false,
+            "video_loop": false,
+            "video_muted": true,
+            "video_controls": true,
+            "image_width": "full",
+            "title": "",
+            "heading_size": "h4",
+            "text": "",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        }
+      },
+      "block_order": [
+        "column_433Ff7",
+        "column_xexFQc",
+        "column_mTiiwn"
+      ],
+      "name": "t:sections.multicolumn.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "heading": "",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "column_alignment": "left",
+        "columns_desktop": 3,
+        "column_gap": "none",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
+    },
     "custom_content_EK4bVJ": {
       "type": "custom-content",
       "blocks": {
@@ -517,6 +598,18 @@
         "show_section_divider": false,
         "divider_width": "fixed",
         "custom_class": ""
+      }
+    },
+    "we_stamped_carousel_JX6Df9": {
+      "type": "we-stamped-carousel",
+      "name": "[we] Stamped Carousel",
+      "settings": {
+        "title": "Das sagen unsere Kund:innen",
+        "take": 30,
+        "background": "#ffffff",
+        "opacity": 1,
+        "padding_top": 40,
+        "padding_bottom": 40
       }
     },
     "video_hero_np4cbQ": {
@@ -977,99 +1070,6 @@
         "custom_class": ""
       }
     },
-    "multicolumn_dGdzNX": {
-      "type": "multicolumn",
-      "blocks": {
-        "column_433Ff7": {
-          "type": "column",
-          "settings": {
-            "show_image": true,
-            "image": "shopify://shop_images/falstaff_logo.jpg",
-            "video_url": "",
-            "video_autoplay": false,
-            "video_loop": false,
-            "video_muted": true,
-            "video_controls": true,
-            "image_width": "full",
-            "title": "",
-            "heading_size": "h4",
-            "text": "",
-            "text_size": "text-base",
-            "button_label": "",
-            "button_style": "btn--underline",
-            "button_link": "",
-            "mobile_layout": "inherit"
-          }
-        },
-        "column_xexFQc": {
-          "type": "column",
-          "settings": {
-            "show_image": true,
-            "image": "shopify://shop_images/zeit_logo.jpg",
-            "video_url": "",
-            "video_autoplay": false,
-            "video_loop": false,
-            "video_muted": true,
-            "video_controls": true,
-            "image_width": "full",
-            "title": "",
-            "heading_size": "h4",
-            "text": "",
-            "text_size": "text-base",
-            "button_label": "",
-            "button_style": "btn--underline",
-            "button_link": "",
-            "mobile_layout": "inherit"
-          }
-        },
-        "column_mTiiwn": {
-          "type": "column",
-          "settings": {
-            "show_image": true,
-            "image": "shopify://shop_images/suddeutschzeitung_logo.jpg",
-            "video_url": "",
-            "video_autoplay": false,
-            "video_loop": false,
-            "video_muted": true,
-            "video_controls": true,
-            "image_width": "full",
-            "title": "",
-            "heading_size": "h4",
-            "text": "",
-            "text_size": "text-base",
-            "button_label": "",
-            "button_style": "btn--underline",
-            "button_link": "",
-            "mobile_layout": "inherit"
-          }
-        }
-      },
-      "block_order": [
-        "column_433Ff7",
-        "column_xexFQc",
-        "column_mTiiwn"
-      ],
-      "name": "t:sections.multicolumn.presets.name",
-      "settings": {
-        "color_scheme": "",
-        "heading": "",
-        "heading_size": "h1",
-        "heading_highlight_style": "none",
-        "subheading": "",
-        "description": "",
-        "text_size": "text-base",
-        "column_alignment": "left",
-        "columns_desktop": 3,
-        "column_gap": "none",
-        "columns_mobile": "1",
-        "swipe_on_mobile": true,
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "show_section_divider": false,
-        "divider_width": "fixed",
-        "custom_class": ""
-      }
-    },
     "image_with_text_GMFb4h": {
       "type": "image-with-text",
       "blocks": {
@@ -1141,7 +1141,6 @@
       "blocks": {
         "gsc_instagram_feed_instafeed_QCnAQd": {
           "type": "shopify://apps/gsc-instagram-feed/blocks/instafeed/96970b1b-b770-454f-b16b-51f47e1aa4ed",
-          "disabled": true,
           "settings": {
             "widget_id": "GSC-oNuncEGpZFKvKBt"
           }
@@ -1150,7 +1149,6 @@
       "block_order": [
         "gsc_instagram_feed_instafeed_QCnAQd"
       ],
-      "disabled": true,
       "settings": {
         "include_margins": true,
         "padding_top": 0,
