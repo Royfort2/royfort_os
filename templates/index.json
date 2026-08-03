@@ -1155,6 +1155,101 @@
         "padding_bottom": 0,
         "custom_class": ""
       }
+    },
+    "collection_list_nKHEqB": {
+      "type": "collection-list",
+      "blocks": {
+        "featured_collection_WbeKGg": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "hotelbettwaesche",
+            "image": "shopify://shop_images/Featured_Category_Bettwasche_New.jpg",
+            "title": "Bettwäsche",
+            "description": ""
+          }
+        },
+        "featured_collection_rtdRHt": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "daunendecken-kissen",
+            "image": "shopify://shop_images/Featured_Category_Decken_Kissen_New_ecb252d9-a2d1-4ec0-af88-38d124056032.jpg",
+            "title": "Decken & Kissen",
+            "description": ""
+          }
+        },
+        "featured_collection_LxAGT4": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "kaschmir-kollektion",
+            "image": "shopify://shop_images/Featured_Category_Kaschmir_New.jpg",
+            "title": "Baumwolle-Kaschmir",
+            "description": ""
+          }
+        },
+        "featured_collection_pte4QE": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "badezimmer",
+            "image": "shopify://shop_images/Featured_Category_Badezimmer_New.jpg",
+            "title": "Handtücher",
+            "description": ""
+          }
+        },
+        "featured_collection_mDem67": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "matratzen",
+            "image": "shopify://shop_images/Featured_Category_Betten_Matratzen_New.jpg",
+            "title": "Betten & Matratzen",
+            "description": ""
+          }
+        },
+        "featured_collection_RyJ4Rf": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "tagesdecken-kollektion",
+            "image": "shopify://shop_images/Featured_Category_Tagesdecken_New.jpg",
+            "title": "Tagesdecken",
+            "description": ""
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_WbeKGg",
+        "featured_collection_rtdRHt",
+        "featured_collection_LxAGT4",
+        "featured_collection_pte4QE",
+        "featured_collection_mDem67",
+        "featured_collection_RyJ4Rf"
+      ],
+      "name": "t:sections.collection-list.name",
+      "settings": {
+        "color_scheme": "",
+        "layout": "standard",
+        "subheading": "",
+        "heading": "Collections",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "description": "",
+        "text_size": "text-base",
+        "card_color_inherited": false,
+        "show_product_count": false,
+        "show_icon": false,
+        "card_style": "",
+        "card_image_ratio": "3/4",
+        "content_alignment": "center",
+        "columns_desktop": 6,
+        "column_gap": "medium",
+        "row_gap": "medium",
+        "enable_slider": true,
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed",
+        "custom_class": ""
+      }
     }
   },
   "order": [
@@ -1174,6 +1269,7 @@
     "custom_content_eLwKYA",
     "custom_content_XLeH4V",
     "image_with_text_GMFb4h",
-    "1780052913ea108dca"
+    "1780052913ea108dca",
+    "collection_list_nKHEqB"
   ]
 }
