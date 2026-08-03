@@ -26,6 +26,10 @@
           "disabled": true,
           "settings": {}
         },
+        "cart_discount_gg4mDt": {
+          "type": "cart_discount",
+          "settings": {}
+        },
         "subtotal_LeUiVY": {
           "type": "subtotal",
           "settings": {}
@@ -39,6 +43,7 @@
         "free_shipping_goal_W8bXKE",
         "cart_note_qpALBg",
         "cart_shipping_rate_bnhQBk",
+        "cart_discount_gg4mDt",
         "subtotal_LeUiVY",
         "buttons_drwbch"
       ],
