@@ -200,6 +200,18 @@
         "custom_class": ""
       }
     },
+    "we_stamped_carousel_JX6Df9": {
+      "type": "we-stamped-carousel",
+      "name": "[we] Stamped Carousel",
+      "settings": {
+        "title": "Das sagen unsere Kund:innen",
+        "take": 30,
+        "background": "#ffffff",
+        "opacity": 1,
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
     "video_hero_qjxhUU": {
       "type": "video-hero",
       "blocks": {
@@ -614,18 +626,6 @@
         "show_section_divider": false,
         "divider_width": "fixed",
         "custom_class": ""
-      }
-    },
-    "we_stamped_carousel_JX6Df9": {
-      "type": "we-stamped-carousel",
-      "name": "[we] Stamped Carousel",
-      "settings": {
-        "title": "Das sagen unsere Kund:innen",
-        "take": 30,
-        "background": "#ffffff",
-        "opacity": 1,
-        "padding_top": 40,
-        "padding_bottom": 40
       }
     },
     "custom_content_UpLfPE": {
@@ -1166,15 +1166,15 @@
     "video_hero_qjxhUU",
     "custom_content_ArQKiM",
     "custom_content_Bx7iBY",
+    "multicolumn_dGdzNX",
     "custom_content_EK4bVJ",
+    "we_stamped_carousel_JX6Df9",
     "video_hero_np4cbQ",
     "custom_content_XCnW8a",
-    "we_stamped_carousel_JX6Df9",
     "custom_content_UpLfPE",
     "image_with_text_overlay_HEUATk",
     "custom_content_eLwKYA",
     "custom_content_XLeH4V",
-    "multicolumn_dGdzNX",
     "image_with_text_GMFb4h",
     "1780052913ea108dca"
   ]
