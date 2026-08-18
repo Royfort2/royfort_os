@@ -62,9 +62,71 @@
   }
   .product__block--stamped_reviews {
     margin: 0 !important;
+    padding-block: 0.6rem;
   }
-  .product__block--stamped_reviews .stamped-product-reviews-badge:not(:empty) {
-    margin-bottom: 1.2rem !important;
+  .product__block--price:has(+ .product__block--stamped_reviews) {
+    margin-bottom: 0.6rem !important;
+  }
+  .product__block--stamped_reviews + .product__block--we_variant_picker,
+  .product__block--stamped_reviews + .product__block--variant_picker {
+    margin-top: 0.6rem !important;
+  }
+  .product__block--stamped_reviews .stamped-badge[data-rating='0'],
+  .product__block--stamped_reviews .stamped-badge[data-rating='0.0'],
+  .product__block--stamped_reviews .stamped-badge[data-rating='0,0'],
+  .product__block--stamped_reviews .stamped-badge[data-we-stamped-zero-fallback='true'] {
+    display: flex !important;
+    align-items: center;
+    gap: 0.4rem;
+    cursor: pointer;
+  }
+  .product__block--stamped_reviews .stamped-product-reviews-badge:not(:empty),
+  .product__block--stamped_reviews .stamped-product-reviews-badge:has(.stamped-badge) {
+    margin-bottom: 0 !important;
+  }
+  .product__block--stamped_reviews .stamped-fa-star,
+  .product__block--stamped_reviews .stamped-fa-star-checked,
+  .product__block--stamped_reviews .stamped-fa-star-half-o,
+  .product__block--stamped_reviews .stamped-fa-star-o,
+  .product__block--stamped_reviews .stamped-badge-starrating .stamped-fa {
+    color: #ffd200 !important;
+  }
+  .product__block--stamped_reviews .stamped-fa-star-o {
+    opacity: 0.45;
+  }
+  .product__block--stamped_reviews .stamped-badge-caption[data-reviews][data-label][data-version='2'] > span {
+    display: inline !important;
+  }
+  .product__block--stamped_reviews .stamped-badge-caption[data-reviews][data-label][data-version='2']::before,
+  .product__block--stamped_reviews .stamped-badge-caption[data-reviews='0'][data-label][data-version='2']::before {
+    content: none !important;
+    margin: 0;
+  }
+  .product__block--stamped_reviews .stamped-badge-caption[data-reviews][data-label][data-version='2']:not([data-reviews='0'])::after {
+    content: none !important;
+    margin: 0;
+  }
+  .product__block--stamped_reviews .stamped-badge-caption[data-reviews='0'][data-label][data-version='2']::after {
+    content: ' Bewertungen' !important;
+    margin: 0;
+  }
+  .product__block--stamped_reviews .stamped-badge-starrating .stamped-fa:before {
+    font-size: 1.8rem !important;
+    width: 1.8rem !important;
+    height: 1.8rem !important;
+  }
+  .product__block--stamped_reviews .stamped-badge-rating-value {
+    display: none !important;
+  }
+  .product__block--stamped_reviews .stamped-badge-caption,
+  .product__block--stamped_reviews .stamped-badge-caption span {
+    color: #525252 !important;
+    font-family: 'GT-America-Standard-Light', Arial, sans-serif !important;
+    font-size: 1.4rem !important;
+    font-style: normal;
+    font-weight: 400 !important;
+    line-height: 120%;
+    text-transform: none !important;
   }
   .product__block--title {
     margin: 0 !important;
