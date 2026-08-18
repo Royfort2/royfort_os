@@ -21,6 +21,28 @@
     display: none !important;
 }
 
+/* Wishlist function hidden: header, cards, PDP, drawers, notifications. */
+.we-card-wishlist-wrap,
+.product-card__wishlist,
+.swym-advanced-header-icon,
+.swym-header-icon-wrapper,
+#swym-advanced-header-icon,
+#swym-atw-button-container,
+#swym-atw-pdp-button,
+.swym-wishlist-button-bar,
+.swym-atw-btn-wrapper,
+.swym-custom-pdp-button,
+.swym-advanced-wishlist-collections-container,
+.swym-advanced-wishlist-collections,
+swym-storefront-layout,
+swym-storefront-layout-as-drawer,
+swym-storefront-layout-notification,
+.swym-aw-nudge,
+.swym-notifications,
+.swym-simple-wishlist-container {
+    display: none !important;
+}
+
 .we-card-wishlist-wrap {
     position: absolute;
     top: 1.2rem;
@@ -1370,9 +1392,10 @@ layout-switcher .btn::after {
 }
 
 
-/* Swym header icon — anchor in right icon group (locale-safe; avoids left overflow slot). */
-.header__icons--left .swym-advanced-header-icon,
-.header__icons--left .swym-header-icon-wrapper {
+/* Swym header icon — hidden with wishlist function. */
+.header__icons .swym-advanced-header-icon,
+.header__icons .swym-header-icon-wrapper,
+#swym-advanced-header-icon {
     display: none !important;
 }
 

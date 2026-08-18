@@ -2,8 +2,10 @@
   Swym Wishlist Plus — heart button on product cards. Loads `we-swym-card-wishlist.js`.
   @param product {Object}
   @param variant {Object} optional — defaults to selected_or_first_available_variant
+  Wishlist UI is currently hidden.
 {%- endcomment -%}
-{%- if product != blank -%}
+{%- assign we_wishlist_visible = false -%}
+{%- if we_wishlist_visible and product != blank -%}
   {%- liquid
     assign wl_variant = variant | default: product.selected_or_first_available_variant
   -%}
