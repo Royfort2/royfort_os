@@ -2619,23 +2619,37 @@ class ProductForm extends HTMLFormElement {
 
   showCartDrawer = () => {
     const quickViewModal = this.closest('quick-view-modal');
-    if (quickViewModal) {
-      if (this.cartDrawerElement && !this.cartDrawerElement.open) {
-        document.body.addEventListener(
-          quickViewModal.events.handleAfterHide,
-          () => {
-            setTimeout(() => {
-              this.cartDrawerElement.show(this.lastSubmittedElement);
-            });
-          },
-          { once: true }
-        );
+    const cartDrawer = this.cartDrawerElement;
+    let cartOpened = false;
+
+    const openCartDrawer = () => {
+      if (cartOpened || !cartDrawer) return;
+      cartOpened = true;
+
+      if (cartDrawer.open && !cartDrawer.hasAttribute('active')) {
+        cartDrawer.hidden = false;
+        cartDrawer.removeAttribute('inert');
+        cartDrawer.setAttribute('active', '');
+        FoxTheme.a11y.trapFocus(cartDrawer, cartDrawer.focusElement);
+        return;
       }
 
-      quickViewModal.hide(true);
-    } else {
-      this.cartDrawerElement && this.cartDrawerElement.show(this.lastSubmittedElement);
+      cartDrawer.show(this.lastSubmittedElement);
+    };
+
+    if (quickViewModal?.open) {
+      const handoff = () => requestAnimationFrame(openCartDrawer);
+      const hidePromise = quickViewModal.hide();
+
+      if (hidePromise?.then) {
+        hidePromise.then(handoff);
+      }
+
+      setTimeout(handoff, 950);
+      return;
     }
+
+    openCartDrawer();
   };
 }
 customElements.define('product-form', ProductForm, { extends: 'form' });
