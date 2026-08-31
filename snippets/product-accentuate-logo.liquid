@@ -1,0 +1,25 @@
+{%- comment -%}
+  GOTS / Accentuate logo from product.metafields.product.tab_content HTML.
+  Renders only <img> tags pointing at cdn.accentuate.cloud (e.g. under Material text).
+{%- endcomment -%}
+{%- liquid
+  assign tab_contents = product.metafields.product.tab_content.value
+  if tab_contents == blank
+    assign tab_contents = product.metafields.product.tab_content
+  endif
+-%}
+{%- if tab_contents != blank -%}
+  {%- for tab_content in tab_contents -%}
+    {%- if tab_content contains 'cdn.accentuate.cloud' -%}
+      {%- assign img_chunks = tab_content | split: '<img' -%}
+      {%- for chunk in img_chunks offset: 1 -%}
+        {%- if chunk contains 'cdn.accentuate.cloud' -%}
+          {%- assign img_attrs = chunk | split: '>' | first -%}
+          <p class="product__accentuate-logo">
+            <img{{ img_attrs }}>
+          </p>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}

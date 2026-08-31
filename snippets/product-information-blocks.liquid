@@ -332,6 +332,13 @@
           </div>
         {%- when 'collapsible_tab' -%}
           {% if block.settings.content != blank or block.settings.custom_liquid != blank or block.settings.page.content != blank %}
+            {%- liquid
+              assign collapsible_heading = block.settings.heading | downcase | strip
+              assign show_accentuate_logo = false
+              if collapsible_heading == 'material'
+                assign show_accentuate_logo = true
+              endif
+            -%}
             <div
               class="product__block product__block--{{ block.type }}"
               {{ block.shopify_attributes }}
@@ -367,6 +374,9 @@
                   {{ block.settings.content }}
                   {{ block.settings.custom_liquid }}
                   {{ block.settings.page.content }}
+                  {%- if show_accentuate_logo -%}
+                    {%- render 'product-accentuate-logo' -%}
+                  {%- endif -%}
                 </div>
               </details>
             </div>
