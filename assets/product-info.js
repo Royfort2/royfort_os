@@ -606,17 +606,15 @@ if (!customElements.get('product-info')) {
       _writePasPriceHtml(priceRoot, displayHtml) {
         if (!priceRoot || displayHtml == null || !String(displayHtml).trim()) return;
 
-        const write = (el) => {
-          if (!el || el.closest('s')) return;
-          el.innerHTML = displayHtml;
-        };
+        // Only update the live price nodes — never the compare-at / strikethrough span
+        // (.f-price__sale > .f-price-item--regular), which holds <s>compare</s>.
+        const regularItem = priceRoot.querySelector('.f-price__regular > .f-price-item--regular');
+        if (regularItem && !regularItem.querySelector(':scope > s')) {
+          regularItem.innerHTML = displayHtml;
+        }
 
-        write(priceRoot.querySelector('.f-price__regular > .f-price-item--regular'));
-        write(priceRoot.querySelector('.f-price__sale > .f-price-item--sale'));
-
-        priceRoot.querySelectorAll('.f-price-item--regular, .f-price-item--sale').forEach((el) => {
-          if (!el.closest('s')) write(el);
-        });
+        const saleItem = priceRoot.querySelector('.f-price__sale > .f-price-item--sale');
+        if (saleItem) saleItem.innerHTML = displayHtml;
       }
 
       _getMinVariantPriceCents(variants) {
@@ -815,13 +813,15 @@ if (!customElements.get('product-info')) {
 
         if (onSale) {
           const compareHtml = FoxTheme.Currency.formatMoney(compareCents, FoxTheme.settings.moneyFormat);
-          priceRoot
-            .querySelectorAll(
-              '.f-price__sale .f-price-item--regular s, .f-price__regular .f-price-item--regular s'
-            )
-            .forEach((s) => {
-              s.innerHTML = compareHtml;
-            });
+          priceRoot.querySelectorAll('.f-price__sale > .f-price-item--regular').forEach((el) => {
+            let strike = el.querySelector('s');
+            if (!strike) {
+              el.textContent = '';
+              strike = document.createElement('s');
+              el.appendChild(strike);
+            }
+            strike.textContent = compareHtml;
+          });
         }
 
         this._ensurePriceVisible();

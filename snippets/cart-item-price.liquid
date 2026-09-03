@@ -1,0 +1,51 @@
+{%- comment -%}
+  Cart / drawer unit or line price with compare-at (sale) support.
+
+  @param item {LineItem} required
+  @param price_mode {'unit'|'line'} default 'unit' — unit = per item, line = qty total
+  @param sale_class {String} optional — class on <s> (e.g. font-body text-sm text-subtext)
+{%- endcomment -%}
+{%- liquid
+  assign we_price_mode = price_mode | default: 'unit'
+  assign we_sale_class = sale_class | default: 'price__sale'
+
+  if we_price_mode == 'line'
+    assign we_cart_sale = item.final_line_price
+    assign we_cart_compare = blank
+    if item.variant.compare_at_price > item.original_price
+      assign we_cart_compare = item.variant.compare_at_price | times: item.quantity
+    elsif item.original_line_price != item.final_line_price
+      assign we_cart_compare = item.original_line_price
+    endif
+  else
+    assign we_cart_sale = item.final_price
+    assign we_cart_compare = blank
+    if item.variant.compare_at_price > item.original_price
+      assign we_cart_compare = item.variant.compare_at_price
+    elsif item.original_price != item.final_price
+      assign we_cart_compare = item.original_price
+    endif
+  endif
+
+  if settings.currency_code_enabled
+    assign we_cart_sale_money = we_cart_sale | money_with_currency
+    if we_cart_compare != blank
+      assign we_cart_compare_money = we_cart_compare | money_with_currency
+    endif
+  else
+    assign we_cart_sale_money = we_cart_sale | money
+    if we_cart_compare != blank
+      assign we_cart_compare_money = we_cart_compare | money
+    endif
+  endif
+-%}
+<div class="price{% if we_cart_compare != blank %} price--on-sale{% endif %}{% if price_class != blank %} {{ price_class }}{% endif %}">
+  {%- if we_cart_compare != blank -%}
+    <span class="visually-hidden">{{ 'products.product.price.regular_price' | t }}</span>
+    <s class="{{ we_sale_class }}">{{ we_cart_compare_money }}</s>
+    <span class="visually-hidden">{{ 'products.product.price.sale_price' | t }}</span>
+    <span class="price__regular">{{ we_cart_sale_money }}</span>
+  {%- else -%}
+    {{ we_cart_sale_money }}
+  {%- endif -%}
+</div>

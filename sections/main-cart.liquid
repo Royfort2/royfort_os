@@ -238,50 +238,31 @@
                                   <a href="{{ item.url }}" class="cart-item__title text-pcard-title reversed-link">{{- item.product.title | escape -}}</a>
                                 </div>
                                 <div class="cart-item__prices lg:hidden">
-                                  <div class="price text-right flex flex-wrap items-center gap-x-2 font-body-bolder{% if item.original_price != item.final_price %} price--on-sale{% endif %}">
-                                    {%- liquid
-                                      assign money_price = item.original_price | money
-                                      if settings.currency_code_enabled
-                                        assign money_price = item.original_price | money_with_currency
-                                      endif
-                                    -%}
-                                    {%- if item.original_price != item.final_price -%}
-                                      <span class="visually-hidden">{{ 'products.product.price.regular_price' | t }}</span>
-                                      <s class="price__sale font-body text-sm text-subtext">{{ money_price }}</s>
-                                      <span class="visually-hidden">{{ 'products.product.price.sale_price' | t }}</span>
-                                      <span class="price__regular">
-                                        {%- liquid 
-                                          if settings.currency_code_enabled
-                                            echo item.final_price | money_with_currency
-                                          else
-                                            echo item.final_price | money
-                                          endif  
-                                        -%}
-                                      </span>
-                                    {%- else -%}
-                                      {{- money_price -}}
-                                    {%- endif -%}
-          
-                                    {%- if item.variant.available and item.unit_price_measurement -%}
-                                      <span class="visually-hidden">{{ 'products.product.price.unit_price' | t }}</span>
-                                      <span class="unit-price flex items-center font-body text-sm text-subtext">
-                                        {%- liquid
-                                          capture unit_price_base_unit
-                                            if item.variant.unit_price_measurement
-                                              if item.variant.unit_price_measurement.reference_value != 1
-                                                echo item.variant.unit_price_measurement.reference_value
-                                              endif
-                                              echo item.variant.unit_price_measurement.reference_unit
+                                  {% render 'cart-item-price',
+                                    item: item,
+                                    price_mode: 'unit',
+                                    price_class: 'text-right flex flex-wrap items-center gap-x-2 font-body-bolder',
+                                    sale_class: 'price__sale font-body text-sm text-subtext'
+                                  %}
+                                  {%- if item.variant.available and item.unit_price_measurement -%}
+                                    <span class="visually-hidden">{{ 'products.product.price.unit_price' | t }}</span>
+                                    <span class="unit-price flex items-center font-body text-sm text-subtext">
+                                      {%- liquid
+                                        capture unit_price_base_unit
+                                          if item.variant.unit_price_measurement
+                                            if item.variant.unit_price_measurement.reference_value != 1
+                                              echo item.variant.unit_price_measurement.reference_value
                                             endif
-                                          endcapture
-                                        -%}
-                                        ({{ item.variant.unit_price | money }}
-                                        <span aria-hidden="true">/</span>
-                                        <span class="visually-hidden">&nbsp;{{ 'accessibility.unit_price_separator' | t }}&nbsp;</span>
-                                        {{ unit_price_base_unit }})
-                                        </span>
-                                    {%- endif -%}
-                                  </div>
+                                            echo item.variant.unit_price_measurement.reference_unit
+                                          endif
+                                        endcapture
+                                      -%}
+                                      ({{ item.variant.unit_price | money }}
+                                      <span aria-hidden="true">/</span>
+                                      <span class="visually-hidden">&nbsp;{{ 'accessibility.unit_price_separator' | t }}&nbsp;</span>
+                                      {{ unit_price_base_unit }})
+                                    </span>
+                                  {%- endif -%}
                                 </div>
                               </div>
                               {%- if item.product.has_only_default_variant == false or item.properties.size != 0 or item.selling_plan_allocation != null -%}
@@ -458,50 +439,31 @@
   
                       <td class="cart-item__price hidden lg:table-cell">
                         <div class="cart-item__prices">
-                          <div class="price text-left flex-col flex font-body-bolder{% if item.original_price != item.final_price %} price--on-sale{% endif %}">
-                            {%- liquid
-                              assign money_price = item.original_price | money
-                              if settings.currency_code_enabled
-                                assign money_price = item.original_price | money_with_currency
-                              endif
-                            -%}
-                            {%- if item.original_price != item.final_price -%}
-                              <span class="visually-hidden">{{ 'products.product.price.regular_price' | t }}</span>
-                              <s class="price__sale font-body text-sm text-subtext">{{ money_price }}</s>
-                              <span class="visually-hidden">{{ 'products.product.price.sale_price' | t }}</span>
-                              <span class="price__regular">
-                                {%- liquid 
-                                  if settings.currency_code_enabled
-                                    echo item.final_price | money_with_currency
-                                  else
-                                    echo item.final_price | money
-                                  endif  
-                                -%}
-                              </span>
-                            {%- else -%}
-                              {{- money_price -}}
-                            {%- endif -%}
-  
-                            {%- if item.variant.available and item.unit_price_measurement -%}
-                              <span class="visually-hidden">{{ 'products.product.price.unit_price' | t }}</span>
-                              <span class="unit-price flex items-center text-sm font-body text-subtext">
-                                {%- liquid
-                                  capture unit_price_base_unit
-                                    if item.variant.unit_price_measurement
-                                      if item.variant.unit_price_measurement.reference_value != 1
-                                        echo item.variant.unit_price_measurement.reference_value
-                                      endif
-                                      echo item.variant.unit_price_measurement.reference_unit
+                          {% render 'cart-item-price',
+                            item: item,
+                            price_mode: 'unit',
+                            price_class: 'text-left flex-col flex font-body-bolder',
+                            sale_class: 'price__sale font-body text-sm text-subtext'
+                          %}
+                          {%- if item.variant.available and item.unit_price_measurement -%}
+                            <span class="visually-hidden">{{ 'products.product.price.unit_price' | t }}</span>
+                            <span class="unit-price flex items-center text-sm font-body text-subtext">
+                              {%- liquid
+                                capture unit_price_base_unit
+                                  if item.variant.unit_price_measurement
+                                    if item.variant.unit_price_measurement.reference_value != 1
+                                      echo item.variant.unit_price_measurement.reference_value
                                     endif
-                                  endcapture
-                                -%}
-                                ({{ item.variant.unit_price | money }}
-                                <span aria-hidden="true">/</span>
-                                <span class="visually-hidden">&nbsp;{{ 'accessibility.unit_price_separator' | t }}&nbsp;</span>
-                                {{ unit_price_base_unit }})
-                                </span>
-                            {%- endif -%}
-                          </div>
+                                    echo item.variant.unit_price_measurement.reference_unit
+                                  endif
+                                endcapture
+                              -%}
+                              ({{ item.variant.unit_price | money }}
+                              <span aria-hidden="true">/</span>
+                              <span class="visually-hidden">&nbsp;{{ 'accessibility.unit_price_separator' | t }}&nbsp;</span>
+                              {{ unit_price_base_unit }})
+                            </span>
+                          {%- endif -%}
                         </div>
                       </td>
   
@@ -627,15 +589,12 @@
                       </td>
   
                       <td class="cart-item__total hidden lg:table-cell">
-                        <span class="font-body-bolder">
-                          {%- liquid
-                            if settings.currency_code_enabled
-                              echo item.final_line_price | money_with_currency
-                            else
-                              echo item.final_line_price | money
-                            endif
-                          -%}
-                        </span>
+                        {% render 'cart-item-price',
+                          item: item,
+                          price_mode: 'line',
+                          price_class: 'text-left flex flex-wrap items-center gap-x-2 font-body-bolder',
+                          sale_class: 'price__sale font-body text-sm text-subtext'
+                        %}
                       </td>
                     </tr>
                   {%- endcapture -%}
@@ -755,9 +714,11 @@
                         <span class="totals__subtotal h4">
                           {{- 'sections.cart.estimated_total' | t -}}
                         </span>
-                        <span class="totals__subtotal-value h4 font-body-bolder">
-                          {{- cart.total_price | money_with_currency -}}
-                        </span>
+                        {% render 'cart-total-with-compare',
+                          cart: cart,
+                          total_cents: cart.total_price,
+                          price_class: 'totals__subtotal-value h4 font-body-bolder'
+                        %}
                       </div>
                       <div class="tax-note">
                         {%- liquid

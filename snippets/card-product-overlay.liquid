@@ -64,6 +64,13 @@
       assign product_url = product_url | split: '?' | first
     endif
 
+    if product.price_varies
+      capture product_url
+        render 'we-from-price-variant-url', product: product
+      endcapture
+      assign product_url = product_url | strip
+    endif
+
     assign card_wrapper_class = ''
     if mobile_hide_quick_add
       assign card_wrapper_class = card_wrapper_class | append: ' mobile-hide-quick-add'

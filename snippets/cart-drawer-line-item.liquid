@@ -45,36 +45,12 @@
       <div class="cart-item__title-row">
         <a href="{{ item.url }}" class="cart-item__title reversed-link">{{- item.product.title | escape -}}</a>
         <div class="cart-item__prices">
-          <div class="price cart-drawer__price{% if item.original_line_price != item.final_line_price %} price--on-sale{% endif %}">
-            {%- liquid
-              assign money_price = item.original_line_price | money
-              if settings.currency_code_enabled
-                assign money_price = item.original_line_price | money_with_currency
-              endif
-            -%}
-            {%- if item.original_line_price != item.final_line_price -%}
-              <span class="visually-hidden">{{ 'products.product.price.regular_price' | t }}</span>
-              <s class="price__sale">{{ money_price }}</s>
-              <span class="visually-hidden">{{ 'products.product.price.sale_price' | t }}</span>
-              <span class="price__regular">
-                {%- liquid
-                  if settings.currency_code_enabled
-                    echo item.final_line_price | money_with_currency
-                  else
-                    echo item.final_line_price | money
-                  endif
-                -%}
-              </span>
-            {%- else -%}
-              {%- liquid
-                if settings.currency_code_enabled
-                  echo item.final_line_price | money_with_currency
-                else
-                  echo item.final_line_price | money
-                endif
-              -%}
-            {%- endif -%}
-          </div>
+          {% render 'cart-item-price',
+            item: item,
+            price_mode: 'line',
+            price_class: 'cart-drawer__price',
+            sale_class: 'price__sale'
+          %}
         </div>
       </div>
       {%- if item.product.has_only_default_variant == false or item.properties.size != 0 or item.selling_plan_allocation != null -%}

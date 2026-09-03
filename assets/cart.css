@@ -289,14 +289,34 @@
 }
 
 .cart-drawer__summary-row--subtotal .cart-drawer__summary-label,
-.cart-drawer__summary-row--subtotal .cart-drawer__summary-value {
+.cart-drawer__summary-row--subtotal .cart-drawer__summary-value,
+.cart-drawer__summary-row--subtotal .cart-total-price {
   font-family: var(--cart-drawer-font-heading) !important;
   font-size: 1.8rem;
   font-weight: 400;
   color: var(--cart-drawer-text);
 }
 
-.cart-drawer__summary-row--subtotal .cart-drawer__summary-value.cart-drawer__price {
+.cart-drawer__summary-row--subtotal .cart-drawer__summary-value.cart-drawer__price,
+.cart-drawer__summary-row--subtotal .cart-total-price.cart-drawer__price {
+  color: var(--cart-drawer-navy);
+}
+
+.cart-drawer__summary-row--subtotal .cart-total-price--on-sale {
+  display: inline-flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.6rem;
+}
+
+.cart-drawer__summary-row--subtotal .cart-total-price__compare {
+  color: rgba(var(--color-foreground), 0.55);
+  text-decoration: line-through;
+  font-size: 1.4rem;
+}
+
+.cart-drawer__summary-row--subtotal .cart-total-price__sale {
   color: var(--cart-drawer-navy);
 }
 
@@ -396,6 +416,14 @@
 
 .cart-drawer .cart-item .price--on-sale .price__sale {
   color: rgba(var(--color-foreground), 0.55);
+  text-decoration: line-through;
+}
+
+.cart-drawer .cart-item__prices .price.price--on-sale {
+  display: inline-flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.4rem;
 }
 
 .cart-drawer .cart-item__prices .price {
@@ -704,6 +732,38 @@
 .cart-item .price--on-sale .price__regular {
   color: rgb(var(--color-product-price-sale));
 }
+.cart-item .price--on-sale {
+  display: inline-flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.cart-item .price--on-sale .price__sale {
+  text-decoration: line-through;
+}
+
+.cart__footer .cart-total-price--on-sale,
+.totals .cart-total-price--on-sale {
+  display: inline-flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.6rem;
+}
+
+.cart__footer .cart-total-price__compare,
+.totals .cart-total-price__compare {
+  color: rgba(var(--color-foreground), 0.55);
+  text-decoration: line-through;
+  font-size: 0.85em;
+  font-weight: 400;
+}
+
+.cart__footer .cart-total-price__sale,
+.totals .cart-total-price__sale {
+  color: rgb(var(--color-product-price-sale));
+}
+
 .cart-item__remove {
   width: 3rem;
   height: 3rem;

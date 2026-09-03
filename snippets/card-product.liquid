@@ -73,6 +73,13 @@
     assign product_url = product_url | split: '?' | first
   endif
 
+  if product.price_varies
+    capture product_url
+      render 'we-from-price-variant-url', product: product
+    endcapture
+    assign product_url = product_url | strip
+  endif
+
   assign card_wrapper_class = ''
   if custom_class != blank
     assign card_wrapper_class = card_wrapper_class | append: ' ' | append: custom_class
@@ -99,7 +106,7 @@
 >
   <div class="product-card__wrapper h-full">
     <div class="product-card__image-wrapper{% if second_image == blank %} product-card__image-wrapper--main-only{% endif %} {% if list_on_mobile %}desktop-{% endif %}color-{{ settings.pcard_overlay_color_scheme }} bg-none">
-      <a href="{{ product.url }}" aria-label="{{ product.title | escape }}" tabindex="-1">
+      <a href="{{ product_url }}" aria-label="{{ product.title | escape }}" tabindex="-1">
         <motion-element data-motion="zoom-out-sm" class="block">
           {%- if featured_media -%}
             {%- unless first_media_type == 'video' or first_media_type == 'external_video' -%}
@@ -305,7 +312,7 @@
         </p>
       {%- endif -%}
       <h3 class="product-card__title text-pcard-title">
-        <a class="reversed-link" href="{{ product.url }}">{{- product.title -}}</a>
+        <a class="reversed-link" href="{{ product_url }}">{{- product.title -}}</a>
       </h3>
       {% render 'price', product: product, alignment: settings.pcard_content_alignment %}
       {%- if show_color_swatches -%}

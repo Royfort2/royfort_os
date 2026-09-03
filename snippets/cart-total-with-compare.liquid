@@ -1,0 +1,53 @@
+{%- comment -%}
+  Cart / drawer total with compare-at strikethrough (sum of line compare prices).
+
+  @param cart {Cart} required
+  @param total_cents {Number} optional — sale total; default cart.items_subtotal_price
+  @param price_class {String} optional — classes on the price wrapper
+{%- endcomment -%}
+{%- liquid
+  assign we_total_sale = total_cents | default: cart.items_subtotal_price
+  assign we_total_compare = 0
+  assign we_has_compare = false
+
+  for item in cart.items
+    if item.variant.compare_at_price > item.original_price
+      assign we_line_cmp = item.variant.compare_at_price | times: item.quantity
+      assign we_has_compare = true
+    else
+      assign we_line_cmp = item.original_line_price
+    endif
+    assign we_total_compare = we_total_compare | plus: we_line_cmp
+  endfor
+
+  if we_has_compare == false and cart.original_total_price > we_total_sale
+    assign we_total_compare = cart.original_total_price
+    assign we_has_compare = true
+  endif
+
+  if we_has_compare and we_total_compare <= we_total_sale
+    assign we_has_compare = false
+  endif
+
+  if settings.currency_code_enabled
+    assign we_total_sale_money = we_total_sale | money_with_currency
+    if we_has_compare
+      assign we_total_compare_money = we_total_compare | money_with_currency
+    endif
+  else
+    assign we_total_sale_money = we_total_sale | money
+    if we_has_compare
+      assign we_total_compare_money = we_total_compare | money
+    endif
+  endif
+-%}
+<span class="cart-total-price{% if we_has_compare %} cart-total-price--on-sale price--on-sale{% endif %}{% if price_class != blank %} {{ price_class }}{% endif %}">
+  {%- if we_has_compare -%}
+    <span class="visually-hidden">{{ 'products.product.price.regular_price' | t }}</span>
+    <s class="cart-total-price__compare price__sale">{{ we_total_compare_money }}</s>
+    <span class="visually-hidden">{{ 'products.product.price.sale_price' | t }}</span>
+    <span class="cart-total-price__sale price__regular">{{ we_total_sale_money }}</span>
+  {%- else -%}
+    {{ we_total_sale_money }}
+  {%- endif -%}
+</span>

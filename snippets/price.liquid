@@ -198,20 +198,32 @@
   if product.metafields.custom.pdp_set_products != blank
     assign we_set_pricing = true
     comment
-      Set bundles: x,y = price_min of 1st/2nd pdp_set_products entries; d = set_discount_amount (%).
-      Compare (strikethrough) = x+y; sale = (x+y)*(100-d)/100. Shown as: from sale (x+y).
-      Ignore bundle product target.compare_at_price_varies (else theme hides <s> or adds f-price--no-compare).
-      product-set-cart-items.js updates #price on PDP when pickers change.
+      Set bundles (first 2 pdp_set_products):
+      - sale = sum(price_min)
+      - If set_discount_amount > 0: compare = sale sum, sale = sum * (100-d)/100
+      - Else: compare = sum(compare_at_price_min or price_min) so cards/PDP show strikethrough
+        like JS zwischensumme (variant compare_at).
     endcomment
     assign we_set_plist = product.metafields.custom.pdp_set_products.value
-    assign we_set_two_min_sum = 0
+    assign we_set_sale_sum = 0
+    assign we_set_compare_sum = 0
     for we_sp in we_set_plist limit: 2
-      assign we_set_two_min_sum = we_set_two_min_sum | plus: we_sp.price_min
+      assign we_set_sale_sum = we_set_sale_sum | plus: we_sp.price_min
+      assign we_line_cmp = we_sp.price_min
+      if we_sp.compare_at_price_min > we_sp.price_min
+        assign we_line_cmp = we_sp.compare_at_price_min
+      endif
+      assign we_set_compare_sum = we_set_compare_sum | plus: we_line_cmp
     endfor
     assign we_set_disc_pct = product.metafields.custom.set_discount_amount | default: 0 | plus: 0
-    assign compare_at_price = we_set_two_min_sum
-    assign we_set_price_factor = 100 | minus: we_set_disc_pct
-    assign price = we_set_two_min_sum | times: we_set_price_factor | divided_by: 100
+    if we_set_disc_pct > 0
+      assign compare_at_price = we_set_sale_sum
+      assign we_set_price_factor = 100 | minus: we_set_disc_pct
+      assign price = we_set_sale_sum | times: we_set_price_factor | divided_by: 100
+    else
+      assign compare_at_price = we_set_compare_sum
+      assign price = we_set_sale_sum
+    endif
     assign money_price = price | money
     if settings.currency_code_enabled
       assign money_price = price | money_with_currency

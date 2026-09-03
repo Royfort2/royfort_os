@@ -1,107 +1,100 @@
 {% comment %}
-  Prints one variant id (digits) for a set line product so its color option matches the bundle
-  variant from the URL (?variant=), when the line product uses the same color option name (swatch trigger).
+  Variant id for a set line product so PDP “from” pricing matches the product card.
+
+  Prefers cheapest available variant (price_min). When the bundle has a selected
+  color (?variant= / selected_variant), restricts to that color first.
 
   Parameters:
   - bundle_product: {Object} main set/bundle product (page product)
   - line_product: {Object} any product from pdp_set_products
 {% endcomment %}
 {%- liquid
-  assign fallback_id = line_product.selected_or_first_available_variant.id
+  assign we_line_color_idx = nil
+  assign we_bundle_color_val = blank
+  assign we_swatch_trigger = settings.color_swatch_trigger | downcase
+
+  for option in line_product.options_with_values
+    assign we_on = option.name | downcase
+    assign we_is_color = false
+    if we_swatch_trigger contains we_on
+      assign we_is_color = true
+    elsif we_swatch_trigger contains 'color' and we_on contains 'colour'
+      assign we_is_color = true
+    endif
+    if we_is_color
+      assign we_line_color_idx = forloop.index0
+      break
+    endif
+  endfor
+
+  assign we_bundle_variant = bundle_product.selected_variant
+  if we_bundle_variant == blank and request.query_string contains 'variant='
+    assign we_vid_qs = request.query_string | split: 'variant=' | last | split: '&' | first | strip
+    for v in bundle_product.variants
+      assign we_vid_str = v.id | append: '' | strip
+      if we_vid_str == we_vid_qs
+        assign we_bundle_variant = v
+        break
+      endif
+    endfor
+  endif
+
+  if we_bundle_variant != blank and we_line_color_idx != nil
+    assign we_bundle_color_idx = nil
+    for option in bundle_product.options_with_values
+      assign we_on = option.name | downcase
+      assign we_is_color = false
+      if we_swatch_trigger contains we_on
+        assign we_is_color = true
+      elsif we_swatch_trigger contains 'color' and we_on contains 'colour'
+        assign we_is_color = true
+      endif
+      if we_is_color
+        assign we_bundle_color_idx = forloop.index0
+        break
+      endif
+    endfor
+    if we_bundle_color_idx != nil
+      assign we_bundle_color_val = we_bundle_variant.options[we_bundle_color_idx]
+    endif
+  endif
+
+  assign we_best = blank
+  assign we_best_any_color = blank
+  assign we_target_price = line_product.price_min
+
+  for v in line_product.variants
+    unless v.available
+      continue
+    endunless
+
+    if we_best_any_color == blank or v.price < we_best_any_color.price
+      assign we_best_any_color = v
+    endif
+
+    assign we_color_ok = true
+    if we_line_color_idx != nil and we_bundle_color_val != blank
+      if v.options[we_line_color_idx] != we_bundle_color_val
+        assign we_color_ok = false
+      endif
+    endif
+
+    if we_color_ok
+      if we_best == blank or v.price < we_best.price
+        assign we_best = v
+      endif
+      if v.price == we_target_price and we_bundle_color_val != blank
+        assign we_best = v
+        break
+      endif
+    endif
+  endfor
+
+  if we_best == blank
+    assign we_best = we_best_any_color
+  endif
+  if we_best == blank
+    assign we_best = line_product.selected_or_first_available_variant
+  endif
 -%}
-{%- if bundle_product.selected_variant == blank -%}
-  {{- fallback_id -}}
-{%- else -%}
-  {%- assign bv = bundle_product.selected_variant -%}
-  {%- assign swatch_trigger = settings.color_swatch_trigger | downcase -%}
-  {%- assign bundle_color_idx = nil -%}
-  {%- for option in bundle_product.options_with_values -%}
-    {%- assign on = option.name | downcase -%}
-    {%- assign is_color = false -%}
-    {%- if swatch_trigger contains on -%}
-      {%- assign is_color = true -%}
-    {%- elsif swatch_trigger contains 'color' and on contains 'colour' -%}
-      {%- assign is_color = true -%}
-    {%- endif -%}
-    {%- if is_color -%}
-      {%- assign bundle_color_idx = forloop.index0 -%}
-      {%- break -%}
-    {%- endif -%}
-  {%- endfor -%}
-  {%- if bundle_color_idx == nil -%}
-    {{- fallback_id -}}
-  {%- else -%}
-    {%- case bundle_color_idx -%}
-      {%- when 0 -%}
-        {%- assign bundle_color_val = bv.option1 -%}
-      {%- when 1 -%}
-        {%- assign bundle_color_val = bv.option2 -%}
-      {%- when 2 -%}
-        {%- assign bundle_color_val = bv.option3 -%}
-      {%- else -%}
-        {%- assign bundle_color_val = '' -%}
-    {%- endcase -%}
-    {%- if bundle_color_val == blank -%}
-      {{- fallback_id -}}
-    {%- else -%}
-      {%- assign line_color_idx = nil -%}
-      {%- for option in line_product.options_with_values -%}
-        {%- assign on = option.name | downcase -%}
-        {%- assign is_color = false -%}
-        {%- if swatch_trigger contains on -%}
-          {%- assign is_color = true -%}
-        {%- elsif swatch_trigger contains 'color' and on contains 'colour' -%}
-          {%- assign is_color = true -%}
-        {%- endif -%}
-        {%- if is_color -%}
-          {%- assign line_color_idx = forloop.index0 -%}
-          {%- break -%}
-        {%- endif -%}
-      {%- endfor -%}
-      {%- if line_color_idx == nil -%}
-        {{- fallback_id -}}
-      {%- else -%}
-        {%- assign matched_id = nil -%}
-        {%- for v in line_product.variants -%}
-          {%- case line_color_idx -%}
-            {%- when 0 -%}
-              {%- assign vc = v.option1 -%}
-            {%- when 1 -%}
-              {%- assign vc = v.option2 -%}
-            {%- when 2 -%}
-              {%- assign vc = v.option3 -%}
-            {%- else -%}
-              {%- assign vc = '' -%}
-          {%- endcase -%}
-          {%- if vc == bundle_color_val and v.available -%}
-            {%- assign matched_id = v.id -%}
-            {%- break -%}
-          {%- endif -%}
-        {%- endfor -%}
-        {%- if matched_id == nil -%}
-          {%- for v in line_product.variants -%}
-            {%- case line_color_idx -%}
-              {%- when 0 -%}
-                {%- assign vc = v.option1 -%}
-              {%- when 1 -%}
-                {%- assign vc = v.option2 -%}
-              {%- when 2 -%}
-                {%- assign vc = v.option3 -%}
-              {%- else -%}
-                {%- assign vc = '' -%}
-            {%- endcase -%}
-            {%- if vc == bundle_color_val -%}
-              {%- assign matched_id = v.id -%}
-              {%- break -%}
-            {%- endif -%}
-          {%- endfor -%}
-        {%- endif -%}
-        {%- if matched_id == nil -%}
-          {{- fallback_id -}}
-        {%- else -%}
-          {{- matched_id -}}
-        {%- endif -%}
-      {%- endif -%}
-    {%- endif -%}
-  {%- endif -%}
-{%- endif -%}
+{{- we_best.id -}}

@@ -224,9 +224,22 @@
     assign product_url = product_url | split: '?' | first
   endif
 
-  if color_variant != blank
+  comment
+    Link to the variant behind the card “ab” price so PDP opens with that selection.
+    Color-scoped cards: cheapest available of that color.
+    Set bundles: keep product URL (optionally color) — line prices come from pdp_set_products,
+    not the parent product’s own variants.
+  endcomment
+  if product.metafields.custom.pdp_set_products != blank
+    if color_variant != blank
+      capture product_url
+        render 'we-first-available-color-variant-url', product: product, color_variant: color_variant
+      endcapture
+      assign product_url = product_url | strip
+    endif
+  elsif product.price_varies or color_variant != blank
     capture product_url
-      render 'we-first-available-color-variant-url', product: product, color_variant: color_variant
+      render 'we-from-price-variant-url', product: product, color_variant: color_variant
     endcapture
     assign product_url = product_url | strip
   endif

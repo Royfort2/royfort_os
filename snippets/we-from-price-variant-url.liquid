@@ -1,0 +1,75 @@
+{%- comment -%}
+  Product card URL for the variant behind the “ab” (from) price (= product.price_min).
+  Prefers an available variant at that price.
+
+  @param product {Product} required
+  @param color_variant {Variant} optional — if set, pick cheapest available of that color
+    (used when the card is scoped to a color); otherwise product-wide price_min.
+{%- endcomment -%}
+{%- liquid
+  assign we_from_url = product.url
+  assign we_from_variant = blank
+
+  assign we_color_index = nil
+  assign we_color_value = blank
+  if color_variant != blank
+    assign we_swatch_trigger = settings.color_swatch_trigger | downcase
+    for option in product.options_with_values
+      assign we_opt_name = option.name | downcase
+      assign we_is_color = false
+      if we_swatch_trigger contains we_opt_name
+        assign we_is_color = true
+      elsif we_swatch_trigger contains 'color' and we_opt_name contains 'colour'
+        assign we_is_color = true
+      endif
+      if we_is_color
+        assign we_color_index = forloop.index0
+        assign we_color_value = color_variant.options[forloop.index0]
+        break
+      endif
+    endfor
+  endif
+
+  if we_color_index != nil
+    for we_v in product.variants
+      if we_v.options[we_color_index] == we_color_value and we_v.available
+        if we_from_variant == blank or we_v.price < we_from_variant.price
+          assign we_from_variant = we_v
+        endif
+      endif
+    endfor
+    if we_from_variant == blank
+      for we_v in product.variants
+        if we_v.options[we_color_index] == we_color_value
+          if we_from_variant == blank or we_v.price < we_from_variant.price
+            assign we_from_variant = we_v
+          endif
+        endif
+      endfor
+    endif
+  else
+    assign we_from_price = product.price_min
+    for we_v in product.variants
+      if we_v.price == we_from_price and we_v.available
+        assign we_from_variant = we_v
+        break
+      endif
+    endfor
+    if we_from_variant == blank
+      for we_v in product.variants
+        if we_v.price == we_from_price
+          assign we_from_variant = we_v
+          break
+        endif
+      endfor
+    endif
+  endif
+
+  if we_from_variant == blank
+    assign we_from_variant = product.selected_or_first_available_variant
+  endif
+  if we_from_variant != blank
+    assign we_from_url = we_from_variant.url
+  endif
+-%}
+{{- we_from_url -}}
