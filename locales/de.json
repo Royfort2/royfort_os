@@ -449,7 +449,7 @@
         "regular_price": "Regulärer Preis",
         "sale_price": "Verkaufspreis",
         "unit_price": "Einzelpreis",
-        "save_price_html": "Speichern Sie <span data-sale-value>{{ amount }}</span>"
+        "save_price_html": "Sparen Sie <span data-sale-value>{{ amount }}</span>"
       },
       "share": "Teilen Sie dieses Produkt",
       "share_label": "Aktie",
