@@ -60,6 +60,58 @@
         "custom_class": ""
       }
     },
+    "image_with_text_overlay_YKarJK": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading_AeedMP": {
+          "type": "heading",
+          "settings": {
+            "heading": "Herbst Sale | 20% auf alles",
+            "heading_size": "h1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_Bf7kbn": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Erleben Sie zeitloses Design, handverlesene Materialien und erstklassige Verarbeitung. <br/>Durch nachhaltige Herstellung und Liebe zum Detail schaffen wir Produkte, die Ihren Schlaf neu definieren.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "button_q8yteT": {
+          "type": "button",
+          "settings": {
+            "button_label": "Jetzt Sale entdecken",
+            "button_link": "shopify://collections/royfort-all-products-collection",
+            "button_style": "btn--underline"
+          }
+        }
+      },
+      "block_order": [
+        "heading_AeedMP",
+        "text_Bf7kbn",
+        "button_q8yteT"
+      ],
+      "disabled": true,
+      "name": "t:sections.image-with-text-overlay.name",
+      "settings": {
+        "container": "full",
+        "image": "shopify://shop_images/Homepage_Hero_4_4f1ad551-9d4a-4a67-9c05-0ed12d367b68.jpg",
+        "desktop_height": "extra-large",
+        "overlay_opacity": 10,
+        "use_custom_overlay": false,
+        "custom_overlay": "linear-gradient(201deg, rgba(23, 23, 23, 0.00) 0.08%, rgba(23, 23, 23, 0.75) 100.09%)",
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "color_scheme": "",
+        "content_position": "bottom-left",
+        "content_alignment": "left",
+        "mobile_height": "large",
+        "padding_top": 0,
+        "padding_bottom": 16,
+        "custom_class": ""
+      }
+    },
     "collection_list_nKHEqB": {
       "type": "collection-list",
       "blocks": {
@@ -1255,6 +1307,7 @@
   },
   "order": [
     "image_with_text_overlay_nrqpPE",
+    "image_with_text_overlay_YKarJK",
     "collection_list_nKHEqB",
     "image_with_text_overlay_CBrdFi",
     "custom_content_kJfyKb",
