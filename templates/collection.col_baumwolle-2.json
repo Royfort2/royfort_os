@@ -278,6 +278,7 @@
       "blocks": {
         "collapsible_item_DdQnyM": {
           "type": "collapsible_item",
+          "disabled": true,
           "settings": {
             "icon": "none",
             "heading": "Satin Bettwäsche aus reiner Baumwolle – seidig weich, zeitlos schön, luxuriös langlebig",
