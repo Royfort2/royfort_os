@@ -35,7 +35,7 @@
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
-        "image": "shopify://shop_images/Collection_Banner_Baumwolle_Desktop.jpg",
+        "image": "shopify://shop_images/Collection_Banner_Baumwolle_Desktop_2_b356b1ff-f459-4894-8116-246f87eb853c.jpg",
         "desktop_height": "small",
         "overlay_opacity": 75,
         "use_custom_overlay": true,
@@ -45,7 +45,7 @@
         "color_scheme": "",
         "content_position": "bottom-left",
         "content_alignment": "left",
-        "image_mobile": "shopify://shop_images/Collection_Banner_Baumwolle_Mobil.jpg",
+        "image_mobile": "shopify://shop_images/Collection_Banner_Baumwolle_Mobil_1a8ae9f5-db88-4527-8dd2-214fc9df3b24.jpg",
         "mobile_height": "auto",
         "padding_top": 0,
         "padding_bottom": 0,
