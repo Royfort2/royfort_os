@@ -41,6 +41,7 @@
         "text_DGYfwe",
         "button_HHyGXk"
       ],
+      "disabled": true,
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
@@ -92,7 +93,6 @@
         "text_Bf7kbn",
         "button_q8yteT"
       ],
-      "disabled": true,
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
