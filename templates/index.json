@@ -885,7 +885,7 @@
             "subheading": "",
             "description": "",
             "button_label": "",
-            "button_style": "btn--primary",
+            "button_style": "btn--underline",
             "content_position": "bottom-left",
             "content_alignment": "center",
             "content_spacing": "small",
