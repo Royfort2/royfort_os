@@ -35,7 +35,7 @@
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
-        "image": "shopify://shop_images/Tagesdecken_Kategorie_Desktop.jpg",
+        "image": "shopify://shop_images/Collection_Banner_Tagesdecken_Desktop.webp",
         "desktop_height": "small",
         "overlay_opacity": 75,
         "use_custom_overlay": true,
@@ -45,6 +45,7 @@
         "color_scheme": "",
         "content_position": "bottom-left",
         "content_alignment": "left",
+        "image_mobile": "shopify://shop_images/Collection_Banner_Tagesdecken_Mobil.webp",
         "mobile_height": "auto",
         "padding_top": 0,
         "padding_bottom": 0,
