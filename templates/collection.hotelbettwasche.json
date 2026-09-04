@@ -35,7 +35,7 @@
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
-        "image": "shopify://shop_images/Hotelbettwasche_Kategorie_Desktop.jpg",
+        "image": "shopify://shop_images/Collection_Banner_Alle_Produkte_Desktop.webp",
         "desktop_height": "small",
         "overlay_opacity": 75,
         "use_custom_overlay": true,
