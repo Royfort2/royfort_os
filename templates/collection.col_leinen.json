@@ -35,7 +35,7 @@
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
-        "image": "shopify://shop_images/Leinen_Kollektion_Desktop_9fed07d1-4346-4328-af69-4e202a471831.jpg",
+        "image": "shopify://shop_images/Collection_Banner_Leinen_Desktop.webp",
         "desktop_height": "small",
         "overlay_opacity": 75,
         "use_custom_overlay": true,
@@ -45,7 +45,7 @@
         "color_scheme": "",
         "content_position": "bottom-left",
         "content_alignment": "left",
-        "image_mobile": "shopify://shop_images/Leinen_Kollektion_Mobil_c7629534-bfda-40e6-8f45-e370fe6a2894.jpg",
+        "image_mobile": "shopify://shop_images/Collection_Banner_Leinen_Mobil.webp",
         "mobile_height": "auto",
         "padding_top": 0,
         "padding_bottom": 0,
