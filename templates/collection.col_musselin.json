@@ -36,7 +36,7 @@
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
-        "image": "shopify://shop_images/Collection_Banner_Musselin_Desktop.webp",
+        "image": "shopify://shop_images/Musselin_Kollektion_Desktop_6bcb2f4b-074e-46d1-aa4d-1a55d06c3d59.jpg",
         "desktop_height": "small",
         "overlay_opacity": 75,
         "use_custom_overlay": true,
@@ -46,7 +46,7 @@
         "color_scheme": "",
         "content_position": "bottom-left",
         "content_alignment": "left",
-        "image_mobile": "shopify://shop_images/Collection_Banner_Musselin_Mobil.webp",
+        "image_mobile": "shopify://shop_images/Musselin_Kollektion_Mobil_b57a7242-d2a1-4ab3-95aa-71f0da1b7218.jpg",
         "mobile_height": "auto",
         "padding_top": 0,
         "padding_bottom": 0,
