@@ -35,7 +35,7 @@
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
-        "image": "shopify://shop_images/Collection_Banner_Alle_Produkte_Desktop.webp",
+        "image": "shopify://shop_images/Hotelbettwasche_Kategorie_Desktop_01d4efd7-62a2-4178-af06-6f39c8ec1d5a.jpg",
         "desktop_height": "small",
         "overlay_opacity": 75,
         "use_custom_overlay": true,
@@ -45,7 +45,7 @@
         "color_scheme": "",
         "content_position": "bottom-left",
         "content_alignment": "left",
-        "image_mobile": "shopify://shop_images/Hotelbettwasche_Kategorie_Mobil.jpg",
+        "image_mobile": "shopify://shop_images/Bestseller_Kategorie_Mobil_80e377fc-c9e1-4061-a3eb-7c3f7521cc24.jpg",
         "mobile_height": "auto",
         "padding_top": 0,
         "padding_bottom": 0,
