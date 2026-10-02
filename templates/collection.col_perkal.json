@@ -35,7 +35,7 @@
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
-        "image": "shopify://shop_images/Collection_Banner_Perkal_Desktop.webp",
+        "image": "shopify://shop_images/Perkal_Denim_Collection_Desktop_dbf12630-1a3a-480d-81ef-ccbbb39b8d15.jpg",
         "desktop_height": "small",
         "overlay_opacity": 75,
         "use_custom_overlay": true,
@@ -45,7 +45,7 @@
         "color_scheme": "",
         "content_position": "bottom-left",
         "content_alignment": "left",
-        "image_mobile": "shopify://shop_images/Collection_Banner_Perkal_Mobil.webp",
+        "image_mobile": "shopify://shop_images/Perkal_Collection_4badc5e3-2333-4447-86b2-68b4108648d6.jpg",
         "mobile_height": "auto",
         "padding_top": 0,
         "padding_bottom": 0,
