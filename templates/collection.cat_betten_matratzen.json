@@ -35,7 +35,7 @@
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
-        "image": "shopify://shop_images/Collection_Banner_Betten_Matratzen_Desktop.webp",
+        "image": "shopify://shop_images/Betten_Matratzen_Kategorie_Desktop_1b78554c-9776-4f90-8dd0-ebf901492405.jpg",
         "desktop_height": "small",
         "overlay_opacity": 75,
         "use_custom_overlay": true,
@@ -45,7 +45,7 @@
         "color_scheme": "",
         "content_position": "bottom-left",
         "content_alignment": "left",
-        "image_mobile": "shopify://shop_images/Collection_Banner_Betten_Matratzen_Mobil.webp",
+        "image_mobile": "shopify://shop_images/Betten_Matratzen_Kategorie_Mobil_4c14458f-5ce3-4087-aaa9-1b6f92f536d3.jpg",
         "mobile_height": "auto",
         "padding_top": 0,
         "padding_bottom": 0,
