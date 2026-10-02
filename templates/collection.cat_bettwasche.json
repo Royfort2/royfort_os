@@ -35,7 +35,7 @@
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
-        "image": "shopify://shop_images/Collection_Banner_Bettwasche_Sets_Desktop.webp",
+        "image": "shopify://shop_images/Baumwolle_Kollektion_Desktop_9d6331e5-73e0-4ec0-a8c0-539029908ab8.jpg",
         "desktop_height": "small",
         "overlay_opacity": 75,
         "use_custom_overlay": true,
@@ -45,7 +45,7 @@
         "color_scheme": "",
         "content_position": "bottom-left",
         "content_alignment": "left",
-        "image_mobile": "shopify://shop_images/Collection_Banner_Bettwasche_Sets_Mobil.webp",
+        "image_mobile": "shopify://shop_images/Baumwolle_Kollektion_Mobil_8b699356-611e-4041-96ee-27f1f4dfbce0.jpg",
         "mobile_height": "auto",
         "padding_top": 0,
         "padding_bottom": 0,
