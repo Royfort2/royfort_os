@@ -35,7 +35,7 @@
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
-        "image": "shopify://shop_images/Collection_Banner_Badezimmer_Desktop.webp",
+        "image": "shopify://shop_images/Badezimmer_Kategorie_Desktop_94891a52-bb01-4b56-b5a2-8d057e756c0d.jpg",
         "desktop_height": "small",
         "overlay_opacity": 75,
         "use_custom_overlay": true,
@@ -45,7 +45,7 @@
         "color_scheme": "",
         "content_position": "bottom-left",
         "content_alignment": "left",
-        "image_mobile": "shopify://shop_images/Collection_Banner_Badezimmer_Mobil.webp",
+        "image_mobile": "shopify://shop_images/Badezimmer_Kategorie_Mobil_399acf4d-8c28-4ee8-93c1-57683b97007f.jpg",
         "mobile_height": "auto",
         "padding_top": 0,
         "padding_bottom": 0,
