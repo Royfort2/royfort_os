@@ -35,7 +35,7 @@
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
-        "image": "shopify://shop_images/Collection_Banner_Flanell_Desktop.webp",
+        "image": "shopify://shop_images/Flanell_Kollektion_Desktop_2339176a-e95e-4c1a-b886-34491c2ac234.jpg",
         "desktop_height": "small",
         "overlay_opacity": 75,
         "use_custom_overlay": true,
@@ -45,7 +45,7 @@
         "color_scheme": "",
         "content_position": "bottom-left",
         "content_alignment": "left",
-        "image_mobile": "shopify://shop_images/Collection_Banner_Flanell_Mobil.webp",
+        "image_mobile": "shopify://shop_images/Flanell_Kollektion_Mobil_ee757f64-55b0-47f5-9db7-fbf1ccce218b.jpg",
         "mobile_height": "auto",
         "padding_top": 0,
         "padding_bottom": 0,
