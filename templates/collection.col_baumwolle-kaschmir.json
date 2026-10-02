@@ -35,7 +35,7 @@
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
-        "image": "shopify://shop_images/Collection_Banner_Baumwoll-Kaschmir_Desktop.webp",
+        "image": "shopify://shop_images/Baumwolle-Kaschmir_Kollektion_Desktop_d105e483-6b85-4967-869b-4da928a3c8d3.jpg",
         "desktop_height": "small",
         "overlay_opacity": 75,
         "use_custom_overlay": true,
@@ -45,7 +45,7 @@
         "color_scheme": "",
         "content_position": "bottom-left",
         "content_alignment": "left",
-        "image_mobile": "shopify://shop_images/Collection_Banner_Baumwoll-Kaschmir_Mobil.webp",
+        "image_mobile": "shopify://shop_images/Baumwolle-Kaschmir_Kollektion_Mobil_f0fc3f73-811c-438f-b28a-661cb7d8d60a.jpg",
         "mobile_height": "auto",
         "padding_top": 0,
         "padding_bottom": 0,
