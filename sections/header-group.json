@@ -25,6 +25,7 @@
         },
         "announcement_bar_FCCaeU": {
           "type": "announcement_bar",
+          "disabled": true,
           "settings": {
             "text": "Genießen Sie jetzt 20% auf alles in unserem exklusiven Herbst Sale",
             "link": "",

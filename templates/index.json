@@ -41,7 +41,6 @@
         "text_DGYfwe",
         "button_HHyGXk"
       ],
-      "disabled": true,
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
@@ -93,10 +92,11 @@
         "text_Bf7kbn",
         "button_q8yteT"
       ],
+      "disabled": true,
       "name": "t:sections.image-with-text-overlay.name",
       "settings": {
         "container": "full",
-        "image": "shopify://shop_images/Test_mittel.jpg",
+        "image": "shopify://shop_images/Homepage_Hero_4_4f1ad551-9d4a-4a67-9c05-0ed12d367b68.jpg",
         "desktop_height": "extra-large",
         "overlay_opacity": 10,
         "use_custom_overlay": false,
