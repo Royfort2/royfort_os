@@ -537,7 +537,7 @@
             {%- liquid
               if paginate.pages > 1
                 if section.settings.render_variants
-                  render 'pagination', paginate: paginate, type: section.settings.pagination, page_result_count: collection.products.size, variant_cards_shown: grid_card_position, variant_card_progress: true, color_trigger: settings.color_swatch_trigger, products_json_href: collection.url | append: '/products.json'
+                  render 'pagination', paginate: paginate, type: section.settings.pagination, page_result_count: collection.products.size, variant_cards_shown: grid_card_position, variant_card_progress: true, color_trigger: settings.color_swatch_trigger, products_json_href: collection.url, append: '/products.json'
                 else
                   render 'pagination', paginate: paginate, type: section.settings.pagination, page_result_count: collection.products.size
                 endif
@@ -910,3 +910,19 @@
   "max_blocks": 10
 }
 {% endschema %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "                  render 'pagination', paginate: paginate, type: section.settings.pagination,
+    page_result_count: collection.products.size, variant_cards_shown: grid_card_position,
+    variant_card_progress: true, color_trigger: settings.color_swatch_trigger, products_json_href:
+    collection.url | append: '/products.json'"
+  to: "                  render 'pagination', paginate: paginate, type: section.settings.pagination,
+    page_result_count: collection.products.size, variant_cards_shown: grid_card_position,
+    variant_card_progress: true, color_trigger: settings.color_swatch_trigger, products_json_href:
+    collection.url, append: '/products.json'"
+  position: 26403..26718
+{% endcomment %}

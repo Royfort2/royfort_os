@@ -844,15 +844,7 @@
               endif
             -%}
             {%- if pdp_set_active -%}
-              {% render 'product-variant-picker',
-                product: product,
-                block: block,
-                product_form_id: product_form_id,
-                update_url: update_browser_history,
-                picker_id_suffix: product.id,
-                option_name_suffix: product.id | prepend: '-',
-                pdp_set_bundle_context: false
-              %}
+              {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id, update_url: update_browser_history, picker_id_suffix: product.id, option_name_suffix: product.id, prepend: '-', pdp_set_bundle_context: false %}
             {%- else -%}
               {% render 'product-variant-picker',
                 product: product,
@@ -996,16 +988,7 @@
                           </label>
                           <div class="product-set-picker__expand">
                             <div class="product-set-picker__expand-inner">
-                              {% render 'product-variant-picker',
-                                product: set_product,
-                                block: block,
-                                product_form_id: product_form_id,
-                                update_url: update_browser_history,
-                                picker_id_suffix: set_product.id,
-                                option_name_suffix: set_product.id | prepend: '-',
-                                pdp_set_bundle_context: true,
-                                pdp_set_line_variant_from_bundle: we_set_line_resolved
-                              %}
+                              {% render 'product-variant-picker', product: set_product, block: block, product_form_id: product_form_id, update_url: update_browser_history, picker_id_suffix: set_product.id, option_name_suffix: set_product.id, prepend: '-', pdp_set_bundle_context: true, pdp_set_line_variant_from_bundle: we_set_line_resolved %}
                             </div>
                           </div>
                         </div>
@@ -1593,3 +1576,40 @@
 {%- else -%}
   </div>
 {%- endif -%}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: |-
+    {% render 'product-variant-picker',
+                    product: product,
+                    block: block,
+                    product_form_id: product_form_id,
+                    update_url: update_browser_history,
+                    picker_id_suffix: product.id,
+                    option_name_suffix: product.id | prepend: '-',
+                    pdp_set_bundle_context: false
+                  %}
+  to: "{% render 'product-variant-picker', product: product, block: block, product_form_id:
+    product_form_id, update_url: update_browser_history, picker_id_suffix: product.id,
+    option_name_suffix: product.id, prepend: '-', pdp_set_bundle_context: false %}"
+  position: 44747..44993
+- from: |-
+    {% render 'product-variant-picker',
+                                    product: set_product,
+                                    block: block,
+                                    product_form_id: product_form_id,
+                                    update_url: update_browser_history,
+                                    picker_id_suffix: set_product.id,
+                                    option_name_suffix: set_product.id | prepend: '-',
+                                    pdp_set_bundle_context: true,
+                                    pdp_set_line_variant_from_bundle: we_set_line_resolved
+                                  %}
+  to: "{% render 'product-variant-picker', product: set_product, block: block, product_form_id:
+    product_form_id, update_url: update_browser_history, picker_id_suffix: set_product.id,
+    option_name_suffix: set_product.id, prepend: '-', pdp_set_bundle_context: true,
+    pdp_set_line_variant_from_bundle: we_set_line_resolved %}"
+  position: 53511..53824
+{% endcomment %}
